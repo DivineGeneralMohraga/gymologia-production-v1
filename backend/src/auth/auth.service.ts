@@ -92,6 +92,9 @@ export class AuthService {
       resendAfterSeconds: challenge.resendAfterSeconds,
       // Never echo the full number back — it confirms enumeration.
       phoneMasked: this.crypto.maskPhone(phone),
+      // Both undefined in production; see OtpService.issue.
+      delivered: challenge.delivered,
+      devCode: challenge.devCode,
     };
   }
 

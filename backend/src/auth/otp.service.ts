@@ -8,6 +8,22 @@ import { Msg91Service } from './msg91.service';
 import { Msg91Config } from '../config/configuration';
 import { TooManyRequestsException } from '../common/exceptions/too-many-requests.exception';
 
+/**
+ * Evaluated once at module load. A per-request check could be influenced by
+ * something mutating process.env at runtime; a module constant cannot.
+ */
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+
+export interface IssuedChallenge {
+  challengeId: string;
+  expiresAt: Date;
+  resendAfterSeconds: number;
+  /** False when the SMS did not go out and we let it slide (dev only). */
+  delivered: boolean;
+  /** Present outside production only, so a tester can read the code back. */
+  devCode?: string;
+}
+
 /** How many codes one number may request inside the window. */
 const REQUEST_LIMIT = 5;
 const REQUEST_WINDOW_MINUTES = 15;
@@ -51,7 +67,7 @@ export class OtpService {
     phone: string,
     purpose: OtpPurpose,
     meta: { ip?: string | null } = {},
-  ): Promise<{ challengeId: string; expiresAt: Date; resendAfterSeconds: number }> {
+  ): Promise<IssuedChallenge> {
     await this.enforceIssueLimits(phone, purpose, meta.ip ?? null);
 
     const code = this.crypto.generateOtp(this.cfg.otpLength);
@@ -78,17 +94,36 @@ export class OtpService {
       select: { id: true, expiresAt: true },
     });
 
-    await this.msg91.sendOtp(phone, code);
+    // In production a delivery failure is fatal: issuing a challenge for a
+    // code nobody received just strands the user on the OTP screen.
+    // Outside production it is survivable, because the code is logged and
+    // returned below — which is what makes local testing possible without
+    // burning real SMS credit or waiting on DLT template approval.
+    let delivered = true;
+    try {
+      await this.msg91.sendOtp(phone, code);
+    } catch (error) {
+      if (IS_PRODUCTION) throw error;
+      delivered = false;
+      this.logger.warn(
+        `MSG91 delivery failed, continuing because NODE_ENV is not production: ${(error as Error).message}`,
+      );
+    }
 
-    if (process.env.NODE_ENV !== 'production') {
-      // Development convenience only — never reached in production.
-      this.logger.debug(`OTP for ${this.crypto.maskPhone(phone)}: ${code}`);
+    if (!IS_PRODUCTION) {
+      this.logger.warn(
+        `DEV OTP for ${this.crypto.maskPhone(phone)} is ${code}`,
+      );
     }
 
     return {
       challengeId: challenge.id,
       expiresAt: challenge.expiresAt,
       resendAfterSeconds: RESEND_COOLDOWN_SECONDS,
+      delivered,
+      // Guarded on the constant, not on a request field, so there is no
+      // input that can coax a real deployment into returning this.
+      devCode: IS_PRODUCTION ? undefined : code,
     };
   }
 
