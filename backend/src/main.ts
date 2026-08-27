@@ -95,6 +95,20 @@ async function bootstrap(): Promise<void> {
   if (!isProduction) {
     logger.log(`Swagger UI at http://localhost:${port}/${prefix}/docs`);
   }
+
+  // A staging box runs a production build against sandbox payment
+  // credentials. That is a legitimate setup and an expensive thing to
+  // forget, so it is stated plainly on every boot rather than hidden in
+  // config nobody re-reads.
+  const stage = config.get<string>('app.stage');
+  if (stage === 'staging') {
+    logger.warn('─'.repeat(64));
+    logger.warn('APP_STAGE=staging — NOT a production deployment.');
+    logger.warn('Payment credentials may be sandbox, and the Cashfree');
+    logger.warn('webhook secret is not required. Do not take real money');
+    logger.warn('here. Set APP_STAGE=production when going live.');
+    logger.warn('─'.repeat(64));
+  }
 }
 
 void bootstrap();

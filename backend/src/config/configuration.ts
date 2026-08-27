@@ -5,11 +5,15 @@
  * through ConfigService so that a missing or malformed variable fails at
  * boot (see env.validation.ts) rather than at 3am in a payment webhook.
  */
+import { resolveStage } from './env.validation';
+
 export interface AppConfig {
   nodeEnv: 'development' | 'test' | 'production';
   port: number;
   apiPrefix: string;
   isProduction: boolean;
+  /** `staging` relaxes the payment-credential rules. See env.validation.ts. */
+  stage: 'staging' | 'production';
 }
 
 export interface JwtConfig {
@@ -79,6 +83,7 @@ export default () => {
       port: int(process.env.PORT, 3000),
       apiPrefix: process.env.API_PREFIX ?? 'api/v1',
       isProduction: process.env.NODE_ENV === 'production',
+      stage: resolveStage(process.env as Record<string, unknown>),
     } satisfies AppConfig,
 
     database: {

@@ -24,6 +24,23 @@ fail() { printf '\n\033[1;31mFAILED: %s\033[0m\n' "$*" >&2; exit 1; }
 [ -f "$ENV_FILE" ] || fail "$ENV_FILE is missing. See backend/DEPLOY-AWS.md."
 command -v node >/dev/null || fail "node is not installed. See backend/DEPLOY-AWS.md."
 
+# systemd injects $ENV_FILE when it starts the service, but this script is
+# not systemd. `prisma migrate deploy` runs here, in a plain shell, and
+# reads DATABASE_URL and DIRECT_URL from its own environment — so the file
+# has to be loaded explicitly or the migration step fails with
+# "Environment variable not found: DIRECT_URL".
+log "Loading $ENV_FILE"
+if [ -r "$ENV_FILE" ]; then
+  set -a; . "$ENV_FILE"; set +a
+else
+  # Root-owned and unreadable by this user: read it through sudo instead.
+  ENV_CONTENT=$(sudo cat "$ENV_FILE") || fail "cannot read $ENV_FILE"
+  set -a; eval "$ENV_CONTENT"; set +a
+  unset ENV_CONTENT
+fi
+[ -n "${DATABASE_URL:-}" ] || fail "DATABASE_URL is not set in $ENV_FILE"
+[ -n "${DIRECT_URL:-}" ]   || fail "DIRECT_URL is not set in $ENV_FILE"
+
 NODE_MAJOR=$(node -p 'process.versions.node.split(".")[0]')
 if [ "$NODE_MAJOR" -lt 20 ]; then
   fail "Node $NODE_MAJOR is too old — this build needs 20 or newer (24 is what it was tested on)."

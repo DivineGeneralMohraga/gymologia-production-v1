@@ -54,10 +54,27 @@ const RULES: Rule[] = [
   { key: 'SUPABASE_SERVICE_ROLE_KEY', requiredInProd: true },
 ];
 
+/**
+ * How strictly to police the configuration.
+ *
+ * NODE_ENV=production alone is not enough to decide: a staging box runs
+ * production builds against sandbox payment credentials on purpose. So the
+ * strict rules key off APP_STAGE, which defaults to `production` whenever
+ * NODE_ENV says production — fail closed. A test deployment opts out
+ * explicitly with APP_STAGE=staging, and is told so on every boot.
+ */
+export type AppStage = 'staging' | 'production';
+
+export function resolveStage(raw: Record<string, unknown>): AppStage {
+  if (raw.APP_STAGE === 'staging') return 'staging';
+  if (raw.APP_STAGE === 'production') return 'production';
+  return raw.NODE_ENV === 'production' ? 'production' : 'staging';
+}
+
 export function validateEnv(
   raw: Record<string, unknown>,
 ): Record<string, unknown> {
-  const isProd = raw.NODE_ENV === 'production';
+  const isProd = resolveStage(raw) === 'production';
   const problems: string[] = [];
 
   for (const rule of RULES) {
@@ -82,7 +99,8 @@ export function validateEnv(
   if (isProd) {
     if (raw.CASHFREE_ENV !== 'production') {
       problems.push(
-        'CASHFREE_ENV must be "production" when NODE_ENV=production',
+        'CASHFREE_ENV must be "production" at APP_STAGE=production. ' +
+          'For a test deployment set APP_STAGE=staging instead.',
       );
     }
     const dbUrl = String(raw.DATABASE_URL ?? '');

@@ -94,6 +94,11 @@ fi
 
 [ -z "$CF_ENV" ] && CF_ENV=production
 
+# Sandbox Cashfree credentials mean this cannot be a live deployment, so
+# default the stage to staging rather than writing a file that refuses to
+# boot. An operator going live flips both together.
+if [ "$CF_ENV" = "production" ]; then STAGE=production; else STAGE=staging; fi
+
 mkdir -p "$(dirname "$OUT")"
 
 # ── Write ─────────────────────────────────────────────────────────────
@@ -104,6 +109,9 @@ cat > "$OUT" <<EOF
 # Generated $(date -u +%Y-%m-%dT%H:%M:%SZ)
 
 NODE_ENV=production
+# staging  — sandbox payment credentials allowed, webhook secret optional.
+# production — everything enforced. Switch to this before taking real money.
+APP_STAGE=${STAGE}
 PORT=3000
 API_PREFIX=api/v1
 
@@ -158,7 +166,14 @@ MAX_MEMBER_LEAVE_DAYS_DEFAULT=30
 EOF
 
 chmod 600 "$OUT"
-log "Wrote $OUT"
+
+# deploy.sh has to read this too — it loads the file itself for the
+# migration step, since it is not systemd. Owned by the deploy user, still
+# unreadable by anyone else; systemd runs as root and can read it either way.
+DEPLOY_USER=$(stat -c '%U' /opt/gymologia 2>/dev/null || echo ubuntu)
+chown "$DEPLOY_USER:$DEPLOY_USER" "$OUT" 2>/dev/null || true
+
+log "Wrote $OUT (stage: $STAGE, owner: $DEPLOY_USER)"
 
 # ── Report ────────────────────────────────────────────────────────────
 MISSING=""
@@ -182,8 +197,13 @@ if [ -z "$MSG91_TOKEN" ]; then
   warn "The v1 backend used the widget; find its token and set it here."
 fi
 
-warn "CASHFREE_WEBHOOK_SECRET is empty. The app REFUSES TO BOOT in production"
-warn "without it — get it from the Cashfree dashboard under Webhooks."
+if [ "$STAGE" = "staging" ]; then
+  warn "APP_STAGE=staging: sandbox payments, webhook secret not required."
+  warn "Set APP_STAGE=production and real Cashfree keys before going live."
+elif [ -z "$(old CASHFREE_WEBHOOK_SECRET)" ]; then
+  warn "CASHFREE_WEBHOOK_SECRET is empty and APP_STAGE=production."
+  warn "The app will REFUSE TO BOOT — get it from the Cashfree dashboard."
+fi
 
 printf '\n'
 log "Review with:  sudo cat $OUT"
