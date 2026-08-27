@@ -1,0 +1,51 @@
+# Deployment unit for the EC2 box.
+#
+# Kept deliberately small: the database is Supabase, so there is no volume,
+# no local Postgres and no state on this machine. The container can be
+# destroyed and rebuilt at any time without losing anything.
+#
+# Update procedure lives in DEPLOY-AWS.md.
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gymologia-api:latest
+    container_name: gymologia-api
+    restart: unless-stopped
+
+    # Secrets come from a file outside the repo, on the server itself.
+    env_file:
+      - /etc/gymologia/api.env
+
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+
+    # Bound to all interfaces so the phone can reach it directly while
+    # there is no TLS. Once nginx + certbot are in front, change this to
+    # "127.0.0.1:3000:3000" so the app is only reachable through nginx.
+    ports:
+      - "3000:3000"
+
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - --no-verbose
+        - --tries=1
+        - --spider
+        - http://127.0.0.1:3000/api/v1/health
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+    logging:
+      driver: json-file
+      options:
+        # Without this the log file grows until the disk fills — the
+        # classic way a small EC2 instance dies at 3am.
+        max-size: "10m"
+        max-file: "5"
