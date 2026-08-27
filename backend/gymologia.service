@@ -1,0 +1,67 @@
+# Gymologia API — systemd unit
+#
+# Install:
+#   sudo cp /opt/gymologia/backend/gymologia.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now gymologia
+#
+# Control:
+#   sudo systemctl status gymologia
+#   sudo systemctl restart gymologia
+#   journalctl -u gymologia -f
+
+[Unit]
+Description=Gymologia API
+Documentation=https://github.com/DivineGeneralMohraga/gymologia2test
+# The database is Supabase, so there is no local service to wait on —
+# only the network being up.
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/gymologia/backend
+
+# Secrets live outside the repo. systemd strips surrounding double quotes,
+# so DATABASE_URL="postgresql://..." is read correctly.
+EnvironmentFile=/etc/gymologia/api.env
+Environment=NODE_ENV=production
+Environment=PORT=3000
+
+ExecStart=/usr/bin/node dist/main.js
+
+# Always come back up. StartLimit below stops a crash-looping build from
+# hammering the database forever.
+Restart=always
+RestartSec=5
+StartLimitBurst=5
+StartLimitIntervalSec=120
+
+# Give in-flight requests a moment before SIGKILL.
+KillSignal=SIGTERM
+TimeoutStopSec=20
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=gymologia
+
+# ── Hardening ──────────────────────────────────────────────────────────
+# The process serves the public internet, so it gets no more of the host
+# than it needs. If a future feature needs to write to disk, add the path
+# to ReadWritePaths rather than loosening ProtectSystem.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+ReadWritePaths=/opt/gymologia/backend
+
+[Install]
+WantedBy=multi-user.target

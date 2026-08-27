@@ -5,67 +5,95 @@
 #   ssh ubuntu@13.232.161.2
 #   cd /opt/gymologia && ./backend/deploy.sh
 #
-# Safe to run repeatedly. Pulls, rebuilds, restarts, and rolls back if the
-# new container fails its health check.
+# Safe to run repeatedly. Pulls, installs, builds, migrates, restarts, and
+# rolls back to the previous commit if the new build does not come healthy.
 
 set -euo pipefail
 
 REPO_DIR="${REPO_DIR:-/opt/gymologia}"
 ENV_FILE="${ENV_FILE:-/etc/gymologia/api.env}"
+SERVICE="${SERVICE:-gymologia}"
 BRANCH="${BRANCH:-main}"
 HEALTH_URL="${HEALTH_URL:-http://127.0.0.1:3000/api/v1/health}"
 
 log()  { printf '\n\033[1;36m==> %s\033[0m\n' "$*"; }
+warn() { printf '\033[1;33m    %s\033[0m\n' "$*"; }
 fail() { printf '\n\033[1;31mFAILED: %s\033[0m\n' "$*" >&2; exit 1; }
 
-[ -f "$ENV_FILE" ] || fail "$ENV_FILE is missing. Create it before deploying (see DEPLOY-AWS.md)."
+# ── Preflight ─────────────────────────────────────────────────────────
+[ -f "$ENV_FILE" ] || fail "$ENV_FILE is missing. See backend/DEPLOY-AWS.md."
+command -v node >/dev/null || fail "node is not installed. See backend/DEPLOY-AWS.md."
+
+NODE_MAJOR=$(node -p 'process.versions.node.split(".")[0]')
+if [ "$NODE_MAJOR" -lt 20 ]; then
+  fail "Node $NODE_MAJOR is too old — this build needs 20 or newer (24 is what it was tested on)."
+fi
+[ "$NODE_MAJOR" -lt 24 ] && warn "Node $NODE_MAJOR detected; the build is tested on 24."
 
 cd "$REPO_DIR" || fail "$REPO_DIR not found"
 
-log "Current version"
-git rev-parse --short HEAD
-
-# Remember where we were, so a bad deploy can be undone.
+# Where to return to if this goes wrong.
 PREVIOUS=$(git rev-parse HEAD)
+log "Currently at $(git rev-parse --short HEAD)"
 
+# ── Pull ──────────────────────────────────────────────────────────────
 log "Fetching $BRANCH"
 git fetch origin "$BRANCH"
 git reset --hard "origin/$BRANCH"
-NEW=$(git rev-parse --short HEAD)
-log "Now at $NEW"
+log "Now at $(git rev-parse --short HEAD)"
 
-cd "$REPO_DIR/backend"
+build_and_start() {
+  cd "$REPO_DIR/backend"
 
-log "Building the image"
-docker compose build
+  log "Installing dependencies"
+  # `npm ci` wipes node_modules and installs exactly what the lockfile
+  # says. Dev dependencies are needed here because the TypeScript build
+  # runs on the box.
+  npm ci --no-audit --no-fund
 
-log "Applying database migrations"
-# Migrations run before the new code starts, in a throwaway container, so a
-# failed migration stops the deploy instead of leaving the app running
-# against a schema it does not understand.
-docker compose run --rm --entrypoint sh api -c \
-  'npx prisma migrate deploy' || fail "migration failed — nothing was restarted"
+  log "Generating the Prisma client"
+  npx prisma generate
 
-log "Restarting the API"
-docker compose up -d --remove-orphans
+  log "Compiling"
+  npm run build
 
+  log "Applying database migrations"
+  # Before the restart, so a failed migration stops the deploy instead of
+  # leaving the API running against a schema it does not understand.
+  npx prisma migrate deploy
+}
+
+if ! build_and_start; then
+  log "Build failed — rolling back to ${PREVIOUS:0:7}"
+  cd "$REPO_DIR" && git reset --hard "$PREVIOUS"
+  fail "build failed; the running service was left untouched"
+fi
+
+log "Restarting $SERVICE"
+sudo systemctl restart "$SERVICE"
+
+# ── Health gate ───────────────────────────────────────────────────────
 log "Waiting for the health check"
-for i in $(seq 1 30); do
+for i in $(seq 1 20); do
   if curl -fsS -m 5 "$HEALTH_URL" >/dev/null 2>&1; then
-    log "Healthy after ${i}0s"
-    curl -fsS "$HEALTH_URL"; echo
-    log "Deployed $NEW"
-    docker image prune -f >/dev/null 2>&1 || true
+    printf '\n'
+    curl -fsS "$HEALTH_URL"; printf '\n'
+    log "Deployed $(git -C "$REPO_DIR" rev-parse --short HEAD)"
     exit 0
   fi
-  sleep 10
+  sleep 5
 done
 
-# Never leave a broken build serving traffic.
+# ── Rollback ──────────────────────────────────────────────────────────
 log "Health check never passed — rolling back to ${PREVIOUS:0:7}"
-docker compose logs --tail 60 api || true
+journalctl -u "$SERVICE" -n 60 --no-pager || true
+
 cd "$REPO_DIR"
 git reset --hard "$PREVIOUS"
 cd "$REPO_DIR/backend"
-docker compose up -d --build
-fail "rolled back to ${PREVIOUS:0:7}; see the logs above for why the new build did not come up"
+npm ci --no-audit --no-fund && npx prisma generate && npm run build
+sudo systemctl restart "$SERVICE"
+
+warn "Rolled back. Note that migrations are NOT undone — if this deploy ran one,"
+warn "the old code is now running against the newer schema."
+fail "rolled back to ${PREVIOUS:0:7}; see the log above for why it did not come up"
