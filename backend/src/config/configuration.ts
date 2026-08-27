@@ -29,6 +29,11 @@ export interface CryptoConfig {
 export interface Msg91Config {
   authKey: string;
   widgetId: string;
+  /// The widget's `tokenAuth`. Set together with widgetId, this switches OTP
+  /// delivery to MSG91's server-side widget API, which carries its own
+  /// DLT-approved template. Without it we fall back to the direct /v5/otp
+  /// API, which India will not deliver without a template of our own.
+  widgetToken: string;
   otpTtlSeconds: number;
   otpLength: number;
 }
@@ -102,6 +107,7 @@ export default () => {
     msg91: {
       authKey: process.env.MSG91_AUTH_KEY as string,
       widgetId: process.env.MSG91_WIDGET_ID as string,
+      widgetToken: process.env.MSG91_WIDGET_TOKEN ?? '',
       otpTtlSeconds: int(process.env.MSG91_OTP_TTL_SECONDS, 300),
       otpLength: int(process.env.MSG91_OTP_LENGTH, 6),
     } satisfies Msg91Config,

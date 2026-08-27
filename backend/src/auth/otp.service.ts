@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { OtpPurpose } from '@prisma/client';
+import { OtpDelivery, OtpPurpose } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CryptoService } from '../common/crypto/crypto.service';
 import { SecurityEventService } from '../common/security/security-event.service';
@@ -70,10 +70,14 @@ export class OtpService {
   ): Promise<IssuedChallenge> {
     await this.enforceIssueLimits(phone, purpose, meta.ip ?? null);
 
-    const code = this.crypto.generateOtp(this.cfg.otpLength);
-    const salt = this.crypto.newSalt();
-    const codeHash = await this.crypto.hashSecret(code, salt);
+    const widget = this.msg91.usesWidgetDelivery;
     const expiresAt = new Date(Date.now() + this.cfg.otpTtlSeconds * 1000);
+
+    // In WIDGET mode MSG91 owns the code: it generates, sends and later
+    // verifies it. We never see the digits, so there is nothing to hash.
+    const code = widget ? '' : this.crypto.generateOtp(this.cfg.otpLength);
+    const salt = widget ? '' : this.crypto.newSalt();
+    const codeHash = widget ? '' : await this.crypto.hashSecret(code, salt);
 
     // Any earlier live challenge for this number and purpose is retired, so
     // only the newest code can ever be used.
@@ -81,6 +85,27 @@ export class OtpService {
       where: { phone, purpose, consumedAt: null, expiresAt: { gt: new Date() } },
       data: { consumedAt: new Date() },
     });
+
+    // The send happens before the row is written in WIDGET mode, because
+    // the row has to carry MSG91's request id to be of any use.
+    let providerRef: string | null = null;
+    let delivered = true;
+
+    try {
+      if (widget) {
+        providerRef = await this.msg91.widgetSendOtp(phone);
+      } else {
+        await this.msg91.sendOtp(phone, code);
+      }
+    } catch (error) {
+      // In production a delivery failure is fatal: a challenge for a code
+      // nobody received just strands the user on the OTP screen.
+      if (IS_PRODUCTION) throw error;
+      delivered = false;
+      this.logger.warn(
+        `MSG91 delivery failed, continuing because NODE_ENV is not production: ${(error as Error).message}`,
+      );
+    }
 
     const challenge = await this.prisma.otpChallenge.create({
       data: {
@@ -90,30 +115,14 @@ export class OtpService {
         salt,
         expiresAt,
         requestIp: meta.ip ?? null,
+        delivery: widget ? OtpDelivery.WIDGET : OtpDelivery.DIRECT,
+        providerRef,
       },
       select: { id: true, expiresAt: true },
     });
 
-    // In production a delivery failure is fatal: issuing a challenge for a
-    // code nobody received just strands the user on the OTP screen.
-    // Outside production it is survivable, because the code is logged and
-    // returned below — which is what makes local testing possible without
-    // burning real SMS credit or waiting on DLT template approval.
-    let delivered = true;
-    try {
-      await this.msg91.sendOtp(phone, code);
-    } catch (error) {
-      if (IS_PRODUCTION) throw error;
-      delivered = false;
-      this.logger.warn(
-        `MSG91 delivery failed, continuing because NODE_ENV is not production: ${(error as Error).message}`,
-      );
-    }
-
-    if (!IS_PRODUCTION) {
-      this.logger.warn(
-        `DEV OTP for ${this.crypto.maskPhone(phone)} is ${code}`,
-      );
+    if (!IS_PRODUCTION && !widget) {
+      this.logger.warn(`DEV OTP for ${this.crypto.maskPhone(phone)} is ${code}`);
     }
 
     return {
@@ -122,8 +131,9 @@ export class OtpService {
       resendAfterSeconds: RESEND_COOLDOWN_SECONDS,
       delivered,
       // Guarded on the constant, not on a request field, so there is no
-      // input that can coax a real deployment into returning this.
-      devCode: IS_PRODUCTION ? undefined : code,
+      // input that can coax a real deployment into returning this. Absent
+      // in WIDGET mode regardless — we genuinely do not know the code.
+      devCode: IS_PRODUCTION || widget ? undefined : code,
     };
   }
 
@@ -173,7 +183,14 @@ export class OtpService {
       return fail('max-attempts');
     }
 
-    const ok = await this.crypto.verifySecret(code, challenge.salt, challenge.codeHash);
+    // WIDGET codes are checked by MSG91, which holds them; DIRECT codes are
+    // checked against our own hash. The surrounding attempt counter, expiry
+    // and single-use rules apply identically to both.
+    const ok =
+      challenge.delivery === OtpDelivery.WIDGET
+        ? challenge.providerRef !== null &&
+          (await this.msg91.widgetVerifyOtp(challenge.providerRef, code))
+        : await this.crypto.verifySecret(code, challenge.salt, challenge.codeHash);
 
     if (!ok) {
       await this.prisma.otpChallenge.update({

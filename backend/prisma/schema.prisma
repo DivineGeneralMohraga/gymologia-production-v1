@@ -77,9 +77,15 @@ enum UserStatus {
 model OtpChallenge {
   id        String     @id @default(uuid()) @db.Uuid
   phone     String     @db.VarChar(16)
+  /// Empty in WIDGET mode — there MSG91 generates and holds the code, and
+  /// we never see it.
   codeHash  String     @db.VarChar(255)
   salt      String     @db.VarChar(64)
   purpose   OtpPurpose
+
+  delivery  OtpDelivery @default(DIRECT)
+  /// MSG91's request id, quoted back on verify. WIDGET mode only.
+  providerRef String?   @db.VarChar(120)
   attempts  Int        @default(0)
   maxTries  Int        @default(5)
   expiresAt DateTime
@@ -89,6 +95,21 @@ model OtpChallenge {
 
   @@index([phone, purpose, expiresAt])
   @@map("otp_challenges")
+}
+
+/// How a code reaches the handset, and therefore who verifies it.
+///
+/// DIRECT — we generate the code, hash it, send it via MSG91's /v5/otp API
+/// and check it ourselves. Needs a DLT-approved template of our own, which
+/// India requires; without one MSG91 accepts the request and never delivers.
+///
+/// WIDGET — MSG91 generates, sends and verifies the code under its own
+/// DLT-approved template. We hold only its request id. Less control, but it
+/// works before our template is approved, which is why the previous build
+/// ran this way.
+enum OtpDelivery {
+  DIRECT
+  WIDGET
 }
 
 enum OtpPurpose {
