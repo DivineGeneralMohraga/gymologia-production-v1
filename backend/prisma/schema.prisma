@@ -1,0 +1,1371 @@
+// ══════════════════════════════════════════════════════════════════════
+//  GYMOLOGIA — DATA MODEL
+//  One database serves all four clients:
+//    • Gymologia (member mode + owner/staff CRM mode)
+//    • Gymologia Referral
+//    • Gymologia Admin
+//  Host: Supabase Postgres. Access: Prisma only (parameterized queries).
+// ══════════════════════════════════════════════════════════════════════
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")   // pgbouncer pooler, runtime
+  directUrl = env("DIRECT_URL")     // direct 5432, migrations
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  IDENTITY
+//  One User row per phone number, shared across every app. What a person
+//  *is* (member / staff / referrer / admin) is defined by their rows in
+//  Membership, StaffMember, ReferralAccount and AdminStaff — never by a
+//  column here. A single human can be all four at once.
+// ══════════════════════════════════════════════════════════════════════
+
+model User {
+  id        String  @id @default(uuid()) @db.Uuid
+  phone     String  @unique @db.VarChar(16) // E.164, e.g. +918178848820
+  name      String  @db.VarChar(120)
+  email     String? @db.VarChar(255)
+  age       Int? // AGE, never DOB — deliberate privacy choice
+  avatarUrl String? @db.VarChar(500)
+  locale    String  @default("en") @db.VarChar(10)
+
+  status        UserStatus @default(ACTIVE)
+  phoneVerified Boolean    @default(false)
+  lastLoginAt   DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  sessions          Session[]
+  devices           Device[]
+  ownedGyms         Gym[]                   @relation("GymOwner")
+  staffRoles        StaffMember[]
+  memberships       Membership[]
+  bodyMetrics       BodyMetric[]
+  attendanceSubject AttendanceRecord[]      @relation("AttendanceSubject")
+  attendanceMarked  AttendanceRecord[]      @relation("AttendanceMarker")
+  attendanceEdited  AttendanceRecord[]      @relation("AttendanceEditor")
+  leaveRequests     LeaveRequest[]          @relation("LeaveSubject")
+  leaveDecisions    LeaveRequest[]          @relation("LeaveDecider")
+  eventEntries      EventParticipation[]
+  conversations     ConversationMember[]
+  messages          Message[]
+  notifications     NotificationRecipient[]
+  referralAccount   ReferralAccount?
+  adminStaff        AdminStaff?
+  supportTickets    SupportTicket[]
+  auditLogs         AuditLog[]
+  ratings           GymRating[]
+
+  @@index([status])
+  @@map("users")
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DELETED
+}
+
+/// Short-lived OTP challenges. The code itself is never stored — only a
+/// scrypt hash salted per-row and peppered from env. Rows are consumed
+/// once and swept after expiry.
+model OtpChallenge {
+  id        String     @id @default(uuid()) @db.Uuid
+  phone     String     @db.VarChar(16)
+  codeHash  String     @db.VarChar(255)
+  salt      String     @db.VarChar(64)
+  purpose   OtpPurpose
+  attempts  Int        @default(0)
+  maxTries  Int        @default(5)
+  expiresAt DateTime
+  consumedAt DateTime?
+  requestIp String?    @db.VarChar(64)
+  createdAt DateTime   @default(now())
+
+  @@index([phone, purpose, expiresAt])
+  @@map("otp_challenges")
+}
+
+enum OtpPurpose {
+  LOGIN
+  ADD_MEMBER      // staff adding a member must OTP-verify that phone
+  ADD_STAFF
+  PHONE_CHANGE
+  PAYOUT_UPI_VERIFY
+}
+
+/// Refresh-token sessions. Access tokens are stateless JWTs; revocation
+/// happens here and in the Redis denylist.
+model Session {
+  id           String    @id @default(uuid()) @db.Uuid
+  userId       String    @db.Uuid
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash    String    @unique @db.VarChar(255)
+  appClient    AppClient
+  deviceId     String?   @db.VarChar(128)
+  ip           String?   @db.VarChar(64)
+  userAgent    String?   @db.VarChar(300)
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  lastUsedAt   DateTime  @default(now())
+  createdAt    DateTime  @default(now())
+
+  @@index([userId, revokedAt])
+  @@map("sessions")
+}
+
+enum AppClient {
+  MEMBER
+  STAFF
+  REFERRAL
+  ADMIN
+}
+
+model Device {
+  id         String    @id @default(uuid()) @db.Uuid
+  userId     String    @db.Uuid
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fcmToken   String    @unique @db.VarChar(500)
+  platform   Platform
+  appClient  AppClient
+  lastSeenAt DateTime  @default(now())
+  createdAt  DateTime  @default(now())
+
+  @@index([userId])
+  @@map("devices")
+}
+
+enum Platform {
+  ANDROID
+  IOS
+  WEB
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  GYM, KYC, SUBSCRIPTION
+// ══════════════════════════════════════════════════════════════════════
+
+model Gym {
+  id          String  @id @default(uuid()) @db.Uuid
+  ownerId     String  @db.Uuid
+  owner       User    @relation("GymOwner", fields: [ownerId], references: [id])
+  name        String  @db.VarChar(150)
+  description String? @db.Text
+
+  addressLine1 String  @db.VarChar(200)
+  addressLine2 String? @db.VarChar(200)
+  state        String  @db.VarChar(80)
+  district     String  @db.VarChar(80)
+  city         String  @db.VarChar(80)
+  pincode      String  @db.VarChar(10)
+  latitude     Decimal? @db.Decimal(10, 7)
+  longitude    Decimal? @db.Decimal(10, 7)
+
+  contactPhone String @db.VarChar(16)
+
+  /// Gym-wide ceiling on member leave days per month. Requests above this
+  /// need an elevated approver instead of auto-approving.
+  maxLeaveDaysPerMonth Int @default(4)
+  /// Ceiling a staff member may assign to a single new membership.
+  maxLeaveDaysPerMembership Int @default(30)
+
+  status        GymStatus @default(DRAFT)
+  /// Opt-in to appearing in the public gym search. Only honoured on PRO.
+  publicListing Boolean   @default(true)
+
+  ratingAverage Decimal @default(0) @db.Decimal(3, 2)
+  ratingCount   Int     @default(0)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  images            GymImage[]
+  perks             GymPerk[]
+  kyc               GymKyc?
+  subscriptions     GymSubscription[]
+  roles             Role[]
+  staff             StaffMember[]
+  memberships       Membership[]
+  trainerCategories TrainerCategory[]
+  attendance        AttendanceRecord[]
+  leaveRequests     LeaveRequest[]
+  events            Event[]
+  conversations     Conversation[]
+  notifications     Notification[]
+  ratings           GymRating[]
+
+  @@index([state, district, status])
+  @@index([status, publicListing])
+  @@map("gyms")
+}
+
+enum GymStatus {
+  DRAFT           // created, not yet paid/verified
+  PENDING_KYC     // payment done, KYC under review
+  ACTIVE          // fully operational
+  SUSPENDED       // subscription lapsed or admin action
+  DELETED
+}
+
+model GymImage {
+  id        String   @id @default(uuid()) @db.Uuid
+  gymId     String   @db.Uuid
+  gym       Gym      @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  url       String   @db.VarChar(500)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([gymId])
+  @@map("gym_images")
+}
+
+model GymPerk {
+  id    String @id @default(uuid()) @db.Uuid
+  gymId String @db.Uuid
+  gym   Gym    @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  label String @db.VarChar(120)
+
+  @@index([gymId])
+  @@map("gym_perks")
+}
+
+/// Ratings come only from people who hold (or held) a membership at the
+/// gym. Immutable by gym staff — enforced in service layer, never exposed
+/// as an update endpoint.
+model GymRating {
+  id        String   @id @default(uuid()) @db.Uuid
+  gymId     String   @db.Uuid
+  gym       Gym      @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stars     Int      @db.SmallInt
+  comment   String?  @db.VarChar(500)
+  createdAt DateTime @default(now())
+
+  @@unique([gymId, userId])
+  @@index([gymId])
+  @@map("gym_ratings")
+}
+
+/// KYC for a gym. Document numbers are stored AES-256-GCM encrypted;
+/// only the last four characters are kept in clear for display.
+model GymKyc {
+  id    String @id @default(uuid()) @db.Uuid
+  gymId String @unique @db.Uuid
+  gym   Gym    @relation(fields: [gymId], references: [id], onDelete: Cascade)
+
+  aadhaarEnc   String? @db.Text
+  aadhaarLast4 String? @db.VarChar(4)
+  panEnc       String? @db.Text
+  panLast4     String? @db.VarChar(4)
+  gstinEnc     String? @db.Text
+  gstinLast4   String? @db.VarChar(4)
+
+  /// Businesses without GST upload Udyam registration or an electricity bill.
+  altProofUrl  String?       @db.VarChar(500)
+  altProofType AltProofType?
+
+  aadhaarStatus VerificationStatus @default(NOT_SUBMITTED)
+  panStatus     VerificationStatus @default(NOT_SUBMITTED)
+  gstStatus     VerificationStatus @default(NOT_SUBMITTED)
+  videoKycStatus VerificationStatus @default(NOT_SUBMITTED)
+
+  /// Cashfree Verification Suite reference ids, for audit + re-check.
+  cashfreeAadhaarRefId String? @db.VarChar(120)
+  cashfreePanRefId     String? @db.VarChar(120)
+  cashfreeGstRefId     String? @db.VarChar(120)
+
+  rejectionReason String?   @db.VarChar(500)
+  verifiedAt      DateTime?
+  verifiedByAdminId String? @db.Uuid
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  kycSessions KycSession[]
+
+  @@map("gym_kyc")
+}
+
+enum AltProofType {
+  UDYAM
+  ELECTRICITY_BILL
+}
+
+enum VerificationStatus {
+  NOT_SUBMITTED
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model GymSubscription {
+  id     String @id @default(uuid()) @db.Uuid
+  gymId  String @db.Uuid
+  gym    Gym    @relation(fields: [gymId], references: [id], onDelete: Cascade)
+
+  plan   Plan
+  status SubscriptionStatus @default(PENDING)
+
+  startsAt DateTime
+  endsAt   DateTime
+  isTrial  Boolean  @default(false)
+
+  /// Amounts in paise. Never floats for money.
+  basePricePaise     Int
+  discountPaise      Int @default(0)
+  taxPaise           Int @default(0)
+  amountPayablePaise Int
+
+  referralCodeUsed String?            @db.VarChar(20)
+  redemption       ReferralRedemption?
+
+  payment Payment?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([gymId, status])
+  @@index([endsAt, status])
+  @@map("gym_subscriptions")
+}
+
+enum Plan {
+  BASIC // 599 — CRM, no search listing
+  PRO   // 1199 — CRM + Gymologia search listing + ranking + public events
+}
+
+enum SubscriptionStatus {
+  PENDING   // awaiting payment
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  FAILED
+}
+
+model Payment {
+  id             String          @id @default(uuid()) @db.Uuid
+  subscriptionId String          @unique @db.Uuid
+  subscription   GymSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  cashfreeOrderId   String  @unique @db.VarChar(120)
+  cashfreePaymentId String? @db.VarChar(120)
+  amountPaise       Int
+  currency          String  @default("INR") @db.VarChar(3)
+  status            PaymentStatus @default(CREATED)
+  method            String? @db.VarChar(60)
+
+  /// Raw webhook payload retained for dispute resolution + replay checks.
+  webhookPayload Json?
+  failureReason  String? @db.VarChar(500)
+
+  createdAt DateTime @default(now())
+  paidAt    DateTime?
+
+  @@index([status])
+  @@map("payments")
+}
+
+enum PaymentStatus {
+  CREATED
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  ROLES & PERMISSIONS
+//
+//  Hierarchy is a single integer: LOWER level = MORE senior.
+//    Owner 0 · Manager 10 · Admin 20 · Sales Staff 30 · Trainer 40
+//  Two invariants are enforced in the permission service, not the DB:
+//    1. You may only act on a role whose level is strictly greater
+//       than your own (you cannot touch peers or superiors).
+//    2. You can never grant a permission you do not yourself hold.
+// ══════════════════════════════════════════════════════════════════════
+
+model Role {
+  id    String @id @default(uuid()) @db.Uuid
+  gymId String @db.Uuid
+  gym   Gym    @relation(fields: [gymId], references: [id], onDelete: Cascade)
+
+  name  String @db.VarChar(60)
+  level Int
+
+  /// System roles (Owner, Manager) cannot be deleted or have their core
+  /// permissions stripped — they are recreated with every new gym.
+  isSystem Boolean @default(false)
+  /// Owner and Manager implicitly hold every permission, present and future.
+  isSuper  Boolean @default(false)
+  /// Owner and Manager are not subject to attendance at all.
+  exemptFromAttendance Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  permissions RolePermission[]
+  staff       StaffMember[]
+
+  @@unique([gymId, name])
+  @@index([gymId, level])
+  @@map("roles")
+}
+
+model RolePermission {
+  id         String     @id @default(uuid()) @db.Uuid
+  roleId     String     @db.Uuid
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission
+
+  @@unique([roleId, permission])
+  @@index([roleId])
+  @@map("role_permissions")
+}
+
+/// Every gated surface in the CRM maps to exactly one of these. A screen
+/// is invisible unless the viewer's role holds the matching permission.
+enum Permission {
+  // Attendance
+  MARK_ATTENDANCE_MEMBER
+  MARK_ATTENDANCE_STAFF
+  EDIT_ATTENDANCE_MEMBER
+  EDIT_ATTENDANCE_STAFF
+  VIEW_ATTENDANCE_MEMBER
+  VIEW_ATTENDANCE_STAFF
+  // Leave
+  VIEW_LEAVE_MEMBER
+  VIEW_LEAVE_STAFF
+  APPROVE_LEAVE_MEMBER
+  APPROVE_LEAVE_STAFF
+  EDIT_LEAVE_DECISION
+  // People
+  ADD_MEMBER
+  MANAGE_MEMBER
+  REMOVE_MEMBER
+  ADD_STAFF
+  MANAGE_STAFF
+  REMOVE_STAFF
+  // Roles
+  ADD_ROLES
+  EDIT_PERMISSIONS
+  DELETE_ROLES
+  EDIT_ROLE_HIERARCHY
+  // Trainers
+  ADD_TRAINER
+  MANAGE_TRAINERS
+  // Events
+  HOST_EVENTS
+  MANAGE_EVENTS
+  // Insight
+  VIEW_PROGRESS
+  VIEW_ANALYTICS
+  VIEW_RANKING
+  // Gym
+  EDIT_GYM_PROFILE
+  MANAGE_SUBSCRIPTION
+  DELETE_GYM          // owner only, never grantable
+  // Comms
+  SEND_NOTIFICATIONS
+  MANAGE_CHAT_GROUPS
+  // Everything
+  ADMINISTRATIVE
+}
+
+model StaffMember {
+  id     String @id @default(uuid()) @db.Uuid
+  gymId  String @db.Uuid
+  gym    Gym    @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roleId String @db.Uuid
+  role   Role   @relation(fields: [roleId], references: [id])
+
+  isTrainer         Boolean @default(false)
+  trainerCategoryId String? @db.Uuid
+  trainerCategory   TrainerCategory? @relation(fields: [trainerCategoryId], references: [id])
+
+  addressProofApproved Boolean @default(false)
+  addressProofUrl      String? @db.VarChar(500)
+
+  status    StaffStatus @default(ACTIVE)
+  joinedAt  DateTime    @default(now())
+  removedAt DateTime?
+
+  addedById String? @db.Uuid
+
+  assignedMemberships Membership[] @relation("AssignedTrainer")
+
+  @@unique([gymId, userId])
+  @@index([gymId, status])
+  @@map("staff_members")
+}
+
+enum StaffStatus {
+  ACTIVE
+  SUSPENDED
+  REMOVED
+}
+
+model TrainerCategory {
+  id    String @id @default(uuid()) @db.Uuid
+  gymId String @db.Uuid
+  gym   Gym    @relation(fields: [gymId], references: [id], onDelete: Cascade)
+
+  name  String @db.VarChar(60) // "General", "Personal", or custom
+  /// Whether one trainer in this category may hold many members at once.
+  allowsMultipleMembers Boolean @default(true)
+  sortOrder Int @default(0)
+
+  staff StaffMember[]
+
+  @@unique([gymId, name])
+  @@map("trainer_categories")
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  MEMBERSHIP & PROGRESS
+// ══════════════════════════════════════════════════════════════════════
+
+model Membership {
+  id     String @id @default(uuid()) @db.Uuid
+  gymId  String @db.Uuid
+  gym    Gym    @relation(fields: [gymId], references: [id], onDelete: Cascade)
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  startsAt     DateTime
+  endsAt       DateTime
+  planMonths   Int
+  /// Leave ceiling for THIS membership, set by staff at signup.
+  maxLeaveDays Int
+  leaveDaysUsed Int @default(0)
+
+  assignedTrainerId String?      @db.Uuid
+  assignedTrainer   StaffMember? @relation("AssignedTrainer", fields: [assignedTrainerId], references: [id])
+
+  /// Free text: "bulk up", "lose weight", "rehab" — shown on the member's
+  /// home page and to staff on the progress screen.
+  goal String? @db.VarChar(300)
+
+  /// Member consent for staff/trainer to see their weight-height history.
+  /// Checked by default at signup; the member can revoke it any time.
+  allowProgressMonitoring Boolean @default(true)
+
+  addressProofApproved Boolean @default(false)
+
+  status    MembershipStatus @default(ACTIVE)
+  addedById String?          @db.Uuid
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  extensions MembershipExtension[]
+
+  @@index([gymId, status])
+  @@index([userId, status])
+  @@index([endsAt, status])
+  @@map("memberships")
+}
+
+enum MembershipStatus {
+  ACTIVE
+  ON_LEAVE   // paused; endsAt pushed out when leave closes
+  EXPIRED
+  REMOVED
+}
+
+model MembershipExtension {
+  id           String     @id @default(uuid()) @db.Uuid
+  membershipId String     @db.Uuid
+  membership   Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+
+  previousEndsAt DateTime
+  newEndsAt      DateTime
+  reason         ExtensionReason
+  note           String?  @db.VarChar(300)
+  actorId        String?  @db.Uuid
+  createdAt      DateTime @default(now())
+
+  @@index([membershipId])
+  @@map("membership_extensions")
+}
+
+enum ExtensionReason {
+  PAID_RENEWAL
+  LEAVE_COMPENSATION
+  GOODWILL
+  CORRECTION
+}
+
+/// Monthly weight/height check-in. The member is prompted on first login
+/// after joining a gym, then once a month thereafter.
+model BodyMetric {
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  weightKg Decimal? @db.Decimal(5, 2)
+  heightCm Decimal? @db.Decimal(5, 2)
+
+  recordedAt DateTime @default(now())
+  source     MetricSource @default(SELF)
+
+  @@index([userId, recordedAt])
+  @@map("body_metrics")
+}
+
+enum MetricSource {
+  SELF
+  STAFF
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  ATTENDANCE & LEAVE
+// ══════════════════════════════════════════════════════════════════════
+
+model AttendanceRecord {
+  id    String @id @default(uuid()) @db.Uuid
+  gymId String @db.Uuid
+  gym   Gym    @relation(fields: [gymId], references: [id], onDelete: Cascade)
+
+  subjectType SubjectType
+  subjectId   String      @db.Uuid
+  subject     User        @relation("AttendanceSubject", fields: [subjectId], references: [id], onDelete: Cascade)
+
+  /// Date only (no time) so one person has at most one record per day.
+  date   DateTime         @db.Date
+  status AttendanceStatus
+
+  markedById String   @db.Uuid
+  markedBy   User     @relation("AttendanceMarker", fields: [markedById], references: [id])
+  markedAt   DateTime @default(now())
+
+  editedById String?   @db.Uuid
+  editedBy   User?     @relation("AttendanceEditor", fields: [editedById], references: [id])
+  editedAt   DateTime?
+  editReason String?   @db.VarChar(300)
+
+  @@unique([gymId, subjectId, date])
+  @@index([gymId, date])
+  @@index([subjectId, date])
+  @@map("attendance_records")
+}
+
+enum SubjectType {
+  MEMBER
+  STAFF
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  ON_LEAVE
+}
+
+/// Member leave pauses the membership clock; staff leave is informational.
+///
+/// Auto-approval rule: a member request within the monthly gym ceiling AND
+/// within the ceiling on their own membership is approved on submission.
+/// Anything above either ceiling goes PENDING and needs an elevated
+/// approver (Owner / Manager / Admin / permissioned staff).
+///
+/// Early return: if attendance is marked for the subject while a leave is
+/// running, the leave closes that day and the membership resumes — nobody
+/// is credited for days they actually trained.
+model LeaveRequest {
+  id    String @id @default(uuid()) @db.Uuid
+  gymId String @db.Uuid
+  gym   Gym    @relation(fields: [gymId], references: [id], onDelete: Cascade)
+
+  subjectType SubjectType
+  subjectId   String      @db.Uuid
+  subject     User        @relation("LeaveSubject", fields: [subjectId], references: [id], onDelete: Cascade)
+
+  fromDate DateTime @db.Date
+  toDate   DateTime @db.Date
+  days     Int
+  reason   String?  @db.VarChar(500)
+
+  status                   LeaveStatus @default(PENDING)
+  requiresElevatedApproval Boolean     @default(false)
+
+  decidedById  String?   @db.Uuid
+  decidedBy    User?     @relation("LeaveDecider", fields: [decidedById], references: [id])
+  decidedAt    DateTime?
+  decisionNote String?   @db.VarChar(300)
+
+  /// Set when attendance was marked mid-leave and the leave was cut short.
+  closedEarlyAt DateTime?
+
+  /// Every override of a prior decision, so a wrong approve/decline can be
+  /// traced and only reversed by someone senior to whoever decided it.
+  overrides LeaveDecisionOverride[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([gymId, status])
+  @@index([subjectId, status])
+  @@map("leave_requests")
+}
+
+enum LeaveStatus {
+  PENDING
+  AUTO_APPROVED
+  APPROVED
+  DECLINED
+  CANCELLED
+  CLOSED_EARLY
+}
+
+model LeaveDecisionOverride {
+  id             String       @id @default(uuid()) @db.Uuid
+  leaveRequestId String       @db.Uuid
+  leaveRequest   LeaveRequest @relation(fields: [leaveRequestId], references: [id], onDelete: Cascade)
+
+  previousStatus LeaveStatus
+  newStatus      LeaveStatus
+  /// Whoever originally decided. The override is only allowed when the
+  /// actor role level is strictly senior to this person role level.
+  originalDeciderId String   @db.Uuid
+  actorId           String   @db.Uuid
+  reason            String?  @db.VarChar(300)
+  createdAt         DateTime @default(now())
+
+  @@index([leaveRequestId])
+  @@map("leave_decision_overrides")
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  EVENTS
+// ══════════════════════════════════════════════════════════════════════
+
+model Event {
+  id    String @id @default(uuid()) @db.Uuid
+  gymId String @db.Uuid
+  gym   Gym    @relation(fields: [gymId], references: [id], onDelete: Cascade)
+
+  title            String  @db.VarChar(150)
+  bannerUrl        String? @db.VarChar(500)
+  description      String  @db.Text
+  howToParticipate String  @db.Text
+  prize            String? @db.VarChar(200)
+  prizeDescription String? @db.Text
+
+  registrationLastDate DateTime
+  startsAt             DateTime
+  endsAt               DateTime
+
+  /// Members of the host gym may hit Participate. When false, the
+  /// requirement text is shown bold and highlighted instead of a button.
+  membersCanParticipate Boolean @default(true)
+  /// Surfaces the event in the nationwide events feed. PRO plan only.
+  publicListing         Boolean @default(true)
+  /// Only meaningful when publicListing is on.
+  allowNonMembers       Boolean @default(false)
+
+  status      EventStatus @default(PUBLISHED)
+  createdById String      @db.Uuid
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  participations EventParticipation[]
+
+  @@index([gymId, status])
+  @@index([status, publicListing, startsAt])
+  @@map("events")
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  CANCELLED
+  COMPLETED
+}
+
+model EventParticipation {
+  id      String @id @default(uuid()) @db.Uuid
+  eventId String @db.Uuid
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  userId  String @db.Uuid
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status       ParticipationStatus @default(REGISTERED)
+  registeredAt DateTime            @default(now())
+  withdrawnAt  DateTime?
+
+  @@unique([eventId, userId])
+  @@index([eventId])
+  @@map("event_participations")
+}
+
+enum ParticipationStatus {
+  REGISTERED
+  WITHDRAWN
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  CHAT
+//
+//  Messages are stored as ciphertext produced on the sending device. The
+//  server routes and persists opaque blobs and holds no message keys, so
+//  neither gym staff nor Gymologia admins can read message bodies. Only
+//  metadata (who, when, which conversation) is queryable.
+// ══════════════════════════════════════════════════════════════════════
+
+model Conversation {
+  id    String  @id @default(uuid()) @db.Uuid
+  gymId String? @db.Uuid
+  gym   Gym?    @relation(fields: [gymId], references: [id], onDelete: Cascade)
+
+  type ConversationType
+  name String? @db.VarChar(120)
+
+  createdById   String?   @db.Uuid
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastMessageAt DateTime?
+
+  members  ConversationMember[]
+  messages Message[]
+
+  @@index([gymId, type])
+  @@map("conversations")
+}
+
+enum ConversationType {
+  DIRECT
+  OFFICIAL_GROUP // owner + all staff + all members
+  UNOFFICIAL_GROUP // members only
+  CUSTOM_GROUP
+}
+
+model ConversationMember {
+  id             String       @id @default(uuid()) @db.Uuid
+  conversationId String       @db.Uuid
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  userId         String       @db.Uuid
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  isAdmin    Boolean   @default(false)
+  joinedAt   DateTime  @default(now())
+  leftAt     DateTime?
+  lastReadAt DateTime?
+  muted      Boolean   @default(false)
+
+  @@unique([conversationId, userId])
+  @@index([userId])
+  @@map("conversation_members")
+}
+
+model Message {
+  id             String       @id @default(uuid()) @db.Uuid
+  conversationId String       @db.Uuid
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String       @db.Uuid
+  sender         User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  /// Base64 AES-GCM ciphertext. Opaque to the server.
+  ciphertext  String      @db.Text
+  nonce       String      @db.VarChar(64)
+  contentType ContentType @default(TEXT)
+
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  @@index([conversationId, createdAt])
+  @@map("messages")
+}
+
+enum ContentType {
+  TEXT
+  IMAGE
+  FILE
+  SYSTEM
+}
+
+/// Public identity keys per device, used by clients to establish message
+/// keys. Private keys never leave the device.
+model DeviceKey {
+  id           String    @id @default(uuid()) @db.Uuid
+  userId       String    @db.Uuid
+  deviceId     String    @db.VarChar(128)
+  publicKey    String    @db.Text
+  signedPreKey String    @db.Text
+  createdAt    DateTime  @default(now())
+  revokedAt    DateTime?
+
+  @@unique([userId, deviceId])
+  @@map("device_keys")
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  EXERCISE DIRECTORY
+//  Global catalogue shown to members: strength work, cardio and yoga,
+//  each with ordered steps. Translations live in ExerciseTranslation so
+//  the directory participates in the multi-language support.
+// ══════════════════════════════════════════════════════════════════════
+
+model Exercise {
+  id           String       @id @default(uuid()) @db.Uuid
+  slug         String       @unique @db.VarChar(120)
+  discipline   Discipline
+  primaryMuscle MuscleGroup
+  goals        TrainingGoal[]
+  difficulty   Difficulty   @default(BEGINNER)
+  equipment    String?      @db.VarChar(120)
+  imageUrl     String?      @db.VarChar(500)
+  videoUrl     String?      @db.VarChar(500)
+  isPublished  Boolean      @default(true)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  translations ExerciseTranslation[]
+
+  @@index([discipline, primaryMuscle])
+  @@map("exercises")
+}
+
+model ExerciseTranslation {
+  id         String   @id @default(uuid()) @db.Uuid
+  exerciseId String   @db.Uuid
+  exercise   Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  locale     String   @db.VarChar(10)
+
+  name        String   @db.VarChar(150)
+  summary     String?  @db.VarChar(500)
+  /// Ordered how-to steps.
+  steps       String[]
+  cautions    String[]
+
+  @@unique([exerciseId, locale])
+  @@map("exercise_translations")
+}
+
+enum Discipline {
+  STRENGTH
+  CARDIO
+  YOGA
+  MOBILITY
+  CALISTHENICS
+}
+
+enum MuscleGroup {
+  CHEST
+  BACK
+  SHOULDERS
+  BICEPS
+  TRICEPS
+  FOREARMS
+  CORE
+  GLUTES
+  QUADS
+  HAMSTRINGS
+  CALVES
+  FULL_BODY
+}
+
+enum TrainingGoal {
+  MUSCLE_GAIN
+  FAT_LOSS
+  STRENGTH
+  ENDURANCE
+  FLEXIBILITY
+  REHAB
+  GENERAL_FITNESS
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  NOTIFICATIONS
+//  Two senders: a gym (to its own people) and Gymologia itself (to any
+//  audience, from the admin app).
+// ══════════════════════════════════════════════════════════════════════
+
+model Notification {
+  id     String  @id @default(uuid()) @db.Uuid
+  gymId  String? @db.Uuid
+  gym    Gym?    @relation(fields: [gymId], references: [id], onDelete: Cascade)
+
+  source   NotificationSource
+  audience NotificationAudience
+  title    String  @db.VarChar(150)
+  body     String  @db.Text
+  deepLink String? @db.VarChar(300)
+
+  senderId  String?  @db.Uuid
+  sentAt    DateTime @default(now())
+  createdAt DateTime @default(now())
+
+  recipients NotificationRecipient[]
+
+  @@index([gymId, sentAt])
+  @@map("notifications")
+}
+
+enum NotificationSource {
+  GYM
+  GYMOLOGIA
+}
+
+enum NotificationAudience {
+  GYM_MEMBERS
+  GYM_STAFF
+  GYM_EVERYONE
+  ALL_MEMBERS
+  ALL_OWNERS
+  ALL_STAFF
+  ALL_REFERRERS
+  EVERYONE
+}
+
+model NotificationRecipient {
+  id             String       @id @default(uuid()) @db.Uuid
+  notificationId String       @db.Uuid
+  notification   Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  userId         String       @db.Uuid
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  readAt      DateTime?
+  deliveredAt DateTime?
+
+  @@unique([notificationId, userId])
+  @@index([userId, readAt])
+  @@map("notification_recipients")
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  REFERRAL PROGRAMME
+//
+//  Eligibility: anyone may hold a referral account EXCEPT a person who
+//  owns a gym on Gymologia. Gym staff are allowed. Enforced at account
+//  creation and re-checked at payout time, because someone can become an
+//  owner after signing up here.
+//
+//  Money: gym owner gets REFERRAL_DISCOUNT_PERCENT off the plan, the
+//  referrer earns REFERRAL_REWARD_PAISE. The very first payout has
+//  UPI_VERIFY_DEDUCTION_PAISE withheld to verify the UPI handle.
+//  TDS is withheld per section 194H before transfer.
+// ══════════════════════════════════════════════════════════════════════
+
+model ReferralAccount {
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  code   String @unique @db.VarChar(20)
+  status ReferralAccountStatus @default(ACTIVE)
+
+  /// UPI VPA, AES-256-GCM encrypted at rest. Masked handle kept for UI.
+  upiIdEnc    String? @db.Text
+  upiIdMasked String? @db.VarChar(60)
+  upiHolderName String? @db.VarChar(120)
+  upiVerified   Boolean @default(false)
+  upiVerifiedAt DateTime?
+
+  /// PAN is required before cumulative payouts cross the TDS threshold.
+  panEnc     String? @db.Text
+  panLast4   String? @db.VarChar(4)
+  panStatus  VerificationStatus @default(NOT_SUBMITTED)
+
+  totalEarnedPaise Int @default(0)
+  totalPaidPaise   Int @default(0)
+  totalTdsPaise    Int @default(0)
+  pendingPaise     Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  redemptions ReferralRedemption[]
+  payouts     Payout[]
+
+  @@map("referral_accounts")
+}
+
+enum ReferralAccountStatus {
+  ACTIVE
+  SUSPENDED // fraud hold
+  BLOCKED   // became a gym owner, or abuse confirmed
+}
+
+model ReferralRedemption {
+  id                String          @id @default(uuid()) @db.Uuid
+  referralAccountId String          @db.Uuid
+  referralAccount   ReferralAccount @relation(fields: [referralAccountId], references: [id], onDelete: Cascade)
+
+  /// One subscription can only ever be redeemed once.
+  subscriptionId String          @unique @db.Uuid
+  subscription   GymSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  gymId          String @db.Uuid
+  discountPaise  Int
+  rewardPaise    Int
+
+  status    RedemptionStatus @default(PENDING)
+  /// Held until the underlying payment settles, so a refund cannot leave
+  /// a paid-out reward behind.
+  eligibleAt DateTime?
+  payoutId   String?  @db.Uuid
+  payout     Payout?  @relation(fields: [payoutId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([referralAccountId, status])
+  @@map("referral_redemptions")
+}
+
+enum RedemptionStatus {
+  PENDING
+  ELIGIBLE
+  PAID
+  REVERSED // payment refunded or fraud found
+}
+
+model Payout {
+  id                String          @id @default(uuid()) @db.Uuid
+  referralAccountId String          @db.Uuid
+  referralAccount   ReferralAccount @relation(fields: [referralAccountId], references: [id], onDelete: Cascade)
+
+  grossPaise      Int
+  tdsPaise        Int @default(0)
+  tdsRateBps      Int @default(0) // basis points, e.g. 500 = 5%
+  verifyFeePaise  Int @default(0) // one-time UPI verification deduction
+  netPaise        Int
+
+  status PayoutStatus @default(QUEUED)
+
+  cashfreeTransferId String? @unique @db.VarChar(120)
+  cashfreeUtr        String? @db.VarChar(120)
+  failureReason      String? @db.VarChar(500)
+
+  /// Idempotency key sent to Cashfree so a retry never double-pays.
+  idempotencyKey String @unique @db.VarChar(80)
+
+  financialYear String @db.VarChar(9) // "2026-2027", for TDS reporting
+
+  createdAt   DateTime  @default(now())
+  processedAt DateTime?
+
+  redemptions ReferralRedemption[]
+
+  @@index([referralAccountId, status])
+  @@index([financialYear])
+  @@map("payouts")
+}
+
+enum PayoutStatus {
+  QUEUED
+  PROCESSING
+  SUCCESS
+  FAILED
+  REVERSED
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  GYMOLOGIA ADMIN
+// ══════════════════════════════════════════════════════════════════════
+
+model AdminStaff {
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  role   AdminRole
+  status StaffStatus @default(ACTIVE)
+
+  /// Admin staff record DOB (unlike app users) for HR purposes.
+  dateOfBirth DateTime? @db.Date
+  workEmail   String?   @db.VarChar(255)
+
+  addedById String?  @db.Uuid
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  kycSessions    KycSession[]
+  assignedTickets SupportTicket[]
+
+  @@map("admin_staff")
+}
+
+enum AdminRole {
+  OWNER           // all permissions
+  ADMIN
+  MANAGER         // KYC + gyms + support visibility
+  CUSTOMER_SUPPORT
+  KYC_AGENT
+}
+
+/// Video KYC appointment. The meeting is link-only: the joining URL is a
+/// signed single-use token, valid for a window around the slot.
+model KycSession {
+  id       String  @id @default(uuid()) @db.Uuid
+  gymKycId String  @db.Uuid
+  gymKyc   GymKyc  @relation(fields: [gymKycId], references: [id], onDelete: Cascade)
+
+  adminStaffId String?     @db.Uuid
+  adminStaff   AdminStaff? @relation(fields: [adminStaffId], references: [id])
+
+  scheduledAt   DateTime
+  joinTokenHash String    @unique @db.VarChar(255)
+  tokenExpiresAt DateTime
+  startedAt     DateTime?
+  endedAt       DateTime?
+
+  status  KycSessionStatus @default(SCHEDULED)
+  outcome VerificationStatus?
+  notes   String? @db.Text
+
+  createdAt DateTime @default(now())
+
+  @@index([status, scheduledAt])
+  @@map("kyc_sessions")
+}
+
+enum KycSessionStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  NO_SHOW
+  CANCELLED
+}
+
+model SupportTicket {
+  id     String  @id @default(uuid()) @db.Uuid
+  userId String? @db.Uuid
+  user   User?   @relation(fields: [userId], references: [id])
+
+  appClient    AppClient
+  contactPhone String  @db.VarChar(16)
+  contactEmail String? @db.VarChar(255)
+  subject      String  @db.VarChar(200)
+  message      String  @db.Text
+
+  status   TicketStatus   @default(OPEN)
+  priority TicketPriority @default(NORMAL)
+
+  assignedAdminId String?     @db.Uuid
+  assignedAdmin   AdminStaff? @relation(fields: [assignedAdminId], references: [id])
+
+  resolutionNote String?   @db.Text
+  resolvedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([status, priority])
+  @@map("support_tickets")
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  WAITING_ON_USER
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+// ══════════════════════════════════════════════════════════════════════
+//  AUDIT & SECURITY
+//
+//  AuditLog is append-only: no update or delete path is exposed, and the
+//  DB role used by the API is granted INSERT and SELECT on it only.
+// ══════════════════════════════════════════════════════════════════════
+
+model AuditLog {
+  id      String  @id @default(uuid()) @db.Uuid
+  actorId String? @db.Uuid
+  actor   User?   @relation(fields: [actorId], references: [id])
+
+  gymId      String? @db.Uuid
+  action     String  @db.VarChar(80) // e.g. "leave.override", "role.permission.grant"
+  entityType String  @db.VarChar(60)
+  entityId   String? @db.VarChar(64)
+
+  /// Redacted snapshots. Never store raw KYC numbers or ciphertext here.
+  before Json?
+  after  Json?
+
+  ip        String?  @db.VarChar(64)
+  userAgent String?  @db.VarChar(300)
+  appClient AppClient?
+  createdAt DateTime @default(now())
+
+  @@index([gymId, createdAt])
+  @@index([actorId, createdAt])
+  @@index([action, createdAt])
+  @@map("audit_logs")
+}
+
+/// Anything the defensive layer flags: credential stuffing, OTP farming,
+/// SQL-injection signatures in input, payout velocity spikes, webhook
+/// signature mismatches. Feeds alerting and automatic throttling.
+model SecurityEvent {
+  id       String        @id @default(uuid()) @db.Uuid
+  type     SecurityEventType
+  severity Severity      @default(LOW)
+
+  userId    String? @db.Uuid
+  ip        String? @db.VarChar(64)
+  userAgent String? @db.VarChar(300)
+  route     String? @db.VarChar(200)
+  details   Json?
+
+  /// What the system did about it automatically.
+  actionTaken String?  @db.VarChar(200)
+  createdAt   DateTime @default(now())
+
+  @@index([type, createdAt])
+  @@index([ip, createdAt])
+  @@index([severity, createdAt])
+  @@map("security_events")
+}
+
+enum SecurityEventType {
+  OTP_ABUSE
+  BRUTE_FORCE
+  INVALID_TOKEN
+  PERMISSION_DENIED
+  INJECTION_ATTEMPT
+  RATE_LIMIT_TRIPPED
+  WEBHOOK_SIGNATURE_INVALID
+  PAYOUT_VELOCITY
+  REFERRAL_FRAUD
+  SUSPICIOUS_UPLOAD
+  ANOMALOUS_LOGIN
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+/// Counter for install analytics on the admin dashboard.
+model AppInstallStat {
+  id        String    @id @default(uuid()) @db.Uuid
+  appClient AppClient
+  platform  Platform
+  day       DateTime  @db.Date
+  installs  Int       @default(0)
+
+  @@unique([appClient, platform, day])
+  @@map("app_install_stats")
+}

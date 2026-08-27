@@ -1,0 +1,50 @@
+# ── Secrets ─────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+APIKey.csv
+google-services.json
+GoogleService-Info.plist
+
+# ── Node / NestJS ───────────────────────────────────────
+node_modules/
+dist/
+build/
+coverage/
+*.log
+npm-debug.log*
+.npm/
+.eslintcache
+
+# ── Prisma ──────────────────────────────────────────────
+prisma/migrations/dev.db*
+*.sqlite
+
+# ── Flutter / Dart ──────────────────────────────────────
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/android/.gradle/
+**/android/local.properties
+**/android/key.properties
+**/build/
+*.iml
+
+# ── IDE / OS ────────────────────────────────────────────
+.idea/
+.vscode/*
+!.vscode/settings.json
+.DS_Store
+Thumbs.db
