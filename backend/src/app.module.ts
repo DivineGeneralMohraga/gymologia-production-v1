@@ -11,6 +11,12 @@ import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { RbacModule } from './rbac/rbac.module';
+import { GymsModule } from './gyms/gyms.module';
+import { StaffModule } from './staff/staff.module';
+import { MembersModule } from './members/members.module';
+import { AttendanceModule } from './attendance/attendance.module';
+import { LeaveModule } from './leave/leave.module';
+import { PeopleModule } from './people/people.module';
 import { PermissionsGuard } from './rbac/permissions.guard';
 import { HealthController } from './health/health.controller';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
@@ -38,6 +44,12 @@ import { InputSanitizerInterceptor } from './common/interceptors/input-sanitizer
     CommonModule,
     RbacModule,
     AuthModule,
+    PeopleModule,
+    GymsModule,
+    StaffModule,
+    MembersModule,
+    AttendanceModule,
+    LeaveModule,
   ],
   controllers: [HealthController],
   providers: [
