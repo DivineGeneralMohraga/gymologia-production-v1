@@ -2,7 +2,7 @@
 #
 # Update the Gymologia API on the EC2 box.
 #
-#   ssh ubuntu@13.232.161.2
+#   ssh ubuntu@65.0.75.45
 #   cd /opt/gymologia && ./backend/deploy.sh
 #
 # Safe to run repeatedly. Pulls, installs, builds, migrates, restarts, and

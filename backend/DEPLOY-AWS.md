@@ -1,6 +1,6 @@
 # Deploying and updating the Gymologia API on AWS
 
-Target: **`13.232.161.2`** (ap-south-1, Mumbai).
+Target: **`65.0.75.45`** (ap-south-1, Mumbai).
 
 No Docker. The box runs Node directly, managed by `systemd` — the service
 manager already built into Ubuntu. The database is Supabase, so nothing on
@@ -13,7 +13,7 @@ this machine holds state; it can be rebuilt from scratch at any time.
 Once the first deploy below is done, shipping a change is three commands:
 
 ```bash
-ssh -i <your-key>.pem ubuntu@13.232.161.2
+ssh -i <your-key>.pem ubuntu@65.0.75.45
 cd /opt/gymologia
 ./backend/deploy.sh
 ```
@@ -63,7 +63,7 @@ Ubuntu's own `apt install nodejs` ships something far too old. Use
 NodeSource:
 
 ```bash
-ssh -i <your-key>.pem ubuntu@13.232.161.2
+ssh -i <your-key>.pem ubuntu@65.0.75.45
 
 curl -fsSL https://deb.nodesource.com/setup_24.x | sudo -E bash -
 sudo apt install -y nodejs git
@@ -125,14 +125,14 @@ cd /opt/gymologia
 Then from your own machine:
 
 ```bash
-curl http://13.232.161.2:3000/api/v1/health
+curl http://65.0.75.45:3000/api/v1/health
 ```
 
 Point the app at it:
 
 ```bash
 cd apps/gymologia
-flutter run --dart-define=API_BASE_URL=http://13.232.161.2:3000/api/v1
+flutter run --dart-define=API_BASE_URL=http://65.0.75.45:3000/api/v1
 ```
 
 ### 6. TLS, before real users

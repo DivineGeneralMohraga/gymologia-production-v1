@@ -73,7 +73,7 @@
 		     the API is served over HTTPS. -->
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>13.232.161.2</key>
+			<key>65.0.75.45</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>

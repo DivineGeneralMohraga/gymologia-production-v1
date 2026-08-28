@@ -116,7 +116,7 @@ class _DiagnosticsScreenState extends State<DiagnosticsScreen> {
             const _Command(
               label: 'AWS server',
               command:
-                  'flutter run --dart-define=API_BASE_URL=http://13.232.161.2:3000/api/v1',
+                  'flutter run --dart-define=API_BASE_URL=http://65.0.75.45:3000/api/v1',
             ),
             const _Command(
               label: 'Android emulator → your laptop',

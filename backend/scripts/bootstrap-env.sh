@@ -45,13 +45,19 @@ fi
 if [ -n "$OLD_ENV" ] && [ -f "$OLD_ENV" ]; then
   log "Reading $OLD_ENV"
 else
-  warn "No old .env found — every value will need filling in by hand."
+  warn "No old .env found. Pass values in the environment instead:"
+  warn "  sudo DATABASE_URL=... MSG91_AUTH_KEY=... $0"
   OLD_ENV=""
 fi
 
 # Reads one key out of the old file without sourcing it, so a stray command
 # substitution in there cannot execute as root.
 old() {
+  # An environment variable wins over the old file. That path matters
+  # when the previous box is gone and there is nothing to copy from:
+  #   sudo DATABASE_URL=... MSG91_WIDGET_TOKEN=... ./bootstrap-env.sh
+  local from_env="${!1:-}"
+  if [ -n "$from_env" ]; then printf '%s' "$from_env"; return; fi
   [ -z "$OLD_ENV" ] && { printf ''; return; }
   sed -nE "s/^[[:space:]]*$1[[:space:]]*=[[:space:]]*//p" "$OLD_ENV" \
     | head -1 | sed -E 's/^"(.*)"$/\1/; s/^'\''(.*)'\''$/\1/'
