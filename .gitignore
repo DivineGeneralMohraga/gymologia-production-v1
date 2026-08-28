@@ -49,3 +49,7 @@ prisma/migrations/dev.db*
 !.vscode/settings.json
 .DS_Store
 Thumbs.db
+
+# Throwaway scripts while poking at a running server
+backend/_*.sh
+backend/_*.js
