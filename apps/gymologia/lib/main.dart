@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'features/auth/auth_controller.dart';
 import 'features/auth/phone_screen.dart';
-import 'features/home/home_screen.dart';
+import 'features/shell/app_mode.dart';
+import 'features/shell/app_shell.dart';
 import 'theme.dart';
 
 void main() {
@@ -15,8 +16,11 @@ class GymologiaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => AuthController()..restoreSession(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthController()..restoreSession()),
+        ChangeNotifierProvider(create: (_) => AppModeController()..restore()),
+      ],
       child: MaterialApp(
         title: 'Gymologia',
         debugShowCheckedModeBanner: false,
@@ -43,7 +47,7 @@ class _Root extends StatelessWidget {
           body: Center(child: CircularProgressIndicator()),
         ),
       AuthStatus.signedOut => const PhoneScreen(),
-      AuthStatus.signedIn => const HomeScreen(),
+      AuthStatus.signedIn => const AppShell(),
     };
   }
 }

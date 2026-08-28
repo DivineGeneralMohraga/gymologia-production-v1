@@ -112,6 +112,22 @@ export class GymsController {
     return this.gyms.findOneForStaff(gymId, user.userId);
   }
 
+  /**
+   * Roles at this gym. Readable by anyone who can add or manage people,
+   * because both flows need to pick one.
+   */
+  @Get(':gymId/roles')
+  @RequirePermissions(
+    Permission.ADD_STAFF,
+    Permission.MANAGE_STAFF,
+    Permission.ADD_ROLES,
+    Permission.EDIT_PERMISSIONS,
+  )
+  @ApiOperation({ summary: 'Roles, with whether you may assign each one' })
+  roles(@Actor() actor: ActorContext) {
+    return this.gyms.roles(actor);
+  }
+
   @Patch(':gymId')
   @RequirePermissions(Permission.EDIT_GYM_PROFILE)
   @ApiOperation({ summary: 'Edit the gym profile' })

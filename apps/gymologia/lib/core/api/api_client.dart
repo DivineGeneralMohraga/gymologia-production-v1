@@ -88,6 +88,28 @@ class ApiClient {
             options: Options(extra: {'skipAuth': !auth}),
           ));
 
+  Future<Map<String, dynamic>> patch(
+    String path, {
+    Object? body,
+    bool auth = true,
+  }) =>
+      _send(() => _dio.patch(
+            path,
+            data: body,
+            options: Options(extra: {'skipAuth': !auth}),
+          ));
+
+  Future<Map<String, dynamic>> delete(
+    String path, {
+    Object? body,
+    bool auth = true,
+  }) =>
+      _send(() => _dio.delete(
+            path,
+            data: body,
+            options: Options(extra: {'skipAuth': !auth}),
+          ));
+
   Future<Map<String, dynamic>> _send(
     Future<Response<dynamic>> Function() call, {
     bool allowRetry = true,

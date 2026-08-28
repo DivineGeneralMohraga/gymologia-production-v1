@@ -9,6 +9,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../common/audit/audit.service';
 import { PermissionService, ActorContext } from '../rbac/permission.service';
 import {
+  ALL_PERMISSIONS,
   DEFAULT_ROLES,
   DEFAULT_TRAINER_CATEGORIES,
   ROLE_LEVEL,
@@ -322,6 +323,33 @@ export class GymsService {
     }
 
     return scored.slice(0, limit);
+  }
+
+  /**
+   * Roles at this gym, annotated with whether the caller may assign each
+   * one. Assignable means strictly junior to the caller's own role — the
+   * same rule the server enforces on the write, surfaced early so a
+   * picker never offers something that would be refused.
+   */
+  async roles(actor: ActorContext) {
+    const roles = await this.prisma.role.findMany({
+      where: { gymId: actor.gymId },
+      include: { _count: { select: { staff: true, permissions: true } } },
+      orderBy: { level: 'asc' },
+    });
+
+    return roles.map((role) => ({
+      id: role.id,
+      name: role.name,
+      level: role.level,
+      isSystem: role.isSystem,
+      isSuper: role.isSuper,
+      staffCount: role._count.staff,
+      permissionCount: role.isSuper
+        ? ALL_PERMISSIONS.length
+        : role._count.permissions,
+      assignable: this.permissions.outranks(actor, role.level),
+    }));
   }
 
   // ── Mutation ───────────────────────────────────────────────────────
