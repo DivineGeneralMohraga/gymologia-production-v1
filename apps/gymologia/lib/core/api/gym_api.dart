@@ -114,8 +114,21 @@ class GymApi {
   Future<Map<String, dynamic>> addMember(String gymId, Map<String, dynamic> body) =>
       _client.post('/gyms/$gymId/members', body: body);
 
+  Future<Map<String, dynamic>> member(String gymId, String membershipId) =>
+      _client.get('/gyms/$gymId/members/$membershipId');
+
   Future<Map<String, dynamic>> memberProgress(String gymId, String membershipId) =>
       _client.get('/gyms/$gymId/members/$membershipId/progress');
+
+  Future<Map<String, dynamic>> updateMember(
+    String gymId,
+    String membershipId,
+    Map<String, dynamic> body,
+  ) =>
+      _client.patch('/gyms/$gymId/members/$membershipId', body: body);
+
+  Future<void> removeMember(String gymId, String membershipId) =>
+      _client.delete('/gyms/$gymId/members/$membershipId');
 
   Future<Map<String, dynamic>> extendMembership(
     String gymId,
@@ -138,6 +151,16 @@ class GymApi {
 
   Future<Map<String, dynamic>> addStaff(String gymId, Map<String, dynamic> body) =>
       _client.post('/gyms/$gymId/staff', body: body);
+
+  Future<Map<String, dynamic>> updateStaff(
+    String gymId,
+    String staffMemberId,
+    Map<String, dynamic> body,
+  ) =>
+      _client.patch('/gyms/$gymId/staff/$staffMemberId', body: body);
+
+  Future<void> removeStaff(String gymId, String staffMemberId) =>
+      _client.delete('/gyms/$gymId/staff/$staffMemberId');
 
   Future<List<Map<String, dynamic>>> trainers(String gymId, {String? categoryId}) async {
     final raw = await _client.get('/gyms/$gymId/staff/trainers', query: {
@@ -173,6 +196,26 @@ class GymApi {
     return _list(raw);
   }
 
+  /// One person's attendance history, for the check-attendance screen.
+  Future<Map<String, dynamic>> attendanceForSubject(
+    String gymId, {
+    required String subjectType,
+    required String userId,
+    int days = 60,
+  }) =>
+      _client.get('/gyms/$gymId/attendance/subject/$subjectType/$userId',
+          query: {'days': days});
+
+  /// Correcting a record. The reason is mandatory server-side.
+  Future<Map<String, dynamic>> editAttendance(
+    String gymId,
+    String recordId, {
+    required String status,
+    required String reason,
+  }) =>
+      _client.patch('/gyms/$gymId/attendance/$recordId',
+          body: {'status': status, 'reason': reason});
+
   Future<GymAnalytics> analytics(String gymId, {int days = 30}) async =>
       GymAnalytics.fromJson(
         await _client.get('/gyms/$gymId/attendance/analytics',
@@ -191,6 +234,8 @@ class GymApi {
     });
     return _list(raw).map(LeaveRow.fromJson).toList();
   }
+
+  Future<void> deleteGym(String gymId) => _client.delete('/gyms/$gymId');
 
   Future<void> decideLeave(
     String gymId,

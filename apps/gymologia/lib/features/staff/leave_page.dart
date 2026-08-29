@@ -127,6 +127,7 @@ class _LeavePageState extends State<LeavePage> {
                             itemBuilder: (_, i) => _LeaveCard(
                               row: leave[i],
                               canApprove: canApprove,
+                              canReverse: widget.gym.can(P.editLeaveDecision),
                               busy: _deciding.contains(leave[i].id),
                               onDecide: (approve) => _decide(leave[i], approve),
                             ),
@@ -142,14 +143,25 @@ class _LeaveCard extends StatelessWidget {
   const _LeaveCard({
     required this.row,
     required this.canApprove,
+    required this.canReverse,
     required this.busy,
     required this.onDecide,
   });
 
   final LeaveRow row;
   final bool canApprove;
+
+  /// Changing a decision someone else already made needs its own
+  /// permission, and the server additionally requires seniority over
+  /// whoever decided first.
+  final bool canReverse;
   final bool busy;
   final ValueChanged<bool> onDecide;
+
+  bool get _settled =>
+      row.status == 'APPROVED' ||
+      row.status == 'AUTO_APPROVED' ||
+      row.status == 'DECLINED';
 
   @override
   Widget build(BuildContext context) {
@@ -183,6 +195,12 @@ class _LeaveCard extends StatelessWidget {
                   style: theme.textTheme.bodySmall
                       ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
             ],
+            if (row.decidedByName != null) ...[
+              const SizedBox(height: 6),
+              Text('Decided by ${row.decidedByName}',
+                  style: theme.textTheme.bodySmall
+                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+            ],
             if (row.isPending && canApprove) ...[
               const SizedBox(height: 14),
               Row(
@@ -197,6 +215,19 @@ class _LeaveCard extends StatelessWidget {
                     child: const Text('Decline'),
                   ),
                 ],
+              ),
+            ] else if (_settled && canApprove && canReverse) ...[
+              const SizedBox(height: 12),
+              // The opposite of whatever was decided. Offering both would
+              // invite re-confirming a decision that already stands.
+              OutlinedButton.icon(
+                onPressed: busy
+                    ? null
+                    : () => onDecide(row.status == 'DECLINED'),
+                icon: const Icon(Icons.undo, size: 16),
+                label: Text(row.status == 'DECLINED'
+                    ? 'Approve instead'
+                    : 'Decline instead'),
               ),
             ],
           ],

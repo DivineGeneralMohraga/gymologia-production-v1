@@ -7,6 +7,7 @@ import '../auth/auth_controller.dart';
 import 'members_page.dart';
 import 'leave_page.dart';
 import 'staff_page.dart';
+import 'gym_profile_edit_page.dart';
 
 /// The CRM home for one gym.
 ///
@@ -181,7 +182,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                   _Tile(
                     icon: Icons.storefront_outlined,
                     label: 'Gym profile',
-                    onTap: () => _notBuilt('Editing the gym profile'),
+                    onTap: () => _open(GymProfileEditPage(gym: gym)),
                   ),
                 if (gym.sees('manageRoles'))
                   _Tile(

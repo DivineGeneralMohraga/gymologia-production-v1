@@ -5,6 +5,7 @@ import '../../core/api/gym_api.dart';
 import '../../core/api/models.dart';
 import '../auth/auth_controller.dart';
 import 'add_person_sheet.dart';
+import 'member_detail_page.dart';
 
 /// The member list, with attendance marking inline.
 ///
@@ -76,6 +77,18 @@ class _MembersPageState extends State<MembersPage> {
     }
   }
 
+  Future<void> _open(MemberRow member) async {
+    final removed = await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (_) => MemberDetailPage(
+          gym: widget.gym,
+          membershipId: member.membershipId,
+        ),
+      ),
+    );
+    if (removed == true) await _load();
+  }
+
   Future<void> _add() async {
     final added = await showModalBottomSheet<bool>(
       context: context,
@@ -122,7 +135,7 @@ class _MembersPageState extends State<MembersPage> {
                   Icon(Icons.touch_app_outlined,
                       size: 15, color: theme.colorScheme.onSurfaceVariant),
                   const SizedBox(width: 6),
-                  Text('Tap a member to mark them present today',
+                  Text('Tap the circle to mark present, the row for details',
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       )),
@@ -162,27 +175,20 @@ class _MembersPageState extends State<MembersPage> {
                                 final busy = _marking.contains(m.membershipId);
 
                                 return ListTile(
-                                  onTap: canMark && !marked && !busy
+                                  // The row opens the member. Marking is the
+                                  // avatar, so the two most common actions do
+                                  // not sit on top of each other.
+                                  onTap: () => _open(m),
+                                  onLongPress: canMark && !marked && !busy
                                       ? () => _mark(m)
                                       : null,
-                                  leading: CircleAvatar(
-                                    backgroundColor: marked
-                                        ? Colors.green.withValues(alpha: 0.18)
-                                        : theme.colorScheme.surfaceContainerHighest,
-                                    child: busy
-                                        ? const SizedBox(
-                                            height: 18,
-                                            width: 18,
-                                            child: CircularProgressIndicator(
-                                                strokeWidth: 2.2),
-                                          )
-                                        : marked
-                                            ? const Icon(Icons.check,
-                                                color: Colors.green, size: 20)
-                                            : Text(m.name.isEmpty
-                                                ? '?'
-                                                : m.name.characters.first
-                                                    .toUpperCase()),
+                                  leading: _MarkAvatar(
+                                    name: m.name,
+                                    marked: marked,
+                                    busy: busy,
+                                    onMark: canMark && !marked && !busy
+                                        ? () => _mark(m)
+                                        : null,
                                   ),
                                   title: Text(m.name),
                                   subtitle: Text(
@@ -194,13 +200,63 @@ class _MembersPageState extends State<MembersPage> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                  trailing: _DaysBadge(member: m),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      _DaysBadge(member: m),
+                                      const SizedBox(width: 4),
+                                      const Icon(Icons.chevron_right, size: 18),
+                                    ],
+                                  ),
                                 );
                               },
                             ),
                           ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// The avatar doubles as the mark-present button.
+///
+/// Two actions live on this row and marking is by far the more frequent,
+/// so it gets its own hit target rather than sharing the row's tap with
+/// opening the member.
+class _MarkAvatar extends StatelessWidget {
+  const _MarkAvatar({
+    required this.name,
+    required this.marked,
+    required this.busy,
+    required this.onMark,
+  });
+
+  final String name;
+  final bool marked;
+  final bool busy;
+  final VoidCallback? onMark;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return InkWell(
+      onTap: onMark,
+      customBorder: const CircleBorder(),
+      child: CircleAvatar(
+        backgroundColor: marked
+            ? Colors.green.withValues(alpha: 0.18)
+            : theme.colorScheme.surfaceContainerHighest,
+        child: busy
+            ? const SizedBox(
+                height: 18,
+                width: 18,
+                child: CircularProgressIndicator(strokeWidth: 2.2),
+              )
+            : marked
+                ? const Icon(Icons.check, color: Colors.green, size: 20)
+                : Text(name.isEmpty ? '?' : name.characters.first.toUpperCase()),
       ),
     );
   }

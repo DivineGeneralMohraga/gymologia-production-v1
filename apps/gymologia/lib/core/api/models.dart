@@ -476,6 +476,10 @@ class P {
   static const markAttendanceMember = 'MARK_ATTENDANCE_MEMBER';
   static const markAttendanceStaff = 'MARK_ATTENDANCE_STAFF';
   static const editAttendanceMember = 'EDIT_ATTENDANCE_MEMBER';
+  static const editAttendanceStaff = 'EDIT_ATTENDANCE_STAFF';
+  static const viewAttendanceStaff = 'VIEW_ATTENDANCE_STAFF';
+  static const approveLeaveStaff = 'APPROVE_LEAVE_STAFF';
+  static const editLeaveDecision = 'EDIT_LEAVE_DECISION';
   static const viewAttendanceMember = 'VIEW_ATTENDANCE_MEMBER';
   static const viewLeaveMember = 'VIEW_LEAVE_MEMBER';
   static const approveLeaveMember = 'APPROVE_LEAVE_MEMBER';

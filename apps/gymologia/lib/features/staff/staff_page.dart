@@ -5,6 +5,8 @@ import '../../core/api/gym_api.dart';
 import '../../core/api/models.dart';
 import '../auth/auth_controller.dart';
 import 'add_person_sheet.dart';
+import 'attendance_history_page.dart';
+import 'staff_detail_sheet.dart';
 
 /// The staff list, ordered by seniority.
 ///
@@ -40,6 +42,15 @@ class _StaffPageState extends State<StaffPage> {
     } on ApiException catch (e) {
       if (mounted) setState(() => _error = e.message);
     }
+  }
+
+  Future<void> _edit(StaffRow staff) async {
+    final changed = await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => StaffDetailSheet(gym: widget.gym, staff: staff),
+    );
+    if (changed == true) await _load();
   }
 
   Future<void> _add() async {
@@ -119,11 +130,17 @@ class _StaffPageState extends State<StaffPage> {
                             ? const Icon(Icons.chevron_right)
                             : Icon(Icons.lock_outline,
                                 size: 15, color: theme.colorScheme.outline),
-                        onTap: s.canManage
-                            ? () => ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text('Editing staff is not built yet.'),
+                        onTap: s.canManage ? () => _edit(s) : null,
+                        onLongPress: widget.gym.can(P.viewAttendanceStaff) &&
+                                s.canManage
+                            ? () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => AttendanceHistoryPage(
+                                      gym: widget.gym,
+                                      subjectType: 'STAFF',
+                                      userId: s.userId,
+                                      name: s.name,
+                                    ),
                                   ),
                                 )
                             : null,
