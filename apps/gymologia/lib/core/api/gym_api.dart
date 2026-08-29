@@ -237,6 +237,42 @@ class GymApi {
 
   Future<void> deleteGym(String gymId) => _client.delete('/gyms/$gymId');
 
+  // ── Subscription ───────────────────────────────────────────────────
+
+  Future<Map<String, dynamic>> subscription(String gymId) =>
+      _client.get('/gyms/$gymId/subscription');
+
+  Future<Map<String, dynamic>> subscriptionQuote(
+    String gymId, {
+    String? referralCode,
+  }) =>
+      _client.get('/gyms/$gymId/subscription/quote', query: {
+        if (referralCode != null && referralCode.isNotEmpty)
+          'referralCode': referralCode,
+      });
+
+  Future<Map<String, dynamic>> startTrial(String gymId) =>
+      _client.post('/gyms/$gymId/subscription/trial');
+
+  Future<Map<String, dynamic>> checkout(
+    String gymId, {
+    required String plan,
+    String? referralCode,
+  }) =>
+      _client.post('/gyms/$gymId/subscription/checkout', body: {
+        'plan': plan,
+        if (referralCode != null && referralCode.isNotEmpty)
+          'referralCode': referralCode,
+      });
+
+  /// Confirms with the server, which asks Cashfree directly rather than
+  /// trusting whatever the payment sheet reported.
+  Future<Map<String, dynamic>> verifySubscription(
+    String gymId,
+    String subscriptionId,
+  ) =>
+      _client.post('/gyms/$gymId/subscription/$subscriptionId/verify');
+
   Future<void> decideLeave(
     String gymId,
     String leaveId, {

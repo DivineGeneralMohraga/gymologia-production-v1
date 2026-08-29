@@ -8,6 +8,7 @@ import 'members_page.dart';
 import 'leave_page.dart';
 import 'staff_page.dart';
 import 'gym_profile_edit_page.dart';
+import 'plan_page.dart';
 
 /// The CRM home for one gym.
 ///
@@ -114,19 +115,30 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
               Card(
                 elevation: 0,
                 color: theme.colorScheme.tertiaryContainer.withValues(alpha: 0.5),
-                child: const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Row(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.info_outline, size: 20),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'This gym is a draft. The CRM works, but it will not '
-                          'appear in member search until verification and a plan '
-                          'are done — neither is built yet.',
-                        ),
+                      const Row(
+                        children: [
+                          Icon(Icons.info_outline, size: 20),
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              'Your gym is a draft. The CRM works, but members '
+                              'cannot find you in search until a plan is active.',
+                            ),
+                          ),
+                        ],
                       ),
+                      if (gym.can(P.manageSubscription)) ...[
+                        const SizedBox(height: 12),
+                        FilledButton(
+                          onPressed: () => _open(PlanPage(gym: gym)),
+                          child: const Text('Choose a plan'),
+                        ),
+                      ],
                     ],
                   ),
                 ),
@@ -183,6 +195,13 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                     icon: Icons.storefront_outlined,
                     label: 'Gym profile',
                     onTap: () => _open(GymProfileEditPage(gym: gym)),
+                  ),
+                if (gym.can(P.manageSubscription))
+                  _Tile(
+                    icon: Icons.workspace_premium_outlined,
+                    label: 'Plan',
+                    detail: gym.plan,
+                    onTap: () => _open(PlanPage(gym: gym)),
                   ),
                 if (gym.sees('manageRoles'))
                   _Tile(

@@ -14,6 +14,10 @@ async function bootstrap(): Promise<void> {
     // Body size is capped so a single request cannot be used to exhaust
     // memory; image uploads go to Supabase Storage, not through this API.
     bodyParser: true,
+    // Cashfree signs the raw request bytes. Re-serialising the parsed
+    // object does not reproduce them, so every signature would fail —
+    // keep the original buffer for the webhook to verify against.
+    rawBody: true,
   });
 
   const config = app.get(ConfigService);
