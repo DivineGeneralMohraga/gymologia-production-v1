@@ -8,6 +8,7 @@ import '../member/gym_browser_page.dart';
 import '../member/events_page.dart';
 import '../settings/settings_page.dart';
 import '../staff/gym_list_page.dart';
+import '../notifications/notifications_page.dart';
 import 'app_mode.dart';
 
 /// The frame both modes live in: a header with the mark and the
@@ -29,6 +30,7 @@ class _AppShellState extends State<AppShell> {
   int _index = 0;
   bool _loading = true;
   List<MyMembership> _memberships = const [];
+  int _unread = 0;
   String? _error;
 
   @override
@@ -45,9 +47,17 @@ class _AppShellState extends State<AppShell> {
     try {
       final api = GymApi(context.read<AuthController>().client);
       final memberships = await api.myMemberships();
+      // The badge is a nicety; a failure to read it should not blank the
+      // whole shell, so it is fetched separately and defaulted to zero.
+      int unread = 0;
+      try {
+        unread = await api.unreadNotifications();
+      } catch (_) {}
+
       if (!mounted) return;
       setState(() {
         _memberships = memberships;
+        _unread = unread;
         _loading = false;
       });
     } catch (e) {
@@ -148,10 +158,17 @@ class _AppShellState extends State<AppShell> {
         actions: [
           IconButton(
             tooltip: 'Notifications',
-            icon: const Icon(Icons.notifications_none),
-            onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Notifications are not built yet.')),
+            icon: Badge(
+              isLabelVisible: _unread > 0,
+              label: Text(_unread > 99 ? '99+' : '$_unread'),
+              child: const Icon(Icons.notifications_none),
             ),
+            onPressed: () async {
+              await Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const NotificationsPage()),
+              );
+              await _load();
+            },
           ),
           IconButton(
             tooltip: 'Settings',

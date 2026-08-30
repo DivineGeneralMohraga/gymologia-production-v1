@@ -9,6 +9,8 @@ import 'leave_page.dart';
 import 'staff_page.dart';
 import 'gym_profile_edit_page.dart';
 import 'plan_page.dart';
+import 'events_manage_page.dart';
+import 'announce_page.dart';
 
 /// The CRM home for one gym.
 ///
@@ -213,7 +215,13 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                   _Tile(
                     icon: Icons.event_outlined,
                     label: 'Events',
-                    onTap: () => _notBuilt('Events'),
+                    onTap: () => _open(EventsManagePage(gym: gym)),
+                  ),
+                if (gym.can(P.sendNotifications))
+                  _Tile(
+                    icon: Icons.campaign_outlined,
+                    label: 'Announce',
+                    onTap: () => _open(AnnouncePage(gym: gym)),
                   ),
               ],
             ),

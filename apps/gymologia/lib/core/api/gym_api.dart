@@ -273,6 +273,75 @@ class GymApi {
   ) =>
       _client.post('/gyms/$gymId/subscription/$subscriptionId/verify');
 
+  // ── Events ─────────────────────────────────────────────────────────
+
+  /// The member feed, split into events from gyms you belong to and
+  /// everything listed nationally.
+  Future<({List<Map<String, dynamic>> mine, List<Map<String, dynamic>> global})>
+      eventsFeed({String? state, String? district}) async {
+    final raw = await _client.get('/events', query: {
+      if (state != null && state.isNotEmpty) 'state': state,
+      if (district != null && district.isNotEmpty) 'district': district,
+    });
+    return (
+      mine: ((raw['myGyms'] as List?) ?? const []).cast<Map<String, dynamic>>(),
+      global: ((raw['global'] as List?) ?? const []).cast<Map<String, dynamic>>(),
+    );
+  }
+
+  Future<Map<String, dynamic>> participate(String eventId) =>
+      _client.post('/events/$eventId/participate');
+
+  Future<Map<String, dynamic>> withdrawFromEvent(String eventId) =>
+      _client.delete('/events/$eventId/participate');
+
+  Future<List<Map<String, dynamic>>> gymEvents(String gymId) async {
+    final raw = await _client.get('/gyms/$gymId/events');
+    return _list(raw);
+  }
+
+  Future<Map<String, dynamic>> hostEvent(
+    String gymId,
+    Map<String, dynamic> body,
+  ) =>
+      _client.post('/gyms/$gymId/events', body: body);
+
+  Future<Map<String, dynamic>> eventParticipants(String gymId, String eventId) =>
+      _client.get('/gyms/$gymId/events/$eventId/participants');
+
+  // ── Notifications ──────────────────────────────────────────────────
+
+  Future<Map<String, dynamic>> notifications() =>
+      _client.get('/me/notifications');
+
+  Future<int> unreadNotifications() async {
+    final raw = await _client.get('/me/notifications/unread');
+    return (raw['unread'] as int?) ?? 0;
+  }
+
+  Future<void> markNotificationRead(String recipientId) =>
+      _client.patch('/me/notifications/$recipientId/read');
+
+  Future<void> markAllNotificationsRead() =>
+      _client.patch('/me/notifications/read-all');
+
+  Future<List<Map<String, dynamic>>> notificationsSentBy(String gymId) async {
+    final raw = await _client.get('/gyms/$gymId/notifications');
+    return _list(raw);
+  }
+
+  Future<Map<String, dynamic>> sendNotification(
+    String gymId, {
+    required String title,
+    required String body,
+    String audience = 'GYM_EVERYONE',
+  }) =>
+      _client.post('/gyms/$gymId/notifications', body: {
+        'title': title,
+        'body': body,
+        'audience': audience,
+      });
+
   Future<void> decideLeave(
     String gymId,
     String leaveId, {
