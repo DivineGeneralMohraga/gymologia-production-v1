@@ -2,8 +2,9 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { AttendanceStatus, SubjectType } from '@prisma/client';
 import { Transform, Type } from 'class-transformer';
 import {
-  IsEnum, IsISO8601, IsInt, IsOptional, IsString, IsUUID, Max, MaxLength, Min,
+  IsEnum, IsIn, IsISO8601, IsInt, IsOptional, IsString, IsUUID, Max, MaxLength, Min,
 } from 'class-validator';
+import { GROWTH_UNITS, type GrowthUnit } from '../attendance.service';
 
 const trim = () =>
   Transform(({ value }) => (typeof value === 'string' ? value.trim() : value));
@@ -71,4 +72,22 @@ export class AttendanceWindowDto {
   @Min(1)
   @Max(365)
   days?: number;
+}
+
+export class GrowthQueryDto {
+  @ApiPropertyOptional({ enum: GROWTH_UNITS, default: 'month' })
+  @IsOptional()
+  @IsIn(GROWTH_UNITS)
+  unit?: GrowthUnit;
+
+  @ApiPropertyOptional({
+    default: 12,
+    description: 'How many buckets to return, counting back from the current one.',
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(60)
+  periods?: number;
 }

@@ -358,6 +358,85 @@ export class AttendanceService {
     };
   }
 
+  /**
+   * Joins and departures grouped by day, month or year — the spec asks for
+   * all three. `summary` only ever answered "how many in the last N days",
+   * which cannot show a gym whether it is growing.
+   *
+   * The bucketing is done entirely in SQL. Rebuilding bucket keys in
+   * JavaScript to join against them means matching Postgres' idea of a month
+   * boundary exactly, and the two disagree the moment a timezone is involved.
+   */
+  async growth(actor: ActorContext, unit: GrowthUnit, periods = 12) {
+    this.permissions.assert(actor, Permission.VIEW_ANALYTICS);
+
+    // Allowlisted before it reaches SQL. It is also passed as a bound
+    // parameter below, so this is the second of two independent guards.
+    if (!GROWTH_UNITS.includes(unit)) {
+      throw new BadRequestException('Group by day, month or year');
+    }
+    const count = Math.min(Math.max(Math.floor(periods), 1), 60);
+    const back = String(count - 1);
+
+    // Buckets are cut on Indian local time, not UTC: a gym owner in Kollam
+    // asking "how many joined in August" means their August, and IST is
+    // 5.5 hours off, so UTC bucketing files the first morning of a month
+    // under the previous one.
+    const rows = await this.prisma.$queryRaw<
+      { bucket: string; joined: number; departed: number }[]
+    >`
+      WITH span AS (
+        SELECT date_trunc(${unit}::text, NOW() AT TIME ZONE 'Asia/Kolkata') AS newest,
+               (${back}::text || ' ' || ${unit}::text)::interval AS reach,
+               ('1 ' || ${unit}::text)::interval AS step
+      ),
+      series AS (
+        SELECT generate_series(newest - reach, newest, step) AS bucket FROM span
+      ),
+      joins AS (
+        SELECT date_trunc(${unit}::text, "createdAt" AT TIME ZONE 'Asia/Kolkata') AS bucket,
+               COUNT(*)::int AS total
+        FROM memberships
+        WHERE "gymId" = ${actor.gymId}::uuid
+        GROUP BY 1
+      ),
+      departures AS (
+        SELECT date_trunc(${unit}::text, "endsAt" AT TIME ZONE 'Asia/Kolkata') AS bucket,
+               COUNT(*)::int AS total
+        FROM memberships
+        WHERE "gymId" = ${actor.gymId}::uuid
+          AND "endsAt" < NOW()
+          AND status IN ('EXPIRED', 'REMOVED')
+        GROUP BY 1
+      )
+      SELECT to_char(s.bucket, 'YYYY-MM-DD') AS bucket,
+             COALESCE(j.total, 0) AS joined,
+             COALESCE(d.total, 0) AS departed
+      FROM series s
+      LEFT JOIN joins j       ON j.bucket = s.bucket
+      LEFT JOIN departures d  ON d.bucket = s.bucket
+      ORDER BY s.bucket ASC
+    `;
+
+    // Empty periods come back from generate_series, so a quiet month is
+    // visible rather than silently skipped — a chart that drops them draws
+    // a growth line that never happened.
+    const buckets = rows.map((row) => ({
+      period: row.bucket,
+      joined: row.joined,
+      departed: row.departed,
+      net: row.joined - row.departed,
+    }));
+
+    return {
+      unit,
+      periods: count,
+      totalJoined: buckets.reduce((sum, b) => sum + b.joined, 0),
+      totalDeparted: buckets.reduce((sum, b) => sum + b.departed, 0),
+      buckets,
+    };
+  }
+
   // ── Guards ─────────────────────────────────────────────────────────
 
   /**
@@ -422,3 +501,7 @@ export class AttendanceService {
 }
 
 export type AttendanceWhere = Prisma.AttendanceRecordWhereInput;
+
+/** The only values that may reach date_trunc. */
+export const GROWTH_UNITS = ['day', 'month', 'year'] as const;
+export type GrowthUnit = (typeof GROWTH_UNITS)[number];

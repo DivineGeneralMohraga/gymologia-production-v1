@@ -222,6 +222,87 @@ class GymApi {
             query: {'days': days}),
       );
 
+  /// Joins and departures bucketed by day, month or year. Buckets are cut on
+  /// Indian local time server-side, so "August" means the owner's August.
+  Future<Map<String, dynamic>> growth(
+    String gymId, {
+    String unit = 'month',
+    int periods = 12,
+  }) =>
+      _client.get('/gyms/$gymId/attendance/analytics/growth',
+          query: {'unit': unit, 'periods': periods});
+
+  /// The member's own attendance. Needs no gym scope and no permission —
+  /// every other attendance route is staff-facing.
+  Future<List<Map<String, dynamic>>> myAttendance({int days = 90}) async {
+    final raw = await _client.get('/me/attendance', query: {'days': days});
+    return _list(raw);
+  }
+
+  // Trainer categories
+  Future<List<Map<String, dynamic>>> trainerCategories(String gymId) async {
+    final raw = await _client.get('/gyms/$gymId/trainer-categories');
+    return _list(raw);
+  }
+
+  Future<List<Map<String, dynamic>>> createTrainerCategory(
+    String gymId, {
+    required String name,
+    required bool allowsMultipleMembers,
+  }) async {
+    final raw = await _client.post('/gyms/$gymId/trainer-categories', body: {
+      'name': name,
+      'allowsMultipleMembers': allowsMultipleMembers,
+    });
+    return _list(raw);
+  }
+
+  /// Returns the fresh list plus a note when narrowing a category leaves
+  /// trainers holding more members than the new rule allows.
+  Future<({List<Map<String, dynamic>> categories, String? note})>
+      updateTrainerCategory(
+    String gymId,
+    String categoryId, {
+    String? name,
+    bool? allowsMultipleMembers,
+  }) async {
+    final raw = await _client.patch(
+      '/gyms/$gymId/trainer-categories/$categoryId',
+      body: {
+        if (name != null) 'name': name,
+        if (allowsMultipleMembers != null)
+          'allowsMultipleMembers': allowsMultipleMembers,
+      },
+    );
+    // This one endpoint answers with an object, not an array, so the
+    // client's array-wrapping does not apply and the list is read directly.
+    final categories = raw['categories'];
+    return (
+      categories: categories is List
+          ? categories.cast<Map<String, dynamic>>()
+          : const <Map<String, dynamic>>[],
+      note: raw['note'] as String?,
+    );
+  }
+
+  Future<List<Map<String, dynamic>>> deleteTrainerCategory(
+    String gymId,
+    String categoryId,
+  ) async {
+    final raw =
+        await _client.delete('/gyms/$gymId/trainer-categories/$categoryId');
+    return _list(raw);
+  }
+
+  Future<List<Map<String, dynamic>>> reorderTrainerCategories(
+    String gymId,
+    List<String> categoryIds,
+  ) async {
+    final raw = await _client.put('/gyms/$gymId/trainer-categories/order',
+        body: {'categoryIds': categoryIds});
+    return _list(raw);
+  }
+
   // Leave
   Future<List<LeaveRow>> leave(
     String gymId, {
@@ -311,6 +392,17 @@ class GymApi {
 
   /// Public server configuration, including which Cashfree environment
   /// this backend is pointed at.
+  // Legal
+  /// Terms and Privacy come from the server so wording can change without an
+  /// app store release. Public — a store reviewer must be able to read them.
+  Future<Map<String, dynamic>> legalDocument(String slug) =>
+      _client.get('/legal/$slug', auth: false);
+
+  Future<Map<String, dynamic>> legalStatus() => _client.get('/me/legal');
+
+  Future<Map<String, dynamic>> acceptLegal() =>
+      _client.post('/me/legal/accept');
+
   Future<Map<String, dynamic>> serverConfig() =>
       _client.get('/auth/config', auth: false);
 

@@ -11,6 +11,8 @@ import 'gym_profile_edit_page.dart';
 import 'plan_page.dart';
 import 'events_manage_page.dart';
 import 'announce_page.dart';
+import 'trainer_categories_page.dart';
+import 'growth_page.dart';
 import '../chat/conversations_page.dart';
 
 /// The CRM home for one gym.
@@ -149,7 +151,10 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
 
             if (_analytics != null) ...[
               const SizedBox(height: 8),
-              _AnalyticsCard(analytics: _analytics!),
+              _AnalyticsCard(
+                analytics: _analytics!,
+                onSeeGrowth: () => _open(GrowthPage(gym: gym)),
+              ),
             ],
 
             const SizedBox(height: 16),
@@ -205,6 +210,18 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                     label: 'Plan',
                     detail: gym.plan,
                     onTap: () => _open(PlanPage(gym: gym)),
+                  ),
+                if (gym.sees('manageTrainers'))
+                  _Tile(
+                    icon: Icons.fitness_center_outlined,
+                    label: 'Trainers',
+                    onTap: () => _open(TrainerCategoriesPage(gym: gym)),
+                  ),
+                if (gym.can(P.viewAnalytics))
+                  _Tile(
+                    icon: Icons.show_chart,
+                    label: 'Growth',
+                    onTap: () => _open(GrowthPage(gym: gym)),
                   ),
                 if (gym.sees('manageRoles'))
                   _Tile(
@@ -303,8 +320,9 @@ class _Tile extends StatelessWidget {
 }
 
 class _AnalyticsCard extends StatelessWidget {
-  const _AnalyticsCard({required this.analytics});
+  const _AnalyticsCard({required this.analytics, required this.onSeeGrowth});
   final GymAnalytics analytics;
+  final VoidCallback onSeeGrowth;
 
   @override
   Widget build(BuildContext context) {
@@ -346,6 +364,15 @@ class _AnalyticsCard extends StatelessWidget {
                     ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
               ),
             ],
+            const SizedBox(height: 4),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: onSeeGrowth,
+                style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                child: const Text('See growth over time'),
+              ),
+            ),
           ],
         ),
       ),

@@ -40,6 +40,12 @@ model User {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
+  /// Which wording of the Terms and Privacy Policy this account accepted.
+  /// Stored as the version string, not a boolean: "they agreed" is worth
+  /// little if nobody can say what they agreed to.
+  termsVersion    String?   @db.VarChar(32)
+  termsAcceptedAt DateTime?
+
   sessions          Session[]
   devices           Device[]
   ownedGyms         Gym[]                   @relation("GymOwner")

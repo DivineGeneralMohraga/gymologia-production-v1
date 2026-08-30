@@ -6,11 +6,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import {
+  AttendanceStatus,
   ExtensionReason,
   MembershipStatus,
   OtpPurpose,
   Permission,
   Prisma,
+  SubjectType,
 } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../common/audit/audit.service';
@@ -464,6 +466,88 @@ export class MembersService {
     };
   }
 
+  /**
+   * The member's own attendance, at the gyms they belong to.
+   *
+   * Every other attendance route is gym-scoped and permission-gated, which
+   * left the one person whose record it is unable to see it. This needs no
+   * permission for the same reason /me/metrics does not: it is their data.
+   */
+  async myAttendance(userId: string, days = 90) {
+    const window = Math.min(Math.max(days, 7), 365);
+
+    const memberships = await this.prisma.membership.findMany({
+      where: {
+        userId,
+        status: { in: [MembershipStatus.ACTIVE, MembershipStatus.ON_LEAVE] },
+      },
+      select: {
+        id: true,
+        startsAt: true,
+        gym: { select: { id: true, name: true, district: true } },
+      },
+    });
+    if (memberships.length === 0) return [];
+
+    const since = dayOnly(new Date());
+    since.setDate(since.getDate() - window);
+
+    const records = await this.prisma.attendanceRecord.findMany({
+      where: {
+        subjectId: userId,
+        subjectType: SubjectType.MEMBER,
+        gymId: { in: memberships.map((m) => m.gym.id) },
+        date: { gte: since },
+      },
+      select: { gymId: true, date: true, status: true },
+      orderBy: { date: 'asc' },
+    });
+
+    return memberships.map((membership) => {
+      const mine = records.filter((r) => r.gymId === membership.gym.id);
+      const present = mine.filter((r) => r.status === AttendanceStatus.PRESENT);
+
+      const monthStart = new Date();
+      monthStart.setDate(1);
+      const thisMonth = present.filter(
+        (r) => r.date >= dayOnly(monthStart),
+      ).length;
+
+      // Counted from the later of the window and the day they joined, so a
+      // member who signed up last week is not marked down for the weeks
+      // before that.
+      const countingFrom =
+        membership.startsAt > since ? dayOnly(membership.startsAt) : since;
+      const daysCounted = Math.max(
+        1,
+        Math.round((Date.now() - countingFrom.getTime()) / 86_400_000),
+      );
+
+      return {
+        membershipId: membership.id,
+        gymId: membership.gym.id,
+        gymDisplayName: `${membership.gym.name} - ${membership.gym.district}`,
+        windowDays: window,
+        daysCounted,
+        present: present.length,
+        absent: mine.length - present.length,
+        thisMonth,
+        /** Visits per week over the counted period — the honest version of a rate. */
+        visitsPerWeek:
+          Math.round((present.length / daysCounted) * 7 * 10) / 10,
+        /**
+         * Consecutive weeks ending this one with at least one visit. A daily
+         * streak would punish rest days, which every training plan has.
+         */
+        weekStreak: weekStreak(present.map((r) => r.date)),
+        days: mine.map((r) => ({
+          date: r.date,
+          status: r.status,
+        })),
+      };
+    });
+  }
+
   async recordMetric(userId: string, dto: RecordMetricDto) {
     if (dto.weightKg == null && dto.heightCm == null) {
       throw new BadRequestException('Enter a weight or a height');
@@ -565,4 +649,42 @@ function addMonths(from: Date, months: number): Date {
 
 function daysBetween(from: Date, to: Date): number {
   return Math.ceil((to.getTime() - from.getTime()) / (24 * 60 * 60 * 1000));
+}
+
+/** Midnight local, so date-only rows compare cleanly. */
+function dayOnly(d: Date): Date {
+  const copy = new Date(d);
+  copy.setHours(0, 0, 0, 0);
+  return copy;
+}
+
+/**
+ * Consecutive weeks with at least one visit, counting back from this week.
+ * The current week does not break the streak while it is still running —
+ * otherwise every member's streak reads zero every Monday morning.
+ */
+function weekStreak(dates: Date[]): number {
+  if (dates.length === 0) return 0;
+
+  const weeks = new Set(dates.map((d) => weekKey(d)));
+  const cursor = dayOnly(new Date());
+
+  let streak = 0;
+  if (!weeks.has(weekKey(cursor))) {
+    cursor.setDate(cursor.getDate() - 7);
+    if (!weeks.has(weekKey(cursor))) return 0;
+  }
+  while (weeks.has(weekKey(cursor))) {
+    streak += 1;
+    cursor.setDate(cursor.getDate() - 7);
+  }
+  return streak;
+}
+
+/** Year plus week number, using Monday as the first day. */
+function weekKey(d: Date): string {
+  const copy = dayOnly(d);
+  const day = (copy.getDay() + 6) % 7; // Monday = 0
+  copy.setDate(copy.getDate() - day);
+  return `${copy.getFullYear()}-${copy.getMonth()}-${copy.getDate()}`;
 }

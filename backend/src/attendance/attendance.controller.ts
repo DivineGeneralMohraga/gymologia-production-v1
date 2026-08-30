@@ -6,7 +6,8 @@ import { AttendanceService } from './attendance.service';
 import { Actor, RequirePermissions } from '../rbac/rbac.decorators';
 import type { ActorContext } from '../rbac/permission.service';
 import {
-  AttendanceWindowDto, EditAttendanceDto, ListAttendanceDto, MarkAttendanceDto,
+  AttendanceWindowDto, EditAttendanceDto, GrowthQueryDto, ListAttendanceDto,
+  MarkAttendanceDto,
 } from './dto/attendance.dto';
 
 const meta = (req: Request) => ({
@@ -51,6 +52,16 @@ export class AttendanceController {
   @ApiOperation({ summary: 'Joins and engagement over a window' })
   summary(@Actor() actor: ActorContext, @Query() dto: AttendanceWindowDto) {
     return this.attendance.summary(actor, dto.days ?? 30);
+  }
+
+  @Get('analytics/growth')
+  @RequirePermissions(Permission.VIEW_ANALYTICS)
+  @ApiOperation({
+    summary: 'Joins and departures grouped by day, month or year',
+    description: 'Empty periods are included, so a quiet month is visible rather than skipped.',
+  })
+  growth(@Actor() actor: ActorContext, @Query() dto: GrowthQueryDto) {
+    return this.attendance.growth(actor, dto.unit ?? 'month', dto.periods ?? 12);
   }
 
   @Get('subject/:subjectType/:userId')

@@ -99,6 +99,17 @@ class ApiClient {
             options: Options(extra: {'skipAuth': !auth}),
           ));
 
+  Future<Map<String, dynamic>> put(
+    String path, {
+    Object? body,
+    bool auth = true,
+  }) =>
+      _send(() => _dio.put(
+            path,
+            data: body,
+            options: Options(extra: {'skipAuth': !auth}),
+          ));
+
   Future<Map<String, dynamic>> delete(
     String path, {
     Object? body,

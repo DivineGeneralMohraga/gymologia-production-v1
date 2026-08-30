@@ -7,6 +7,7 @@ import '../auth/auth_controller.dart';
 import 'check_in_sheet.dart';
 import 'leave_request_sheet.dart';
 import 'exercise_directory_page.dart';
+import 'progress_page.dart';
 import '../chat/conversations_page.dart';
 
 /// A member's home: where they train, how long is left, and the monthly
@@ -156,6 +157,28 @@ class _MemberHomePageState extends State<MemberHomePage> {
                   ),
                 ],
               ],
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 16),
+        Card(
+          child: ListTile(
+            contentPadding: const EdgeInsets.all(16),
+            leading: CircleAvatar(
+              backgroundColor: theme.colorScheme.primaryContainer,
+              child: Icon(Icons.insights_outlined,
+                  color: theme.colorScheme.onPrimaryContainer, size: 20),
+            ),
+            title: const Text('Your progress',
+                style: TextStyle(fontWeight: FontWeight.w700)),
+            subtitle: const Text(
+                'Weight over time, and how often you have turned up.'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ProgressPage(memberships: widget.memberships),
+              ),
             ),
           ),
         ),

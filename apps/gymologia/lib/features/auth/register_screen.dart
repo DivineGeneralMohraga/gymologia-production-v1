@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../../core/api/api_client.dart';
+import '../../core/api/gym_api.dart';
+import '../settings/legal_page.dart';
 import '../../core/utils/validators.dart';
 import 'auth_controller.dart';
 
@@ -51,6 +54,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
       return;
     }
+
+    // Record which wording they agreed to. The account exists either way —
+    // failing to write the consent row is not a reason to throw away a
+    // signup, and the app asks again on next launch if it did not land.
+    try {
+      await GymApi(auth.client).acceptLegal();
+    } on ApiException {
+      // Deliberately ignored; /me/legal reports it as outstanding.
+    }
+
+    if (!mounted) return;
     Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
@@ -137,7 +151,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 20),
+                    Text.rich(
+                      TextSpan(
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                          height: 1.5,
+                        ),
+                        children: [
+                          const TextSpan(
+                              text: 'Creating an account means you accept the '),
+                          WidgetSpan(
+                            alignment: PlaceholderAlignment.baseline,
+                            baseline: TextBaseline.alphabetic,
+                            child: GestureDetector(
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => const LegalPage(),
+                                ),
+                              ),
+                              child: Text(
+                                'Terms of Use and Privacy Policy',
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.colorScheme.primary,
+                                  fontWeight: FontWeight.w600,
+                                  decoration: TextDecoration.underline,
+                                  height: 1.5,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const TextSpan(text: '.'),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                     FilledButton(
                       onPressed: auth.busy ? null : _submit,
                       child: auth.busy

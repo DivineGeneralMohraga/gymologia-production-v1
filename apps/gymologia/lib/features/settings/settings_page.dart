@@ -6,6 +6,7 @@ import '../diagnostics/diagnostics_screen.dart';
 import '../shell/app_mode.dart';
 import 'edit_profile_page.dart';
 import 'support_page.dart';
+import 'legal_page.dart';
 
 /// Settings, and the switch between member and owner/staff mode.
 class SettingsPage extends StatelessWidget {
@@ -179,7 +180,10 @@ class SettingsPage extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.description_outlined),
           title: const Text('Terms & Privacy Policy'),
-          onTap: () => _toast(context, 'Not written yet.'),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const LegalPage()),
+          ),
         ),
 
         const _SectionLabel('Session'),

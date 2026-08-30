@@ -131,6 +131,20 @@ export class MyMembershipController {
     return this.members.myMemberships(user.userId);
   }
 
+  @Get('attendance')
+  @ApiOperation({
+    summary: 'My own attendance record',
+    description:
+      'One entry per gym the member belongs to. Needs no permission: every other attendance route is gym-scoped and gated, which left the person it is about unable to see it.',
+  })
+  myAttendance(@CurrentUser() user: AuthUser, @Query('days') days?: string) {
+    const parsed = Number(days);
+    return this.members.myAttendance(
+      user.userId,
+      Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : 90,
+    );
+  }
+
   @Patch('memberships/:membershipId/monitoring')
   @ApiOperation({ summary: 'Turn staff progress monitoring on or off' })
   consent(
