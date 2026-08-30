@@ -17,6 +17,7 @@ import { MembersModule } from './members/members.module';
 import { AttendanceModule } from './attendance/attendance.module';
 import { LeaveModule } from './leave/leave.module';
 import { PaymentsModule } from './payments/payments.module';
+import { MaintenanceModule } from './maintenance/maintenance.module';
 import { PeopleModule } from './people/people.module';
 import { PermissionsGuard } from './rbac/permissions.guard';
 import { HealthController } from './health/health.controller';
@@ -52,6 +53,7 @@ import { InputSanitizerInterceptor } from './common/interceptors/input-sanitizer
     AttendanceModule,
     LeaveModule,
     PaymentsModule,
+    MaintenanceModule,
   ],
   controllers: [HealthController],
   providers: [
