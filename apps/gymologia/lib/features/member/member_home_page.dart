@@ -7,6 +7,7 @@ import '../auth/auth_controller.dart';
 import 'check_in_sheet.dart';
 import 'leave_request_sheet.dart';
 import 'exercise_directory_page.dart';
+import '../chat/conversations_page.dart';
 
 /// A member's home: where they train, how long is left, and the monthly
 /// weight and height check-in.
@@ -160,6 +161,35 @@ class _MemberHomePageState extends State<MemberHomePage> {
         ),
 
         const SizedBox(height: 16),
+        for (final membership in widget.memberships)
+          Card(
+            child: ListTile(
+              contentPadding: const EdgeInsets.all(16),
+              leading: CircleAvatar(
+                backgroundColor: theme.colorScheme.primaryContainer,
+                child: Icon(Icons.forum_outlined,
+                    color: theme.colorScheme.onPrimaryContainer, size: 20),
+              ),
+              title: const Text('Chat',
+                  style: TextStyle(fontWeight: FontWeight.w700)),
+              subtitle: Text(
+                widget.memberships.length > 1
+                    ? 'Your trainer, staff and members at ${membership.gymName}'
+                    : 'Your trainer, the staff, and other members',
+              ),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => ConversationsPage(
+                    gymId: membership.gymId,
+                    gymName: membership.gymName,
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+        const SizedBox(height: 16),
         Card(
           child: ListTile(
             contentPadding: const EdgeInsets.all(16),
@@ -187,10 +217,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
         const SizedBox(height: 16),
         _NotBuiltCard(
           title: 'Coming next',
-          items: const [
-            'Progress charts against your goal',
-            'Chat with your trainer, staff and other members',
-          ],
+          items: const ['Progress charts against your goal'],
         ),
       ],
     );

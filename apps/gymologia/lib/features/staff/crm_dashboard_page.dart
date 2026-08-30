@@ -11,6 +11,7 @@ import 'gym_profile_edit_page.dart';
 import 'plan_page.dart';
 import 'events_manage_page.dart';
 import 'announce_page.dart';
+import '../chat/conversations_page.dart';
 
 /// The CRM home for one gym.
 ///
@@ -217,6 +218,14 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                     label: 'Events',
                     onTap: () => _open(EventsManagePage(gym: gym)),
                   ),
+                _Tile(
+                  icon: Icons.forum_outlined,
+                  label: 'Chat',
+                  onTap: () => _open(ConversationsPage(
+                    gymId: gym.id,
+                    gymName: gym.displayName,
+                  )),
+                ),
                 if (gym.can(P.sendNotifications))
                   _Tile(
                     icon: Icons.campaign_outlined,

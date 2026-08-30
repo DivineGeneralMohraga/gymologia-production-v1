@@ -12,6 +12,7 @@ import { Throttle } from '@nestjs/throttler';
 import type { Request } from 'express';
 import { AuthService } from './auth.service';
 import { Msg91Service } from './msg91.service';
+import { CashfreeService } from '../payments/cashfree.service';
 import { CurrentUser, Public, AuthUser } from '../rbac/rbac.decorators';
 import {
   RefreshDto,
@@ -28,6 +29,7 @@ export class AuthController {
   constructor(
     private readonly auth: AuthService,
     private readonly msg91: Msg91Service,
+    private readonly cashfree: CashfreeService,
   ) {}
 
   /** Client config the apps fetch before showing the login screen. */
@@ -39,6 +41,10 @@ export class AuthController {
       msg91WidgetId: this.msg91.widgetId,
       otpLength: 6,
       supportEmail: 'support@gymologia.com',
+      // The app opens Cashfree's sheet against whichever environment this
+      // server is talking to. Hardcoding it in the client guarantees the
+      // two disagree the moment one of them is promoted.
+      cashfreeEnv: this.cashfree.isSandbox ? 'SANDBOX' : 'PRODUCTION',
     };
   }
 

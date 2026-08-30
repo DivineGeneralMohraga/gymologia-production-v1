@@ -95,8 +95,10 @@ SUB_STATUS=$(db "
   || bad "pre-state" "got $SUB_STATUS"
 
 hdr "Run the jobs"
-RESULT=$(npx ts-node scripts/run-maintenance.ts 2>/dev/null | tail -1)
-echo "$RESULT" | grep -q 'subscriptions' && ok "maintenance ran" || bad "maintenance" "$RESULT"
+# Pick the JSON line out rather than trusting it to be last: Nest's logger
+# writes to stdout too, so a late log line can otherwise steal the result.
+RESULT=$(npx ts-node scripts/run-maintenance.ts 2>/dev/null | grep -E '^\{.*subscriptions' | tail -1)
+[ -n "$RESULT" ] && ok "maintenance ran" || bad "maintenance" "no result line"
 
 hdr "After"
 SUB_STATUS=$(db "
@@ -125,7 +127,7 @@ CRM=$(curl -s -o /dev/null -w "%{http_code}" "$API/gyms/$GID/members" -H "Author
   || bad "crm access" "got $CRM"
 
 hdr "Idempotency"
-SECOND=$(npx ts-node scripts/run-maintenance.ts 2>/dev/null | tail -1)
+SECOND=$(npx ts-node scripts/run-maintenance.ts 2>/dev/null | grep -E '^\{.*subscriptions' | tail -1)
 AGAIN=$(echo "$SECOND" | python -c "import sys,json;print(json.load(sys.stdin)['subscriptions'])" 2>/dev/null)
 [ "$AGAIN" = "0" ] && ok "second run is a no-op" || bad "idempotency" "expired $AGAIN again"
 

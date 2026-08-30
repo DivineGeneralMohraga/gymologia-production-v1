@@ -41,6 +41,11 @@ class _PlanPageState extends State<PlanPage> {
   /// subscription to confirm afterwards.
   String? _pendingSubscriptionId;
 
+  /// Read from the server rather than hardcoded. A client pinned to
+  /// SANDBOX against a live backend opens the wrong payment environment,
+  /// and the failure looks like a broken sheet rather than a config error.
+  CFEnvironment _cashfreeEnv = CFEnvironment.SANDBOX;
+
   GymApi get _api => GymApi(context.read<AuthController>().client);
 
   @override
@@ -67,10 +72,22 @@ class _PlanPageState extends State<PlanPage> {
         referralCode: _appliedCode,
       );
       final current = await _api.subscription(widget.gym.id);
+
+      // Defaults to sandbox if the server does not say, which fails safe:
+      // a sandbox sheet against production takes no real money.
+      CFEnvironment env = CFEnvironment.SANDBOX;
+      try {
+        final config = await _api.serverConfig();
+        if (config['cashfreeEnv'] == 'PRODUCTION') {
+          env = CFEnvironment.PRODUCTION;
+        }
+      } catch (_) {}
+
       if (!mounted) return;
       setState(() {
         _quote = quote;
         _current = current;
+        _cashfreeEnv = env;
       });
     } on ApiException catch (e) {
       if (mounted) setState(() => _error = e.message);
@@ -129,7 +146,7 @@ class _PlanPageState extends State<PlanPage> {
       _pendingSubscriptionId = checkout['subscriptionId'] as String?;
 
       final session = CFSessionBuilder()
-          .setEnvironment(CFEnvironment.SANDBOX)
+          .setEnvironment(_cashfreeEnv)
           .setOrderId(checkout['orderId'] as String)
           .setPaymentSessionId(checkout['paymentSessionId'] as String)
           .build();

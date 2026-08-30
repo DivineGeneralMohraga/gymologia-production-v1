@@ -309,6 +309,52 @@ class GymApi {
   Future<Map<String, dynamic>> eventParticipants(String gymId, String eventId) =>
       _client.get('/gyms/$gymId/events/$eventId/participants');
 
+  /// Public server configuration, including which Cashfree environment
+  /// this backend is pointed at.
+  Future<Map<String, dynamic>> serverConfig() =>
+      _client.get('/auth/config', auth: false);
+
+  // ── Chat ───────────────────────────────────────────────────────────
+
+  Future<List<Map<String, dynamic>>> conversations(String gymId) async {
+    final raw = await _client.get('/gyms/$gymId/chat/conversations');
+    return _list(raw);
+  }
+
+  /// Everyone at the gym, each carrying whether you may message them.
+  Future<List<Map<String, dynamic>>> chatDirectory(String gymId) async {
+    final raw = await _client.get('/gyms/$gymId/chat/directory');
+    return _list(raw);
+  }
+
+  Future<Map<String, dynamic>> openDirect(String gymId, String userId) =>
+      _client.post('/gyms/$gymId/chat/direct', body: {'userId': userId});
+
+  Future<Map<String, dynamic>> createGroup(
+    String gymId, {
+    required String name,
+    required List<String> userIds,
+  }) =>
+      _client.post('/gyms/$gymId/chat/groups',
+          body: {'name': name, 'userIds': userIds});
+
+  Future<List<Map<String, dynamic>>> messages(
+    String gymId,
+    String conversationId,
+  ) async {
+    final raw = await _client
+        .get('/gyms/$gymId/chat/conversations/$conversationId/messages');
+    return _list(raw);
+  }
+
+  Future<Map<String, dynamic>> sendMessage(
+    String gymId,
+    String conversationId,
+    String body,
+  ) =>
+      _client.post('/gyms/$gymId/chat/conversations/$conversationId/messages',
+          body: {'body': body});
+
   // ── Profile and support ────────────────────────────────────────────
 
   Future<Map<String, dynamic>> updateProfile({
