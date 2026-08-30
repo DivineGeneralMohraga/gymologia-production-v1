@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    // Keep the incremental cache inside dist. Nest deletes dist before a
+    // build; if the cache lives outside it, the compiler believes the
+    // output is still current and emits nothing, leaving a half-empty
+    // dist that fails at require time.
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "scripts",
+    "prisma",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
+}

@@ -96,6 +96,19 @@ class AuthController extends ChangeNotifier {
     return true;
   }
 
+  /// Re-reads the signed-in user from the server. Called after a profile
+  /// edit so the rest of the app sees the canonical version rather than
+  /// whatever the form happened to send.
+  Future<void> refreshUser() async {
+    try {
+      _user = await _api.me();
+      notifyListeners();
+    } on ApiException {
+      // The edit still succeeded; the local copy just stays stale until
+      // the next launch.
+    }
+  }
+
   Future<void> signOut() async {
     try {
       await _api.logout();

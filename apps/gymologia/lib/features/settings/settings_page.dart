@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../core/config/app_config.dart';
 import '../auth/auth_controller.dart';
 import '../diagnostics/diagnostics_screen.dart';
 import '../shell/app_mode.dart';
+import 'edit_profile_page.dart';
+import 'support_page.dart';
 
 /// Settings, and the switch between member and owner/staff mode.
 class SettingsPage extends StatelessWidget {
@@ -142,27 +143,30 @@ class SettingsPage extends StatelessWidget {
           leading: const Icon(Icons.badge_outlined),
           title: const Text('Name'),
           subtitle: Text(user?.name ?? '—'),
-          onTap: () => _toast(context, 'Editing your profile is not built yet.'),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const EditProfilePage()),
+          ),
         ),
         ListTile(
           leading: const Icon(Icons.mail_outline),
           title: const Text('Email'),
           subtitle: Text(user?.email ?? 'Not set'),
-          onTap: () => _toast(context, 'Editing your profile is not built yet.'),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const EditProfilePage()),
+          ),
         ),
 
         const _SectionLabel('Support'),
         ListTile(
           leading: const Icon(Icons.support_agent_outlined),
-          title: const Text('Contact support'),
-          subtitle: const Text(AppConfig.supportEmail),
-          onTap: () async {
-            await Clipboard.setData(
-                const ClipboardData(text: AppConfig.supportEmail));
-            if (context.mounted) {
-              _toast(context, '${AppConfig.supportEmail} copied');
-            }
-          },
+          title: const Text('Get help'),
+          subtitle: const Text('Send us a message and we will call you back'),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const SupportPage()),
+          ),
         ),
         ListTile(
           leading: const Icon(Icons.dns_outlined),

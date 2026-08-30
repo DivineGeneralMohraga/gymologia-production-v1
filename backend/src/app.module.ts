@@ -20,6 +20,8 @@ import { PaymentsModule } from './payments/payments.module';
 import { MaintenanceModule } from './maintenance/maintenance.module';
 import { EventsModule } from './events/events.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { ExercisesModule } from './exercises/exercises.module';
+import { SupportModule } from './support/support.module';
 import { PeopleModule } from './people/people.module';
 import { PermissionsGuard } from './rbac/permissions.guard';
 import { HealthController } from './health/health.controller';
@@ -58,6 +60,8 @@ import { InputSanitizerInterceptor } from './common/interceptors/input-sanitizer
     MaintenanceModule,
     EventsModule,
     NotificationsModule,
+    ExercisesModule,
+    SupportModule,
   ],
   controllers: [HealthController],
   providers: [

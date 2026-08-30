@@ -309,6 +309,62 @@ class GymApi {
   Future<Map<String, dynamic>> eventParticipants(String gymId, String eventId) =>
       _client.get('/gyms/$gymId/events/$eventId/participants');
 
+  // ── Profile and support ────────────────────────────────────────────
+
+  Future<Map<String, dynamic>> updateProfile({
+    String? name,
+    String? email,
+    int? age,
+  }) =>
+      _client.patch('/me/profile', body: {
+        if (name != null) 'name': name,
+        // Sent even when empty: that is how the server is told to clear it.
+        if (email != null) 'email': email,
+        if (age != null) 'age': age,
+      });
+
+  Future<Map<String, dynamic>> createTicket({
+    required String subject,
+    required String message,
+    required String contactPhone,
+    bool urgent = false,
+  }) =>
+      _client.post('/me/support', body: {
+        'subject': subject,
+        'message': message,
+        'contactPhone': contactPhone,
+        'urgent': urgent,
+      });
+
+  Future<List<Map<String, dynamic>>> myTickets() async {
+    final raw = await _client.get('/me/support');
+    return _list(raw);
+  }
+
+  // ── Exercise directory ─────────────────────────────────────────────
+
+  /// Reference content, so these are readable without a session.
+  Future<List<Map<String, dynamic>>> exercises({
+    String? goal,
+    String? muscle,
+    String? discipline,
+    String? query,
+  }) async {
+    final raw = await _client.get('/exercises', auth: false, query: {
+      if (goal != null) 'goal': goal,
+      if (muscle != null) 'muscle': muscle,
+      if (discipline != null) 'discipline': discipline,
+      if (query != null && query.isNotEmpty) 'query': query,
+    });
+    return _list(raw);
+  }
+
+  Future<Map<String, dynamic>> exerciseFilters() =>
+      _client.get('/exercises/filters', auth: false);
+
+  Future<Map<String, dynamic>> exercise(String slug) =>
+      _client.get('/exercises/$slug', auth: false);
+
   // ── Notifications ──────────────────────────────────────────────────
 
   Future<Map<String, dynamic>> notifications() =>

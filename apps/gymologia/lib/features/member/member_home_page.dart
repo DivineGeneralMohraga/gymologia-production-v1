@@ -6,6 +6,7 @@ import '../../core/api/models.dart';
 import '../auth/auth_controller.dart';
 import 'check_in_sheet.dart';
 import 'leave_request_sheet.dart';
+import 'exercise_directory_page.dart';
 
 /// A member's home: where they train, how long is left, and the monthly
 /// weight and height check-in.
@@ -159,10 +160,34 @@ class _MemberHomePageState extends State<MemberHomePage> {
         ),
 
         const SizedBox(height: 16),
+        Card(
+          child: ListTile(
+            contentPadding: const EdgeInsets.all(16),
+            leading: CircleAvatar(
+              backgroundColor: theme.colorScheme.primaryContainer,
+              child: Icon(Icons.menu_book_outlined,
+                  color: theme.colorScheme.onPrimaryContainer, size: 20),
+            ),
+            title: const Text('Exercise directory',
+                style: TextStyle(fontWeight: FontWeight.w700)),
+            subtitle: const Text(
+                'Strength, cardio and yoga, with step-by-step form cues.'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ExerciseDirectoryPage(
+                  // Start on whatever this member said they wanted.
+                  initialGoal: _goalFilter(widget.memberships),
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 16),
         _NotBuiltCard(
           title: 'Coming next',
           items: const [
-            'Exercise directory with step-by-step guides and yoga',
             'Progress charts against your goal',
             'Chat with your trainer, staff and other members',
           ],
@@ -170,6 +195,27 @@ class _MemberHomePageState extends State<MemberHomePage> {
       ],
     );
   }
+}
+
+/// Maps what the member told staff into a directory filter. Deliberately
+/// loose: "want to reduce belly fat" should still land on fat loss.
+String? _goalFilter(List<MyMembership> memberships) {
+  final goal = memberships
+      .map((m) => m.goal)
+      .firstWhere((g) => g != null && g.isNotEmpty, orElse: () => null)
+      ?.toLowerCase();
+  if (goal == null) return null;
+
+  if (goal.contains('lose') || goal.contains('fat') || goal.contains('weight')) {
+    return 'FAT_LOSS';
+  }
+  if (goal.contains('bulk') || goal.contains('muscle') || goal.contains('mass')) {
+    return 'MUSCLE_GAIN';
+  }
+  if (goal.contains('strong') || goal.contains('strength')) return 'STRENGTH';
+  if (goal.contains('flex') || goal.contains('yoga')) return 'FLEXIBILITY';
+  if (goal.contains('rehab') || goal.contains('injur')) return 'REHAB';
+  return null;
 }
 
 class _MembershipCard extends StatelessWidget {
