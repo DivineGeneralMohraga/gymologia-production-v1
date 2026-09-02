@@ -56,6 +56,14 @@ db() { node -e "
   (async () => { $1 })().then(()=>p.\$disconnect()).catch(e=>{console.error(e.message);process.exit(1);});
 " "$2" "$3"; }
 
+# Git Bash's `date` ignores TZ=Asia/Kolkata and answers in GMT, which made
+# every "Indian date" expectation below secretly a UTC one. node is already a
+# dependency of this suite, and India has no daylight saving, so the offset
+# is exact.
+ist_day()   { node -e "console.log(new Date(Date.now()+330*60000).toISOString().slice(0,10))"; }
+ist_month() { node -e "console.log(new Date(Date.now()+330*60000).toISOString().slice(0,8)+'01')"; }
+ist_plus()  { node -e "console.log(new Date(Date.now()+330*60000+$1*86400000).toISOString().slice(0,10))"; }
+
 STAMP=$(date +%s | tail -c 5)
 P_OWNER="+9197600${STAMP}1"
 P_MEMBER="+9197600${STAMP}2"
@@ -170,7 +178,7 @@ import sys,json;print(json.load(sys.stdin)['buckets'][-1]['joined'])" 2>/dev/nul
 
 # Buckets are cut on IST. A join made now must never land in yesterday's
 # bucket, which is what UTC truncation does for the first 5.5 hours of a day.
-TODAY_IST=$(TZ=Asia/Kolkata date +%Y-%m-01)
+TODAY_IST=$(ist_month)
 CURRENT=$(curl -s "$API/gyms/$GID/attendance/analytics/growth?unit=month&periods=1"           -H "Authorization: Bearer $OWNER" | python -c "
 import sys,json;print(json.load(sys.stdin)['buckets'][-1]['period'])" 2>/dev/null)
 [ "$CURRENT" = "$TODAY_IST" ] && ok "the newest bucket is the current Indian month"   || bad "timezone" "got $CURRENT, expected $TODAY_IST"
@@ -191,6 +199,37 @@ BADUNIT=$(curl -s -o /dev/null -w "%{http_code}" -G \
 
 STILL=$(curl -s -o /dev/null -w "%{http_code}" "$API/gyms/$GID/members" -H "Authorization: Bearer $OWNER")
 [ "$STILL" = "200" ] && ok "and the memberships table is still there" || bad "post-injection" "got $STILL"
+
+# The boundary case the checks above are too lenient to catch. The columns
+# are `timestamp without time zone` holding UTC, so a single
+# `col AT TIME ZONE 'Asia/Kolkata'` shifts -5:30 instead of +5:30 and files
+# a 7:30am-IST join on the 1st under the PREVIOUS month. Mid-month data
+# never crosses a boundary, so it passes either way -- this does not.
+BOUNDARY_PHONE="+9197600${STAMP}7"
+BLK=$(curl -s -X POST "$API/gyms/$GID/members/lookup" -H "Authorization: Bearer $OWNER" \
+      -H 'Content-Type: application/json' -d "{\"phone\":\"$BOUNDARY_PHONE\"}")
+BMID=$(curl -s -X POST "$API/gyms/$GID/members" -H "Authorization: Bearer $OWNER" \
+       -H 'Content-Type: application/json' -d "{
+       \"challengeId\":\"$(echo "$BLK" | field challengeId)\",\"phone\":\"$BOUNDARY_PHONE\",
+       \"code\":\"$(echo "$BLK" | field devCode)\",\"name\":\"Boundary Member\",
+       \"planMonths\":1,\"maxLeaveDays\":2}" | field membershipId)
+
+# 02:00 UTC on the 1st of this month == 07:30 IST the same morning.
+FIRST_UTC=$(date -u +%Y-%m-01)
+db "
+  await p.membership.update({
+    where:{id:process.argv[1]},
+    data:{createdAt:new Date(process.argv[2] + 'T02:00:00.000Z')}});
+" "$BMID" "$FIRST_UTC" > /dev/null
+
+CURRENT_MONTH=$(ist_month)
+BOUNDARY=$(curl -s "$API/gyms/$GID/attendance/analytics/growth?unit=month&periods=3" \
+           -H "Authorization: Bearer $OWNER" | python -c "
+import sys,json
+d=json.load(sys.stdin)
+print(sum(b['joined'] for b in d['buckets'] if b['period']=='$CURRENT_MONTH'))" 2>/dev/null)
+[ "$BOUNDARY" = "2" ] && ok "a 7:30am-IST join on the 1st counts in that month, not the one before" \
+  || bad "IST boundary" "got $BOUNDARY joins in $CURRENT_MONTH, expected 2"
 
 MEMBER_SEES=$(curl -s -o /dev/null -w "%{http_code}" \
   "$API/gyms/$GID/attendance/analytics/growth" -H "Authorization: Bearer $MEMBER_TOKEN")
@@ -221,12 +260,17 @@ MUSER=$(db "
 " "$MID" | tail -1)
 
 # Backdate visits into the two previous weeks.
+# Seeded as UTC midnight of the Indian calendar day, which is how a @db.Date
+# column stores it. Building local midnight instead lands a day early.
 db "
   const gymId = process.argv[1], userId = process.argv[2];
+  const istDay = (daysAgo) => {
+    const ist = new Date(Date.now() + 330*60000);
+    return new Date(Date.UTC(ist.getUTCFullYear(), ist.getUTCMonth(), ist.getUTCDate() - daysAgo));
+  };
   const mk = async (daysAgo) => {
-    const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate() - daysAgo);
     await p.attendanceRecord.create({data:{
-      gymId, subjectType:'MEMBER', subjectId:userId, date:d,
+      gymId, subjectType:'MEMBER', subjectId:userId, date:istDay(daysAgo),
       status:'PRESENT', markedById:userId }});
   };
   await mk(7); await mk(14);
@@ -240,7 +284,8 @@ import sys,json;print(json.load(sys.stdin)[0]['weekStreak'])" 2>/dev/null)
 # A gap breaks it: a visit 5 weeks back must not extend the run.
 db "
   const gymId = process.argv[1], userId = process.argv[2];
-  const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate() - 35);
+  const ist = new Date(Date.now() + 330*60000);
+  const d = new Date(Date.UTC(ist.getUTCFullYear(), ist.getUTCMonth(), ist.getUTCDate() - 35));
   await p.attendanceRecord.create({data:{
     gymId, subjectType:'MEMBER', subjectId:userId, date:d,
     status:'PRESENT', markedById:userId }});
@@ -259,6 +304,43 @@ import sys,json;print(json.load(sys.stdin)[0]['present'])" 2>/dev/null)
 OTHER=$(curl -s "$API/me/attendance" -H "Authorization: Bearer $OWNER" | python -c "
 import sys,json;print(len(json.load(sys.stdin)))" 2>/dev/null)
 [ "$OTHER" = "0" ] && ok "an owner with no membership sees an empty list" || bad "leak" "got $OTHER"
+
+hdr "Indian calendar days"
+# Attendance dates used to be cut on UTC. A 5am session -- when a great many
+# Indian gyms are busiest -- is 23:30 UTC the PREVIOUS day, so a Monday visit
+# was recorded against Sunday. Worse, an 8am visit the same morning is a
+# different UTC date, so the unique index stored two records for one day.
+TODAY_IST=$(ist_day)
+MARKED=$(curl -s "$API/gyms/$GID/attendance?subjectType=MEMBER" -H "Authorization: Bearer $OWNER" | python -c "
+import sys,json
+rows=json.load(sys.stdin)
+print(sum(1 for r in rows if str(r.get('date',''))[:10]=='$TODAY_IST'))" 2>/dev/null)
+[ "${MARKED:-0}" -ge 1 ] && ok "today's attendance is filed under today's Indian date" \
+  || bad "IST attendance day" "no record on $TODAY_IST"
+
+# Marking a second time the same Indian day must update the one record
+# rather than create another under a different UTC date.
+curl -s -X POST "$API/gyms/$GID/attendance" -H "Authorization: Bearer $OWNER" \
+  -H 'Content-Type: application/json' \
+  -d "{\"subjectType\":\"MEMBER\",\"subjectId\":\"$MID\",\"status\":\"PRESENT\"}" > /dev/null
+
+DUPES=$(db "
+  const rows = await p.attendanceRecord.groupBy({
+    by:['date'],
+    where:{gymId:process.argv[1], subjectId:process.argv[2]},
+    _count:{_all:true}});
+  console.log(Math.max(...rows.map(r=>r._count._all)));
+" "$GID" "$MUSER" | tail -1)
+[ "$DUPES" = "1" ] && ok "marking twice in one Indian day keeps one record" || bad "duplicate day" "got $DUPES"
+
+# A date in the future is refused, and "future" is judged in Indian time.
+TOMORROW=$(ist_plus 2)
+if [ -n "$TOMORROW" ]; then
+  FUTURE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/gyms/$GID/attendance" \
+    -H "Authorization: Bearer $OWNER" -H 'Content-Type: application/json' \
+    -d "{\"subjectType\":\"MEMBER\",\"subjectId\":\"$MID\",\"date\":\"$TOMORROW\",\"status\":\"PRESENT\"}")
+  [ "$FUTURE" = "400" ] && ok "a future date is refused" || bad "future date" "got $FUTURE"
+fi
 
 hdr "Terms and Privacy"
 # A store reviewer and anyone deciding whether to sign up must be able to

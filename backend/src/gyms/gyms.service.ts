@@ -3,24 +3,24 @@ import {
   ForbiddenException,
   Injectable,
   NotFoundException,
-} from '@nestjs/common';
-import { GymStatus, Permission, Plan, Prisma } from '@prisma/client';
-import { PrismaService } from '../prisma/prisma.service';
-import { AuditService } from '../common/audit/audit.service';
-import { PermissionService, ActorContext } from '../rbac/permission.service';
+} from "@nestjs/common";
+import { GymStatus, Permission, Plan, Prisma } from "@prisma/client";
+import { PrismaService } from "../prisma/prisma.service";
+import { AuditService } from "../common/audit/audit.service";
+import { PermissionService, ActorContext } from "../rbac/permission.service";
 import {
   ALL_PERMISSIONS,
   DEFAULT_ROLES,
   DEFAULT_TRAINER_CATEGORIES,
   ROLE_LEVEL,
-} from '../rbac/rbac.constants';
-import { normalizePhone } from '../common/utils/phone.util';
+} from "../rbac/rbac.constants";
+import { normalizePhone } from "../common/utils/phone.util";
 import {
   CreateGymDto,
   RateGymDto,
   SearchGymsDto,
   UpdateGymDto,
-} from './dto/gym.dto';
+} from "./dto/gym.dto";
 
 /** How many gyms one person may own. A guard against runaway automation. */
 const MAX_GYMS_PER_OWNER = 25;
@@ -56,80 +56,98 @@ export class GymsService {
 
     const contactPhone = normalizePhone(dto.contactPhone);
 
-    const gym = await this.prisma.$transaction(async (tx) => {
-      const created = await tx.gym.create({
-        data: {
-          ownerId: userId,
-          name: dto.name,
-          description: dto.description ?? null,
-          addressLine1: dto.addressLine1,
-          addressLine2: dto.addressLine2 ?? null,
-          state: dto.state,
-          district: dto.district,
-          city: dto.city,
-          pincode: dto.pincode,
-          contactPhone,
-          latitude: dto.latitude ?? null,
-          longitude: dto.longitude ?? null,
-          maxLeaveDaysPerMonth: dto.maxLeaveDaysPerMonth ?? 4,
-          maxLeaveDaysPerMembership: dto.maxLeaveDaysPerMembership ?? 30,
-          // A new gym is a draft until a plan is paid for. Nothing is
-          // listed publicly and the CRM is usable but empty.
-          status: GymStatus.DRAFT,
-          perks: dto.perks?.length
-            ? { create: dto.perks.map((label) => ({ label })) }
-            : undefined,
-          images: dto.imageUrls?.length
-            ? {
-                create: dto.imageUrls.map((url, sortOrder) => ({
-                  url,
-                  sortOrder,
-                })),
-              }
-            : undefined,
-          trainerCategories: { create: DEFAULT_TRAINER_CATEGORIES },
-        },
-      });
-
-      // Roles, each with its permission rows.
-      const roleIdByName = new Map<string, string>();
-      for (const spec of DEFAULT_ROLES) {
-        const role = await tx.role.create({
+    // Creating a gym has to be all-or-nothing: a gym without its default
+    // roles cannot be administered by anybody, including its owner. The
+    // default 5s interactive timeout is too tight for that much work over a
+    // pooled connection on a slow link, and the failure mode is a 500 with
+    // everything rolled back.
+    const gym = await this.prisma.$transaction(
+      async (tx) => {
+        const created = await tx.gym.create({
           data: {
+            ownerId: userId,
+            name: dto.name,
+            description: dto.description ?? null,
+            addressLine1: dto.addressLine1,
+            addressLine2: dto.addressLine2 ?? null,
+            state: dto.state,
+            district: dto.district,
+            city: dto.city,
+            pincode: dto.pincode,
+            contactPhone,
+            latitude: dto.latitude ?? null,
+            longitude: dto.longitude ?? null,
+            maxLeaveDaysPerMonth: dto.maxLeaveDaysPerMonth ?? 4,
+            maxLeaveDaysPerMembership: dto.maxLeaveDaysPerMembership ?? 30,
+            // A new gym is a draft until a plan is paid for. Nothing is
+            // listed publicly and the CRM is usable but empty.
+            status: GymStatus.DRAFT,
+            perks: dto.perks?.length
+              ? { create: dto.perks.map((label) => ({ label })) }
+              : undefined,
+            images: dto.imageUrls?.length
+              ? {
+                  create: dto.imageUrls.map((url, sortOrder) => ({
+                    url,
+                    sortOrder,
+                  })),
+                }
+              : undefined,
+            trainerCategories: { create: DEFAULT_TRAINER_CATEGORIES },
+          },
+        });
+
+        // Roles and their permissions, in two statements rather than one
+        // round trip per role. This used to loop, which meant a dozen
+        // sequential queries inside the transaction; at the latency of a
+        // pooled connection that is enough to blow the transaction timeout
+        // and fail gym creation outright.
+        const roles = await tx.role.createManyAndReturn({
+          data: DEFAULT_ROLES.map((spec) => ({
             gymId: created.id,
             name: spec.name,
             level: spec.level,
             isSystem: spec.isSystem,
             isSuper: spec.isSuper,
             exemptFromAttendance: spec.exemptFromAttendance,
-            permissions: {
-              create: spec.permissions.map((permission) => ({ permission })),
-            },
-          },
-          select: { id: true },
+          })),
+          select: { id: true, name: true },
         });
-        roleIdByName.set(spec.name, role.id);
-      }
 
-      const ownerRoleId = roleIdByName.get('Owner');
-      if (!ownerRoleId) {
-        // Cannot happen unless DEFAULT_ROLES is edited badly; failing here
-        // rolls the whole thing back rather than leaving an orphan gym.
-        throw new Error('Owner role missing from DEFAULT_ROLES');
-      }
+        const roleIdByName = new Map(roles.map((role) => [role.name, role.id]));
 
-      await tx.staffMember.create({
-        data: { gymId: created.id, userId, roleId: ownerRoleId },
-      });
+        await tx.rolePermission.createMany({
+          data: DEFAULT_ROLES.flatMap((spec) => {
+            const roleId = roleIdByName.get(spec.name);
+            if (!roleId) return [];
+            return spec.permissions.map((permission) => ({
+              roleId,
+              permission,
+            }));
+          }),
+        });
 
-      return created;
-    });
+        const ownerRoleId = roleIdByName.get("Owner");
+        if (!ownerRoleId) {
+          // Cannot happen unless DEFAULT_ROLES is edited badly; failing here
+          // rolls the whole thing back rather than leaving an orphan gym.
+          throw new Error("Owner role missing from DEFAULT_ROLES");
+        }
+
+        await tx.staffMember.create({
+          data: { gymId: created.id, userId, roleId: ownerRoleId },
+        });
+
+        return created;
+      },
+      { timeout: 20_000, maxWait: 10_000 },
+    );
 
     await this.audit.record({
       actorId: userId,
       gymId: gym.id,
-      action: 'gym.create',
-      entityType: 'Gym',
+      action: "gym.create",
+      entityType: "Gym",
       entityId: gym.id,
       after: { name: gym.name, district: gym.district },
       ip: meta.ip,
@@ -147,22 +165,22 @@ export class GymsService {
    */
   async listMine(userId: string) {
     const staffRows = await this.prisma.staffMember.findMany({
-      where: { userId, status: 'ACTIVE', gym: { deletedAt: null } },
+      where: { userId, status: "ACTIVE", gym: { deletedAt: null } },
       include: {
         role: { select: { id: true, name: true, level: true, isSuper: true } },
         gym: {
           include: {
-            images: { orderBy: { sortOrder: 'asc' }, take: 1 },
+            images: { orderBy: { sortOrder: "asc" }, take: 1 },
             _count: { select: { memberships: true, staff: true, perks: true } },
             subscriptions: {
-              where: { status: 'ACTIVE' },
-              orderBy: { endsAt: 'desc' },
+              where: { status: "ACTIVE" },
+              orderBy: { endsAt: "desc" },
               take: 1,
             },
           },
         },
       },
-      orderBy: { joinedAt: 'asc' },
+      orderBy: { joinedAt: "asc" },
     });
 
     return staffRows.map((row) => ({
@@ -178,14 +196,25 @@ export class GymsService {
     const gym = await this.prisma.gym.findFirst({
       where: { id: gymId, deletedAt: null },
       include: {
-        images: { orderBy: { sortOrder: 'asc' } },
+        images: { orderBy: { sortOrder: "asc" } },
         perks: true,
-        kyc: { select: { aadhaarStatus: true, panStatus: true, gstStatus: true, videoKycStatus: true } },
-        subscriptions: { where: { status: 'ACTIVE' }, orderBy: { endsAt: 'desc' }, take: 1 },
+        kyc: {
+          select: {
+            aadhaarStatus: true,
+            panStatus: true,
+            gstStatus: true,
+            videoKycStatus: true,
+          },
+        },
+        subscriptions: {
+          where: { status: "ACTIVE" },
+          orderBy: { endsAt: "desc" },
+          take: 1,
+        },
         _count: { select: { memberships: true, staff: true } },
       },
     });
-    if (!gym) throw new NotFoundException('Gym not found');
+    if (!gym) throw new NotFoundException("Gym not found");
 
     const actor = await this.permissions.getActorContext(userId, gymId);
 
@@ -203,12 +232,16 @@ export class GymsService {
     const gym = await this.prisma.gym.findFirst({
       where: { id: gymId, deletedAt: null, status: GymStatus.ACTIVE },
       include: {
-        images: { orderBy: { sortOrder: 'asc' } },
+        images: { orderBy: { sortOrder: "asc" } },
         perks: true,
-        subscriptions: { where: { status: 'ACTIVE' }, orderBy: { endsAt: 'desc' }, take: 1 },
+        subscriptions: {
+          where: { status: "ACTIVE" },
+          orderBy: { endsAt: "desc" },
+          take: 1,
+        },
       },
     });
-    if (!gym) throw new NotFoundException('Gym not found');
+    if (!gym) throw new NotFoundException("Gym not found");
 
     return {
       id: gym.id,
@@ -249,21 +282,23 @@ export class GymsService {
       publicListing: true,
       subscriptions: {
         some: {
-          status: 'ACTIVE',
+          status: "ACTIVE",
           plan: Plan.PRO,
           endsAt: { gt: new Date() },
         },
       },
-      ...(dto.state ? { state: { equals: dto.state, mode: 'insensitive' } } : {}),
+      ...(dto.state
+        ? { state: { equals: dto.state, mode: "insensitive" } }
+        : {}),
       ...(dto.district
-        ? { district: { equals: dto.district, mode: 'insensitive' } }
+        ? { district: { equals: dto.district, mode: "insensitive" } }
         : {}),
       ...(dto.query
         ? {
             OR: [
-              { name: { contains: dto.query, mode: 'insensitive' } },
-              { city: { contains: dto.query, mode: 'insensitive' } },
-              { district: { contains: dto.query, mode: 'insensitive' } },
+              { name: { contains: dto.query, mode: "insensitive" } },
+              { city: { contains: dto.query, mode: "insensitive" } },
+              { district: { contains: dto.query, mode: "insensitive" } },
             ],
           }
         : {}),
@@ -272,13 +307,13 @@ export class GymsService {
     const gyms = await this.prisma.gym.findMany({
       where,
       include: {
-        images: { orderBy: { sortOrder: 'asc' }, take: 1 },
+        images: { orderBy: { sortOrder: "asc" }, take: 1 },
         _count: { select: { perks: true } },
       },
       // Over-fetch so in-memory distance ranking has something to sort.
       take: dto.latitude != null ? 200 : limit + offset,
       skip: dto.latitude != null ? 0 : offset,
-      orderBy: [{ ratingAverage: 'desc' }, { ratingCount: 'desc' }],
+      orderBy: [{ ratingAverage: "desc" }, { ratingCount: "desc" }],
     });
 
     const scored = gyms.map((gym) => {
@@ -305,7 +340,8 @@ export class GymsService {
         rating: Number(gym.ratingAverage),
         ratingCount: gym.ratingCount,
         perkCount: gym._count.perks,
-        distanceKm: distanceKm == null ? null : Math.round(distanceKm * 10) / 10,
+        distanceKm:
+          distanceKm == null ? null : Math.round(distanceKm * 10) / 10,
       };
     });
 
@@ -335,7 +371,7 @@ export class GymsService {
     const roles = await this.prisma.role.findMany({
       where: { gymId: actor.gymId },
       include: { _count: { select: { staff: true, permissions: true } } },
-      orderBy: { level: 'asc' },
+      orderBy: { level: "asc" },
     });
 
     return roles.map((role) => ({
@@ -354,11 +390,7 @@ export class GymsService {
 
   // ── Mutation ───────────────────────────────────────────────────────
 
-  async update(
-    actor: ActorContext,
-    dto: UpdateGymDto,
-    meta: RequestMeta,
-  ) {
+  async update(actor: ActorContext, dto: UpdateGymDto, meta: RequestMeta) {
     this.permissions.assert(actor, Permission.EDIT_GYM_PROFILE);
 
     const before = await this.prisma.gym.findUnique({
@@ -373,7 +405,9 @@ export class GymsService {
         where: { id: actor.gymId },
         data: {
           ...rest,
-          ...(contactPhone ? { contactPhone: normalizePhone(contactPhone) } : {}),
+          ...(contactPhone
+            ? { contactPhone: normalizePhone(contactPhone) }
+            : {}),
         },
       });
 
@@ -404,8 +438,8 @@ export class GymsService {
     await this.audit.record({
       actorId: actor.userId,
       gymId: actor.gymId,
-      action: 'gym.update',
-      entityType: 'Gym',
+      action: "gym.update",
+      entityType: "Gym",
       entityId: actor.gymId,
       before,
       after: rest,
@@ -422,7 +456,7 @@ export class GymsService {
    */
   async remove(actor: ActorContext, meta: RequestMeta) {
     if (!actor.isGymOwner) {
-      throw new ForbiddenException('Only the gym owner can delete this gym');
+      throw new ForbiddenException("Only the gym owner can delete this gym");
     }
 
     await this.prisma.gym.update({
@@ -433,8 +467,8 @@ export class GymsService {
     await this.audit.record({
       actorId: actor.userId,
       gymId: actor.gymId,
-      action: 'gym.delete',
-      entityType: 'Gym',
+      action: "gym.delete",
+      entityType: "Gym",
       entityId: actor.gymId,
       ip: meta.ip,
       userAgent: meta.userAgent,
@@ -454,15 +488,18 @@ export class GymsService {
       select: { id: true },
     });
     if (!membership) {
-      throw new ForbiddenException(
-        'Only members of this gym can rate it',
-      );
+      throw new ForbiddenException("Only members of this gym can rate it");
     }
 
     await this.prisma.$transaction(async (tx) => {
       await tx.gymRating.upsert({
         where: { gymId_userId: { gymId, userId } },
-        create: { gymId, userId, stars: dto.stars, comment: dto.comment ?? null },
+        create: {
+          gymId,
+          userId,
+          stars: dto.stars,
+          comment: dto.comment ?? null,
+        },
         update: { stars: dto.stars, comment: dto.comment ?? null },
       });
 

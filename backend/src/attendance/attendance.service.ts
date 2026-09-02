@@ -3,7 +3,7 @@ import {
   ForbiddenException,
   Injectable,
   NotFoundException,
-} from '@nestjs/common';
+} from "@nestjs/common";
 import {
   AttendanceStatus,
   LeaveStatus,
@@ -11,18 +11,19 @@ import {
   Permission,
   Prisma,
   SubjectType,
-} from '@prisma/client';
-import { PrismaService } from '../prisma/prisma.service';
-import { AuditService } from '../common/audit/audit.service';
-import { PermissionService, ActorContext } from '../rbac/permission.service';
-import type { RequestMeta } from '../gyms/gyms.service';
-import { EditAttendanceDto, ListAttendanceDto, MarkAttendanceDto } from './dto/attendance.dto';
+} from "@prisma/client";
+import { PrismaService } from "../prisma/prisma.service";
+import { AuditService } from "../common/audit/audit.service";
+import { PermissionService, ActorContext } from "../rbac/permission.service";
+import type { RequestMeta } from "../gyms/gyms.service";
+import { istDay } from "../common/utils/day";
+import {
+  EditAttendanceDto,
+  ListAttendanceDto,
+  MarkAttendanceDto,
+} from "./dto/attendance.dto";
 
 /** Midnight UTC for a given day, so one person has one record per date. */
-function dayOnly(input: string | Date): Date {
-  const d = new Date(input);
-  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
-}
 
 @Injectable()
 export class AttendanceService {
@@ -44,16 +45,27 @@ export class AttendanceService {
    * credited days they actually trained.
    */
   async mark(actor: ActorContext, dto: MarkAttendanceDto, meta: RequestMeta) {
-    const date = dayOnly(dto.date ?? new Date());
-    if (date.getTime() > dayOnly(new Date()).getTime()) {
-      throw new BadRequestException('Attendance cannot be marked for a future date');
+    const date = istDay(dto.date ?? new Date());
+    if (date.getTime() > istDay(new Date()).getTime()) {
+      throw new BadRequestException(
+        "Attendance cannot be marked for a future date",
+      );
     }
 
-    const subject = await this.resolveSubject(actor, dto.subjectType, dto.subjectId, 'mark');
+    const subject = await this.resolveSubject(
+      actor,
+      dto.subjectType,
+      dto.subjectId,
+      "mark",
+    );
 
     const record = await this.prisma.attendanceRecord.upsert({
       where: {
-        gymId_subjectId_date: { gymId: actor.gymId, subjectId: subject.userId, date },
+        gymId_subjectId_date: {
+          gymId: actor.gymId,
+          subjectId: subject.userId,
+          date,
+        },
       },
       create: {
         gymId: actor.gymId,
@@ -68,7 +80,7 @@ export class AttendanceService {
         status: dto.status ?? AttendanceStatus.PRESENT,
         editedById: actor.userId,
         editedAt: new Date(),
-        editReason: 'Re-marked',
+        editReason: "Re-marked",
       },
     });
 
@@ -77,16 +89,25 @@ export class AttendanceService {
       dto.subjectType === SubjectType.MEMBER &&
       (dto.status ?? AttendanceStatus.PRESENT) === AttendanceStatus.PRESENT
     ) {
-      closedLeave = await this.closeRunningLeave(actor.gymId, subject.userId, date);
+      closedLeave = await this.closeRunningLeave(
+        actor.gymId,
+        subject.userId,
+        date,
+      );
     }
 
     await this.audit.record({
       actorId: actor.userId,
       gymId: actor.gymId,
-      action: 'attendance.mark',
-      entityType: 'AttendanceRecord',
+      action: "attendance.mark",
+      entityType: "AttendanceRecord",
       entityId: record.id,
-      after: { subjectType: dto.subjectType, date, status: record.status, closedLeave },
+      after: {
+        subjectType: dto.subjectType,
+        date,
+        status: record.status,
+        closedLeave,
+      },
       ip: meta.ip,
       userAgent: meta.userAgent,
     });
@@ -148,10 +169,7 @@ export class AttendanceService {
           data: {
             status: MembershipStatus.ACTIVE,
             endsAt: correctedEnd,
-            leaveDaysUsed: Math.max(
-              0,
-              membership.leaveDaysUsed - daysReturned,
-            ),
+            leaveDaysUsed: Math.max(0, membership.leaveDaysUsed - daysReturned),
           },
         });
 
@@ -160,7 +178,7 @@ export class AttendanceService {
             membershipId: membership.id,
             previousEndsAt: membership.endsAt,
             newEndsAt: correctedEnd,
-            reason: 'CORRECTION',
+            reason: "CORRECTION",
             note: `Returned ${daysReturned} day(s) early from leave`,
           },
         });
@@ -184,7 +202,7 @@ export class AttendanceService {
     const record = await this.prisma.attendanceRecord.findFirst({
       where: { id: recordId, gymId: actor.gymId },
     });
-    if (!record) throw new NotFoundException('Attendance record not found');
+    if (!record) throw new NotFoundException("Attendance record not found");
 
     this.permissions.assert(
       actor,
@@ -210,8 +228,8 @@ export class AttendanceService {
     await this.audit.record({
       actorId: actor.userId,
       gymId: actor.gymId,
-      action: 'attendance.edit',
-      entityType: 'AttendanceRecord',
+      action: "attendance.edit",
+      entityType: "AttendanceRecord",
       entityId: recordId,
       before: { status: record.status },
       after: { status: dto.status, reason: dto.reason },
@@ -231,8 +249,8 @@ export class AttendanceService {
         : Permission.VIEW_ATTENDANCE_STAFF,
     );
 
-    const from = dto.from ? dayOnly(dto.from) : dayOnly(new Date());
-    const to = dto.to ? dayOnly(dto.to) : from;
+    const from = dto.from ? istDay(dto.from) : istDay(new Date());
+    const to = dto.to ? istDay(dto.to) : from;
 
     const records = await this.prisma.attendanceRecord.findMany({
       where: {
@@ -246,7 +264,7 @@ export class AttendanceService {
         markedBy: { select: { id: true, name: true } },
         editedBy: { select: { id: true, name: true } },
       },
-      orderBy: [{ date: 'desc' }, { markedAt: 'desc' }],
+      orderBy: [{ date: "desc" }, { markedAt: "desc" }],
       take: 500,
     });
 
@@ -283,9 +301,9 @@ export class AttendanceService {
         where: {
           gymId: actor.gymId,
           subjectId: subjectUserId,
-          date: { gte: dayOnly(since) },
+          date: { gte: istDay(since) },
         },
-        orderBy: { date: 'desc' },
+        orderBy: { date: "desc" },
       }),
       this.prisma.attendanceRecord.count({
         where: {
@@ -308,7 +326,7 @@ export class AttendanceService {
 
     const since = new Date();
     since.setDate(since.getDate() - days);
-    const sinceDay = dayOnly(since);
+    const sinceDay = istDay(since);
 
     const [activeMembers, joined, attendanceRows, distinctAttendees] =
       await Promise.all([
@@ -319,7 +337,7 @@ export class AttendanceService {
           where: { gymId: actor.gymId, createdAt: { gte: since } },
         }),
         this.prisma.attendanceRecord.groupBy({
-          by: ['date'],
+          by: ["date"],
           where: {
             gymId: actor.gymId,
             subjectType: SubjectType.MEMBER,
@@ -327,7 +345,7 @@ export class AttendanceService {
             date: { gte: sinceDay },
           },
           _count: { _all: true },
-          orderBy: { date: 'asc' },
+          orderBy: { date: "asc" },
         }),
         this.prisma.attendanceRecord.findMany({
           where: {
@@ -336,7 +354,7 @@ export class AttendanceService {
             status: AttendanceStatus.PRESENT,
             date: { gte: sinceDay },
           },
-          distinct: ['subjectId'],
+          distinct: ["subjectId"],
           select: { subjectId: true },
         }),
       ]);
@@ -373,7 +391,7 @@ export class AttendanceService {
     // Allowlisted before it reaches SQL. It is also passed as a bound
     // parameter below, so this is the second of two independent guards.
     if (!GROWTH_UNITS.includes(unit)) {
-      throw new BadRequestException('Group by day, month or year');
+      throw new BadRequestException("Group by day, month or year");
     }
     const count = Math.min(Math.max(Math.floor(periods), 1), 60);
     const back = String(count - 1);
@@ -382,6 +400,13 @@ export class AttendanceService {
     // asking "how many joined in August" means their August, and IST is
     // 5.5 hours off, so UTC bucketing files the first morning of a month
     // under the previous one.
+    //
+    // The timestamp columns are `timestamp without time zone` holding UTC,
+    // so they need TWO conversions. `col AT TIME ZONE 'Asia/Kolkata'` alone
+    // does the opposite of what it looks like: on a naive column it
+    // *interprets* the value as already being IST and shifts it -5:30
+    // instead of +5:30. The first `AT TIME ZONE 'UTC'` says what the stored
+    // value actually is; the second moves it to Indian wall time.
     const rows = await this.prisma.$queryRaw<
       { bucket: string; joined: number; departed: number }[]
     >`
@@ -394,18 +419,24 @@ export class AttendanceService {
         SELECT generate_series(newest - reach, newest, step) AS bucket FROM span
       ),
       joins AS (
-        SELECT date_trunc(${unit}::text, "createdAt" AT TIME ZONE 'Asia/Kolkata') AS bucket,
+        SELECT date_trunc(
+                 ${unit}::text,
+                 ("createdAt" AT TIME ZONE 'UTC') AT TIME ZONE 'Asia/Kolkata'
+               ) AS bucket,
                COUNT(*)::int AS total
         FROM memberships
         WHERE "gymId" = ${actor.gymId}::uuid
         GROUP BY 1
       ),
       departures AS (
-        SELECT date_trunc(${unit}::text, "endsAt" AT TIME ZONE 'Asia/Kolkata') AS bucket,
+        SELECT date_trunc(
+                 ${unit}::text,
+                 ("endsAt" AT TIME ZONE 'UTC') AT TIME ZONE 'Asia/Kolkata'
+               ) AS bucket,
                COUNT(*)::int AS total
         FROM memberships
         WHERE "gymId" = ${actor.gymId}::uuid
-          AND "endsAt" < NOW()
+          AND ("endsAt" AT TIME ZONE 'UTC') < NOW()
           AND status IN ('EXPIRED', 'REMOVED')
         GROUP BY 1
       )
@@ -460,7 +491,8 @@ export class AttendanceService {
         },
         select: { userId: true },
       });
-      if (!membership) throw new NotFoundException('Member not found at this gym');
+      if (!membership)
+        throw new NotFoundException("Member not found at this gym");
       return { userId: membership.userId };
     }
 
@@ -470,11 +502,16 @@ export class AttendanceService {
       where: {
         gymId: actor.gymId,
         OR: [{ id: subjectId }, { userId: subjectId }],
-        status: 'ACTIVE',
+        status: "ACTIVE",
       },
-      include: { role: { select: { level: true, exemptFromAttendance: true, name: true } } },
+      include: {
+        role: {
+          select: { level: true, exemptFromAttendance: true, name: true },
+        },
+      },
     });
-    if (!staff) throw new NotFoundException('Staff member not found at this gym');
+    if (!staff)
+      throw new NotFoundException("Staff member not found at this gym");
 
     if (staff.role.exemptFromAttendance) {
       throw new BadRequestException(
@@ -482,9 +519,13 @@ export class AttendanceService {
       );
     }
     if (staff.userId === actor.userId) {
-      throw new ForbiddenException('You cannot mark your own attendance');
+      throw new ForbiddenException("You cannot mark your own attendance");
     }
-    this.permissions.assertOutranks(actor, staff.role.level, 'this staff member');
+    this.permissions.assertOutranks(
+      actor,
+      staff.role.level,
+      "this staff member",
+    );
 
     return { userId: staff.userId };
   }
@@ -496,12 +537,16 @@ export class AttendanceService {
     });
     if (!staff) return; // Not staff any more; nothing to outrank.
     if (staff.userId === actor.userId) return;
-    this.permissions.assertOutranks(actor, staff.role.level, 'this staff member');
+    this.permissions.assertOutranks(
+      actor,
+      staff.role.level,
+      "this staff member",
+    );
   }
 }
 
 export type AttendanceWhere = Prisma.AttendanceRecordWhereInput;
 
 /** The only values that may reach date_trunc. */
-export const GROWTH_UNITS = ['day', 'month', 'year'] as const;
+export const GROWTH_UNITS = ["day", "month", "year"] as const;
 export type GrowthUnit = (typeof GROWTH_UNITS)[number];

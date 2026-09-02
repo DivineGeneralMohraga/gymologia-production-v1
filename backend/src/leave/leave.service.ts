@@ -16,12 +16,10 @@ import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../common/audit/audit.service';
 import { PermissionService, ActorContext } from '../rbac/permission.service';
 import type { RequestMeta } from '../gyms/gyms.service';
+import { istDay } from '../common/utils/day';
 import { DecideLeaveDto, ListLeaveDto, RequestLeaveDto } from './dto/leave.dto';
 
-function dayOnly(input: string | Date): Date {
-  const d = new Date(input);
-  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
-}
+
 
 /** Inclusive day count: 1st to 3rd is three days, not two. */
 function inclusiveDays(from: Date, to: Date): number {
@@ -53,8 +51,8 @@ export class LeaveService {
     dto: RequestLeaveDto,
     meta: RequestMeta,
   ) {
-    const fromDate = dayOnly(dto.fromDate);
-    const toDate = dayOnly(dto.toDate);
+    const fromDate = istDay(dto.fromDate);
+    const toDate = istDay(dto.toDate);
 
     if (toDate < fromDate) {
       throw new BadRequestException('The end date cannot be before the start date');

@@ -321,7 +321,10 @@ class _AttendanceCard extends StatelessWidget {
     final present = (record['present'] as int?) ?? 0;
     final thisMonth = (record['thisMonth'] as int?) ?? 0;
     final streak = (record['weekStreak'] as int?) ?? 0;
-    final perWeek = (record['visitsPerWeek'] as num?)?.toDouble() ?? 0;
+    // Null until there is a week to average over — one session on day one
+    // is not "7 a week", so the server sends nothing rather than a flattering
+    // number.
+    final perWeek = (record['visitsPerWeek'] as num?)?.toDouble();
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -338,7 +341,10 @@ class _AttendanceCard extends StatelessWidget {
               children: [
                 _Stat(label: 'This month', value: '$thisMonth'),
                 const SizedBox(width: 26),
-                _Stat(label: 'Per week', value: perWeek.toStringAsFixed(1)),
+                _Stat(
+                  label: 'Per week',
+                  value: perWeek == null ? '—' : perWeek.toStringAsFixed(1),
+                ),
                 const SizedBox(width: 26),
                 _Stat(
                   label: streak == 1 ? 'Week running' : 'Weeks running',

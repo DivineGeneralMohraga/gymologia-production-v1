@@ -4,7 +4,7 @@ import {
   ForbiddenException,
   Injectable,
   NotFoundException,
-} from '@nestjs/common';
+} from "@nestjs/common";
 import {
   AttendanceStatus,
   ExtensionReason,
@@ -13,19 +13,20 @@ import {
   Permission,
   Prisma,
   SubjectType,
-} from '@prisma/client';
-import { PrismaService } from '../prisma/prisma.service';
-import { AuditService } from '../common/audit/audit.service';
-import { PermissionService, ActorContext } from '../rbac/permission.service';
-import { PersonLookupService } from '../people/person-lookup.service';
-import type { RequestMeta } from '../gyms/gyms.service';
+} from "@prisma/client";
+import { PrismaService } from "../prisma/prisma.service";
+import { AuditService } from "../common/audit/audit.service";
+import { PermissionService, ActorContext } from "../rbac/permission.service";
+import { PersonLookupService } from "../people/person-lookup.service";
+import type { RequestMeta } from "../gyms/gyms.service";
+import { istDay, istWeekStart } from "../common/utils/day";
 import {
   AddMemberDto,
   ExtendMembershipDto,
   ListMembersDto,
   RecordMetricDto,
   UpdateMemberDto,
-} from './dto/member.dto';
+} from "./dto/member.dto";
 
 @Injectable()
 export class MembersService {
@@ -43,12 +44,14 @@ export class MembersService {
 
     const where: Prisma.MembershipWhereInput = {
       gymId: actor.gymId,
-      ...(dto.status ? { status: dto.status } : { status: { not: MembershipStatus.REMOVED } }),
+      ...(dto.status
+        ? { status: dto.status }
+        : { status: { not: MembershipStatus.REMOVED } }),
       ...(dto.query
         ? {
             user: {
               OR: [
-                { name: { contains: dto.query, mode: 'insensitive' } },
+                { name: { contains: dto.query, mode: "insensitive" } },
                 { phone: { contains: dto.query } },
               ],
             },
@@ -65,7 +68,7 @@ export class MembersService {
             select: { id: true, user: { select: { name: true } } },
           },
         },
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: "desc" },
         take: limit,
         skip: dto.offset ?? 0,
       }),
@@ -90,7 +93,7 @@ export class MembersService {
       where: { id: actor.gymId },
       select: { maxLeaveDaysPerMembership: true },
     });
-    if (!gym) throw new NotFoundException('Gym not found');
+    if (!gym) throw new NotFoundException("Gym not found");
 
     // Staff set this per membership, but the gym's own ceiling is the
     // upper bound — otherwise the gym-wide policy means nothing.
@@ -127,7 +130,7 @@ export class MembersService {
     });
     if (active) {
       throw new ConflictException(
-        'This person already has an active membership here. Extend it instead.',
+        "This person already has an active membership here. Extend it instead.",
       );
     }
 
@@ -155,8 +158,8 @@ export class MembersService {
     await this.audit.record({
       actorId: actor.userId,
       gymId: actor.gymId,
-      action: 'member.add',
-      entityType: 'Membership',
+      action: "member.add",
+      entityType: "Membership",
       entityId: membership.id,
       after: {
         planMonths: dto.planMonths,
@@ -175,12 +178,16 @@ export class MembersService {
     const row = await this.prisma.membership.findFirst({
       where: { id: membershipId, gymId: actor.gymId },
       include: {
-        user: { select: { id: true, name: true, phone: true, email: true, age: true } },
-        assignedTrainer: { select: { id: true, user: { select: { name: true } } } },
-        extensions: { orderBy: { createdAt: 'desc' }, take: 10 },
+        user: {
+          select: { id: true, name: true, phone: true, email: true, age: true },
+        },
+        assignedTrainer: {
+          select: { id: true, user: { select: { name: true } } },
+        },
+        extensions: { orderBy: { createdAt: "desc" }, take: 10 },
       },
     });
-    if (!row) throw new NotFoundException('Member not found at this gym');
+    if (!row) throw new NotFoundException("Member not found at this gym");
 
     return {
       ...this.toMemberSummary(row),
@@ -204,9 +211,15 @@ export class MembersService {
 
     const membership = await this.prisma.membership.findFirst({
       where: { id: membershipId, gymId: actor.gymId },
-      select: { id: true, maxLeaveDays: true, goal: true, assignedTrainerId: true },
+      select: {
+        id: true,
+        maxLeaveDays: true,
+        goal: true,
+        assignedTrainerId: true,
+      },
     });
-    if (!membership) throw new NotFoundException('Member not found at this gym');
+    if (!membership)
+      throw new NotFoundException("Member not found at this gym");
 
     if (dto.assignedTrainerId) {
       await this.assertTrainerAssignable(actor.gymId, dto.assignedTrainerId);
@@ -219,7 +232,9 @@ export class MembersService {
           ? { assignedTrainerId: dto.assignedTrainerId }
           : {}),
         ...(dto.goal !== undefined ? { goal: dto.goal } : {}),
-        ...(dto.maxLeaveDays !== undefined ? { maxLeaveDays: dto.maxLeaveDays } : {}),
+        ...(dto.maxLeaveDays !== undefined
+          ? { maxLeaveDays: dto.maxLeaveDays }
+          : {}),
         ...(dto.addressProofApproved !== undefined
           ? { addressProofApproved: dto.addressProofApproved }
           : {}),
@@ -229,8 +244,8 @@ export class MembersService {
     await this.audit.record({
       actorId: actor.userId,
       gymId: actor.gymId,
-      action: 'member.update',
-      entityType: 'Membership',
+      action: "member.update",
+      entityType: "Membership",
       entityId: membershipId,
       before: membership,
       after: dto,
@@ -254,7 +269,8 @@ export class MembersService {
       where: { id: membershipId, gymId: actor.gymId },
       select: { id: true, endsAt: true, status: true },
     });
-    if (!membership) throw new NotFoundException('Member not found at this gym');
+    if (!membership)
+      throw new NotFoundException("Member not found at this gym");
 
     // An expired membership extends from today, not from the date it
     // lapsed — otherwise renewing a month late silently costs the member
@@ -289,8 +305,8 @@ export class MembersService {
     await this.audit.record({
       actorId: actor.userId,
       gymId: actor.gymId,
-      action: 'member.extend',
-      entityType: 'Membership',
+      action: "member.extend",
+      entityType: "Membership",
       entityId: membershipId,
       before: { endsAt: membership.endsAt },
       after: { endsAt: newEndsAt, months: dto.months },
@@ -308,7 +324,8 @@ export class MembersService {
       where: { id: membershipId, gymId: actor.gymId },
       select: { id: true },
     });
-    if (!membership) throw new NotFoundException('Member not found at this gym');
+    if (!membership)
+      throw new NotFoundException("Member not found at this gym");
 
     await this.prisma.membership.update({
       where: { id: membershipId },
@@ -318,8 +335,8 @@ export class MembersService {
     await this.audit.record({
       actorId: actor.userId,
       gymId: actor.gymId,
-      action: 'member.remove',
-      entityType: 'Membership',
+      action: "member.remove",
+      entityType: "Membership",
       entityId: membershipId,
       ip: meta.ip,
       userAgent: meta.userAgent,
@@ -343,30 +360,31 @@ export class MembersService {
       where: { id: membershipId, gymId: actor.gymId },
       include: { user: { select: { id: true, name: true } } },
     });
-    if (!membership) throw new NotFoundException('Member not found at this gym');
+    if (!membership)
+      throw new NotFoundException("Member not found at this gym");
 
     if (!membership.allowProgressMonitoring) {
       throw new ForbiddenException(
-        'This member has turned off progress monitoring.',
+        "This member has turned off progress monitoring.",
       );
     }
 
     const [metrics, attendanceCount, recentAttendance] = await Promise.all([
       this.prisma.bodyMetric.findMany({
         where: { userId: membership.userId },
-        orderBy: { recordedAt: 'desc' },
+        orderBy: { recordedAt: "desc" },
         take: 24,
       }),
       this.prisma.attendanceRecord.count({
         where: {
           gymId: actor.gymId,
           subjectId: membership.userId,
-          status: 'PRESENT',
+          status: "PRESENT",
         },
       }),
       this.prisma.attendanceRecord.findMany({
         where: { gymId: actor.gymId, subjectId: membership.userId },
-        orderBy: { date: 'desc' },
+        orderBy: { date: "desc" },
         take: 30,
         select: { date: true, status: true },
       }),
@@ -408,12 +426,12 @@ export class MembersService {
             name: true,
             district: true,
             contactPhone: true,
-            images: { orderBy: { sortOrder: 'asc' }, take: 1 },
+            images: { orderBy: { sortOrder: "asc" }, take: 1 },
           },
         },
         assignedTrainer: { select: { user: { select: { name: true } } } },
       },
-      orderBy: { endsAt: 'desc' },
+      orderBy: { endsAt: "desc" },
     });
 
     return rows.map((row) => ({
@@ -440,7 +458,7 @@ export class MembersService {
   async myMetrics(userId: string) {
     const metrics = await this.prisma.bodyMetric.findMany({
       where: { userId },
-      orderBy: { recordedAt: 'desc' },
+      orderBy: { recordedAt: "desc" },
       take: 36,
     });
 
@@ -489,7 +507,7 @@ export class MembersService {
     });
     if (memberships.length === 0) return [];
 
-    const since = dayOnly(new Date());
+    const since = istDay(new Date());
     since.setDate(since.getDate() - window);
 
     const records = await this.prisma.attendanceRecord.findMany({
@@ -500,24 +518,27 @@ export class MembersService {
         date: { gte: since },
       },
       select: { gymId: true, date: true, status: true },
-      orderBy: { date: 'asc' },
+      orderBy: { date: "asc" },
     });
 
     return memberships.map((membership) => {
       const mine = records.filter((r) => r.gymId === membership.gym.id);
       const present = mine.filter((r) => r.status === AttendanceStatus.PRESENT);
 
-      const monthStart = new Date();
-      monthStart.setDate(1);
-      const thisMonth = present.filter(
-        (r) => r.date >= dayOnly(monthStart),
-      ).length;
+      // The 1st of the current Indian month. Taking `new Date()` and setting
+      // the day to 1 rolls into the next month whenever the server clock is
+      // past 18:30 UTC, because that is already tomorrow in India.
+      const todayIst = istDay(new Date());
+      const monthStart = new Date(
+        Date.UTC(todayIst.getUTCFullYear(), todayIst.getUTCMonth(), 1),
+      );
+      const thisMonth = present.filter((r) => r.date >= monthStart).length;
 
       // Counted from the later of the window and the day they joined, so a
       // member who signed up last week is not marked down for the weeks
       // before that.
       const countingFrom =
-        membership.startsAt > since ? dayOnly(membership.startsAt) : since;
+        membership.startsAt > since ? istDay(membership.startsAt) : since;
       const daysCounted = Math.max(
         1,
         Math.round((Date.now() - countingFrom.getTime()) / 86_400_000),
@@ -532,9 +553,15 @@ export class MembersService {
         present: present.length,
         absent: mine.length - present.length,
         thisMonth,
-        /** Visits per week over the counted period — the honest version of a rate. */
+        /**
+         * Visits per week over the counted period, or null until there is a
+         * week to average over. One session on day one is not "7 a week",
+         * and showing that would be the app lying to encourage someone.
+         */
         visitsPerWeek:
-          Math.round((present.length / daysCounted) * 7 * 10) / 10,
+          daysCounted < 7
+            ? null
+            : Math.round((present.length / daysCounted) * 7 * 10) / 10,
         /**
          * Consecutive weeks ending this one with at least one visit. A daily
          * streak would punish rest days, which every training plan has.
@@ -550,15 +577,17 @@ export class MembersService {
 
   async recordMetric(userId: string, dto: RecordMetricDto) {
     if (dto.weightKg == null && dto.heightCm == null) {
-      throw new BadRequestException('Enter a weight or a height');
+      throw new BadRequestException("Enter a weight or a height");
     }
 
     await this.prisma.bodyMetric.create({
       data: {
         userId,
-        weightKg: dto.weightKg == null ? null : new Prisma.Decimal(dto.weightKg),
-        heightCm: dto.heightCm == null ? null : new Prisma.Decimal(dto.heightCm),
-        source: 'SELF',
+        weightKg:
+          dto.weightKg == null ? null : new Prisma.Decimal(dto.weightKg),
+        heightCm:
+          dto.heightCm == null ? null : new Prisma.Decimal(dto.heightCm),
+        source: "SELF",
       },
     });
 
@@ -576,7 +605,7 @@ export class MembersService {
       select: { id: true },
     });
     if (!membership) {
-      throw new NotFoundException('Membership not found');
+      throw new NotFoundException("Membership not found");
     }
 
     await this.prisma.membership.update({
@@ -591,14 +620,16 @@ export class MembersService {
 
   private async assertTrainerAssignable(gymId: string, staffMemberId: string) {
     const trainer = await this.prisma.staffMember.findFirst({
-      where: { id: staffMemberId, gymId, status: 'ACTIVE', isTrainer: true },
+      where: { id: staffMemberId, gymId, status: "ACTIVE", isTrainer: true },
       include: {
-        trainerCategory: { select: { allowsMultipleMembers: true, name: true } },
+        trainerCategory: {
+          select: { allowsMultipleMembers: true, name: true },
+        },
         _count: { select: { assignedMemberships: true } },
       },
     });
     if (!trainer) {
-      throw new NotFoundException('Trainer not found at this gym');
+      throw new NotFoundException("Trainer not found at this gym");
     }
 
     if (
@@ -651,40 +682,31 @@ function daysBetween(from: Date, to: Date): number {
   return Math.ceil((to.getTime() - from.getTime()) / (24 * 60 * 60 * 1000));
 }
 
-/** Midnight local, so date-only rows compare cleanly. */
-function dayOnly(d: Date): Date {
-  const copy = new Date(d);
-  copy.setHours(0, 0, 0, 0);
-  return copy;
-}
-
 /**
  * Consecutive weeks with at least one visit, counting back from this week.
  * The current week does not break the streak while it is still running —
  * otherwise every member's streak reads zero every Monday morning.
+ *
+ * Weeks are Indian weeks. This used to cut days on the server's own clock,
+ * which meant the answer differed between a developer's machine and the
+ * deployed host.
  */
 function weekStreak(dates: Date[]): number {
   if (dates.length === 0) return 0;
 
-  const weeks = new Set(dates.map((d) => weekKey(d)));
-  const cursor = dayOnly(new Date());
+  const weeks = new Set(dates.map((d) => istWeekStart(d).getTime()));
+  let cursor = istWeekStart(new Date());
+
+  const back = (from: Date) => new Date(from.getTime() - 7 * 86_400_000);
 
   let streak = 0;
-  if (!weeks.has(weekKey(cursor))) {
-    cursor.setDate(cursor.getDate() - 7);
-    if (!weeks.has(weekKey(cursor))) return 0;
+  if (!weeks.has(cursor.getTime())) {
+    cursor = back(cursor);
+    if (!weeks.has(cursor.getTime())) return 0;
   }
-  while (weeks.has(weekKey(cursor))) {
+  while (weeks.has(cursor.getTime())) {
     streak += 1;
-    cursor.setDate(cursor.getDate() - 7);
+    cursor = back(cursor);
   }
   return streak;
-}
-
-/** Year plus week number, using Monday as the first day. */
-function weekKey(d: Date): string {
-  const copy = dayOnly(d);
-  const day = (copy.getDay() + 6) % 7; // Monday = 0
-  copy.setDate(copy.getDate() - day);
-  return `${copy.getFullYear()}-${copy.getMonth()}-${copy.getDate()}`;
 }

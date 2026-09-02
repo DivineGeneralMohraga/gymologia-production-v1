@@ -3,17 +3,17 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
-} from '@nestjs/common';
-import { MembershipStatus, Permission } from '@prisma/client';
-import { PrismaService } from '../prisma/prisma.service';
-import { AuditService } from '../common/audit/audit.service';
-import { PermissionService, ActorContext } from '../rbac/permission.service';
-import type { RequestMeta } from '../gyms/gyms.service';
+} from "@nestjs/common";
+import { MembershipStatus, Permission } from "@prisma/client";
+import { PrismaService } from "../prisma/prisma.service";
+import { AuditService } from "../common/audit/audit.service";
+import { PermissionService, ActorContext } from "../rbac/permission.service";
+import type { RequestMeta } from "../gyms/gyms.service";
 import {
   CreateTrainerCategoryDto,
   ReorderTrainerCategoriesDto,
   UpdateTrainerCategoryDto,
-} from './dto/trainer-category.dto';
+} from "./dto/trainer-category.dto";
 
 /**
  * Trainer categories: "General", "Personal", and whatever else a gym invents.
@@ -39,7 +39,7 @@ export class TrainerCategoriesService {
   async list(actor: ActorContext) {
     const rows = await this.prisma.trainerCategory.findMany({
       where: { gymId: actor.gymId },
-      orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
+      orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
       include: {
         _count: { select: { staff: true } },
       },
@@ -64,7 +64,7 @@ export class TrainerCategoriesService {
     this.permissions.assert(actor, Permission.MANAGE_TRAINERS);
 
     const name = dto.name.trim();
-    if (!name) throw new BadRequestException('Give the category a name');
+    if (!name) throw new BadRequestException("Give the category a name");
 
     const total = await this.prisma.trainerCategory.count({
       where: { gymId: actor.gymId },
@@ -89,10 +89,13 @@ export class TrainerCategoriesService {
     await this.audit.record({
       actorId: actor.userId,
       gymId: actor.gymId,
-      action: 'trainerCategory.create',
-      entityType: 'TrainerCategory',
+      action: "trainerCategory.create",
+      entityType: "TrainerCategory",
       entityId: created.id,
-      after: { name: created.name, allowsMultipleMembers: created.allowsMultipleMembers },
+      after: {
+        name: created.name,
+        allowsMultipleMembers: created.allowsMultipleMembers,
+      },
       ip: meta.ip,
       userAgent: meta.userAgent,
     });
@@ -112,7 +115,7 @@ export class TrainerCategoriesService {
 
     const name = dto.name?.trim();
     if (name !== undefined) {
-      if (!name) throw new BadRequestException('Give the category a name');
+      if (!name) throw new BadRequestException("Give the category a name");
       if (name.toLowerCase() !== existing.name.toLowerCase()) {
         await this.assertNameFree(actor.gymId, name);
       }
@@ -126,9 +129,9 @@ export class TrainerCategoriesService {
       const overloaded = await this.trainersHoldingMultiple(categoryId);
       if (overloaded > 0) {
         note =
-          `${overloaded} trainer${overloaded === 1 ? '' : 's'} in this category ` +
-          'already hold more than one member. They keep them; only new ' +
-          'assignments are limited.';
+          `${overloaded} trainer${overloaded === 1 ? "" : "s"} in this category ` +
+          "already hold more than one member. They keep them; only new " +
+          "assignments are limited.";
       }
     }
 
@@ -146,8 +149,8 @@ export class TrainerCategoriesService {
     await this.audit.record({
       actorId: actor.userId,
       gymId: actor.gymId,
-      action: 'trainerCategory.update',
-      entityType: 'TrainerCategory',
+      action: "trainerCategory.update",
+      entityType: "TrainerCategory",
       entityId: categoryId,
       before: {
         name: existing.name,
@@ -183,11 +186,13 @@ export class TrainerCategoriesService {
     // leave the list in a state nobody asked for.
     for (const id of dto.categoryIds) {
       if (!allowed.has(id)) {
-        throw new NotFoundException('Trainer category not found at this gym');
+        throw new NotFoundException("Trainer category not found at this gym");
       }
     }
     if (dto.categoryIds.length !== mine.length) {
-      throw new BadRequestException('Send every category, in the order you want them');
+      throw new BadRequestException(
+        "Send every category, in the order you want them",
+      );
     }
 
     await this.prisma.$transaction(
@@ -202,8 +207,8 @@ export class TrainerCategoriesService {
     await this.audit.record({
       actorId: actor.userId,
       gymId: actor.gymId,
-      action: 'trainerCategory.reorder',
-      entityType: 'TrainerCategory',
+      action: "trainerCategory.reorder",
+      entityType: "TrainerCategory",
       entityId: actor.gymId,
       after: { order: dto.categoryIds },
       ip: meta.ip,
@@ -222,12 +227,12 @@ export class TrainerCategoriesService {
     // already pointing at them would keep a trainer nobody can categorise.
     // Make the caller move the trainers first.
     const trainers = await this.prisma.staffMember.count({
-      where: { trainerCategoryId: categoryId, status: 'ACTIVE' },
+      where: { trainerCategoryId: categoryId, status: "ACTIVE" },
     });
     if (trainers > 0) {
       throw new ConflictException(
-        `${trainers} trainer${trainers === 1 ? ' is' : 's are'} in this category. ` +
-          'Move them to another category first.',
+        `${trainers} trainer${trainers === 1 ? " is" : "s are"} in this category. ` +
+          "Move them to another category first.",
       );
     }
 
@@ -236,8 +241,8 @@ export class TrainerCategoriesService {
     await this.audit.record({
       actorId: actor.userId,
       gymId: actor.gymId,
-      action: 'trainerCategory.delete',
-      entityType: 'TrainerCategory',
+      action: "trainerCategory.delete",
+      entityType: "TrainerCategory",
       entityId: categoryId,
       before: { name: existing.name },
       ip: meta.ip,
@@ -253,7 +258,8 @@ export class TrainerCategoriesService {
     const row = await this.prisma.trainerCategory.findFirst({
       where: { id: categoryId, gymId },
     });
-    if (!row) throw new NotFoundException('Trainer category not found at this gym');
+    if (!row)
+      throw new NotFoundException("Trainer category not found at this gym");
     return row;
   }
 
@@ -264,7 +270,7 @@ export class TrainerCategoriesService {
    */
   private async assertNameFree(gymId: string, name: string) {
     const clash = await this.prisma.trainerCategory.findFirst({
-      where: { gymId, name: { equals: name, mode: 'insensitive' } },
+      where: { gymId, name: { equals: name, mode: "insensitive" } },
       select: { id: true },
     });
     if (clash) {
@@ -275,7 +281,7 @@ export class TrainerCategoriesService {
   /** How many trainers in a category currently hold more than one member. */
   private async trainersHoldingMultiple(categoryId: string): Promise<number> {
     const trainers = await this.prisma.staffMember.findMany({
-      where: { trainerCategoryId: categoryId, status: 'ACTIVE' },
+      where: { trainerCategoryId: categoryId, status: "ACTIVE" },
       select: {
         _count: {
           select: {

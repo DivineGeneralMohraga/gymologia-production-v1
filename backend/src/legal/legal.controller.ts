@@ -1,12 +1,14 @@
-import { Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { PrismaService } from '../prisma/prisma.service';
-import { CurrentUser, Public, AuthUser } from '../rbac/rbac.decorators';
 import {
-  LEGAL_DOCUMENTS,
-  LEGAL_VERSION,
-  SUPPORT_EMAIL,
-} from './legal.content';
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+} from "@nestjs/common";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { PrismaService } from "../prisma/prisma.service";
+import { CurrentUser, Public, AuthUser } from "../rbac/rbac.decorators";
+import { LEGAL_DOCUMENTS, LEGAL_VERSION, SUPPORT_EMAIL } from "./legal.content";
 
 /**
  * Terms and Privacy, plus the record of who accepted which version.
@@ -14,14 +16,12 @@ import {
  * Public on purpose: an app store reviewer, and anyone deciding whether to
  * sign up, has to be able to read these without an account.
  */
-@ApiTags('legal')
-@Controller('legal')
+@ApiTags("legal")
+@Controller("legal")
 export class LegalController {
-  constructor(private readonly prisma: PrismaService) {}
-
   @Public()
   @Get()
-  @ApiOperation({ summary: 'The documents available, and the current version' })
+  @ApiOperation({ summary: "The documents available, and the current version" })
   index() {
     return {
       version: LEGAL_VERSION,
@@ -35,11 +35,11 @@ export class LegalController {
   }
 
   @Public()
-  @Get(':slug')
-  @ApiOperation({ summary: 'One document in full' })
-  document(@Param('slug') slug: string) {
+  @Get(":slug")
+  @ApiOperation({ summary: "One document in full" })
+  document(@Param("slug") slug: string) {
     const doc = LEGAL_DOCUMENTS[slug];
-    if (!doc) throw new NotFoundException('No such document');
+    if (!doc) throw new NotFoundException("No such document");
     return doc;
   }
 }
@@ -49,17 +49,17 @@ export class LegalController {
  * questioned, there is a record of which wording that person agreed to and
  * when — not just that they agreed to "the terms".
  */
-@ApiTags('me')
+@ApiTags("me")
 @ApiBearerAuth()
-@Controller('me/legal')
+@Controller("me/legal")
 export class LegalAcceptanceController {
   constructor(private readonly prisma: PrismaService) {}
 
   @Get()
   @ApiOperation({
-    summary: 'Which version this account has accepted',
+    summary: "Which version this account has accepted",
     description:
-      'reacceptanceRequired is true when the accepted version is older than the current one, or there is none.',
+      "reacceptanceRequired is true when the accepted version is older than the current one, or there is none.",
   })
   async status(@CurrentUser() user: AuthUser) {
     const row = await this.prisma.user.findUnique({
@@ -75,8 +75,8 @@ export class LegalAcceptanceController {
     };
   }
 
-  @Post('accept')
-  @ApiOperation({ summary: 'Accept the current Terms and Privacy Policy' })
+  @Post("accept")
+  @ApiOperation({ summary: "Accept the current Terms and Privacy Policy" })
   async accept(@CurrentUser() user: AuthUser) {
     // The version is taken from the server, never from the client: a client
     // that could name the version could claim to have accepted one it never
