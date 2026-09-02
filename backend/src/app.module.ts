@@ -24,6 +24,7 @@ import { ExercisesModule } from './exercises/exercises.module';
 import { SupportModule } from './support/support.module';
 import { LegalModule } from './legal/legal.module';
 import { RolesModule } from './roles/roles.module';
+import { AdminModule } from './admin/admin.module';
 import { ChatModule } from './chat/chat.module';
 import { PeopleModule } from './people/people.module';
 import { PermissionsGuard } from './rbac/permissions.guard';
@@ -67,6 +68,7 @@ import { InputSanitizerInterceptor } from './common/interceptors/input-sanitizer
     SupportModule,
     LegalModule,
     RolesModule,
+    AdminModule,
     ChatModule,
   ],
   controllers: [HealthController],

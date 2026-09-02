@@ -122,6 +122,8 @@ enum OtpPurpose {
   LOGIN
   ADD_MEMBER      // staff adding a member must OTP-verify that phone
   ADD_STAFF
+  ADMIN_STAFF_ADD // internal console: a separate purpose so a gym-staff
+                  // challenge can never be redeemed for platform access
   PHONE_CHANGE
   PAYOUT_UPI_VERIFY
 }
