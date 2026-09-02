@@ -385,6 +385,18 @@ export class GymsService {
         ? ALL_PERMISSIONS.length
         : role._count.permissions,
       assignable: this.permissions.outranks(actor, role.level),
+      // Whether the roles screen may offer edit and delete on this row.
+      // A super role is a fixed point for everyone but the owner, a default
+      // role cannot be deleted at all, and a role with people in it would
+      // leave them holding nothing.
+      editable:
+        (!role.isSuper || actor.isGymOwner) &&
+        this.permissions.outranks(actor, role.level),
+      deletable:
+        (!role.isSuper || actor.isGymOwner) &&
+        this.permissions.outranks(actor, role.level) &&
+        !role.isSystem &&
+        role._count.staff === 0,
     }));
   }
 

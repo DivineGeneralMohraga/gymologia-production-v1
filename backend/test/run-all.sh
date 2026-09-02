@@ -27,6 +27,7 @@ events-notifications-e2e
 maintenance-e2e
 chat-e2e
 analytics-trainers-e2e
+roles-e2e
 "
 
 API="${API:-http://localhost:3000/api/v1}"
@@ -85,7 +86,7 @@ done
 
 printf "\n"
 if [ "$FAILED" = "0" ] && [ -z "$BROKEN" ]; then
-  printf "\033[32m%s checks passed across 7 suites.\033[0m\n" "$TOTAL"
+  printf "\033[32m%s checks passed across 8 suites.\033[0m\n" "$TOTAL"
   exit 0
 fi
 

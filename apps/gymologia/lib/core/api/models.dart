@@ -491,6 +491,8 @@ class P {
   static const removeStaff = 'REMOVE_STAFF';
   static const addRoles = 'ADD_ROLES';
   static const editPermissions = 'EDIT_PERMISSIONS';
+  static const deleteRoles = 'DELETE_ROLES';
+  static const editRoleHierarchy = 'EDIT_ROLE_HIERARCHY';
   static const manageTrainers = 'MANAGE_TRAINERS';
   static const hostEvents = 'HOST_EVENTS';
   static const viewProgress = 'VIEW_PROGRESS';

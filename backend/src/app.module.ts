@@ -23,6 +23,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { ExercisesModule } from './exercises/exercises.module';
 import { SupportModule } from './support/support.module';
 import { LegalModule } from './legal/legal.module';
+import { RolesModule } from './roles/roles.module';
 import { ChatModule } from './chat/chat.module';
 import { PeopleModule } from './people/people.module';
 import { PermissionsGuard } from './rbac/permissions.guard';
@@ -65,6 +66,7 @@ import { InputSanitizerInterceptor } from './common/interceptors/input-sanitizer
     ExercisesModule,
     SupportModule,
     LegalModule,
+    RolesModule,
     ChatModule,
   ],
   controllers: [HealthController],

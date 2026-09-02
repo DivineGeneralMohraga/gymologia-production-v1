@@ -12,6 +12,7 @@ import 'plan_page.dart';
 import 'events_manage_page.dart';
 import 'announce_page.dart';
 import 'trainer_categories_page.dart';
+import 'roles_page.dart';
 import 'growth_page.dart';
 import '../chat/conversations_page.dart';
 
@@ -227,7 +228,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                   _Tile(
                     icon: Icons.admin_panel_settings_outlined,
                     label: 'Roles',
-                    onTap: () => _notBuilt('Managing roles'),
+                    onTap: () => _open(RolesPage(gym: gym)),
                   ),
                 if (gym.sees('events'))
                   _Tile(
@@ -262,12 +263,6 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
           ],
         ),
       ),
-    );
-  }
-
-  void _notBuilt(String what) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$what is not built yet.')),
     );
   }
 }

@@ -239,6 +239,52 @@ class GymApi {
     return _list(raw);
   }
 
+  // Roles
+  Future<Map<String, dynamic>> permissionCatalogue(String gymId) =>
+      _client.get('/gyms/$gymId/roles/permissions');
+
+  Future<Map<String, dynamic>> role(String gymId, String roleId) =>
+      _client.get('/gyms/$gymId/roles/$roleId');
+
+  Future<Map<String, dynamic>> createRole(
+    String gymId, {
+    required String name,
+    required List<String> permissions,
+    int? level,
+  }) =>
+      _client.post('/gyms/$gymId/roles', body: {
+        'name': name,
+        'permissions': permissions,
+        if (level != null) 'level': level,
+      });
+
+  Future<Map<String, dynamic>> updateRole(
+    String gymId,
+    String roleId, {
+    String? name,
+    List<String>? permissions,
+  }) =>
+      _client.patch('/gyms/$gymId/roles/$roleId', body: {
+        if (name != null) 'name': name,
+        if (permissions != null) 'permissions': permissions,
+      });
+
+  Future<void> deleteRole(String gymId, String roleId) =>
+      _client.delete('/gyms/$gymId/roles/$roleId');
+
+  /// Most senior first. Only custom roles junior to you may be moved.
+  Future<List<Map<String, dynamic>>> reorderRoles(
+    String gymId,
+    List<String> roleIds,
+  ) async {
+    final raw = await _client
+        .put('/gyms/$gymId/roles/hierarchy', body: {'roleIds': roleIds});
+    final rows = raw['roles'];
+    return rows is List
+        ? rows.cast<Map<String, dynamic>>()
+        : const <Map<String, dynamic>>[];
+  }
+
   // Trainer categories
   Future<List<Map<String, dynamic>>> trainerCategories(String gymId) async {
     final raw = await _client.get('/gyms/$gymId/trainer-categories');
