@@ -1,6 +1,22 @@
 {
   "@@locale": "kn",
   "languageName": "ಕನ್ನಡ",
+  "exercises": "ವ್ಯಾಯಾಮಗಳು",
+  "searchExercises": "ವ್ಯಾಯಾಮ ಹುಡುಕಿ",
+  "clear": "ಅಳಿಸಿ",
+  "howToDoIt": "ಹೇಗೆ ಮಾಡಬೇಕು",
+  "watchOutFor": "ಗಮನಿಸಿ",
+  "whatYouGet": "ನಿಮಗೆ ಸಿಗುವುದು",
+  "removeYourEntry": "ನಿಮ್ಮ ನೋಂದಣಿ ತೆಗೆಯುವುದೇ?",
+  "stayIn": "ಇರಲಿ",
+  "removeMe": "ನನ್ನನ್ನು ತೆಗೆಯಿರಿ",
+  "youAreInTapToWithdraw": "ನೀವು ಸೇರಿದ್ದೀರಿ — ಹಿಂದೆ ಸರಿಯಲು ಒತ್ತಿ",
+  "participate": "ಭಾಗವಹಿಸಿ",
+  "reasonOptional": "ಕಾರಣ (ಐಚ್ಛಿಕ)",
+  "searchByGymCityDistrict": "ಜಿಮ್, ನಗರ ಅಥವಾ ಜಿಲ್ಲೆಯಿಂದ ಹುಡುಕಿ",
+  "onLeavePaused": "ರಜೆಯಲ್ಲಿ — ನಿಮ್ಮ ಸದಸ್ಯತ್ವ ನಿಲ್ಲಿಸಲಾಗಿದೆ",
+  "monthlyCheckIn": "ಮಾಸಿಕ ಚೆಕ್-ಇನ್",
+  "notNow": "ಈಗ ಬೇಡ",
   "myGym": "ನನ್ನ ಜಿಮ್",
   "findAGymTab": "ಜಿಮ್ ಹುಡುಕಿ",
   "discover": "ಅನ್ವೇಷಿಸಿ",
@@ -86,5 +102,9 @@
   "noNotifications": "ಹೊಸದೇನೂ ಇಲ್ಲ",
   "needsReview": "ಅನುವಾದ ಪರಿಶೀಲನೆ ಬಾಕಿ",
   "daysRemaining": "{count, plural, =0{ಇಂದು ಮುಗಿಯುತ್ತದೆ} =1{1 ದಿನ ಬಾಕಿ} other{{count} ದಿನ ಬಾಕಿ}}",
-  "weeksRunning": "{count, plural, =1{ಸತತ ವಾರ} other{ಸತತ ವಾರಗಳು}}"
+  "weeksRunning": "{count, plural, =1{ಸತತ ವಾರ} other{ಸತತ ವಾರಗಳು}}",
+  "trainerNamed": "ತರಬೇತುದಾರ: {name}",
+  "goalAtGym": "{gym} ನಲ್ಲಿ ನಿಮ್ಮ ಗುರಿ",
+  "takenOffList": "{event} ಪಟ್ಟಿಯಿಂದ ನಿಮ್ಮ ಹೆಸರು ತೆಗೆಯಲಾಗುತ್ತದೆ.",
+  "contactWithPhone": "ಸಂಪರ್ಕಿಸಿ {phone}"
 }

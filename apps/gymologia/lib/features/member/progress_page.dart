@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -57,7 +58,7 @@ class _ProgressPageState extends State<ProgressPage> {
     final attendance = _attendance;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Your progress')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).yourProgress)),
       body: _error != null
           ? Center(
               child: Padding(
@@ -68,7 +69,7 @@ class _ProgressPageState extends State<ProgressPage> {
                     Text(_error!, textAlign: TextAlign.center),
                     const SizedBox(height: 18),
                     FilledButton.tonal(
-                        onPressed: _load, child: const Text('Try again')),
+                        onPressed: _load, child: Text(AppLocalizations.of(context).tryAgain)),
                   ],
                 ),
               ),
@@ -126,7 +127,7 @@ class _GoalCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('YOUR GOAL AT ${membership.gymName.toUpperCase()}',
+            Text(AppLocalizations.of(context).goalAtGym(membership.gymName.toUpperCase()),
                 style: theme.textTheme.labelSmall?.copyWith(
                   letterSpacing: 0.9,
                   fontWeight: FontWeight.w700,
@@ -170,7 +171,7 @@ class _WeightCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Weight',
+            Text(AppLocalizations.of(context).weight,
                 style: theme.textTheme.titleMedium
                     ?.copyWith(fontWeight: FontWeight.w600)),
             const SizedBox(height: 12),
@@ -435,7 +436,7 @@ class _Heatmap extends StatelessWidget {
           child: Row(children: columns),
         ),
         const SizedBox(height: 6),
-        Text('Last 8 weeks',
+        Text(AppLocalizations.of(context).lastEightWeeks,
             style: theme.textTheme.labelSmall?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             )),

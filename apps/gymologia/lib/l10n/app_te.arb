@@ -1,6 +1,22 @@
 {
   "@@locale": "te",
   "languageName": "తెలుగు",
+  "exercises": "వ్యాయామాలు",
+  "searchExercises": "వ్యాయామాలు వెతకండి",
+  "clear": "తొలగించు",
+  "howToDoIt": "ఎలా చేయాలి",
+  "watchOutFor": "జాగ్రత్తలు",
+  "whatYouGet": "మీకు లభించేవి",
+  "removeYourEntry": "మీ నమోదును తీసివేయాలా?",
+  "stayIn": "ఉండిపో",
+  "removeMe": "నన్ను తీసివేయి",
+  "youAreInTapToWithdraw": "మీరు చేరారు — వైదొలగడానికి నొక్కండి",
+  "participate": "పాల్గొనండి",
+  "reasonOptional": "కారణం (ఐచ్ఛికం)",
+  "searchByGymCityDistrict": "జిమ్, నగరం లేదా జిల్లా ద్వారా వెతకండి",
+  "onLeavePaused": "సెలవులో — మీ సభ్యత్వం నిలిపివేయబడింది",
+  "monthlyCheckIn": "నెలవారీ చెక్-ఇన్",
+  "notNow": "ఇప్పుడు కాదు",
   "myGym": "నా జిమ్",
   "findAGymTab": "జిమ్ కనుగొనండి",
   "discover": "అన్వేషించండి",
@@ -86,5 +102,9 @@
   "noNotifications": "కొత్తది ఏమీ లేదు",
   "needsReview": "అనువాద సమీక్ష పెండింగ్‌లో",
   "daysRemaining": "{count, plural, =0{ఈరోజు ముగుస్తుంది} =1{1 రోజు మిగిలింది} other{{count} రోజులు మిగిలాయి}}",
-  "weeksRunning": "{count, plural, =1{వరుస వారం} other{వరుస వారాలు}}"
+  "weeksRunning": "{count, plural, =1{వరుస వారం} other{వరుస వారాలు}}",
+  "trainerNamed": "శిక్షకుడు: {name}",
+  "goalAtGym": "{gym}లో మీ లక్ష్యం",
+  "takenOffList": "{event} జాబితా నుండి మీ పేరు తీసివేయబడుతుంది.",
+  "contactWithPhone": "సంప్రదించండి {phone}"
 }

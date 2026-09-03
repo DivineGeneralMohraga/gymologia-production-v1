@@ -1,6 +1,22 @@
 {
   "@@locale": "pa",
   "languageName": "ਪੰਜਾਬੀ",
+  "exercises": "ਕਸਰਤਾਂ",
+  "searchExercises": "ਕਸਰਤ ਲੱਭੋ",
+  "clear": "ਸਾਫ਼ ਕਰੋ",
+  "howToDoIt": "ਕਿਵੇਂ ਕਰਨਾ ਹੈ",
+  "watchOutFor": "ਧਿਆਨ ਰੱਖੋ",
+  "whatYouGet": "ਤੁਹਾਨੂੰ ਕੀ ਮਿਲਦਾ ਹੈ",
+  "removeYourEntry": "ਆਪਣੀ ਐਂਟਰੀ ਹਟਾਉਣੀ?",
+  "stayIn": "ਰਹੋ",
+  "removeMe": "ਮੈਨੂੰ ਹਟਾਓ",
+  "youAreInTapToWithdraw": "ਤੁਸੀਂ ਸ਼ਾਮਲ ਹੋ — ਹਟਣ ਲਈ ਟੈਪ ਕਰੋ",
+  "participate": "ਭਾਗ ਲਵੋ",
+  "reasonOptional": "ਕਾਰਨ (ਵਿਕਲਪਿਕ)",
+  "searchByGymCityDistrict": "ਜਿਮ, ਸ਼ਹਿਰ ਜਾਂ ਜ਼ਿਲ੍ਹੇ ਨਾਲ ਲੱਭੋ",
+  "onLeavePaused": "ਛੁੱਟੀ 'ਤੇ — ਤੁਹਾਡੀ ਮੈਂਬਰਸ਼ਿਪ ਰੁਕੀ ਹੋਈ ਹੈ",
+  "monthlyCheckIn": "ਮਹੀਨਾਵਾਰ ਜਾਂਚ",
+  "notNow": "ਹੁਣ ਨਹੀਂ",
   "myGym": "ਮੇਰਾ ਜਿਮ",
   "findAGymTab": "ਜਿਮ ਲੱਭੋ",
   "discover": "ਖੋਜੋ",
@@ -86,5 +102,9 @@
   "noNotifications": "ਨਵਾਂ ਕੁਝ ਨਹੀਂ",
   "needsReview": "ਅਨੁਵਾਦ ਦੀ ਸਮੀਖਿਆ ਬਾਕੀ",
   "daysRemaining": "{count, plural, =0{ਅੱਜ ਖਤਮ} =1{1 ਦਿਨ ਬਾਕੀ} other{{count} ਦਿਨ ਬਾਕੀ}}",
-  "weeksRunning": "{count, plural, =1{ਲਗਾਤਾਰ ਹਫ਼ਤਾ} other{ਲਗਾਤਾਰ ਹਫ਼ਤੇ}}"
+  "weeksRunning": "{count, plural, =1{ਲਗਾਤਾਰ ਹਫ਼ਤਾ} other{ਲਗਾਤਾਰ ਹਫ਼ਤੇ}}",
+  "trainerNamed": "ਟ੍ਰੇਨਰ: {name}",
+  "goalAtGym": "{gym} ਵਿੱਚ ਤੁਹਾਡਾ ਟੀਚਾ",
+  "takenOffList": "{event} ਦੀ ਸੂਚੀ ਵਿੱਚੋਂ ਤੁਹਾਡਾ ਨਾਮ ਹਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
+  "contactWithPhone": "ਸੰਪਰਕ {phone}"
 }

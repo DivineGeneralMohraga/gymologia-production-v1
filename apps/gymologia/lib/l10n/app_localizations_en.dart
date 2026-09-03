@@ -153,6 +153,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yourMembership => 'Your membership';
 
   @override
+  String get onLeavePaused => 'On leave — your membership is paused';
+
+  @override
+  String get monthlyCheckIn => 'Monthly check-in';
+
+  @override
+  String get notNow => 'Not now';
+
+  @override
+  String trainerNamed(String name) {
+    return 'Trainer: $name';
+  }
+
+  @override
+  String goalAtGym(String gym) {
+    return 'YOUR GOAL AT $gym';
+  }
+
+  @override
   String daysRemaining(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -214,6 +233,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exerciseDirectory => 'Exercise directory';
+
+  @override
+  String get exercises => 'Exercises';
+
+  @override
+  String get searchExercises => 'Search exercises';
+
+  @override
+  String get clear => 'Clear';
+
+  @override
+  String get howToDoIt => 'How to do it';
+
+  @override
+  String get watchOutFor => 'Watch out for';
+
+  @override
+  String get whatYouGet => 'What you get';
+
+  @override
+  String get removeYourEntry => 'Remove your entry?';
+
+  @override
+  String get stayIn => 'Stay in';
+
+  @override
+  String get removeMe => 'Remove me';
+
+  @override
+  String get youAreInTapToWithdraw => 'You are in — tap to withdraw';
+
+  @override
+  String get participate => 'Participate';
+
+  @override
+  String takenOffList(String event) {
+    return 'You will be taken off the list for $event.';
+  }
+
+  @override
+  String contactWithPhone(String phone) {
+    return 'Contact $phone';
+  }
+
+  @override
+  String get reasonOptional => 'Reason (optional)';
+
+  @override
+  String get searchByGymCityDistrict => 'Search by gym, city or district';
 
   @override
   String get exerciseDirectorySubtitle =>

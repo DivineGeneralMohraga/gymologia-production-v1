@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -122,7 +123,7 @@ class _GymProfilePageState extends State<GymProfilePage> {
                 ],
                 if (perks.isNotEmpty) ...[
                   const SizedBox(height: 24),
-                  Text('WHAT YOU GET',
+                  Text(AppLocalizations.of(context).whatYouGet.toUpperCase(),
                       style: theme.textTheme.labelSmall?.copyWith(
                         letterSpacing: 0.9,
                         color: theme.colorScheme.onSurfaceVariant,
@@ -145,7 +146,7 @@ class _GymProfilePageState extends State<GymProfilePage> {
                   FilledButton.icon(
                     onPressed: () => _contact(phone),
                     icon: const Icon(Icons.phone_outlined),
-                    label: Text('Contact  $phone'),
+                    label: Text(AppLocalizations.of(context).contactWithPhone(phone)),
                   ),
                 const SizedBox(height: 12),
                 Text(

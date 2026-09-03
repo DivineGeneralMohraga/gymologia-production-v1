@@ -1,6 +1,22 @@
 {
   "@@locale": "gu",
   "languageName": "ગુજરાતી",
+  "exercises": "કસરતો",
+  "searchExercises": "કસરત શોધો",
+  "clear": "સાફ કરો",
+  "howToDoIt": "કેવી રીતે કરવું",
+  "watchOutFor": "ધ્યાન રાખો",
+  "whatYouGet": "તમને શું મળે છે",
+  "removeYourEntry": "તમારી નોંધ કાઢવી?",
+  "stayIn": "રહો",
+  "removeMe": "મને કાઢો",
+  "youAreInTapToWithdraw": "તમે જોડાયા છો — નીકળવા ટૅપ કરો",
+  "participate": "ભાગ લો",
+  "reasonOptional": "કારણ (વૈકલ્પિક)",
+  "searchByGymCityDistrict": "જિમ, શહેર કે જિલ્લાથી શોધો",
+  "onLeavePaused": "રજા પર — તમારું સભ્યપદ થંભાવ્યું છે",
+  "monthlyCheckIn": "માસિક નોંધ",
+  "notNow": "અત્યારે નહીં",
   "myGym": "મારું જિમ",
   "findAGymTab": "જિમ શોધો",
   "discover": "શોધો",
@@ -86,5 +102,9 @@
   "noNotifications": "નવું કંઈ નથી",
   "needsReview": "અનુવાદ સમીક્ષા બાકી",
   "daysRemaining": "{count, plural, =0{આજે પૂરું થાય છે} =1{1 દિવસ બાકી} other{{count} દિવસ બાકી}}",
-  "weeksRunning": "{count, plural, =1{સળંગ અઠવાડિયું} other{સળંગ અઠવાડિયા}}"
+  "weeksRunning": "{count, plural, =1{સળંગ અઠવાડિયું} other{સળંગ અઠવાડિયા}}",
+  "trainerNamed": "ટ્રેનર: {name}",
+  "goalAtGym": "{gym} માં તમારું લક્ષ્ય",
+  "takenOffList": "{event} ની યાદીમાંથી તમારું નામ કાઢી નાખવામાં આવશે.",
+  "contactWithPhone": "સંપર્ક {phone}"
 }

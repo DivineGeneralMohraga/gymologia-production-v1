@@ -152,6 +152,25 @@ class AppLocalizationsMr extends AppLocalizations {
   String get yourMembership => 'तुमचे सदस्यत्व';
 
   @override
+  String get onLeavePaused => 'रजेवर — तुमचे सदस्यत्व थांबले आहे';
+
+  @override
+  String get monthlyCheckIn => 'मासिक नोंद';
+
+  @override
+  String get notNow => 'आता नाही';
+
+  @override
+  String trainerNamed(String name) {
+    return 'प्रशिक्षक: $name';
+  }
+
+  @override
+  String goalAtGym(String gym) {
+    return '$gym मध्ये तुमचे ध्येय';
+  }
+
+  @override
   String daysRemaining(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -213,6 +232,56 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get exerciseDirectory => 'व्यायाम सूची';
+
+  @override
+  String get exercises => 'व्यायाम';
+
+  @override
+  String get searchExercises => 'व्यायाम शोधा';
+
+  @override
+  String get clear => 'साफ करा';
+
+  @override
+  String get howToDoIt => 'कसे करावे';
+
+  @override
+  String get watchOutFor => 'लक्षात ठेवा';
+
+  @override
+  String get whatYouGet => 'तुम्हाला काय मिळते';
+
+  @override
+  String get removeYourEntry => 'तुमची नोंद काढायची?';
+
+  @override
+  String get stayIn => 'राहा';
+
+  @override
+  String get removeMe => 'मला काढा';
+
+  @override
+  String get youAreInTapToWithdraw =>
+      'तुम्ही सहभागी आहात — काढण्यासाठी टॅप करा';
+
+  @override
+  String get participate => 'सहभागी व्हा';
+
+  @override
+  String takenOffList(String event) {
+    return '$event च्या यादीतून तुमचे नाव काढले जाईल.';
+  }
+
+  @override
+  String contactWithPhone(String phone) {
+    return 'संपर्क $phone';
+  }
+
+  @override
+  String get reasonOptional => 'कारण (ऐच्छिक)';
+
+  @override
+  String get searchByGymCityDistrict => 'जिम, शहर किंवा जिल्ह्याने शोधा';
 
   @override
   String get exerciseDirectorySubtitle =>

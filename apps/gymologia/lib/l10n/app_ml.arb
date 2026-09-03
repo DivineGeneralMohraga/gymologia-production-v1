@@ -1,6 +1,22 @@
 {
   "@@locale": "ml",
   "languageName": "മലയാളം",
+  "exercises": "വ്യായാമങ്ങൾ",
+  "searchExercises": "വ്യായാമങ്ങൾ തിരയുക",
+  "clear": "മായ്ക്കുക",
+  "howToDoIt": "എങ്ങനെ ചെയ്യാം",
+  "watchOutFor": "ശ്രദ്ധിക്കുക",
+  "whatYouGet": "നിങ്ങൾക്ക് ലഭിക്കുന്നത്",
+  "removeYourEntry": "നിങ്ങളുടെ പേര് നീക്കണോ?",
+  "stayIn": "തുടരുക",
+  "removeMe": "എന്നെ നീക്കുക",
+  "youAreInTapToWithdraw": "നിങ്ങൾ ചേർന്നിട്ടുണ്ട് — പിന്മാറാൻ ടാപ്പ് ചെയ്യുക",
+  "participate": "പങ്കെടുക്കുക",
+  "reasonOptional": "കാരണം (ഐച്ഛികം)",
+  "searchByGymCityDistrict": "ജിം, നഗരം അല്ലെങ്കിൽ ജില്ല ഉപയോഗിച്ച് തിരയുക",
+  "onLeavePaused": "അവധിയിൽ — നിങ്ങളുടെ അംഗത്വം നിർത്തിവച്ചു",
+  "monthlyCheckIn": "മാസ ചെക്ക്-ഇൻ",
+  "notNow": "ഇപ്പോൾ വേണ്ട",
   "myGym": "എന്റെ ജിം",
   "findAGymTab": "ജിം കണ്ടെത്തുക",
   "discover": "കണ്ടെത്തുക",
@@ -86,5 +102,9 @@
   "noNotifications": "പുതിയതായി ഒന്നുമില്ല",
   "needsReview": "വിവർത്തനം പരിശോധിക്കാനുണ്ട്",
   "daysRemaining": "{count, plural, =0{ഇന്ന് അവസാനിക്കുന്നു} =1{1 ദിവസം ബാക്കി} other{{count} ദിവസം ബാക്കി}}",
-  "weeksRunning": "{count, plural, =1{തുടർച്ചയായ ആഴ്ച} other{തുടർച്ചയായ ആഴ്ചകൾ}}"
+  "weeksRunning": "{count, plural, =1{തുടർച്ചയായ ആഴ്ച} other{തുടർച്ചയായ ആഴ്ചകൾ}}",
+  "trainerNamed": "പരിശീലകൻ: {name}",
+  "goalAtGym": "{gym}-ൽ നിങ്ങളുടെ ലക്ഷ്യം",
+  "takenOffList": "{event} പട്ടികയിൽ നിന്ന് നിങ്ങളുടെ പേര് നീക്കും.",
+  "contactWithPhone": "ബന്ധപ്പെടുക {phone}"
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/utils/dates.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -115,7 +116,7 @@ class _LeaveRequestSheetState extends State<LeaveRequestSheet> {
             ),
           ),
           const SizedBox(height: 20),
-          Text('Request leave',
+          Text(AppLocalizations.of(context).requestLeave,
               style: theme.textTheme.headlineSmall
                   ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 6),
@@ -170,8 +171,8 @@ class _LeaveRequestSheetState extends State<LeaveRequestSheet> {
           TextField(
             controller: _reason,
             maxLength: 200,
-            decoration: const InputDecoration(
-              labelText: 'Reason (optional)',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context).reasonOptional,
               counterText: '',
             ),
           ),

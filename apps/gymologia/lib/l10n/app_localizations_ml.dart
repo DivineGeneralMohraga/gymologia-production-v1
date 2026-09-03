@@ -153,6 +153,25 @@ class AppLocalizationsMl extends AppLocalizations {
   String get yourMembership => 'നിങ്ങളുടെ അംഗത്വം';
 
   @override
+  String get onLeavePaused => 'അവധിയിൽ — നിങ്ങളുടെ അംഗത്വം നിർത്തിവച്ചു';
+
+  @override
+  String get monthlyCheckIn => 'മാസ ചെക്ക്-ഇൻ';
+
+  @override
+  String get notNow => 'ഇപ്പോൾ വേണ്ട';
+
+  @override
+  String trainerNamed(String name) {
+    return 'പരിശീലകൻ: $name';
+  }
+
+  @override
+  String goalAtGym(String gym) {
+    return '$gym-ൽ നിങ്ങളുടെ ലക്ഷ്യം';
+  }
+
+  @override
   String daysRemaining(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -214,6 +233,57 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get exerciseDirectory => 'വ്യായാമ പട്ടിക';
+
+  @override
+  String get exercises => 'വ്യായാമങ്ങൾ';
+
+  @override
+  String get searchExercises => 'വ്യായാമങ്ങൾ തിരയുക';
+
+  @override
+  String get clear => 'മായ്ക്കുക';
+
+  @override
+  String get howToDoIt => 'എങ്ങനെ ചെയ്യാം';
+
+  @override
+  String get watchOutFor => 'ശ്രദ്ധിക്കുക';
+
+  @override
+  String get whatYouGet => 'നിങ്ങൾക്ക് ലഭിക്കുന്നത്';
+
+  @override
+  String get removeYourEntry => 'നിങ്ങളുടെ പേര് നീക്കണോ?';
+
+  @override
+  String get stayIn => 'തുടരുക';
+
+  @override
+  String get removeMe => 'എന്നെ നീക്കുക';
+
+  @override
+  String get youAreInTapToWithdraw =>
+      'നിങ്ങൾ ചേർന്നിട്ടുണ്ട് — പിന്മാറാൻ ടാപ്പ് ചെയ്യുക';
+
+  @override
+  String get participate => 'പങ്കെടുക്കുക';
+
+  @override
+  String takenOffList(String event) {
+    return '$event പട്ടികയിൽ നിന്ന് നിങ്ങളുടെ പേര് നീക്കും.';
+  }
+
+  @override
+  String contactWithPhone(String phone) {
+    return 'ബന്ധപ്പെടുക $phone';
+  }
+
+  @override
+  String get reasonOptional => 'കാരണം (ഐച്ഛികം)';
+
+  @override
+  String get searchByGymCityDistrict =>
+      'ജിം, നഗരം അല്ലെങ്കിൽ ജില്ല ഉപയോഗിച്ച് തിരയുക';
 
   @override
   String get exerciseDirectorySubtitle =>

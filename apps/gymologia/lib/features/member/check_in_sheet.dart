@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -90,7 +91,7 @@ class _CheckInSheetState extends State<CheckInSheet> {
             ),
           ),
           const SizedBox(height: 20),
-          Text('Monthly check-in',
+          Text(AppLocalizations.of(context).monthlyCheckIn,
               style: theme.textTheme.headlineSmall
                   ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 6),
@@ -110,8 +111,8 @@ class _CheckInSheetState extends State<CheckInSheet> {
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'^\d{0,3}\.?\d{0,1}')),
                   ],
-                  decoration: const InputDecoration(
-                    labelText: 'Weight',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context).weight,
                     suffixText: 'kg',
                   ),
                 ),
@@ -125,8 +126,8 @@ class _CheckInSheetState extends State<CheckInSheet> {
                     FilteringTextInputFormatter.digitsOnly,
                     LengthLimitingTextInputFormatter(3),
                   ],
-                  decoration: const InputDecoration(
-                    labelText: 'Height',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context).height,
                     suffixText: 'cm',
                   ),
                 ),
@@ -148,11 +149,11 @@ class _CheckInSheetState extends State<CheckInSheet> {
                     width: 22,
                     child: CircularProgressIndicator(strokeWidth: 2.5),
                   )
-                : const Text('Save'),
+                : Text(AppLocalizations.of(context).save),
           ),
           TextButton(
             onPressed: _busy ? null : () => Navigator.of(context).pop(),
-            child: const Text('Not now'),
+            child: Text(AppLocalizations.of(context).notNow),
           ),
         ],
       ),

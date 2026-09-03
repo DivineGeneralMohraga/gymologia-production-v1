@@ -57,6 +57,17 @@
   "rating": "Rating",
 
   "yourMembership": "Your membership",
+  "onLeavePaused": "On leave — your membership is paused",
+  "monthlyCheckIn": "Monthly check-in",
+  "notNow": "Not now",
+  "trainerNamed": "Trainer: {name}",
+  "@trainerNamed": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "goalAtGym": "YOUR GOAL AT {gym}",
+  "@goalAtGym": {
+    "placeholders": { "gym": { "type": "String" } }
+  },
   "daysRemaining": "{count, plural, =0{Ends today} =1{1 day left} other{{count} days left}}",
   "@daysRemaining": {
     "placeholders": { "count": { "type": "int" } }
@@ -79,6 +90,27 @@
   "lastEightWeeks": "Last 8 weeks",
 
   "exerciseDirectory": "Exercise directory",
+  "exercises": "Exercises",
+  "searchExercises": "Search exercises",
+  "clear": "Clear",
+  "howToDoIt": "How to do it",
+  "watchOutFor": "Watch out for",
+  "whatYouGet": "What you get",
+  "removeYourEntry": "Remove your entry?",
+  "stayIn": "Stay in",
+  "removeMe": "Remove me",
+  "youAreInTapToWithdraw": "You are in — tap to withdraw",
+  "participate": "Participate",
+  "takenOffList": "You will be taken off the list for {event}.",
+  "@takenOffList": {
+    "placeholders": { "event": { "type": "String" } }
+  },
+  "contactWithPhone": "Contact {phone}",
+  "@contactWithPhone": {
+    "placeholders": { "phone": { "type": "String" } }
+  },
+  "reasonOptional": "Reason (optional)",
+  "searchByGymCityDistrict": "Search by gym, city or district",
   "exerciseDirectorySubtitle": "Strength, cardio and yoga, with step-by-step form cues",
   "steps": "Steps",
 

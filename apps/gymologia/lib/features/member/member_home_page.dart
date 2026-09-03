@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -100,7 +101,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                 Row(
                   children: [
                     Expanded(
-                      child: Text('Your measurements',
+                      child: Text(AppLocalizations.of(context).yourMeasurements,
                           style: theme.textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.w600)),
                     ),
@@ -149,7 +150,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                         const Icon(Icons.event_repeat, size: 18),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: Text('This month’s check-in is due.',
+                          child: Text(AppLocalizations.of(context).checkInDue,
                               style: theme.textTheme.bodySmall),
                         ),
                       ],
@@ -170,7 +171,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
               child: Icon(Icons.insights_outlined,
                   color: theme.colorScheme.onPrimaryContainer, size: 20),
             ),
-            title: const Text('Your progress',
+            title: Text(AppLocalizations.of(context).yourProgress,
                 style: TextStyle(fontWeight: FontWeight.w700)),
             subtitle: const Text(
                 'Weight over time, and how often you have turned up.'),
@@ -193,7 +194,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                 child: Icon(Icons.forum_outlined,
                     color: theme.colorScheme.onPrimaryContainer, size: 20),
               ),
-              title: const Text('Chat',
+              title: Text(AppLocalizations.of(context).chat,
                   style: TextStyle(fontWeight: FontWeight.w700)),
               subtitle: Text(
                 widget.memberships.length > 1
@@ -221,7 +222,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
               child: Icon(Icons.menu_book_outlined,
                   color: theme.colorScheme.onPrimaryContainer, size: 20),
             ),
-            title: const Text('Exercise directory',
+            title: Text(AppLocalizations.of(context).exerciseDirectory,
                 style: TextStyle(fontWeight: FontWeight.w700)),
             subtitle: const Text(
                 'Strength, cardio and yoga, with step-by-step form cues.'),
@@ -308,7 +309,7 @@ class _MembershipCard extends StatelessWidget {
                       Icon(Icons.pause_circle_outline,
                           size: 16, color: theme.colorScheme.tertiary),
                       const SizedBox(width: 6),
-                      Text('On leave — your membership is paused',
+                      Text(AppLocalizations.of(context).onLeavePaused,
                           style: theme.textTheme.bodySmall
                               ?.copyWith(color: theme.colorScheme.tertiary)),
                     ],
@@ -331,7 +332,7 @@ class _MembershipCard extends StatelessWidget {
                 ),
                 if (membership.goal != null && membership.goal!.isNotEmpty) ...[
                   const SizedBox(height: 16),
-                  Text('YOUR GOAL',
+                  Text(AppLocalizations.of(context).yourGoal.toUpperCase(),
                       style: theme.textTheme.labelSmall?.copyWith(
                         letterSpacing: 0.8,
                         color: theme.colorScheme.onSurfaceVariant,
@@ -345,7 +346,7 @@ class _MembershipCard extends StatelessWidget {
                     children: [
                       const Icon(Icons.person_outline, size: 16),
                       const SizedBox(width: 6),
-                      Text('Trainer: ${membership.trainerName}',
+                      Text(AppLocalizations.of(context).trainerNamed(membership.trainerName!),
                           style: theme.textTheme.bodyMedium),
                     ],
                   ),
@@ -356,7 +357,7 @@ class _MembershipCard extends StatelessWidget {
                     OutlinedButton.icon(
                       onPressed: onRequestLeave,
                       icon: const Icon(Icons.beach_access_outlined, size: 18),
-                      label: const Text('Request leave'),
+                      label: Text(AppLocalizations.of(context).requestLeave),
                     ),
                   ],
                 ),

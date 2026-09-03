@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -72,7 +73,7 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
             textInputAction: TextInputAction.search,
             onSubmitted: (_) => _load(),
             decoration: InputDecoration(
-              hintText: 'Search by gym, city or district',
+              hintText: AppLocalizations.of(context).searchByGymCityDistrict,
               prefixIcon: const Icon(Icons.search),
               suffixIcon: _search.text.isEmpty
                   ? null
@@ -96,7 +97,7 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
                       body: _error!,
                       action: FilledButton.tonal(
                         onPressed: _load,
-                        child: const Text('Try again'),
+                        child: Text(AppLocalizations.of(context).tryAgain),
                       ),
                     )
                   : _results.isEmpty

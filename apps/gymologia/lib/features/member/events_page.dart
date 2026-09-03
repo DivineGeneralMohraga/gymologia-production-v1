@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/utils/dates.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -54,16 +55,16 @@ class _EventsPageState extends State<EventsPage> {
       final confirmed = await showDialog<bool>(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: const Text('Remove your entry?'),
-          content: Text('You will be taken off the list for ${event['title']}.'),
+          title: Text(AppLocalizations.of(context).removeYourEntry),
+          content: Text(AppLocalizations.of(context).takenOffList(event['title'] as String)),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(ctx).pop(false),
-              child: const Text('Stay in'),
+              child: Text(AppLocalizations.of(context).stayIn),
             ),
             FilledButton(
               onPressed: () => Navigator.of(ctx).pop(true),
-              child: const Text('Remove me'),
+              child: Text(AppLocalizations.of(context).removeMe),
             ),
           ],
         ),
@@ -100,7 +101,7 @@ class _EventsPageState extends State<EventsPage> {
         icon: Icons.cloud_off,
         title: 'Could not load events',
         body: _error!,
-        action: FilledButton.tonal(onPressed: _load, child: const Text('Try again')),
+        action: FilledButton.tonal(onPressed: _load, child: Text(AppLocalizations.of(context).tryAgain)),
       );
     }
 
@@ -262,7 +263,7 @@ class _EventCard extends StatelessWidget {
                         ? OutlinedButton.icon(
                             onPressed: busy ? null : onToggle,
                             icon: const Icon(Icons.check_circle, size: 18),
-                            label: const Text('You are in — tap to withdraw'),
+                            label: Text(AppLocalizations.of(context).youAreInTapToWithdraw),
                           )
                         : FilledButton(
                             onPressed: busy ? null : onToggle,
@@ -272,7 +273,7 @@ class _EventCard extends StatelessWidget {
                                     width: 20,
                                     child: CircularProgressIndicator(strokeWidth: 2.4),
                                   )
-                                : const Text('Participate'),
+                                : Text(AppLocalizations.of(context).participate),
                           ),
                   )
                 else

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -88,10 +89,10 @@ class _ExerciseDirectoryPageState extends State<ExerciseDirectoryPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Exercises'),
+        title: Text(AppLocalizations.of(context).exercises),
         actions: [
           if (_anyFilter)
-            TextButton(onPressed: _clearFilters, child: const Text('Clear')),
+            TextButton(onPressed: _clearFilters, child: Text(AppLocalizations.of(context).clear)),
         ],
       ),
       body: Column(
@@ -102,8 +103,8 @@ class _ExerciseDirectoryPageState extends State<ExerciseDirectoryPage> {
               controller: _search,
               textInputAction: TextInputAction.search,
               onSubmitted: (_) => _load(),
-              decoration: const InputDecoration(
-                hintText: 'Search exercises',
+              decoration: InputDecoration(
+                hintText: AppLocalizations.of(context).searchExercises,
                 prefixIcon: Icon(Icons.search),
               ),
             ),
@@ -175,7 +176,7 @@ class _ExerciseDirectoryPageState extends State<ExerciseDirectoryPage> {
                           Text(_error!, textAlign: TextAlign.center),
                           const SizedBox(height: 16),
                           FilledButton.tonal(
-                              onPressed: _load, child: const Text('Try again')),
+                              onPressed: _load, child: Text(AppLocalizations.of(context).tryAgain)),
                         ],
                       ),
                     ),
@@ -314,7 +315,7 @@ class _ExerciseDetailPageState extends State<_ExerciseDetailPage> {
           ),
 
           const SizedBox(height: 26),
-          Text('HOW TO DO IT',
+          Text(AppLocalizations.of(context).howToDoIt.toUpperCase(),
               style: theme.textTheme.labelSmall?.copyWith(
                 letterSpacing: 0.9,
                 fontWeight: FontWeight.w700,
@@ -368,7 +369,7 @@ class _ExerciseDetailPageState extends State<_ExerciseDetailPage> {
                       Icon(Icons.warning_amber_rounded,
                           size: 18, color: theme.colorScheme.error),
                       const SizedBox(width: 8),
-                      Text('WATCH OUT FOR',
+                      Text(AppLocalizations.of(context).watchOutFor.toUpperCase(),
                           style: theme.textTheme.labelSmall?.copyWith(
                             letterSpacing: 0.8,
                             fontWeight: FontWeight.w700,

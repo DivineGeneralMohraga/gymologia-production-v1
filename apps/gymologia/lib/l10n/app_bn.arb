@@ -1,6 +1,22 @@
 {
   "@@locale": "bn",
   "languageName": "বাংলা",
+  "exercises": "ব্যায়াম",
+  "searchExercises": "ব্যায়াম খুঁজুন",
+  "clear": "মুছুন",
+  "howToDoIt": "কীভাবে করবেন",
+  "watchOutFor": "খেয়াল রাখুন",
+  "whatYouGet": "আপনি যা পাবেন",
+  "removeYourEntry": "আপনার নাম সরাবেন?",
+  "stayIn": "থেকে যান",
+  "removeMe": "আমাকে সরান",
+  "youAreInTapToWithdraw": "আপনি আছেন — সরতে ট্যাপ করুন",
+  "participate": "অংশ নিন",
+  "reasonOptional": "কারণ (ঐচ্ছিক)",
+  "searchByGymCityDistrict": "জিম, শহর বা জেলা দিয়ে খুঁজুন",
+  "onLeavePaused": "ছুটিতে — আপনার সদস্যপদ থামানো",
+  "monthlyCheckIn": "মাসিক চেক-ইন",
+  "notNow": "এখন নয়",
   "myGym": "আমার জিম",
   "findAGymTab": "জিম খুঁজুন",
   "discover": "খুঁজুন",
@@ -86,5 +102,9 @@
   "noNotifications": "নতুন কিছু নেই",
   "needsReview": "অনুবাদ পর্যালোচনার অপেক্ষায়",
   "daysRemaining": "{count, plural, =0{আজ শেষ} =1{১ দিন বাকি} other{{count} দিন বাকি}}",
-  "weeksRunning": "{count, plural, =1{টানা সপ্তাহ} other{টানা সপ্তাহ}}"
+  "weeksRunning": "{count, plural, =1{টানা সপ্তাহ} other{টানা সপ্তাহ}}",
+  "trainerNamed": "ট্রেনার: {name}",
+  "goalAtGym": "{gym}-এ আপনার লক্ষ্য",
+  "takenOffList": "{event}-এর তালিকা থেকে আপনার নাম সরানো হবে।",
+  "contactWithPhone": "যোগাযোগ {phone}"
 }

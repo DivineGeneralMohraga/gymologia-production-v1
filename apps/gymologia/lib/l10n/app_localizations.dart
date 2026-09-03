@@ -396,6 +396,36 @@ abstract class AppLocalizations {
   /// **'Your membership'**
   String get yourMembership;
 
+  /// No description provided for @onLeavePaused.
+  ///
+  /// In en, this message translates to:
+  /// **'On leave — your membership is paused'**
+  String get onLeavePaused;
+
+  /// No description provided for @monthlyCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly check-in'**
+  String get monthlyCheckIn;
+
+  /// No description provided for @notNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notNow;
+
+  /// No description provided for @trainerNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainer: {name}'**
+  String trainerNamed(String name);
+
+  /// No description provided for @goalAtGym.
+  ///
+  /// In en, this message translates to:
+  /// **'YOUR GOAL AT {gym}'**
+  String goalAtGym(String gym);
+
   /// No description provided for @daysRemaining.
   ///
   /// In en, this message translates to:
@@ -485,6 +515,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Exercise directory'**
   String get exerciseDirectory;
+
+  /// No description provided for @exercises.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercises'**
+  String get exercises;
+
+  /// No description provided for @searchExercises.
+  ///
+  /// In en, this message translates to:
+  /// **'Search exercises'**
+  String get searchExercises;
+
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
+
+  /// No description provided for @howToDoIt.
+  ///
+  /// In en, this message translates to:
+  /// **'How to do it'**
+  String get howToDoIt;
+
+  /// No description provided for @watchOutFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch out for'**
+  String get watchOutFor;
+
+  /// No description provided for @whatYouGet.
+  ///
+  /// In en, this message translates to:
+  /// **'What you get'**
+  String get whatYouGet;
+
+  /// No description provided for @removeYourEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove your entry?'**
+  String get removeYourEntry;
+
+  /// No description provided for @stayIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay in'**
+  String get stayIn;
+
+  /// No description provided for @removeMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove me'**
+  String get removeMe;
+
+  /// No description provided for @youAreInTapToWithdraw.
+  ///
+  /// In en, this message translates to:
+  /// **'You are in — tap to withdraw'**
+  String get youAreInTapToWithdraw;
+
+  /// No description provided for @participate.
+  ///
+  /// In en, this message translates to:
+  /// **'Participate'**
+  String get participate;
+
+  /// No description provided for @takenOffList.
+  ///
+  /// In en, this message translates to:
+  /// **'You will be taken off the list for {event}.'**
+  String takenOffList(String event);
+
+  /// No description provided for @contactWithPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact {phone}'**
+  String contactWithPhone(String phone);
+
+  /// No description provided for @reasonOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason (optional)'**
+  String get reasonOptional;
+
+  /// No description provided for @searchByGymCityDistrict.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by gym, city or district'**
+  String get searchByGymCityDistrict;
 
   /// No description provided for @exerciseDirectorySubtitle.
   ///
