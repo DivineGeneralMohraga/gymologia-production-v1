@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -124,7 +125,7 @@ class _TrainerCategoriesPageState extends State<TrainerCategoriesPage> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text('Delete $name?'),
+        title: Text(AppLocalizations.of(context).deleteNamed(name)),
         content: const Text(
           'Trainers can no longer be put in this category. Anyone already in '
           'it keeps their assignment.',
@@ -132,11 +133,11 @@ class _TrainerCategoriesPageState extends State<TrainerCategoriesPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('Keep it'),
+            child: Text(AppLocalizations.of(context).keepIt),
           ),
           FilledButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(context).delete),
           ),
         ],
       ),
@@ -154,12 +155,12 @@ class _TrainerCategoriesPageState extends State<TrainerCategoriesPage> {
     final categories = _categories;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Trainer categories')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).trainerCategories)),
       floatingActionButton: _canEdit
           ? FloatingActionButton.extended(
               onPressed: _busy ? null : _create,
               icon: const Icon(Icons.add),
-              label: const Text('New category'),
+              label: Text(AppLocalizations.of(context).newCategory),
             )
           : null,
       body: _error != null
@@ -192,10 +193,11 @@ class _TrainerCategoriesPageState extends State<TrainerCategoriesPage> {
                           onDelete: () => _delete(category),
                         ),
                       if (categories.isEmpty)
-                        const Padding(
-                          padding: EdgeInsets.only(top: 40),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 40),
                           child: Center(
-                            child: Text('No trainer categories yet.'),
+                            child: Text(AppLocalizations.of(context)
+                                .noTrainerCategoriesYet),
                           ),
                         ),
                     ],
@@ -265,7 +267,9 @@ class _CategoryTile extends StatelessWidget {
                   if (value == 'delete') onDelete();
                 },
                 itemBuilder: (_) => [
-                  const PopupMenuItem(value: 'rename', child: Text('Edit')),
+                  PopupMenuItem(
+                      value: 'rename',
+                      child: Text(AppLocalizations.of(context).edit)),
                   PopupMenuItem(
                     value: 'delete',
                     // Disabled rather than hidden, so the reason is visible
@@ -345,8 +349,8 @@ class _CategorySheetState extends State<_CategorySheet> {
             autofocus: true,
             textCapitalization: TextCapitalization.words,
             decoration: InputDecoration(
-              labelText: 'Name',
-              hintText: 'Rehab, Strength, Yoga',
+              labelText: AppLocalizations.of(context).name,
+              hintText: AppLocalizations.of(context).categoryNameHint,
               errorText: _nameError,
             ),
             onChanged: (_) {
@@ -359,7 +363,7 @@ class _CategorySheetState extends State<_CategorySheet> {
             contentPadding: EdgeInsets.zero,
             value: _multiple,
             onChanged: (value) => setState(() => _multiple = value),
-            title: const Text('One trainer can hold many members'),
+            title: Text(AppLocalizations.of(context).oneTrainerManyMembers),
             subtitle: Text(
               _multiple
                   ? 'The usual setting for general training.'
@@ -396,7 +400,7 @@ class _Retry extends StatelessWidget {
           children: [
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 18),
-            FilledButton.tonal(onPressed: onRetry, child: const Text('Try again')),
+            FilledButton.tonal(onPressed: onRetry, child: Text(AppLocalizations.of(context).tryAgain)),
           ],
         ),
       ),

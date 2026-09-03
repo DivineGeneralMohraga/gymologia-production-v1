@@ -130,6 +130,41 @@
     "placeholders": { "name": { "type": "String" } }
   },
   "approve": "Approve",
+  "role": "Role",
+  "theirName": "Their name",
+  "theirMobileNumber": "Their mobile number",
+  "codeFromTheirPhone": "Code from their phone",
+  "whatDoTheyWant": "What do they want from the gym?",
+  "goalHint": "Bulk up, lose weight, rehab…",
+  "saveChanges": "Save changes",
+  "removeFromGym": "Remove from gym",
+  "remove": "Remove",
+  "removePerson": "Remove {name}?",
+  "@removePerson": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "onLeave": "Leave",
+  "tapDayToCorrect": "Tap a day to correct it",
+  "correctDate": "Correct {date}",
+  "@correctDate": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "whyIsThisChanging": "Why is this changing?",
+  "correctionReasonHint": "Marked by mistake, machine was down…",
+  "saveCorrection": "Save correction",
+  "recordCorrected": "Record corrected.",
+  "trainerCategories": "Trainer categories",
+  "newCategory": "New category",
+  "noTrainerCategoriesYet": "No trainer categories yet.",
+  "oneTrainerManyMembers": "One trainer can hold many members",
+  "categoryNameHint": "Rehab, Strength, Yoga",
+  "edit": "Edit",
+  "delete": "Delete",
+  "keepIt": "Keep it",
+  "deleteNamed": "Delete {name}?",
+  "@deleteNamed": {
+    "placeholders": { "name": { "type": "String" } }
+  },
   "decline": "Decline",
   "decidedBy": "Decided by {name}",
   "@decidedBy": {

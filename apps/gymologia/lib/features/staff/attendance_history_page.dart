@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/utils/dates.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -85,7 +86,9 @@ class _AttendanceHistoryPageState extends State<AttendanceHistoryPage> {
       );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Record corrected.')),
+        SnackBar(
+            content:
+                Text(AppLocalizations.of(context).recordCorrected)),
       );
       await _load();
     } on ApiException catch (e) {
@@ -107,7 +110,7 @@ class _AttendanceHistoryPageState extends State<AttendanceHistoryPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(widget.name, style: const TextStyle(fontSize: 17)),
-            Text('Attendance',
+            Text(AppLocalizations.of(context).attendance,
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -156,7 +159,7 @@ class _AttendanceHistoryPageState extends State<AttendanceHistoryPage> {
                                 color: theme.colorScheme.onSurfaceVariant),
                             const SizedBox(width: 6),
                             Expanded(
-                              child: Text('Tap a day to correct it',
+                              child: Text(AppLocalizations.of(context).tapDayToCorrect,
                                   style: theme.textTheme.bodySmall?.copyWith(
                                     color: theme.colorScheme.onSurfaceVariant,
                                   )),
@@ -313,15 +316,23 @@ class _CorrectionSheetState extends State<_CorrectionSheet> {
             ),
           ),
           const SizedBox(height: 20),
-          Text('Correct ${_fullDate(widget.date, Dates.localeOf(context))}',
+          Text(
+              AppLocalizations.of(context)
+                  .correctDate(_fullDate(widget.date, Dates.localeOf(context))),
               style: theme.textTheme.titleLarge
                   ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 18),
           SegmentedButton<String>(
-            segments: const [
-              ButtonSegment(value: 'PRESENT', label: Text('Present')),
-              ButtonSegment(value: 'ABSENT', label: Text('Absent')),
-              ButtonSegment(value: 'ON_LEAVE', label: Text('Leave')),
+            segments: [
+              ButtonSegment(
+                  value: 'PRESENT',
+                  label: Text(AppLocalizations.of(context).present)),
+              ButtonSegment(
+                  value: 'ABSENT',
+                  label: Text(AppLocalizations.of(context).absent)),
+              ButtonSegment(
+                  value: 'ON_LEAVE',
+                  label: Text(AppLocalizations.of(context).onLeave)),
             ],
             selected: {_status},
             onSelectionChanged: (v) => setState(() => _status = v.first),
@@ -331,9 +342,9 @@ class _CorrectionSheetState extends State<_CorrectionSheet> {
             controller: _reason,
             autofocus: true,
             maxLength: 200,
-            decoration: const InputDecoration(
-              labelText: 'Why is this changing?',
-              hintText: 'Marked by mistake, machine was down…',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context).whyIsThisChanging,
+              hintText: AppLocalizations.of(context).correctionReasonHint,
               counterText: '',
             ),
           ),
@@ -350,7 +361,7 @@ class _CorrectionSheetState extends State<_CorrectionSheet> {
                     ?.copyWith(color: theme.colorScheme.error)),
           ],
           const SizedBox(height: 20),
-          FilledButton(onPressed: _submit, child: const Text('Save correction')),
+          FilledButton(onPressed: _submit, child: Text(AppLocalizations.of(context).saveCorrection)),
         ],
       ),
     );

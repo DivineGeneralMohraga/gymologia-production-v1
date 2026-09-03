@@ -325,6 +325,90 @@ class AppLocalizationsGu extends AppLocalizations {
   String get approve => 'મંજૂર કરો';
 
   @override
+  String get role => 'ભૂમિકા';
+
+  @override
+  String get theirName => 'તેમનું નામ';
+
+  @override
+  String get theirMobileNumber => 'તેમનો મોબાઇલ નંબર';
+
+  @override
+  String get codeFromTheirPhone => 'તેમના ફોનનો કોડ';
+
+  @override
+  String get whatDoTheyWant => 'તેમને જિમ પાસેથી શું જોઈએ છે?';
+
+  @override
+  String get goalHint => 'વજન વધારવું, ઘટાડવું, રિહેબ…';
+
+  @override
+  String get saveChanges => 'ફેરફાર સાચવો';
+
+  @override
+  String get removeFromGym => 'જિમમાંથી કાઢો';
+
+  @override
+  String get remove => 'કાઢો';
+
+  @override
+  String removePerson(String name) {
+    return '$name ને કાઢવું?';
+  }
+
+  @override
+  String get onLeave => 'રજા';
+
+  @override
+  String get tapDayToCorrect => 'સુધારવા દિવસ પર ટૅપ કરો';
+
+  @override
+  String correctDate(String date) {
+    return '$date સુધારો';
+  }
+
+  @override
+  String get whyIsThisChanging => 'આ કેમ બદલાય છે?';
+
+  @override
+  String get correctionReasonHint => 'ભૂલથી નોંધ્યું, મશીન બંધ હતું…';
+
+  @override
+  String get saveCorrection => 'સુધારો સાચવો';
+
+  @override
+  String get recordCorrected => 'રેકોર્ડ સુધર્યો.';
+
+  @override
+  String get trainerCategories => 'ટ્રેનર શ્રેણીઓ';
+
+  @override
+  String get newCategory => 'નવી શ્રેણી';
+
+  @override
+  String get noTrainerCategoriesYet => 'હજી કોઈ ટ્રેનર શ્રેણી નથી.';
+
+  @override
+  String get oneTrainerManyMembers => 'એક ટ્રેનર ઘણા સભ્યો રાખી શકે';
+
+  @override
+  String get categoryNameHint => 'રિહેબ, સ્ટ્રેંગ્થ, યોગ';
+
+  @override
+  String get edit => 'સંપાદિત કરો';
+
+  @override
+  String get delete => 'કાઢી નાખો';
+
+  @override
+  String get keepIt => 'રહેવા દો';
+
+  @override
+  String deleteNamed(String name) {
+    return '$name કાઢી નાખવું?';
+  }
+
+  @override
   String get decline => 'નકારો';
 
   @override

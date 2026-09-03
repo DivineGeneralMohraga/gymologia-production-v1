@@ -326,6 +326,90 @@ class AppLocalizationsEn extends AppLocalizations {
   String get approve => 'Approve';
 
   @override
+  String get role => 'Role';
+
+  @override
+  String get theirName => 'Their name';
+
+  @override
+  String get theirMobileNumber => 'Their mobile number';
+
+  @override
+  String get codeFromTheirPhone => 'Code from their phone';
+
+  @override
+  String get whatDoTheyWant => 'What do they want from the gym?';
+
+  @override
+  String get goalHint => 'Bulk up, lose weight, rehab…';
+
+  @override
+  String get saveChanges => 'Save changes';
+
+  @override
+  String get removeFromGym => 'Remove from gym';
+
+  @override
+  String get remove => 'Remove';
+
+  @override
+  String removePerson(String name) {
+    return 'Remove $name?';
+  }
+
+  @override
+  String get onLeave => 'Leave';
+
+  @override
+  String get tapDayToCorrect => 'Tap a day to correct it';
+
+  @override
+  String correctDate(String date) {
+    return 'Correct $date';
+  }
+
+  @override
+  String get whyIsThisChanging => 'Why is this changing?';
+
+  @override
+  String get correctionReasonHint => 'Marked by mistake, machine was down…';
+
+  @override
+  String get saveCorrection => 'Save correction';
+
+  @override
+  String get recordCorrected => 'Record corrected.';
+
+  @override
+  String get trainerCategories => 'Trainer categories';
+
+  @override
+  String get newCategory => 'New category';
+
+  @override
+  String get noTrainerCategoriesYet => 'No trainer categories yet.';
+
+  @override
+  String get oneTrainerManyMembers => 'One trainer can hold many members';
+
+  @override
+  String get categoryNameHint => 'Rehab, Strength, Yoga';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get keepIt => 'Keep it';
+
+  @override
+  String deleteNamed(String name) {
+    return 'Delete $name?';
+  }
+
+  @override
   String get decline => 'Decline';
 
   @override

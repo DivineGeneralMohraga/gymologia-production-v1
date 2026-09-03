@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -189,8 +190,8 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                 FilteringTextInputFormatter.digitsOnly,
                 LengthLimitingTextInputFormatter(10),
               ],
-              decoration: const InputDecoration(
-                labelText: 'Their mobile number',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).theirMobileNumber,
                 prefixText: '+91  ',
               ),
             ),
@@ -204,7 +205,7 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                         height: 22,
                         width: 22,
                         child: CircularProgressIndicator(strokeWidth: 2.5))
-                    : const Text('Send code'),
+                    : Text(AppLocalizations.of(context).sendCode),
               ),
             ] else ...[
               const SizedBox(height: 14),
@@ -235,8 +236,8 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                 controller: _code,
                 keyboardType: TextInputType.number,
                 maxLength: 6,
-                decoration: const InputDecoration(
-                  labelText: 'Code from their phone',
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).codeFromTheirPhone,
                   counterText: '',
                 ),
               ),
@@ -245,7 +246,7 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                 TextField(
                   controller: _name,
                   textCapitalization: TextCapitalization.words,
-                  decoration: const InputDecoration(labelText: 'Their name'),
+                  decoration: InputDecoration(labelText: AppLocalizations.of(context).theirName),
                 ),
               ],
 
@@ -270,9 +271,9 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                 const SizedBox(height: 10),
                 TextField(
                   controller: _goal,
-                  decoration: const InputDecoration(
-                    labelText: 'What do they want from the gym?',
-                    hintText: 'Bulk up, lose weight, rehab…',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context).whatDoTheyWant,
+                    hintText: AppLocalizations.of(context).goalHint,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -449,7 +450,7 @@ class _RolePickerState extends State<_RolePicker> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('ROLE',
+        Text(AppLocalizations.of(context).role.toUpperCase(),
             style: theme.textTheme.labelSmall?.copyWith(
               letterSpacing: 0.8,
               color: theme.colorScheme.onSurfaceVariant,

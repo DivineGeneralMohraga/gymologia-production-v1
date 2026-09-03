@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -81,7 +82,7 @@ class _StaffDetailSheetState extends State<StaffDetailSheet> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('Remove ${widget.staff.name}?'),
+        title: Text(AppLocalizations.of(context).removePerson(widget.staff.name)),
         content: Text(
           assigned > 0
               ? 'They lose access to this gym, and the $assigned member'
@@ -92,14 +93,14 @@ class _StaffDetailSheetState extends State<StaffDetailSheet> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context).cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(ctx).colorScheme.error,
             ),
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Remove'),
+            child: Text(AppLocalizations.of(context).remove),
           ),
         ],
       ),
@@ -169,7 +170,7 @@ class _StaffDetailSheetState extends State<StaffDetailSheet> {
           ],
 
           const SizedBox(height: 22),
-          Text('ROLE',
+          Text(AppLocalizations.of(context).role.toUpperCase(),
               style: theme.textTheme.labelSmall?.copyWith(
                 letterSpacing: 0.8,
                 color: theme.colorScheme.onSurfaceVariant,
@@ -223,7 +224,7 @@ class _StaffDetailSheetState extends State<StaffDetailSheet> {
                       height: 22,
                       width: 22,
                       child: CircularProgressIndicator(strokeWidth: 2.5))
-                  : const Text('Save changes'),
+                  : Text(AppLocalizations.of(context).saveChanges),
             ),
           if (widget.gym.can(P.removeStaff)) ...[
             const SizedBox(height: 8),
@@ -231,7 +232,7 @@ class _StaffDetailSheetState extends State<StaffDetailSheet> {
               onPressed: _busy ? null : _remove,
               icon: Icon(Icons.person_remove_outlined,
                   size: 18, color: theme.colorScheme.error),
-              label: Text('Remove from gym',
+              label: Text(AppLocalizations.of(context).removeFromGym,
                   style: TextStyle(color: theme.colorScheme.error)),
             ),
           ],

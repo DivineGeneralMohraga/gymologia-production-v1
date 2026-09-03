@@ -329,6 +329,92 @@ class AppLocalizationsTa extends AppLocalizations {
   String get approve => 'ஒப்புதல்';
 
   @override
+  String get role => 'பங்கு';
+
+  @override
+  String get theirName => 'அவரது பெயர்';
+
+  @override
+  String get theirMobileNumber => 'அவரது கைபேசி எண்';
+
+  @override
+  String get codeFromTheirPhone => 'அவரது தொலைபேசியிலிருந்து குறியீடு';
+
+  @override
+  String get whatDoTheyWant => 'அவர் கூடத்திலிருந்து என்ன விரும்புகிறார்?';
+
+  @override
+  String get goalHint => 'எடை கூட்ட, எடை குறைக்க, மறுவாழ்வு…';
+
+  @override
+  String get saveChanges => 'மாற்றங்களைச் சேமி';
+
+  @override
+  String get removeFromGym => 'கூடத்திலிருந்து நீக்கு';
+
+  @override
+  String get remove => 'நீக்கு';
+
+  @override
+  String removePerson(String name) {
+    return '$name ஐ நீக்கவா?';
+  }
+
+  @override
+  String get onLeave => 'விடுப்பு';
+
+  @override
+  String get tapDayToCorrect => 'திருத்த ஒரு நாளைத் தட்டவும்';
+
+  @override
+  String correctDate(String date) {
+    return '$date ஐத் திருத்து';
+  }
+
+  @override
+  String get whyIsThisChanging => 'இது ஏன் மாறுகிறது?';
+
+  @override
+  String get correctionReasonHint =>
+      'தவறாகக் குறிக்கப்பட்டது, இயந்திரம் இயங்கவில்லை…';
+
+  @override
+  String get saveCorrection => 'திருத்தத்தைச் சேமி';
+
+  @override
+  String get recordCorrected => 'பதிவு திருத்தப்பட்டது.';
+
+  @override
+  String get trainerCategories => 'பயிற்சியாளர் வகைகள்';
+
+  @override
+  String get newCategory => 'புதிய வகை';
+
+  @override
+  String get noTrainerCategoriesYet => 'இன்னும் பயிற்சியாளர் வகைகள் இல்லை.';
+
+  @override
+  String get oneTrainerManyMembers =>
+      'ஒரு பயிற்சியாளர் பல உறுப்பினர்களை ஏற்கலாம்';
+
+  @override
+  String get categoryNameHint => 'மறுவாழ்வு, வலிமை, யோகா';
+
+  @override
+  String get edit => 'திருத்து';
+
+  @override
+  String get delete => 'நீக்கு';
+
+  @override
+  String get keepIt => 'வைத்திரு';
+
+  @override
+  String deleteNamed(String name) {
+    return '$name ஐ நீக்கவா?';
+  }
+
+  @override
   String get decline => 'நிராகரி';
 
   @override

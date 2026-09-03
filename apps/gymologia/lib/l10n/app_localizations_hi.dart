@@ -326,6 +326,90 @@ class AppLocalizationsHi extends AppLocalizations {
   String get approve => 'स्वीकृत करें';
 
   @override
+  String get role => 'भूमिका';
+
+  @override
+  String get theirName => 'उनका नाम';
+
+  @override
+  String get theirMobileNumber => 'उनका मोबाइल नंबर';
+
+  @override
+  String get codeFromTheirPhone => 'उनके फ़ोन से कोड';
+
+  @override
+  String get whatDoTheyWant => 'वे जिम से क्या चाहते हैं?';
+
+  @override
+  String get goalHint => 'वज़न बढ़ाना, वज़न घटाना, रिहैब…';
+
+  @override
+  String get saveChanges => 'बदलाव सहेजें';
+
+  @override
+  String get removeFromGym => 'जिम से हटाएं';
+
+  @override
+  String get remove => 'हटाएं';
+
+  @override
+  String removePerson(String name) {
+    return '$name को हटाएं?';
+  }
+
+  @override
+  String get onLeave => 'छुट्टी';
+
+  @override
+  String get tapDayToCorrect => 'सुधारने के लिए किसी दिन पर टैप करें';
+
+  @override
+  String correctDate(String date) {
+    return '$date सुधारें';
+  }
+
+  @override
+  String get whyIsThisChanging => 'यह क्यों बदल रहा है?';
+
+  @override
+  String get correctionReasonHint => 'गलती से दर्ज, मशीन बंद थी…';
+
+  @override
+  String get saveCorrection => 'सुधार सहेजें';
+
+  @override
+  String get recordCorrected => 'रिकॉर्ड सुधर गया।';
+
+  @override
+  String get trainerCategories => 'ट्रेनर श्रेणियां';
+
+  @override
+  String get newCategory => 'नई श्रेणी';
+
+  @override
+  String get noTrainerCategoriesYet => 'अभी कोई ट्रेनर श्रेणी नहीं।';
+
+  @override
+  String get oneTrainerManyMembers => 'एक ट्रेनर कई सदस्य ले सकता है';
+
+  @override
+  String get categoryNameHint => 'रिहैब, स्ट्रेंथ, योग';
+
+  @override
+  String get edit => 'संपादित करें';
+
+  @override
+  String get delete => 'हटाएं';
+
+  @override
+  String get keepIt => 'रहने दें';
+
+  @override
+  String deleteNamed(String name) {
+    return '$name हटाएं?';
+  }
+
+  @override
   String get decline => 'अस्वीकार करें';
 
   @override

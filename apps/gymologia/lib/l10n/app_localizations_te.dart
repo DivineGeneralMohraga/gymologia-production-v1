@@ -325,6 +325,91 @@ class AppLocalizationsTe extends AppLocalizations {
   String get approve => 'ఆమోదించు';
 
   @override
+  String get role => 'పాత్ర';
+
+  @override
+  String get theirName => 'వారి పేరు';
+
+  @override
+  String get theirMobileNumber => 'వారి మొబైల్ నంబర్';
+
+  @override
+  String get codeFromTheirPhone => 'వారి ఫోన్ నుండి కోడ్';
+
+  @override
+  String get whatDoTheyWant => 'వారు జిమ్ నుండి ఏమి కోరుకుంటున్నారు?';
+
+  @override
+  String get goalHint => 'బరువు పెంచడం, తగ్గించడం, రీహాబ్…';
+
+  @override
+  String get saveChanges => 'మార్పులు సేవ్ చేయి';
+
+  @override
+  String get removeFromGym => 'జిమ్ నుండి తీసివేయి';
+
+  @override
+  String get remove => 'తీసివేయి';
+
+  @override
+  String removePerson(String name) {
+    return '$nameను తీసివేయాలా?';
+  }
+
+  @override
+  String get onLeave => 'సెలవు';
+
+  @override
+  String get tapDayToCorrect => 'సరిచేయడానికి ఒక రోజును నొక్కండి';
+
+  @override
+  String correctDate(String date) {
+    return '$date సరిచేయి';
+  }
+
+  @override
+  String get whyIsThisChanging => 'ఇది ఎందుకు మారుతోంది?';
+
+  @override
+  String get correctionReasonHint => 'పొరపాటున గుర్తించారు, యంత్రం పనిచేయలేదు…';
+
+  @override
+  String get saveCorrection => 'సవరణ సేవ్ చేయి';
+
+  @override
+  String get recordCorrected => 'రికార్డు సరిచేయబడింది.';
+
+  @override
+  String get trainerCategories => 'శిక్షకుల విభాగాలు';
+
+  @override
+  String get newCategory => 'కొత్త విభాగం';
+
+  @override
+  String get noTrainerCategoriesYet => 'ఇంకా శిక్షకుల విభాగాలు లేవు.';
+
+  @override
+  String get oneTrainerManyMembers =>
+      'ఒక శిక్షకుడు చాలా మంది సభ్యులను తీసుకోవచ్చు';
+
+  @override
+  String get categoryNameHint => 'రీహాబ్, స్ట్రెంగ్త్, యోగా';
+
+  @override
+  String get edit => 'సవరించు';
+
+  @override
+  String get delete => 'తొలగించు';
+
+  @override
+  String get keepIt => 'ఉంచు';
+
+  @override
+  String deleteNamed(String name) {
+    return '$name తొలగించాలా?';
+  }
+
+  @override
   String get decline => 'తిరస్కరించు';
 
   @override

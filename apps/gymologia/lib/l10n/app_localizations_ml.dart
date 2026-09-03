@@ -328,6 +328,91 @@ class AppLocalizationsMl extends AppLocalizations {
   String get approve => 'അംഗീകരിക്കുക';
 
   @override
+  String get role => 'റോൾ';
+
+  @override
+  String get theirName => 'അവരുടെ പേര്';
+
+  @override
+  String get theirMobileNumber => 'അവരുടെ മൊബൈൽ നമ്പർ';
+
+  @override
+  String get codeFromTheirPhone => 'അവരുടെ ഫോണിലെ കോഡ്';
+
+  @override
+  String get whatDoTheyWant => 'അവർക്ക് ജിമ്മിൽ നിന്ന് എന്താണ് വേണ്ടത്?';
+
+  @override
+  String get goalHint => 'ഭാരം കൂട്ടൽ, കുറയ്ക്കൽ, റീഹാബ്…';
+
+  @override
+  String get saveChanges => 'മാറ്റങ്ങൾ സേവ് ചെയ്യുക';
+
+  @override
+  String get removeFromGym => 'ജിമ്മിൽ നിന്ന് നീക്കുക';
+
+  @override
+  String get remove => 'നീക്കുക';
+
+  @override
+  String removePerson(String name) {
+    return '$name നീക്കണോ?';
+  }
+
+  @override
+  String get onLeave => 'അവധി';
+
+  @override
+  String get tapDayToCorrect => 'തിരുത്താൻ ഒരു ദിവസത്തിൽ ടാപ്പ് ചെയ്യുക';
+
+  @override
+  String correctDate(String date) {
+    return '$date തിരുത്തുക';
+  }
+
+  @override
+  String get whyIsThisChanging => 'ഇത് എന്തുകൊണ്ട് മാറുന്നു?';
+
+  @override
+  String get correctionReasonHint =>
+      'തെറ്റായി രേഖപ്പെടുത്തി, യന്ത്രം പ്രവർത്തിച്ചില്ല…';
+
+  @override
+  String get saveCorrection => 'തിരുത്തൽ സേവ് ചെയ്യുക';
+
+  @override
+  String get recordCorrected => 'രേഖ തിരുത്തി.';
+
+  @override
+  String get trainerCategories => 'പരിശീലക വിഭാഗങ്ങൾ';
+
+  @override
+  String get newCategory => 'പുതിയ വിഭാഗം';
+
+  @override
+  String get noTrainerCategoriesYet => 'ഇതുവരെ പരിശീലക വിഭാഗങ്ങളില്ല.';
+
+  @override
+  String get oneTrainerManyMembers => 'ഒരു പരിശീലകന് പല അംഗങ്ങളെ എടുക്കാം';
+
+  @override
+  String get categoryNameHint => 'റീഹാബ്, സ്ട്രെങ്ത്, യോഗ';
+
+  @override
+  String get edit => 'തിരുത്തുക';
+
+  @override
+  String get delete => 'ഇല്ലാതാക്കുക';
+
+  @override
+  String get keepIt => 'നിലനിർത്തുക';
+
+  @override
+  String deleteNamed(String name) {
+    return '$name ഇല്ലാതാക്കണോ?';
+  }
+
+  @override
   String get decline => 'നിരസിക്കുക';
 
   @override

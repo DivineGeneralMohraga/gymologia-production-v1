@@ -326,6 +326,90 @@ class AppLocalizationsMr extends AppLocalizations {
   String get approve => 'मंजूर करा';
 
   @override
+  String get role => 'भूमिका';
+
+  @override
+  String get theirName => 'त्यांचे नाव';
+
+  @override
+  String get theirMobileNumber => 'त्यांचा मोबाईल नंबर';
+
+  @override
+  String get codeFromTheirPhone => 'त्यांच्या फोनवरील कोड';
+
+  @override
+  String get whatDoTheyWant => 'त्यांना जिमकडून काय हवे आहे?';
+
+  @override
+  String get goalHint => 'वजन वाढवणे, कमी करणे, रिहॅब…';
+
+  @override
+  String get saveChanges => 'बदल जतन करा';
+
+  @override
+  String get removeFromGym => 'जिममधून काढा';
+
+  @override
+  String get remove => 'काढा';
+
+  @override
+  String removePerson(String name) {
+    return '$name ला काढायचे?';
+  }
+
+  @override
+  String get onLeave => 'रजा';
+
+  @override
+  String get tapDayToCorrect => 'दुरुस्त करण्यासाठी दिवसावर टॅप करा';
+
+  @override
+  String correctDate(String date) {
+    return '$date दुरुस्त करा';
+  }
+
+  @override
+  String get whyIsThisChanging => 'हे का बदलत आहे?';
+
+  @override
+  String get correctionReasonHint => 'चुकून नोंदवले, मशीन बंद होते…';
+
+  @override
+  String get saveCorrection => 'दुरुस्ती जतन करा';
+
+  @override
+  String get recordCorrected => 'नोंद दुरुस्त झाली.';
+
+  @override
+  String get trainerCategories => 'प्रशिक्षक श्रेणी';
+
+  @override
+  String get newCategory => 'नवीन श्रेणी';
+
+  @override
+  String get noTrainerCategoriesYet => 'अजून प्रशिक्षक श्रेणी नाहीत.';
+
+  @override
+  String get oneTrainerManyMembers => 'एक प्रशिक्षक अनेक सदस्य घेऊ शकतो';
+
+  @override
+  String get categoryNameHint => 'रिहॅब, स्ट्रेंथ, योग';
+
+  @override
+  String get edit => 'संपादित करा';
+
+  @override
+  String get delete => 'हटवा';
+
+  @override
+  String get keepIt => 'राहू द्या';
+
+  @override
+  String deleteNamed(String name) {
+    return '$name हटवायचे?';
+  }
+
+  @override
   String get decline => 'नाकारा';
 
   @override

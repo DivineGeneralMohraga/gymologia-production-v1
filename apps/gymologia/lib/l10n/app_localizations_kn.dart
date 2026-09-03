@@ -325,6 +325,92 @@ class AppLocalizationsKn extends AppLocalizations {
   String get approve => 'ಅನುಮೋದಿಸಿ';
 
   @override
+  String get role => 'ಪಾತ್ರ';
+
+  @override
+  String get theirName => 'ಅವರ ಹೆಸರು';
+
+  @override
+  String get theirMobileNumber => 'ಅವರ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ';
+
+  @override
+  String get codeFromTheirPhone => 'ಅವರ ಫೋನ್ ಕೋಡ್';
+
+  @override
+  String get whatDoTheyWant => 'ಅವರಿಗೆ ಜಿಮ್‌ನಿಂದ ಏನು ಬೇಕು?';
+
+  @override
+  String get goalHint => 'ತೂಕ ಹೆಚ್ಚಿಸು, ಕಡಿಮೆ ಮಾಡು, ಪುನರ್ವಸತಿ…';
+
+  @override
+  String get saveChanges => 'ಬದಲಾವಣೆ ಉಳಿಸಿ';
+
+  @override
+  String get removeFromGym => 'ಜಿಮ್‌ನಿಂದ ತೆಗೆ';
+
+  @override
+  String get remove => 'ತೆಗೆ';
+
+  @override
+  String removePerson(String name) {
+    return '$name ತೆಗೆಯುವುದೇ?';
+  }
+
+  @override
+  String get onLeave => 'ರಜೆ';
+
+  @override
+  String get tapDayToCorrect => 'ಸರಿಪಡಿಸಲು ದಿನವನ್ನು ಒತ್ತಿ';
+
+  @override
+  String correctDate(String date) {
+    return '$date ಸರಿಪಡಿಸಿ';
+  }
+
+  @override
+  String get whyIsThisChanging => 'ಇದು ಏಕೆ ಬದಲಾಗುತ್ತಿದೆ?';
+
+  @override
+  String get correctionReasonHint =>
+      'ತಪ್ಪಾಗಿ ಗುರುತಿಸಲಾಗಿದೆ, ಯಂತ್ರ ಕೆಲಸ ಮಾಡಲಿಲ್ಲ…';
+
+  @override
+  String get saveCorrection => 'ತಿದ್ದುಪಡಿ ಉಳಿಸಿ';
+
+  @override
+  String get recordCorrected => 'ದಾಖಲೆ ಸರಿಪಡಿಸಲಾಗಿದೆ.';
+
+  @override
+  String get trainerCategories => 'ತರಬೇತುದಾರ ವರ್ಗಗಳು';
+
+  @override
+  String get newCategory => 'ಹೊಸ ವರ್ಗ';
+
+  @override
+  String get noTrainerCategoriesYet => 'ಇನ್ನೂ ತರಬೇತುದಾರ ವರ್ಗಗಳಿಲ್ಲ.';
+
+  @override
+  String get oneTrainerManyMembers =>
+      'ಒಬ್ಬ ತರಬೇತುದಾರ ಹಲವು ಸದಸ್ಯರನ್ನು ಹೊಂದಬಹುದು';
+
+  @override
+  String get categoryNameHint => 'ಪುನರ್ವಸತಿ, ಶಕ್ತಿ, ಯೋಗ';
+
+  @override
+  String get edit => 'ಸಂಪಾದಿಸಿ';
+
+  @override
+  String get delete => 'ಅಳಿಸಿ';
+
+  @override
+  String get keepIt => 'ಇರಲಿ';
+
+  @override
+  String deleteNamed(String name) {
+    return '$name ಅಳಿಸುವುದೇ?';
+  }
+
+  @override
   String get decline => 'ತಿರಸ್ಕರಿಸಿ';
 
   @override

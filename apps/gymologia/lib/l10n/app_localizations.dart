@@ -678,6 +678,162 @@ abstract class AppLocalizations {
   /// **'Approve'**
   String get approve;
 
+  /// No description provided for @role.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get role;
+
+  /// No description provided for @theirName.
+  ///
+  /// In en, this message translates to:
+  /// **'Their name'**
+  String get theirName;
+
+  /// No description provided for @theirMobileNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Their mobile number'**
+  String get theirMobileNumber;
+
+  /// No description provided for @codeFromTheirPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Code from their phone'**
+  String get codeFromTheirPhone;
+
+  /// No description provided for @whatDoTheyWant.
+  ///
+  /// In en, this message translates to:
+  /// **'What do they want from the gym?'**
+  String get whatDoTheyWant;
+
+  /// No description provided for @goalHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Bulk up, lose weight, rehab…'**
+  String get goalHint;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get saveChanges;
+
+  /// No description provided for @removeFromGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from gym'**
+  String get removeFromGym;
+
+  /// No description provided for @remove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get remove;
+
+  /// No description provided for @removePerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name}?'**
+  String removePerson(String name);
+
+  /// No description provided for @onLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get onLeave;
+
+  /// No description provided for @tapDayToCorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a day to correct it'**
+  String get tapDayToCorrect;
+
+  /// No description provided for @correctDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct {date}'**
+  String correctDate(String date);
+
+  /// No description provided for @whyIsThisChanging.
+  ///
+  /// In en, this message translates to:
+  /// **'Why is this changing?'**
+  String get whyIsThisChanging;
+
+  /// No description provided for @correctionReasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked by mistake, machine was down…'**
+  String get correctionReasonHint;
+
+  /// No description provided for @saveCorrection.
+  ///
+  /// In en, this message translates to:
+  /// **'Save correction'**
+  String get saveCorrection;
+
+  /// No description provided for @recordCorrected.
+  ///
+  /// In en, this message translates to:
+  /// **'Record corrected.'**
+  String get recordCorrected;
+
+  /// No description provided for @trainerCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainer categories'**
+  String get trainerCategories;
+
+  /// No description provided for @newCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'New category'**
+  String get newCategory;
+
+  /// No description provided for @noTrainerCategoriesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No trainer categories yet.'**
+  String get noTrainerCategoriesYet;
+
+  /// No description provided for @oneTrainerManyMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'One trainer can hold many members'**
+  String get oneTrainerManyMembers;
+
+  /// No description provided for @categoryNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Rehab, Strength, Yoga'**
+  String get categoryNameHint;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @keepIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep it'**
+  String get keepIt;
+
+  /// No description provided for @deleteNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}?'**
+  String deleteNamed(String name);
+
   /// No description provided for @decline.
   ///
   /// In en, this message translates to:
