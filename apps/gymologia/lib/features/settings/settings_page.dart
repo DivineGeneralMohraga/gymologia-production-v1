@@ -17,6 +17,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     final auth = context.watch<AuthController>();
     final modeController = context.watch<AppModeController>();
     final user = auth.user;
@@ -125,7 +126,7 @@ class SettingsPage extends StatelessWidget {
             color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
             child: ListTile(
               leading: const Icon(Icons.card_giftcard_outlined),
-              title: const Text('Earn by referring gyms'),
+              title: Text(t.earnByReferring),
               subtitle: const Text(
                   'Share a code, and earn when a gym owner subscribes. The referral app is not out yet.'),
               isThreeLine: true,
@@ -134,10 +135,10 @@ class SettingsPage extends StatelessWidget {
         ),
 
         const SizedBox(height: 12),
-        const _SectionLabel('Account'),
+        _SectionLabel(t.account),
         ListTile(
           leading: const Icon(Icons.phone_outlined),
-          title: const Text('Phone number'),
+          title: Text(t.phoneNumber),
           subtitle: Text(user?.phone ?? '—'),
           trailing: const Icon(Icons.lock_outline, size: 16),
           onTap: () => _toast(context,
@@ -145,7 +146,7 @@ class SettingsPage extends StatelessWidget {
         ),
         ListTile(
           leading: const Icon(Icons.badge_outlined),
-          title: const Text('Name'),
+          title: Text(t.name),
           subtitle: Text(user?.name ?? '—'),
           trailing: const Icon(Icons.chevron_right),
           onTap: () => Navigator.of(context).push(
@@ -154,7 +155,7 @@ class SettingsPage extends StatelessWidget {
         ),
         ListTile(
           leading: const Icon(Icons.mail_outline),
-          title: const Text('Email'),
+          title: Text(t.email),
           subtitle: Text(user?.email ?? 'Not set'),
           trailing: const Icon(Icons.chevron_right),
           onTap: () => Navigator.of(context).push(
@@ -165,7 +166,7 @@ class SettingsPage extends StatelessWidget {
         const _SectionLabel('Support'),
         ListTile(
           leading: const Icon(Icons.support_agent_outlined),
-          title: const Text('Get help'),
+          title: Text(t.getHelp),
           subtitle: const Text('Send us a message and we will call you back'),
           trailing: const Icon(Icons.chevron_right),
           onTap: () => Navigator.of(context).push(
@@ -174,7 +175,7 @@ class SettingsPage extends StatelessWidget {
         ),
         ListTile(
           leading: const Icon(Icons.dns_outlined),
-          title: const Text('Connection'),
+          title: Text(t.connection),
           subtitle: Text(AppConfig.displayHost),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(builder: (_) => const DiagnosticsScreen()),
@@ -196,14 +197,14 @@ class SettingsPage extends StatelessWidget {
         ),
         ListTile(
           leading: const Icon(Icons.description_outlined),
-          title: const Text('Terms & Privacy Policy'),
+          title: Text(t.termsAndPrivacy),
           trailing: const Icon(Icons.chevron_right),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(builder: (_) => const LegalPage()),
           ),
         ),
 
-        const _SectionLabel('Session'),
+        _SectionLabel(t.session),
         ListTile(
           leading: Icon(Icons.logout, color: theme.colorScheme.error),
           title: Text('Sign out', style: TextStyle(color: theme.colorScheme.error)),

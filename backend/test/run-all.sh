@@ -4,9 +4,14 @@
 #
 #   bash test/run-all.sh
 #
-# Run against the compiled build:
+# Run against the compiled build. Start it DETACHED, or it dies with the
+# shell that launched it and every suite after that fails at setup looking
+# like a real regression:
 #
-#   npm run build && node dist/main.js
+#   npm run build
+#   powershell -c "Start-Process node -ArgumentList 'dist/main.js' #     -WorkingDirectory (Get-Location) -RedirectStandardOutput server.log #     -WindowStyle Hidden"
+#
+# On a normal Unix host, `nohup node dist/main.js &` does the same job.
 #
 # Never against `npm run start:dev` -- watch mode restarts the server when a
 # file changes, and editing anything mid-run produces a scatter of failures

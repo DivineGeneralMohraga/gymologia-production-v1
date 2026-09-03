@@ -83,6 +83,42 @@ class AppLocalizationsTe extends AppLocalizations {
   String get home => 'హోమ్';
 
   @override
+  String get myGym => 'నా జిమ్';
+
+  @override
+  String get findAGymTab => 'జిమ్ కనుగొనండి';
+
+  @override
+  String get discover => 'అన్వేషించండి';
+
+  @override
+  String get sendOtp => 'OTP పంపండి';
+
+  @override
+  String get verifyYourNumber => 'మీ నంబర్ ధృవీకరించండి';
+
+  @override
+  String get codeResent => 'కొత్త కోడ్ పంపబడుతోంది.';
+
+  @override
+  String get name => 'పేరు';
+
+  @override
+  String get email => 'ఇమెయిల్';
+
+  @override
+  String get connection => 'కనెక్షన్';
+
+  @override
+  String get account => 'ఖాతా';
+
+  @override
+  String get session => 'సెషన్';
+
+  @override
+  String get earnByReferring => 'రిఫర్ చేసి సంపాదించండి';
+
+  @override
   String get gyms => 'జిమ్‌లు';
 
   @override

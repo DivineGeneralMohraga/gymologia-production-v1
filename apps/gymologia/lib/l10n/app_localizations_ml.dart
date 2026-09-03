@@ -84,6 +84,42 @@ class AppLocalizationsMl extends AppLocalizations {
   String get home => 'ഹോം';
 
   @override
+  String get myGym => 'എന്റെ ജിം';
+
+  @override
+  String get findAGymTab => 'ജിം കണ്ടെത്തുക';
+
+  @override
+  String get discover => 'കണ്ടെത്തുക';
+
+  @override
+  String get sendOtp => 'OTP അയയ്ക്കുക';
+
+  @override
+  String get verifyYourNumber => 'നിങ്ങളുടെ നമ്പർ സ്ഥിരീകരിക്കുക';
+
+  @override
+  String get codeResent => 'പുതിയ കോഡ് അയയ്ക്കുന്നു.';
+
+  @override
+  String get name => 'പേര്';
+
+  @override
+  String get email => 'ഇമെയിൽ';
+
+  @override
+  String get connection => 'കണക്ഷൻ';
+
+  @override
+  String get account => 'അക്കൗണ്ട്';
+
+  @override
+  String get session => 'സെഷൻ';
+
+  @override
+  String get earnByReferring => 'റഫർ ചെയ്ത് സമ്പാദിക്കുക';
+
+  @override
   String get gyms => 'ജിമ്മുകൾ';
 
   @override

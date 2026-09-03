@@ -83,6 +83,42 @@ class AppLocalizationsMr extends AppLocalizations {
   String get home => 'होम';
 
   @override
+  String get myGym => 'माझे जिम';
+
+  @override
+  String get findAGymTab => 'जिम शोधा';
+
+  @override
+  String get discover => 'शोधा';
+
+  @override
+  String get sendOtp => 'OTP पाठवा';
+
+  @override
+  String get verifyYourNumber => 'तुमचा नंबर पडताळा';
+
+  @override
+  String get codeResent => 'नवीन कोड पाठवला जात आहे.';
+
+  @override
+  String get name => 'नाव';
+
+  @override
+  String get email => 'ईमेल';
+
+  @override
+  String get connection => 'कनेक्शन';
+
+  @override
+  String get account => 'खाते';
+
+  @override
+  String get session => 'सत्र';
+
+  @override
+  String get earnByReferring => 'संदर्भ देऊन कमवा';
+
+  @override
   String get gyms => 'जिम';
 
   @override

@@ -84,6 +84,42 @@ class AppLocalizationsHi extends AppLocalizations {
   String get home => 'होम';
 
   @override
+  String get myGym => 'मेरा जिम';
+
+  @override
+  String get findAGymTab => 'जिम खोजें';
+
+  @override
+  String get discover => 'खोजें';
+
+  @override
+  String get sendOtp => 'OTP भेजें';
+
+  @override
+  String get verifyYourNumber => 'अपना नंबर सत्यापित करें';
+
+  @override
+  String get codeResent => 'नया कोड भेजा जा रहा है।';
+
+  @override
+  String get name => 'नाम';
+
+  @override
+  String get email => 'ईमेल';
+
+  @override
+  String get connection => 'कनेक्शन';
+
+  @override
+  String get account => 'खाता';
+
+  @override
+  String get session => 'सत्र';
+
+  @override
+  String get earnByReferring => 'रेफ़र करके कमाएं';
+
+  @override
   String get gyms => 'जिम';
 
   @override

@@ -84,6 +84,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home => 'Home';
 
   @override
+  String get myGym => 'My gym';
+
+  @override
+  String get findAGymTab => 'Find a gym';
+
+  @override
+  String get discover => 'Discover';
+
+  @override
+  String get sendOtp => 'Send OTP';
+
+  @override
+  String get verifyYourNumber => 'Verify your number';
+
+  @override
+  String get codeResent => 'A new code is on its way.';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get connection => 'Connection';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get session => 'Session';
+
+  @override
+  String get earnByReferring => 'Earn by referring gyms';
+
+  @override
   String get gyms => 'Gyms';
 
   @override

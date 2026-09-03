@@ -84,6 +84,42 @@ class AppLocalizationsPa extends AppLocalizations {
   String get home => 'ਹੋਮ';
 
   @override
+  String get myGym => 'ਮੇਰਾ ਜਿਮ';
+
+  @override
+  String get findAGymTab => 'ਜਿਮ ਲੱਭੋ';
+
+  @override
+  String get discover => 'ਖੋਜੋ';
+
+  @override
+  String get sendOtp => 'OTP ਭੇਜੋ';
+
+  @override
+  String get verifyYourNumber => 'ਆਪਣਾ ਨੰਬਰ ਤਸਦੀਕ ਕਰੋ';
+
+  @override
+  String get codeResent => 'ਨਵਾਂ ਕੋਡ ਭੇਜਿਆ ਜਾ ਰਿਹਾ ਹੈ।';
+
+  @override
+  String get name => 'ਨਾਮ';
+
+  @override
+  String get email => 'ਈਮੇਲ';
+
+  @override
+  String get connection => 'ਕਨੈਕਸ਼ਨ';
+
+  @override
+  String get account => 'ਖਾਤਾ';
+
+  @override
+  String get session => 'ਸੈਸ਼ਨ';
+
+  @override
+  String get earnByReferring => 'ਰੈਫਰ ਕਰਕੇ ਕਮਾਓ';
+
+  @override
   String get gyms => 'ਜਿਮ';
 
   @override

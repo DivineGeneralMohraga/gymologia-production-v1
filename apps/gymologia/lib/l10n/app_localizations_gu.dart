@@ -83,6 +83,42 @@ class AppLocalizationsGu extends AppLocalizations {
   String get home => 'હોમ';
 
   @override
+  String get myGym => 'મારું જિમ';
+
+  @override
+  String get findAGymTab => 'જિમ શોધો';
+
+  @override
+  String get discover => 'શોધો';
+
+  @override
+  String get sendOtp => 'OTP મોકલો';
+
+  @override
+  String get verifyYourNumber => 'તમારો નંબર ચકાસો';
+
+  @override
+  String get codeResent => 'નવો કોડ મોકલાઈ રહ્યો છે.';
+
+  @override
+  String get name => 'નામ';
+
+  @override
+  String get email => 'ઇમેઇલ';
+
+  @override
+  String get connection => 'કનેક્શન';
+
+  @override
+  String get account => 'ખાતું';
+
+  @override
+  String get session => 'સત્ર';
+
+  @override
+  String get earnByReferring => 'રેફર કરીને કમાઓ';
+
+  @override
   String get gyms => 'જિમ';
 
   @override

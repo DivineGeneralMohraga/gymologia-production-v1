@@ -84,6 +84,42 @@ class AppLocalizationsTa extends AppLocalizations {
   String get home => 'முகப்பு';
 
   @override
+  String get myGym => 'என் கூடம்';
+
+  @override
+  String get findAGymTab => 'கூடம் தேடு';
+
+  @override
+  String get discover => 'கண்டறி';
+
+  @override
+  String get sendOtp => 'OTP அனுப்பு';
+
+  @override
+  String get verifyYourNumber => 'உங்கள் எண்ணைச் சரிபார்க்கவும்';
+
+  @override
+  String get codeResent => 'புதிய குறியீடு அனுப்பப்படுகிறது.';
+
+  @override
+  String get name => 'பெயர்';
+
+  @override
+  String get email => 'மின்னஞ்சல்';
+
+  @override
+  String get connection => 'இணைப்பு';
+
+  @override
+  String get account => 'கணக்கு';
+
+  @override
+  String get session => 'அமர்வு';
+
+  @override
+  String get earnByReferring => 'பரிந்துரைத்து சம்பாதிக்கவும்';
+
+  @override
   String get gyms => 'உடற்பயிற்சி கூடம்';
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/gym_api.dart';
 import '../../core/api/models.dart';
@@ -71,24 +72,26 @@ class _AppShellState extends State<AppShell> {
 
   bool get _hasMembership => _memberships.isNotEmpty;
 
-  List<_Tab> _tabsFor(AppMode mode) {
+  /// Labels come from the localisations rather than being constants, so the
+  /// bar follows the language the app is being read in.
+  List<_Tab> _tabsFor(AppMode mode, AppLocalizations t) {
     if (mode == AppMode.staff) {
-      return const [
-        _Tab('Gyms', Icons.fitness_center_outlined, Icons.fitness_center),
-        _Tab('Events', Icons.event_outlined, Icons.event),
-        _Tab('Settings', Icons.settings_outlined, Icons.settings),
+      return [
+        _Tab(t.gyms, Icons.fitness_center_outlined, Icons.fitness_center),
+        _Tab(t.events, Icons.event_outlined, Icons.event),
+        _Tab(t.settings, Icons.settings_outlined, Icons.settings),
       ];
     }
     // Member mode. The first tab differs depending on whether they belong
-    // to a gym, which is why the label is not a constant.
+    // to a gym.
     return [
       _hasMembership
-          ? const _Tab('My gym', Icons.home_outlined, Icons.home)
-          : const _Tab('Find a gym', Icons.search_outlined, Icons.search),
+          ? _Tab(t.myGym, Icons.home_outlined, Icons.home)
+          : _Tab(t.findAGymTab, Icons.search_outlined, Icons.search),
       if (_hasMembership)
-        const _Tab('Discover', Icons.search_outlined, Icons.search),
-      const _Tab('Events', Icons.event_outlined, Icons.event),
-      const _Tab('Settings', Icons.settings_outlined, Icons.settings),
+        _Tab(t.discover, Icons.search_outlined, Icons.search),
+      _Tab(t.events, Icons.event_outlined, Icons.event),
+      _Tab(t.settings, Icons.settings_outlined, Icons.settings),
     ];
   }
 
@@ -121,7 +124,7 @@ class _AppShellState extends State<AppShell> {
   Widget build(BuildContext context) {
     final modeController = context.watch<AppModeController>();
     final mode = modeController.mode;
-    final tabs = _tabsFor(mode);
+    final tabs = _tabsFor(mode, AppLocalizations.of(context));
     final index = _index.clamp(0, tabs.length - 1);
 
     if (_loading) {
@@ -255,7 +258,7 @@ class _ErrorState extends StatelessWidget {
             const SizedBox(height: 14),
             Text(message, textAlign: TextAlign.center),
             const SizedBox(height: 18),
-            FilledButton.tonal(onPressed: onRetry, child: const Text('Try again')),
+            FilledButton.tonal(onPressed: onRetry, child: Text(AppLocalizations.of(context).tryAgain)),
           ],
         ),
       ),

@@ -83,6 +83,42 @@ class AppLocalizationsKn extends AppLocalizations {
   String get home => 'ಮುಖಪುಟ';
 
   @override
+  String get myGym => 'ನನ್ನ ಜಿಮ್';
+
+  @override
+  String get findAGymTab => 'ಜಿಮ್ ಹುಡುಕಿ';
+
+  @override
+  String get discover => 'ಅನ್ವೇಷಿಸಿ';
+
+  @override
+  String get sendOtp => 'OTP ಕಳುಹಿಸಿ';
+
+  @override
+  String get verifyYourNumber => 'ನಿಮ್ಮ ಸಂಖ್ಯೆ ಪರಿಶೀಲಿಸಿ';
+
+  @override
+  String get codeResent => 'ಹೊಸ ಕೋಡ್ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ.';
+
+  @override
+  String get name => 'ಹೆಸರು';
+
+  @override
+  String get email => 'ಇಮೇಲ್';
+
+  @override
+  String get connection => 'ಸಂಪರ್ಕ';
+
+  @override
+  String get account => 'ಖಾತೆ';
+
+  @override
+  String get session => 'ಸೆಷನ್';
+
+  @override
+  String get earnByReferring => 'ಶಿಫಾರಸು ಮಾಡಿ ಗಳಿಸಿ';
+
+  @override
   String get gyms => 'ಜಿಮ್‌ಗಳು';
 
   @override

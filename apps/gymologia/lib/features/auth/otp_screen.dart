@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/auth_api.dart';
@@ -98,7 +99,7 @@ class _OtpScreenState extends State<OtpScreen> {
     _startCountdown(fresh.resendAfterSeconds);
     _controller.clear();
     ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text('A new code is on its way.')));
+        .showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).codeResent)));
   }
 
   @override
@@ -108,7 +109,7 @@ class _OtpScreenState extends State<OtpScreen> {
     final canResend = _secondsLeft <= 0 && !auth.busy;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Verify your number')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).verifyYourNumber)),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -152,7 +153,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             width: 22,
                             child: CircularProgressIndicator(strokeWidth: 2.5),
                           )
-                        : const Text('Verify'),
+                        : Text(AppLocalizations.of(context).verifyCode),
                   ),
                   const SizedBox(height: 12),
                   TextButton(

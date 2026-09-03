@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../core/config/app_config.dart';
@@ -106,7 +107,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                               width: 22,
                               child: CircularProgressIndicator(strokeWidth: 2.5),
                             )
-                          : const Text('Send OTP'),
+                          : Text(AppLocalizations.of(context).sendOtp),
                     ),
                     const SizedBox(height: 28),
                     // Visible on every build, not just debug: when a tester

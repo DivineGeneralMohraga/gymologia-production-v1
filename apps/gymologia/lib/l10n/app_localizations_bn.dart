@@ -84,6 +84,42 @@ class AppLocalizationsBn extends AppLocalizations {
   String get home => 'হোম';
 
   @override
+  String get myGym => 'আমার জিম';
+
+  @override
+  String get findAGymTab => 'জিম খুঁজুন';
+
+  @override
+  String get discover => 'খুঁজুন';
+
+  @override
+  String get sendOtp => 'OTP পাঠান';
+
+  @override
+  String get verifyYourNumber => 'আপনার নম্বর যাচাই করুন';
+
+  @override
+  String get codeResent => 'নতুন কোড পাঠানো হচ্ছে।';
+
+  @override
+  String get name => 'নাম';
+
+  @override
+  String get email => 'ইমেল';
+
+  @override
+  String get connection => 'সংযোগ';
+
+  @override
+  String get account => 'অ্যাকাউন্ট';
+
+  @override
+  String get session => 'সেশন';
+
+  @override
+  String get earnByReferring => 'রেফার করে আয় করুন';
+
+  @override
   String get gyms => 'জিম';
 
   @override
