@@ -193,6 +193,28 @@ class AppLocalizationsPa extends AppLocalizations {
   String get yourProgress => 'ਤੁਹਾਡੀ ਤਰੱਕੀ';
 
   @override
+  String get addMeasurementsPrompt =>
+      'ਆਪਣਾ ਭਾਰ ਅਤੇ ਕੱਦ ਦਰਜ ਕਰੋ ਤਾਂ ਜੋ ਜਿਮ ਤੁਹਾਡੇ ਨਾਲ ਤਰੱਕੀ ਦੇਖ ਸਕੇ।';
+
+  @override
+  String get progressSubtitle => 'ਸਮੇਂ ਨਾਲ ਭਾਰ, ਅਤੇ ਤੁਸੀਂ ਕਿੰਨੀ ਵਾਰ ਆਏ।';
+
+  @override
+  String get attendanceAppearsHere =>
+      'ਜਦੋਂ ਤੁਸੀਂ ਕਿਸੇ ਜਿਮ ਦੇ ਮੈਂਬਰ ਬਣੋਗੇ ਅਤੇ ਸਟਾਫ਼ ਹਾਜ਼ਰੀ ਲਗਾਉਣ ਲੱਗੇਗਾ, ਤਾਂ ਇਹ ਇੱਥੇ ਦਿਖੇਗੀ।';
+
+  @override
+  String get twoCheckInsDrawALine =>
+      'ਦੋ ਦਰਜਾਂ ਨਾਲ ਰੇਖਾ ਬਣਦੀ ਹੈ। ਹਰ ਮਹੀਨੇ ਭਾਰ ਦਰਜ ਕਰੋ, ਇਹ ਭਰਦੀ ਜਾਵੇਗੀ।';
+
+  @override
+  String get nothingMatchesFilters => 'ਇਹਨਾਂ ਫਿਲਟਰਾਂ ਨਾਲ ਕੁਝ ਮੇਲ ਨਹੀਂ ਖਾਂਦਾ।';
+
+  @override
+  String get howToJoinGym =>
+      'ਜੁੜਨ ਲਈ ਸਿੱਧਾ ਜਿਮ ਨਾਲ ਸੰਪਰਕ ਕਰੋ। ਉਹ ਤੁਹਾਨੂੰ ਮੈਂਬਰ ਵਜੋਂ ਜੋੜਨਗੇ।';
+
+  @override
   String get weight => 'ਭਾਰ';
 
   @override

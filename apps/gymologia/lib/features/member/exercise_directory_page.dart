@@ -188,7 +188,7 @@ class _ExerciseDirectoryPageState extends State<ExerciseDirectoryPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(32),
                               child: Text(
-                                'Nothing matches those filters.',
+                                AppLocalizations.of(context).nothingMatchesFilters,
                                 textAlign: TextAlign.center,
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   color: theme.colorScheme.onSurfaceVariant,

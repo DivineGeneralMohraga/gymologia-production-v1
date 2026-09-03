@@ -150,8 +150,7 @@ class _GymProfilePageState extends State<GymProfilePage> {
                   ),
                 const SizedBox(height: 12),
                 Text(
-                  'To join, contact the gym directly. They will add you as a member '
-                  'and it will appear here automatically.',
+                  AppLocalizations.of(context).howToJoinGym,
                   style: theme.textTheme.bodySmall
                       ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                 ),

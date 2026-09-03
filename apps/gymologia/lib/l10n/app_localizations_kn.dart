@@ -192,6 +192,29 @@ class AppLocalizationsKn extends AppLocalizations {
   String get yourProgress => 'ನಿಮ್ಮ ಪ್ರಗತಿ';
 
   @override
+  String get addMeasurementsPrompt =>
+      'ನಿಮ್ಮ ತೂಕ ಮತ್ತು ಎತ್ತರ ಸೇರಿಸಿ, ಆಗ ಜಿಮ್ ನಿಮ್ಮೊಂದಿಗೆ ಪ್ರಗತಿ ನೋಡಬಹುದು.';
+
+  @override
+  String get progressSubtitle =>
+      'ಕಾಲಾನಂತರ ತೂಕ, ಮತ್ತು ನೀವು ಎಷ್ಟು ಬಾರಿ ಬಂದಿದ್ದೀರಿ.';
+
+  @override
+  String get attendanceAppearsHere =>
+      'ನೀವು ಜಿಮ್‌ನ ಸದಸ್ಯರಾದ ನಂತರ ಮತ್ತು ಸಿಬ್ಬಂದಿ ಹಾಜರಾತಿ ದಾಖಲಿಸಲು ಆರಂಭಿಸಿದ ನಂತರ ಇದು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.';
+
+  @override
+  String get twoCheckInsDrawALine =>
+      'ಎರಡು ದಾಖಲೆಗಳು ಒಂದು ಗೆರೆ ಎಳೆಯುತ್ತವೆ. ಪ್ರತಿ ತಿಂಗಳು ತೂಕ ಸೇರಿಸಿದರೆ ಇದು ತುಂಬುತ್ತದೆ.';
+
+  @override
+  String get nothingMatchesFilters => 'ಈ ಫಿಲ್ಟರ್‌ಗಳಿಗೆ ಏನೂ ಹೊಂದಿಕೆಯಾಗಲಿಲ್ಲ.';
+
+  @override
+  String get howToJoinGym =>
+      'ಸೇರಲು ನೇರವಾಗಿ ಜಿಮ್ ಸಂಪರ್ಕಿಸಿ. ಅವರು ನಿಮ್ಮನ್ನು ಸದಸ್ಯರಾಗಿ ಸೇರಿಸುತ್ತಾರೆ.';
+
+  @override
   String get weight => 'ತೂಕ';
 
   @override

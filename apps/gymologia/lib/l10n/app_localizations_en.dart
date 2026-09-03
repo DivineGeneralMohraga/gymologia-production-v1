@@ -193,6 +193,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yourProgress => 'Your progress';
 
   @override
+  String get addMeasurementsPrompt =>
+      'Add your weight and height so your gym can track progress with you.';
+
+  @override
+  String get progressSubtitle =>
+      'Weight over time, and how often you have turned up.';
+
+  @override
+  String get attendanceAppearsHere =>
+      'Attendance appears here once you are a member of a gym and staff start marking you in.';
+
+  @override
+  String get twoCheckInsDrawALine =>
+      'Two check-ins draw a line. Add your weight each month and this fills in.';
+
+  @override
+  String get nothingMatchesFilters => 'Nothing matches those filters.';
+
+  @override
+  String get howToJoinGym =>
+      'To join, contact the gym directly. They will add you as a member.';
+
+  @override
   String get weight => 'Weight';
 
   @override

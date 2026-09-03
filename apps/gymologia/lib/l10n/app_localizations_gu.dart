@@ -192,6 +192,28 @@ class AppLocalizationsGu extends AppLocalizations {
   String get yourProgress => 'તમારી પ્રગતિ';
 
   @override
+  String get addMeasurementsPrompt =>
+      'તમારું વજન અને ઊંચાઈ ઉમેરો જેથી જિમ તમારી સાથે પ્રગતિ જોઈ શકે.';
+
+  @override
+  String get progressSubtitle => 'સમય સાથે વજન, અને તમે કેટલી વાર આવ્યા.';
+
+  @override
+  String get attendanceAppearsHere =>
+      'તમે કોઈ જિમના સભ્ય બનો અને સ્ટાફ હાજરી નોંધવા લાગે પછી આ અહીં દેખાશે.';
+
+  @override
+  String get twoCheckInsDrawALine =>
+      'બે નોંધથી રેખા બને છે. દર મહિને વજન ઉમેરો, આ ભરાતું જશે.';
+
+  @override
+  String get nothingMatchesFilters => 'આ ફિલ્ટર સાથે કંઈ મેળ ખાતું નથી.';
+
+  @override
+  String get howToJoinGym =>
+      'જોડાવા માટે સીધો જિમનો સંપર્ક કરો. તેઓ તમને સભ્ય તરીકે ઉમેરશે.';
+
+  @override
   String get weight => 'વજન';
 
   @override

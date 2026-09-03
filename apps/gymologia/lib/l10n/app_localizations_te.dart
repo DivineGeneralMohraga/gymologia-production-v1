@@ -192,6 +192,29 @@ class AppLocalizationsTe extends AppLocalizations {
   String get yourProgress => 'మీ పురోగతి';
 
   @override
+  String get addMeasurementsPrompt =>
+      'మీ బరువు మరియు ఎత్తును జోడించండి, తద్వారా జిమ్ మీతో పురోగతిని చూడగలదు.';
+
+  @override
+  String get progressSubtitle =>
+      'కాలక్రమేణా బరువు, మరియు మీరు ఎన్నిసార్లు వచ్చారు.';
+
+  @override
+  String get attendanceAppearsHere =>
+      'మీరు ఒక జిమ్‌లో సభ్యులైన తర్వాత, సిబ్బంది హాజరు నమోదు మొదలుపెట్టాక ఇది ఇక్కడ కనిపిస్తుంది.';
+
+  @override
+  String get twoCheckInsDrawALine =>
+      'రెండు నమోదులు ఒక గీతను గీస్తాయి. ప్రతి నెలా బరువు జోడిస్తే ఇది నిండుతుంది.';
+
+  @override
+  String get nothingMatchesFilters => 'ఈ ఫిల్టర్‌లకు ఏదీ సరిపోలలేదు.';
+
+  @override
+  String get howToJoinGym =>
+      'చేరడానికి నేరుగా జిమ్‌ను సంప్రదించండి. వారు మిమ్మల్ని సభ్యుడిగా చేరుస్తారు.';
+
+  @override
   String get weight => 'బరువు';
 
   @override

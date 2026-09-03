@@ -114,7 +114,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                 const SizedBox(height: 6),
                 if (latest == null)
                   Text(
-                    'Add your weight and height so your gym can track progress with you.',
+                    AppLocalizations.of(context).addMeasurementsPrompt,
                     style: theme.textTheme.bodyMedium
                         ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                   )
@@ -173,8 +173,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
             ),
             title: Text(AppLocalizations.of(context).yourProgress,
                 style: TextStyle(fontWeight: FontWeight.w700)),
-            subtitle: const Text(
-                'Weight over time, and how often you have turned up.'),
+            subtitle: Text(AppLocalizations.of(context).progressSubtitle),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
@@ -224,8 +223,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
             ),
             title: Text(AppLocalizations.of(context).exerciseDirectory,
                 style: TextStyle(fontWeight: FontWeight.w700)),
-            subtitle: const Text(
-                'Strength, cardio and yoga, with step-by-step form cues.'),
+            subtitle: Text(AppLocalizations.of(context).exerciseDirectorySubtitle),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(

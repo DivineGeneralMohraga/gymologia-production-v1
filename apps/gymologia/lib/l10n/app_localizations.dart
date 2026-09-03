@@ -450,6 +450,42 @@ abstract class AppLocalizations {
   /// **'Your progress'**
   String get yourProgress;
 
+  /// No description provided for @addMeasurementsPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your weight and height so your gym can track progress with you.'**
+  String get addMeasurementsPrompt;
+
+  /// No description provided for @progressSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight over time, and how often you have turned up.'**
+  String get progressSubtitle;
+
+  /// No description provided for @attendanceAppearsHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Attendance appears here once you are a member of a gym and staff start marking you in.'**
+  String get attendanceAppearsHere;
+
+  /// No description provided for @twoCheckInsDrawALine.
+  ///
+  /// In en, this message translates to:
+  /// **'Two check-ins draw a line. Add your weight each month and this fills in.'**
+  String get twoCheckInsDrawALine;
+
+  /// No description provided for @nothingMatchesFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches those filters.'**
+  String get nothingMatchesFilters;
+
+  /// No description provided for @howToJoinGym.
+  ///
+  /// In en, this message translates to:
+  /// **'To join, contact the gym directly. They will add you as a member.'**
+  String get howToJoinGym;
+
   /// No description provided for @weight.
   ///
   /// In en, this message translates to:

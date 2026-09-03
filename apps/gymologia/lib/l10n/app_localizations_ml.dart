@@ -193,6 +193,30 @@ class AppLocalizationsMl extends AppLocalizations {
   String get yourProgress => 'നിങ്ങളുടെ പുരോഗതി';
 
   @override
+  String get addMeasurementsPrompt =>
+      'നിങ്ങളുടെ ഭാരവും ഉയരവും ചേർക്കുക, അപ്പോൾ ജിമ്മിന് നിങ്ങളുടെ പുരോഗതി കാണാം.';
+
+  @override
+  String get progressSubtitle =>
+      'കാലക്രമേണ ഭാരം, നിങ്ങൾ എത്ര തവണ വന്നു എന്നതും.';
+
+  @override
+  String get attendanceAppearsHere =>
+      'നിങ്ങൾ ഒരു ജിമ്മിലെ അംഗമായി ജീവനക്കാർ ഹാജർ രേഖപ്പെടുത്താൻ തുടങ്ങിയാൽ ഇത് ഇവിടെ കാണാം.';
+
+  @override
+  String get twoCheckInsDrawALine =>
+      'രണ്ട് രേഖപ്പെടുത്തലുകൾ ഒരു വര വരയ്ക്കും. എല്ലാ മാസവും ഭാരം ചേർത്താൽ ഇത് നിറയും.';
+
+  @override
+  String get nothingMatchesFilters =>
+      'ഈ ഫിൽട്ടറുകൾക്ക് ഒന്നും യോജിക്കുന്നില്ല.';
+
+  @override
+  String get howToJoinGym =>
+      'ചേരാൻ ജിമ്മുമായി നേരിട്ട് ബന്ധപ്പെടുക. അവർ നിങ്ങളെ അംഗമായി ചേർക്കും.';
+
+  @override
   String get weight => 'ഭാരം';
 
   @override

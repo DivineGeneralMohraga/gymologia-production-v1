@@ -93,8 +93,7 @@ class _ProgressPageState extends State<ProgressPage> {
                           child: Padding(
                             padding: const EdgeInsets.all(18),
                             child: Text(
-                              'Attendance appears here once you are a member '
-                              'of a gym and staff start marking you in.',
+                              AppLocalizations.of(context).attendanceAppearsHere,
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: theme.colorScheme.onSurfaceVariant,
                               ),
@@ -202,8 +201,7 @@ class _WeightCard extends StatelessWidget {
             const SizedBox(height: 18),
             if (points.length < 2)
               Text(
-                'Two check-ins draw a line. Add your weight each month and '
-                'this fills in.',
+                AppLocalizations.of(context).twoCheckInsDrawALine,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),

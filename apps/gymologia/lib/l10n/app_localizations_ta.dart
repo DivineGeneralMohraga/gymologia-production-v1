@@ -194,6 +194,30 @@ class AppLocalizationsTa extends AppLocalizations {
   String get yourProgress => 'உங்கள் முன்னேற்றம்';
 
   @override
+  String get addMeasurementsPrompt =>
+      'உங்கள் எடை மற்றும் உயரத்தைச் சேர்க்கவும், அப்போது கூடம் உங்களுடன் முன்னேற்றத்தைக் காணும்.';
+
+  @override
+  String get progressSubtitle =>
+      'காலப்போக்கில் எடை, மற்றும் நீங்கள் எத்தனை முறை வந்தீர்கள்.';
+
+  @override
+  String get attendanceAppearsHere =>
+      'நீங்கள் ஒரு கூடத்தின் உறுப்பினரானதும், பணியாளர்கள் வருகையைப் பதிவு செய்யத் தொடங்கியதும் இது இங்கே தோன்றும்.';
+
+  @override
+  String get twoCheckInsDrawALine =>
+      'இரண்டு பதிவுகள் ஒரு கோட்டை வரையும். ஒவ்வொரு மாதமும் எடையைச் சேர்த்தால் இது நிரம்பும்.';
+
+  @override
+  String get nothingMatchesFilters =>
+      'இந்த வடிகட்டிகளுக்கு எதுவும் பொருந்தவில்லை.';
+
+  @override
+  String get howToJoinGym =>
+      'சேர, கூடத்தை நேரடியாகத் தொடர்பு கொள்ளுங்கள். அவர்கள் உங்களை உறுப்பினராகச் சேர்ப்பார்கள்.';
+
+  @override
   String get weight => 'எடை';
 
   @override
