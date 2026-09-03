@@ -7,6 +7,9 @@ import '../shell/app_mode.dart';
 import 'edit_profile_page.dart';
 import 'support_page.dart';
 import 'legal_page.dart';
+import 'language_page.dart';
+import 'locale_controller.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Settings, and the switch between member and owner/staff mode.
 class SettingsPage extends StatelessWidget {
@@ -175,6 +178,20 @@ class SettingsPage extends StatelessWidget {
           subtitle: Text(AppConfig.displayHost),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(builder: (_) => const DiagnosticsScreen()),
+          ),
+        ),
+        ListTile(
+          leading: const Icon(Icons.translate),
+          title: Text(AppLocalizations.of(context).language),
+          subtitle: Text(
+            context.watch<LocaleController>().locale == null
+                ? 'Following your device'
+                : LanguagePage.nameFor(
+                    context.watch<LocaleController>().locale!.languageCode),
+          ),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const LanguagePage()),
           ),
         ),
         ListTile(

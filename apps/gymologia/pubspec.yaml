@@ -9,6 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Date, number and message formatting per locale.
+  intl: any
   cupertino_icons: ^1.0.8
 
   # Networking
@@ -29,3 +34,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  # Generates AppLocalizations from lib/l10n/*.arb at build time.
+  generate: true

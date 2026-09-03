@@ -1,0 +1,104 @@
+{
+  "@@locale": "en",
+
+  "appName": "Gymologia",
+
+  "languageName": "English",
+  "@languageName": {
+    "description": "This language's own name, shown in the language picker. Always written in the language itself, because someone looking for their language cannot read the list in a language they do not have."
+  },
+
+  "settings": "Settings",
+  "language": "Language",
+  "languageSubtitle": "Choose the language you read most comfortably",
+  "save": "Save",
+  "cancel": "Cancel",
+  "tryAgain": "Try again",
+  "loading": "Loading",
+  "somethingWentWrong": "Something went wrong",
+
+  "signIn": "Sign in",
+  "phoneNumber": "Phone number",
+  "enterPhoneNumber": "Enter your mobile number",
+  "sendCode": "Send code",
+  "verifyCode": "Verify",
+  "enterCode": "Enter the code we sent you",
+  "resendCode": "Send it again",
+  "createAccount": "Create your account",
+  "yourName": "Your name",
+  "emailOptional": "Email (optional)",
+  "age": "Age",
+  "whyAgeNotBirthday": "We ask for your age, not your date of birth. A date of birth is tied to your bank and government records — an age is all a gym app needs.",
+  "termsAgreement": "Creating an account means you accept the Terms of Use and Privacy Policy.",
+
+  "home": "Home",
+  "gyms": "Gyms",
+  "events": "Events",
+  "chat": "Chat",
+  "profile": "Profile",
+
+  "findAGym": "Find a gym",
+  "searchGyms": "Search by name or locality",
+  "noGymsFound": "No gyms found here yet",
+  "perks": "Perks",
+  "contactGym": "Contact this gym",
+  "rating": "Rating",
+
+  "yourMembership": "Your membership",
+  "daysRemaining": "{count, plural, =0{Ends today} =1{1 day left} other{{count} days left}}",
+  "@daysRemaining": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "yourGoal": "Your goal",
+  "trainer": "Trainer",
+  "requestLeave": "Request leave",
+  "yourProgress": "Your progress",
+  "weight": "Weight",
+  "height": "Height",
+  "yourMeasurements": "Your measurements",
+  "addMeasurements": "Add your weight and height so your gym can track progress with you",
+  "checkInDue": "This month's check-in is due",
+  "thisMonth": "This month",
+  "perWeek": "Per week",
+  "weeksRunning": "{count, plural, =1{Week running} other{Weeks running}}",
+  "@weeksRunning": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "lastEightWeeks": "Last 8 weeks",
+
+  "exerciseDirectory": "Exercise directory",
+  "exerciseDirectorySubtitle": "Strength, cardio and yoga, with step-by-step form cues",
+  "steps": "Steps",
+
+  "attendance": "Attendance",
+  "members": "Members",
+  "staff": "Staff",
+  "leave": "Leave",
+  "roles": "Roles",
+  "analytics": "Analytics",
+  "growth": "Growth",
+  "ranking": "Ranking",
+  "plan": "Plan",
+  "announce": "Announce",
+  "gymProfile": "Gym profile",
+  "trainers": "Trainers",
+
+  "present": "Present",
+  "absent": "Absent",
+  "markAttendance": "Mark attendance",
+
+  "getHelp": "Get help",
+  "getHelpSubtitle": "Send us a message and we will get back to you",
+  "termsAndPrivacy": "Terms & Privacy Policy",
+  "signOut": "Sign out",
+  "switchToStaff": "Switch to owner/staff mode",
+  "switchToMember": "Switch to member mode",
+
+  "notifications": "Notifications",
+  "noNotifications": "Nothing new",
+
+  "needsReview": "Translation pending review",
+  "@needsReview": {
+    "description": "Shown beside a language that has been machine-translated and not yet checked by a native speaker."
+  }
+}

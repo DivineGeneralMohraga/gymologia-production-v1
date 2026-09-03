@@ -51,6 +51,13 @@ class ApiClient {
               options.headers['Authorization'] = 'Bearer $token';
             }
           }
+          // The exercise directory is translated server-side and picks the
+          // language off this header. Without it the interface would be in
+          // Tamil and the exercise steps in English.
+          final language = localeCode;
+          if (language != null) {
+            options.headers['Accept-Language'] = language;
+          }
           handler.next(options);
         },
       ),
@@ -59,6 +66,11 @@ class ApiClient {
 
   final Dio _dio;
   final TokenStore _tokens;
+
+  /// The language the interface is currently in, set by the app when the
+  /// locale is known or changed. Null until then, in which case the server
+  /// falls back to English.
+  String? localeCode;
 
   /// Set when the session cannot be recovered, so the app can drop to the
   /// login screen from wherever it is.

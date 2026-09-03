@@ -1,0 +1,10 @@
+# Where the translations live and what gets generated from them.
+#
+# Missing keys fall back to the template locale rather than showing a blank,
+# so a language can be added a few strings at a time without the app looking
+# broken in the meantime.
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+nullable-getter: false
