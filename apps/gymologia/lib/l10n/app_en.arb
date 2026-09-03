@@ -33,7 +33,6 @@
 
   "home": "Home",
   "myGym": "My gym",
-  "findAGymTab": "Find a gym",
   "discover": "Discover",
   "sendOtp": "Send OTP",
   "verifyYourNumber": "Verify your number",
@@ -115,6 +114,37 @@
   "steps": "Steps",
 
   "attendance": "Attendance",
+  "manage": "Manage",
+  "choosePlan": "Choose a plan",
+  "seeGrowthOverTime": "See growth over time",
+  "lastNDays": "Last {days} days",
+  "@lastNDays": {
+    "placeholders": { "days": { "type": "int" } }
+  },
+  "addMember": "Add member",
+  "addStaff": "Add staff",
+  "searchByNameOrNumber": "Search by name or number",
+  "tapCircleToMarkPresent": "Tap the circle to mark present, the row for details",
+  "markedPresent": "{name} marked present",
+  "@markedPresent": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "approve": "Approve",
+  "decline": "Decline",
+  "decidedBy": "Decided by {name}",
+  "@decidedBy": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "createAGym": "Create a gym",
+  "newGym": "New gym",
+  "draft": "Draft",
+  "nothingToChartYet": "Nothing to chart yet.",
+  "peakValue": "peak {value}",
+  "@peakValue": {
+    "placeholders": { "value": { "type": "int" } }
+  },
+  "searchRanking": "Search ranking",
+  "notInSearch": "Not in search",
   "members": "Members",
   "staff": "Staff",
   "leave": "Leave",

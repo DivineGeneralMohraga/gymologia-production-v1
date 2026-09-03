@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -61,7 +62,7 @@ class _GrowthPageState extends State<GrowthPage> {
     final data = _data;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Growth')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).growth)),
       body: _error != null
           ? Center(
               child: Padding(
@@ -72,7 +73,7 @@ class _GrowthPageState extends State<GrowthPage> {
                     Text(_error!, textAlign: TextAlign.center),
                     const SizedBox(height: 18),
                     FilledButton.tonal(
-                        onPressed: _load, child: const Text('Try again')),
+                        onPressed: _load, child: Text(AppLocalizations.of(context).tryAgain)),
                   ],
                 ),
               ),
@@ -212,9 +213,10 @@ class _GrowthChart extends StatelessWidget {
     final theme = Theme.of(context);
 
     if (buckets.isEmpty) {
-      return const SizedBox(
+      return SizedBox(
         height: 180,
-        child: Center(child: Text('Nothing to chart yet.')),
+        child: Center(
+            child: Text(AppLocalizations.of(context).nothingToChartYet)),
       );
     }
 
@@ -240,7 +242,7 @@ class _GrowthChart extends StatelessWidget {
               label: 'Left',
             ),
             const Spacer(),
-            Text('peak $peak',
+            Text(AppLocalizations.of(context).peakValue(peak),
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 )),

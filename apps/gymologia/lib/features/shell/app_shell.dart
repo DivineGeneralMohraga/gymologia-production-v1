@@ -87,7 +87,7 @@ class _AppShellState extends State<AppShell> {
     return [
       _hasMembership
           ? _Tab(t.myGym, Icons.home_outlined, Icons.home)
-          : _Tab(t.findAGymTab, Icons.search_outlined, Icons.search),
+          : _Tab(t.findAGym, Icons.search_outlined, Icons.search),
       if (_hasMembership)
         _Tab(t.discover, Icons.search_outlined, Icons.search),
       _Tab(t.events, Icons.event_outlined, Icons.event),

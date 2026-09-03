@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -84,7 +85,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                 Text(_error!, textAlign: TextAlign.center),
                 const SizedBox(height: 18),
                 FilledButton.tonal(
-                    onPressed: _load, child: const Text('Try again')),
+                    onPressed: _load, child: Text(AppLocalizations.of(context).tryAgain)),
               ],
             ),
           ),
@@ -143,7 +144,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                         const SizedBox(height: 12),
                         FilledButton(
                           onPressed: () => _open(PlanPage(gym: gym)),
-                          child: const Text('Choose a plan'),
+                          child: Text(AppLocalizations.of(context).choosePlan),
                         ),
                       ],
                     ],
@@ -160,7 +161,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
             ],
 
             const SizedBox(height: 16),
-            Text('MANAGE',
+            Text(AppLocalizations.of(context).manage.toUpperCase(),
                 style: theme.textTheme.labelSmall?.copyWith(
                   letterSpacing: 0.9,
                   fontWeight: FontWeight.w700,
@@ -337,7 +338,7 @@ class _AnalyticsCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Last ${a.windowDays} days',
+            Text(AppLocalizations.of(context).lastNDays(a.windowDays),
                 style: theme.textTheme.labelSmall?.copyWith(
                   letterSpacing: 0.8,
                   color: theme.colorScheme.onSurfaceVariant,
@@ -372,7 +373,7 @@ class _AnalyticsCard extends StatelessWidget {
               child: TextButton(
                 onPressed: onSeeGrowth,
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                child: const Text('See growth over time'),
+                child: Text(AppLocalizations.of(context).seeGrowthOverTime),
               ),
             ),
           ],

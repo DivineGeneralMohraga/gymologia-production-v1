@@ -87,9 +87,6 @@ class AppLocalizationsMl extends AppLocalizations {
   String get myGym => 'എന്റെ ജിം';
 
   @override
-  String get findAGymTab => 'ജിം കണ്ടെത്തുക';
-
-  @override
   String get discover => 'കണ്ടെത്തുക';
 
   @override
@@ -294,6 +291,72 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get attendance => 'ഹാജർ';
+
+  @override
+  String get manage => 'നിർവഹണം';
+
+  @override
+  String get choosePlan => 'പ്ലാൻ തിരഞ്ഞെടുക്കുക';
+
+  @override
+  String get seeGrowthOverTime => 'കാലക്രമേണ വളർച്ച കാണുക';
+
+  @override
+  String lastNDays(int days) {
+    return 'കഴിഞ്ഞ $days ദിവസം';
+  }
+
+  @override
+  String get addMember => 'അംഗത്തെ ചേർക്കുക';
+
+  @override
+  String get addStaff => 'ജീവനക്കാരനെ ചേർക്കുക';
+
+  @override
+  String get searchByNameOrNumber => 'പേരോ നമ്പറോ ഉപയോഗിച്ച് തിരയുക';
+
+  @override
+  String get tapCircleToMarkPresent =>
+      'ഹാജരിന് വൃത്തത്തിൽ ടാപ്പ് ചെയ്യുക, വിവരങ്ങൾക്ക് വരിയിൽ';
+
+  @override
+  String markedPresent(String name) {
+    return '$name ഹാജരായി രേഖപ്പെടുത്തി';
+  }
+
+  @override
+  String get approve => 'അംഗീകരിക്കുക';
+
+  @override
+  String get decline => 'നിരസിക്കുക';
+
+  @override
+  String decidedBy(String name) {
+    return '$name തീരുമാനിച്ചു';
+  }
+
+  @override
+  String get createAGym => 'ജിം ഉണ്ടാക്കുക';
+
+  @override
+  String get newGym => 'പുതിയ ജിം';
+
+  @override
+  String get draft => 'കരട്';
+
+  @override
+  String get nothingToChartYet => 'ഇതുവരെ കാണിക്കാൻ ഒന്നുമില്ല.';
+
+  @override
+  String peakValue(int value) {
+    return 'ഉച്ചസ്ഥായി $value';
+  }
+
+  @override
+  String get searchRanking => 'തിരയൽ റാങ്കിംഗ്';
+
+  @override
+  String get notInSearch => 'തിരയലിൽ ഇല്ല';
 
   @override
   String get members => 'അംഗങ്ങൾ';

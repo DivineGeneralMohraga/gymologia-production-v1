@@ -87,9 +87,6 @@ class AppLocalizationsHi extends AppLocalizations {
   String get myGym => 'मेरा जिम';
 
   @override
-  String get findAGymTab => 'जिम खोजें';
-
-  @override
   String get discover => 'खोजें';
 
   @override
@@ -292,6 +289,72 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get attendance => 'उपस्थिति';
+
+  @override
+  String get manage => 'प्रबंधन';
+
+  @override
+  String get choosePlan => 'प्लान चुनें';
+
+  @override
+  String get seeGrowthOverTime => 'समय के साथ वृद्धि देखें';
+
+  @override
+  String lastNDays(int days) {
+    return 'पिछले $days दिन';
+  }
+
+  @override
+  String get addMember => 'सदस्य जोड़ें';
+
+  @override
+  String get addStaff => 'स्टाफ जोड़ें';
+
+  @override
+  String get searchByNameOrNumber => 'नाम या नंबर से खोजें';
+
+  @override
+  String get tapCircleToMarkPresent =>
+      'उपस्थिति के लिए गोले पर टैप करें, विवरण के लिए पंक्ति पर';
+
+  @override
+  String markedPresent(String name) {
+    return '$name की उपस्थिति दर्ज';
+  }
+
+  @override
+  String get approve => 'स्वीकृत करें';
+
+  @override
+  String get decline => 'अस्वीकार करें';
+
+  @override
+  String decidedBy(String name) {
+    return '$name द्वारा तय';
+  }
+
+  @override
+  String get createAGym => 'जिम बनाएं';
+
+  @override
+  String get newGym => 'नया जिम';
+
+  @override
+  String get draft => 'ड्राफ्ट';
+
+  @override
+  String get nothingToChartYet => 'अभी दिखाने को कुछ नहीं।';
+
+  @override
+  String peakValue(int value) {
+    return 'शिखर $value';
+  }
+
+  @override
+  String get searchRanking => 'खोज रैंकिंग';
+
+  @override
+  String get notInSearch => 'खोज में नहीं';
 
   @override
   String get members => 'सदस्य';

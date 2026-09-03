@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -46,7 +47,7 @@ class _RankingPageState extends State<RankingPage> {
     final data = _data;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Search ranking')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).searchRanking)),
       body: _error != null
           ? Center(
               child: Padding(
@@ -57,7 +58,7 @@ class _RankingPageState extends State<RankingPage> {
                     Text(_error!, textAlign: TextAlign.center),
                     const SizedBox(height: 18),
                     FilledButton.tonal(
-                        onPressed: _load, child: const Text('Try again')),
+                        onPressed: _load, child: Text(AppLocalizations.of(context).tryAgain)),
                   ],
                 ),
               ),
@@ -125,7 +126,7 @@ class _NotListed extends StatelessWidget {
                 Icon(Icons.search_off,
                     color: theme.colorScheme.onSurfaceVariant),
                 const SizedBox(width: 12),
-                Text('Not in search',
+                Text(AppLocalizations.of(context).notInSearch,
                     style: theme.textTheme.titleMedium
                         ?.copyWith(fontWeight: FontWeight.w700)),
               ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -68,12 +69,12 @@ class _StaffPageState extends State<StaffPage> {
     final staff = _staff;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Staff')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).staff)),
       floatingActionButton: widget.gym.can(P.addStaff)
           ? FloatingActionButton.extended(
               onPressed: _add,
               icon: const Icon(Icons.person_add_alt),
-              label: const Text('Add staff'),
+              label: Text(AppLocalizations.of(context).addStaff),
             )
           : null,
       body: _error != null

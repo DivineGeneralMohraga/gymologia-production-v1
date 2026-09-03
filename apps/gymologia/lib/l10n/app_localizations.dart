@@ -264,12 +264,6 @@ abstract class AppLocalizations {
   /// **'My gym'**
   String get myGym;
 
-  /// No description provided for @findAGymTab.
-  ///
-  /// In en, this message translates to:
-  /// **'Find a gym'**
-  String get findAGymTab;
-
   /// No description provided for @discover.
   ///
   /// In en, this message translates to:
@@ -623,6 +617,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Attendance'**
   String get attendance;
+
+  /// No description provided for @manage.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage'**
+  String get manage;
+
+  /// No description provided for @choosePlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a plan'**
+  String get choosePlan;
+
+  /// No description provided for @seeGrowthOverTime.
+  ///
+  /// In en, this message translates to:
+  /// **'See growth over time'**
+  String get seeGrowthOverTime;
+
+  /// No description provided for @lastNDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Last {days} days'**
+  String lastNDays(int days);
+
+  /// No description provided for @addMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Add member'**
+  String get addMember;
+
+  /// No description provided for @addStaff.
+  ///
+  /// In en, this message translates to:
+  /// **'Add staff'**
+  String get addStaff;
+
+  /// No description provided for @searchByNameOrNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name or number'**
+  String get searchByNameOrNumber;
+
+  /// No description provided for @tapCircleToMarkPresent.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the circle to mark present, the row for details'**
+  String get tapCircleToMarkPresent;
+
+  /// No description provided for @markedPresent.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} marked present'**
+  String markedPresent(String name);
+
+  /// No description provided for @approve.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get approve;
+
+  /// No description provided for @decline.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get decline;
+
+  /// No description provided for @decidedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Decided by {name}'**
+  String decidedBy(String name);
+
+  /// No description provided for @createAGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a gym'**
+  String get createAGym;
+
+  /// No description provided for @newGym.
+  ///
+  /// In en, this message translates to:
+  /// **'New gym'**
+  String get newGym;
+
+  /// No description provided for @draft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get draft;
+
+  /// No description provided for @nothingToChartYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to chart yet.'**
+  String get nothingToChartYet;
+
+  /// No description provided for @peakValue.
+  ///
+  /// In en, this message translates to:
+  /// **'peak {value}'**
+  String peakValue(int value);
+
+  /// No description provided for @searchRanking.
+  ///
+  /// In en, this message translates to:
+  /// **'Search ranking'**
+  String get searchRanking;
+
+  /// No description provided for @notInSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Not in search'**
+  String get notInSearch;
 
   /// No description provided for @members.
   ///

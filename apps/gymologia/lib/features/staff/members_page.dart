@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -67,7 +68,7 @@ class _MembersPageState extends State<MembersPage> {
         _marking.remove(member.membershipId);
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${member.name} marked present')),
+        SnackBar(content: Text(AppLocalizations.of(context).markedPresent(member.name))),
       );
     } on ApiException catch (e) {
       if (!mounted) return;
@@ -105,12 +106,12 @@ class _MembersPageState extends State<MembersPage> {
     final canMark = widget.gym.can(P.markAttendanceMember);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Members')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).members)),
       floatingActionButton: widget.gym.can(P.addMember)
           ? FloatingActionButton.extended(
               onPressed: _add,
               icon: const Icon(Icons.person_add_alt),
-              label: const Text('Add member'),
+              label: Text(AppLocalizations.of(context).addMember),
             )
           : null,
       body: Column(
@@ -121,8 +122,8 @@ class _MembersPageState extends State<MembersPage> {
               controller: _search,
               textInputAction: TextInputAction.search,
               onSubmitted: (_) => _load(),
-              decoration: const InputDecoration(
-                hintText: 'Search by name or number',
+              decoration: InputDecoration(
+                hintText: AppLocalizations.of(context).searchByNameOrNumber,
                 prefixIcon: Icon(Icons.search),
               ),
             ),
@@ -135,7 +136,7 @@ class _MembersPageState extends State<MembersPage> {
                   Icon(Icons.touch_app_outlined,
                       size: 15, color: theme.colorScheme.onSurfaceVariant),
                   const SizedBox(width: 6),
-                  Text('Tap the circle to mark present, the row for details',
+                  Text(AppLocalizations.of(context).tapCircleToMarkPresent,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       )),

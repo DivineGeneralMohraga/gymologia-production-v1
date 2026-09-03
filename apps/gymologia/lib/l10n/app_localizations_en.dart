@@ -87,9 +87,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myGym => 'My gym';
 
   @override
-  String get findAGymTab => 'Find a gym';
-
-  @override
   String get discover => 'Discover';
 
   @override
@@ -292,6 +289,72 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get attendance => 'Attendance';
+
+  @override
+  String get manage => 'Manage';
+
+  @override
+  String get choosePlan => 'Choose a plan';
+
+  @override
+  String get seeGrowthOverTime => 'See growth over time';
+
+  @override
+  String lastNDays(int days) {
+    return 'Last $days days';
+  }
+
+  @override
+  String get addMember => 'Add member';
+
+  @override
+  String get addStaff => 'Add staff';
+
+  @override
+  String get searchByNameOrNumber => 'Search by name or number';
+
+  @override
+  String get tapCircleToMarkPresent =>
+      'Tap the circle to mark present, the row for details';
+
+  @override
+  String markedPresent(String name) {
+    return '$name marked present';
+  }
+
+  @override
+  String get approve => 'Approve';
+
+  @override
+  String get decline => 'Decline';
+
+  @override
+  String decidedBy(String name) {
+    return 'Decided by $name';
+  }
+
+  @override
+  String get createAGym => 'Create a gym';
+
+  @override
+  String get newGym => 'New gym';
+
+  @override
+  String get draft => 'Draft';
+
+  @override
+  String get nothingToChartYet => 'Nothing to chart yet.';
+
+  @override
+  String peakValue(int value) {
+    return 'peak $value';
+  }
+
+  @override
+  String get searchRanking => 'Search ranking';
+
+  @override
+  String get notInSearch => 'Not in search';
 
   @override
   String get members => 'Members';

@@ -87,9 +87,6 @@ class AppLocalizationsBn extends AppLocalizations {
   String get myGym => 'আমার জিম';
 
   @override
-  String get findAGymTab => 'জিম খুঁজুন';
-
-  @override
   String get discover => 'খুঁজুন';
 
   @override
@@ -292,6 +289,72 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get attendance => 'উপস্থিতি';
+
+  @override
+  String get manage => 'পরিচালনা';
+
+  @override
+  String get choosePlan => 'প্ল্যান বাছুন';
+
+  @override
+  String get seeGrowthOverTime => 'সময়ের সাথে বৃদ্ধি দেখুন';
+
+  @override
+  String lastNDays(int days) {
+    return 'গত $days দিন';
+  }
+
+  @override
+  String get addMember => 'সদস্য যোগ করুন';
+
+  @override
+  String get addStaff => 'কর্মী যোগ করুন';
+
+  @override
+  String get searchByNameOrNumber => 'নাম বা নম্বর দিয়ে খুঁজুন';
+
+  @override
+  String get tapCircleToMarkPresent =>
+      'উপস্থিতির জন্য বৃত্তে ট্যাপ করুন, বিস্তারিত জন্য সারিতে';
+
+  @override
+  String markedPresent(String name) {
+    return '$name উপস্থিত হিসেবে চিহ্নিত';
+  }
+
+  @override
+  String get approve => 'অনুমোদন';
+
+  @override
+  String get decline => 'প্রত্যাখ্যান';
+
+  @override
+  String decidedBy(String name) {
+    return '$name দ্বারা সিদ্ধান্ত';
+  }
+
+  @override
+  String get createAGym => 'জিম তৈরি করুন';
+
+  @override
+  String get newGym => 'নতুন জিম';
+
+  @override
+  String get draft => 'খসড়া';
+
+  @override
+  String get nothingToChartYet => 'এখনও দেখানোর কিছু নেই।';
+
+  @override
+  String peakValue(int value) {
+    return 'সর্বোচ্চ $value';
+  }
+
+  @override
+  String get searchRanking => 'সার্চ র‍্যাঙ্কিং';
+
+  @override
+  String get notInSearch => 'সার্চে নেই';
 
   @override
   String get members => 'সদস্য';

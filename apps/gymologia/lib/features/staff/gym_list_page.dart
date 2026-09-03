@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -58,7 +59,7 @@ class _GymListPageState extends State<GymListPage> {
         body: _error!,
         action: FilledButton.tonal(
           onPressed: _load,
-          child: const Text('Try again'),
+          child: Text(AppLocalizations.of(context).tryAgain),
         ),
       );
     }
@@ -76,7 +77,7 @@ class _GymListPageState extends State<GymListPage> {
         action: FilledButton.icon(
           onPressed: _create,
           icon: const Icon(Icons.add),
-          label: const Text('Create a gym'),
+          label: Text(AppLocalizations.of(context).createAGym),
         ),
       );
     }
@@ -122,7 +123,7 @@ class _GymListPageState extends State<GymListPage> {
                                 color: theme.colorScheme.tertiaryContainer,
                                 borderRadius: BorderRadius.circular(6),
                               ),
-                              child: Text('DRAFT',
+                              child: Text(AppLocalizations.of(context).draft.toUpperCase(),
                                   style: TextStyle(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w700,
@@ -178,7 +179,7 @@ class _GymListPageState extends State<GymListPage> {
           child: FloatingActionButton.extended(
             onPressed: _create,
             icon: const Icon(Icons.add),
-            label: const Text('New gym'),
+            label: Text(AppLocalizations.of(context).newGym),
           ),
         ),
       ],

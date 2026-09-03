@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/utils/dates.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -77,16 +78,20 @@ class _LeavePageState extends State<LeavePage> {
     final canApprove = widget.gym.can(P.approveLeaveMember);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Leave')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).leave)),
       body: Column(
         children: [
           if (widget.gym.sees('leaveStaff'))
             Padding(
               padding: const EdgeInsets.all(16),
               child: SegmentedButton<String>(
-                segments: const [
-                  ButtonSegment(value: 'MEMBER', label: Text('Members')),
-                  ButtonSegment(value: 'STAFF', label: Text('Staff')),
+                segments: [
+                  ButtonSegment(
+                      value: 'MEMBER',
+                      label: Text(AppLocalizations.of(context).members)),
+                  ButtonSegment(
+                      value: 'STAFF',
+                      label: Text(AppLocalizations.of(context).staff)),
                 ],
                 selected: {_subjectType},
                 onSelectionChanged: (v) {
@@ -199,7 +204,7 @@ class _LeaveCard extends StatelessWidget {
             ],
             if (row.decidedByName != null) ...[
               const SizedBox(height: 6),
-              Text('Decided by ${row.decidedByName}',
+              Text(AppLocalizations.of(context).decidedBy(row.decidedByName!),
                   style: theme.textTheme.bodySmall
                       ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
             ],
@@ -209,12 +214,12 @@ class _LeaveCard extends StatelessWidget {
                 children: [
                   FilledButton(
                     onPressed: busy ? null : () => onDecide(true),
-                    child: const Text('Approve'),
+                    child: Text(AppLocalizations.of(context).approve),
                   ),
                   const SizedBox(width: 10),
                   OutlinedButton(
                     onPressed: busy ? null : () => onDecide(false),
-                    child: const Text('Decline'),
+                    child: Text(AppLocalizations.of(context).decline),
                   ),
                 ],
               ),

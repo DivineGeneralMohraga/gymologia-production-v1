@@ -87,9 +87,6 @@ class AppLocalizationsTa extends AppLocalizations {
   String get myGym => 'என் கூடம்';
 
   @override
-  String get findAGymTab => 'கூடம் தேடு';
-
-  @override
   String get discover => 'கண்டறி';
 
   @override
@@ -295,6 +292,72 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get attendance => 'வருகை';
+
+  @override
+  String get manage => 'நிர்வாகம்';
+
+  @override
+  String get choosePlan => 'திட்டத்தைத் தேர்வுசெய்';
+
+  @override
+  String get seeGrowthOverTime => 'காலப்போக்கில் வளர்ச்சியைப் பார்';
+
+  @override
+  String lastNDays(int days) {
+    return 'கடந்த $days நாட்கள்';
+  }
+
+  @override
+  String get addMember => 'உறுப்பினர் சேர்';
+
+  @override
+  String get addStaff => 'பணியாளர் சேர்';
+
+  @override
+  String get searchByNameOrNumber => 'பெயர் அல்லது எண் மூலம் தேடு';
+
+  @override
+  String get tapCircleToMarkPresent =>
+      'வருகைக்கு வட்டத்தைத் தட்டவும், விவரங்களுக்கு வரிசையை';
+
+  @override
+  String markedPresent(String name) {
+    return '$name வந்ததாகக் குறிக்கப்பட்டது';
+  }
+
+  @override
+  String get approve => 'ஒப்புதல்';
+
+  @override
+  String get decline => 'நிராகரி';
+
+  @override
+  String decidedBy(String name) {
+    return '$name முடிவு செய்தார்';
+  }
+
+  @override
+  String get createAGym => 'கூடம் உருவாக்கு';
+
+  @override
+  String get newGym => 'புதிய கூடம்';
+
+  @override
+  String get draft => 'வரைவு';
+
+  @override
+  String get nothingToChartYet => 'இன்னும் காட்ட எதுவும் இல்லை.';
+
+  @override
+  String peakValue(int value) {
+    return 'உச்சம் $value';
+  }
+
+  @override
+  String get searchRanking => 'தேடல் தரவரிசை';
+
+  @override
+  String get notInSearch => 'தேடலில் இல்லை';
 
   @override
   String get members => 'உறுப்பினர்கள்';
