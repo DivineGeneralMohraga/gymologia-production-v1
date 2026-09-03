@@ -237,6 +237,45 @@ TWICE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/admin/tickets/$TID/
         -d '{"note":"again"}')
 [ "$TWICE" = "409" ] && ok "resolving twice is refused" || bad "double resolve" "got $TWICE"
 
+hdr "Announcements"
+SIZE=$(curl -s "$API/admin/broadcast/audience?audience=ALL_MEMBERS" \
+       -H "Authorization: Bearer $OWNER_TOKEN")
+N=$(echo "$SIZE" | field recipients)
+[ -n "$N" ] && ok "an audience can be sized before sending ($N people)" || bad "audience size" "$SIZE"
+
+# A gym-scoped audience is not a platform audience. Sending GYM_EVERYONE
+# here would mean "every gym's everyone", which is not what the caller means.
+GYM_AUD=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/admin/broadcast" \
+          -H "Authorization: Bearer $OWNER_TOKEN" -H 'Content-Type: application/json' \
+          -d '{"title":"Hello","body":"Testing the wrong audience","audience":"GYM_EVERYONE"}')
+[ "$GYM_AUD" = "400" ] && ok "a gym-scoped audience is refused here" || bad "gym audience" "got $GYM_AUD"
+
+# The count the sender agreed to must be the count that goes out.
+STALE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/admin/broadcast" \
+        -H "Authorization: Bearer $OWNER_TOKEN" -H 'Content-Type: application/json' \
+        -d "{\"title\":\"Stale confirm\",\"body\":\"This should be refused.\",
+             \"audience\":\"ALL_MEMBERS\",\"expectedRecipients\":999999}")
+[ "$STALE" = "409" ] && ok "a stale recipient count refuses the send" || bad "stale count" "got $STALE"
+
+SENT=$(curl -s -X POST "$API/admin/broadcast" -H "Authorization: Bearer $OWNER_TOKEN" \
+       -H 'Content-Type: application/json' \
+       -d "{\"title\":\"Scheduled maintenance\",\"body\":\"The app will be briefly unavailable on Sunday morning.\",
+            \"audience\":\"ALL_MEMBERS\",\"expectedRecipients\":$N}")
+SENT_TO=$(echo "$SENT" | field sentTo)
+[ "$SENT_TO" = "$N" ] && ok "and the right count agrees, so it goes out" || bad "broadcast" "$SENT"
+
+HIST=$(curl -s "$API/admin/broadcast" -H "Authorization: Bearer $OWNER_TOKEN" | python -c "
+import sys,json
+d=json.load(sys.stdin)
+print('yes' if any(n['title']=='Scheduled maintenance' for n in d) else 'no')" 2>/dev/null)
+[ "$HIST" = "yes" ] && ok "it appears in what Gymologia has announced" || bad "history" "$HIST"
+
+# Support staff must not be able to message the whole platform.
+S_CAST=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/admin/broadcast" \
+         -H "Authorization: Bearer $CIVILIAN" -H 'Content-Type: application/json' \
+         -d '{"title":"x","body":"should not send","audience":"EVERYONE"}')
+[ "$S_CAST" = "403" ] && ok "someone outside the console cannot broadcast" || bad "outsider broadcast" "got $S_CAST"
+
 hdr "Logs"
 AUDIT=$(curl -s "$API/admin/logs/audit?limit=5" -H "Authorization: Bearer $OWNER_TOKEN")
 ENTRIES=$(echo "$AUDIT" | python -c "

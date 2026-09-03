@@ -5,6 +5,9 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AdminRole } from '@prisma/client';
 import type { Request } from 'express';
 import { AdminService } from './admin.service';
+import { NotificationsService } from '../notifications/notifications.service';
+import { BroadcastNotificationDto } from '../notifications/dto/notification.dto';
+import { NotificationAudience } from '@prisma/client';
 import { AdminGuard, RequireAdminRole } from './admin.guard';
 import type { AdminContext } from './admin.guard';
 import { CurrentAdmin } from './admin.decorators';
@@ -34,7 +37,10 @@ const meta = (req: Request) => ({
 @UseGuards(AdminGuard)
 @Controller('admin')
 export class AdminController {
-  constructor(private readonly admin: AdminService) {}
+  constructor(
+    private readonly admin: AdminService,
+    private readonly notifications: NotificationsService,
+  ) {}
 
   @Get('me')
   @ApiOperation({
@@ -132,6 +138,40 @@ export class AdminController {
     @Req() req: Request,
   ) {
     return this.admin.resolveTicket(admin, ticketId, dto, meta(req));
+  }
+
+  // ── Announcements ──────────────────────────────────────────────────
+
+  @Get('broadcast/audience')
+  @RequireAdminRole(AdminRole.ADMIN)
+  @ApiOperation({
+    summary: 'How many people an audience covers, without sending',
+    description: '"Everyone" is a number worth seeing before the button, not after.',
+  })
+  audienceSize(@Query('audience') audience: NotificationAudience) {
+    return this.notifications.audienceSize(audience);
+  }
+
+  @Get('broadcast')
+  @RequireAdminRole(AdminRole.ADMIN)
+  @ApiOperation({ summary: 'What Gymologia has announced' })
+  broadcastHistory() {
+    return this.notifications.broadcastHistory();
+  }
+
+  @Post('broadcast')
+  @RequireAdminRole(AdminRole.ADMIN)
+  @ApiOperation({
+    summary: 'Announce to everyone in an audience',
+    description:
+      'Send expectedRecipients from the dry run to be sure the number you agreed to is the number that goes out.',
+  })
+  broadcast(
+    @CurrentAdmin() admin: AdminContext,
+    @Body() dto: BroadcastNotificationDto,
+    @Req() req: Request,
+  ) {
+    return this.notifications.broadcast(admin.userId, dto, meta(req));
   }
 
   // ── Logs ───────────────────────────────────────────────────────────

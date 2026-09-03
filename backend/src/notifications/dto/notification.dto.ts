@@ -1,13 +1,15 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { NotificationAudience } from '@prisma/client';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsEnum,
   IsIn,
+  IsInt,
   IsOptional,
   IsString,
   Length,
   MaxLength,
+  Min,
 } from 'class-validator';
 
 const trim = () =>
@@ -50,4 +52,57 @@ export class SendNotificationDto {
   @IsString()
   @MaxLength(300)
   deepLink?: string;
+}
+
+/**
+ * A platform-wide announcement from Gymologia. Separate from the gym DTO on
+ * purpose: the audiences are different, and one of them reaches everybody.
+ */
+export class BroadcastNotificationDto {
+  @ApiProperty({ example: 'Scheduled maintenance on Sunday' })
+  @IsString()
+  @trim()
+  @Length(3, 150)
+  title!: string;
+
+  @ApiProperty()
+  @IsString()
+  @trim()
+  @Length(3, 2000)
+  body!: string;
+
+  @ApiProperty({
+    enum: [
+      NotificationAudience.ALL_MEMBERS,
+      NotificationAudience.ALL_OWNERS,
+      NotificationAudience.ALL_STAFF,
+      NotificationAudience.ALL_REFERRERS,
+      NotificationAudience.EVERYONE,
+    ],
+    description: 'Gym-scoped audiences are not valid here; use the gym announcement instead.',
+  })
+  @IsIn([
+    NotificationAudience.ALL_MEMBERS,
+    NotificationAudience.ALL_OWNERS,
+    NotificationAudience.ALL_STAFF,
+    NotificationAudience.ALL_REFERRERS,
+    NotificationAudience.EVERYONE,
+  ])
+  audience!: NotificationAudience;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  @MaxLength(300)
+  deepLink?: string;
+
+  @ApiPropertyOptional({
+    description:
+      'How many people the sender was shown before confirming. If the real number differs, the send is refused rather than going to an audience nobody agreed to.',
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(0)
+  expectedRecipients?: number;
 }
