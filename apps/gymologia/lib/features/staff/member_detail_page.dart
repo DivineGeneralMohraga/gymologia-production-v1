@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/utils/dates.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -401,7 +402,7 @@ class _ProgressSection extends StatelessWidget {
                       SizedBox(
                         width: 96,
                         child: Text(
-                          _shortDate(m['recordedAt'] as String?),
+                          _shortDate(m['recordedAt'] as String?, Dates.localeOf(context)),
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
@@ -626,13 +627,4 @@ class _InfoTile extends StatelessWidget {
   }
 }
 
-String _shortDate(String? iso) {
-  if (iso == null) return '';
-  final d = DateTime.tryParse(iso);
-  if (d == null) return '';
-  const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-  ];
-  return '${d.day} ${months[d.month - 1]} ${d.year}';
-}
+String _shortDate(String? iso, String locale) => Dates.isoFull(iso, locale);

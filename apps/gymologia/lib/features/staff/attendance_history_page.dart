@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/utils/dates.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -191,7 +192,7 @@ class _AttendanceHistoryPageState extends State<AttendanceHistoryPage> {
                                 return ListTile(
                                   onTap: _canEdit ? () => _correct(r) : null,
                                   leading: _StatusDot(status: status),
-                                  title: Text(_fullDate(r['date'] as String?)),
+                                  title: Text(_fullDate(r['date'] as String?, Dates.localeOf(context))),
                                   subtitle: editedAt == null
                                       ? null
                                       : Text(
@@ -312,7 +313,7 @@ class _CorrectionSheetState extends State<_CorrectionSheet> {
             ),
           ),
           const SizedBox(height: 20),
-          Text('Correct ${_fullDate(widget.date)}',
+          Text('Correct ${_fullDate(widget.date, Dates.localeOf(context))}',
               style: theme.textTheme.titleLarge
                   ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 18),
@@ -356,14 +357,8 @@ class _CorrectionSheetState extends State<_CorrectionSheet> {
   }
 }
 
-String _fullDate(String? iso) {
-  if (iso == null) return '';
-  final d = DateTime.tryParse(iso);
-  if (d == null) return '';
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-  ];
-  return '${days[d.weekday - 1]} ${d.day} ${months[d.month - 1]}';
-}
+/// Weekday, day and month in the reader's language. The five separate
+/// ['Jan', 'Feb', ...] tables this app used to carry are all gone: intl
+/// already knows the names for every locale that ships.
+String _fullDate(String? iso, String locale) =>
+    Dates.isoWeekdayDayMonth(iso, locale);

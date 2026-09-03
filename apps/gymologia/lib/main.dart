@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'l10n/app_localizations.dart';
 import 'features/settings/locale_controller.dart';
@@ -9,8 +10,11 @@ import 'features/shell/app_mode.dart';
 import 'features/shell/app_shell.dart';
 import 'theme.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Month and weekday names for every locale the app ships. Without this,
+  // DateFormat only knows English and throws for the rest.
+  await initializeDateFormatting();
   runApp(const GymologiaApp());
 }
 

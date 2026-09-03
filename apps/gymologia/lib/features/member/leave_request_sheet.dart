@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/utils/dates.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 import '../../core/api/models.dart';
@@ -130,7 +131,7 @@ class _LeaveRequestSheetState extends State<LeaveRequestSheet> {
             label: Text(
               _range == null
                   ? 'Choose dates'
-                  : '${_fmt(_range!.start)} to ${_fmt(_range!.end)}  ·  $_days day${_days == 1 ? '' : 's'}',
+                  : '${_fmt(_range!.start, Dates.localeOf(context))} to ${_fmt(_range!.end, Dates.localeOf(context))}  ·  $_days day${_days == 1 ? '' : 's'}',
             ),
           ),
           const SizedBox(height: 14),
@@ -197,10 +198,4 @@ class _LeaveRequestSheetState extends State<LeaveRequestSheet> {
   }
 }
 
-String _fmt(DateTime d) {
-  const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-  ];
-  return '${d.day} ${months[d.month - 1]}';
-}
+String _fmt(DateTime d, String locale) => Dates.dayMonth(d, locale);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/utils/dates.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -404,7 +405,7 @@ class _HostEventSheetState extends State<_HostEventSheet> {
               icon: const Icon(Icons.calendar_today_outlined, size: 18),
               label: Text(_startsAt == null
                   ? 'When does it start?'
-                  : 'Starts ${_pretty(_startsAt!)}'),
+                  : 'Starts ${_pretty(_startsAt!, Dates.localeOf(context))}'),
             ),
             const SizedBox(height: 8),
             OutlinedButton.icon(
@@ -412,7 +413,7 @@ class _HostEventSheetState extends State<_HostEventSheet> {
               icon: const Icon(Icons.how_to_reg_outlined, size: 18),
               label: Text(_registrationLastDate == null
                   ? 'Last day to register'
-                  : 'Register by ${_pretty(_registrationLastDate!, time: false)}'),
+                  : 'Register by ${_pretty(_registrationLastDate!, Dates.localeOf(context), time: false)}'),
             ),
 
             const SizedBox(height: 12),
@@ -470,17 +471,9 @@ class _HostEventSheetState extends State<_HostEventSheet> {
   }
 }
 
-const _months = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-];
-
-String _pretty(DateTime d, {bool time = true}) {
-  final date = '${d.day} ${_months[d.month - 1]}';
-  if (!time) return date;
-  final h = d.hour.toString().padLeft(2, '0');
-  final m = d.minute.toString().padLeft(2, '0');
-  return '$date at $h:$m';
+String _pretty(DateTime d, String locale, {bool time = true}) {
+  final date = Dates.dayMonth(d, locale);
+  return time ? '$date at ${Dates.time(d, locale)}' : date;
 }
 
 String _ymd(DateTime d) =>

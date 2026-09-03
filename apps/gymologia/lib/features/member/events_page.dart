@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/utils/dates.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -234,11 +235,11 @@ class _EventCard extends StatelessWidget {
                 const SizedBox(height: 12),
                 _Row(
                   icon: Icons.calendar_today_outlined,
-                  text: _dateRange(event['startsAt'], event['endsAt']),
+                  text: _dateRange(event['startsAt'], event['endsAt'], Dates.localeOf(context)),
                 ),
                 _Row(
                   icon: Icons.how_to_reg_outlined,
-                  text: 'Register by ${_shortDate(event['registrationLastDate'])}',
+                  text: 'Register by ${_shortDate(event['registrationLastDate'], Dates.localeOf(context))}',
                 ),
                 if ((event['prize'] as String?)?.isNotEmpty ?? false)
                   _Row(
@@ -381,27 +382,21 @@ class _Message extends StatelessWidget {
   }
 }
 
-const _months = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-];
+String _shortDate(dynamic iso, String locale) =>
+    Dates.isoDayMonth(iso is String ? iso : null, locale);
 
-String _shortDate(dynamic iso) {
-  final d = iso is String ? DateTime.tryParse(iso) : null;
-  if (d == null) return '';
-  return '${d.day} ${_months[d.month - 1]}';
-}
-
-String _dateRange(dynamic startIso, dynamic endIso) {
+String _dateRange(dynamic startIso, dynamic endIso, String locale) {
   final start = startIso is String ? DateTime.tryParse(startIso) : null;
   final end = endIso is String ? DateTime.tryParse(endIso) : null;
   if (start == null) return '';
 
-  final startText = '${start.day} ${_months[start.month - 1]}';
-  if (end == null || (start.year == end.year && start.month == end.month && start.day == end.day)) {
-    final h = start.hour.toString().padLeft(2, '0');
-    final m = start.minute.toString().padLeft(2, '0');
-    return '$startText at $h:$m';
+  final startText = Dates.dayMonth(start, locale);
+  if (end == null ||
+      (start.year == end.year &&
+          start.month == end.month &&
+          start.day == end.day)) {
+    // A single-day event reads better with its time than with a range.
+    return '$startText at ${Dates.time(start, locale)}';
   }
-  return '$startText to ${end.day} ${_months[end.month - 1]}';
+  return '$startText to ${Dates.dayMonth(end, locale)}';
 }

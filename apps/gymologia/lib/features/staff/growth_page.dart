@@ -4,6 +4,7 @@ import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 import '../../core/api/models.dart';
 import '../auth/auth_controller.dart';
+import '../../core/utils/dates.dart';
 
 /// Joins and departures over time, grouped by day, month or year.
 ///
@@ -320,7 +321,7 @@ class _BucketColumn extends StatelessWidget {
           SizedBox(
             width: 42,
             child: Text(
-              _label(bucket['period'] as String? ?? ''),
+              _label(bucket['period'] as String? ?? '', Dates.localeOf(context)),
               textAlign: TextAlign.center,
               style: theme.textTheme.labelSmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
@@ -337,26 +338,20 @@ class _BucketColumn extends StatelessWidget {
     return (value / peak) * _barArea;
   }
 
-  /// The server sends `YYYY-MM-DD` for every unit, so the label is cut from
-  /// the string rather than parsed and re-zoned.
-  String _label(String period) {
+  /// The server sends `YYYY-MM-DD` for every unit. Day and year labels are
+  /// cut from the string; the month name comes from the locale, so a chart
+  /// read in Tamil is labelled in Tamil.
+  String _label(String period, String locale) {
     final parts = period.split('-');
     if (parts.length != 3) return period;
+    final date = DateTime.tryParse(period);
     return switch (unit) {
       'day' => '${parts[2]}/${parts[1]}',
       'year' => parts[0],
-      _ => '${_month(parts[1])}\n${parts[0].substring(2)}',
+      _ => date == null
+          ? period
+          : '${Dates.month(date, locale)}\n${parts[0].substring(2)}',
     };
-  }
-
-  static String _month(String mm) {
-    const names = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-    ];
-    final index = int.tryParse(mm);
-    if (index == null || index < 1 || index > 12) return mm;
-    return names[index - 1];
   }
 }
 

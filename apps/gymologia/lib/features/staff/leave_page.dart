@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/utils/dates.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -186,7 +187,8 @@ class _LeaveCard extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               '${row.days} day${row.days == 1 ? '' : 's'}  ·  '
-              '${_fmt(row.fromDate)} to ${_fmt(row.toDate)}',
+              '${_fmt(row.fromDate, Dates.localeOf(context))} to '
+              '${_fmt(row.toDate, Dates.localeOf(context))}',
               style: theme.textTheme.bodyMedium,
             ),
             if (row.reason != null && row.reason!.isNotEmpty) ...[
@@ -267,10 +269,4 @@ class _StatusChip extends StatelessWidget {
   }
 }
 
-String _fmt(DateTime d) {
-  const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-  ];
-  return '${d.day} ${months[d.month - 1]}';
-}
+String _fmt(DateTime d, String locale) => Dates.dayMonth(d, locale);
