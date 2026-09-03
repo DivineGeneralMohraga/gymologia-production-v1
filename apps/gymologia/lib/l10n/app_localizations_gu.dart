@@ -442,6 +442,94 @@ class AppLocalizationsGu extends AppLocalizations {
   String get createAGym => 'જિમ બનાવો';
 
   @override
+  String get createYourGym => 'તમારું જિમ બનાવો';
+
+  @override
+  String get gymName => 'જિમનું નામ';
+
+  @override
+  String get gymNameHint => 'આયર્ન ટેમ્પલ ફિટનેસ';
+
+  @override
+  String get descriptionOptional => 'વર્ણન (વૈકલ્પિક)';
+
+  @override
+  String get descriptionHint => 'તમારા જિમમાં જોડાવા જેવું શું છે?';
+
+  @override
+  String get address => 'સરનામું';
+
+  @override
+  String get city => 'શહેર';
+
+  @override
+  String get district => 'જિલ્લો';
+
+  @override
+  String get districtNote =>
+      'શોધમાં તમારા જિમના નામ પાસે જિલ્લો દેખાય છે, જેથી સભ્યો ઓળખી શકે.';
+
+  @override
+  String get state => 'રાજ્ય';
+
+  @override
+  String get pinCode => 'પિન કોડ';
+
+  @override
+  String get contactNumber => 'સંપર્ક નંબર';
+
+  @override
+  String get leavePolicyNote =>
+      'સભ્યો મહિનામાં થોડા દિવસ સભ્યપદ થંભાવી શકે. તેથી વધુ માટે મંજૂરી જોઈએ.';
+
+  @override
+  String get perksLabel => 'સુવિધાઓ, અલ્પવિરામથી અલગ';
+
+  @override
+  String get perksHint => 'સ્ટીમ રૂમ, મફત પાર્કિંગ, પર્સનલ ટ્રેનિંગ';
+
+  @override
+  String get createGym => 'જિમ બનાવો';
+
+  @override
+  String get draftNote =>
+      'તમારું જિમ ડ્રાફ્ટ તરીકે શરૂ થાય છે. પ્લાન ન લો ત્યાં સુધી શોધમાં નહીં દેખાય.';
+
+  @override
+  String get sendThis => 'આ મોકલવું?';
+
+  @override
+  String get send => 'મોકલો';
+
+  @override
+  String get announcements => 'જાહેરાતો';
+
+  @override
+  String get title => 'શીર્ષક';
+
+  @override
+  String get announceTitleHint => 'જાળવણી માટે રવિવારે બંધ';
+
+  @override
+  String get message => 'સંદેશ';
+
+  @override
+  String get announceBodyHint =>
+      'અમે સોમવારે સવારે 6 વાગ્યે ફરી ખોલીશું. ટૂંકી સૂચના બદલ માફ કરશો.';
+
+  @override
+  String get whoSeesIt => 'કોણ જોશે';
+
+  @override
+  String get everyone => 'બધા';
+
+  @override
+  String get sendAnnouncement => 'જાહેરાત મોકલો';
+
+  @override
+  String get sent => 'મોકલ્યું';
+
+  @override
   String get newGym => 'નવું જિમ';
 
   @override

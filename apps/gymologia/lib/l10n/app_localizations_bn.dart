@@ -443,6 +443,94 @@ class AppLocalizationsBn extends AppLocalizations {
   String get createAGym => 'জিম তৈরি করুন';
 
   @override
+  String get createYourGym => 'আপনার জিম তৈরি করুন';
+
+  @override
+  String get gymName => 'জিমের নাম';
+
+  @override
+  String get gymNameHint => 'আয়রন টেম্পল ফিটনেস';
+
+  @override
+  String get descriptionOptional => 'বিবরণ (ঐচ্ছিক)';
+
+  @override
+  String get descriptionHint => 'আপনার জিমে যোগ দেওয়ার মতো কী আছে?';
+
+  @override
+  String get address => 'ঠিকানা';
+
+  @override
+  String get city => 'শহর';
+
+  @override
+  String get district => 'জেলা';
+
+  @override
+  String get districtNote =>
+      'সার্চে আপনার জিমের নামের পাশে জেলা দেখা যায়, যাতে সদস্যরা চিনতে পারেন।';
+
+  @override
+  String get state => 'রাজ্য';
+
+  @override
+  String get pinCode => 'পিন কোড';
+
+  @override
+  String get contactNumber => 'যোগাযোগ নম্বর';
+
+  @override
+  String get leavePolicyNote =>
+      'সদস্যরা মাসে কয়েক দিন সদস্যপদ থামাতে পারেন। এর বেশি হলে অনুমোদন লাগে।';
+
+  @override
+  String get perksLabel => 'সুবিধা, কমা দিয়ে আলাদা';
+
+  @override
+  String get perksHint => 'স্টিম রুম, বিনামূল্যে পার্কিং, পার্সোনাল ট্রেনিং';
+
+  @override
+  String get createGym => 'জিম তৈরি করুন';
+
+  @override
+  String get draftNote =>
+      'আপনার জিম খসড়া হিসেবে শুরু হয়। প্ল্যান না নেওয়া পর্যন্ত এটি সার্চে দেখা যাবে না।';
+
+  @override
+  String get sendThis => 'এটি পাঠাবেন?';
+
+  @override
+  String get send => 'পাঠান';
+
+  @override
+  String get announcements => 'ঘোষণা';
+
+  @override
+  String get title => 'শিরোনাম';
+
+  @override
+  String get announceTitleHint => 'রক্ষণাবেক্ষণের জন্য রবিবার বন্ধ';
+
+  @override
+  String get message => 'বার্তা';
+
+  @override
+  String get announceBodyHint =>
+      'আমরা সোমবার সকাল ৬টায় আবার খুলব। স্বল্প নোটিশের জন্য দুঃখিত।';
+
+  @override
+  String get whoSeesIt => 'কে দেখবে';
+
+  @override
+  String get everyone => 'সবাই';
+
+  @override
+  String get sendAnnouncement => 'ঘোষণা পাঠান';
+
+  @override
+  String get sent => 'পাঠানো হয়েছে';
+
+  @override
   String get newGym => 'নতুন জিম';
 
   @override

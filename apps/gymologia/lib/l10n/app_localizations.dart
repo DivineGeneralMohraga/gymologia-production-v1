@@ -888,6 +888,174 @@ abstract class AppLocalizations {
   /// **'Create a gym'**
   String get createAGym;
 
+  /// No description provided for @createYourGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your gym'**
+  String get createYourGym;
+
+  /// No description provided for @gymName.
+  ///
+  /// In en, this message translates to:
+  /// **'Gym name'**
+  String get gymName;
+
+  /// No description provided for @gymNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Iron Temple Fitness'**
+  String get gymNameHint;
+
+  /// No description provided for @descriptionOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Description (optional)'**
+  String get descriptionOptional;
+
+  /// No description provided for @descriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What makes your gym worth joining?'**
+  String get descriptionHint;
+
+  /// No description provided for @address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get address;
+
+  /// No description provided for @city.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get city;
+
+  /// No description provided for @district.
+  ///
+  /// In en, this message translates to:
+  /// **'District'**
+  String get district;
+
+  /// No description provided for @districtNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your district appears next to your gym name in search, so members can tell you apart.'**
+  String get districtNote;
+
+  /// No description provided for @state.
+  ///
+  /// In en, this message translates to:
+  /// **'State'**
+  String get state;
+
+  /// No description provided for @pinCode.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN code'**
+  String get pinCode;
+
+  /// No description provided for @contactNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact number'**
+  String get contactNumber;
+
+  /// No description provided for @leavePolicyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Members can pause their membership for a few days a month. Requests beyond that need approval.'**
+  String get leavePolicyNote;
+
+  /// No description provided for @perksLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Perks, separated by commas'**
+  String get perksLabel;
+
+  /// No description provided for @perksHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Steam room, Free parking, Personal training'**
+  String get perksHint;
+
+  /// No description provided for @createGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Create gym'**
+  String get createGym;
+
+  /// No description provided for @draftNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your gym starts as a draft. It will not appear in search until you choose a plan.'**
+  String get draftNote;
+
+  /// No description provided for @sendThis.
+  ///
+  /// In en, this message translates to:
+  /// **'Send this?'**
+  String get sendThis;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// No description provided for @announcements.
+  ///
+  /// In en, this message translates to:
+  /// **'Announcements'**
+  String get announcements;
+
+  /// No description provided for @title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get title;
+
+  /// No description provided for @announceTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed Sunday for maintenance'**
+  String get announceTitleHint;
+
+  /// No description provided for @message.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get message;
+
+  /// No description provided for @announceBodyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'We reopen Monday at 6am. Sorry for the short notice.'**
+  String get announceBodyHint;
+
+  /// No description provided for @whoSeesIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Who sees it'**
+  String get whoSeesIt;
+
+  /// No description provided for @everyone.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone'**
+  String get everyone;
+
+  /// No description provided for @sendAnnouncement.
+  ///
+  /// In en, this message translates to:
+  /// **'Send announcement'**
+  String get sendAnnouncement;
+
+  /// No description provided for @sent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get sent;
+
   /// No description provided for @newGym.
   ///
   /// In en, this message translates to:

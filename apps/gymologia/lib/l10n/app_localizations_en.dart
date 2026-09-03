@@ -444,6 +444,94 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createAGym => 'Create a gym';
 
   @override
+  String get createYourGym => 'Create your gym';
+
+  @override
+  String get gymName => 'Gym name';
+
+  @override
+  String get gymNameHint => 'Iron Temple Fitness';
+
+  @override
+  String get descriptionOptional => 'Description (optional)';
+
+  @override
+  String get descriptionHint => 'What makes your gym worth joining?';
+
+  @override
+  String get address => 'Address';
+
+  @override
+  String get city => 'City';
+
+  @override
+  String get district => 'District';
+
+  @override
+  String get districtNote =>
+      'Your district appears next to your gym name in search, so members can tell you apart.';
+
+  @override
+  String get state => 'State';
+
+  @override
+  String get pinCode => 'PIN code';
+
+  @override
+  String get contactNumber => 'Contact number';
+
+  @override
+  String get leavePolicyNote =>
+      'Members can pause their membership for a few days a month. Requests beyond that need approval.';
+
+  @override
+  String get perksLabel => 'Perks, separated by commas';
+
+  @override
+  String get perksHint => 'Steam room, Free parking, Personal training';
+
+  @override
+  String get createGym => 'Create gym';
+
+  @override
+  String get draftNote =>
+      'Your gym starts as a draft. It will not appear in search until you choose a plan.';
+
+  @override
+  String get sendThis => 'Send this?';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get announcements => 'Announcements';
+
+  @override
+  String get title => 'Title';
+
+  @override
+  String get announceTitleHint => 'Closed Sunday for maintenance';
+
+  @override
+  String get message => 'Message';
+
+  @override
+  String get announceBodyHint =>
+      'We reopen Monday at 6am. Sorry for the short notice.';
+
+  @override
+  String get whoSeesIt => 'Who sees it';
+
+  @override
+  String get everyone => 'Everyone';
+
+  @override
+  String get sendAnnouncement => 'Send announcement';
+
+  @override
+  String get sent => 'Sent';
+
+  @override
   String get newGym => 'New gym';
 
   @override

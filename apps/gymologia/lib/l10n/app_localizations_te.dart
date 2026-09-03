@@ -444,6 +444,94 @@ class AppLocalizationsTe extends AppLocalizations {
   String get createAGym => 'జిమ్ సృష్టించండి';
 
   @override
+  String get createYourGym => 'మీ జిమ్ సృష్టించండి';
+
+  @override
+  String get gymName => 'జిమ్ పేరు';
+
+  @override
+  String get gymNameHint => 'ఐరన్ టెంపుల్ ఫిట్‌నెస్';
+
+  @override
+  String get descriptionOptional => 'వివరణ (ఐచ్ఛికం)';
+
+  @override
+  String get descriptionHint => 'మీ జిమ్‌లో చేరడానికి ఏమి ప్రత్యేకం?';
+
+  @override
+  String get address => 'చిరునామా';
+
+  @override
+  String get city => 'నగరం';
+
+  @override
+  String get district => 'జిల్లా';
+
+  @override
+  String get districtNote =>
+      'సెర్చ్‌లో మీ జిమ్ పేరు పక్కన జిల్లా కనిపిస్తుంది, తద్వారా సభ్యులు గుర్తించగలరు.';
+
+  @override
+  String get state => 'రాష్ట్రం';
+
+  @override
+  String get pinCode => 'పిన్ కోడ్';
+
+  @override
+  String get contactNumber => 'సంప్రదింపు నంబర్';
+
+  @override
+  String get leavePolicyNote =>
+      'సభ్యులు నెలలో కొన్ని రోజులు సభ్యత్వాన్ని ఆపవచ్చు. అంతకు మించితే ఆమోదం అవసరం.';
+
+  @override
+  String get perksLabel => 'సౌకర్యాలు, కామాతో వేరు చేయండి';
+
+  @override
+  String get perksHint => 'స్టీమ్ రూమ్, ఉచిత పార్కింగ్, పర్సనల్ ట్రైనింగ్';
+
+  @override
+  String get createGym => 'జిమ్ సృష్టించు';
+
+  @override
+  String get draftNote =>
+      'మీ జిమ్ చిత్తుప్రతిగా మొదలవుతుంది. ప్లాన్ తీసుకునే వరకు సెర్చ్‌లో కనిపించదు.';
+
+  @override
+  String get sendThis => 'దీన్ని పంపాలా?';
+
+  @override
+  String get send => 'పంపు';
+
+  @override
+  String get announcements => 'ప్రకటనలు';
+
+  @override
+  String get title => 'శీర్షిక';
+
+  @override
+  String get announceTitleHint => 'నిర్వహణ కోసం ఆదివారం మూసివేత';
+
+  @override
+  String get message => 'సందేశం';
+
+  @override
+  String get announceBodyHint =>
+      'సోమవారం ఉదయం 6 గంటలకు మళ్లీ తెరుస్తాము. తక్కువ సమయ సూచనకు క్షమించండి.';
+
+  @override
+  String get whoSeesIt => 'ఎవరు చూస్తారు';
+
+  @override
+  String get everyone => 'అందరూ';
+
+  @override
+  String get sendAnnouncement => 'ప్రకటన పంపు';
+
+  @override
+  String get sent => 'పంపబడింది';
+
+  @override
   String get newGym => 'కొత్త జిమ్';
 
   @override

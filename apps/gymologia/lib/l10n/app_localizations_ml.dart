@@ -448,6 +448,94 @@ class AppLocalizationsMl extends AppLocalizations {
   String get createAGym => 'ജിം ഉണ്ടാക്കുക';
 
   @override
+  String get createYourGym => 'നിങ്ങളുടെ ജിം ഉണ്ടാക്കുക';
+
+  @override
+  String get gymName => 'ജിമ്മിന്റെ പേര്';
+
+  @override
+  String get gymNameHint => 'അയൺ ടെമ്പിൾ ഫിറ്റ്നസ്';
+
+  @override
+  String get descriptionOptional => 'വിവരണം (ഐച്ഛികം)';
+
+  @override
+  String get descriptionHint => 'നിങ്ങളുടെ ജിമ്മിൽ ചേരാൻ എന്താണ് പ്രത്യേകത?';
+
+  @override
+  String get address => 'വിലാസം';
+
+  @override
+  String get city => 'നഗരം';
+
+  @override
+  String get district => 'ജില്ല';
+
+  @override
+  String get districtNote =>
+      'തിരയലിൽ ജിമ്മിന്റെ പേരിനൊപ്പം ജില്ല കാണിക്കും, അതിനാൽ അംഗങ്ങൾക്ക് തിരിച്ചറിയാം.';
+
+  @override
+  String get state => 'സംസ്ഥാനം';
+
+  @override
+  String get pinCode => 'പിൻ കോഡ്';
+
+  @override
+  String get contactNumber => 'ബന്ധപ്പെടാനുള്ള നമ്പർ';
+
+  @override
+  String get leavePolicyNote =>
+      'അംഗങ്ങൾക്ക് മാസത്തിൽ ചില ദിവസം അംഗത്വം നിർത്താം. അതിലധികമായാൽ അനുമതി വേണം.';
+
+  @override
+  String get perksLabel => 'സൗകര്യങ്ങൾ, കോമ കൊണ്ട് വേർതിരിക്കുക';
+
+  @override
+  String get perksHint => 'സ്റ്റീം റൂം, സൗജന്യ പാർക്കിംഗ്, പേഴ്സണൽ ട്രെയിനിംഗ്';
+
+  @override
+  String get createGym => 'ജിം ഉണ്ടാക്കുക';
+
+  @override
+  String get draftNote =>
+      'നിങ്ങളുടെ ജിം കരടായി തുടങ്ങുന്നു. പ്ലാൻ എടുക്കുന്നത് വരെ തിരയലിൽ വരില്ല.';
+
+  @override
+  String get sendThis => 'ഇത് അയയ്ക്കണോ?';
+
+  @override
+  String get send => 'അയയ്ക്കുക';
+
+  @override
+  String get announcements => 'അറിയിപ്പുകൾ';
+
+  @override
+  String get title => 'തലക്കെട്ട്';
+
+  @override
+  String get announceTitleHint => 'അറ്റകുറ്റപ്പണിക്കായി ഞായറാഴ്ച അടച്ചിരിക്കും';
+
+  @override
+  String get message => 'സന്ദേശം';
+
+  @override
+  String get announceBodyHint =>
+      'തിങ്കളാഴ്ച രാവിലെ 6 മണിക്ക് വീണ്ടും തുറക്കും. ചുരുങ്ങിയ അറിയിപ്പിന് ക്ഷമിക്കണം.';
+
+  @override
+  String get whoSeesIt => 'ആരു കാണും';
+
+  @override
+  String get everyone => 'എല്ലാവരും';
+
+  @override
+  String get sendAnnouncement => 'അറിയിപ്പ് അയയ്ക്കുക';
+
+  @override
+  String get sent => 'അയച്ചു';
+
+  @override
   String get newGym => 'പുതിയ ജിം';
 
   @override

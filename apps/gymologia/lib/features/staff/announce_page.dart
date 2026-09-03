@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -64,7 +65,7 @@ class _AnnouncePageState extends State<AnnouncePage> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Send this?'),
+        title: Text(AppLocalizations.of(context).sendThis),
         content: Text(
           'It goes to ${switch (_audience) {
             'GYM_MEMBERS' => 'every member',
@@ -75,11 +76,11 @@ class _AnnouncePageState extends State<AnnouncePage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context).cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Send'),
+            child: Text(AppLocalizations.of(context).send),
           ),
         ],
       ),
@@ -122,7 +123,7 @@ class _AnnouncePageState extends State<AnnouncePage> {
     final sent = _sent;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Announcements')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).announcements)),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
         children: [
@@ -130,9 +131,9 @@ class _AnnouncePageState extends State<AnnouncePage> {
             controller: _title,
             textCapitalization: TextCapitalization.sentences,
             maxLength: 150,
-            decoration: const InputDecoration(
-              labelText: 'Title',
-              hintText: 'Closed Sunday for maintenance',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context).title,
+              hintText: AppLocalizations.of(context).announceTitleHint,
               counterText: '',
             ),
           ),
@@ -142,23 +143,23 @@ class _AnnouncePageState extends State<AnnouncePage> {
             maxLines: 4,
             maxLength: 2000,
             textCapitalization: TextCapitalization.sentences,
-            decoration: const InputDecoration(
-              labelText: 'Message',
-              hintText: 'We reopen Monday at 6am. Sorry for the short notice.',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context).message,
+              hintText: AppLocalizations.of(context).announceBodyHint,
             ),
           ),
           const SizedBox(height: 10),
-          Text('WHO SEES IT',
+          Text(AppLocalizations.of(context).whoSeesIt.toUpperCase(),
               style: theme.textTheme.labelSmall?.copyWith(
                 letterSpacing: 0.8,
                 color: theme.colorScheme.onSurfaceVariant,
               )),
           const SizedBox(height: 8),
           SegmentedButton<String>(
-            segments: const [
-              ButtonSegment(value: 'GYM_EVERYONE', label: Text('Everyone')),
-              ButtonSegment(value: 'GYM_MEMBERS', label: Text('Members')),
-              ButtonSegment(value: 'GYM_STAFF', label: Text('Staff')),
+            segments: [
+              ButtonSegment(value: 'GYM_EVERYONE', label: Text(AppLocalizations.of(context).everyone)),
+              ButtonSegment(value: 'GYM_MEMBERS', label: Text(AppLocalizations.of(context).members)),
+              ButtonSegment(value: 'GYM_STAFF', label: Text(AppLocalizations.of(context).staff)),
             ],
             selected: {_audience},
             onSelectionChanged: (v) => setState(() => _audience = v.first),
@@ -180,12 +181,12 @@ class _AnnouncePageState extends State<AnnouncePage> {
                     height: 20,
                     width: 20,
                     child: CircularProgressIndicator(strokeWidth: 2.4))
-                : const Text('Send announcement'),
+                : Text(AppLocalizations.of(context).sendAnnouncement),
           ),
 
           if (sent != null && sent.isNotEmpty) ...[
             const SizedBox(height: 34),
-            Text('SENT',
+            Text(AppLocalizations.of(context).sent.toUpperCase(),
                 style: theme.textTheme.labelSmall?.copyWith(
                   letterSpacing: 0.9,
                   fontWeight: FontWeight.w700,

@@ -450,6 +450,94 @@ class AppLocalizationsTa extends AppLocalizations {
   String get createAGym => 'கூடம் உருவாக்கு';
 
   @override
+  String get createYourGym => 'உங்கள் கூடத்தை உருவாக்குங்கள்';
+
+  @override
+  String get gymName => 'கூடத்தின் பெயர்';
+
+  @override
+  String get gymNameHint => 'அயர்ன் டெம்பிள் ஃபிட்னஸ்';
+
+  @override
+  String get descriptionOptional => 'விவரம் (விருப்பம்)';
+
+  @override
+  String get descriptionHint => 'உங்கள் கூடத்தில் சேர என்ன சிறப்பு?';
+
+  @override
+  String get address => 'முகவரி';
+
+  @override
+  String get city => 'நகரம்';
+
+  @override
+  String get district => 'மாவட்டம்';
+
+  @override
+  String get districtNote =>
+      'தேடலில் உங்கள் கூடத்தின் பெயருக்கு அருகில் மாவட்டம் தோன்றும், அதனால் உறுப்பினர்கள் அடையாளம் காண்பர்.';
+
+  @override
+  String get state => 'மாநிலம்';
+
+  @override
+  String get pinCode => 'அஞ்சல் குறியீடு';
+
+  @override
+  String get contactNumber => 'தொடர்பு எண்';
+
+  @override
+  String get leavePolicyNote =>
+      'உறுப்பினர்கள் மாதத்தில் சில நாட்கள் உறுப்பினர் சேர்க்கையை நிறுத்தலாம். அதற்கு மேல் ஒப்புதல் தேவை.';
+
+  @override
+  String get perksLabel => 'வசதிகள், காற்புள்ளியால் பிரிக்கவும்';
+
+  @override
+  String get perksHint => 'நீராவி அறை, இலவச நிறுத்தம், தனிப்பட்ட பயிற்சி';
+
+  @override
+  String get createGym => 'கூடத்தை உருவாக்கு';
+
+  @override
+  String get draftNote =>
+      'உங்கள் கூடம் வரைவாகத் தொடங்குகிறது. திட்டம் எடுக்கும் வரை தேடலில் தோன்றாது.';
+
+  @override
+  String get sendThis => 'இதை அனுப்பவா?';
+
+  @override
+  String get send => 'அனுப்பு';
+
+  @override
+  String get announcements => 'அறிவிப்புகள்';
+
+  @override
+  String get title => 'தலைப்பு';
+
+  @override
+  String get announceTitleHint => 'பராமரிப்புக்காக ஞாயிறு மூடப்பட்டுள்ளது';
+
+  @override
+  String get message => 'செய்தி';
+
+  @override
+  String get announceBodyHint =>
+      'திங்கள் காலை 6 மணிக்கு மீண்டும் திறக்கிறோம். குறுகிய அறிவிப்புக்கு வருந்துகிறோம்.';
+
+  @override
+  String get whoSeesIt => 'யார் பார்ப்பார்கள்';
+
+  @override
+  String get everyone => 'அனைவரும்';
+
+  @override
+  String get sendAnnouncement => 'அறிவிப்பை அனுப்பு';
+
+  @override
+  String get sent => 'அனுப்பப்பட்டது';
+
+  @override
   String get newGym => 'புதிய கூடம்';
 
   @override

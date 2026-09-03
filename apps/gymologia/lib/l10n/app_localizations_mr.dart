@@ -443,6 +443,94 @@ class AppLocalizationsMr extends AppLocalizations {
   String get createAGym => 'जिम तयार करा';
 
   @override
+  String get createYourGym => 'तुमचे जिम तयार करा';
+
+  @override
+  String get gymName => 'जिमचे नाव';
+
+  @override
+  String get gymNameHint => 'आयर्न टेंपल फिटनेस';
+
+  @override
+  String get descriptionOptional => 'वर्णन (ऐच्छिक)';
+
+  @override
+  String get descriptionHint => 'तुमच्या जिममध्ये सामील होण्यासारखे काय आहे?';
+
+  @override
+  String get address => 'पत्ता';
+
+  @override
+  String get city => 'शहर';
+
+  @override
+  String get district => 'जिल्हा';
+
+  @override
+  String get districtNote =>
+      'शोधात तुमच्या जिमच्या नावापुढे जिल्हा दिसतो, त्यामुळे सदस्य ओळखू शकतात.';
+
+  @override
+  String get state => 'राज्य';
+
+  @override
+  String get pinCode => 'पिन कोड';
+
+  @override
+  String get contactNumber => 'संपर्क क्रमांक';
+
+  @override
+  String get leavePolicyNote =>
+      'सदस्य महिन्यातून काही दिवस सदस्यत्व थांबवू शकतात. त्यापेक्षा जास्त विनंत्यांना मंजुरी लागते.';
+
+  @override
+  String get perksLabel => 'सुविधा, स्वल्पविरामाने वेगळ्या';
+
+  @override
+  String get perksHint => 'स्टीम रूम, मोफत पार्किंग, वैयक्तिक प्रशिक्षण';
+
+  @override
+  String get createGym => 'जिम तयार करा';
+
+  @override
+  String get draftNote =>
+      'तुमचे जिम मसुदा म्हणून सुरू होते. प्लॅन घेईपर्यंत ते शोधात दिसणार नाही.';
+
+  @override
+  String get sendThis => 'हे पाठवायचे?';
+
+  @override
+  String get send => 'पाठवा';
+
+  @override
+  String get announcements => 'घोषणा';
+
+  @override
+  String get title => 'शीर्षक';
+
+  @override
+  String get announceTitleHint => 'देखभालीसाठी रविवारी बंद';
+
+  @override
+  String get message => 'संदेश';
+
+  @override
+  String get announceBodyHint =>
+      'आम्ही सोमवारी सकाळी 6 वाजता पुन्हा उघडू. कमी सूचनेबद्दल क्षमस्व.';
+
+  @override
+  String get whoSeesIt => 'कोण पाहील';
+
+  @override
+  String get everyone => 'सर्वजण';
+
+  @override
+  String get sendAnnouncement => 'घोषणा पाठवा';
+
+  @override
+  String get sent => 'पाठवले';
+
+  @override
   String get newGym => 'नवीन जिम';
 
   @override

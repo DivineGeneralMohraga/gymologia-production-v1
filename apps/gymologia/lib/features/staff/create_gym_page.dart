@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -102,7 +103,7 @@ class _CreateGymPageState extends State<CreateGymPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Create your gym')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).createYourGym)),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -112,9 +113,9 @@ class _CreateGymPageState extends State<CreateGymPage> {
               controller: _name,
               autofocus: true,
               textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
-                labelText: 'Gym name',
-                hintText: 'Iron Temple Fitness',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).gymName,
+                hintText: AppLocalizations.of(context).gymNameHint,
               ),
               validator: (v) =>
                   (v?.trim().length ?? 0) < 2 ? 'Enter your gym name' : null,
@@ -124,9 +125,9 @@ class _CreateGymPageState extends State<CreateGymPage> {
               controller: _description,
               maxLines: 3,
               maxLength: 400,
-              decoration: const InputDecoration(
-                labelText: 'Description (optional)',
-                hintText: 'What makes your gym worth joining?',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).descriptionOptional,
+                hintText: AppLocalizations.of(context).descriptionHint,
               ),
             ),
 
@@ -134,7 +135,7 @@ class _CreateGymPageState extends State<CreateGymPage> {
             TextFormField(
               controller: _address,
               textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(labelText: 'Address'),
+              decoration: InputDecoration(labelText: AppLocalizations.of(context).address),
               validator: (v) =>
                   (v?.trim().length ?? 0) < 3 ? 'Enter the address' : null,
             ),
@@ -145,7 +146,7 @@ class _CreateGymPageState extends State<CreateGymPage> {
                   child: TextFormField(
                     controller: _city,
                     textCapitalization: TextCapitalization.words,
-                    decoration: const InputDecoration(labelText: 'City'),
+                    decoration: InputDecoration(labelText: AppLocalizations.of(context).city),
                     validator: (v) =>
                         (v?.trim().length ?? 0) < 2 ? 'Required' : null,
                   ),
@@ -155,7 +156,7 @@ class _CreateGymPageState extends State<CreateGymPage> {
                   child: TextFormField(
                     controller: _district,
                     textCapitalization: TextCapitalization.words,
-                    decoration: const InputDecoration(labelText: 'District'),
+                    decoration: InputDecoration(labelText: AppLocalizations.of(context).district),
                     validator: (v) =>
                         (v?.trim().length ?? 0) < 2 ? 'Required' : null,
                   ),
@@ -177,7 +178,7 @@ class _CreateGymPageState extends State<CreateGymPage> {
                   child: TextFormField(
                     controller: _state,
                     textCapitalization: TextCapitalization.words,
-                    decoration: const InputDecoration(labelText: 'State'),
+                    decoration: InputDecoration(labelText: AppLocalizations.of(context).state),
                     validator: (v) =>
                         (v?.trim().length ?? 0) < 2 ? 'Required' : null,
                   ),
@@ -191,7 +192,7 @@ class _CreateGymPageState extends State<CreateGymPage> {
                       FilteringTextInputFormatter.digitsOnly,
                       LengthLimitingTextInputFormatter(6),
                     ],
-                    decoration: const InputDecoration(labelText: 'PIN code'),
+                    decoration: InputDecoration(labelText: AppLocalizations.of(context).pinCode),
                     validator: (v) => RegExp(r'^\d{6}$').hasMatch(v?.trim() ?? '')
                         ? null
                         : '6 digits',
@@ -208,8 +209,8 @@ class _CreateGymPageState extends State<CreateGymPage> {
                 FilteringTextInputFormatter.digitsOnly,
                 LengthLimitingTextInputFormatter(10),
               ],
-              decoration: const InputDecoration(
-                labelText: 'Contact number',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).contactNumber,
                 prefixText: '+91  ',
               ),
               validator: validateIndianMobile,
@@ -242,9 +243,9 @@ class _CreateGymPageState extends State<CreateGymPage> {
             _Label('Perks'),
             TextFormField(
               controller: _perks,
-              decoration: const InputDecoration(
-                labelText: 'Perks, separated by commas',
-                hintText: 'Steam room, Free parking, Personal training',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).perksLabel,
+                hintText: AppLocalizations.of(context).perksHint,
               ),
             ),
 
@@ -269,7 +270,7 @@ class _CreateGymPageState extends State<CreateGymPage> {
                       width: 22,
                       child: CircularProgressIndicator(strokeWidth: 2.5),
                     )
-                  : const Text('Create gym'),
+                  : Text(AppLocalizations.of(context).createGym),
             ),
             const SizedBox(height: 12),
             Text(

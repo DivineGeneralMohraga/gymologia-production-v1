@@ -443,6 +443,94 @@ class AppLocalizationsPa extends AppLocalizations {
   String get createAGym => 'ਜਿਮ ਬਣਾਓ';
 
   @override
+  String get createYourGym => 'ਆਪਣਾ ਜਿਮ ਬਣਾਓ';
+
+  @override
+  String get gymName => 'ਜਿਮ ਦਾ ਨਾਮ';
+
+  @override
+  String get gymNameHint => 'ਆਇਰਨ ਟੈਂਪਲ ਫਿਟਨੈਸ';
+
+  @override
+  String get descriptionOptional => 'ਵਰਣਨ (ਵਿਕਲਪਿਕ)';
+
+  @override
+  String get descriptionHint => 'ਤੁਹਾਡੇ ਜਿਮ ਵਿੱਚ ਜੁੜਨ ਵਾਲੀ ਕੀ ਗੱਲ ਹੈ?';
+
+  @override
+  String get address => 'ਪਤਾ';
+
+  @override
+  String get city => 'ਸ਼ਹਿਰ';
+
+  @override
+  String get district => 'ਜ਼ਿਲ੍ਹਾ';
+
+  @override
+  String get districtNote =>
+      'ਖੋਜ ਵਿੱਚ ਤੁਹਾਡੇ ਜਿਮ ਦੇ ਨਾਮ ਕੋਲ ਜ਼ਿਲ੍ਹਾ ਦਿਖਦਾ ਹੈ, ਤਾਂ ਜੋ ਮੈਂਬਰ ਪਛਾਣ ਸਕਣ।';
+
+  @override
+  String get state => 'ਰਾਜ';
+
+  @override
+  String get pinCode => 'ਪਿੰਨ ਕੋਡ';
+
+  @override
+  String get contactNumber => 'ਸੰਪਰਕ ਨੰਬਰ';
+
+  @override
+  String get leavePolicyNote =>
+      'ਮੈਂਬਰ ਮਹੀਨੇ ਵਿੱਚ ਕੁਝ ਦਿਨ ਮੈਂਬਰਸ਼ਿਪ ਰੋਕ ਸਕਦੇ ਹਨ। ਇਸ ਤੋਂ ਵੱਧ ਲਈ ਮਨਜ਼ੂਰੀ ਚਾਹੀਦੀ ਹੈ।';
+
+  @override
+  String get perksLabel => 'ਸਹੂਲਤਾਂ, ਕਾਮੇ ਨਾਲ ਵੱਖ';
+
+  @override
+  String get perksHint => 'ਸਟੀਮ ਰੂਮ, ਮੁਫ਼ਤ ਪਾਰਕਿੰਗ, ਪਰਸਨਲ ਟ੍ਰੇਨਿੰਗ';
+
+  @override
+  String get createGym => 'ਜਿਮ ਬਣਾਓ';
+
+  @override
+  String get draftNote =>
+      'ਤੁਹਾਡਾ ਜਿਮ ਖਰੜੇ ਵਜੋਂ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ। ਪਲਾਨ ਲੈਣ ਤੱਕ ਇਹ ਖੋਜ ਵਿੱਚ ਨਹੀਂ ਦਿਖੇਗਾ।';
+
+  @override
+  String get sendThis => 'ਇਹ ਭੇਜਣਾ?';
+
+  @override
+  String get send => 'ਭੇਜੋ';
+
+  @override
+  String get announcements => 'ਐਲਾਨ';
+
+  @override
+  String get title => 'ਸਿਰਲੇਖ';
+
+  @override
+  String get announceTitleHint => 'ਦੇਖਭਾਲ ਲਈ ਐਤਵਾਰ ਬੰਦ';
+
+  @override
+  String get message => 'ਸੁਨੇਹਾ';
+
+  @override
+  String get announceBodyHint =>
+      'ਅਸੀਂ ਸੋਮਵਾਰ ਸਵੇਰੇ 6 ਵਜੇ ਦੁਬਾਰਾ ਖੋਲ੍ਹਾਂਗੇ। ਥੋੜ੍ਹੀ ਸੂਚਨਾ ਲਈ ਮਾਫ਼ ਕਰਨਾ।';
+
+  @override
+  String get whoSeesIt => 'ਕੌਣ ਵੇਖੇਗਾ';
+
+  @override
+  String get everyone => 'ਸਾਰੇ';
+
+  @override
+  String get sendAnnouncement => 'ਐਲਾਨ ਭੇਜੋ';
+
+  @override
+  String get sent => 'ਭੇਜਿਆ ਗਿਆ';
+
+  @override
   String get newGym => 'ਨਵਾਂ ਜਿਮ';
 
   @override

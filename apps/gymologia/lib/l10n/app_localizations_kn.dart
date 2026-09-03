@@ -445,6 +445,94 @@ class AppLocalizationsKn extends AppLocalizations {
   String get createAGym => 'ಜಿಮ್ ರಚಿಸಿ';
 
   @override
+  String get createYourGym => 'ನಿಮ್ಮ ಜಿಮ್ ರಚಿಸಿ';
+
+  @override
+  String get gymName => 'ಜಿಮ್ ಹೆಸರು';
+
+  @override
+  String get gymNameHint => 'ಐರನ್ ಟೆಂಪಲ್ ಫಿಟ್‌ನೆಸ್';
+
+  @override
+  String get descriptionOptional => 'ವಿವರಣೆ (ಐಚ್ಛಿಕ)';
+
+  @override
+  String get descriptionHint => 'ನಿಮ್ಮ ಜಿಮ್‌ಗೆ ಸೇರಲು ಏನು ವಿಶೇಷ?';
+
+  @override
+  String get address => 'ವಿಳಾಸ';
+
+  @override
+  String get city => 'ನಗರ';
+
+  @override
+  String get district => 'ಜಿಲ್ಲೆ';
+
+  @override
+  String get districtNote =>
+      'ಹುಡುಕಾಟದಲ್ಲಿ ಜಿಮ್ ಹೆಸರಿನ ಪಕ್ಕ ಜಿಲ್ಲೆ ಕಾಣಿಸುತ್ತದೆ, ಇದರಿಂದ ಸದಸ್ಯರು ಗುರುತಿಸಬಹುದು.';
+
+  @override
+  String get state => 'ರಾಜ್ಯ';
+
+  @override
+  String get pinCode => 'ಪಿನ್ ಕೋಡ್';
+
+  @override
+  String get contactNumber => 'ಸಂಪರ್ಕ ಸಂಖ್ಯೆ';
+
+  @override
+  String get leavePolicyNote =>
+      'ಸದಸ್ಯರು ತಿಂಗಳಲ್ಲಿ ಕೆಲವು ದಿನ ಸದಸ್ಯತ್ವ ನಿಲ್ಲಿಸಬಹುದು. ಅದಕ್ಕಿಂತ ಹೆಚ್ಚಾದರೆ ಅನುಮೋದನೆ ಬೇಕು.';
+
+  @override
+  String get perksLabel => 'ಸೌಲಭ್ಯಗಳು, ಅಲ್ಪವಿರಾಮದಿಂದ ಬೇರ್ಪಡಿಸಿ';
+
+  @override
+  String get perksHint => 'ಸ್ಟೀಮ್ ರೂಮ್, ಉಚಿತ ಪಾರ್ಕಿಂಗ್, ಪರ್ಸನಲ್ ಟ್ರೈನಿಂಗ್';
+
+  @override
+  String get createGym => 'ಜಿಮ್ ರಚಿಸಿ';
+
+  @override
+  String get draftNote =>
+      'ನಿಮ್ಮ ಜಿಮ್ ಕರಡಾಗಿ ಆರಂಭವಾಗುತ್ತದೆ. ಯೋಜನೆ ತೆಗೆದುಕೊಳ್ಳುವವರೆಗೆ ಹುಡುಕಾಟದಲ್ಲಿ ಕಾಣಿಸದು.';
+
+  @override
+  String get sendThis => 'ಇದನ್ನು ಕಳುಹಿಸುವುದೇ?';
+
+  @override
+  String get send => 'ಕಳುಹಿಸಿ';
+
+  @override
+  String get announcements => 'ಪ್ರಕಟಣೆಗಳು';
+
+  @override
+  String get title => 'ಶೀರ್ಷಿಕೆ';
+
+  @override
+  String get announceTitleHint => 'ನಿರ್ವಹಣೆಗಾಗಿ ಭಾನುವಾರ ಮುಚ್ಚಲಾಗಿದೆ';
+
+  @override
+  String get message => 'ಸಂದೇಶ';
+
+  @override
+  String get announceBodyHint =>
+      'ಸೋಮವಾರ ಬೆಳಿಗ್ಗೆ 6 ಗಂಟೆಗೆ ಮತ್ತೆ ತೆರೆಯುತ್ತೇವೆ. ಕಡಿಮೆ ಸೂಚನೆಗೆ ಕ್ಷಮಿಸಿ.';
+
+  @override
+  String get whoSeesIt => 'ಯಾರು ನೋಡುತ್ತಾರೆ';
+
+  @override
+  String get everyone => 'ಎಲ್ಲರೂ';
+
+  @override
+  String get sendAnnouncement => 'ಪ್ರಕಟಣೆ ಕಳುಹಿಸಿ';
+
+  @override
+  String get sent => 'ಕಳುಹಿಸಲಾಗಿದೆ';
+
+  @override
   String get newGym => 'ಹೊಸ ಜಿಮ್';
 
   @override
