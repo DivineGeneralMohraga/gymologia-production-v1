@@ -41,7 +41,11 @@ make_gym() {
          \"contactPhone\":\"$3\"}" | field id
 }
 
-STAMP=$(date +%s | tail -c 5)
+# Four digits from the clock mixed with this shell's pid, so two runs
+# starting in the same second do not mint the same phone numbers and then
+# fight over the same test accounts. That collision produced a confusing
+# half-hour of "failures" that were two regressions running at once.
+STAMP=$(printf '%04d' $(( ($$ + RANDOM + $(date +%s)) % 10000 )))
 P_A="+9198300${STAMP}1"
 P_B="+9198300${STAMP}2"
 P_REF="+9198300${STAMP}3"

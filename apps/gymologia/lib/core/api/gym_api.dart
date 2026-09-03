@@ -239,6 +239,11 @@ class GymApi {
     return _list(raw);
   }
 
+  /// Where this gym sits in Gymologia search, by city, district, state and
+  /// all-India. Only Pro gyms are ranked; the response says why if not.
+  Future<Map<String, dynamic>> ranking(String gymId) =>
+      _client.get('/gyms/$gymId/ranking');
+
   // Roles
   Future<Map<String, dynamic>> permissionCatalogue(String gymId) =>
       _client.get('/gyms/$gymId/roles/permissions');

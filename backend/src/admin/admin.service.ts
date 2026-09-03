@@ -130,19 +130,26 @@ export class AdminService implements OnModuleInit {
         _count: { _all: true },
       }),
       this.prisma.staffMember.count({ where: { status: StaffStatus.ACTIVE } }),
-      this.prisma.gym.findMany({
-        where: { deletedAt: null },
-        select: { ownerId: true },
-        distinct: ['ownerId'],
-      }),
+      // Both of these are COUNT(DISTINCT ...) in SQL rather than a findMany
+      // whose rows are then counted in JavaScript. The dashboard is
+      // platform-wide, so the naive version drags every distinct owner and
+      // every distinct attending member across the wire to produce two
+      // integers -- fine on a test database, ruinous on a real one.
+      this.prisma.$queryRaw<{ count: number }[]>`
+        SELECT COUNT(DISTINCT "ownerId")::int AS count
+        FROM gyms
+        WHERE "deletedAt" IS NULL
+      `,
       this.prisma.membership.count({
         where: { status: MembershipStatus.ACTIVE },
       }),
-      this.prisma.attendanceRecord.findMany({
-        where: { subjectType: 'MEMBER', status: 'PRESENT', date: { gte: since } },
-        distinct: ['subjectId'],
-        select: { subjectId: true },
-      }),
+      this.prisma.$queryRaw<{ count: number }[]>`
+        SELECT COUNT(DISTINCT "subjectId")::int AS count
+        FROM attendance_records
+        WHERE "subjectType"::text = 'MEMBER'
+          AND status::text = 'PRESENT'
+          AND date >= ${since}
+      `,
       this.prisma.supportTicket.count({ where: { status: TicketStatus.OPEN } }),
       this.prisma.supportTicket.count({
         where: { status: TicketStatus.OPEN, priority: 'URGENT' },
@@ -160,7 +167,7 @@ export class AdminService implements OnModuleInit {
         newInLast30Days: newUsers,
         /** Staff records, not people: one person can work at several gyms. */
         gymStaffRecords: staffCount,
-        gymOwners: owners.length,
+        gymOwners: owners[0]?.count ?? 0,
       },
       gyms: {
         active: byStatus[GymStatus.ACTIVE] ?? 0,
@@ -171,11 +178,11 @@ export class AdminService implements OnModuleInit {
       members: {
         active: activeMemberships,
         /** Trained at least once in the last 30 days. */
-        engaged: engaged.length,
+        engaged: engaged[0]?.count ?? 0,
         engagementRate:
           activeMemberships === 0
             ? 0
-            : Math.round((engaged.length / activeMemberships) * 100),
+            : Math.round(((engaged[0]?.count ?? 0) / activeMemberships) * 100),
       },
       support: { open: openTickets, urgent: urgentTickets },
       // Install counts are only as good as whatever reports them; the table

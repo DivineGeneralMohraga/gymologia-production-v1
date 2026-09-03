@@ -16,6 +16,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Permission } from '@prisma/client';
 import type { Request } from 'express';
 import { GymsService, RequestMeta } from './gyms.service';
+import { RankingService } from './ranking.service';
 import {
   Actor,
   CurrentUser,
@@ -35,7 +36,10 @@ import {
 @ApiBearerAuth()
 @Controller('gyms')
 export class GymsController {
-  constructor(private readonly gyms: GymsService) {}
+  constructor(
+    private readonly gyms: GymsService,
+    private readonly ranking: RankingService,
+  ) {}
 
   // ── Member-facing ──────────────────────────────────────────────────
 
@@ -116,6 +120,17 @@ export class GymsController {
    * Roles at this gym. Readable by anyone who can add or manage people,
    * because both flows need to pick one.
    */
+  @Get(':gymId/ranking')
+  @RequirePermissions(Permission.VIEW_RANKING)
+  @ApiOperation({
+    summary: 'Where this gym sits in Gymologia search',
+    description:
+      'City, district, state and all-India, using the same ordering the search endpoint sorts by. Only Pro gyms are ranked; a Basic gym is told why instead.',
+  })
+  searchRanking(@Actor() actor: ActorContext) {
+    return this.ranking.forGym(actor);
+  }
+
   @Get(':gymId/roles')
   @RequirePermissions(
     Permission.ADD_STAFF,

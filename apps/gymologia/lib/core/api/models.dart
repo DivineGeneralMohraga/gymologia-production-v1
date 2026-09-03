@@ -497,6 +497,7 @@ class P {
   static const hostEvents = 'HOST_EVENTS';
   static const viewProgress = 'VIEW_PROGRESS';
   static const viewAnalytics = 'VIEW_ANALYTICS';
+  static const viewRanking = 'VIEW_RANKING';
   static const editGymProfile = 'EDIT_GYM_PROFILE';
   static const manageSubscription = 'MANAGE_SUBSCRIPTION';
   static const deleteGym = 'DELETE_GYM';

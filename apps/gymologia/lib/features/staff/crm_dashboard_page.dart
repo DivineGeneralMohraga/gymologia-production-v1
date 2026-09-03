@@ -14,6 +14,7 @@ import 'announce_page.dart';
 import 'trainer_categories_page.dart';
 import 'roles_page.dart';
 import 'growth_page.dart';
+import 'ranking_page.dart';
 import '../chat/conversations_page.dart';
 
 /// The CRM home for one gym.
@@ -223,6 +224,12 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                     icon: Icons.show_chart,
                     label: 'Growth',
                     onTap: () => _open(GrowthPage(gym: gym)),
+                  ),
+                if (gym.can(P.viewRanking))
+                  _Tile(
+                    icon: Icons.leaderboard_outlined,
+                    label: 'Ranking',
+                    onTap: () => _open(RankingPage(gym: gym)),
                   ),
                 if (gym.sees('manageRoles'))
                   _Tile(

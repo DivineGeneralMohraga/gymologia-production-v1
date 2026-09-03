@@ -44,7 +44,11 @@ db() { node -e "
   (async () => { $1 })().then(()=>p.\$disconnect()).catch(e=>{console.error(e.message);process.exit(1);});
 " "$2" "$3"; }
 
-STAMP=$(date +%s | tail -c 5)
+# Four digits from the clock mixed with this shell's pid, so two runs
+# starting in the same second do not mint the same phone numbers and then
+# fight over the same test accounts. That collision produced a confusing
+# half-hour of "failures" that were two regressions running at once.
+STAMP=$(printf '%04d' $(( ($$ + RANDOM + $(date +%s)) % 10000 )))
 P_ADMIN="+9195400${STAMP}1"
 P_SUPPORT="+9195400${STAMP}2"
 P_CIVILIAN="+9195400${STAMP}3"

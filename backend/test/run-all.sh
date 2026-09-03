@@ -29,6 +29,7 @@ chat-e2e
 analytics-trainers-e2e
 roles-e2e
 admin-e2e
+ranking-e2e
 "
 
 API="${API:-http://localhost:3000/api/v1}"
@@ -41,6 +42,18 @@ if [ "$(curl -s -o /dev/null -w '%{http_code}' "$API/health")" != "200" ]; then
   printf "\033[31mNo server on %s.\033[0m Start it with: npm run build && node dist/main.js\n" "$API"
   exit 1
 fi
+
+# Refuse to start while another run is in progress. Two regressions against
+# one database fight over the same accounts and produce failures that look
+# like real regressions -- that cost a confusing debugging cycle once, and a
+# stale lock directory is far cheaper than repeating it.
+LOCK="${OUT}/gymologia-e2e.lock"
+if ! mkdir "$LOCK" 2>/dev/null; then
+  printf '%s\n' 'Another run is already going.'
+  printf 'If that is wrong, remove %s and try again.\n' "$LOCK"
+  exit 1
+fi
+trap 'rmdir "$LOCK" 2>/dev/null' EXIT INT TERM
 
 TOTAL=0
 FAILED=0
@@ -87,7 +100,7 @@ done
 
 printf "\n"
 if [ "$FAILED" = "0" ] && [ -z "$BROKEN" ]; then
-  printf "\033[32m%s checks passed across 9 suites.\033[0m\n" "$TOTAL"
+  printf "\033[32m%s checks passed across 10 suites.\033[0m\n" "$TOTAL"
   exit 0
 fi
 
