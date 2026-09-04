@@ -80,6 +80,45 @@
   "emailClearToRemove": "Optional. Clear it to remove.",
   "phoneIsYourLogin": "This is how you sign in, so it cannot be changed here yet. Contact support if you need it moved.",
 
+  "trialStarted": "Trial started. Your gym is now listed in search.",
+  "invalidCode": "Invalid code.",
+  "paymentNotCompletedYet": "Payment has not completed yet. Pull to refresh in a moment.",
+  "planIsActive": "{plan} plan is active.",
+  "@planIsActive": {
+    "placeholders": { "plan": { "type": "String" } }
+  },
+  "paymentNotCompleted": "Payment was not completed.",
+  "couldNotOpenPayment": "Could not open the payment screen.",
+  "daysFree": "{days} days free",
+  "@daysFree": {
+    "placeholders": { "days": { "type": "int" } }
+  },
+  "trialBlurb": "Full Pro, including your listing in member search. No card needed, and it does not renew into a paid plan on its own.",
+  "startFreeTrial": "Start free trial",
+  "referralCode": "Referral code",
+  "optional": "Optional",
+  "apply": "Apply",
+  "gstNote": "Prices include GST. A gym is only listed in member search on the Pro plan.",
+  "planNamed": "{plan} plan",
+  "@planNamed": {
+    "placeholders": { "plan": { "type": "String" } }
+  },
+  "trialBadge": "TRIAL",
+  "expired": "Expired",
+  "daysRemainingPlan": "{count, plural, =1{1 day remaining} other{{count} days remaining}}",
+  "@daysRemainingPlan": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "listedInSearch": "Listed in member search",
+  "notListedUpgrade": "Not listed in search — upgrade to Pro to appear",
+  "trialEndsNote": "When the trial ends your gym drops out of search until you choose a plan. Nothing is charged automatically.",
+  "getsYouListed": "GETS YOU LISTED",
+  "perMonth": "/month",
+  "choosePlanNamed": "Choose {plan}",
+  "@choosePlanNamed": {
+    "placeholders": { "plan": { "type": "String" } }
+  },
+
   "home": "Home",
   "myGym": "My gym",
   "discover": "Discover",

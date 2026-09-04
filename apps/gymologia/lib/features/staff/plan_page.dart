@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_cashfree_pg_sdk/api/cferrorresponse/cferrorresponse.dart';
@@ -103,7 +104,9 @@ class _PlanPageState extends State<PlanPage> {
     final referral = _quote?['referral'] as Map<String, dynamic>?;
     if (referral != null && referral['valid'] != true) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(referral['message'] as String? ?? 'Invalid code.')),
+        SnackBar(
+            content: Text(referral['message'] as String? ??
+                AppLocalizations.of(context).invalidCode)),
       );
       setState(() => _appliedCode = null);
       await _load();
@@ -116,9 +119,7 @@ class _PlanPageState extends State<PlanPage> {
       await _api.startTrial(widget.gym.id);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Trial started. Your gym is now listed in search.'),
-        ),
+        SnackBar(content: Text(AppLocalizations.of(context).trialStarted)),
       );
       Navigator.of(context).pop(true);
     } on ApiException catch (e) {
@@ -172,7 +173,8 @@ class _PlanPageState extends State<PlanPage> {
     } catch (e) {
       if (mounted) {
         setState(() {
-          _error = 'Could not open the payment screen. $e';
+          _error =
+              '${AppLocalizations.of(context).couldNotOpenPayment} $e';
           _busy = false;
         });
       }
@@ -189,7 +191,9 @@ class _PlanPageState extends State<PlanPage> {
     if (!mounted) return;
     setState(() => _busy = false);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(error.getMessage() ?? 'Payment was not completed.')),
+      SnackBar(
+          content: Text(error.getMessage() ??
+              AppLocalizations.of(context).paymentNotCompleted)),
     );
     // Confirm anyway: the sheet reports an error for a cancel too, and the
     // webhook may already have activated a payment that did go through.
@@ -207,7 +211,8 @@ class _PlanPageState extends State<PlanPage> {
       if (result['status'] == 'ACTIVE') {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${result['plan']} plan is active.'),
+            content: Text(AppLocalizations.of(context)
+                .planIsActive('${result['plan']}')),
           ),
         );
         Navigator.of(context).pop(true);
@@ -217,8 +222,9 @@ class _PlanPageState extends State<PlanPage> {
       setState(() => _busy = false);
       if (!quiet) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Payment has not completed yet. Pull to refresh in a moment.'),
+          SnackBar(
+            content:
+                Text(AppLocalizations.of(context).paymentNotCompletedYet),
           ),
         );
       }
@@ -236,12 +242,13 @@ class _PlanPageState extends State<PlanPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final quote = _quote;
     final current = (_current?['current'] as Map<String, dynamic>?);
 
     if (_error != null && quote == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Plan')),
+        appBar: AppBar(title: Text(t.plan)),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(28),
@@ -250,7 +257,8 @@ class _PlanPageState extends State<PlanPage> {
               children: [
                 Text(_error!, textAlign: TextAlign.center),
                 const SizedBox(height: 18),
-                FilledButton.tonal(onPressed: _load, child: const Text('Try again')),
+                FilledButton.tonal(
+                    onPressed: _load, child: Text(t.tryAgain)),
               ],
             ),
           ),
@@ -260,7 +268,7 @@ class _PlanPageState extends State<PlanPage> {
 
     if (quote == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Plan')),
+        appBar: AppBar(title: Text(t.plan)),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
@@ -272,7 +280,7 @@ class _PlanPageState extends State<PlanPage> {
     final discountApplied = referral != null && referral['valid'] == true;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Plan')),
+      appBar: AppBar(title: Text(t.plan)),
       body: RefreshIndicator(
         onRefresh: _load,
         child: ListView(
@@ -289,19 +297,18 @@ class _PlanPageState extends State<PlanPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${quote['trialDays']} days free',
+                      Text(t.daysFree((quote['trialDays'] as int?) ?? 0),
                           style: theme.textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.w700)),
                       const SizedBox(height: 6),
                       Text(
-                        'Full Pro, including your listing in member search. No card '
-                        'needed, and it does not renew into a paid plan on its own.',
+                        t.trialBlurb,
                         style: theme.textTheme.bodyMedium?.copyWith(height: 1.45),
                       ),
                       const SizedBox(height: 14),
                       FilledButton(
                         onPressed: _busy ? null : _startTrial,
-                        child: const Text('Start free trial'),
+                        child: Text(t.startFreeTrial),
                       ),
                     ],
                   ),
@@ -322,8 +329,8 @@ class _PlanPageState extends State<PlanPage> {
                       LengthLimitingTextInputFormatter(20),
                     ],
                     decoration: InputDecoration(
-                      labelText: 'Referral code',
-                      hintText: 'Optional',
+                      labelText: t.referralCode,
+                      hintText: t.optional,
                       suffixIcon: discountApplied
                           ? const Icon(Icons.check_circle, color: Colors.green)
                           : null,
@@ -333,7 +340,7 @@ class _PlanPageState extends State<PlanPage> {
                 const SizedBox(width: 10),
                 FilledButton.tonal(
                   onPressed: _busy ? null : _applyCode,
-                  child: const Text('Apply'),
+                  child: Text(t.apply),
                 ),
               ],
             ),
@@ -366,8 +373,7 @@ class _PlanPageState extends State<PlanPage> {
 
             const SizedBox(height: 16),
             Text(
-              'Prices include GST. A gym is only listed in member search on the '
-              'Pro plan.',
+              t.gstNote,
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
@@ -385,6 +391,7 @@ class _CurrentPlanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final days = (current['daysRemaining'] as int?) ?? 0;
     final isTrial = current['isTrial'] == true;
     final listed = current['listedInSearch'] == true;
@@ -397,7 +404,7 @@ class _CurrentPlanCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text('${current['plan']} plan',
+                Text(t.planNamed('${current['plan']}'),
                     style: theme.textTheme.titleLarge
                         ?.copyWith(fontWeight: FontWeight.bold)),
                 if (isTrial) ...[
@@ -408,7 +415,7 @@ class _CurrentPlanCard extends StatelessWidget {
                       color: theme.colorScheme.tertiaryContainer,
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    child: Text('TRIAL',
+                    child: Text(t.trialBadge,
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w700,
@@ -421,9 +428,7 @@ class _CurrentPlanCard extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              days < 0
-                  ? 'Expired'
-                  : '$days day${days == 1 ? '' : 's'} remaining',
+              days < 0 ? t.expired : t.daysRemainingPlan(days),
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: days <= 7 ? theme.colorScheme.error : null,
                 fontWeight: days <= 7 ? FontWeight.w600 : null,
@@ -440,9 +445,7 @@ class _CurrentPlanCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    listed
-                        ? 'Listed in member search'
-                        : 'Not listed in search — upgrade to Pro to appear',
+                    listed ? t.listedInSearch : t.notListedUpgrade,
                     style: theme.textTheme.bodySmall
                         ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                   ),
@@ -452,8 +455,7 @@ class _CurrentPlanCard extends StatelessWidget {
             if (isTrial) ...[
               const SizedBox(height: 12),
               Text(
-                'When the trial ends your gym drops out of search until you choose '
-                'a plan. Nothing is charged automatically.',
+                t.trialEndsNote,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                   height: 1.4,
@@ -491,6 +493,7 @@ class _PlanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final base = (plan['basePricePaise'] as int?) ?? 0;
     final payable = (plan['amountPayablePaise'] as int?) ?? 0;
     final discounted = payable < base;
@@ -521,7 +524,7 @@ class _PlanCard extends StatelessWidget {
                       color: theme.colorScheme.primary,
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: Text('GETS YOU LISTED',
+                    child: Text(t.getsYouListed.toUpperCase(),
                         style: TextStyle(
                           fontSize: 9.5,
                           fontWeight: FontWeight.w700,
@@ -550,7 +553,7 @@ class _PlanCard extends StatelessWidget {
                     ),
                   ),
                 const SizedBox(width: 6),
-                Text('/month',
+                Text(t.perMonth,
                     style: theme.textTheme.bodySmall
                         ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
               ],
@@ -576,11 +579,11 @@ class _PlanCard extends StatelessWidget {
               child: recommended
                   ? FilledButton(
                       onPressed: busy ? null : onChoose,
-                      child: Text('Choose ${plan['plan']}'),
+                      child: Text(t.choosePlanNamed('${plan['plan']}')),
                     )
                   : OutlinedButton(
                       onPressed: busy ? null : onChoose,
-                      child: Text('Choose ${plan['plan']}'),
+                      child: Text(t.choosePlanNamed('${plan['plan']}')),
                     ),
             ),
           ],

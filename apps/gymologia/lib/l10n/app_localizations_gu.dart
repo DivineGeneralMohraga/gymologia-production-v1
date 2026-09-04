@@ -195,6 +195,94 @@ class AppLocalizationsGu extends AppLocalizations {
       'આનાથી જ તમે સાઇન ઇન કરો છો, તેથી અહીં હમણાં બદલી શકાતું નથી. બદલવું હોય તો સપોર્ટનો સંપર્ક કરો.';
 
   @override
+  String get trialStarted => 'ટ્રાયલ શરૂ થયું. તમારું જિમ હવે શોધમાં દેખાય છે.';
+
+  @override
+  String get invalidCode => 'કોડ માન્ય નથી.';
+
+  @override
+  String get paymentNotCompletedYet =>
+      'ચુકવણી હજી પૂરી થઈ નથી. થોડી વારે ખેંચીને રિફ્રેશ કરો.';
+
+  @override
+  String planIsActive(String plan) {
+    return '$plan પ્લાન ચાલુ છે.';
+  }
+
+  @override
+  String get paymentNotCompleted => 'ચુકવણી પૂરી થઈ નથી.';
+
+  @override
+  String get couldNotOpenPayment => 'ચુકવણી સ્ક્રીન ખોલી શકાઈ નથી.';
+
+  @override
+  String daysFree(int days) {
+    return '$days દિવસ મફત';
+  }
+
+  @override
+  String get trialBlurb =>
+      'સંપૂર્ણ પ્રો, સભ્ય શોધમાં તમારી યાદી સહિત. કાર્ડની જરૂર નથી, અને તે જાતે ચૂકવણીવાળા પ્લાનમાં બદલાતું નથી.';
+
+  @override
+  String get startFreeTrial => 'મફત ટ્રાયલ શરૂ કરો';
+
+  @override
+  String get referralCode => 'રેફરલ કોડ';
+
+  @override
+  String get optional => 'વૈકલ્પિક';
+
+  @override
+  String get apply => 'લાગુ કરો';
+
+  @override
+  String get gstNote =>
+      'ભાવમાં જીએસટી સામેલ છે. પ્રો પ્લાન પર જ જિમ સભ્ય શોધમાં દેખાય છે.';
+
+  @override
+  String planNamed(String plan) {
+    return '$plan પ્લાન';
+  }
+
+  @override
+  String get trialBadge => 'ટ્રાયલ';
+
+  @override
+  String get expired => 'મુદત પૂરી';
+
+  @override
+  String daysRemainingPlan(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count દિવસ બાકી',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get listedInSearch => 'સભ્ય શોધમાં યાદીબદ્ધ';
+
+  @override
+  String get notListedUpgrade => 'શોધમાં નથી — દેખાવા માટે પ્રો પર અપગ્રેડ કરો';
+
+  @override
+  String get trialEndsNote =>
+      'ટ્રાયલ પૂરું થયા પછી તમે પ્લાન ન પસંદ કરો ત્યાં સુધી જિમ શોધમાંથી નીકળી જાય છે. જાતે કંઈ વસૂલાતું નથી.';
+
+  @override
+  String get getsYouListed => 'શોધમાં દેખાડે છે';
+
+  @override
+  String get perMonth => '/મહિનો';
+
+  @override
+  String choosePlanNamed(String plan) {
+    return '$plan પસંદ કરો';
+  }
+
+  @override
   String get home => 'હોમ';
 
   @override

@@ -196,6 +196,95 @@ class AppLocalizationsBn extends AppLocalizations {
       'এটি দিয়েই আপনি সাইন ইন করেন, তাই এখানে এখনই বদলানো যায় না। বদলাতে হলে সহায়তায় যোগাযোগ করুন।';
 
   @override
+  String get trialStarted =>
+      'ট্রায়াল শুরু হয়েছে। আপনার জিম এখন সার্চে দেখা যাচ্ছে।';
+
+  @override
+  String get invalidCode => 'কোডটি সঠিক নয়।';
+
+  @override
+  String get paymentNotCompletedYet =>
+      'পেমেন্ট এখনও সম্পূর্ণ হয়নি। একটু পরে টেনে রিফ্রেশ করুন।';
+
+  @override
+  String planIsActive(String plan) {
+    return '$plan প্ল্যান চালু আছে।';
+  }
+
+  @override
+  String get paymentNotCompleted => 'পেমেন্ট সম্পূর্ণ হয়নি।';
+
+  @override
+  String get couldNotOpenPayment => 'পেমেন্ট স্ক্রিন খোলা যায়নি।';
+
+  @override
+  String daysFree(int days) {
+    return '$days দিন বিনামূল্যে';
+  }
+
+  @override
+  String get trialBlurb =>
+      'সম্পূর্ণ প্রো, সদস্য সার্চে আপনার তালিকাভুক্তি সহ। কার্ড লাগবে না, আর এটি নিজে থেকে কোনো পেইড প্ল্যানে বদলায় না।';
+
+  @override
+  String get startFreeTrial => 'বিনামূল্যে ট্রায়াল শুরু করুন';
+
+  @override
+  String get referralCode => 'রেফারেল কোড';
+
+  @override
+  String get optional => 'ঐচ্ছিক';
+
+  @override
+  String get apply => 'প্রয়োগ করুন';
+
+  @override
+  String get gstNote =>
+      'দামে জিএসটি ধরা আছে। জিম কেবল প্রো প্ল্যানেই সদস্য সার্চে দেখা যায়।';
+
+  @override
+  String planNamed(String plan) {
+    return '$plan প্ল্যান';
+  }
+
+  @override
+  String get trialBadge => 'ট্রায়াল';
+
+  @override
+  String get expired => 'মেয়াদ শেষ';
+
+  @override
+  String daysRemainingPlan(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count দিন বাকি',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get listedInSearch => 'সদস্য সার্চে তালিকাভুক্ত';
+
+  @override
+  String get notListedUpgrade => 'সার্চে নেই — দেখাতে হলে প্রো-তে আপগ্রেড করুন';
+
+  @override
+  String get trialEndsNote =>
+      'ট্রায়াল শেষ হলে আপনি প্ল্যান না নেওয়া পর্যন্ত জিম সার্চ থেকে সরে যায়। নিজে থেকে কিছু কাটা হয় না।';
+
+  @override
+  String get getsYouListed => 'সার্চে জায়গা দেয়';
+
+  @override
+  String get perMonth => '/মাস';
+
+  @override
+  String choosePlanNamed(String plan) {
+    return '$plan বেছে নিন';
+  }
+
+  @override
   String get home => 'হোম';
 
   @override

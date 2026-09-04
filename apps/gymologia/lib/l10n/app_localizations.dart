@@ -462,6 +462,144 @@ abstract class AppLocalizations {
   /// **'This is how you sign in, so it cannot be changed here yet. Contact support if you need it moved.'**
   String get phoneIsYourLogin;
 
+  /// No description provided for @trialStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Trial started. Your gym is now listed in search.'**
+  String get trialStarted;
+
+  /// No description provided for @invalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid code.'**
+  String get invalidCode;
+
+  /// No description provided for @paymentNotCompletedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment has not completed yet. Pull to refresh in a moment.'**
+  String get paymentNotCompletedYet;
+
+  /// No description provided for @planIsActive.
+  ///
+  /// In en, this message translates to:
+  /// **'{plan} plan is active.'**
+  String planIsActive(String plan);
+
+  /// No description provided for @paymentNotCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment was not completed.'**
+  String get paymentNotCompleted;
+
+  /// No description provided for @couldNotOpenPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the payment screen.'**
+  String get couldNotOpenPayment;
+
+  /// No description provided for @daysFree.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days free'**
+  String daysFree(int days);
+
+  /// No description provided for @trialBlurb.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Pro, including your listing in member search. No card needed, and it does not renew into a paid plan on its own.'**
+  String get trialBlurb;
+
+  /// No description provided for @startFreeTrial.
+  ///
+  /// In en, this message translates to:
+  /// **'Start free trial'**
+  String get startFreeTrial;
+
+  /// No description provided for @referralCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Referral code'**
+  String get referralCode;
+
+  /// No description provided for @optional.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get optional;
+
+  /// No description provided for @apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply;
+
+  /// No description provided for @gstNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Prices include GST. A gym is only listed in member search on the Pro plan.'**
+  String get gstNote;
+
+  /// No description provided for @planNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'{plan} plan'**
+  String planNamed(String plan);
+
+  /// No description provided for @trialBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'TRIAL'**
+  String get trialBadge;
+
+  /// No description provided for @expired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get expired;
+
+  /// No description provided for @daysRemainingPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day remaining} other{{count} days remaining}}'**
+  String daysRemainingPlan(int count);
+
+  /// No description provided for @listedInSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Listed in member search'**
+  String get listedInSearch;
+
+  /// No description provided for @notListedUpgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Not listed in search — upgrade to Pro to appear'**
+  String get notListedUpgrade;
+
+  /// No description provided for @trialEndsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'When the trial ends your gym drops out of search until you choose a plan. Nothing is charged automatically.'**
+  String get trialEndsNote;
+
+  /// No description provided for @getsYouListed.
+  ///
+  /// In en, this message translates to:
+  /// **'GETS YOU LISTED'**
+  String get getsYouListed;
+
+  /// No description provided for @perMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'/month'**
+  String get perMonth;
+
+  /// No description provided for @choosePlanNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose {plan}'**
+  String choosePlanNamed(String plan);
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:

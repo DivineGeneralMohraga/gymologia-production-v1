@@ -199,6 +199,95 @@ class AppLocalizationsMl extends AppLocalizations {
       'ഇതുപയോഗിച്ചാണ് നിങ്ങൾ സൈൻ ഇൻ ചെയ്യുന്നത്, അതിനാൽ ഇവിടെ ഇപ്പോൾ മാറ്റാനാകില്ല. മാറ്റണമെങ്കിൽ പിന്തുണയുമായി ബന്ധപ്പെടുക.';
 
   @override
+  String get trialStarted =>
+      'ട്രയൽ ആരംഭിച്ചു. നിങ്ങളുടെ ജിം ഇപ്പോൾ തിരയലിൽ കാണാം.';
+
+  @override
+  String get invalidCode => 'കോഡ് സാധുവല്ല.';
+
+  @override
+  String get paymentNotCompletedYet =>
+      'പണമടയ്ക്കൽ ഇനിയും പൂർത്തിയായിട്ടില്ല. അല്പസമയത്തിനു ശേഷം വലിച്ചു പുതുക്കുക.';
+
+  @override
+  String planIsActive(String plan) {
+    return '$plan പ്ലാൻ സജീവമാണ്.';
+  }
+
+  @override
+  String get paymentNotCompleted => 'പണമടയ്ക്കൽ പൂർത്തിയായില്ല.';
+
+  @override
+  String get couldNotOpenPayment => 'പണമടയ്ക്കൽ സ്ക്രീൻ തുറക്കാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String daysFree(int days) {
+    return '$days ദിവസം സൗജന്യം';
+  }
+
+  @override
+  String get trialBlurb =>
+      'പൂർണ്ണ പ്രോ, അംഗ തിരയലിലെ നിങ്ങളുടെ ലിസ്റ്റിംഗ് ഉൾപ്പെടെ. കാർഡ് വേണ്ട, ഇത് സ്വയം പണമടച്ചുള്ള പ്ലാനായി മാറില്ല.';
+
+  @override
+  String get startFreeTrial => 'സൗജന്യ ട്രയൽ തുടങ്ങുക';
+
+  @override
+  String get referralCode => 'റഫറൽ കോഡ്';
+
+  @override
+  String get optional => 'ഐച്ഛികം';
+
+  @override
+  String get apply => 'ബാധകമാക്കുക';
+
+  @override
+  String get gstNote =>
+      'വിലയിൽ ജിഎസ്ടി ഉൾപ്പെടും. പ്രോ പ്ലാനിൽ മാത്രമേ ജിം അംഗ തിരയലിൽ വരൂ.';
+
+  @override
+  String planNamed(String plan) {
+    return '$plan പ്ലാൻ';
+  }
+
+  @override
+  String get trialBadge => 'ട്രയൽ';
+
+  @override
+  String get expired => 'കാലാവധി കഴിഞ്ഞു';
+
+  @override
+  String daysRemainingPlan(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ദിവസം ബാക്കി',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get listedInSearch => 'അംഗ തിരയലിൽ ലിസ്റ്റ് ചെയ്തു';
+
+  @override
+  String get notListedUpgrade => 'തിരയലിൽ ഇല്ല — കാണാൻ പ്രോയിലേക്ക് മാറുക';
+
+  @override
+  String get trialEndsNote =>
+      'ട്രയൽ കഴിഞ്ഞാൽ നിങ്ങൾ പ്ലാൻ തിരഞ്ഞെടുക്കുന്നത് വരെ ജിം തിരയലിൽ നിന്ന് പുറത്താകും. സ്വയമേവ ഒന്നും ഈടാക്കില്ല.';
+
+  @override
+  String get getsYouListed => 'തിരയലിൽ ഇടം നൽകുന്നു';
+
+  @override
+  String get perMonth => '/മാസം';
+
+  @override
+  String choosePlanNamed(String plan) {
+    return '$plan തിരഞ്ഞെടുക്കുക';
+  }
+
+  @override
   String get home => 'ഹോം';
 
   @override

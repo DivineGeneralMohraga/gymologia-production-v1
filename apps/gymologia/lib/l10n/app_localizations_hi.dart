@@ -197,6 +197,96 @@ class AppLocalizationsHi extends AppLocalizations {
       'इसी से आप साइन इन करते हैं, इसलिए इसे यहाँ अभी बदला नहीं जा सकता। बदलवाना हो तो सहायता से संपर्क करें।';
 
   @override
+  String get trialStarted =>
+      'ट्रायल शुरू हो गया। आपका जिम अब खोज में दिख रहा है।';
+
+  @override
+  String get invalidCode => 'कोड मान्य नहीं है।';
+
+  @override
+  String get paymentNotCompletedYet =>
+      'भुगतान अभी पूरा नहीं हुआ। थोड़ी देर बाद खींचकर रिफ्रेश करें।';
+
+  @override
+  String planIsActive(String plan) {
+    return '$plan प्लान चालू है।';
+  }
+
+  @override
+  String get paymentNotCompleted => 'भुगतान पूरा नहीं हुआ।';
+
+  @override
+  String get couldNotOpenPayment => 'भुगतान स्क्रीन नहीं खुल सकी।';
+
+  @override
+  String daysFree(int days) {
+    return '$days दिन मुफ़्त';
+  }
+
+  @override
+  String get trialBlurb =>
+      'पूरा प्रो, सदस्य खोज में आपकी लिस्टिंग सहित। कार्ड की ज़रूरत नहीं, और यह अपने आप किसी पेड प्लान में नहीं बदलता।';
+
+  @override
+  String get startFreeTrial => 'मुफ़्त ट्रायल शुरू करें';
+
+  @override
+  String get referralCode => 'रेफरल कोड';
+
+  @override
+  String get optional => 'वैकल्पिक';
+
+  @override
+  String get apply => 'लागू करें';
+
+  @override
+  String get gstNote =>
+      'कीमतों में जीएसटी शामिल है। जिम सदस्य खोज में केवल प्रो प्लान पर दिखता है।';
+
+  @override
+  String planNamed(String plan) {
+    return '$plan प्लान';
+  }
+
+  @override
+  String get trialBadge => 'ट्रायल';
+
+  @override
+  String get expired => 'समाप्त';
+
+  @override
+  String daysRemainingPlan(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count दिन बाकी',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get listedInSearch => 'सदस्य खोज में सूचीबद्ध';
+
+  @override
+  String get notListedUpgrade =>
+      'खोज में नहीं — दिखने के लिए प्रो में अपग्रेड करें';
+
+  @override
+  String get trialEndsNote =>
+      'ट्रायल खत्म होने पर जब तक आप प्लान नहीं चुनते, आपका जिम खोज से हट जाता है। अपने आप कुछ भी नहीं कटता।';
+
+  @override
+  String get getsYouListed => 'खोज में दिखाता है';
+
+  @override
+  String get perMonth => '/माह';
+
+  @override
+  String choosePlanNamed(String plan) {
+    return '$plan चुनें';
+  }
+
+  @override
   String get home => 'होम';
 
   @override

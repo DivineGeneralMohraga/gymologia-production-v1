@@ -199,6 +199,97 @@ class AppLocalizationsTa extends AppLocalizations {
       'இதன் மூலம்தான் நீங்கள் உள்நுழைகிறீர்கள், எனவே இங்கே இப்போது மாற்ற முடியாது. மாற்ற வேண்டுமானால் ஆதரவைத் தொடர்பு கொள்ளுங்கள்.';
 
   @override
+  String get trialStarted =>
+      'சோதனை காலம் தொடங்கியது. உங்கள் கூடம் இப்போது தேடலில் தெரியும்.';
+
+  @override
+  String get invalidCode => 'குறியீடு செல்லுபடியாகாது.';
+
+  @override
+  String get paymentNotCompletedYet =>
+      'பணம் செலுத்துவது இன்னும் முடியவில்லை. சிறிது நேரம் கழித்து இழுத்து புதுப்பிக்கவும்.';
+
+  @override
+  String planIsActive(String plan) {
+    return '$plan திட்டம் இயங்குகிறது.';
+  }
+
+  @override
+  String get paymentNotCompleted => 'பணம் செலுத்துவது முடியவில்லை.';
+
+  @override
+  String get couldNotOpenPayment =>
+      'பணம் செலுத்தும் திரையைத் திறக்க முடியவில்லை.';
+
+  @override
+  String daysFree(int days) {
+    return '$days நாட்கள் இலவசம்';
+  }
+
+  @override
+  String get trialBlurb =>
+      'முழு ப்ரோ, உறுப்பினர் தேடலில் உங்கள் பட்டியல் உட்பட. அட்டை தேவையில்லை, இது தானாக கட்டணத் திட்டமாக மாறாது.';
+
+  @override
+  String get startFreeTrial => 'இலவச சோதனையைத் தொடங்கு';
+
+  @override
+  String get referralCode => 'பரிந்துரை குறியீடு';
+
+  @override
+  String get optional => 'விருப்பத்தேர்வு';
+
+  @override
+  String get apply => 'பயன்படுத்து';
+
+  @override
+  String get gstNote =>
+      'விலைகளில் ஜிஎஸ்டி அடங்கும். ப்ரோ திட்டத்தில் மட்டுமே கூடம் உறுப்பினர் தேடலில் தோன்றும்.';
+
+  @override
+  String planNamed(String plan) {
+    return '$plan திட்டம்';
+  }
+
+  @override
+  String get trialBadge => 'சோதனை';
+
+  @override
+  String get expired => 'காலாவதி';
+
+  @override
+  String daysRemainingPlan(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count நாட்கள் மீதம்',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get listedInSearch => 'உறுப்பினர் தேடலில் பட்டியலிடப்பட்டது';
+
+  @override
+  String get notListedUpgrade =>
+      'தேடலில் இல்லை — தோன்ற ப்ரோ-க்கு மேம்படுத்துங்கள்';
+
+  @override
+  String get trialEndsNote =>
+      'சோதனை முடிந்ததும், நீங்கள் திட்டம் தேர்வு செய்யும் வரை உங்கள் கூடம் தேடலில் இருந்து விலகும். தானாக எதுவும் வசூலிக்கப்படாது.';
+
+  @override
+  String get getsYouListed => 'தேடலில் இடம் தரும்';
+
+  @override
+  String get perMonth => '/மாதம்';
+
+  @override
+  String choosePlanNamed(String plan) {
+    return '$plan தேர்வு செய்';
+  }
+
+  @override
   String get home => 'முகப்பு';
 
   @override

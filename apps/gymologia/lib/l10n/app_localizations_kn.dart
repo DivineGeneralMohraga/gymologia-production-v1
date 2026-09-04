@@ -195,6 +195,96 @@ class AppLocalizationsKn extends AppLocalizations {
       'ಇದರಿಂದಲೇ ನೀವು ಸೈನ್ ಇನ್ ಮಾಡುತ್ತೀರಿ, ಆದ್ದರಿಂದ ಇಲ್ಲಿ ಈಗ ಬದಲಾಯಿಸಲಾಗದು. ಬದಲಾಯಿಸಬೇಕಿದ್ದರೆ ಬೆಂಬಲವನ್ನು ಸಂಪರ್ಕಿಸಿ.';
 
   @override
+  String get trialStarted =>
+      'ಟ್ರಯಲ್ ಆರಂಭವಾಗಿದೆ. ನಿಮ್ಮ ಜಿಮ್ ಈಗ ಹುಡುಕಾಟದಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.';
+
+  @override
+  String get invalidCode => 'ಕೋಡ್ ಮಾನ್ಯವಲ್ಲ.';
+
+  @override
+  String get paymentNotCompletedYet =>
+      'ಪಾವತಿ ಇನ್ನೂ ಪೂರ್ಣಗೊಂಡಿಲ್ಲ. ಸ್ವಲ್ಪ ಸಮಯದ ನಂತರ ಎಳೆದು ರಿಫ್ರೆಶ್ ಮಾಡಿ.';
+
+  @override
+  String planIsActive(String plan) {
+    return '$plan ಯೋಜನೆ ಸಕ್ರಿಯವಾಗಿದೆ.';
+  }
+
+  @override
+  String get paymentNotCompleted => 'ಪಾವತಿ ಪೂರ್ಣಗೊಂಡಿಲ್ಲ.';
+
+  @override
+  String get couldNotOpenPayment => 'ಪಾವತಿ ಪರದೆ ತೆರೆಯಲಾಗಲಿಲ್ಲ.';
+
+  @override
+  String daysFree(int days) {
+    return '$days ದಿನ ಉಚಿತ';
+  }
+
+  @override
+  String get trialBlurb =>
+      'ಪೂರ್ಣ ಪ್ರೊ, ಸದಸ್ಯರ ಹುಡುಕಾಟದಲ್ಲಿ ನಿಮ್ಮ ಪಟ್ಟಿ ಸೇರಿದಂತೆ. ಕಾರ್ಡ್ ಬೇಕಿಲ್ಲ, ಮತ್ತು ಇದು ತಾನಾಗಿಯೇ ಪಾವತಿ ಯೋಜನೆಯಾಗಿ ಬದಲಾಗುವುದಿಲ್ಲ.';
+
+  @override
+  String get startFreeTrial => 'ಉಚಿತ ಟ್ರಯಲ್ ಆರಂಭಿಸಿ';
+
+  @override
+  String get referralCode => 'ರೆಫರಲ್ ಕೋಡ್';
+
+  @override
+  String get optional => 'ಐಚ್ಛಿಕ';
+
+  @override
+  String get apply => 'ಅನ್ವಯಿಸಿ';
+
+  @override
+  String get gstNote =>
+      'ಬೆಲೆಗಳಲ್ಲಿ ಜಿಎಸ್‌ಟಿ ಸೇರಿದೆ. ಪ್ರೊ ಯೋಜನೆಯಲ್ಲಿ ಮಾತ್ರ ಜಿಮ್ ಸದಸ್ಯರ ಹುಡುಕಾಟದಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.';
+
+  @override
+  String planNamed(String plan) {
+    return '$plan ಯೋಜನೆ';
+  }
+
+  @override
+  String get trialBadge => 'ಟ್ರಯಲ್';
+
+  @override
+  String get expired => 'ಅವಧಿ ಮುಗಿದಿದೆ';
+
+  @override
+  String daysRemainingPlan(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ದಿನ ಬಾಕಿ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get listedInSearch => 'ಸದಸ್ಯರ ಹುಡುಕಾಟದಲ್ಲಿ ಪಟ್ಟಿಯಾಗಿದೆ';
+
+  @override
+  String get notListedUpgrade =>
+      'ಹುಡುಕಾಟದಲ್ಲಿ ಇಲ್ಲ — ಕಾಣಿಸಲು ಪ್ರೊಗೆ ಅಪ್‌ಗ್ರೇಡ್ ಮಾಡಿ';
+
+  @override
+  String get trialEndsNote =>
+      'ಟ್ರಯಲ್ ಮುಗಿದ ಮೇಲೆ ನೀವು ಯೋಜನೆ ಆಯ್ಕೆ ಮಾಡುವವರೆಗೆ ನಿಮ್ಮ ಜಿಮ್ ಹುಡುಕಾಟದಿಂದ ಹೊರಗುಳಿಯುತ್ತದೆ. ತಾನಾಗಿಯೇ ಏನೂ ವಿಧಿಸಲಾಗುವುದಿಲ್ಲ.';
+
+  @override
+  String get getsYouListed => 'ಹುಡುಕಾಟದಲ್ಲಿ ತೋರಿಸುತ್ತದೆ';
+
+  @override
+  String get perMonth => '/ತಿಂಗಳು';
+
+  @override
+  String choosePlanNamed(String plan) {
+    return '$plan ಆಯ್ಕೆಮಾಡಿ';
+  }
+
+  @override
   String get home => 'ಮುಖಪುಟ';
 
   @override

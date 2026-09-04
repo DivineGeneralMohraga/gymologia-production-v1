@@ -197,6 +197,96 @@ class AppLocalizationsPa extends AppLocalizations {
       'ਇਸੇ ਨਾਲ ਤੁਸੀਂ ਸਾਈਨ ਇਨ ਕਰਦੇ ਹੋ, ਇਸ ਲਈ ਇਸ ਨੂੰ ਇੱਥੇ ਹੁਣੇ ਬਦਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ। ਬਦਲਵਾਉਣਾ ਹੋਵੇ ਤਾਂ ਸਹਾਇਤਾ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।';
 
   @override
+  String get trialStarted =>
+      'ਟ੍ਰਾਇਲ ਸ਼ੁਰੂ ਹੋ ਗਿਆ। ਤੁਹਾਡਾ ਜਿਮ ਹੁਣ ਖੋਜ ਵਿੱਚ ਦਿਖਦਾ ਹੈ।';
+
+  @override
+  String get invalidCode => 'ਕੋਡ ਵੈਧ ਨਹੀਂ ਹੈ।';
+
+  @override
+  String get paymentNotCompletedYet =>
+      'ਭੁਗਤਾਨ ਅਜੇ ਪੂਰਾ ਨਹੀਂ ਹੋਇਆ। ਥੋੜ੍ਹੀ ਦੇਰ ਬਾਅਦ ਖਿੱਚ ਕੇ ਰਿਫ੍ਰੈਸ਼ ਕਰੋ।';
+
+  @override
+  String planIsActive(String plan) {
+    return '$plan ਪਲਾਨ ਚਾਲੂ ਹੈ।';
+  }
+
+  @override
+  String get paymentNotCompleted => 'ਭੁਗਤਾਨ ਪੂਰਾ ਨਹੀਂ ਹੋਇਆ।';
+
+  @override
+  String get couldNotOpenPayment => 'ਭੁਗਤਾਨ ਸਕਰੀਨ ਨਹੀਂ ਖੁੱਲ੍ਹ ਸਕੀ।';
+
+  @override
+  String daysFree(int days) {
+    return '$days ਦਿਨ ਮੁਫ਼ਤ';
+  }
+
+  @override
+  String get trialBlurb =>
+      'ਪੂਰਾ ਪ੍ਰੋ, ਮੈਂਬਰ ਖੋਜ ਵਿੱਚ ਤੁਹਾਡੀ ਸੂਚੀ ਸਮੇਤ। ਕਾਰਡ ਦੀ ਲੋੜ ਨਹੀਂ, ਅਤੇ ਇਹ ਆਪਣੇ ਆਪ ਕਿਸੇ ਭੁਗਤਾਨ ਵਾਲੇ ਪਲਾਨ ਵਿੱਚ ਨਹੀਂ ਬਦਲਦਾ।';
+
+  @override
+  String get startFreeTrial => 'ਮੁਫ਼ਤ ਟ੍ਰਾਇਲ ਸ਼ੁਰੂ ਕਰੋ';
+
+  @override
+  String get referralCode => 'ਰੈਫ਼ਰਲ ਕੋਡ';
+
+  @override
+  String get optional => 'ਵਿਕਲਪਿਕ';
+
+  @override
+  String get apply => 'ਲਾਗੂ ਕਰੋ';
+
+  @override
+  String get gstNote =>
+      'ਕੀਮਤਾਂ ਵਿੱਚ ਜੀਐਸਟੀ ਸ਼ਾਮਲ ਹੈ। ਜਿਮ ਸਿਰਫ਼ ਪ੍ਰੋ ਪਲਾਨ ਉੱਤੇ ਹੀ ਮੈਂਬਰ ਖੋਜ ਵਿੱਚ ਦਿਖਦਾ ਹੈ।';
+
+  @override
+  String planNamed(String plan) {
+    return '$plan ਪਲਾਨ';
+  }
+
+  @override
+  String get trialBadge => 'ਟ੍ਰਾਇਲ';
+
+  @override
+  String get expired => 'ਮਿਆਦ ਪੁੱਗੀ';
+
+  @override
+  String daysRemainingPlan(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਦਿਨ ਬਾਕੀ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get listedInSearch => 'ਮੈਂਬਰ ਖੋਜ ਵਿੱਚ ਸੂਚੀਬੱਧ';
+
+  @override
+  String get notListedUpgrade =>
+      'ਖੋਜ ਵਿੱਚ ਨਹੀਂ — ਦਿਖਣ ਲਈ ਪ੍ਰੋ ਵਿੱਚ ਅੱਪਗ੍ਰੇਡ ਕਰੋ';
+
+  @override
+  String get trialEndsNote =>
+      'ਟ੍ਰਾਇਲ ਖ਼ਤਮ ਹੋਣ ਉੱਤੇ ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ ਪਲਾਨ ਨਹੀਂ ਚੁਣਦੇ, ਤੁਹਾਡਾ ਜਿਮ ਖੋਜ ਵਿੱਚੋਂ ਹਟ ਜਾਂਦਾ ਹੈ। ਆਪਣੇ ਆਪ ਕੁਝ ਨਹੀਂ ਕੱਟਿਆ ਜਾਂਦਾ।';
+
+  @override
+  String get getsYouListed => 'ਖੋਜ ਵਿੱਚ ਦਿਖਾਉਂਦਾ ਹੈ';
+
+  @override
+  String get perMonth => '/ਮਹੀਨਾ';
+
+  @override
+  String choosePlanNamed(String plan) {
+    return '$plan ਚੁਣੋ';
+  }
+
+  @override
   String get home => 'ਹੋਮ';
 
   @override

@@ -196,6 +196,96 @@ class AppLocalizationsTe extends AppLocalizations {
       'దీనితోనే మీరు సైన్ ఇన్ చేస్తారు, కాబట్టి ఇక్కడ ఇప్పుడు మార్చలేరు. మార్చాలంటే సహాయాన్ని సంప్రదించండి.';
 
   @override
+  String get trialStarted =>
+      'ట్రయల్ ప్రారంభమైంది. మీ జిమ్ ఇప్పుడు సెర్చ్‌లో కనిపిస్తుంది.';
+
+  @override
+  String get invalidCode => 'కోడ్ చెల్లదు.';
+
+  @override
+  String get paymentNotCompletedYet =>
+      'చెల్లింపు ఇంకా పూర్తి కాలేదు. కాసేపటి తర్వాత లాగి రిఫ్రెష్ చేయండి.';
+
+  @override
+  String planIsActive(String plan) {
+    return '$plan ప్లాన్ చురుకుగా ఉంది.';
+  }
+
+  @override
+  String get paymentNotCompleted => 'చెల్లింపు పూర్తి కాలేదు.';
+
+  @override
+  String get couldNotOpenPayment => 'చెల్లింపు స్క్రీన్ తెరవడం సాధ్యం కాలేదు.';
+
+  @override
+  String daysFree(int days) {
+    return '$days రోజులు ఉచితం';
+  }
+
+  @override
+  String get trialBlurb =>
+      'పూర్తి ప్రో, సభ్యుల సెర్చ్‌లో మీ లిస్టింగ్‌తో సహా. కార్డు అవసరం లేదు, ఇది తనంతట తానే చెల్లింపు ప్లాన్‌గా మారదు.';
+
+  @override
+  String get startFreeTrial => 'ఉచిత ట్రయల్ ప్రారంభించండి';
+
+  @override
+  String get referralCode => 'రెఫరల్ కోడ్';
+
+  @override
+  String get optional => 'ఐచ్ఛికం';
+
+  @override
+  String get apply => 'వర్తింపజేయి';
+
+  @override
+  String get gstNote =>
+      'ధరల్లో జీఎస్టీ కలిసి ఉంది. ప్రో ప్లాన్‌లో మాత్రమే జిమ్ సభ్యుల సెర్చ్‌లో కనిపిస్తుంది.';
+
+  @override
+  String planNamed(String plan) {
+    return '$plan ప్లాన్';
+  }
+
+  @override
+  String get trialBadge => 'ట్రయల్';
+
+  @override
+  String get expired => 'గడువు ముగిసింది';
+
+  @override
+  String daysRemainingPlan(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count రోజులు మిగిలాయి',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get listedInSearch => 'సభ్యుల సెర్చ్‌లో జాబితా చేయబడింది';
+
+  @override
+  String get notListedUpgrade =>
+      'సెర్చ్‌లో లేదు — కనిపించాలంటే ప్రోకి అప్‌గ్రేడ్ చేయండి';
+
+  @override
+  String get trialEndsNote =>
+      'ట్రయల్ ముగిసాక మీరు ప్లాన్ ఎంచుకునే వరకు మీ జిమ్ సెర్చ్ నుంచి తొలగిపోతుంది. తనంతట తానే ఏమీ వసూలు కాదు.';
+
+  @override
+  String get getsYouListed => 'సెర్చ్‌లో చోటు ఇస్తుంది';
+
+  @override
+  String get perMonth => '/నెల';
+
+  @override
+  String choosePlanNamed(String plan) {
+    return '$plan ఎంచుకోండి';
+  }
+
+  @override
   String get home => 'హోమ్';
 
   @override

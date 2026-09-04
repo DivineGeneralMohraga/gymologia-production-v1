@@ -196,6 +196,96 @@ class AppLocalizationsEn extends AppLocalizations {
       'This is how you sign in, so it cannot be changed here yet. Contact support if you need it moved.';
 
   @override
+  String get trialStarted => 'Trial started. Your gym is now listed in search.';
+
+  @override
+  String get invalidCode => 'Invalid code.';
+
+  @override
+  String get paymentNotCompletedYet =>
+      'Payment has not completed yet. Pull to refresh in a moment.';
+
+  @override
+  String planIsActive(String plan) {
+    return '$plan plan is active.';
+  }
+
+  @override
+  String get paymentNotCompleted => 'Payment was not completed.';
+
+  @override
+  String get couldNotOpenPayment => 'Could not open the payment screen.';
+
+  @override
+  String daysFree(int days) {
+    return '$days days free';
+  }
+
+  @override
+  String get trialBlurb =>
+      'Full Pro, including your listing in member search. No card needed, and it does not renew into a paid plan on its own.';
+
+  @override
+  String get startFreeTrial => 'Start free trial';
+
+  @override
+  String get referralCode => 'Referral code';
+
+  @override
+  String get optional => 'Optional';
+
+  @override
+  String get apply => 'Apply';
+
+  @override
+  String get gstNote =>
+      'Prices include GST. A gym is only listed in member search on the Pro plan.';
+
+  @override
+  String planNamed(String plan) {
+    return '$plan plan';
+  }
+
+  @override
+  String get trialBadge => 'TRIAL';
+
+  @override
+  String get expired => 'Expired';
+
+  @override
+  String daysRemainingPlan(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days remaining',
+      one: '1 day remaining',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get listedInSearch => 'Listed in member search';
+
+  @override
+  String get notListedUpgrade =>
+      'Not listed in search — upgrade to Pro to appear';
+
+  @override
+  String get trialEndsNote =>
+      'When the trial ends your gym drops out of search until you choose a plan. Nothing is charged automatically.';
+
+  @override
+  String get getsYouListed => 'GETS YOU LISTED';
+
+  @override
+  String get perMonth => '/month';
+
+  @override
+  String choosePlanNamed(String plan) {
+    return 'Choose $plan';
+  }
+
+  @override
   String get home => 'Home';
 
   @override
