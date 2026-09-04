@@ -9,5 +9,8 @@ import { NotificationsModule } from '../notifications/notifications.module';
   imports: [PeopleModule, NotificationsModule],
   controllers: [AdminController],
   providers: [AdminService, AdminGuard],
+  // The verification desk lives in KycModule but sits behind the same
+  // guard, so the guard has to be resolvable from there too.
+  exports: [AdminGuard],
 })
 export class AdminModule {}
