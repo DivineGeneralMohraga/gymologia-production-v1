@@ -203,7 +203,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                 if (gym.can(P.editGymProfile))
                   _Tile(
                     icon: Icons.storefront_outlined,
-                    label: 'Gym profile',
+                    label: AppLocalizations.of(context).gymProfile,
                     onTap: () => _open(GymProfileEditPage(gym: gym)),
                   ),
                 if (gym.can(P.manageSubscription))
@@ -349,7 +349,7 @@ class _AnalyticsCard extends StatelessWidget {
                 _Figure(label: 'Joined', value: '${a.joinedInWindow}'),
                 const SizedBox(width: 24),
                 _Figure(
-                  label: 'Turning up',
+                  label: AppLocalizations.of(context).turningUp,
                   value: '${a.engagementRate}%',
                   // Below half the membership showing up is the number a
                   // gym owner most needs to notice.

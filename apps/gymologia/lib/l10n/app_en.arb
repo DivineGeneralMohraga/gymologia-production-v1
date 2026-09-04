@@ -323,6 +323,66 @@
   "checkInGoalNote": "Your gym uses this to track progress towards your goal.",
   "enterYourGymName": "Enter your gym name",
 
+  "sessionExpiredSignIn": "Your session expired. Please sign in again.",
+  "somethingWentWrongTryAgain": "Something went wrong. Please try again.",
+  "serverTookTooLong": "The server took too long to respond. Check your connection and try again.",
+  "couldNotReachServer": "Could not reach the server at {host}. Check your internet connection.",
+  "@couldNotReachServer": {
+    "placeholders": { "host": { "type": "String" } }
+  },
+  "certificateNotVerified": "The server certificate could not be verified.",
+  "networkErrorTryAgain": "Network error. Please try again.",
+  "enterValidMobile": "Enter a valid 10-digit Indian mobile number",
+  "enterValidTenDigitNumber": "Enter a valid 10-digit number",
+  "enterYourName": "Enter your name",
+  "nameTooLong": "That name is too long",
+  "enterValidEmail": "Enter a valid email address",
+  "enterYourAge": "Enter your age",
+  "mustBeAtLeast13": "You must be at least 13",
+  "enterValidAge": "Enter a valid age",
+  "enterWeightOrHeight": "Enter a weight or a height.",
+  "noRatingsYet": "No ratings yet",
+  "giveItATitle": "Give it a title.",
+  "sayWhatYouWantThemToKnow": "Say what you want them to know.",
+  "sayWhyThisIsChanging": "Say why this is being changed.",
+  "noMembersYetAddFirst": "No members yet. Add your first one.",
+  "nobodyMatchedSearch": "Nobody matched that search.",
+  "turningUp": "Turning up",
+  "justNow": "just now",
+  "minutesAgo": "{count}m ago",
+  "@minutesAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "hoursAgo": "{count}h ago",
+  "@hoursAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "daysAgo": "{count}d ago",
+  "@daysAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "monthsAgo": "{count}mo ago",
+  "@monthsAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "nowShort": "now",
+  "minutesShort": "{count}m",
+  "@minutesShort": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "hoursShort": "{count}h",
+  "@hoursShort": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "daysShort": "{count}d",
+  "@daysShort": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "weeksShort": "{count}w",
+  "@weeksShort": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
   "home": "Home",
   "myGym": "My gym",
   "discover": "Discover",
@@ -441,7 +501,7 @@
   "@removePerson": {
     "placeholders": { "name": { "type": "String" } }
   },
-  "onLeave": "Leave",
+  "onLeave": "On leave",
   "tapDayToCorrect": "Tap a day to correct it",
   "correctDate": "Correct {date}",
   "@correctDate": {

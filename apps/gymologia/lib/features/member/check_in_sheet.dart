@@ -43,7 +43,8 @@ class _CheckInSheetState extends State<CheckInSheet> {
     final height = double.tryParse(_height.text.trim());
 
     if (weight == null && height == null) {
-      setState(() => _error = 'Enter a weight or a height.');
+      setState(() =>
+          _error = AppLocalizations.of(context).enterWeightOrHeight);
       return;
     }
 

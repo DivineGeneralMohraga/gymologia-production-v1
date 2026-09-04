@@ -792,6 +792,125 @@ class AppLocalizationsBn extends AppLocalizations {
   String get enterYourGymName => 'আপনার জিমের নাম লিখুন';
 
   @override
+  String get sessionExpiredSignIn =>
+      'আপনার সেশন শেষ হয়েছে। আবার সাইন ইন করুন।';
+
+  @override
+  String get somethingWentWrongTryAgain =>
+      'কিছু একটা ভুল হয়েছে। আবার চেষ্টা করুন।';
+
+  @override
+  String get serverTookTooLong =>
+      'সার্ভার উত্তর দিতে অনেক সময় নিয়েছে। সংযোগ দেখে আবার চেষ্টা করুন।';
+
+  @override
+  String couldNotReachServer(String host) {
+    return '$host এ সার্ভারে পৌঁছানো যায়নি। আপনার ইন্টারনেট সংযোগ দেখুন।';
+  }
+
+  @override
+  String get certificateNotVerified =>
+      'সার্ভারের সার্টিফিকেট যাচাই করা যায়নি।';
+
+  @override
+  String get networkErrorTryAgain => 'নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।';
+
+  @override
+  String get enterValidMobile => '১০ সংখ্যার সঠিক ভারতীয় মোবাইল নম্বর লিখুন';
+
+  @override
+  String get enterValidTenDigitNumber => '১০ সংখ্যার সঠিক নম্বর লিখুন';
+
+  @override
+  String get enterYourName => 'আপনার নাম লিখুন';
+
+  @override
+  String get nameTooLong => 'নামটি খুব লম্বা';
+
+  @override
+  String get enterValidEmail => 'সঠিক ইমেল ঠিকানা লিখুন';
+
+  @override
+  String get enterYourAge => 'আপনার বয়স লিখুন';
+
+  @override
+  String get mustBeAtLeast13 => 'আপনার বয়স অন্তত ১৩ হতে হবে';
+
+  @override
+  String get enterValidAge => 'সঠিক বয়স লিখুন';
+
+  @override
+  String get enterWeightOrHeight => 'ওজন বা উচ্চতা লিখুন।';
+
+  @override
+  String get noRatingsYet => 'এখনও কোনো রেটিং নেই';
+
+  @override
+  String get giveItATitle => 'একটি শিরোনাম দিন।';
+
+  @override
+  String get sayWhatYouWantThemToKnow => 'আপনি তাঁদের কী জানাতে চান লিখুন।';
+
+  @override
+  String get sayWhyThisIsChanging => 'কেন এটি বদলানো হচ্ছে লিখুন।';
+
+  @override
+  String get noMembersYetAddFirst =>
+      'এখনও কোনো সদস্য নেই। প্রথম জনকে যোগ করুন।';
+
+  @override
+  String get nobodyMatchedSearch => 'সেই সার্চে কাউকে পাওয়া যায়নি।';
+
+  @override
+  String get turningUp => 'উপস্থিতি';
+
+  @override
+  String get justNow => 'এইমাত্র';
+
+  @override
+  String minutesAgo(int count) {
+    return '$count মিনিট আগে';
+  }
+
+  @override
+  String hoursAgo(int count) {
+    return '$count ঘণ্টা আগে';
+  }
+
+  @override
+  String daysAgo(int count) {
+    return '$count দিন আগে';
+  }
+
+  @override
+  String monthsAgo(int count) {
+    return '$count মাস আগে';
+  }
+
+  @override
+  String get nowShort => 'এখন';
+
+  @override
+  String minutesShort(int count) {
+    return '$count মি';
+  }
+
+  @override
+  String hoursShort(int count) {
+    return '$count ঘ';
+  }
+
+  @override
+  String daysShort(int count) {
+    return '$count দি';
+  }
+
+  @override
+  String weeksShort(int count) {
+    return '$count সপ্';
+  }
+
+  @override
   String get home => 'হোম';
 
   @override
@@ -1091,7 +1210,7 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get onLeave => 'ছুটি';
+  String get onLeave => 'ছুটিতে';
 
   @override
   String get tapDayToCorrect => 'সংশোধনের জন্য একটি দিনে ট্যাপ করুন';

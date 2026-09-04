@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/utils/dates.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -196,7 +197,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  '${item['from']}  ·  ${_ago(item['sentAt'])}',
+                                  '${item['from']}'
+                                  '  ·  '
+                                  '${Dates.ago(t, item['sentAt'] as String?)}',
                                   style: theme.textTheme.bodySmall?.copyWith(
                                     color: theme.colorScheme.onSurfaceVariant,
                                   ),
@@ -212,13 +215,4 @@ class _NotificationsPageState extends State<NotificationsPage> {
   }
 }
 
-String _ago(dynamic iso) {
-  final d = iso is String ? DateTime.tryParse(iso) : null;
-  if (d == null) return '';
-  final diff = DateTime.now().difference(d);
-  if (diff.inMinutes < 1) return 'just now';
-  if (diff.inHours < 1) return '${diff.inMinutes}m ago';
-  if (diff.inDays < 1) return '${diff.inHours}h ago';
-  if (diff.inDays < 30) return '${diff.inDays}d ago';
-  return '${(diff.inDays / 30).floor()}mo ago';
-}
+

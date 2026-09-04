@@ -215,7 +215,8 @@ class _AttendanceHistoryPageState extends State<AttendanceHistoryPage> {
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                   trailing: Text(
-                                    _label(status),
+                                    _label(
+                                        AppLocalizations.of(context), status),
                                     style: theme.textTheme.bodySmall?.copyWith(
                                       fontWeight: FontWeight.w600,
                                       color: _color(context, status),
@@ -231,10 +232,10 @@ class _AttendanceHistoryPageState extends State<AttendanceHistoryPage> {
   }
 }
 
-String _label(String status) => switch (status) {
-      'PRESENT' => 'Present',
-      'ABSENT' => 'Absent',
-      'ON_LEAVE' => 'On leave',
+String _label(AppLocalizations t, String status) => switch (status) {
+      'PRESENT' => t.present,
+      'ABSENT' => t.absent,
+      'ON_LEAVE' => t.onLeave,
       _ => status,
     };
 
@@ -294,7 +295,8 @@ class _CorrectionSheetState extends State<_CorrectionSheet> {
 
   void _submit() {
     if (_reason.text.trim().length < 3) {
-      setState(() => _error = 'Say why this is being changed.');
+      setState(() =>
+          _error = AppLocalizations.of(context).sayWhyThisIsChanging);
       return;
     }
     Navigator.of(context)

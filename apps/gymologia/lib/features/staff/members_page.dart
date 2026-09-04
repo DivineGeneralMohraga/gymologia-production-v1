@@ -154,8 +154,10 @@ class _MembersPageState extends State<MembersPage> {
                               padding: const EdgeInsets.all(32),
                               child: Text(
                                 _search.text.isEmpty
-                                    ? 'No members yet. Add your first one.'
-                                    : 'Nobody matched that search.',
+                                    ? AppLocalizations.of(context)
+                                        .noMembersYetAddFirst
+                                    : AppLocalizations.of(context)
+                                        .nobodyMatchedSearch,
                                 textAlign: TextAlign.center,
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   color: theme.colorScheme.onSurfaceVariant,

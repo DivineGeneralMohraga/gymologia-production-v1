@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/utils/dates.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -54,11 +55,12 @@ class _AnnouncePageState extends State<AnnouncePage> {
 
   Future<void> _send() async {
     if (_title.text.trim().length < 3) {
-      setState(() => _error = 'Give it a title.');
+      setState(() => _error = AppLocalizations.of(context).giveItATitle);
       return;
     }
     if (_body.text.trim().length < 3) {
-      setState(() => _error = 'Say what you want them to know.');
+      setState(() =>
+          _error = AppLocalizations.of(context).sayWhatYouWantThemToKnow);
       return;
     }
 
@@ -205,7 +207,8 @@ class _AnnouncePageState extends State<AnnouncePage> {
                       style: const TextStyle(fontWeight: FontWeight.w600)),
                   subtitle: Text(
                     '${AppLocalizations.of(context).recipientCount((n['sentTo'] as int?) ?? 0)}'
-                    '  ·  ${_ago(n['sentAt'])}',
+                    '  ·  '
+                    '${Dates.ago(AppLocalizations.of(context), n['sentAt'] as String?)}',
                   ),
                 ),
               ),
@@ -216,11 +219,4 @@ class _AnnouncePageState extends State<AnnouncePage> {
   }
 }
 
-String _ago(dynamic iso) {
-  final d = iso is String ? DateTime.tryParse(iso) : null;
-  if (d == null) return '';
-  final diff = DateTime.now().difference(d);
-  if (diff.inHours < 1) return '${diff.inMinutes}m ago';
-  if (diff.inDays < 1) return '${diff.inHours}h ago';
-  return '${diff.inDays}d ago';
-}
+

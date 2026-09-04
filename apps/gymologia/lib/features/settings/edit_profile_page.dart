@@ -98,7 +98,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(
                   labelText: AppLocalizations.of(context).name),
-              validator: validateName,
+              validator: (v) =>
+                  validateName(AppLocalizations.of(context), v),
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -108,7 +109,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 labelText: AppLocalizations.of(context).email,
                 helperText: AppLocalizations.of(context).emailClearToRemove,
               ),
-              validator: validateOptionalEmail,
+              validator: (v) =>
+                  validateOptionalEmail(AppLocalizations.of(context), v),
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -120,7 +122,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ],
               decoration: InputDecoration(
                   labelText: AppLocalizations.of(context).age),
-              validator: validateAge,
+              validator: (v) =>
+                  validateAge(AppLocalizations.of(context), v),
             ),
 
             const SizedBox(height: 24),

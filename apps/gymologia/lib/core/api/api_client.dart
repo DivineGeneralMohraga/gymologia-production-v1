@@ -3,6 +3,32 @@ import 'package:dio/dio.dart';
 import '../config/app_config.dart';
 import '../storage/token_store.dart';
 
+/// The sentences the client itself can produce, in the language the app is
+/// currently showing.
+///
+/// The client sits below the widget tree and has no BuildContext, so the
+/// app hands these down whenever the locale resolves -- the same route the
+/// locale code takes. The English here is the fallback for the moment
+/// before that happens, and for tests that build a client directly.
+class ApiStrings {
+  const ApiStrings({
+    this.sessionExpired = 'Your session expired. Please sign in again.',
+    this.somethingWentWrong = 'Something went wrong. Please try again.',
+    this.tookTooLong =
+        'The server took too long to respond. Check your connection and try again.',
+    this.unreachable = 'Could not reach the server. Check your internet connection.',
+    this.badCertificate = 'The server certificate could not be verified.',
+    this.networkError = 'Network error. Please try again.',
+  });
+
+  final String sessionExpired;
+  final String somethingWentWrong;
+  final String tookTooLong;
+  final String unreachable;
+  final String badCertificate;
+  final String networkError;
+}
+
 /// Something the user can be shown. Network failures are translated here
 /// rather than at each call site, so no screen ever renders a raw Dio
 /// exception at somebody.
@@ -71,6 +97,10 @@ class ApiClient {
   /// locale is known or changed. Null until then, in which case the server
   /// falls back to English.
   String? localeCode;
+
+  /// The client's own messages, in that same language. Replaced by the app
+  /// alongside [localeCode]; English until it does.
+  ApiStrings strings = const ApiStrings();
 
   /// Set when the session cannot be recovered, so the app can drop to the
   /// login screen from wherever it is.
@@ -150,8 +180,7 @@ class ApiClient {
         return _send(call, allowRetry: false);
       }
       onSessionExpired?.call();
-      throw ApiException('Your session expired. Please sign in again.',
-          statusCode: 401);
+      throw ApiException(strings.sessionExpired, statusCode: 401);
     }
 
     final status = response.statusCode ?? 0;
@@ -210,7 +239,7 @@ class ApiClient {
 
   ApiException _fromResponse(Response<dynamic> response) {
     final data = response.data;
-    String message = 'Something went wrong. Please try again.';
+    String message = strings.somethingWentWrong;
     String? reference;
 
     if (data is Map<String, dynamic>) {
@@ -236,13 +265,10 @@ class ApiClient {
       DioExceptionType.connectionTimeout ||
       DioExceptionType.sendTimeout ||
       DioExceptionType.receiveTimeout =>
-        'The server took too long to respond. Check your connection and try again.',
-      DioExceptionType.connectionError =>
-        'Could not reach the server at ${AppConfig.displayHost}. '
-            'Check your internet connection.',
-      DioExceptionType.badCertificate =>
-        'The server certificate could not be verified.',
-      _ => 'Network error. Please try again.',
+        strings.tookTooLong,
+      DioExceptionType.connectionError => strings.unreachable,
+      DioExceptionType.badCertificate => strings.badCertificate,
+      _ => strings.networkError,
     };
     return ApiException(message);
   }

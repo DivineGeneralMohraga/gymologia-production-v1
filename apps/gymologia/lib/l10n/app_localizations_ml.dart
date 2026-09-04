@@ -798,6 +798,124 @@ class AppLocalizationsMl extends AppLocalizations {
   String get enterYourGymName => 'നിങ്ങളുടെ ജിമ്മിന്റെ പേര് നൽകുക';
 
   @override
+  String get sessionExpiredSignIn =>
+      'നിങ്ങളുടെ സെഷൻ കഴിഞ്ഞു. വീണ്ടും സൈൻ ഇൻ ചെയ്യുക.';
+
+  @override
+  String get somethingWentWrongTryAgain => 'എന്തോ പിഴച്ചു. വീണ്ടും ശ്രമിക്കുക.';
+
+  @override
+  String get serverTookTooLong =>
+      'സെർവർ മറുപടി നൽകാൻ വളരെ സമയമെടുത്തു. കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.';
+
+  @override
+  String couldNotReachServer(String host) {
+    return '$host എന്ന സെർവറിലേക്ക് എത്താനായില്ല. നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.';
+  }
+
+  @override
+  String get certificateNotVerified =>
+      'സെർവർ സർട്ടിഫിക്കറ്റ് പരിശോധിക്കാനായില്ല.';
+
+  @override
+  String get networkErrorTryAgain => 'നെറ്റ്‌വർക്ക് പിശക്. വീണ്ടും ശ്രമിക്കുക.';
+
+  @override
+  String get enterValidMobile => '10 അക്ക ശരിയായ ഇന്ത്യൻ മൊബൈൽ നമ്പർ നൽകുക';
+
+  @override
+  String get enterValidTenDigitNumber => '10 അക്ക ശരിയായ നമ്പർ നൽകുക';
+
+  @override
+  String get enterYourName => 'നിങ്ങളുടെ പേര് നൽകുക';
+
+  @override
+  String get nameTooLong => 'ആ പേര് വളരെ നീളമുള്ളതാണ്';
+
+  @override
+  String get enterValidEmail => 'ശരിയായ ഇമെയിൽ വിലാസം നൽകുക';
+
+  @override
+  String get enterYourAge => 'നിങ്ങളുടെ പ്രായം നൽകുക';
+
+  @override
+  String get mustBeAtLeast13 => 'നിങ്ങളുടെ പ്രായം കുറഞ്ഞത് 13 വേണം';
+
+  @override
+  String get enterValidAge => 'ശരിയായ പ്രായം നൽകുക';
+
+  @override
+  String get enterWeightOrHeight => 'ഭാരമോ ഉയരമോ നൽകുക.';
+
+  @override
+  String get noRatingsYet => 'ഇതുവരെ റേറ്റിംഗുകളില്ല';
+
+  @override
+  String get giveItATitle => 'ഒരു തലക്കെട്ട് നൽകുക.';
+
+  @override
+  String get sayWhatYouWantThemToKnow => 'അവരെ എന്ത് അറിയിക്കണമെന്ന് എഴുതുക.';
+
+  @override
+  String get sayWhyThisIsChanging => 'ഇത് എന്തിനാണ് മാറ്റുന്നതെന്ന് എഴുതുക.';
+
+  @override
+  String get noMembersYetAddFirst =>
+      'ഇതുവരെ അംഗങ്ങളില്ല. ആദ്യത്തെയാളെ ചേർക്കുക.';
+
+  @override
+  String get nobodyMatchedSearch => 'ആ തിരയലിൽ ആരും കണ്ടെത്തിയില്ല.';
+
+  @override
+  String get turningUp => 'വരവ്';
+
+  @override
+  String get justNow => 'ഇപ്പോൾ';
+
+  @override
+  String minutesAgo(int count) {
+    return '$count മിനിറ്റ് മുൻപ്';
+  }
+
+  @override
+  String hoursAgo(int count) {
+    return '$count മണിക്കൂർ മുൻപ്';
+  }
+
+  @override
+  String daysAgo(int count) {
+    return '$count ദിവസം മുൻപ്';
+  }
+
+  @override
+  String monthsAgo(int count) {
+    return '$count മാസം മുൻപ്';
+  }
+
+  @override
+  String get nowShort => 'ഇപ്പോൾ';
+
+  @override
+  String minutesShort(int count) {
+    return '$count മി';
+  }
+
+  @override
+  String hoursShort(int count) {
+    return '$count മ';
+  }
+
+  @override
+  String daysShort(int count) {
+    return '$count ദി';
+  }
+
+  @override
+  String weeksShort(int count) {
+    return '$count ആ';
+  }
+
+  @override
   String get home => 'ഹോം';
 
   @override
@@ -1101,7 +1219,7 @@ class AppLocalizationsMl extends AppLocalizations {
   }
 
   @override
-  String get onLeave => 'അവധി';
+  String get onLeave => 'അവധിയിൽ';
 
   @override
   String get tapDayToCorrect => 'തിരുത്താൻ ഒരു ദിവസത്തിൽ ടാപ്പ് ചെയ്യുക';

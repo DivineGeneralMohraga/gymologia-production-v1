@@ -212,7 +212,8 @@ class _CreateGymPageState extends State<CreateGymPage> {
                 labelText: AppLocalizations.of(context).contactNumber,
                 prefixText: '+91  ',
               ),
-              validator: validateIndianMobile,
+              validator: (v) =>
+                  validateIndianMobile(AppLocalizations.of(context), v),
             ),
 
             _Label('Leave policy'),

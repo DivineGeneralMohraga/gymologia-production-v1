@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/utils/dates.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -141,7 +142,8 @@ class _ConversationsPageState extends State<ConversationsPage> {
                             ),
                             if (last != null)
                               Text(
-                                _ago(last['at']),
+                                Dates.agoShort(AppLocalizations.of(context),
+                                    last['at'] as String?),
                                 style: theme.textTheme.bodySmall?.copyWith(
                                   color: theme.colorScheme.onSurfaceVariant,
                                 ),
@@ -219,13 +221,4 @@ class _Avatar extends StatelessWidget {
   }
 }
 
-String _ago(dynamic iso) {
-  final d = iso is String ? DateTime.tryParse(iso) : null;
-  if (d == null) return '';
-  final diff = DateTime.now().difference(d);
-  if (diff.inMinutes < 1) return 'now';
-  if (diff.inHours < 1) return '${diff.inMinutes}m';
-  if (diff.inDays < 1) return '${diff.inHours}h';
-  if (diff.inDays < 7) return '${diff.inDays}d';
-  return '${(diff.inDays / 7).floor()}w';
-}
+

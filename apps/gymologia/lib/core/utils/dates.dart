@@ -1,3 +1,4 @@
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
@@ -63,4 +64,32 @@ class Dates {
 
   static DateTime? _parse(String? iso) =>
       iso == null ? null : DateTime.tryParse(iso);
+
+  /// How long ago, spelled out: "just now", "3h ago", "2mo ago".
+  ///
+  /// There were three copies of this, one per screen, and they had drifted
+  /// apart -- one stopped at days and would print "94d ago". One now.
+  static String ago(AppLocalizations t, String? iso) {
+    final date = _parse(iso);
+    if (date == null) return '';
+    final diff = DateTime.now().difference(date);
+    if (diff.inMinutes < 1) return t.justNow;
+    if (diff.inHours < 1) return t.minutesAgo(diff.inMinutes);
+    if (diff.inDays < 1) return t.hoursAgo(diff.inHours);
+    if (diff.inDays < 30) return t.daysAgo(diff.inDays);
+    return t.monthsAgo((diff.inDays / 30).floor());
+  }
+
+  /// The same thing at chat-row width, where the column is narrow and the
+  /// reader is scanning rather than reading.
+  static String agoShort(AppLocalizations t, String? iso) {
+    final date = _parse(iso);
+    if (date == null) return '';
+    final diff = DateTime.now().difference(date);
+    if (diff.inMinutes < 1) return t.nowShort;
+    if (diff.inHours < 1) return t.minutesShort(diff.inMinutes);
+    if (diff.inDays < 1) return t.hoursShort(diff.inHours);
+    if (diff.inDays < 7) return t.daysShort(diff.inDays);
+    return t.weeksShort((diff.inDays / 7).floor());
+  }
 }

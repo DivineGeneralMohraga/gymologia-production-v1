@@ -175,7 +175,7 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
               ),
               validator: (v) => RegExp(r'^[6-9]\d{9}$').hasMatch(v?.trim() ?? '')
                   ? null
-                  : 'Enter a valid 10-digit number',
+                  : AppLocalizations.of(context).enterValidTenDigitNumber,
             ),
             const SizedBox(height: 18),
             TextFormField(

@@ -802,6 +802,128 @@ class AppLocalizationsTa extends AppLocalizations {
   String get enterYourGymName => 'உங்கள் கூடத்தின் பெயரை உள்ளிடு';
 
   @override
+  String get sessionExpiredSignIn =>
+      'உங்கள் அமர்வு முடிந்தது. மீண்டும் உள்நுழையவும்.';
+
+  @override
+  String get somethingWentWrongTryAgain =>
+      'ஏதோ தவறாகிவிட்டது. மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get serverTookTooLong =>
+      'சேவையகம் பதிலளிக்க மிக நேரம் எடுத்தது. இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String couldNotReachServer(String host) {
+    return '$host இல் உள்ள சேவையகத்தை அடைய முடியவில்லை. உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும்.';
+  }
+
+  @override
+  String get certificateNotVerified =>
+      'சேவையகச் சான்றிதழைச் சரிபார்க்க முடியவில்லை.';
+
+  @override
+  String get networkErrorTryAgain => 'பிணையப் பிழை. மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get enterValidMobile =>
+      '10 இலக்க சரியான இந்திய மொபைல் எண்ணை உள்ளிடவும்';
+
+  @override
+  String get enterValidTenDigitNumber => '10 இலக்க சரியான எண்ணை உள்ளிடவும்';
+
+  @override
+  String get enterYourName => 'உங்கள் பெயரை உள்ளிடவும்';
+
+  @override
+  String get nameTooLong => 'அந்தப் பெயர் மிக நீளமானது';
+
+  @override
+  String get enterValidEmail => 'சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்';
+
+  @override
+  String get enterYourAge => 'உங்கள் வயதை உள்ளிடவும்';
+
+  @override
+  String get mustBeAtLeast13 => 'உங்கள் வயது குறைந்தது 13 இருக்க வேண்டும்';
+
+  @override
+  String get enterValidAge => 'சரியான வயதை உள்ளிடவும்';
+
+  @override
+  String get enterWeightOrHeight => 'எடை அல்லது உயரத்தை உள்ளிடவும்.';
+
+  @override
+  String get noRatingsYet => 'இன்னும் மதிப்பீடுகள் இல்லை';
+
+  @override
+  String get giveItATitle => 'ஒரு தலைப்பு கொடுங்கள்.';
+
+  @override
+  String get sayWhatYouWantThemToKnow =>
+      'அவர்களுக்கு என்ன தெரிவிக்க வேண்டும் என்று எழுதுங்கள்.';
+
+  @override
+  String get sayWhyThisIsChanging =>
+      'இது ஏன் மாற்றப்படுகிறது என்று எழுதுங்கள்.';
+
+  @override
+  String get noMembersYetAddFirst =>
+      'இன்னும் உறுப்பினர்கள் இல்லை. முதல் நபரைச் சேருங்கள்.';
+
+  @override
+  String get nobodyMatchedSearch => 'அந்தத் தேடலுக்கு யாரும் பொருந்தவில்லை.';
+
+  @override
+  String get turningUp => 'வருகை';
+
+  @override
+  String get justNow => 'இப்போதே';
+
+  @override
+  String minutesAgo(int count) {
+    return '$count நிமிடம் முன்';
+  }
+
+  @override
+  String hoursAgo(int count) {
+    return '$count மணி முன்';
+  }
+
+  @override
+  String daysAgo(int count) {
+    return '$count நாள் முன்';
+  }
+
+  @override
+  String monthsAgo(int count) {
+    return '$count மாதம் முன்';
+  }
+
+  @override
+  String get nowShort => 'இப்போது';
+
+  @override
+  String minutesShort(int count) {
+    return '$count நி';
+  }
+
+  @override
+  String hoursShort(int count) {
+    return '$count ம';
+  }
+
+  @override
+  String daysShort(int count) {
+    return '$count நா';
+  }
+
+  @override
+  String weeksShort(int count) {
+    return '$count வா';
+  }
+
+  @override
   String get home => 'முகப்பு';
 
   @override
@@ -1106,7 +1228,7 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
-  String get onLeave => 'விடுப்பு';
+  String get onLeave => 'விடுப்பில்';
 
   @override
   String get tapDayToCorrect => 'திருத்த ஒரு நாளைத் தட்டவும்';

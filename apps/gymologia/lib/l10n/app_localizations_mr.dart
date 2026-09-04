@@ -791,6 +791,124 @@ class AppLocalizationsMr extends AppLocalizations {
   String get enterYourGymName => 'तुमच्या जिमचे नाव लिहा';
 
   @override
+  String get sessionExpiredSignIn =>
+      'तुमचे सत्र संपले. कृपया पुन्हा साइन इन करा.';
+
+  @override
+  String get somethingWentWrongTryAgain =>
+      'काहीतरी चुकले. कृपया पुन्हा प्रयत्न करा.';
+
+  @override
+  String get serverTookTooLong =>
+      'सर्व्हरने उत्तर द्यायला खूप वेळ घेतला. तुमचे कनेक्शन तपासून पुन्हा प्रयत्न करा.';
+
+  @override
+  String couldNotReachServer(String host) {
+    return '$host वरील सर्व्हरशी संपर्क होऊ शकला नाही. तुमचे इंटरनेट कनेक्शन तपासा.';
+  }
+
+  @override
+  String get certificateNotVerified => 'सर्व्हरचे प्रमाणपत्र पडताळता आले नाही.';
+
+  @override
+  String get networkErrorTryAgain =>
+      'नेटवर्क त्रुटी. कृपया पुन्हा प्रयत्न करा.';
+
+  @override
+  String get enterValidMobile => '10 अंकी योग्य भारतीय मोबाइल नंबर लिहा';
+
+  @override
+  String get enterValidTenDigitNumber => '10 अंकी योग्य नंबर लिहा';
+
+  @override
+  String get enterYourName => 'तुमचे नाव लिहा';
+
+  @override
+  String get nameTooLong => 'हे नाव खूप लांब आहे';
+
+  @override
+  String get enterValidEmail => 'योग्य ईमेल पत्ता लिहा';
+
+  @override
+  String get enterYourAge => 'तुमचे वय लिहा';
+
+  @override
+  String get mustBeAtLeast13 => 'तुमचे वय किमान 13 असावे';
+
+  @override
+  String get enterValidAge => 'योग्य वय लिहा';
+
+  @override
+  String get enterWeightOrHeight => 'वजन किंवा उंची लिहा.';
+
+  @override
+  String get noRatingsYet => 'अजून कोणतेही रेटिंग नाही';
+
+  @override
+  String get giveItATitle => 'याला शीर्षक द्या.';
+
+  @override
+  String get sayWhatYouWantThemToKnow => 'त्यांना काय सांगायचे आहे ते लिहा.';
+
+  @override
+  String get sayWhyThisIsChanging => 'हे का बदलले जात आहे ते लिहा.';
+
+  @override
+  String get noMembersYetAddFirst => 'अजून सदस्य नाहीत. पहिला सदस्य जोडा.';
+
+  @override
+  String get nobodyMatchedSearch => 'त्या शोधाशी कोणीही जुळले नाही.';
+
+  @override
+  String get turningUp => 'उपस्थिती';
+
+  @override
+  String get justNow => 'आत्ताच';
+
+  @override
+  String minutesAgo(int count) {
+    return '$count मिनिटांपूर्वी';
+  }
+
+  @override
+  String hoursAgo(int count) {
+    return '$count तासांपूर्वी';
+  }
+
+  @override
+  String daysAgo(int count) {
+    return '$count दिवसांपूर्वी';
+  }
+
+  @override
+  String monthsAgo(int count) {
+    return '$count महिन्यांपूर्वी';
+  }
+
+  @override
+  String get nowShort => 'आत्ता';
+
+  @override
+  String minutesShort(int count) {
+    return '$count मि';
+  }
+
+  @override
+  String hoursShort(int count) {
+    return '$count ता';
+  }
+
+  @override
+  String daysShort(int count) {
+    return '$count दि';
+  }
+
+  @override
+  String weeksShort(int count) {
+    return '$count आ';
+  }
+
+  @override
   String get home => 'होम';
 
   @override
@@ -1091,7 +1209,7 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get onLeave => 'रजा';
+  String get onLeave => 'रजेवर';
 
   @override
   String get tapDayToCorrect => 'दुरुस्त करण्यासाठी दिवसावर टॅप करा';

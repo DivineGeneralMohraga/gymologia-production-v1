@@ -113,7 +113,7 @@ class _GymProfilePageState extends State<GymProfilePage> {
                     Text(
                       ratingCount > 0
                           ? '${rating.toStringAsFixed(1)} · $ratingCount rating${ratingCount == 1 ? '' : 's'}'
-                          : 'No ratings yet',
+                          : AppLocalizations.of(context).noRatingsYet,
                       style: theme.textTheme.bodyMedium,
                     ),
                   ],

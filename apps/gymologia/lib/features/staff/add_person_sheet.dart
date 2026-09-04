@@ -56,7 +56,8 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
   }
 
   Future<void> _sendCode() async {
-    final problem = validateIndianMobile(_phone.text.trim());
+    final problem = validateIndianMobile(
+        AppLocalizations.of(context), _phone.text.trim());
     if (problem != null) {
       setState(() => _error = problem);
       return;

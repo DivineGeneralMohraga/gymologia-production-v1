@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'core/api/api_client.dart';
+import 'core/config/app_config.dart';
 import 'l10n/app_localizations.dart';
 import 'features/settings/locale_controller.dart';
 import 'features/auth/auth_controller.dart';
@@ -50,8 +52,20 @@ class GymologiaApp extends StatelessWidget {
           // MaterialApp -- the picker may say "follow the device", and only
           // here is it known what the device settled on.
           builder: (context, child) {
-            context.read<AuthController>().client.localeCode =
-                Localizations.localeOf(context).languageCode;
+            final client = context.read<AuthController>().client;
+            final t = AppLocalizations.of(context);
+            client.localeCode = Localizations.localeOf(context).languageCode;
+            // The client produces a handful of sentences of its own -- a
+            // dead connection, an expired session -- and cannot look them
+            // up from down there, so they come with the locale.
+            client.strings = ApiStrings(
+              sessionExpired: t.sessionExpiredSignIn,
+              somethingWentWrong: t.somethingWentWrongTryAgain,
+              tookTooLong: t.serverTookTooLong,
+              unreachable: t.couldNotReachServer(AppConfig.displayHost),
+              badCertificate: t.certificateNotVerified,
+              networkError: t.networkErrorTryAgain,
+            );
             return child ?? const SizedBox.shrink();
           },
           home: const _Root(),

@@ -789,6 +789,121 @@ class AppLocalizationsGu extends AppLocalizations {
   String get enterYourGymName => 'તમારા જિમનું નામ લખો';
 
   @override
+  String get sessionExpiredSignIn => 'તમારું સત્ર પૂરું થયું. ફરી સાઇન ઇન કરો.';
+
+  @override
+  String get somethingWentWrongTryAgain => 'કંઈક ખોટું થયું. ફરી પ્રયાસ કરો.';
+
+  @override
+  String get serverTookTooLong =>
+      'સર્વરે જવાબ આપવામાં બહુ સમય લીધો. તમારું કનેક્શન તપાસીને ફરી પ્રયાસ કરો.';
+
+  @override
+  String couldNotReachServer(String host) {
+    return '$host પરના સર્વર સુધી પહોંચી શકાયું નથી. તમારું ઇન્ટરનેટ કનેક્શન તપાસો.';
+  }
+
+  @override
+  String get certificateNotVerified => 'સર્વરનું પ્રમાણપત્ર ચકાસી શકાયું નથી.';
+
+  @override
+  String get networkErrorTryAgain => 'નેટવર્ક ભૂલ. ફરી પ્રયાસ કરો.';
+
+  @override
+  String get enterValidMobile => '10 અંકનો સાચો ભારતીય મોબાઇલ નંબર લખો';
+
+  @override
+  String get enterValidTenDigitNumber => '10 અંકનો સાચો નંબર લખો';
+
+  @override
+  String get enterYourName => 'તમારું નામ લખો';
+
+  @override
+  String get nameTooLong => 'એ નામ બહુ લાંબું છે';
+
+  @override
+  String get enterValidEmail => 'સાચું ઇમેઇલ સરનામું લખો';
+
+  @override
+  String get enterYourAge => 'તમારી ઉંમર લખો';
+
+  @override
+  String get mustBeAtLeast13 => 'તમારી ઉંમર ઓછામાં ઓછી 13 હોવી જોઈએ';
+
+  @override
+  String get enterValidAge => 'સાચી ઉંમર લખો';
+
+  @override
+  String get enterWeightOrHeight => 'વજન અથવા ઊંચાઈ લખો.';
+
+  @override
+  String get noRatingsYet => 'હજી કોઈ રેટિંગ નથી';
+
+  @override
+  String get giveItATitle => 'એક શીર્ષક આપો.';
+
+  @override
+  String get sayWhatYouWantThemToKnow => 'તેમને શું જણાવવું છે તે લખો.';
+
+  @override
+  String get sayWhyThisIsChanging => 'આ કેમ બદલાય છે તે લખો.';
+
+  @override
+  String get noMembersYetAddFirst => 'હજી કોઈ સભ્ય નથી. પહેલા સભ્યને ઉમેરો.';
+
+  @override
+  String get nobodyMatchedSearch => 'એ શોધમાં કોઈ મળ્યું નથી.';
+
+  @override
+  String get turningUp => 'હાજરી';
+
+  @override
+  String get justNow => 'હમણાં જ';
+
+  @override
+  String minutesAgo(int count) {
+    return '$count મિનિટ પહેલાં';
+  }
+
+  @override
+  String hoursAgo(int count) {
+    return '$count કલાક પહેલાં';
+  }
+
+  @override
+  String daysAgo(int count) {
+    return '$count દિવસ પહેલાં';
+  }
+
+  @override
+  String monthsAgo(int count) {
+    return '$count મહિના પહેલાં';
+  }
+
+  @override
+  String get nowShort => 'હમણાં';
+
+  @override
+  String minutesShort(int count) {
+    return '$count મિ';
+  }
+
+  @override
+  String hoursShort(int count) {
+    return '$count ક';
+  }
+
+  @override
+  String daysShort(int count) {
+    return '$count દિ';
+  }
+
+  @override
+  String weeksShort(int count) {
+    return '$count અ';
+  }
+
+  @override
   String get home => 'હોમ';
 
   @override
@@ -1088,7 +1203,7 @@ class AppLocalizationsGu extends AppLocalizations {
   }
 
   @override
-  String get onLeave => 'રજા';
+  String get onLeave => 'રજા પર';
 
   @override
   String get tapDayToCorrect => 'સુધારવા દિવસ પર ટૅપ કરો';

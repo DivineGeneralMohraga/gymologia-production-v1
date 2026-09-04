@@ -142,7 +142,8 @@ class _SupportPageState extends State<SupportPage> {
                 labelText: t.supportReplyTo,
                 prefixText: '+91  ',
               ),
-              validator: validateIndianMobile,
+              validator: (v) =>
+                  validateIndianMobile(AppLocalizations.of(context), v),
             ),
             const SizedBox(height: 6),
             CheckboxListTile(

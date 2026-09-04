@@ -103,7 +103,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       textCapitalization: TextCapitalization.words,
                       decoration: InputDecoration(
                           labelText: AppLocalizations.of(context).name),
-                      validator: validateName,
+                      validator: (v) =>
+                          validateName(AppLocalizations.of(context), v),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -112,7 +113,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       decoration: InputDecoration(
                         labelText: AppLocalizations.of(context).emailOptional,
                       ),
-                      validator: validateOptionalEmail,
+                      validator: (v) => validateOptionalEmail(
+                          AppLocalizations.of(context), v),
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -124,7 +126,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ],
                       decoration: InputDecoration(
                           labelText: AppLocalizations.of(context).age),
-                      validator: validateAge,
+                      validator: (v) =>
+                          validateAge(AppLocalizations.of(context), v),
                     ),
                     const SizedBox(height: 12),
                     // The spec asks for this to be said out loud, and it is

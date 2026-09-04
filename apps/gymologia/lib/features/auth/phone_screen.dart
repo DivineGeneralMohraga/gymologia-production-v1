@@ -96,7 +96,8 @@ class _PhoneScreenState extends State<PhoneScreen> {
                         labelText: AppLocalizations.of(context).mobileNumber,
                         hintText: '9876543210',
                       ),
-                      validator: validateIndianMobile,
+                      validator: (v) => validateIndianMobile(
+                          AppLocalizations.of(context), v),
                       onFieldSubmitted: (_) => _submit(),
                     ),
                     const SizedBox(height: 20),

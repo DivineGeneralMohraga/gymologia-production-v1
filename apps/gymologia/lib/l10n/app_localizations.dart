@@ -1350,6 +1350,198 @@ abstract class AppLocalizations {
   /// **'Enter your gym name'**
   String get enterYourGymName;
 
+  /// No description provided for @sessionExpiredSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Your session expired. Please sign in again.'**
+  String get sessionExpiredSignIn;
+
+  /// No description provided for @somethingWentWrongTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get somethingWentWrongTryAgain;
+
+  /// No description provided for @serverTookTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'The server took too long to respond. Check your connection and try again.'**
+  String get serverTookTooLong;
+
+  /// No description provided for @couldNotReachServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server at {host}. Check your internet connection.'**
+  String couldNotReachServer(String host);
+
+  /// No description provided for @certificateNotVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'The server certificate could not be verified.'**
+  String get certificateNotVerified;
+
+  /// No description provided for @networkErrorTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Please try again.'**
+  String get networkErrorTryAgain;
+
+  /// No description provided for @enterValidMobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid 10-digit Indian mobile number'**
+  String get enterValidMobile;
+
+  /// No description provided for @enterValidTenDigitNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid 10-digit number'**
+  String get enterValidTenDigitNumber;
+
+  /// No description provided for @enterYourName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name'**
+  String get enterYourName;
+
+  /// No description provided for @nameTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'That name is too long'**
+  String get nameTooLong;
+
+  /// No description provided for @enterValidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email address'**
+  String get enterValidEmail;
+
+  /// No description provided for @enterYourAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your age'**
+  String get enterYourAge;
+
+  /// No description provided for @mustBeAtLeast13.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be at least 13'**
+  String get mustBeAtLeast13;
+
+  /// No description provided for @enterValidAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid age'**
+  String get enterValidAge;
+
+  /// No description provided for @enterWeightOrHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a weight or a height.'**
+  String get enterWeightOrHeight;
+
+  /// No description provided for @noRatingsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No ratings yet'**
+  String get noRatingsYet;
+
+  /// No description provided for @giveItATitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Give it a title.'**
+  String get giveItATitle;
+
+  /// No description provided for @sayWhatYouWantThemToKnow.
+  ///
+  /// In en, this message translates to:
+  /// **'Say what you want them to know.'**
+  String get sayWhatYouWantThemToKnow;
+
+  /// No description provided for @sayWhyThisIsChanging.
+  ///
+  /// In en, this message translates to:
+  /// **'Say why this is being changed.'**
+  String get sayWhyThisIsChanging;
+
+  /// No description provided for @noMembersYetAddFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'No members yet. Add your first one.'**
+  String get noMembersYetAddFirst;
+
+  /// No description provided for @nobodyMatchedSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody matched that search.'**
+  String get nobodyMatchedSearch;
+
+  /// No description provided for @turningUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Turning up'**
+  String get turningUp;
+
+  /// No description provided for @justNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get justNow;
+
+  /// No description provided for @minutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}m ago'**
+  String minutesAgo(int count);
+
+  /// No description provided for @hoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}h ago'**
+  String hoursAgo(int count);
+
+  /// No description provided for @daysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}d ago'**
+  String daysAgo(int count);
+
+  /// No description provided for @monthsAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}mo ago'**
+  String monthsAgo(int count);
+
+  /// No description provided for @nowShort.
+  ///
+  /// In en, this message translates to:
+  /// **'now'**
+  String get nowShort;
+
+  /// No description provided for @minutesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}m'**
+  String minutesShort(int count);
+
+  /// No description provided for @hoursShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}h'**
+  String hoursShort(int count);
+
+  /// No description provided for @daysShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}d'**
+  String daysShort(int count);
+
+  /// No description provided for @weeksShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{count}w'**
+  String weeksShort(int count);
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:
@@ -1875,7 +2067,7 @@ abstract class AppLocalizations {
   /// No description provided for @onLeave.
   ///
   /// In en, this message translates to:
-  /// **'Leave'**
+  /// **'On leave'**
   String get onLeave;
 
   /// No description provided for @tapDayToCorrect.

@@ -792,6 +792,126 @@ class AppLocalizationsKn extends AppLocalizations {
   String get enterYourGymName => 'ನಿಮ್ಮ ಜಿಮ್ ಹೆಸರು ನಮೂದಿಸಿ';
 
   @override
+  String get sessionExpiredSignIn =>
+      'ನಿಮ್ಮ ಸೆಶನ್ ಮುಗಿದಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಸೈನ್ ಇನ್ ಮಾಡಿ.';
+
+  @override
+  String get somethingWentWrongTryAgain =>
+      'ಏನೋ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.';
+
+  @override
+  String get serverTookTooLong =>
+      'ಸರ್ವರ್ ಪ್ರತಿಕ್ರಿಯಿಸಲು ಬಹಳ ಸಮಯ ತೆಗೆದುಕೊಂಡಿತು. ಸಂಪರ್ಕ ಪರಿಶೀಲಿಸಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.';
+
+  @override
+  String couldNotReachServer(String host) {
+    return '$host ನಲ್ಲಿನ ಸರ್ವರ್ ತಲುಪಲಾಗಲಿಲ್ಲ. ನಿಮ್ಮ ಇಂಟರ್ನೆಟ್ ಸಂಪರ್ಕ ಪರಿಶೀಲಿಸಿ.';
+  }
+
+  @override
+  String get certificateNotVerified =>
+      'ಸರ್ವರ್ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಪರಿಶೀಲಿಸಲಾಗಲಿಲ್ಲ.';
+
+  @override
+  String get networkErrorTryAgain =>
+      'ನೆಟ್‌ವರ್ಕ್ ದೋಷ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.';
+
+  @override
+  String get enterValidMobile => '10 ಅಂಕಿಯ ಸರಿಯಾದ ಭಾರತೀಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ';
+
+  @override
+  String get enterValidTenDigitNumber => '10 ಅಂಕಿಯ ಸರಿಯಾದ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ';
+
+  @override
+  String get enterYourName => 'ನಿಮ್ಮ ಹೆಸರು ನಮೂದಿಸಿ';
+
+  @override
+  String get nameTooLong => 'ಆ ಹೆಸರು ತುಂಬಾ ಉದ್ದವಾಗಿದೆ';
+
+  @override
+  String get enterValidEmail => 'ಸರಿಯಾದ ಇಮೇಲ್ ವಿಳಾಸ ನಮೂದಿಸಿ';
+
+  @override
+  String get enterYourAge => 'ನಿಮ್ಮ ವಯಸ್ಸು ನಮೂದಿಸಿ';
+
+  @override
+  String get mustBeAtLeast13 => 'ನಿಮ್ಮ ವಯಸ್ಸು ಕನಿಷ್ಠ 13 ಇರಬೇಕು';
+
+  @override
+  String get enterValidAge => 'ಸರಿಯಾದ ವಯಸ್ಸು ನಮೂದಿಸಿ';
+
+  @override
+  String get enterWeightOrHeight => 'ತೂಕ ಅಥವಾ ಎತ್ತರ ನಮೂದಿಸಿ.';
+
+  @override
+  String get noRatingsYet => 'ಇನ್ನೂ ರೇಟಿಂಗ್‌ಗಳಿಲ್ಲ';
+
+  @override
+  String get giveItATitle => 'ಒಂದು ಶೀರ್ಷಿಕೆ ನೀಡಿ.';
+
+  @override
+  String get sayWhatYouWantThemToKnow => 'ಅವರಿಗೆ ಏನು ತಿಳಿಸಬೇಕೆಂದು ಬರೆಯಿರಿ.';
+
+  @override
+  String get sayWhyThisIsChanging =>
+      'ಇದನ್ನು ಏಕೆ ಬದಲಾಯಿಸಲಾಗುತ್ತಿದೆ ಎಂದು ಬರೆಯಿರಿ.';
+
+  @override
+  String get noMembersYetAddFirst => 'ಇನ್ನೂ ಸದಸ್ಯರಿಲ್ಲ. ಮೊದಲಿಗರನ್ನು ಸೇರಿಸಿ.';
+
+  @override
+  String get nobodyMatchedSearch => 'ಆ ಹುಡುಕಾಟಕ್ಕೆ ಯಾರೂ ಹೊಂದಲಿಲ್ಲ.';
+
+  @override
+  String get turningUp => 'ಹಾಜರಾತಿ';
+
+  @override
+  String get justNow => 'ಈಗಷ್ಟೇ';
+
+  @override
+  String minutesAgo(int count) {
+    return '$count ನಿಮಿಷದ ಹಿಂದೆ';
+  }
+
+  @override
+  String hoursAgo(int count) {
+    return '$count ಗಂಟೆ ಹಿಂದೆ';
+  }
+
+  @override
+  String daysAgo(int count) {
+    return '$count ದಿನ ಹಿಂದೆ';
+  }
+
+  @override
+  String monthsAgo(int count) {
+    return '$count ತಿಂಗಳ ಹಿಂದೆ';
+  }
+
+  @override
+  String get nowShort => 'ಈಗ';
+
+  @override
+  String minutesShort(int count) {
+    return '$count ನಿ';
+  }
+
+  @override
+  String hoursShort(int count) {
+    return '$count ಗಂ';
+  }
+
+  @override
+  String daysShort(int count) {
+    return '$count ದಿ';
+  }
+
+  @override
+  String weeksShort(int count) {
+    return '$count ವಾ';
+  }
+
+  @override
   String get home => 'ಮುಖಪುಟ';
 
   @override
@@ -1092,7 +1212,7 @@ class AppLocalizationsKn extends AppLocalizations {
   }
 
   @override
-  String get onLeave => 'ರಜೆ';
+  String get onLeave => 'ರಜೆಯಲ್ಲಿ';
 
   @override
   String get tapDayToCorrect => 'ಸರಿಪಡಿಸಲು ದಿನವನ್ನು ಒತ್ತಿ';

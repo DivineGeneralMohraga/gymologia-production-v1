@@ -804,6 +804,124 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterYourGymName => 'Enter your gym name';
 
   @override
+  String get sessionExpiredSignIn =>
+      'Your session expired. Please sign in again.';
+
+  @override
+  String get somethingWentWrongTryAgain =>
+      'Something went wrong. Please try again.';
+
+  @override
+  String get serverTookTooLong =>
+      'The server took too long to respond. Check your connection and try again.';
+
+  @override
+  String couldNotReachServer(String host) {
+    return 'Could not reach the server at $host. Check your internet connection.';
+  }
+
+  @override
+  String get certificateNotVerified =>
+      'The server certificate could not be verified.';
+
+  @override
+  String get networkErrorTryAgain => 'Network error. Please try again.';
+
+  @override
+  String get enterValidMobile => 'Enter a valid 10-digit Indian mobile number';
+
+  @override
+  String get enterValidTenDigitNumber => 'Enter a valid 10-digit number';
+
+  @override
+  String get enterYourName => 'Enter your name';
+
+  @override
+  String get nameTooLong => 'That name is too long';
+
+  @override
+  String get enterValidEmail => 'Enter a valid email address';
+
+  @override
+  String get enterYourAge => 'Enter your age';
+
+  @override
+  String get mustBeAtLeast13 => 'You must be at least 13';
+
+  @override
+  String get enterValidAge => 'Enter a valid age';
+
+  @override
+  String get enterWeightOrHeight => 'Enter a weight or a height.';
+
+  @override
+  String get noRatingsYet => 'No ratings yet';
+
+  @override
+  String get giveItATitle => 'Give it a title.';
+
+  @override
+  String get sayWhatYouWantThemToKnow => 'Say what you want them to know.';
+
+  @override
+  String get sayWhyThisIsChanging => 'Say why this is being changed.';
+
+  @override
+  String get noMembersYetAddFirst => 'No members yet. Add your first one.';
+
+  @override
+  String get nobodyMatchedSearch => 'Nobody matched that search.';
+
+  @override
+  String get turningUp => 'Turning up';
+
+  @override
+  String get justNow => 'just now';
+
+  @override
+  String minutesAgo(int count) {
+    return '${count}m ago';
+  }
+
+  @override
+  String hoursAgo(int count) {
+    return '${count}h ago';
+  }
+
+  @override
+  String daysAgo(int count) {
+    return '${count}d ago';
+  }
+
+  @override
+  String monthsAgo(int count) {
+    return '${count}mo ago';
+  }
+
+  @override
+  String get nowShort => 'now';
+
+  @override
+  String minutesShort(int count) {
+    return '${count}m';
+  }
+
+  @override
+  String hoursShort(int count) {
+    return '${count}h';
+  }
+
+  @override
+  String daysShort(int count) {
+    return '${count}d';
+  }
+
+  @override
+  String weeksShort(int count) {
+    return '${count}w';
+  }
+
+  @override
   String get home => 'Home';
 
   @override
@@ -1104,7 +1222,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get onLeave => 'Leave';
+  String get onLeave => 'On leave';
 
   @override
   String get tapDayToCorrect => 'Tap a day to correct it';
