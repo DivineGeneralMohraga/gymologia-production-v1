@@ -178,8 +178,8 @@ class _EventsManagePageState extends State<EventsManagePage> {
                                       const SizedBox(width: 5),
                                       Text(
                                         e['publicListing'] == true
-                                            ? 'Listed publicly'
-                                            : 'Your members only',
+                                            ? t.listedPublicly
+                                            : t.yourMembersOnly,
                                         style: theme.textTheme.bodySmall?.copyWith(
                                           color:
                                               theme.colorScheme.onSurfaceVariant,
@@ -241,7 +241,7 @@ class _HostEventSheetState extends State<_HostEventSheet> {
       firstDate: now,
       lastDate: now.add(const Duration(days: 730)),
       initialDate: _startsAt ?? now.add(const Duration(days: 14)),
-      helpText: 'When does it start?',
+      helpText: AppLocalizations.of(context).whenDoesItStart,
     );
     if (date == null) return;
     if (!mounted) return;
@@ -266,7 +266,8 @@ class _HostEventSheetState extends State<_HostEventSheet> {
   Future<void> _pickRegistrationClose() async {
     final start = _startsAt;
     if (start == null) {
-      setState(() => _error = 'Choose the start date first.');
+      setState(() =>
+          _error = AppLocalizations.of(context).chooseStartDateFirst);
       return;
     }
     final date = await showDatePicker(
@@ -274,26 +275,29 @@ class _HostEventSheetState extends State<_HostEventSheet> {
       firstDate: DateTime.now(),
       lastDate: start,
       initialDate: _registrationLastDate ?? start.subtract(const Duration(days: 1)),
-      helpText: 'Last day to register',
+      helpText: AppLocalizations.of(context).lastDayToRegister,
     );
     if (date != null) setState(() => _registrationLastDate = date);
   }
 
   Future<void> _submit() async {
     if (_title.text.trim().length < 3) {
-      setState(() => _error = 'Give the event a title.');
+      setState(() =>
+          _error = AppLocalizations.of(context).giveTheEventATitle);
       return;
     }
     if (_description.text.trim().length < 10) {
-      setState(() => _error = 'Add a description, at least a sentence.');
+      setState(() =>
+          _error = AppLocalizations.of(context).addADescription);
       return;
     }
     if (_howTo.text.trim().length < 5) {
-      setState(() => _error = 'Say what someone has to do to take part.');
+      setState(() =>
+          _error = AppLocalizations.of(context).sayHowToTakePart);
       return;
     }
     if (_startsAt == null || _registrationLastDate == null) {
-      setState(() => _error = 'Pick the dates.');
+      setState(() => _error = AppLocalizations.of(context).pickTheDates);
       return;
     }
 
@@ -407,16 +411,18 @@ class _HostEventSheetState extends State<_HostEventSheet> {
               onPressed: _pickStart,
               icon: const Icon(Icons.calendar_today_outlined, size: 18),
               label: Text(_startsAt == null
-                  ? 'When does it start?'
-                  : 'Starts ${_pretty(_startsAt!, Dates.localeOf(context))}'),
+                  ? t.whenDoesItStart
+                  : t.startsAtWhen(
+                      _pretty(_startsAt!, Dates.localeOf(context)))),
             ),
             const SizedBox(height: 8),
             OutlinedButton.icon(
               onPressed: _pickRegistrationClose,
               icon: const Icon(Icons.how_to_reg_outlined, size: 18),
               label: Text(_registrationLastDate == null
-                  ? 'Last day to register'
-                  : 'Register by ${_pretty(_registrationLastDate!, Dates.localeOf(context), time: false)}'),
+                  ? t.lastDayToRegister
+                  : t.registerByWhen(_pretty(_registrationLastDate!,
+                      Dates.localeOf(context), time: false))),
             ),
 
             const SizedBox(height: 12),

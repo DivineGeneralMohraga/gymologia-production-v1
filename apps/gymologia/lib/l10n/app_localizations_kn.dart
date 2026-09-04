@@ -912,6 +912,192 @@ class AppLocalizationsKn extends AppLocalizations {
   }
 
   @override
+  String addedNamed(String name) {
+    return '$name ಸೇರಿಸಲಾಗಿದೆ';
+  }
+
+  @override
+  String get saved => 'ಉಳಿಸಲಾಗಿದೆ';
+
+  @override
+  String get trainerCategoriesIntro =>
+      'ತರಬೇತುದಾರರನ್ನು ಸೇರಿಸುವಾಗ ಇವುಗಳಲ್ಲಿ ಒಂದರಲ್ಲಿ ಇರಿಸಲಾಗುತ್ತದೆ. ತರಬೇತುದಾರರಿರುವ ವರ್ಗವನ್ನು ಅವರನ್ನು ಸ್ಥಳಾಂತರಿಸುವವರೆಗೆ ಅಳಿಸಲಾಗದು.';
+
+  @override
+  String get trainerCategoriesReadOnly =>
+      'ಈ ಜಿಮ್‌ನ ವರ್ಗಗಳನ್ನು ನೀವು ನೋಡಬಹುದು. ಬದಲಿಸಲು ತರಬೇತುದಾರ-ನಿರ್ವಹಣೆ ಅನುಮತಿ ಬೇಕು.';
+
+  @override
+  String get oneTrainerManyMembersShort => 'ಒಬ್ಬ ತರಬೇತುದಾರ, ಹಲವು ಸದಸ್ಯರು';
+
+  @override
+  String get oneMemberPerTrainer => 'ಪ್ರತಿ ತರಬೇತುದಾರರಿಗೆ ಒಬ್ಬ ಸದಸ್ಯ';
+
+  @override
+  String get noTrainers => 'ತರಬೇತುದಾರರಿಲ್ಲ';
+
+  @override
+  String trainerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ತರಬೇತುದಾರರು',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteMoveTrainersFirst =>
+      'ಅಳಿಸಿ (ಮೊದಲು ತರಬೇತುದಾರರನ್ನು ಸ್ಥಳಾಂತರಿಸಿ)';
+
+  @override
+  String get giveCategoryAName => 'ವರ್ಗಕ್ಕೆ ಹೆಸರು ನೀಡಿ';
+
+  @override
+  String get editCategory => 'ವರ್ಗ ಸಂಪಾದಿಸಿ';
+
+  @override
+  String get newTrainerCategory => 'ಹೊಸ ತರಬೇತುದಾರ ವರ್ಗ';
+
+  @override
+  String get generalTrainingNote => 'ಸಾಮಾನ್ಯ ತರಬೇತಿಗೆ ಇದೇ ಸಾಮಾನ್ಯ ಸೆಟ್ಟಿಂಗ್.';
+
+  @override
+  String get personalTrainingNote =>
+      'ವೈಯಕ್ತಿಕ ತರಬೇತಿ: ಇಲ್ಲಿನ ತರಬೇತುದಾರ ಒಂದು ಬಾರಿಗೆ ಒಬ್ಬ ಸದಸ್ಯರನ್ನೇ ತೆಗೆದುಕೊಳ್ಳುತ್ತಾರೆ.';
+
+  @override
+  String get addCategory => 'ವರ್ಗ ಸೇರಿಸಿ';
+
+  @override
+  String get listedPublicly => 'ಸಾರ್ವಜನಿಕವಾಗಿ ಪಟ್ಟಿಯಾಗಿದೆ';
+
+  @override
+  String get yourMembersOnly => 'ನಿಮ್ಮ ಸದಸ್ಯರಿಗೆ ಮಾತ್ರ';
+
+  @override
+  String get whenDoesItStart => 'ಇದು ಯಾವಾಗ ಆರಂಭವಾಗುತ್ತದೆ?';
+
+  @override
+  String get chooseStartDateFirst => 'ಮೊದಲು ಆರಂಭದ ದಿನಾಂಕ ಆಯ್ಕೆಮಾಡಿ.';
+
+  @override
+  String get lastDayToRegister => 'ನೋಂದಣಿಗೆ ಕೊನೆಯ ದಿನ';
+
+  @override
+  String get giveTheEventATitle => 'ಕಾರ್ಯಕ್ರಮಕ್ಕೆ ಶೀರ್ಷಿಕೆ ನೀಡಿ.';
+
+  @override
+  String get addADescription => 'ಒಂದು ವಿವರಣೆ ಸೇರಿಸಿ, ಕನಿಷ್ಠ ಒಂದು ವಾಕ್ಯ.';
+
+  @override
+  String get sayHowToTakePart => 'ಭಾಗವಹಿಸಲು ಏನು ಮಾಡಬೇಕೆಂದು ಬರೆಯಿರಿ.';
+
+  @override
+  String get pickTheDates => 'ದಿನಾಂಕಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ.';
+
+  @override
+  String startsAtWhen(String when) {
+    return '$when ಆರಂಭ';
+  }
+
+  @override
+  String registerByWhen(String when) {
+    return '$when ಒಳಗೆ ನೋಂದಾಯಿಸಿ';
+  }
+
+  @override
+  String get selectYourLeaveDates => 'ನಿಮ್ಮ ರಜೆಯ ದಿನಾಂಕಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ';
+
+  @override
+  String get chooseYourDatesFirst => 'ಮೊದಲು ನಿಮ್ಮ ದಿನಾಂಕಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ.';
+
+  @override
+  String get sentForApproval => 'ಅನುಮೋದನೆಗೆ ಕಳುಹಿಸಲಾಗಿದೆ.';
+
+  @override
+  String get leaveApprovedPaused =>
+      'ರಜೆ ಅನುಮೋದಿಸಲಾಗಿದೆ. ಆ ದಿನಗಳಿಗೆ ನಿಮ್ಮ ಸದಸ್ಯತ್ವ ನಿಲ್ಲುತ್ತದೆ.';
+
+  @override
+  String get chooseDates => 'ದಿನಾಂಕ ಆಯ್ಕೆಮಾಡಿ';
+
+  @override
+  String leaveDaysLeftCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ನಿಮಗೆ $count ರಜೆ ದಿನಗಳು ಉಳಿದಿವೆ.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String moreThanRemainingDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ಇದು ನಿಮ್ಮ ಉಳಿದ $count ದಿನಗಳಿಗಿಂತ ಹೆಚ್ಚು, ಹಾಗಾಗಿ ಒಬ್ಬ ಮ್ಯಾನೇಜರ್ ಅನುಮೋದಿಸಬೇಕು.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get withinYourAllowance =>
+      'ನಿಮ್ಮ ಮಿತಿಯೊಳಗೆ — ಇದು ತಕ್ಷಣ ಅನುಮೋದನೆಯಾಗುತ್ತದೆ.';
+
+  @override
+  String get sendForApproval => 'ಅನುಮೋದನೆಗೆ ಕಳುಹಿಸಿ';
+
+  @override
+  String get enterCodeSentToTheirPhone => 'ಅವರ ಫೋನ್‌ಗೆ ಕಳುಹಿಸಿದ ಕೋಡ್ ನಮೂದಿಸಿ.';
+
+  @override
+  String get numberIsNewNameNeeded => 'ಈ ಸಂಖ್ಯೆ ಹೊಸದು, ಹಾಗಾಗಿ ಹೆಸರು ಬೇಕು.';
+
+  @override
+  String get chooseARole => 'ಒಂದು ಪಾತ್ರ ಆಯ್ಕೆಮಾಡಿ.';
+
+  @override
+  String get addAMember => 'ಒಬ್ಬ ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ';
+
+  @override
+  String get codeSentExistingAccount =>
+      'ಕೋಡ್ ಕಳುಹಿಸಲಾಗಿದೆ. ಈ ಸಂಖ್ಯೆಗೆ ಈಗಾಗಲೇ ಜಿಮಾಲಜಿಯಾ ಖಾತೆ ಇದೆ.';
+
+  @override
+  String get codeSentNewAccount =>
+      'ಕೋಡ್ ಕಳುಹಿಸಲಾಗಿದೆ. ಈ ಸಂಖ್ಯೆ ಹೊಸದು, ಹಾಗಾಗಿ ನಾವು ಖಾತೆ ರಚಿಸುತ್ತೇವೆ.';
+
+  @override
+  String get membershipLength => 'ಸದಸ್ಯತ್ವದ ಅವಧಿ';
+
+  @override
+  String get leaveDaysAllowed => 'ಅನುಮತಿಸಿದ ರಜೆ ದಿನಗಳು';
+
+  @override
+  String get ownerStaffMode => 'ಮಾಲೀಕ / ಸಿಬ್ಬಂದಿ ಮೋಡ್';
+
+  @override
+  String get memberMode => 'ಸದಸ್ಯ ಮೋಡ್';
+
+  @override
+  String get managingGymsNote =>
+      'ನೀವು ಜಿಮ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸುತ್ತಿದ್ದೀರಿ. ಸದಸ್ಯರಾಗಿ ಜಿಮಾಲಜಿಯಾ ಬಳಸಲು ಮರಳಿ ಬದಲಿಸಿ.';
+
+  @override
+  String get openingAGymNote =>
+      'ಜಿಮ್ ತೆರೆಯುತ್ತಿದ್ದೀರಾ, ಅಥವಾ ಒಂದರಲ್ಲಿ ಕೆಲಸ ಮಾಡುತ್ತೀರಾ? ನಿಮ್ಮ ಜಿಮ್‌ನ CRM ನಡೆಸಲು ಬದಲಿಸಿ — ಸದಸ್ಯರು, ಸಿಬ್ಬಂದಿ, ಹಾಜರಾತಿ ಮತ್ತು ರಜೆ.';
+
+  @override
+  String get numberIsHowYouSignIn =>
+      'ನಿಮ್ಮ ಸಂಖ್ಯೆಯಿಂದಲೇ ನೀವು ಸೈನ್ ಇನ್ ಮಾಡುತ್ತೀರಿ, ಹಾಗಾಗಿ ಇಲ್ಲಿ ಈಗ ಬದಲಾಯಿಸಲಾಗದು.';
+
+  @override
+  String get followingYourDevice => 'ನಿಮ್ಮ ಸಾಧನವನ್ನು ಅನುಸರಿಸುತ್ತಿದೆ';
+
+  @override
   String get home => 'ಮುಖಪುಟ';
 
   @override

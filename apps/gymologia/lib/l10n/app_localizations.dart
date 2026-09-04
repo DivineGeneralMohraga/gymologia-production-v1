@@ -1542,6 +1542,300 @@ abstract class AppLocalizations {
   /// **'{count}w'**
   String weeksShort(int count);
 
+  /// No description provided for @addedNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} added'**
+  String addedNamed(String name);
+
+  /// No description provided for @saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get saved;
+
+  /// No description provided for @trainerCategoriesIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainers are put in one of these when they are added. A category holding trainers cannot be deleted until they are moved.'**
+  String get trainerCategoriesIntro;
+
+  /// No description provided for @trainerCategoriesReadOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'You can see the categories at this gym. Changing them needs the manage-trainers permission.'**
+  String get trainerCategoriesReadOnly;
+
+  /// No description provided for @oneTrainerManyMembersShort.
+  ///
+  /// In en, this message translates to:
+  /// **'One trainer, many members'**
+  String get oneTrainerManyMembersShort;
+
+  /// No description provided for @oneMemberPerTrainer.
+  ///
+  /// In en, this message translates to:
+  /// **'One member per trainer'**
+  String get oneMemberPerTrainer;
+
+  /// No description provided for @noTrainers.
+  ///
+  /// In en, this message translates to:
+  /// **'No trainers'**
+  String get noTrainers;
+
+  /// No description provided for @trainerCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 trainer} other{{count} trainers}}'**
+  String trainerCount(int count);
+
+  /// No description provided for @deleteMoveTrainersFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete (move trainers first)'**
+  String get deleteMoveTrainersFirst;
+
+  /// No description provided for @giveCategoryAName.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the category a name'**
+  String get giveCategoryAName;
+
+  /// No description provided for @editCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit category'**
+  String get editCategory;
+
+  /// No description provided for @newTrainerCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'New trainer category'**
+  String get newTrainerCategory;
+
+  /// No description provided for @generalTrainingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The usual setting for general training.'**
+  String get generalTrainingNote;
+
+  /// No description provided for @personalTrainingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal training: a trainer here takes one member at a time.'**
+  String get personalTrainingNote;
+
+  /// No description provided for @addCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Add category'**
+  String get addCategory;
+
+  /// No description provided for @listedPublicly.
+  ///
+  /// In en, this message translates to:
+  /// **'Listed publicly'**
+  String get listedPublicly;
+
+  /// No description provided for @yourMembersOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Your members only'**
+  String get yourMembersOnly;
+
+  /// No description provided for @whenDoesItStart.
+  ///
+  /// In en, this message translates to:
+  /// **'When does it start?'**
+  String get whenDoesItStart;
+
+  /// No description provided for @chooseStartDateFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the start date first.'**
+  String get chooseStartDateFirst;
+
+  /// No description provided for @lastDayToRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Last day to register'**
+  String get lastDayToRegister;
+
+  /// No description provided for @giveTheEventATitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the event a title.'**
+  String get giveTheEventATitle;
+
+  /// No description provided for @addADescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a description, at least a sentence.'**
+  String get addADescription;
+
+  /// No description provided for @sayHowToTakePart.
+  ///
+  /// In en, this message translates to:
+  /// **'Say what someone has to do to take part.'**
+  String get sayHowToTakePart;
+
+  /// No description provided for @pickTheDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the dates.'**
+  String get pickTheDates;
+
+  /// No description provided for @startsAtWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts {when}'**
+  String startsAtWhen(String when);
+
+  /// No description provided for @registerByWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Register by {when}'**
+  String registerByWhen(String when);
+
+  /// No description provided for @selectYourLeaveDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your leave dates'**
+  String get selectYourLeaveDates;
+
+  /// No description provided for @chooseYourDatesFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your dates first.'**
+  String get chooseYourDatesFirst;
+
+  /// No description provided for @sentForApproval.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent for approval.'**
+  String get sentForApproval;
+
+  /// No description provided for @leaveApprovedPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave approved. Your membership is paused for those days.'**
+  String get leaveApprovedPaused;
+
+  /// No description provided for @chooseDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose dates'**
+  String get chooseDates;
+
+  /// No description provided for @leaveDaysLeftCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{You have 1 leave day left.} other{You have {count} leave days left.}}'**
+  String leaveDaysLeftCount(int count);
+
+  /// No description provided for @moreThanRemainingDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{That is more than your 1 remaining day, so a manager will need to approve it.} other{That is more than your {count} remaining days, so a manager will need to approve it.}}'**
+  String moreThanRemainingDays(int count);
+
+  /// No description provided for @withinYourAllowance.
+  ///
+  /// In en, this message translates to:
+  /// **'Within your allowance — this will be approved straight away.'**
+  String get withinYourAllowance;
+
+  /// No description provided for @sendForApproval.
+  ///
+  /// In en, this message translates to:
+  /// **'Send for approval'**
+  String get sendForApproval;
+
+  /// No description provided for @enterCodeSentToTheirPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the code sent to their phone.'**
+  String get enterCodeSentToTheirPhone;
+
+  /// No description provided for @numberIsNewNameNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'This number is new, so a name is needed.'**
+  String get numberIsNewNameNeeded;
+
+  /// No description provided for @chooseARole.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a role.'**
+  String get chooseARole;
+
+  /// No description provided for @addAMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a member'**
+  String get addAMember;
+
+  /// No description provided for @codeSentExistingAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Code sent. This number already has a Gymologia account.'**
+  String get codeSentExistingAccount;
+
+  /// No description provided for @codeSentNewAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Code sent. This number is new, so we will create an account.'**
+  String get codeSentNewAccount;
+
+  /// No description provided for @membershipLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Membership length'**
+  String get membershipLength;
+
+  /// No description provided for @leaveDaysAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave days allowed'**
+  String get leaveDaysAllowed;
+
+  /// No description provided for @ownerStaffMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner / staff mode'**
+  String get ownerStaffMode;
+
+  /// No description provided for @memberMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Member mode'**
+  String get memberMode;
+
+  /// No description provided for @managingGymsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'You are managing gyms. Switch back to use Gymologia as a member.'**
+  String get managingGymsNote;
+
+  /// No description provided for @openingAGymNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening a gym, or working at one? Switch to run your gym\'s CRM — members, staff, attendance and leave.'**
+  String get openingAGymNote;
+
+  /// No description provided for @numberIsHowYouSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Your number is how you sign in, so it cannot be changed here yet.'**
+  String get numberIsHowYouSignIn;
+
+  /// No description provided for @followingYourDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Following your device'**
+  String get followingYourDevice;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:

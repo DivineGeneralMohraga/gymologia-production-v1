@@ -913,6 +913,191 @@ class AppLocalizationsPa extends AppLocalizations {
   }
 
   @override
+  String addedNamed(String name) {
+    return '$name ਜੋੜਿਆ ਗਿਆ';
+  }
+
+  @override
+  String get saved => 'ਸੰਭਾਲਿਆ ਗਿਆ';
+
+  @override
+  String get trainerCategoriesIntro =>
+      'ਟ੍ਰੇਨਰ ਜੋੜਦੇ ਸਮੇਂ ਉਹਨਾਂ ਨੂੰ ਇਹਨਾਂ ਵਿੱਚੋਂ ਇੱਕ ਵਿੱਚ ਰੱਖਿਆ ਜਾਂਦਾ ਹੈ। ਜਿਸ ਸ਼੍ਰੇਣੀ ਵਿੱਚ ਟ੍ਰੇਨਰ ਹਨ, ਉਸ ਨੂੰ ਉਹਨਾਂ ਨੂੰ ਹਟਾਏ ਬਿਨਾਂ ਮਿਟਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ।';
+
+  @override
+  String get trainerCategoriesReadOnly =>
+      'ਤੁਸੀਂ ਇਸ ਜਿਮ ਦੀਆਂ ਸ਼੍ਰੇਣੀਆਂ ਵੇਖ ਸਕਦੇ ਹੋ। ਬਦਲਣ ਲਈ ਟ੍ਰੇਨਰ-ਪ੍ਰਬੰਧਨ ਦੀ ਇਜਾਜ਼ਤ ਚਾਹੀਦੀ ਹੈ।';
+
+  @override
+  String get oneTrainerManyMembersShort => 'ਇੱਕ ਟ੍ਰੇਨਰ, ਕਈ ਮੈਂਬਰ';
+
+  @override
+  String get oneMemberPerTrainer => 'ਹਰ ਟ੍ਰੇਨਰ ਲਈ ਇੱਕ ਮੈਂਬਰ';
+
+  @override
+  String get noTrainers => 'ਕੋਈ ਟ੍ਰੇਨਰ ਨਹੀਂ';
+
+  @override
+  String trainerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਟ੍ਰੇਨਰ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteMoveTrainersFirst => 'ਮਿਟਾਓ (ਪਹਿਲਾਂ ਟ੍ਰੇਨਰ ਹਟਾਓ)';
+
+  @override
+  String get giveCategoryAName => 'ਸ਼੍ਰੇਣੀ ਨੂੰ ਨਾਮ ਦਿਓ';
+
+  @override
+  String get editCategory => 'ਸ਼੍ਰੇਣੀ ਸੋਧੋ';
+
+  @override
+  String get newTrainerCategory => 'ਨਵੀਂ ਟ੍ਰੇਨਰ ਸ਼੍ਰੇਣੀ';
+
+  @override
+  String get generalTrainingNote => 'ਆਮ ਸਿਖਲਾਈ ਲਈ ਇਹੀ ਆਮ ਸੈਟਿੰਗ ਹੈ।';
+
+  @override
+  String get personalTrainingNote =>
+      'ਨਿੱਜੀ ਸਿਖਲਾਈ: ਇੱਥੋਂ ਦਾ ਟ੍ਰੇਨਰ ਇੱਕ ਵਾਰ ਵਿੱਚ ਇੱਕ ਹੀ ਮੈਂਬਰ ਲੈਂਦਾ ਹੈ।';
+
+  @override
+  String get addCategory => 'ਸ਼੍ਰੇਣੀ ਜੋੜੋ';
+
+  @override
+  String get listedPublicly => 'ਜਨਤਕ ਤੌਰ ਉੱਤੇ ਸੂਚੀਬੱਧ';
+
+  @override
+  String get yourMembersOnly => 'ਸਿਰਫ਼ ਤੁਹਾਡੇ ਮੈਂਬਰ';
+
+  @override
+  String get whenDoesItStart => 'ਇਹ ਕਦੋਂ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ?';
+
+  @override
+  String get chooseStartDateFirst => 'ਪਹਿਲਾਂ ਸ਼ੁਰੂ ਹੋਣ ਦੀ ਤਾਰੀਖ਼ ਚੁਣੋ।';
+
+  @override
+  String get lastDayToRegister => 'ਰਜਿਸਟਰ ਕਰਨ ਦੀ ਆਖਰੀ ਤਾਰੀਖ਼';
+
+  @override
+  String get giveTheEventATitle => 'ਸਮਾਗਮ ਨੂੰ ਸਿਰਲੇਖ ਦਿਓ।';
+
+  @override
+  String get addADescription => 'ਇੱਕ ਵੇਰਵਾ ਜੋੜੋ, ਘੱਟੋ-ਘੱਟ ਇੱਕ ਵਾਕ।';
+
+  @override
+  String get sayHowToTakePart => 'ਦੱਸੋ ਕਿ ਹਿੱਸਾ ਲੈਣ ਲਈ ਕੀ ਕਰਨਾ ਪਵੇਗਾ।';
+
+  @override
+  String get pickTheDates => 'ਤਾਰੀਖ਼ਾਂ ਚੁਣੋ।';
+
+  @override
+  String startsAtWhen(String when) {
+    return '$when ਸ਼ੁਰੂ';
+  }
+
+  @override
+  String registerByWhen(String when) {
+    return '$when ਤੱਕ ਰਜਿਸਟਰ ਕਰੋ';
+  }
+
+  @override
+  String get selectYourLeaveDates => 'ਆਪਣੀਆਂ ਛੁੱਟੀ ਦੀਆਂ ਤਾਰੀਖ਼ਾਂ ਚੁਣੋ';
+
+  @override
+  String get chooseYourDatesFirst => 'ਪਹਿਲਾਂ ਆਪਣੀਆਂ ਤਾਰੀਖ਼ਾਂ ਚੁਣੋ।';
+
+  @override
+  String get sentForApproval => 'ਮਨਜ਼ੂਰੀ ਲਈ ਭੇਜ ਦਿੱਤਾ।';
+
+  @override
+  String get leaveApprovedPaused =>
+      'ਛੁੱਟੀ ਮਨਜ਼ੂਰ। ਉਹਨਾਂ ਦਿਨਾਂ ਲਈ ਤੁਹਾਡੀ ਮੈਂਬਰਸ਼ਿਪ ਰੁਕੀ ਰਹੇਗੀ।';
+
+  @override
+  String get chooseDates => 'ਤਾਰੀਖ਼ਾਂ ਚੁਣੋ';
+
+  @override
+  String leaveDaysLeftCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ਤੁਹਾਡੇ ਕੋਲ $count ਛੁੱਟੀ ਦੇ ਦਿਨ ਬਾਕੀ ਹਨ।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String moreThanRemainingDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ਇਹ ਤੁਹਾਡੇ ਬਾਕੀ $count ਦਿਨਾਂ ਤੋਂ ਵੱਧ ਹੈ, ਇਸ ਲਈ ਮੈਨੇਜਰ ਨੂੰ ਮਨਜ਼ੂਰ ਕਰਨਾ ਪਵੇਗਾ।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get withinYourAllowance =>
+      'ਤੁਹਾਡੀ ਹੱਦ ਦੇ ਅੰਦਰ — ਇਹ ਤੁਰੰਤ ਮਨਜ਼ੂਰ ਹੋ ਜਾਵੇਗਾ।';
+
+  @override
+  String get sendForApproval => 'ਮਨਜ਼ੂਰੀ ਲਈ ਭੇਜੋ';
+
+  @override
+  String get enterCodeSentToTheirPhone => 'ਉਹਨਾਂ ਦੇ ਫ਼ੋਨ ਉੱਤੇ ਭੇਜਿਆ ਕੋਡ ਲਿਖੋ।';
+
+  @override
+  String get numberIsNewNameNeeded => 'ਇਹ ਨੰਬਰ ਨਵਾਂ ਹੈ, ਇਸ ਲਈ ਨਾਮ ਚਾਹੀਦਾ ਹੈ।';
+
+  @override
+  String get chooseARole => 'ਇੱਕ ਭੂਮਿਕਾ ਚੁਣੋ।';
+
+  @override
+  String get addAMember => 'ਇੱਕ ਮੈਂਬਰ ਜੋੜੋ';
+
+  @override
+  String get codeSentExistingAccount =>
+      'ਕੋਡ ਭੇਜ ਦਿੱਤਾ। ਇਸ ਨੰਬਰ ਉੱਤੇ ਪਹਿਲਾਂ ਹੀ ਜਿਮੋਲੋਜੀਆ ਖਾਤਾ ਹੈ।';
+
+  @override
+  String get codeSentNewAccount =>
+      'ਕੋਡ ਭੇਜ ਦਿੱਤਾ। ਇਹ ਨੰਬਰ ਨਵਾਂ ਹੈ, ਇਸ ਲਈ ਅਸੀਂ ਖਾਤਾ ਬਣਾਵਾਂਗੇ।';
+
+  @override
+  String get membershipLength => 'ਮੈਂਬਰਸ਼ਿਪ ਦੀ ਮਿਆਦ';
+
+  @override
+  String get leaveDaysAllowed => 'ਮਿਲਣ ਵਾਲੇ ਛੁੱਟੀ ਦੇ ਦਿਨ';
+
+  @override
+  String get ownerStaffMode => 'ਮਾਲਕ / ਸਟਾਫ਼ ਮੋਡ';
+
+  @override
+  String get memberMode => 'ਮੈਂਬਰ ਮੋਡ';
+
+  @override
+  String get managingGymsNote =>
+      'ਤੁਸੀਂ ਜਿਮ ਸੰਭਾਲ ਰਹੇ ਹੋ। ਮੈਂਬਰ ਵਜੋਂ ਜਿਮੋਲੋਜੀਆ ਵਰਤਣ ਲਈ ਵਾਪਸ ਜਾਓ।';
+
+  @override
+  String get openingAGymNote =>
+      'ਜਿਮ ਖੋਲ੍ਹ ਰਹੇ ਹੋ, ਜਾਂ ਕਿਸੇ ਵਿੱਚ ਕੰਮ ਕਰਦੇ ਹੋ? ਆਪਣੇ ਜਿਮ ਦਾ CRM ਚਲਾਉਣ ਲਈ ਸਵਿੱਚ ਕਰੋ — ਮੈਂਬਰ, ਸਟਾਫ਼, ਹਾਜ਼ਰੀ ਅਤੇ ਛੁੱਟੀ।';
+
+  @override
+  String get numberIsHowYouSignIn =>
+      'ਤੁਸੀਂ ਆਪਣੇ ਨੰਬਰ ਨਾਲ ਹੀ ਸਾਈਨ ਇਨ ਕਰਦੇ ਹੋ, ਇਸ ਲਈ ਇਸ ਨੂੰ ਇੱਥੇ ਹੁਣੇ ਨਹੀਂ ਬਦਲਿਆ ਜਾ ਸਕਦਾ।';
+
+  @override
+  String get followingYourDevice => 'ਤੁਹਾਡੇ ਡਿਵਾਈਸ ਅਨੁਸਾਰ';
+
+  @override
   String get home => 'ਹੋਮ';
 
   @override

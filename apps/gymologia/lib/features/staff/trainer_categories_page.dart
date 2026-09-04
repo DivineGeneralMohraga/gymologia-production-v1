@@ -73,6 +73,7 @@ class _TrainerCategoriesPageState extends State<TrainerCategoriesPage> {
   }
 
   Future<void> _create() async {
+    final t = AppLocalizations.of(context);
     final result = await showModalBottomSheet<({String name, bool multiple})>(
       context: context,
       isScrollControlled: true,
@@ -85,7 +86,7 @@ class _TrainerCategoriesPageState extends State<TrainerCategoriesPage> {
         name: result.name,
         allowsMultipleMembers: result.multiple,
       ),
-      success: '${result.name} added',
+      success: t.addedNamed(result.name),
     );
   }
 
@@ -112,7 +113,7 @@ class _TrainerCategoriesPageState extends State<TrainerCategoriesPage> {
       setState(() => _categories = updated.categories);
       // The server explains when narrowing a category leaves trainers
       // holding more members than the new rule would allow.
-      _say(updated.note ?? 'Saved');
+      _say(updated.note ?? AppLocalizations.of(context).saved);
     } on ApiException catch (e) {
       if (mounted) _say(e.message);
     } finally {
@@ -121,6 +122,7 @@ class _TrainerCategoriesPageState extends State<TrainerCategoriesPage> {
   }
 
   Future<void> _delete(Map<String, dynamic> category) async {
+    final t = AppLocalizations.of(context);
     final name = category['name'] as String;
     final confirmed = await showDialog<bool>(
       context: context,
@@ -143,7 +145,7 @@ class _TrainerCategoriesPageState extends State<TrainerCategoriesPage> {
     if (confirmed != true) return;
     await _mutate(
       () => _api.deleteTrainerCategory(widget.gym.id, category['id'] as String),
-      success: '$name deleted',
+      success: t.deletedNamed(name),
     );
   }
 
@@ -172,12 +174,10 @@ class _TrainerCategoriesPageState extends State<TrainerCategoriesPage> {
                     children: [
                       Text(
                         _canEdit
-                            ? 'Trainers are put in one of these when they are '
-                                'added. A category holding trainers cannot be '
-                                'deleted until they are moved.'
-                            : 'You can see the categories at this gym. '
-                                'Changing them needs the manage-trainers '
-                                'permission.',
+                            ? AppLocalizations.of(context)
+                                .trainerCategoriesIntro
+                            : AppLocalizations.of(context)
+                                .trainerCategoriesReadOnly,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
@@ -240,8 +240,9 @@ class _CategoryTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     multiple
-                        ? 'One trainer, many members'
-                        : 'One member per trainer',
+                        ? AppLocalizations.of(context)
+                            .oneTrainerManyMembersShort
+                        : AppLocalizations.of(context).oneMemberPerTrainer,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -249,8 +250,9 @@ class _CategoryTile extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     trainerCount == 0
-                        ? 'No trainers'
-                        : '$trainerCount trainer${trainerCount == 1 ? '' : 's'}',
+                        ? AppLocalizations.of(context).noTrainers
+                        : AppLocalizations.of(context)
+                            .trainerCount(trainerCount),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -274,7 +276,10 @@ class _CategoryTile extends StatelessWidget {
                     // instead of the option quietly not being there.
                     enabled: canDelete,
                     child: Text(
-                      canDelete ? 'Delete' : 'Delete (move trainers first)',
+                      canDelete
+                          ? AppLocalizations.of(context).delete
+                          : AppLocalizations.of(context)
+                              .deleteMoveTrainersFirst,
                       style: TextStyle(
                         color: canDelete
                             ? theme.colorScheme.error
@@ -317,7 +322,8 @@ class _CategorySheetState extends State<_CategorySheet> {
   void _submit() {
     final name = _name.text.trim();
     if (name.length < 2) {
-      setState(() => _nameError = 'Give the category a name');
+      setState(() =>
+          _nameError = AppLocalizations.of(context).giveCategoryAName);
       return;
     }
     Navigator.of(context).pop((name: name, multiple: _multiple));
@@ -338,7 +344,9 @@ class _CategorySheetState extends State<_CategorySheet> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            editing ? 'Edit category' : 'New trainer category',
+            editing
+                ? AppLocalizations.of(context).editCategory
+                : AppLocalizations.of(context).newTrainerCategory,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 18),
@@ -364,8 +372,8 @@ class _CategorySheetState extends State<_CategorySheet> {
             title: Text(AppLocalizations.of(context).oneTrainerManyMembers),
             subtitle: Text(
               _multiple
-                  ? 'The usual setting for general training.'
-                  : 'Personal training: a trainer here takes one member at a time.',
+                  ? AppLocalizations.of(context).generalTrainingNote
+                  : AppLocalizations.of(context).personalTrainingNote,
             ),
           ),
           const SizedBox(height: 18),
@@ -373,7 +381,9 @@ class _CategorySheetState extends State<_CategorySheet> {
             width: double.infinity,
             child: FilledButton(
               onPressed: _submit,
-              child: Text(editing ? 'Save' : 'Add category'),
+              child: Text(editing
+                  ? AppLocalizations.of(context).save
+                  : AppLocalizations.of(context).addCategory),
             ),
           ),
         ],

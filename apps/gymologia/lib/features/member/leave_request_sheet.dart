@@ -50,14 +50,15 @@ class _LeaveRequestSheetState extends State<LeaveRequestSheet> {
       firstDate: DateTime(now.year, now.month, now.day),
       lastDate: now.add(const Duration(days: 365)),
       initialDateRange: _range,
-      helpText: 'Select your leave dates',
+      helpText: AppLocalizations.of(context).selectYourLeaveDates,
     );
     if (picked != null) setState(() => _range = picked);
   }
 
   Future<void> _submit() async {
     if (_range == null) {
-      setState(() => _error = 'Choose your dates first.');
+      setState(() =>
+          _error = AppLocalizations.of(context).chooseYourDatesFirst);
       return;
     }
 
@@ -78,8 +79,8 @@ class _LeaveRequestSheetState extends State<LeaveRequestSheet> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(_needsApproval
-              ? 'Sent for approval.'
-              : 'Leave approved. Your membership is paused for those days.'),
+              ? AppLocalizations.of(context).sentForApproval
+              : AppLocalizations.of(context).leaveApprovedPaused),
         ),
       );
     } on ApiException catch (e) {
@@ -131,7 +132,7 @@ class _LeaveRequestSheetState extends State<LeaveRequestSheet> {
             icon: const Icon(Icons.calendar_today_outlined, size: 18),
             label: Text(
               _range == null
-                  ? 'Choose dates'
+                  ? AppLocalizations.of(context).chooseDates
                   : '${_fmt(_range!.start, Dates.localeOf(context))} to ${_fmt(_range!.end, Dates.localeOf(context))}  ·  $_days day${_days == 1 ? '' : 's'}',
             ),
           ),
@@ -156,11 +157,13 @@ class _LeaveRequestSheetState extends State<LeaveRequestSheet> {
                 Expanded(
                   child: Text(
                     _range == null
-                        ? 'You have ${m.leaveDaysLeft} leave day${m.leaveDaysLeft == 1 ? '' : 's'} left.'
+                        ? AppLocalizations.of(context)
+                            .leaveDaysLeftCount(m.leaveDaysLeft)
                         : _needsApproval
-                            ? 'That is more than your ${m.leaveDaysLeft} remaining day'
-                                '${m.leaveDaysLeft == 1 ? '' : 's'}, so a manager will need to approve it.'
-                            : 'Within your allowance — this will be approved straight away.',
+                            ? AppLocalizations.of(context)
+                                .moreThanRemainingDays(m.leaveDaysLeft)
+                            : AppLocalizations.of(context)
+                                .withinYourAllowance,
                     style: theme.textTheme.bodySmall,
                   ),
                 ),
@@ -191,7 +194,9 @@ class _LeaveRequestSheetState extends State<LeaveRequestSheet> {
                     width: 22,
                     child: CircularProgressIndicator(strokeWidth: 2.5),
                   )
-                : Text(_needsApproval ? 'Send for approval' : 'Request leave'),
+                : Text(_needsApproval
+                    ? AppLocalizations.of(context).sendForApproval
+                    : AppLocalizations.of(context).requestLeave),
           ),
         ],
       ),

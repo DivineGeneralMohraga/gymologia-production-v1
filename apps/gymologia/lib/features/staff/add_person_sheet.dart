@@ -95,15 +95,17 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
   Future<void> _submit() async {
     final lookup = _lookup!;
     if (_code.text.trim().length < 4) {
-      setState(() => _error = 'Enter the code sent to their phone.');
+      setState(() =>
+          _error = AppLocalizations.of(context).enterCodeSentToTheirPhone);
       return;
     }
     if (!lookup.exists && _name.text.trim().length < 2) {
-      setState(() => _error = 'This number is new, so a name is needed.');
+      setState(() =>
+          _error = AppLocalizations.of(context).numberIsNewNameNeeded);
       return;
     }
     if (!_isMember && _roleId == null) {
-      setState(() => _error = 'Choose a role.');
+      setState(() => _error = AppLocalizations.of(context).chooseARole);
       return;
     }
 
@@ -171,7 +173,10 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
               ),
             ),
             const SizedBox(height: 20),
-            Text(_isMember ? 'Add a member' : 'Add staff',
+            Text(
+                _isMember
+                    ? AppLocalizations.of(context).addAMember
+                    : AppLocalizations.of(context).addStaff,
                 style: theme.textTheme.headlineSmall
                     ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 6),
@@ -224,8 +229,9 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                     Expanded(
                       child: Text(
                         lookup.exists
-                            ? 'Code sent. This number already has a Gymologia account.'
-                            : 'Code sent. This number is new, so we will create an account.',
+                            ? AppLocalizations.of(context)
+                                .codeSentExistingAccount
+                            : AppLocalizations.of(context).codeSentNewAccount,
                         style: theme.textTheme.bodySmall,
                       ),
                     ),
@@ -254,7 +260,7 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
               if (_isMember) ...[
                 const SizedBox(height: 18),
                 _Counter(
-                  label: 'Membership length',
+                  label: AppLocalizations.of(context).membershipLength,
                   value: _planMonths,
                   suffix: _planMonths == 1 ? 'month' : 'months',
                   min: 1,
@@ -262,7 +268,7 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                   onChanged: (v) => setState(() => _planMonths = v),
                 ),
                 _Counter(
-                  label: 'Leave days allowed',
+                  label: AppLocalizations.of(context).leaveDaysAllowed,
                   value: _maxLeaveDays,
                   suffix: 'days',
                   min: 0,
@@ -310,7 +316,9 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                         height: 22,
                         width: 22,
                         child: CircularProgressIndicator(strokeWidth: 2.5))
-                    : Text(_isMember ? 'Add member' : 'Add staff'),
+                    : Text(_isMember
+                        ? AppLocalizations.of(context).addMember
+                        : AppLocalizations.of(context).addStaff),
               ),
             ],
 

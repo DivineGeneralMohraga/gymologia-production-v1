@@ -87,7 +87,7 @@ class SettingsPage extends StatelessWidget {
                           size: 20),
                       const SizedBox(width: 10),
                       Text(
-                        isStaff ? 'Owner / staff mode' : 'Member mode',
+                        isStaff ? t.ownerStaffMode : t.memberMode,
                         style: theme.textTheme.titleSmall
                             ?.copyWith(fontWeight: FontWeight.w700),
                       ),
@@ -96,9 +96,8 @@ class SettingsPage extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     isStaff
-                        ? 'You are managing gyms. Switch back to use Gymologia as a member.'
-                        : 'Opening a gym, or working at one? Switch to run your gym’s CRM — '
-                            'members, staff, attendance and leave.',
+                        ? t.managingGymsNote
+                        : t.openingAGymNote,
                     style: theme.textTheme.bodyMedium?.copyWith(height: 1.45),
                   ),
                   const SizedBox(height: 14),
@@ -106,7 +105,7 @@ class SettingsPage extends StatelessWidget {
                     onPressed: () => modeController.toggle(),
                     icon: const Icon(Icons.swap_horiz, size: 18),
                     label: Text(
-                      isStaff ? 'Switch to member mode' : 'Switch to owner / staff',
+                      isStaff ? t.switchToMember : t.switchToStaff,
                     ),
                   ),
                 ],
@@ -140,8 +139,7 @@ class SettingsPage extends StatelessWidget {
           title: Text(t.phoneNumber),
           subtitle: Text(user?.phone ?? '—'),
           trailing: const Icon(Icons.lock_outline, size: 16),
-          onTap: () => _toast(context,
-              'Your number is how you sign in, so it cannot be changed here yet.'),
+          onTap: () => _toast(context, t.numberIsHowYouSignIn),
         ),
         ListTile(
           leading: const Icon(Icons.badge_outlined),
@@ -155,7 +153,7 @@ class SettingsPage extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.mail_outline),
           title: Text(t.email),
-          subtitle: Text(user?.email ?? 'Not set'),
+          subtitle: Text(user?.email ?? t.notSet),
           trailing: const Icon(Icons.chevron_right),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(builder: (_) => const EditProfilePage()),
@@ -185,7 +183,7 @@ class SettingsPage extends StatelessWidget {
           title: Text(AppLocalizations.of(context).language),
           subtitle: Text(
             context.watch<LocaleController>().locale == null
-                ? 'Following your device'
+                ? t.followingYourDevice
                 : LanguagePage.nameFor(
                     context.watch<LocaleController>().locale!.languageCode),
           ),

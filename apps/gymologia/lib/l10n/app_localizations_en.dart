@@ -922,6 +922,196 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String addedNamed(String name) {
+    return '$name added';
+  }
+
+  @override
+  String get saved => 'Saved';
+
+  @override
+  String get trainerCategoriesIntro =>
+      'Trainers are put in one of these when they are added. A category holding trainers cannot be deleted until they are moved.';
+
+  @override
+  String get trainerCategoriesReadOnly =>
+      'You can see the categories at this gym. Changing them needs the manage-trainers permission.';
+
+  @override
+  String get oneTrainerManyMembersShort => 'One trainer, many members';
+
+  @override
+  String get oneMemberPerTrainer => 'One member per trainer';
+
+  @override
+  String get noTrainers => 'No trainers';
+
+  @override
+  String trainerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count trainers',
+      one: '1 trainer',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteMoveTrainersFirst => 'Delete (move trainers first)';
+
+  @override
+  String get giveCategoryAName => 'Give the category a name';
+
+  @override
+  String get editCategory => 'Edit category';
+
+  @override
+  String get newTrainerCategory => 'New trainer category';
+
+  @override
+  String get generalTrainingNote => 'The usual setting for general training.';
+
+  @override
+  String get personalTrainingNote =>
+      'Personal training: a trainer here takes one member at a time.';
+
+  @override
+  String get addCategory => 'Add category';
+
+  @override
+  String get listedPublicly => 'Listed publicly';
+
+  @override
+  String get yourMembersOnly => 'Your members only';
+
+  @override
+  String get whenDoesItStart => 'When does it start?';
+
+  @override
+  String get chooseStartDateFirst => 'Choose the start date first.';
+
+  @override
+  String get lastDayToRegister => 'Last day to register';
+
+  @override
+  String get giveTheEventATitle => 'Give the event a title.';
+
+  @override
+  String get addADescription => 'Add a description, at least a sentence.';
+
+  @override
+  String get sayHowToTakePart => 'Say what someone has to do to take part.';
+
+  @override
+  String get pickTheDates => 'Pick the dates.';
+
+  @override
+  String startsAtWhen(String when) {
+    return 'Starts $when';
+  }
+
+  @override
+  String registerByWhen(String when) {
+    return 'Register by $when';
+  }
+
+  @override
+  String get selectYourLeaveDates => 'Select your leave dates';
+
+  @override
+  String get chooseYourDatesFirst => 'Choose your dates first.';
+
+  @override
+  String get sentForApproval => 'Sent for approval.';
+
+  @override
+  String get leaveApprovedPaused =>
+      'Leave approved. Your membership is paused for those days.';
+
+  @override
+  String get chooseDates => 'Choose dates';
+
+  @override
+  String leaveDaysLeftCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'You have $count leave days left.',
+      one: 'You have 1 leave day left.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String moreThanRemainingDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'That is more than your $count remaining days, so a manager will need to approve it.',
+      one:
+          'That is more than your 1 remaining day, so a manager will need to approve it.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get withinYourAllowance =>
+      'Within your allowance — this will be approved straight away.';
+
+  @override
+  String get sendForApproval => 'Send for approval';
+
+  @override
+  String get enterCodeSentToTheirPhone => 'Enter the code sent to their phone.';
+
+  @override
+  String get numberIsNewNameNeeded =>
+      'This number is new, so a name is needed.';
+
+  @override
+  String get chooseARole => 'Choose a role.';
+
+  @override
+  String get addAMember => 'Add a member';
+
+  @override
+  String get codeSentExistingAccount =>
+      'Code sent. This number already has a Gymologia account.';
+
+  @override
+  String get codeSentNewAccount =>
+      'Code sent. This number is new, so we will create an account.';
+
+  @override
+  String get membershipLength => 'Membership length';
+
+  @override
+  String get leaveDaysAllowed => 'Leave days allowed';
+
+  @override
+  String get ownerStaffMode => 'Owner / staff mode';
+
+  @override
+  String get memberMode => 'Member mode';
+
+  @override
+  String get managingGymsNote =>
+      'You are managing gyms. Switch back to use Gymologia as a member.';
+
+  @override
+  String get openingAGymNote =>
+      'Opening a gym, or working at one? Switch to run your gym\'s CRM — members, staff, attendance and leave.';
+
+  @override
+  String get numberIsHowYouSignIn =>
+      'Your number is how you sign in, so it cannot be changed here yet.';
+
+  @override
+  String get followingYourDevice => 'Following your device';
+
+  @override
   String get home => 'Home';
 
   @override

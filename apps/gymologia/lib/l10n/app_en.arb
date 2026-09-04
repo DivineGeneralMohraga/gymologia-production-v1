@@ -383,6 +383,74 @@
     "placeholders": { "count": { "type": "int" } }
   },
 
+  "addedNamed": "{name} added",
+  "@addedNamed": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "saved": "Saved",
+  "trainerCategoriesIntro": "Trainers are put in one of these when they are added. A category holding trainers cannot be deleted until they are moved.",
+  "trainerCategoriesReadOnly": "You can see the categories at this gym. Changing them needs the manage-trainers permission.",
+  "oneTrainerManyMembersShort": "One trainer, many members",
+  "oneMemberPerTrainer": "One member per trainer",
+  "noTrainers": "No trainers",
+  "trainerCount": "{count, plural, =1{1 trainer} other{{count} trainers}}",
+  "@trainerCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "deleteMoveTrainersFirst": "Delete (move trainers first)",
+  "giveCategoryAName": "Give the category a name",
+  "editCategory": "Edit category",
+  "newTrainerCategory": "New trainer category",
+  "generalTrainingNote": "The usual setting for general training.",
+  "personalTrainingNote": "Personal training: a trainer here takes one member at a time.",
+  "addCategory": "Add category",
+  "listedPublicly": "Listed publicly",
+  "yourMembersOnly": "Your members only",
+  "whenDoesItStart": "When does it start?",
+  "chooseStartDateFirst": "Choose the start date first.",
+  "lastDayToRegister": "Last day to register",
+  "giveTheEventATitle": "Give the event a title.",
+  "addADescription": "Add a description, at least a sentence.",
+  "sayHowToTakePart": "Say what someone has to do to take part.",
+  "pickTheDates": "Pick the dates.",
+  "startsAtWhen": "Starts {when}",
+  "@startsAtWhen": {
+    "placeholders": { "when": { "type": "String" } }
+  },
+  "registerByWhen": "Register by {when}",
+  "@registerByWhen": {
+    "placeholders": { "when": { "type": "String" } }
+  },
+  "selectYourLeaveDates": "Select your leave dates",
+  "chooseYourDatesFirst": "Choose your dates first.",
+  "sentForApproval": "Sent for approval.",
+  "leaveApprovedPaused": "Leave approved. Your membership is paused for those days.",
+  "chooseDates": "Choose dates",
+  "leaveDaysLeftCount": "{count, plural, =1{You have 1 leave day left.} other{You have {count} leave days left.}}",
+  "@leaveDaysLeftCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "moreThanRemainingDays": "{count, plural, =1{That is more than your 1 remaining day, so a manager will need to approve it.} other{That is more than your {count} remaining days, so a manager will need to approve it.}}",
+  "@moreThanRemainingDays": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "withinYourAllowance": "Within your allowance — this will be approved straight away.",
+  "sendForApproval": "Send for approval",
+  "enterCodeSentToTheirPhone": "Enter the code sent to their phone.",
+  "numberIsNewNameNeeded": "This number is new, so a name is needed.",
+  "chooseARole": "Choose a role.",
+  "addAMember": "Add a member",
+  "codeSentExistingAccount": "Code sent. This number already has a Gymologia account.",
+  "codeSentNewAccount": "Code sent. This number is new, so we will create an account.",
+  "membershipLength": "Membership length",
+  "leaveDaysAllowed": "Leave days allowed",
+  "ownerStaffMode": "Owner / staff mode",
+  "memberMode": "Member mode",
+  "managingGymsNote": "You are managing gyms. Switch back to use Gymologia as a member.",
+  "openingAGymNote": "Opening a gym, or working at one? Switch to run your gym's CRM — members, staff, attendance and leave.",
+  "numberIsHowYouSignIn": "Your number is how you sign in, so it cannot be changed here yet.",
+  "followingYourDevice": "Following your device",
+
   "home": "Home",
   "myGym": "My gym",
   "discover": "Discover",

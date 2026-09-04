@@ -913,6 +913,191 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
+  String addedNamed(String name) {
+    return '$name जोड़ा गया';
+  }
+
+  @override
+  String get saved => 'सहेजा गया';
+
+  @override
+  String get trainerCategoriesIntro =>
+      'ट्रेनर जोड़ते समय उन्हें इन्हीं में से किसी एक में रखा जाता है। जिस श्रेणी में ट्रेनर हैं, उसे तब तक नहीं हटाया जा सकता जब तक उन्हें कहीं और न ले जाया जाए।';
+
+  @override
+  String get trainerCategoriesReadOnly =>
+      'आप इस जिम की श्रेणियाँ देख सकते हैं। इन्हें बदलने के लिए ट्रेनर-प्रबंधन की अनुमति चाहिए।';
+
+  @override
+  String get oneTrainerManyMembersShort => 'एक ट्रेनर, कई सदस्य';
+
+  @override
+  String get oneMemberPerTrainer => 'हर ट्रेनर के लिए एक सदस्य';
+
+  @override
+  String get noTrainers => 'कोई ट्रेनर नहीं';
+
+  @override
+  String trainerCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ट्रेनर',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteMoveTrainersFirst => 'हटाएं (पहले ट्रेनर हटाएं)';
+
+  @override
+  String get giveCategoryAName => 'श्रेणी को नाम दें';
+
+  @override
+  String get editCategory => 'श्रेणी बदलें';
+
+  @override
+  String get newTrainerCategory => 'नई ट्रेनर श्रेणी';
+
+  @override
+  String get generalTrainingNote => 'सामान्य ट्रेनिंग के लिए यही आम सेटिंग है।';
+
+  @override
+  String get personalTrainingNote =>
+      'पर्सनल ट्रेनिंग: यहाँ का ट्रेनर एक बार में एक ही सदस्य लेता है।';
+
+  @override
+  String get addCategory => 'श्रेणी जोड़ें';
+
+  @override
+  String get listedPublicly => 'सार्वजनिक रूप से सूचीबद्ध';
+
+  @override
+  String get yourMembersOnly => 'केवल आपके सदस्य';
+
+  @override
+  String get whenDoesItStart => 'यह कब शुरू होता है?';
+
+  @override
+  String get chooseStartDateFirst => 'पहले शुरू होने की तारीख चुनें।';
+
+  @override
+  String get lastDayToRegister => 'पंजीकरण की आखिरी तारीख';
+
+  @override
+  String get giveTheEventATitle => 'आयोजन को शीर्षक दें।';
+
+  @override
+  String get addADescription => 'एक विवरण जोड़ें, कम से कम एक वाक्य।';
+
+  @override
+  String get sayHowToTakePart => 'बताइए कि भाग लेने के लिए क्या करना होगा।';
+
+  @override
+  String get pickTheDates => 'तारीखें चुनें।';
+
+  @override
+  String startsAtWhen(String when) {
+    return '$when को शुरू';
+  }
+
+  @override
+  String registerByWhen(String when) {
+    return '$when तक पंजीकरण करें';
+  }
+
+  @override
+  String get selectYourLeaveDates => 'अपनी छुट्टी की तारीखें चुनें';
+
+  @override
+  String get chooseYourDatesFirst => 'पहले अपनी तारीखें चुनें।';
+
+  @override
+  String get sentForApproval => 'मंज़ूरी के लिए भेज दिया गया।';
+
+  @override
+  String get leaveApprovedPaused =>
+      'छुट्टी मंज़ूर। उन दिनों के लिए आपकी सदस्यता रुकी रहेगी।';
+
+  @override
+  String get chooseDates => 'तारीखें चुनें';
+
+  @override
+  String leaveDaysLeftCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'आपके पास $count छुट्टी के दिन बचे हैं।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String moreThanRemainingDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'यह आपके बचे $count दिनों से ज़्यादा है, इसलिए इसे मैनेजर को मंज़ूर करना होगा।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get withinYourAllowance =>
+      'आपकी सीमा के भीतर — यह तुरंत मंज़ूर हो जाएगा।';
+
+  @override
+  String get sendForApproval => 'मंज़ूरी के लिए भेजें';
+
+  @override
+  String get enterCodeSentToTheirPhone => 'उनके फ़ोन पर भेजा गया कोड लिखें।';
+
+  @override
+  String get numberIsNewNameNeeded => 'यह नंबर नया है, इसलिए नाम चाहिए।';
+
+  @override
+  String get chooseARole => 'एक भूमिका चुनें।';
+
+  @override
+  String get addAMember => 'एक सदस्य जोड़ें';
+
+  @override
+  String get codeSentExistingAccount =>
+      'कोड भेज दिया। इस नंबर पर पहले से जिमोलॉजिया खाता है।';
+
+  @override
+  String get codeSentNewAccount =>
+      'कोड भेज दिया। यह नंबर नया है, इसलिए हम एक खाता बनाएंगे।';
+
+  @override
+  String get membershipLength => 'सदस्यता की अवधि';
+
+  @override
+  String get leaveDaysAllowed => 'मिलने वाली छुट्टी के दिन';
+
+  @override
+  String get ownerStaffMode => 'मालिक / स्टाफ मोड';
+
+  @override
+  String get memberMode => 'सदस्य मोड';
+
+  @override
+  String get managingGymsNote =>
+      'आप जिम संभाल रहे हैं। सदस्य के रूप में जिमोलॉजिया इस्तेमाल करने के लिए वापस स्विच करें।';
+
+  @override
+  String get openingAGymNote =>
+      'जिम खोल रहे हैं, या किसी में काम करते हैं? अपने जिम का सीआरएम चलाने के लिए स्विच करें — सदस्य, स्टाफ, उपस्थिति और छुट्टी।';
+
+  @override
+  String get numberIsHowYouSignIn =>
+      'आप अपने नंबर से साइन इन करते हैं, इसलिए इसे यहाँ अभी नहीं बदला जा सकता।';
+
+  @override
+  String get followingYourDevice => 'आपके डिवाइस के अनुसार';
+
+  @override
   String get home => 'होम';
 
   @override
