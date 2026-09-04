@@ -138,7 +138,7 @@ class _EventsPageState extends State<EventsPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Text(
-                  'OPEN EVENTS',
+                  AppLocalizations.of(context).openEvents.toUpperCase(),
                   style: theme.textTheme.labelSmall?.copyWith(
                     letterSpacing: 1.0,
                     fontWeight: FontWeight.w700,

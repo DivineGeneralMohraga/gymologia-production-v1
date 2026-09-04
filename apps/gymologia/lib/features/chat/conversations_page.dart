@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -59,7 +60,7 @@ class _ConversationsPageState extends State<ConversationsPage> {
         builder: (_) => ChatPage(
           gymId: widget.gymId,
           conversationId: conversationId,
-          title: 'Chat',
+          title: AppLocalizations.of(context).chat,
         ),
       ),
     );
@@ -76,7 +77,8 @@ class _ConversationsPageState extends State<ConversationsPage> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Chat', style: TextStyle(fontSize: 17)),
+            Text(AppLocalizations.of(context).chat,
+                style: const TextStyle(fontSize: 17)),
             Text(
               widget.gymName,
               style: TextStyle(
@@ -102,7 +104,8 @@ class _ConversationsPageState extends State<ConversationsPage> {
                     Text(_error!, textAlign: TextAlign.center),
                     const SizedBox(height: 18),
                     FilledButton.tonal(
-                        onPressed: _load, child: const Text('Try again')),
+                        onPressed: _load,
+                        child: Text(AppLocalizations.of(context).tryAgain)),
                   ],
                 ),
               ),

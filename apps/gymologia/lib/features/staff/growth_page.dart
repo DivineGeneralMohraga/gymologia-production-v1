@@ -136,8 +136,7 @@ class _GrowthPageState extends State<GrowthPage> {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'Quiet periods are shown as empty bars rather than left '
-                      'out, so a gap in the bars is a real gap.',
+                      AppLocalizations.of(context).quietPeriodsNote,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),

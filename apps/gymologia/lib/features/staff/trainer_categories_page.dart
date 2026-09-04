@@ -126,10 +126,8 @@ class _TrainerCategoriesPageState extends State<TrainerCategoriesPage> {
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: Text(AppLocalizations.of(context).deleteNamed(name)),
-        content: const Text(
-          'Trainers can no longer be put in this category. Anyone already in '
-          'it keeps their assignment.',
-        ),
+        content: Text(
+            AppLocalizations.of(context).deleteTrainerCategoryWarning),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),

@@ -128,14 +128,13 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
+                      Row(
                         children: [
-                          Icon(Icons.info_outline, size: 20),
-                          SizedBox(width: 12),
+                          const Icon(Icons.info_outline, size: 20),
+                          const SizedBox(width: 12),
                           Expanded(
                             child: Text(
-                              'Your gym is a draft. The CRM works, but members '
-                              'cannot find you in search until a plan is active.',
+                              AppLocalizations.of(context).draftCrmNote,
                             ),
                           ),
                         ],
@@ -263,8 +262,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
 
             const SizedBox(height: 20),
             Text(
-              'You are ${gym.roleName} here. Anything your role cannot do is '
-              'hidden rather than shown and refused.',
+              AppLocalizations.of(context).roleHiddenNote(gym.roleName),
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
@@ -362,7 +360,8 @@ class _AnalyticsCard extends StatelessWidget {
             if (a.activeMembers > 0) ...[
               const SizedBox(height: 10),
               Text(
-                '${a.engagedMembers} of ${a.activeMembers} members trained at least once.',
+                AppLocalizations.of(context)
+                    .engagedOfActive(a.engagedMembers, a.activeMembers),
                 style: theme.textTheme.bodySmall
                     ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
               ),

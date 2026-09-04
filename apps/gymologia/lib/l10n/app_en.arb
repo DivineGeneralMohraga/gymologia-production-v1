@@ -249,6 +249,80 @@
     "placeholders": { "version": { "type": "String" }, "date": { "type": "String" } }
   },
 
+  "sessionsAttendedAllTime": "{count, plural, =1{session attended, all time} other{sessions attended, all time}}",
+  "@sessionsAttendedAllTime": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "nothingInLast60Days": "Nothing recorded in the last 60 days.",
+  "correctedReason": "Corrected: {reason}",
+  "@correctedReason": {
+    "placeholders": { "reason": { "type": "String" } }
+  },
+  "noReasonGiven": "no reason given",
+  "keptWithRecordAuditNote": "This is kept with the record and shows in the audit log.",
+  "staffBadge": "STAFF",
+  "draftCrmNote": "Your gym is a draft. The CRM works, but members cannot find you in search until a plan is active.",
+  "roleHiddenNote": "You are {role} here. Anything your role cannot do is hidden rather than shown and refused.",
+  "@roleHiddenNote": {
+    "placeholders": { "role": { "type": "String" } }
+  },
+  "engagedOfActive": "{engaged} of {total} members trained at least once.",
+  "@engagedOfActive": {
+    "placeholders": { "engaged": { "type": "int" }, "total": { "type": "int" } }
+  },
+  "announceGoesTo": "It goes to {audience} right now, and cannot be unsent.",
+  "@announceGoesTo": {
+    "placeholders": { "audience": { "type": "String" } }
+  },
+  "audienceEveryMember": "every member",
+  "audienceEveryStaff": "every staff member",
+  "audienceEveryone": "everyone at this gym",
+  "sentToPeople": "{count, plural, =1{Sent to 1 person.} other{Sent to {count} people.}}",
+  "@sentToPeople": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "recipientCount": "{count, plural, =1{1 recipient} other{{count} recipients}}",
+  "@recipientCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "weTextACodeFirst": "We text a code to their number first, so you know it is really theirs.",
+  "memberCanUpdateMetrics": "They can see and update their weight and height in the member app. Their progress is visible to staff unless they turn that off themselves.",
+  "noRolesYouCanAssign": "There are no roles you can assign. Only roles junior to your own can be given out.",
+  "noRolesYouCanAssignToThem": "There are no roles you can assign to them.",
+  "heightCm": "Height {cm} cm",
+  "@heightCm": {
+    "placeholders": { "cm": { "type": "String" } }
+  },
+  "weightOverCheckIns": "{delta} kg over {count} check-ins",
+  "@weightOverCheckIns": {
+    "placeholders": { "delta": { "type": "String" }, "count": { "type": "int" } }
+  },
+  "useDeviceLanguage": "Use device language",
+  "untranslatedFallbackNote": "Anything not yet translated is shown in English rather than left blank, so a partly translated language is still usable.",
+  "deleteGymWarning": "All {members} members and {staff} staff lose access. This cannot be undone from the app.",
+  "@deleteGymWarning": {
+    "placeholders": { "members": { "type": "int" }, "staff": { "type": "int" } }
+  },
+  "shownAsInSearch": "Shown as “{name} - {district}” in search.",
+  "@shownAsInSearch": {
+    "placeholders": { "name": { "type": "String" }, "district": { "type": "String" } }
+  },
+  "nothingWaitingLeave": "Nothing waiting. Requests inside your limits are approved automatically and never appear here.",
+  "quietPeriodsNote": "Quiet periods are shown as empty bars rather than left out, so a gap in the bars is a real gap.",
+  "rankingExplainer": "Position is worked out the same way search orders results: rating first, then how many ratings back it up. What you see here is what a member browsing would see.",
+  "deleteTrainerCategoryWarning": "Trainers can no longer be put in this category. Anyone already in it keeps their assignment.",
+  "youLabel": "you",
+  "openEvents": "OPEN EVENTS",
+  "nothingHereYetSaySomething": "Nothing here yet. Say something.",
+  "leavePausesMembership": "Your membership pauses while you are away, so you keep the days you paid for.",
+  "notListedUntilPlan": "Not listed publicly until a plan is active.",
+  "gymsListedCount": "{count, plural, =1{1 gym listed} other{{count} gyms listed}}",
+  "@gymsListedCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "checkInGoalNote": "Your gym uses this to track progress towards your goal.",
+  "enterYourGymName": "Enter your gym name",
+
   "home": "Home",
   "myGym": "My gym",
   "discover": "Discover",

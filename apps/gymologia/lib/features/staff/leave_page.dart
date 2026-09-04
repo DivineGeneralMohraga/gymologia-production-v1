@@ -115,8 +115,8 @@ class _LeavePageState extends State<LeavePage> {
                             child: Padding(
                               padding: const EdgeInsets.all(32),
                               child: Text(
-                                'Nothing waiting. Requests inside your limits are '
-                                'approved automatically and never appear here.',
+                                AppLocalizations.of(context)
+                                    .nothingWaitingLeave,
                                 textAlign: TextAlign.center,
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   color: theme.colorScheme.onSurfaceVariant,

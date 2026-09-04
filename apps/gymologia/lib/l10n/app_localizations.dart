@@ -1128,6 +1128,228 @@ abstract class AppLocalizations {
   /// **'Version {version} · updated {date}'**
   String versionUpdated(String version, String date);
 
+  /// No description provided for @sessionsAttendedAllTime.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{session attended, all time} other{sessions attended, all time}}'**
+  String sessionsAttendedAllTime(int count);
+
+  /// No description provided for @nothingInLast60Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing recorded in the last 60 days.'**
+  String get nothingInLast60Days;
+
+  /// No description provided for @correctedReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Corrected: {reason}'**
+  String correctedReason(String reason);
+
+  /// No description provided for @noReasonGiven.
+  ///
+  /// In en, this message translates to:
+  /// **'no reason given'**
+  String get noReasonGiven;
+
+  /// No description provided for @keptWithRecordAuditNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This is kept with the record and shows in the audit log.'**
+  String get keptWithRecordAuditNote;
+
+  /// No description provided for @staffBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'STAFF'**
+  String get staffBadge;
+
+  /// No description provided for @draftCrmNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your gym is a draft. The CRM works, but members cannot find you in search until a plan is active.'**
+  String get draftCrmNote;
+
+  /// No description provided for @roleHiddenNote.
+  ///
+  /// In en, this message translates to:
+  /// **'You are {role} here. Anything your role cannot do is hidden rather than shown and refused.'**
+  String roleHiddenNote(String role);
+
+  /// No description provided for @engagedOfActive.
+  ///
+  /// In en, this message translates to:
+  /// **'{engaged} of {total} members trained at least once.'**
+  String engagedOfActive(int engaged, int total);
+
+  /// No description provided for @announceGoesTo.
+  ///
+  /// In en, this message translates to:
+  /// **'It goes to {audience} right now, and cannot be unsent.'**
+  String announceGoesTo(String audience);
+
+  /// No description provided for @audienceEveryMember.
+  ///
+  /// In en, this message translates to:
+  /// **'every member'**
+  String get audienceEveryMember;
+
+  /// No description provided for @audienceEveryStaff.
+  ///
+  /// In en, this message translates to:
+  /// **'every staff member'**
+  String get audienceEveryStaff;
+
+  /// No description provided for @audienceEveryone.
+  ///
+  /// In en, this message translates to:
+  /// **'everyone at this gym'**
+  String get audienceEveryone;
+
+  /// No description provided for @sentToPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Sent to 1 person.} other{Sent to {count} people.}}'**
+  String sentToPeople(int count);
+
+  /// No description provided for @recipientCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 recipient} other{{count} recipients}}'**
+  String recipientCount(int count);
+
+  /// No description provided for @weTextACodeFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'We text a code to their number first, so you know it is really theirs.'**
+  String get weTextACodeFirst;
+
+  /// No description provided for @memberCanUpdateMetrics.
+  ///
+  /// In en, this message translates to:
+  /// **'They can see and update their weight and height in the member app. Their progress is visible to staff unless they turn that off themselves.'**
+  String get memberCanUpdateMetrics;
+
+  /// No description provided for @noRolesYouCanAssign.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no roles you can assign. Only roles junior to your own can be given out.'**
+  String get noRolesYouCanAssign;
+
+  /// No description provided for @noRolesYouCanAssignToThem.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no roles you can assign to them.'**
+  String get noRolesYouCanAssignToThem;
+
+  /// No description provided for @heightCm.
+  ///
+  /// In en, this message translates to:
+  /// **'Height {cm} cm'**
+  String heightCm(String cm);
+
+  /// No description provided for @weightOverCheckIns.
+  ///
+  /// In en, this message translates to:
+  /// **'{delta} kg over {count} check-ins'**
+  String weightOverCheckIns(String delta, int count);
+
+  /// No description provided for @useDeviceLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Use device language'**
+  String get useDeviceLanguage;
+
+  /// No description provided for @untranslatedFallbackNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Anything not yet translated is shown in English rather than left blank, so a partly translated language is still usable.'**
+  String get untranslatedFallbackNote;
+
+  /// No description provided for @deleteGymWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'All {members} members and {staff} staff lose access. This cannot be undone from the app.'**
+  String deleteGymWarning(int members, int staff);
+
+  /// No description provided for @shownAsInSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown as “{name} - {district}” in search.'**
+  String shownAsInSearch(String name, String district);
+
+  /// No description provided for @nothingWaitingLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing waiting. Requests inside your limits are approved automatically and never appear here.'**
+  String get nothingWaitingLeave;
+
+  /// No description provided for @quietPeriodsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiet periods are shown as empty bars rather than left out, so a gap in the bars is a real gap.'**
+  String get quietPeriodsNote;
+
+  /// No description provided for @rankingExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Position is worked out the same way search orders results: rating first, then how many ratings back it up. What you see here is what a member browsing would see.'**
+  String get rankingExplainer;
+
+  /// No description provided for @deleteTrainerCategoryWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainers can no longer be put in this category. Anyone already in it keeps their assignment.'**
+  String get deleteTrainerCategoryWarning;
+
+  /// No description provided for @youLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'you'**
+  String get youLabel;
+
+  /// No description provided for @openEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'OPEN EVENTS'**
+  String get openEvents;
+
+  /// No description provided for @nothingHereYetSaySomething.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet. Say something.'**
+  String get nothingHereYetSaySomething;
+
+  /// No description provided for @leavePausesMembership.
+  ///
+  /// In en, this message translates to:
+  /// **'Your membership pauses while you are away, so you keep the days you paid for.'**
+  String get leavePausesMembership;
+
+  /// No description provided for @notListedUntilPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Not listed publicly until a plan is active.'**
+  String get notListedUntilPlan;
+
+  /// No description provided for @gymsListedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 gym listed} other{{count} gyms listed}}'**
+  String gymsListedCount(int count);
+
+  /// No description provided for @checkInGoalNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your gym uses this to track progress towards your goal.'**
+  String get checkInGoalNote;
+
+  /// No description provided for @enterYourGymName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your gym name'**
+  String get enterYourGymName;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:

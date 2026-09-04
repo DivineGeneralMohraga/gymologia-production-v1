@@ -84,10 +84,8 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(AppLocalizations.of(context).deleteNamed(widget.gym.name)),
-        content: Text(
-          'All ${widget.gym.memberCount} members and ${widget.gym.staffCount} '
-          'staff lose access. This cannot be undone from the app.',
-        ),
+        content: Text(AppLocalizations.of(context).deleteGymWarning(
+            widget.gym.memberCount, widget.gym.staffCount)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
@@ -139,11 +137,17 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
               textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(labelText: AppLocalizations.of(context).gymName),
               validator: (v) =>
-                  (v?.trim().length ?? 0) < 2 ? 'Enter your gym name' : null,
+                  (v?.trim().length ?? 0) < 2
+                      ? AppLocalizations.of(context).enterYourGymName
+                      : null,
             ),
             const SizedBox(height: 6),
             Text(
-              'Shown as “${_name.text.trim().isEmpty ? widget.gym.name : _name.text.trim()} - ${widget.gym.district}” in search.',
+              AppLocalizations.of(context).shownAsInSearch(
+                  _name.text.trim().isEmpty
+                      ? widget.gym.name
+                      : _name.text.trim(),
+                  widget.gym.district),
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),

@@ -42,7 +42,9 @@ class _GymProfilePageState extends State<GymProfilePage> {
     await Clipboard.setData(ClipboardData(text: phone));
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('$phone copied')),
+      SnackBar(
+          content: Text(
+              AppLocalizations.of(context).copiedToClipboard(phone))),
     );
   }
 

@@ -146,7 +146,7 @@ class _AppShellState extends State<AppShell> {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
-                  'STAFF',
+                  AppLocalizations.of(context).staffBadge.toUpperCase(),
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
@@ -160,7 +160,7 @@ class _AppShellState extends State<AppShell> {
         ),
         actions: [
           IconButton(
-            tooltip: 'Notifications',
+            tooltip: AppLocalizations.of(context).notifications,
             icon: Badge(
               isLabelVisible: _unread > 0,
               label: Text(_unread > 99 ? '99+' : '$_unread'),
@@ -174,7 +174,7 @@ class _AppShellState extends State<AppShell> {
             },
           ),
           IconButton(
-            tooltip: 'Settings',
+            tooltip: AppLocalizations.of(context).settings,
             icon: const Icon(Icons.settings_outlined),
             onPressed: () => setState(() => _index = tabs.length - 1),
           ),
@@ -231,9 +231,10 @@ class _Wordmark extends StatelessWidget {
           child: Icon(Icons.fitness_center, size: 15, color: scheme.onPrimary),
         ),
         const SizedBox(width: 9),
-        const Text(
-          'Gymologia',
-          style: TextStyle(fontWeight: FontWeight.w700, letterSpacing: -0.3),
+        Text(
+          AppLocalizations.of(context).appName,
+          style: const TextStyle(
+              fontWeight: FontWeight.w700, letterSpacing: -0.3),
         ),
       ],
     );

@@ -189,7 +189,7 @@ class _StaffDetailSheetState extends State<StaffDetailSheet> {
             )
           else if (roles.isEmpty)
             Text(
-              'There are no roles you can assign to them.',
+              AppLocalizations.of(context).noRolesYouCanAssignToThem,
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             )

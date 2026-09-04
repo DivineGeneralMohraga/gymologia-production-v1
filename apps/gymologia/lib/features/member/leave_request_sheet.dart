@@ -121,7 +121,7 @@ class _LeaveRequestSheetState extends State<LeaveRequestSheet> {
                   ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 6),
           Text(
-            'Your membership pauses while you are away, so you keep the days you paid for.',
+            AppLocalizations.of(context).leavePausesMembership,
             style: theme.textTheme.bodyMedium
                 ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),

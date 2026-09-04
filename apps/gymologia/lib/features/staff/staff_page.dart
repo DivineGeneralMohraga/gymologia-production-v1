@@ -114,7 +114,7 @@ class _StaffPageState extends State<StaffPage> {
                             if (s.isSelf) ...[
                               const SizedBox(width: 8),
                               Text(
-                                'you',
+                                AppLocalizations.of(context).youLabel,
                                 style: theme.textTheme.bodySmall
                                     ?.copyWith(color: theme.colorScheme.primary),
                               ),

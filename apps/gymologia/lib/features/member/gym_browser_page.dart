@@ -127,7 +127,7 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(
-              '${_results.length} gym${_results.length == 1 ? '' : 's'} listed',
+              AppLocalizations.of(context).gymsListedCount(_results.length),
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),

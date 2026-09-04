@@ -189,8 +189,9 @@ class _WeightCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 6),
                     child: Text(
-                      '${change > 0 ? '+' : ''}${change.toStringAsFixed(1)} kg '
-                      'over ${points.length} check-ins',
+                      AppLocalizations.of(context).weightOverCheckIns(
+                          '${change > 0 ? '+' : ''}${change.toStringAsFixed(1)}',
+                          points.length),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -222,7 +223,8 @@ class _WeightCard extends StatelessWidget {
             if (latest?.heightCm != null) ...[
               const SizedBox(height: 14),
               Text(
-                'Height ${latest!.heightCm!.toStringAsFixed(0)} cm',
+                AppLocalizations.of(context)
+                    .heightCm(latest!.heightCm!.toStringAsFixed(0)),
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),

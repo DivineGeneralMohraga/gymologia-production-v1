@@ -96,7 +96,7 @@ class _CheckInSheetState extends State<CheckInSheet> {
                   ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 6),
           Text(
-            'Your gym uses this to track progress towards your goal.',
+            AppLocalizations.of(context).checkInGoalNote,
             style: theme.textTheme.bodyMedium
                 ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),

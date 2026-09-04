@@ -38,7 +38,7 @@ class LanguagePage extends StatelessWidget {
           ),
           RadioListTile<Locale?>(
             value: null,
-            title: const Text('Use device language'),
+            title: Text(t.useDeviceLanguage),
             subtitle: Text(nameFor(device.languageCode)),
           ),
           const Divider(height: 1),
@@ -62,8 +62,7 @@ class LanguagePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(
-              'Anything not yet translated is shown in English rather than '
-              'left blank, so a partly translated language is still usable.',
+              t.untranslatedFallbackNote,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),

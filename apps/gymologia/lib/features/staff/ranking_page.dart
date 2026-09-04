@@ -83,10 +83,7 @@ class _RankingPageState extends State<RankingPage> {
                           _ScopeCard(scope: scope),
                         const SizedBox(height: 16),
                         Text(
-                          'Position is worked out the same way search orders '
-                          'results: rating first, then how many ratings back '
-                          'it up. What you see here is what a member browsing '
-                          'would see.',
+                          AppLocalizations.of(context).rankingExplainer,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),

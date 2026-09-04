@@ -140,7 +140,8 @@ class _AttendanceHistoryPageState extends State<AttendanceHistoryPage> {
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
-                              'session${_totalPresent == 1 ? '' : 's'} attended, all time',
+                              AppLocalizations.of(context)
+                                  .sessionsAttendedAllTime(_totalPresent),
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: theme.colorScheme.onSurfaceVariant,
                               ),
@@ -173,7 +174,8 @@ class _AttendanceHistoryPageState extends State<AttendanceHistoryPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(32),
                                 child: Text(
-                                  'Nothing recorded in the last 60 days.',
+                                  AppLocalizations.of(context)
+                                      .nothingInLast60Days,
                                   textAlign: TextAlign.center,
                                   style: theme.textTheme.bodyMedium?.copyWith(
                                     color: theme.colorScheme.onSurfaceVariant,
@@ -199,7 +201,12 @@ class _AttendanceHistoryPageState extends State<AttendanceHistoryPage> {
                                   subtitle: editedAt == null
                                       ? null
                                       : Text(
-                                          'Corrected: ${r['editReason'] ?? 'no reason given'}',
+                                          AppLocalizations.of(context)
+                                              .correctedReason(
+                                                  r['editReason'] as String? ??
+                                                      AppLocalizations.of(
+                                                              context)
+                                                          .noReasonGiven),
                                           style: theme.textTheme.bodySmall
                                               ?.copyWith(
                                             color: theme.colorScheme.tertiary,
@@ -350,7 +357,7 @@ class _CorrectionSheetState extends State<_CorrectionSheet> {
           ),
           const SizedBox(height: 4),
           Text(
-            'This is kept with the record and shows in the audit log.',
+            AppLocalizations.of(context).keptWithRecordAuditNote,
             style: theme.textTheme.bodySmall
                 ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),

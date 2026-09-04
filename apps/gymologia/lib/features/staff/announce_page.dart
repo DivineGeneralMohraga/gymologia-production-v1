@@ -67,11 +67,11 @@ class _AnnouncePageState extends State<AnnouncePage> {
       builder: (ctx) => AlertDialog(
         title: Text(AppLocalizations.of(context).sendThis),
         content: Text(
-          'It goes to ${switch (_audience) {
-            'GYM_MEMBERS' => 'every member',
-            'GYM_STAFF' => 'every staff member',
-            _ => 'everyone at this gym',
-          }} right now, and cannot be unsent.',
+          AppLocalizations.of(context).announceGoesTo(switch (_audience) {
+            'GYM_MEMBERS' => AppLocalizations.of(context).audienceEveryMember,
+            'GYM_STAFF' => AppLocalizations.of(context).audienceEveryStaff,
+            _ => AppLocalizations.of(context).audienceEveryone,
+          }),
         ),
         actions: [
           TextButton(
@@ -103,7 +103,9 @@ class _AnnouncePageState extends State<AnnouncePage> {
       _title.clear();
       _body.clear();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Sent to ${result['sentTo']} people.')),
+        SnackBar(
+            content: Text(AppLocalizations.of(context)
+                .sentToPeople((result['sentTo'] as int?) ?? 0))),
       );
       setState(() => _busy = false);
       await _load();
@@ -202,8 +204,8 @@ class _AnnouncePageState extends State<AnnouncePage> {
                   title: Text(n['title'] as String? ?? '',
                       style: const TextStyle(fontWeight: FontWeight.w600)),
                   subtitle: Text(
-                    '${n['sentTo'] ?? 0} recipient'
-                    '${n['sentTo'] == 1 ? '' : 's'}  ·  ${_ago(n['sentAt'])}',
+                    '${AppLocalizations.of(context).recipientCount((n['sentTo'] as int?) ?? 0)}'
+                    '  ·  ${_ago(n['sentAt'])}',
                   ),
                 ),
               ),

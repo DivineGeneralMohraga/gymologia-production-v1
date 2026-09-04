@@ -160,7 +160,7 @@ class _GymListPageState extends State<GymListPage> {
                       if (gym.isDraft) ...[
                         const SizedBox(height: 12),
                         Text(
-                          'Not listed publicly until a plan is active.',
+                          AppLocalizations.of(context).notListedUntilPlan,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -141,7 +142,8 @@ class _ChatPageState extends State<ChatPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(32),
                               child: Text(
-                                'Nothing here yet. Say something.',
+                                AppLocalizations.of(context)
+                                    .nothingHereYetSaySomething,
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   color: theme.colorScheme.onSurfaceVariant,
                                 ),
@@ -184,8 +186,8 @@ class _ChatPageState extends State<ChatPage> {
                       maxLines: 5,
                       maxLength: 4000,
                       onSubmitted: (_) => _send(),
-                      decoration: const InputDecoration(
-                        hintText: 'Message',
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context).message,
                         counterText: '',
                       ),
                     ),

@@ -632,6 +632,176 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
+  String sessionsAttendedAllTime(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'அமர்வுகள், மொத்தம்',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nothingInLast60Days => 'கடந்த 60 நாட்களில் எதுவும் பதிவாகவில்லை.';
+
+  @override
+  String correctedReason(String reason) {
+    return 'திருத்தப்பட்டது: $reason';
+  }
+
+  @override
+  String get noReasonGiven => 'காரணம் தரப்படவில்லை';
+
+  @override
+  String get keptWithRecordAuditNote =>
+      'இது பதிவுடன் வைக்கப்படும், தணிக்கைப் பதிவிலும் தெரியும்.';
+
+  @override
+  String get staffBadge => 'பணியாளர்';
+
+  @override
+  String get draftCrmNote =>
+      'உங்கள் கூடம் வரைவு நிலையில் உள்ளது. CRM செயல்படும், ஆனால் திட்டம் இயங்கும் வரை உறுப்பினர்கள் தேடலில் உங்களைக் காண மாட்டார்கள்.';
+
+  @override
+  String roleHiddenNote(String role) {
+    return 'இங்கே நீங்கள் $role. உங்கள் பங்கு செய்ய முடியாதவை காட்டி மறுக்கப்படாமல் மறைக்கப்படும்.';
+  }
+
+  @override
+  String engagedOfActive(int engaged, int total) {
+    return '$total உறுப்பினர்களில் $engaged பேர் குறைந்தது ஒருமுறை பயிற்சி செய்தனர்.';
+  }
+
+  @override
+  String announceGoesTo(String audience) {
+    return 'இது இப்போதே $audience சென்றடையும், திரும்பப் பெற முடியாது.';
+  }
+
+  @override
+  String get audienceEveryMember => 'ஒவ்வொரு உறுப்பினருக்கும்';
+
+  @override
+  String get audienceEveryStaff => 'ஒவ்வொரு பணியாளருக்கும்';
+
+  @override
+  String get audienceEveryone => 'இந்தக் கூடத்தில் உள்ள அனைவருக்கும்';
+
+  @override
+  String sentToPeople(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count பேருக்கு அனுப்பப்பட்டது.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String recipientCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count பெறுநர்கள்',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get weTextACodeFirst =>
+      'முதலில் அவரது எண்ணுக்கு ஒரு குறியீட்டை அனுப்புகிறோம், அது உண்மையில் அவருடையது என்று உறுதிசெய்ய.';
+
+  @override
+  String get memberCanUpdateMetrics =>
+      'அவர்கள் உறுப்பினர் செயலியில் தங்கள் எடையையும் உயரத்தையும் பார்க்கவும் மாற்றவும் முடியும். அவர்களே அணைக்காத வரை முன்னேற்றம் பணியாளர்களுக்குத் தெரியும்.';
+
+  @override
+  String get noRolesYouCanAssign =>
+      'நீங்கள் வழங்கக்கூடிய பங்குகள் இல்லை. உங்கள் பங்குக்குக் கீழ் உள்ளவற்றை மட்டுமே வழங்க முடியும்.';
+
+  @override
+  String get noRolesYouCanAssignToThem =>
+      'நீங்கள் அவருக்கு வழங்கக்கூடிய பங்குகள் இல்லை.';
+
+  @override
+  String heightCm(String cm) {
+    return 'உயரம் $cm செ.மீ';
+  }
+
+  @override
+  String weightOverCheckIns(String delta, int count) {
+    return '$count சரிபார்ப்புகளில் $delta கிலோ';
+  }
+
+  @override
+  String get useDeviceLanguage => 'சாதன மொழியைப் பயன்படுத்து';
+
+  @override
+  String get untranslatedFallbackNote =>
+      'இன்னும் மொழிபெயர்க்கப்படாதவை காலியாக விடப்படாமல் ஆங்கிலத்தில் காட்டப்படும், அதனால் பகுதியளவு மொழிபெயர்ப்பும் பயன்படும்.';
+
+  @override
+  String deleteGymWarning(int members, int staff) {
+    return 'அனைத்து $members உறுப்பினர்களும் $staff பணியாளர்களும் அணுகலை இழப்பார்கள். இதைச் செயலியிலிருந்து மீட்க முடியாது.';
+  }
+
+  @override
+  String shownAsInSearch(String name, String district) {
+    return 'தேடலில் “$name - $district” எனத் தோன்றும்.';
+  }
+
+  @override
+  String get nothingWaitingLeave =>
+      'காத்திருப்பில் எதுவும் இல்லை. உங்கள் வரம்பிற்குள் உள்ள கோரிக்கைகள் தானாக ஒப்புக்கொள்ளப்பட்டு இங்கே தோன்றுவதில்லை.';
+
+  @override
+  String get quietPeriodsNote =>
+      'அமைதியான காலங்கள் விடுபடாமல் காலி பட்டைகளாகக் காட்டப்படும், எனவே பட்டைகளில் உள்ள இடைவெளி உண்மையான இடைவெளி.';
+
+  @override
+  String get rankingExplainer =>
+      'தேடல் முடிவுகளை வரிசைப்படுத்தும் அதே முறையில் இடம் கணக்கிடப்படுகிறது: முதலில் மதிப்பீடு, பிறகு எத்தனை மதிப்பீடுகள் அதற்கு ஆதரவு. இங்கே தெரிவதே உறுப்பினருக்கும் தெரியும்.';
+
+  @override
+  String get deleteTrainerCategoryWarning =>
+      'இனி இந்தப் பிரிவில் பயிற்சியாளர்களைச் சேர்க்க முடியாது. ஏற்கனவே இருப்பவர்களின் ஒதுக்கீடு தொடரும்.';
+
+  @override
+  String get youLabel => 'நீங்கள்';
+
+  @override
+  String get openEvents => 'திறந்த நிகழ்வுகள்';
+
+  @override
+  String get nothingHereYetSaySomething =>
+      'இங்கே இன்னும் எதுவும் இல்லை. ஏதாவது சொல்லுங்கள்.';
+
+  @override
+  String get leavePausesMembership =>
+      'நீங்கள் இல்லாத போது உறுப்பினர் சேர்க்கை இடைநிறுத்தப்படும், எனவே நீங்கள் பணம் செலுத்திய நாட்கள் மீதமிருக்கும்.';
+
+  @override
+  String get notListedUntilPlan =>
+      'திட்டம் இயங்கும் வரை பொதுவில் பட்டியலிடப்படாது.';
+
+  @override
+  String gymsListedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count கூடங்கள் பட்டியலிடப்பட்டன',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get checkInGoalNote =>
+      'உங்கள் இலக்கை நோக்கிய முன்னேற்றத்தைக் கண்காணிக்க உங்கள் கூடம் இதைப் பயன்படுத்துகிறது.';
+
+  @override
+  String get enterYourGymName => 'உங்கள் கூடத்தின் பெயரை உள்ளிடு';
+
+  @override
   String get home => 'முகப்பு';
 
   @override

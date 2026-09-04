@@ -175,7 +175,7 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                     ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 6),
             Text(
-              'We text a code to their number first, so you know it is really theirs.',
+              AppLocalizations.of(context).weTextACodeFirst,
               style: theme.textTheme.bodyMedium
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
@@ -278,9 +278,7 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'They can see and update their weight and height in the member '
-                  'app. Their progress is visible to staff unless they turn that '
-                  'off themselves.',
+                  AppLocalizations.of(context).memberCanUpdateMetrics,
                   style: theme.textTheme.bodySmall
                       ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                 ),
@@ -440,8 +438,7 @@ class _RolePickerState extends State<_RolePicker> {
 
     if (widget.roles.isEmpty) {
       return Text(
-        'There are no roles you can assign. Only roles junior to your own '
-        'can be given out.',
+        AppLocalizations.of(context).noRolesYouCanAssign,
         style: theme.textTheme.bodySmall
             ?.copyWith(color: theme.colorScheme.error),
       );
