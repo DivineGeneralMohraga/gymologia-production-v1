@@ -1332,6 +1332,10 @@ class AppLocalizationsMl extends AppLocalizations {
   String get support => 'പിന്തുണ';
 
   @override
+  String get machineTranslatedExercise =>
+      'ഈ നിർദ്ദേശങ്ങൾ യന്ത്രം വിവർത്തനം ചെയ്തതാണ്, ഒരു പരിശീലകനും പരിശോധിച്ചിട്ടില്ല. എന്തെങ്കിലും വിചിത്രമായി തോന്നിയാൽ ഭാരം ഉയർത്തും മുൻപ് ഇംഗ്ലീഷിലേക്ക് മാറി ഒത്തുനോക്കുക.';
+
+  @override
   String get home => 'ഹോം';
 
   @override

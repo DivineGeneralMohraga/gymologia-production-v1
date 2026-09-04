@@ -1326,6 +1326,10 @@ class AppLocalizationsTe extends AppLocalizations {
   String get support => 'మద్దతు';
 
   @override
+  String get machineTranslatedExercise =>
+      'ఈ సూచనలు యంత్రానువాదం, ఏ శిక్షకుడూ వీటిని తనిఖీ చేయలేదు. ఏదైనా విచిత్రంగా అనిపిస్తే బరువు ఎత్తే ముందు ఇంగ్లీషుకు మారి సరిచూసుకోండి.';
+
+  @override
   String get home => 'హోమ్';
 
   @override

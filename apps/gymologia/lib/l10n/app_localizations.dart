@@ -2196,6 +2196,12 @@ abstract class AppLocalizations {
   /// **'Support'**
   String get support;
 
+  /// No description provided for @machineTranslatedExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'These instructions were translated by machine and have not been checked by a coach. If a cue reads oddly, switch to English and compare before you lift.'**
+  String get machineTranslatedExercise;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:

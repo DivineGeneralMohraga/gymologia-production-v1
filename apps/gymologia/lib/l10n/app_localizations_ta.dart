@@ -1346,6 +1346,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get support => 'ஆதரவு';
 
   @override
+  String get machineTranslatedExercise =>
+      'இந்த வழிமுறைகள் இயந்திரத்தால் மொழிபெயர்க்கப்பட்டவை, பயிற்சியாளர் சரிபார்க்கவில்லை. ஏதேனும் விநோதமாகத் தோன்றினால், எடை தூக்கும் முன் ஆங்கிலத்திற்கு மாறிச் சரிபாருங்கள்.';
+
+  @override
   String get home => 'முகப்பு';
 
   @override

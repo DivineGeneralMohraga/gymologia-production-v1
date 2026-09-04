@@ -388,6 +388,31 @@ class _ExerciseDetailPageState extends State<_ExerciseDetailPage> {
               ),
             ),
           ],
+
+          // Only when the server actually served this locale. English
+          // readers are looking at the original and need no warning, and
+          // a language with no rows yet has already fallen back to it.
+          if (e['translated'] == true &&
+              Localizations.localeOf(context).languageCode != 'en') ...[
+            const SizedBox(height: 20),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.translate,
+                    size: 16, color: theme.colorScheme.onSurfaceVariant),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    AppLocalizations.of(context).machineTranslatedExercise,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                      height: 1.45,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ],
       ),
     );

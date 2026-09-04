@@ -9,6 +9,7 @@
  */
 import { PrismaClient } from '@prisma/client';
 import { EXERCISES } from './exercises.seed';
+import { EXERCISE_TRANSLATIONS } from './exercise-translations';
 
 const prisma = new PrismaClient();
 
@@ -70,8 +71,63 @@ async function seedExercises(): Promise<void> {
   );
 }
 
+/**
+ * The translated copies of that content.
+ *
+ * A slug that does not exist in the English seed would write a row no
+ * query can reach -- the directory looks exercises up by slug and joins
+ * translations by id -- so a typo would sit in the database looking
+ * translated and render English forever. It is refused here instead.
+ */
+async function seedExerciseTranslations(): Promise<void> {
+  const ids = new Map(
+    (await prisma.exercise.findMany({ select: { id: true, slug: true } })).map(
+      (e) => [e.slug, e.id],
+    ),
+  );
+
+  for (const [locale, entries] of Object.entries(EXERCISE_TRANSLATIONS)) {
+    const unknown = Object.keys(entries).filter((slug) => !ids.has(slug));
+    if (unknown.length) {
+      throw new Error(
+        `${locale}: no exercise with slug ${unknown.join(', ')}. ` +
+          'Fix the slug, or seed the English entry first.',
+      );
+    }
+
+    for (const [slug, text] of Object.entries(entries)) {
+      const exerciseId = ids.get(slug)!;
+      await prisma.exerciseTranslation.upsert({
+        where: { exerciseId_locale: { exerciseId, locale } },
+        create: {
+          exerciseId,
+          locale,
+          name: text.name,
+          summary: text.summary,
+          steps: text.steps,
+          cautions: text.cautions,
+        },
+        update: {
+          name: text.name,
+          summary: text.summary,
+          steps: text.steps,
+          cautions: text.cautions,
+        },
+      });
+    }
+
+    const missing = EXERCISES.filter((e) => !entries[e.slug]).length;
+    process.stdout.write(
+      `Exercises [${locale}]: ${Object.keys(entries).length} translated` +
+        (missing ? `, ${missing} still falling back to English` : '') +
+        '\n',
+    );
+  }
+}
+
 async function main(): Promise<void> {
   await seedExercises();
+  await seedExerciseTranslations();
 }
 
 main()

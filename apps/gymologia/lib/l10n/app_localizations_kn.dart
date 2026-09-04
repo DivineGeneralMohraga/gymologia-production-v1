@@ -1326,6 +1326,10 @@ class AppLocalizationsKn extends AppLocalizations {
   String get support => 'ಬೆಂಬಲ';
 
   @override
+  String get machineTranslatedExercise =>
+      'ಈ ಸೂಚನೆಗಳು ಯಂತ್ರಾನುವಾದ, ಯಾವ ತರಬೇತುದಾರರೂ ಪರಿಶೀಲಿಸಿಲ್ಲ. ಏನಾದರೂ ವಿಚಿತ್ರವೆನಿಸಿದರೆ ತೂಕ ಎತ್ತುವ ಮೊದಲು ಇಂಗ್ಲಿಷ್‌ಗೆ ಬದಲಾಯಿಸಿ ಹೋಲಿಸಿ.';
+
+  @override
   String get home => 'ಮುಖಪುಟ';
 
   @override

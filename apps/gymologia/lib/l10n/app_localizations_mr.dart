@@ -1322,6 +1322,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get support => 'सहाय्य';
 
   @override
+  String get machineTranslatedExercise =>
+      'या सूचना यंत्राने भाषांतरित केल्या आहेत आणि कोणत्याही प्रशिक्षकाने त्या तपासलेल्या नाहीत. काही विचित्र वाटल्यास वजन उचलण्याआधी इंग्रजीत बदलून पडताळा.';
+
+  @override
   String get home => 'होम';
 
   @override

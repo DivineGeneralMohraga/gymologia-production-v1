@@ -1324,6 +1324,10 @@ class AppLocalizationsPa extends AppLocalizations {
   String get support => 'ਸਹਾਇਤਾ';
 
   @override
+  String get machineTranslatedExercise =>
+      'ਇਹ ਹਦਾਇਤਾਂ ਮਸ਼ੀਨ ਨਾਲ ਅਨੁਵਾਦ ਕੀਤੀਆਂ ਗਈਆਂ ਹਨ ਅਤੇ ਕਿਸੇ ਕੋਚ ਨੇ ਜਾਂਚੀਆਂ ਨਹੀਂ। ਜੇ ਕੁਝ ਅਜੀਬ ਲੱਗੇ ਤਾਂ ਭਾਰ ਚੁੱਕਣ ਤੋਂ ਪਹਿਲਾਂ ਅੰਗਰੇਜ਼ੀ ਵਿੱਚ ਬਦਲ ਕੇ ਮਿਲਾ ਲਵੋ।';
+
+  @override
   String get home => 'ਹੋਮ';
 
   @override

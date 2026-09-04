@@ -1343,6 +1343,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get support => 'Support';
 
   @override
+  String get machineTranslatedExercise =>
+      'These instructions were translated by machine and have not been checked by a coach. If a cue reads oddly, switch to English and compare before you lift.';
+
+  @override
   String get home => 'Home';
 
   @override

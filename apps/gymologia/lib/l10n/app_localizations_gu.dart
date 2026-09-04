@@ -1314,6 +1314,10 @@ class AppLocalizationsGu extends AppLocalizations {
   String get support => 'સપોર્ટ';
 
   @override
+  String get machineTranslatedExercise =>
+      'આ સૂચનાઓ મશીનથી અનુવાદિત છે અને કોઈ કોચે તપાસી નથી. કંઈ વિચિત્ર લાગે તો વજન ઉપાડતાં પહેલાં અંગ્રેજીમાં બદલીને સરખાવો.';
+
+  @override
   String get home => 'હોમ';
 
   @override

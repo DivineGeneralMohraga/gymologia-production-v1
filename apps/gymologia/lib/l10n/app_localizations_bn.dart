@@ -1325,6 +1325,10 @@ class AppLocalizationsBn extends AppLocalizations {
   String get support => 'সহায়তা';
 
   @override
+  String get machineTranslatedExercise =>
+      'এই নির্দেশগুলি যন্ত্রে অনূদিত এবং কোনো কোচ যাচাই করেননি। কিছু অদ্ভুত মনে হলে ওজন তোলার আগে ইংরেজিতে বদলে মিলিয়ে নিন।';
+
+  @override
   String get home => 'হোম';
 
   @override
