@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/utils/dates.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -86,6 +87,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
   }
 
   Future<void> _extend() async {
+    final t = AppLocalizations.of(context);
     final months = await showModalBottomSheet<int>(
       context: context,
       builder: (_) => const _ExtendSheet(),
@@ -95,11 +97,12 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       () => _api
           .extendMembership(widget.gym.id, widget.membershipId, months)
           .then((_) {}),
-      'Membership extended by $months month${months == 1 ? '' : 's'}.',
+      t.membershipExtendedBy(months),
     );
   }
 
   Future<void> _editGoal() async {
+    final t = AppLocalizations.of(context);
     final current = _member?['goal'] as String? ?? '';
     final updated = await showDialog<String>(
       context: context,
@@ -110,31 +113,29 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       () => _api
           .updateMember(widget.gym.id, widget.membershipId, {'goal': updated})
           .then((_) {}),
-      'Goal updated.',
+      t.goalUpdated,
     );
   }
 
   Future<void> _remove() async {
-    final name = _nameOf(_member) ?? 'this member';
+    final t = AppLocalizations.of(context);
+    final name = _nameOf(_member) ?? t.thisMember;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Remove member?'),
-        content: Text(
-          '$name loses access to this gym. Their attendance history and '
-          'measurements are kept.',
-        ),
+        title: Text(t.removeMemberQuestion),
+        content: Text(t.removeMemberWarning(name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel'),
+            child: Text(t.cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(ctx).colorScheme.error,
             ),
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Remove'),
+            child: Text(t.remove),
           ),
         ],
       ),
@@ -161,6 +162,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final member = _member;
 
     if (_error != null) {
@@ -186,11 +188,11 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(user['name'] as String? ?? 'Member'),
+        title: Text(user['name'] as String? ?? t.member),
         actions: [
           if (widget.gym.can(P.removeMember))
             IconButton(
-              tooltip: 'Remove member',
+              tooltip: t.removeMember,
               icon: Icon(Icons.person_remove_outlined,
                   color: theme.colorScheme.error),
               onPressed: _busy ? null : _remove,
@@ -219,13 +221,13 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                   Row(
                     children: [
                       _Figure(
-                        label: 'Days left',
-                        value: days < 0 ? 'Expired' : '$days',
+                        label: t.daysLeft,
+                        value: days < 0 ? t.expired : '$days',
                         alarming: days <= 7,
                       ),
                       const SizedBox(width: 26),
                       _Figure(
-                        label: 'Leave used',
+                        label: t.leaveUsed,
                         value: '${member['leaveDaysUsed'] ?? 0}'
                             ' / ${member['maxLeaveDays'] ?? 0}',
                       ),
@@ -240,12 +242,12 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                         FilledButton.tonalIcon(
                           onPressed: _busy ? null : _extend,
                           icon: const Icon(Icons.add, size: 18),
-                          label: const Text('Extend'),
+                          label: Text(t.extend),
                         ),
                         OutlinedButton.icon(
                           onPressed: _busy ? null : _editGoal,
                           icon: const Icon(Icons.flag_outlined, size: 18),
-                          label: const Text('Edit goal'),
+                          label: Text(t.editGoal),
                         ),
                       ],
                     ),
@@ -258,13 +260,13 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
           const SizedBox(height: 14),
           _InfoTile(
             icon: Icons.flag_outlined,
-            label: 'Goal',
-            value: (goal == null || goal.isEmpty) ? 'Not set' : goal,
+            label: t.goal,
+            value: (goal == null || goal.isEmpty) ? t.notSet : goal,
           ),
           _InfoTile(
             icon: Icons.person_outline,
-            label: 'Trainer',
-            value: trainer?['name'] as String? ?? 'None assigned',
+            label: t.trainer,
+            value: trainer?['name'] as String? ?? t.noneAssigned,
           ),
 
           if (widget.gym.can(P.viewAttendanceMember)) ...[
@@ -272,10 +274,11 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
             Card(
               child: ListTile(
                 leading: const Icon(Icons.fact_check_outlined),
-                title: const Text('Attendance history'),
+                title: Text(t.attendanceHistory),
                 subtitle: Text(_progress == null
-                    ? 'View and correct records'
-                    : '${_progress!['totalSessionsAttended'] ?? 0} sessions so far'),
+                    ? t.viewAndCorrectRecords
+                    : t.sessionsSoFar(
+                        (_progress!['totalSessionsAttended'] as int?) ?? 0)),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -283,7 +286,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                       gym: widget.gym,
                       subjectType: 'MEMBER',
                       userId: user['id'] as String,
-                      name: user['name'] as String? ?? 'Member',
+                      name: user['name'] as String? ?? t.member,
                     ),
                   ),
                 ),
@@ -317,6 +320,7 @@ class _ProgressSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
 
     if (!canView) return const SizedBox.shrink();
 
@@ -336,13 +340,12 @@ class _ProgressSection extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Progress is private',
+                    Text(t.progressIsPrivate,
                         style: theme.textTheme.titleSmall
                             ?.copyWith(fontWeight: FontWeight.w600)),
                     const SizedBox(height: 4),
                     Text(
-                      'This member has turned off progress monitoring. That is '
-                      'their choice and no role can override it.',
+                      t.monitoringOffNote,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                         height: 1.4,
@@ -378,14 +381,13 @@ class _ProgressSection extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Progress',
+            Text(t.progress,
                 style: theme.textTheme.titleMedium
                     ?.copyWith(fontWeight: FontWeight.w600)),
             const SizedBox(height: 12),
             if (metrics.isEmpty)
               Text(
-                'No measurements recorded yet. The member is prompted for these '
-                'in their own app once a month.',
+                t.noMeasurementsYet,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                   height: 1.4,
@@ -435,6 +437,7 @@ class _WeightTrend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final weights = metrics
         .where((m) => m['weightKg'] != null)
         .map((m) => (m['weightKg'] as num).toDouble())
@@ -462,9 +465,9 @@ class _WeightTrend extends StatelessWidget {
         const SizedBox(width: 8),
         Text(
           delta.abs() < 0.05
-              ? 'Holding at ${latest.toStringAsFixed(1)} kg'
-              : '${rising ? '+' : ''}${delta.toStringAsFixed(1)} kg '
-                  'since their first measurement',
+              ? t.holdingAtKg(latest.toStringAsFixed(1))
+              : t.weightChangeSince(
+                  '${rising ? '+' : ''}${delta.toStringAsFixed(1)}'),
           style: theme.textTheme.bodyMedium
               ?.copyWith(fontWeight: FontWeight.w600),
         ),
@@ -486,19 +489,19 @@ class _ExtendSheetState extends State<_ExtendSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 24, 24, 36),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Extend membership',
+          Text(t.extendMembership,
               style: theme.textTheme.titleLarge
                   ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 6),
           Text(
-            'An expired membership extends from today, not from the date it '
-            'lapsed.',
+            t.extendFromTodayNote,
             style: theme.textTheme.bodySmall
                 ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
@@ -508,7 +511,7 @@ class _ExtendSheetState extends State<_ExtendSheet> {
             children: [
               for (final m in [1, 3, 6, 12])
                 ChoiceChip(
-                  label: Text('$m month${m == 1 ? '' : 's'}'),
+                  label: Text(t.monthsCount(m)),
                   selected: _months == m,
                   onSelected: (_) => setState(() => _months = m),
                 ),
@@ -517,7 +520,7 @@ class _ExtendSheetState extends State<_ExtendSheet> {
           const SizedBox(height: 22),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(_months),
-            child: Text('Extend by $_months month${_months == 1 ? '' : 's'}'),
+            child: Text(t.extendByMonths(_months)),
           ),
         ],
       ),
@@ -544,24 +547,23 @@ class _GoalDialogState extends State<_GoalDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return AlertDialog(
-      title: const Text('What are they working towards?'),
+      title: Text(t.whatAreTheyWorkingTowards),
       content: TextField(
         controller: _controller,
         autofocus: true,
         maxLength: 300,
-        decoration: const InputDecoration(
-          hintText: 'Bulk up to 80kg, lose weight, rehab…',
-        ),
+        decoration: InputDecoration(hintText: t.goalDialogHint),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(t.cancel),
         ),
         FilledButton(
           onPressed: () => Navigator.of(context).pop(_controller.text.trim()),
-          child: const Text('Save'),
+          child: Text(t.save),
         ),
       ],
     );

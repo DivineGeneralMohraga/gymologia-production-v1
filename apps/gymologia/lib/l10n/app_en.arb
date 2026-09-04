@@ -156,6 +156,57 @@
   "hierarchyNote": "Most senior at the top. Default roles keep their place and are not listed.",
   "saveOrder": "Save order",
 
+  "membershipExtendedBy": "{count, plural, =1{Membership extended by 1 month.} other{Membership extended by {count} months.}}",
+  "@membershipExtendedBy": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "goalUpdated": "Goal updated.",
+  "thisMember": "this member",
+  "removeMemberQuestion": "Remove member?",
+  "removeMemberWarning": "{name} loses access to this gym. Their attendance history and measurements are kept.",
+  "@removeMemberWarning": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "member": "Member",
+  "removeMember": "Remove member",
+  "daysLeft": "Days left",
+  "leaveUsed": "Leave used",
+  "extend": "Extend",
+  "editGoal": "Edit goal",
+  "goal": "Goal",
+  "notSet": "Not set",
+  "noneAssigned": "None assigned",
+  "attendanceHistory": "Attendance history",
+  "viewAndCorrectRecords": "View and correct records",
+  "sessionsSoFar": "{count, plural, =1{1 session so far} other{{count} sessions so far}}",
+  "@sessionsSoFar": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "progressIsPrivate": "Progress is private",
+  "monitoringOffNote": "This member has turned off progress monitoring. That is their choice and no role can override it.",
+  "progress": "Progress",
+  "noMeasurementsYet": "No measurements recorded yet. The member is prompted for these in their own app once a month.",
+  "holdingAtKg": "Holding at {kg} kg",
+  "@holdingAtKg": {
+    "placeholders": { "kg": { "type": "String" } }
+  },
+  "weightChangeSince": "{delta} kg since their first measurement",
+  "@weightChangeSince": {
+    "placeholders": { "delta": { "type": "String" } }
+  },
+  "extendMembership": "Extend membership",
+  "extendFromTodayNote": "An expired membership extends from today, not from the date it lapsed.",
+  "monthsCount": "{count, plural, =1{1 month} other{{count} months}}",
+  "@monthsCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "extendByMonths": "{count, plural, =1{Extend by 1 month} other{Extend by {count} months}}",
+  "@extendByMonths": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "whatAreTheyWorkingTowards": "What are they working towards?",
+  "goalDialogHint": "Bulk up to 80kg, lose weight, rehab…",
+
   "home": "Home",
   "myGym": "My gym",
   "discover": "Discover",

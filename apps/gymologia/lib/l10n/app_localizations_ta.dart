@@ -393,6 +393,131 @@ class AppLocalizationsTa extends AppLocalizations {
   String get saveOrder => 'வரிசையைச் சேமி';
 
   @override
+  String membershipExtendedBy(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'உறுப்பினர் சேர்க்கை $count மாதம் நீட்டிக்கப்பட்டது.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalUpdated => 'இலக்கு புதுப்பிக்கப்பட்டது.';
+
+  @override
+  String get thisMember => 'இந்த உறுப்பினர்';
+
+  @override
+  String get removeMemberQuestion => 'உறுப்பினரை நீக்கவா?';
+
+  @override
+  String removeMemberWarning(String name) {
+    return '$name இந்தக் கூடத்திற்கான அணுகலை இழப்பார். அவரது வருகைப் பதிவும் அளவுகளும் வைக்கப்படும்.';
+  }
+
+  @override
+  String get member => 'உறுப்பினர்';
+
+  @override
+  String get removeMember => 'உறுப்பினரை நீக்கு';
+
+  @override
+  String get daysLeft => 'மீதி நாட்கள்';
+
+  @override
+  String get leaveUsed => 'எடுத்த விடுப்பு';
+
+  @override
+  String get extend => 'நீட்டி';
+
+  @override
+  String get editGoal => 'இலக்கைத் திருத்து';
+
+  @override
+  String get goal => 'இலக்கு';
+
+  @override
+  String get notSet => 'அமைக்கப்படவில்லை';
+
+  @override
+  String get noneAssigned => 'யாரும் ஒதுக்கப்படவில்லை';
+
+  @override
+  String get attendanceHistory => 'வருகை வரலாறு';
+
+  @override
+  String get viewAndCorrectRecords => 'பதிவுகளைப் பார்த்துச் சரிசெய்';
+
+  @override
+  String sessionsSoFar(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'இதுவரை $count அமர்வுகள்',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get progressIsPrivate => 'முன்னேற்றம் தனிப்பட்டது';
+
+  @override
+  String get monitoringOffNote =>
+      'இந்த உறுப்பினர் முன்னேற்றக் கண்காணிப்பை நிறுத்தியுள்ளார். இது அவரது தேர்வு, எந்தப் பங்கும் இதை மீற முடியாது.';
+
+  @override
+  String get progress => 'முன்னேற்றம்';
+
+  @override
+  String get noMeasurementsYet =>
+      'இதுவரை அளவுகள் பதிவாகவில்லை. உறுப்பினரிடம் அவரது செயலியில் மாதம் ஒருமுறை கேட்கப்படும்.';
+
+  @override
+  String holdingAtKg(String kg) {
+    return '$kg கிலோவில் நிலையாக';
+  }
+
+  @override
+  String weightChangeSince(String delta) {
+    return 'முதல் அளவுக்குப் பிறகு $delta கிலோ';
+  }
+
+  @override
+  String get extendMembership => 'உறுப்பினர் சேர்க்கையை நீட்டி';
+
+  @override
+  String get extendFromTodayNote =>
+      'காலாவதியான உறுப்பினர் சேர்க்கை இன்று முதல் நீட்டிக்கப்படும், முடிந்த தேதியிலிருந்து அல்ல.';
+
+  @override
+  String monthsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count மாதம்',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extendByMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count மாதம் நீட்டி',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get whatAreTheyWorkingTowards =>
+      'அவர் எந்த இலக்கை நோக்கிச் செயல்படுகிறார்?';
+
+  @override
+  String get goalDialogHint => '80 கிலோ வரை பல்க், எடை குறைப்பு, மறுவாழ்வு…';
+
+  @override
   String get home => 'முகப்பு';
 
   @override

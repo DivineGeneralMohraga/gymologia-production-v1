@@ -762,6 +762,180 @@ abstract class AppLocalizations {
   /// **'Save order'**
   String get saveOrder;
 
+  /// No description provided for @membershipExtendedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Membership extended by 1 month.} other{Membership extended by {count} months.}}'**
+  String membershipExtendedBy(int count);
+
+  /// No description provided for @goalUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal updated.'**
+  String get goalUpdated;
+
+  /// No description provided for @thisMember.
+  ///
+  /// In en, this message translates to:
+  /// **'this member'**
+  String get thisMember;
+
+  /// No description provided for @removeMemberQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove member?'**
+  String get removeMemberQuestion;
+
+  /// No description provided for @removeMemberWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} loses access to this gym. Their attendance history and measurements are kept.'**
+  String removeMemberWarning(String name);
+
+  /// No description provided for @member.
+  ///
+  /// In en, this message translates to:
+  /// **'Member'**
+  String get member;
+
+  /// No description provided for @removeMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove member'**
+  String get removeMember;
+
+  /// No description provided for @daysLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Days left'**
+  String get daysLeft;
+
+  /// No description provided for @leaveUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave used'**
+  String get leaveUsed;
+
+  /// No description provided for @extend.
+  ///
+  /// In en, this message translates to:
+  /// **'Extend'**
+  String get extend;
+
+  /// No description provided for @editGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit goal'**
+  String get editGoal;
+
+  /// No description provided for @goal.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal'**
+  String get goal;
+
+  /// No description provided for @notSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get notSet;
+
+  /// No description provided for @noneAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'None assigned'**
+  String get noneAssigned;
+
+  /// No description provided for @attendanceHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Attendance history'**
+  String get attendanceHistory;
+
+  /// No description provided for @viewAndCorrectRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'View and correct records'**
+  String get viewAndCorrectRecords;
+
+  /// No description provided for @sessionsSoFar.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 session so far} other{{count} sessions so far}}'**
+  String sessionsSoFar(int count);
+
+  /// No description provided for @progressIsPrivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress is private'**
+  String get progressIsPrivate;
+
+  /// No description provided for @monitoringOffNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This member has turned off progress monitoring. That is their choice and no role can override it.'**
+  String get monitoringOffNote;
+
+  /// No description provided for @progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get progress;
+
+  /// No description provided for @noMeasurementsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No measurements recorded yet. The member is prompted for these in their own app once a month.'**
+  String get noMeasurementsYet;
+
+  /// No description provided for @holdingAtKg.
+  ///
+  /// In en, this message translates to:
+  /// **'Holding at {kg} kg'**
+  String holdingAtKg(String kg);
+
+  /// No description provided for @weightChangeSince.
+  ///
+  /// In en, this message translates to:
+  /// **'{delta} kg since their first measurement'**
+  String weightChangeSince(String delta);
+
+  /// No description provided for @extendMembership.
+  ///
+  /// In en, this message translates to:
+  /// **'Extend membership'**
+  String get extendMembership;
+
+  /// No description provided for @extendFromTodayNote.
+  ///
+  /// In en, this message translates to:
+  /// **'An expired membership extends from today, not from the date it lapsed.'**
+  String get extendFromTodayNote;
+
+  /// No description provided for @monthsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 month} other{{count} months}}'**
+  String monthsCount(int count);
+
+  /// No description provided for @extendByMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Extend by 1 month} other{Extend by {count} months}}'**
+  String extendByMonths(int count);
+
+  /// No description provided for @whatAreTheyWorkingTowards.
+  ///
+  /// In en, this message translates to:
+  /// **'What are they working towards?'**
+  String get whatAreTheyWorkingTowards;
+
+  /// No description provided for @goalDialogHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Bulk up to 80kg, lose weight, rehab…'**
+  String get goalDialogHint;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:

@@ -391,6 +391,134 @@ class AppLocalizationsEn extends AppLocalizations {
   String get saveOrder => 'Save order';
 
   @override
+  String membershipExtendedBy(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Membership extended by $count months.',
+      one: 'Membership extended by 1 month.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalUpdated => 'Goal updated.';
+
+  @override
+  String get thisMember => 'this member';
+
+  @override
+  String get removeMemberQuestion => 'Remove member?';
+
+  @override
+  String removeMemberWarning(String name) {
+    return '$name loses access to this gym. Their attendance history and measurements are kept.';
+  }
+
+  @override
+  String get member => 'Member';
+
+  @override
+  String get removeMember => 'Remove member';
+
+  @override
+  String get daysLeft => 'Days left';
+
+  @override
+  String get leaveUsed => 'Leave used';
+
+  @override
+  String get extend => 'Extend';
+
+  @override
+  String get editGoal => 'Edit goal';
+
+  @override
+  String get goal => 'Goal';
+
+  @override
+  String get notSet => 'Not set';
+
+  @override
+  String get noneAssigned => 'None assigned';
+
+  @override
+  String get attendanceHistory => 'Attendance history';
+
+  @override
+  String get viewAndCorrectRecords => 'View and correct records';
+
+  @override
+  String sessionsSoFar(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sessions so far',
+      one: '1 session so far',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get progressIsPrivate => 'Progress is private';
+
+  @override
+  String get monitoringOffNote =>
+      'This member has turned off progress monitoring. That is their choice and no role can override it.';
+
+  @override
+  String get progress => 'Progress';
+
+  @override
+  String get noMeasurementsYet =>
+      'No measurements recorded yet. The member is prompted for these in their own app once a month.';
+
+  @override
+  String holdingAtKg(String kg) {
+    return 'Holding at $kg kg';
+  }
+
+  @override
+  String weightChangeSince(String delta) {
+    return '$delta kg since their first measurement';
+  }
+
+  @override
+  String get extendMembership => 'Extend membership';
+
+  @override
+  String get extendFromTodayNote =>
+      'An expired membership extends from today, not from the date it lapsed.';
+
+  @override
+  String monthsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count months',
+      one: '1 month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extendByMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Extend by $count months',
+      one: 'Extend by 1 month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get whatAreTheyWorkingTowards => 'What are they working towards?';
+
+  @override
+  String get goalDialogHint => 'Bulk up to 80kg, lose weight, rehab…';
+
+  @override
   String get home => 'Home';
 
   @override

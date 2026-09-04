@@ -392,6 +392,131 @@ class AppLocalizationsMl extends AppLocalizations {
   String get saveOrder => 'ക്രമം സംരക്ഷിക്കുക';
 
   @override
+  String membershipExtendedBy(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'അംഗത്വം $count മാസം നീട്ടി.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalUpdated => 'ലക്ഷ്യം പുതുക്കി.';
+
+  @override
+  String get thisMember => 'ഈ അംഗം';
+
+  @override
+  String get removeMemberQuestion => 'അംഗത്തെ നീക്കണോ?';
+
+  @override
+  String removeMemberWarning(String name) {
+    return '$name ഈ ജിമ്മിലേക്കുള്ള പ്രവേശനം നഷ്ടപ്പെടും. അവരുടെ ഹാജർ രേഖയും അളവുകളും സൂക്ഷിക്കും.';
+  }
+
+  @override
+  String get member => 'അംഗം';
+
+  @override
+  String get removeMember => 'അംഗത്തെ നീക്കുക';
+
+  @override
+  String get daysLeft => 'ബാക്കി ദിവസം';
+
+  @override
+  String get leaveUsed => 'എടുത്ത അവധി';
+
+  @override
+  String get extend => 'നീട്ടുക';
+
+  @override
+  String get editGoal => 'ലക്ഷ്യം തിരുത്തുക';
+
+  @override
+  String get goal => 'ലക്ഷ്യം';
+
+  @override
+  String get notSet => 'സജ്ജമാക്കിയിട്ടില്ല';
+
+  @override
+  String get noneAssigned => 'ആരെയും നിയോഗിച്ചിട്ടില്ല';
+
+  @override
+  String get attendanceHistory => 'ഹാജർ ചരിത്രം';
+
+  @override
+  String get viewAndCorrectRecords => 'രേഖകൾ കണ്ട് തിരുത്തുക';
+
+  @override
+  String sessionsSoFar(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ഇതുവരെ $count സെഷനുകൾ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get progressIsPrivate => 'പുരോഗതി സ്വകാര്യമാണ്';
+
+  @override
+  String get monitoringOffNote =>
+      'ഈ അംഗം പുരോഗതി നിരീക്ഷണം ഓഫാക്കിയിരിക്കുന്നു. അത് അവരുടെ തീരുമാനമാണ്, ഒരു റോളിനും അത് മറികടക്കാനാകില്ല.';
+
+  @override
+  String get progress => 'പുരോഗതി';
+
+  @override
+  String get noMeasurementsYet =>
+      'ഇതുവരെ അളവുകൾ രേഖപ്പെടുത്തിയിട്ടില്ല. അംഗത്തോട് അവരുടെ ആപ്പിൽ മാസത്തിലൊരിക്കൽ ചോദിക്കും.';
+
+  @override
+  String holdingAtKg(String kg) {
+    return '$kg കിലോയിൽ സ്ഥിരം';
+  }
+
+  @override
+  String weightChangeSince(String delta) {
+    return 'ആദ്യ അളവിനുശേഷം $delta കിലോ';
+  }
+
+  @override
+  String get extendMembership => 'അംഗത്വം നീട്ടുക';
+
+  @override
+  String get extendFromTodayNote =>
+      'കാലാവധി കഴിഞ്ഞ അംഗത്വം ഇന്നു മുതൽ നീളും, കഴിഞ്ഞ തീയതി മുതൽ അല്ല.';
+
+  @override
+  String monthsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count മാസം',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String extendByMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count മാസം നീട്ടുക',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get whatAreTheyWorkingTowards =>
+      'അവർ ഏത് ലക്ഷ്യത്തിനായി പ്രവർത്തിക്കുന്നു?';
+
+  @override
+  String get goalDialogHint => '80 കിലോ വരെ ബൾക്ക്, ഭാരം കുറയ്ക്കൽ, റീഹാബ്…';
+
+  @override
   String get home => 'ഹോം';
 
   @override
