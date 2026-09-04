@@ -35,10 +35,11 @@ CASES = [
     ("en", "en", True),
     ("hi", "hi", True),
     ("ta", "ta", True),
+    ("bn", "bn", True),
     # Supported by the interface but with no exercise rows yet. The pair
     # locale=en + translated=false is the honest signal: we understood the
     # request and do not have the content.
-    ("bn", "en", False),
+    ("te", "en", False),
     ("hi-IN,hi;q=0.9,en;q=0.8", "hi", True),
     ("en;q=0.4,ta;q=0.9", "ta", True),   # weights, not order
     # Unsupported: resolves to English and serves English, which is not a
@@ -48,7 +49,12 @@ CASES = [
 ]
 
 # The name is the cheapest proof of which row was served.
-NAMES = {"en": "Deadlift", "hi": "डेडलिफ्ट", "ta": "டெட்லிஃப்ட்"}
+NAMES = {
+    "en": "Deadlift",
+    "hi": "डेडलिफ्ट",
+    "ta": "டெட்லிஃப்ட்",
+    "bn": "ডেডলিফট",
+}
 
 report = io.open(OUT + ".txt", "w", encoding="utf-8")
 bad = 0
