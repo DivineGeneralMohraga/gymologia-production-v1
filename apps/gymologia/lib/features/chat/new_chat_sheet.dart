@@ -121,8 +121,9 @@ class _NewChatSheetState extends State<NewChatSheet> {
                 Expanded(
                   child: Text(
                     _groupMode
-                        ? 'New group (${_selected.length} selected)'
-                        : 'New message',
+                        ? AppLocalizations.of(context)
+                            .newGroupSelected(_selected.length)
+                        : AppLocalizations.of(context).newMessage,
                     style: theme.textTheme.titleLarge
                         ?.copyWith(fontWeight: FontWeight.bold),
                   ),
@@ -133,7 +134,9 @@ class _NewChatSheetState extends State<NewChatSheet> {
                     _selected.clear();
                   }),
                   icon: Icon(_groupMode ? Icons.person : Icons.groups, size: 18),
-                  label: Text(_groupMode ? 'One to one' : 'Group'),
+                  label: Text(_groupMode
+                      ? AppLocalizations.of(context).oneToOne
+                      : AppLocalizations.of(context).group),
                 ),
               ],
             ),

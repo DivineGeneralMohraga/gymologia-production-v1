@@ -57,7 +57,7 @@ class _StaffDetailSheetState extends State<StaffDetailSheet> {
 
   Future<void> _save() async {
     if (_roleId == null) {
-      setState(() => _error = 'Choose a role.');
+      setState(() => _error = AppLocalizations.of(context).chooseARole);
       return;
     }
     setState(() {
@@ -85,10 +85,9 @@ class _StaffDetailSheetState extends State<StaffDetailSheet> {
         title: Text(AppLocalizations.of(context).removePerson(widget.staff.name)),
         content: Text(
           assigned > 0
-              ? 'They lose access to this gym, and the $assigned member'
-                  '${assigned == 1 ? '' : 's'} assigned to them will have no '
-                  'trainer until you reassign someone.'
-              : 'They lose access to this gym. Their attendance history is kept.',
+              ? AppLocalizations.of(context)
+                  .removeStaffWithAssigned(assigned)
+              : AppLocalizations.of(context).removeStaffPlain,
         ),
         actions: [
           TextButton(

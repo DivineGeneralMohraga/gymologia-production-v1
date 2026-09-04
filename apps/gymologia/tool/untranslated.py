@@ -56,6 +56,13 @@ NOT_LANGUAGE = (
     re.compile(r"^[EyMdHhmsaSzZGkK.,:/'\- ]+$"),  # date format patterns
 )
 
+# Words that look like labels but are not language:
+#   Authorization, Bearer -- HTTP, not a sentence anyone reads
+#   Gymologia            -- the product name, the same in every language
+#   English              -- a language's own name in the picker, which is
+#                           deliberately never translated
+NOT_LANGUAGE_WORDS = {"Authorization", "Bearer", "Gymologia", "English"}
+
 # Screens that are not shipped to users in the ordinary sense.
 SKIP_FILES = {"diagnostics_screen.dart"}
 
@@ -106,7 +113,15 @@ def translatable(text):
         return False
     # Strip interpolations before judging: '#$position' is not a sentence.
     bare = re.sub(r"\$\{.*\}|\$\w+", "", text, flags=re.S)
-    return len(re.findall(r"[A-Za-z]{2,}", bare)) >= 2
+    if bare.strip() in NOT_LANGUAGE_WORDS:
+        return False
+    words = re.findall(r"[A-Za-z]{2,}", bare)
+    if len(words) >= 2:
+        return True
+    # A lone capitalised word is a label -- 'Approved', 'Rehab'. A wire
+    # value is SCREAMING_CASE and a menu value is lowercase, so neither is
+    # swept up by this.
+    return re.fullmatch(r"[A-Z][a-z]{2,}", bare.strip()) is not None
 
 
 def strings_in(src):

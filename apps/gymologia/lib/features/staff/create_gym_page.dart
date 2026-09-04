@@ -118,7 +118,9 @@ class _CreateGymPageState extends State<CreateGymPage> {
                 hintText: AppLocalizations.of(context).gymNameHint,
               ),
               validator: (v) =>
-                  (v?.trim().length ?? 0) < 2 ? 'Enter your gym name' : null,
+                  (v?.trim().length ?? 0) < 2
+                      ? AppLocalizations.of(context).enterYourGymName
+                      : null,
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -131,13 +133,15 @@ class _CreateGymPageState extends State<CreateGymPage> {
               ),
             ),
 
-            _Label('Where you are'),
+            _Label(AppLocalizations.of(context).whereYouAre),
             TextFormField(
               controller: _address,
               textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(labelText: AppLocalizations.of(context).address),
               validator: (v) =>
-                  (v?.trim().length ?? 0) < 3 ? 'Enter the address' : null,
+                  (v?.trim().length ?? 0) < 3
+                      ? AppLocalizations.of(context).enterTheAddress
+                      : null,
             ),
             const SizedBox(height: 16),
             Row(
@@ -148,7 +152,9 @@ class _CreateGymPageState extends State<CreateGymPage> {
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(labelText: AppLocalizations.of(context).city),
                     validator: (v) =>
-                        (v?.trim().length ?? 0) < 2 ? 'Required' : null,
+                        (v?.trim().length ?? 0) < 2
+                            ? AppLocalizations.of(context).required
+                            : null,
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -158,7 +164,9 @@ class _CreateGymPageState extends State<CreateGymPage> {
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(labelText: AppLocalizations.of(context).district),
                     validator: (v) =>
-                        (v?.trim().length ?? 0) < 2 ? 'Required' : null,
+                        (v?.trim().length ?? 0) < 2
+                            ? AppLocalizations.of(context).required
+                            : null,
                   ),
                 ),
               ],
@@ -179,7 +187,9 @@ class _CreateGymPageState extends State<CreateGymPage> {
                     textCapitalization: TextCapitalization.words,
                     decoration: InputDecoration(labelText: AppLocalizations.of(context).state),
                     validator: (v) =>
-                        (v?.trim().length ?? 0) < 2 ? 'Required' : null,
+                        (v?.trim().length ?? 0) < 2
+                            ? AppLocalizations.of(context).required
+                            : null,
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -200,7 +210,7 @@ class _CreateGymPageState extends State<CreateGymPage> {
               ],
             ),
 
-            _Label('Contact'),
+            _Label(AppLocalizations.of(context).contact),
             TextFormField(
               controller: _phone,
               keyboardType: TextInputType.phone,
@@ -216,7 +226,7 @@ class _CreateGymPageState extends State<CreateGymPage> {
                   validateIndianMobile(AppLocalizations.of(context), v),
             ),
 
-            _Label('Leave policy'),
+            _Label(AppLocalizations.of(context).leavePolicy),
             Text(
               AppLocalizations.of(context).leavePolicyNote,
               style: theme.textTheme.bodySmall
@@ -224,21 +234,21 @@ class _CreateGymPageState extends State<CreateGymPage> {
             ),
             const SizedBox(height: 12),
             _Stepper(
-              label: 'Leave days per month',
+              label: AppLocalizations.of(context).leaveDaysPerMonth,
               value: _leavePerMonth,
               min: 0,
               max: 31,
               onChanged: (v) => setState(() => _leavePerMonth = v),
             ),
             _Stepper(
-              label: 'Maximum per membership',
+              label: AppLocalizations.of(context).maximumPerMembership,
               value: _leavePerMembership,
               min: 0,
               max: 90,
               onChanged: (v) => setState(() => _leavePerMembership = v),
             ),
 
-            _Label('Perks'),
+            _Label(AppLocalizations.of(context).perks),
             TextFormField(
               controller: _perks,
               decoration: InputDecoration(

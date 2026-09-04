@@ -154,8 +154,10 @@ class _ConversationsPageState extends State<ConversationsPage> {
                           padding: const EdgeInsets.only(top: 2),
                           child: Text(
                             last == null
-                                ? _emptyLine(type)
-                                : '${last['fromMe'] == true ? 'You: ' : ''}${last['preview']}',
+                                ? _emptyLine(
+                                    AppLocalizations.of(context), type)
+                                : '${last['fromMe'] == true ? AppLocalizations.of(context).youPrefix : ''}'
+                                    '${last['preview']}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.bodySmall?.copyWith(
@@ -176,7 +178,8 @@ class _ConversationsPageState extends State<ConversationsPage> {
                               builder: (_) => ChatPage(
                                 gymId: widget.gymId,
                                 conversationId: c['id'] as String,
-                                title: c['name'] as String? ?? 'Chat',
+                                title: c['name'] as String? ??
+                                    AppLocalizations.of(context).chat,
                               ),
                             ),
                           );
@@ -190,10 +193,10 @@ class _ConversationsPageState extends State<ConversationsPage> {
   }
 }
 
-String _emptyLine(String type) => switch (type) {
-      'OFFICIAL_GROUP' => 'Everyone at this gym. Nothing said yet.',
-      'UNOFFICIAL_GROUP' => 'Members only. Nothing said yet.',
-      _ => 'No messages yet',
+String _emptyLine(AppLocalizations t, String type) => switch (type) {
+      'OFFICIAL_GROUP' => t.officialGroupEmpty,
+      'UNOFFICIAL_GROUP' => t.unofficialGroupEmpty,
+      _ => t.noMessagesYet,
     };
 
 class _Avatar extends StatelessWidget {

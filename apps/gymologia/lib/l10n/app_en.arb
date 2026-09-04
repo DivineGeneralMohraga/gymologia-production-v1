@@ -14,18 +14,14 @@
   "save": "Save",
   "cancel": "Cancel",
   "tryAgain": "Try again",
-  "loading": "Loading",
   "somethingWentWrong": "Something went wrong",
 
-  "signIn": "Sign in",
   "phoneNumber": "Phone number",
   "enterPhoneNumber": "Enter your mobile number",
   "sendCode": "Send code",
   "verifyCode": "Verify",
-  "enterCode": "Enter the code we sent you",
   "resendCode": "Send it again",
   "createAccount": "Create your account",
-  "yourName": "Your name",
   "emailOptional": "Email (optional)",
   "age": "Age",
   "whyAgeNotBirthday": "We ask for your age, not your date of birth. A date of birth is tied to your bank and government records — an age is all a gym app needs.",
@@ -451,6 +447,103 @@
   "numberIsHowYouSignIn": "Your number is how you sign in, so it cannot be changed here yet.",
   "followingYourDevice": "Following your device",
 
+  "yourGym": "Your gym",
+  "weeksRunning": "{count, plural, =1{Week running} other{Weeks running}}",
+  "@weeksRunning": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "noVisitsInLastDays": "No visits recorded in the last {days} days.",
+  "@noVisitsInLastDays": {
+    "placeholders": { "days": { "type": "int" } }
+  },
+  "visitsInLastDays": "{count, plural, =1{1 visit in the last {days} days.} other{{count} visits in the last {days} days.}}",
+  "@visitsInLastDays": {
+    "placeholders": { "count": { "type": "int" }, "days": { "type": "int" } }
+  },
+  "couldNotLoadEvents": "Could not load events",
+  "noEventsOnRightNow": "No events on right now",
+  "eventsAppearHere": "Events your gym runs show up here, along with anything open to everyone nearby.",
+  "atYourGym": "At your gym",
+  "trainerStaffMembersAt": "Your trainer, staff and members at {gym}",
+  "@trainerStaffMembersAt": {
+    "placeholders": { "gym": { "type": "String" } }
+  },
+  "trainerStaffOtherMembers": "Your trainer, the staff, and other members",
+  "comingNext": "Coming next",
+  "progressChartsAgainstGoal": "Progress charts against your goal",
+  "leaveLeft": "Leave left",
+  "approvedMembershipPauses": "{name} approved. Their membership pauses for those days.",
+  "@approvedMembershipPauses": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "approveInstead": "Approve instead",
+  "declineInstead": "Decline instead",
+  "needsYou": "Needs you",
+  "autoApproved": "Auto-approved",
+  "returnedEarly": "Returned early",
+  "whereYouAre": "Where you are",
+  "enterTheAddress": "Enter the address",
+  "maximumPerMembership": "Maximum per membership",
+  "removeStaffWithAssigned": "{count, plural, =1{They lose access to this gym, and the 1 member assigned to them will have no trainer until you reassign someone.} other{They lose access to this gym, and the {count} members assigned to them will have no trainer until you reassign someone.}}",
+  "@removeStaffWithAssigned": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "removeStaffPlain": "They lose access to this gym. Their attendance history is kept.",
+  "couldNotLoadGyms": "Could not load gyms",
+  "noGymsListedYet": "No gyms listed yet",
+  "gymsAppearOnPro": "Gyms appear here once they are on the Pro plan and have chosen to be listed.",
+  "nothingMatchedTry": "Nothing matched “{query}”. Try a different city or district.",
+  "@nothingMatchedTry": {
+    "placeholders": { "query": { "type": "String" } }
+  },
+  "noRatings": "No ratings",
+  "fromRatings": "{count, plural, =1{from 1 rating} other{from {count} ratings}}",
+  "@fromRatings": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "onlyProGymHere": "The only Pro gym here",
+  "ofProGyms": "of {count} Pro gyms",
+  "@ofProGyms": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "couldNotLoadYourGyms": "Could not load your gyms",
+  "noGymsYet": "No gyms yet",
+  "createYourGymBlurb": "Create your gym to set up members, staff, attendance and leave. If you work at a gym, ask the owner to add you and it will appear here.",
+  "newGroupSelected": "New group ({count} selected)",
+  "@newGroupSelected": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "newMessage": "New message",
+  "oneToOne": "One to one",
+  "group": "Group",
+  "buildMuscle": "Build muscle",
+  "loseFat": "Lose fat",
+  "getStronger": "Get stronger",
+  "officialGroupEmpty": "Everyone at this gym. Nothing said yet.",
+  "unofficialGroupEmpty": "Members only. Nothing said yet.",
+  "noMessagesYet": "No messages yet",
+
+  "approved": "Approved",
+  "declined": "Declined",
+  "cancelled": "Cancelled",
+  "flexibility": "Flexibility",
+  "rehab": "Rehab",
+  "youPrefix": "You: ",
+
+  "active": "Active",
+  "joined": "Joined",
+  "leftCount": "Left",
+  "net": "Net",
+  "daily": "Daily",
+  "monthly": "Monthly",
+  "yearly": "Yearly",
+  "add": "Add",
+  "update": "Update",
+  "required": "Required",
+  "contact": "Contact",
+  "owner": "Owner",
+  "support": "Support",
+
   "home": "Home",
   "myGym": "My gym",
   "discover": "Discover",
@@ -466,16 +559,12 @@
   "gyms": "Gyms",
   "events": "Events",
   "chat": "Chat",
-  "profile": "Profile",
 
   "findAGym": "Find a gym",
   "searchGyms": "Search by name or locality",
-  "noGymsFound": "No gyms found here yet",
   "perks": "Perks",
-  "contactGym": "Contact this gym",
   "rating": "Rating",
 
-  "yourMembership": "Your membership",
   "onLeavePaused": "On leave — your membership is paused",
   "monthlyCheckIn": "Monthly check-in",
   "notNow": "Not now",
@@ -504,14 +593,9 @@
   "weight": "Weight",
   "height": "Height",
   "yourMeasurements": "Your measurements",
-  "addMeasurements": "Add your weight and height so your gym can track progress with you",
   "checkInDue": "This month's check-in is due",
   "thisMonth": "This month",
   "perWeek": "Per week",
-  "weeksRunning": "{count, plural, =1{Week running} other{Weeks running}}",
-  "@weeksRunning": {
-    "placeholders": { "count": { "type": "int" } }
-  },
   "lastEightWeeks": "Last 8 weeks",
 
   "exerciseDirectory": "Exercise directory",
@@ -537,7 +621,6 @@
   "reasonOptional": "Reason (optional)",
   "searchByGymCityDistrict": "Search by gym, city or district",
   "exerciseDirectorySubtitle": "Strength, cardio and yoga, with step-by-step form cues",
-  "steps": "Steps",
 
   "attendance": "Attendance",
   "manage": "Manage",
@@ -665,7 +748,6 @@
   "switchToMember": "Switch to member mode",
 
   "notifications": "Notifications",
-  "noNotifications": "Nothing new",
 
   "needsReview": "Translation pending review",
   "@needsReview": {

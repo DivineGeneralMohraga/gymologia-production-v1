@@ -167,9 +167,7 @@ class _RatingCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 6),
                   child: Text(
-                    ratingCount == 1
-                        ? 'from 1 rating'
-                        : 'from $ratingCount ratings',
+                    AppLocalizations.of(context).fromRatings(ratingCount),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -219,7 +217,9 @@ class _ScopeCard extends StatelessWidget {
                           ?.copyWith(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 2),
                   Text(
-                    outOf == 1 ? 'The only Pro gym here' : 'of $outOf Pro gyms',
+                    outOf == 1
+                        ? AppLocalizations.of(context).onlyProGymHere
+                        : AppLocalizations.of(context).ofProGyms(outOf),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),

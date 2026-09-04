@@ -93,7 +93,7 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
               : _error != null
                   ? _Message(
                       icon: Icons.cloud_off,
-                      title: 'Could not load gyms',
+                      title: AppLocalizations.of(context).couldNotLoadGyms,
                       body: _error!,
                       action: FilledButton.tonal(
                         onPressed: _load,
@@ -103,10 +103,12 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
                   : _results.isEmpty
                       ? _Message(
                           icon: Icons.storefront_outlined,
-                          title: 'No gyms listed yet',
+                          title:
+                              AppLocalizations.of(context).noGymsListedYet,
                           body: _search.text.isEmpty
-                              ? 'Gyms appear here once they are on the Pro plan and have chosen to be listed.'
-                              : 'Nothing matched “${_search.text.trim()}”. Try a different city or district.',
+                              ? AppLocalizations.of(context).gymsAppearOnPro
+                              : AppLocalizations.of(context)
+                                  .nothingMatchedTry(_search.text.trim()),
                         )
                       : ListView.separated(
                           padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
@@ -198,8 +200,9 @@ class _GymCard extends StatelessWidget {
                                 '${listing.rating.toStringAsFixed(1)} (${listing.ratingCount})',
                           )
                         else
-                          const _Chip(
-                              icon: Icons.star_border_rounded, label: 'No ratings'),
+                          _Chip(
+                              icon: Icons.star_border_rounded,
+                              label: AppLocalizations.of(context).noRatings),
                         _Chip(
                           icon: Icons.card_giftcard_outlined,
                           label:

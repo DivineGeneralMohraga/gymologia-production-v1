@@ -55,7 +55,7 @@ class _GymListPageState extends State<GymListPage> {
     if (_error != null) {
       return _Center(
         icon: Icons.cloud_off,
-        title: 'Could not load your gyms',
+        title: AppLocalizations.of(context).couldNotLoadYourGyms,
         body: _error!,
         action: FilledButton.tonal(
           onPressed: _load,
@@ -71,9 +71,8 @@ class _GymListPageState extends State<GymListPage> {
     if (gyms.isEmpty) {
       return _Center(
         icon: Icons.add_business_outlined,
-        title: 'No gyms yet',
-        body: 'Create your gym to set up members, staff, attendance and leave. '
-            'If you work at a gym, ask the owner to add you and it will appear here.',
+        title: AppLocalizations.of(context).noGymsYet,
+        body: AppLocalizations.of(context).createYourGymBlurb,
         action: FilledButton.icon(
           onPressed: _create,
           icon: const Icon(Icons.add),
@@ -136,7 +135,7 @@ class _GymListPageState extends State<GymListPage> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${gym.isOwner ? 'Owner' : gym.myRoleName ?? 'Staff'}'
+                        '${gym.isOwner ? AppLocalizations.of(context).owner : gym.myRoleName ?? AppLocalizations.of(context).staff}'
                         '${gym.plan == null ? '' : ' · ${gym.plan} plan'}',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
@@ -145,12 +144,16 @@ class _GymListPageState extends State<GymListPage> {
                       const SizedBox(height: 14),
                       Row(
                         children: [
-                          _Stat(label: 'Members', value: '${gym.memberCount}'),
-                          const SizedBox(width: 26),
-                          _Stat(label: 'Staff', value: '${gym.staffCount}'),
+                          _Stat(
+                              label: AppLocalizations.of(context).members,
+                              value: '${gym.memberCount}'),
                           const SizedBox(width: 26),
                           _Stat(
-                            label: 'Rating',
+                              label: AppLocalizations.of(context).staff,
+                              value: '${gym.staffCount}'),
+                          const SizedBox(width: 26),
+                          _Stat(
+                            label: AppLocalizations.of(context).rating,
                             value: gym.ratingCount == 0
                                 ? '—'
                                 : gym.rating.toStringAsFixed(1),

@@ -56,7 +56,8 @@ class _LeavePageState extends State<LeavePage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(approve
-              ? '${row.subjectName} approved. Their membership pauses for those days.'
+              ? AppLocalizations.of(context)
+                  .approvedMembershipPauses(row.subjectName)
               : '${row.subjectName} declined.'),
         ),
       );
@@ -233,8 +234,8 @@ class _LeaveCard extends StatelessWidget {
                     : () => onDecide(row.status == 'DECLINED'),
                 icon: const Icon(Icons.undo, size: 16),
                 label: Text(row.status == 'DECLINED'
-                    ? 'Approve instead'
-                    : 'Decline instead'),
+                    ? AppLocalizations.of(context).approveInstead
+                    : AppLocalizations.of(context).declineInstead),
               ),
             ],
           ],
@@ -251,13 +252,14 @@ class _StatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final (label, color) = switch (status) {
-      'PENDING' => ('Needs you', theme.colorScheme.tertiary),
-      'APPROVED' => ('Approved', Colors.green),
-      'AUTO_APPROVED' => ('Auto-approved', Colors.green),
-      'DECLINED' => ('Declined', theme.colorScheme.error),
-      'CLOSED_EARLY' => ('Returned early', theme.colorScheme.onSurfaceVariant),
-      'CANCELLED' => ('Cancelled', theme.colorScheme.onSurfaceVariant),
+      'PENDING' => (t.needsYou, theme.colorScheme.tertiary),
+      'APPROVED' => (t.approved, Colors.green),
+      'AUTO_APPROVED' => (t.autoApproved, Colors.green),
+      'DECLINED' => (t.declined, theme.colorScheme.error),
+      'CLOSED_EARLY' => (t.returnedEarly, theme.colorScheme.onSurfaceVariant),
+      'CANCELLED' => (t.cancelled, theme.colorScheme.onSurfaceVariant),
       _ => (status, theme.colorScheme.onSurfaceVariant),
     };
 

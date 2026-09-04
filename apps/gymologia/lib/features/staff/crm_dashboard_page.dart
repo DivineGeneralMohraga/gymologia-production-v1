@@ -71,6 +71,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final gym = _gym;
 
     if (_error != null) {
@@ -181,7 +182,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                     gym.sees('attendanceMember'))
                   _Tile(
                     icon: Icons.groups_outlined,
-                    label: 'Members',
+                    label: t.members,
                     detail: '${gym.memberCount}',
                     onTap: () => _open(MembersPage(gym: gym)),
                   ),
@@ -190,14 +191,14 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                     gym.sees('attendanceStaff'))
                   _Tile(
                     icon: Icons.badge_outlined,
-                    label: 'Staff',
+                    label: t.staff,
                     detail: '${gym.staffCount}',
                     onTap: () => _open(StaffPage(gym: gym)),
                   ),
                 if (gym.sees('leaveMember') || gym.sees('leaveStaff'))
                   _Tile(
                     icon: Icons.beach_access_outlined,
-                    label: 'Leave',
+                    label: t.leave,
                     onTap: () => _open(LeavePage(gym: gym)),
                   ),
                 if (gym.can(P.editGymProfile))
@@ -209,43 +210,43 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                 if (gym.can(P.manageSubscription))
                   _Tile(
                     icon: Icons.workspace_premium_outlined,
-                    label: 'Plan',
+                    label: t.plan,
                     detail: gym.plan,
                     onTap: () => _open(PlanPage(gym: gym)),
                   ),
                 if (gym.sees('manageTrainers'))
                   _Tile(
                     icon: Icons.fitness_center_outlined,
-                    label: 'Trainers',
+                    label: t.trainers,
                     onTap: () => _open(TrainerCategoriesPage(gym: gym)),
                   ),
                 if (gym.can(P.viewAnalytics))
                   _Tile(
                     icon: Icons.show_chart,
-                    label: 'Growth',
+                    label: t.growth,
                     onTap: () => _open(GrowthPage(gym: gym)),
                   ),
                 if (gym.can(P.viewRanking))
                   _Tile(
                     icon: Icons.leaderboard_outlined,
-                    label: 'Ranking',
+                    label: t.ranking,
                     onTap: () => _open(RankingPage(gym: gym)),
                   ),
                 if (gym.sees('manageRoles'))
                   _Tile(
                     icon: Icons.admin_panel_settings_outlined,
-                    label: 'Roles',
+                    label: t.roles,
                     onTap: () => _open(RolesPage(gym: gym)),
                   ),
                 if (gym.sees('events'))
                   _Tile(
                     icon: Icons.event_outlined,
-                    label: 'Events',
+                    label: t.events,
                     onTap: () => _open(EventsManagePage(gym: gym)),
                   ),
                 _Tile(
                   icon: Icons.forum_outlined,
-                  label: 'Chat',
+                  label: t.chat,
                   onTap: () => _open(ConversationsPage(
                     gymId: gym.id,
                     gymName: gym.displayName,
@@ -254,7 +255,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                 if (gym.can(P.sendNotifications))
                   _Tile(
                     icon: Icons.campaign_outlined,
-                    label: 'Announce',
+                    label: t.announce,
                     onTap: () => _open(AnnouncePage(gym: gym)),
                   ),
               ],
@@ -344,9 +345,13 @@ class _AnalyticsCard extends StatelessWidget {
             const SizedBox(height: 12),
             Row(
               children: [
-                _Figure(label: 'Active', value: '${a.activeMembers}'),
+                _Figure(
+                    label: AppLocalizations.of(context).active,
+                    value: '${a.activeMembers}'),
                 const SizedBox(width: 24),
-                _Figure(label: 'Joined', value: '${a.joinedInWindow}'),
+                _Figure(
+                    label: AppLocalizations.of(context).joined,
+                    value: '${a.joinedInWindow}'),
                 const SizedBox(width: 24),
                 _Figure(
                   label: AppLocalizations.of(context).turningUp,

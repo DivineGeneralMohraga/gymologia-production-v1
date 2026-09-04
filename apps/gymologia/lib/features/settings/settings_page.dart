@@ -160,7 +160,7 @@ class SettingsPage extends StatelessWidget {
           ),
         ),
 
-        const _SectionLabel('Support'),
+        _SectionLabel(t.support),
         ListTile(
           leading: const Icon(Icons.support_agent_outlined),
           title: Text(t.getHelp),

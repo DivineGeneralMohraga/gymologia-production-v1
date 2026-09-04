@@ -34,13 +34,7 @@ class AppLocalizationsPa extends AppLocalizations {
   String get tryAgain => 'ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ';
 
   @override
-  String get loading => 'ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ';
-
-  @override
   String get somethingWentWrong => 'ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ';
-
-  @override
-  String get signIn => 'ਸਾਈਨ ਇਨ';
 
   @override
   String get phoneNumber => 'ਮੋਬਾਈਲ ਨੰਬਰ';
@@ -55,16 +49,10 @@ class AppLocalizationsPa extends AppLocalizations {
   String get verifyCode => 'ਤਸਦੀਕ ਕਰੋ';
 
   @override
-  String get enterCode => 'ਅਸੀਂ ਭੇਜਿਆ ਕੋਡ ਦਰਜ ਕਰੋ';
-
-  @override
   String get resendCode => 'ਦੁਬਾਰਾ ਭੇਜੋ';
 
   @override
   String get createAccount => 'ਆਪਣਾ ਖਾਤਾ ਬਣਾਓ';
-
-  @override
-  String get yourName => 'ਤੁਹਾਡਾ ਨਾਮ';
 
   @override
   String get emailOptional => 'ਈਮੇਲ (ਵਿਕਲਪਿਕ)';
@@ -1098,6 +1086,244 @@ class AppLocalizationsPa extends AppLocalizations {
   String get followingYourDevice => 'ਤੁਹਾਡੇ ਡਿਵਾਈਸ ਅਨੁਸਾਰ';
 
   @override
+  String get yourGym => 'ਤੁਹਾਡਾ ਜਿਮ';
+
+  @override
+  String weeksRunning(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ਲਗਾਤਾਰ ਹਫ਼ਤੇ',
+      one: 'ਲਗਾਤਾਰ ਹਫ਼ਤਾ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String noVisitsInLastDays(int days) {
+    return 'ਪਿਛਲੇ $days ਦਿਨਾਂ ਵਿੱਚ ਕੋਈ ਆਉਣਾ ਦਰਜ ਨਹੀਂ ਹੋਇਆ।';
+  }
+
+  @override
+  String visitsInLastDays(int count, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ਪਿਛਲੇ $days ਦਿਨਾਂ ਵਿੱਚ $count ਵਾਰ ਆਉਣਾ।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get couldNotLoadEvents => 'ਸਮਾਗਮ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕੇ';
+
+  @override
+  String get noEventsOnRightNow => 'ਹੁਣ ਕੋਈ ਸਮਾਗਮ ਨਹੀਂ';
+
+  @override
+  String get eventsAppearHere =>
+      'ਤੁਹਾਡੇ ਜਿਮ ਦੇ ਸਮਾਗਮ ਇੱਥੇ ਦਿਖਦੇ ਹਨ, ਨਾਲ ਹੀ ਨੇੜੇ ਸਾਰਿਆਂ ਲਈ ਖੁੱਲ੍ਹੇ ਸਮਾਗਮ ਵੀ।';
+
+  @override
+  String get atYourGym => 'ਤੁਹਾਡੇ ਜਿਮ ਵਿੱਚ';
+
+  @override
+  String trainerStaffMembersAt(String gym) {
+    return '$gym ਵਿੱਚ ਤੁਹਾਡੇ ਟ੍ਰੇਨਰ, ਸਟਾਫ਼ ਅਤੇ ਮੈਂਬਰ';
+  }
+
+  @override
+  String get trainerStaffOtherMembers => 'ਤੁਹਾਡੇ ਟ੍ਰੇਨਰ, ਸਟਾਫ਼ ਅਤੇ ਹੋਰ ਮੈਂਬਰ';
+
+  @override
+  String get comingNext => 'ਅੱਗੇ ਆ ਰਿਹਾ ਹੈ';
+
+  @override
+  String get progressChartsAgainstGoal => 'ਤੁਹਾਡੇ ਟੀਚੇ ਦੇ ਮੁਕਾਬਲੇ ਤਰੱਕੀ ਚਾਰਟ';
+
+  @override
+  String get leaveLeft => 'ਬਾਕੀ ਛੁੱਟੀ';
+
+  @override
+  String approvedMembershipPauses(String name) {
+    return '$name ਮਨਜ਼ੂਰ। ਉਹਨਾਂ ਦਿਨਾਂ ਲਈ ਉਹਨਾਂ ਦੀ ਮੈਂਬਰਸ਼ਿਪ ਰੁਕੀ ਰਹੇਗੀ।';
+  }
+
+  @override
+  String get approveInstead => 'ਇਸ ਦੀ ਥਾਂ ਮਨਜ਼ੂਰ ਕਰੋ';
+
+  @override
+  String get declineInstead => 'ਇਸ ਦੀ ਥਾਂ ਇਨਕਾਰ ਕਰੋ';
+
+  @override
+  String get needsYou => 'ਤੁਹਾਡੀ ਲੋੜ ਹੈ';
+
+  @override
+  String get autoApproved => 'ਆਪਣੇ ਆਪ ਮਨਜ਼ੂਰ';
+
+  @override
+  String get returnedEarly => 'ਜਲਦੀ ਵਾਪਸ ਆਏ';
+
+  @override
+  String get whereYouAre => 'ਤੁਸੀਂ ਕਿੱਥੇ ਹੋ';
+
+  @override
+  String get enterTheAddress => 'ਪਤਾ ਲਿਖੋ';
+
+  @override
+  String get maximumPerMembership => 'ਪ੍ਰਤੀ ਮੈਂਬਰਸ਼ਿਪ ਵੱਧ ਤੋਂ ਵੱਧ';
+
+  @override
+  String removeStaffWithAssigned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'ਉਹਨਾਂ ਦੀ ਇਸ ਜਿਮ ਤੱਕ ਪਹੁੰਚ ਖ਼ਤਮ ਹੋ ਜਾਵੇਗੀ, ਅਤੇ ਉਹਨਾਂ ਨੂੰ ਸੌਂਪੇ $count ਮੈਂਬਰਾਂ ਕੋਲ ਤੁਹਾਡੇ ਕਿਸੇ ਹੋਰ ਨੂੰ ਸੌਂਪਣ ਤੱਕ ਕੋਈ ਟ੍ਰੇਨਰ ਨਹੀਂ ਹੋਵੇਗਾ।',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get removeStaffPlain =>
+      'ਉਹਨਾਂ ਦੀ ਇਸ ਜਿਮ ਤੱਕ ਪਹੁੰਚ ਖ਼ਤਮ ਹੋ ਜਾਵੇਗੀ। ਉਹਨਾਂ ਦਾ ਹਾਜ਼ਰੀ ਰਿਕਾਰਡ ਰੱਖਿਆ ਜਾਂਦਾ ਹੈ।';
+
+  @override
+  String get couldNotLoadGyms => 'ਜਿਮ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕੇ';
+
+  @override
+  String get noGymsListedYet => 'ਅਜੇ ਕੋਈ ਜਿਮ ਸੂਚੀਬੱਧ ਨਹੀਂ';
+
+  @override
+  String get gymsAppearOnPro =>
+      'ਜਿਮ ਪ੍ਰੋ ਪਲਾਨ ਉੱਤੇ ਹੋਣ ਅਤੇ ਸੂਚੀਬੱਧ ਹੋਣਾ ਚੁਣਨ ਉੱਤੇ ਇੱਥੇ ਦਿਖਦੇ ਹਨ।';
+
+  @override
+  String nothingMatchedTry(String query) {
+    return '“$query” ਨਾਲ ਕੁਝ ਨਹੀਂ ਮਿਲਿਆ। ਕੋਈ ਹੋਰ ਸ਼ਹਿਰ ਜਾਂ ਜ਼ਿਲ੍ਹਾ ਅਜ਼ਮਾਓ।';
+  }
+
+  @override
+  String get noRatings => 'ਕੋਈ ਰੇਟਿੰਗ ਨਹੀਂ';
+
+  @override
+  String fromRatings(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਰੇਟਿੰਗਾਂ ਤੋਂ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get onlyProGymHere => 'ਇੱਥੋਂ ਦਾ ਇਕੱਲਾ ਪ੍ਰੋ ਜਿਮ';
+
+  @override
+  String ofProGyms(int count) {
+    return '$count ਪ੍ਰੋ ਜਿਮਾਂ ਵਿੱਚੋਂ';
+  }
+
+  @override
+  String get couldNotLoadYourGyms => 'ਤੁਹਾਡੇ ਜਿਮ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕੇ';
+
+  @override
+  String get noGymsYet => 'ਅਜੇ ਕੋਈ ਜਿਮ ਨਹੀਂ';
+
+  @override
+  String get createYourGymBlurb =>
+      'ਮੈਂਬਰ, ਸਟਾਫ਼, ਹਾਜ਼ਰੀ ਅਤੇ ਛੁੱਟੀ ਸੈੱਟ ਕਰਨ ਲਈ ਆਪਣਾ ਜਿਮ ਬਣਾਓ। ਜੇ ਤੁਸੀਂ ਕਿਸੇ ਜਿਮ ਵਿੱਚ ਕੰਮ ਕਰਦੇ ਹੋ, ਤਾਂ ਮਾਲਕ ਨੂੰ ਜੋੜਨ ਲਈ ਕਹੋ, ਉਹ ਇੱਥੇ ਦਿਖੇਗਾ।';
+
+  @override
+  String newGroupSelected(int count) {
+    return 'ਨਵਾਂ ਗਰੁੱਪ ($count ਚੁਣੇ)';
+  }
+
+  @override
+  String get newMessage => 'ਨਵਾਂ ਸੁਨੇਹਾ';
+
+  @override
+  String get oneToOne => 'ਇੱਕ ਨਾਲ ਇੱਕ';
+
+  @override
+  String get group => 'ਗਰੁੱਪ';
+
+  @override
+  String get buildMuscle => 'ਮਾਸਪੇਸ਼ੀ ਬਣਾਓ';
+
+  @override
+  String get loseFat => 'ਚਰਬੀ ਘਟਾਓ';
+
+  @override
+  String get getStronger => 'ਤਾਕਤ ਵਧਾਓ';
+
+  @override
+  String get officialGroupEmpty => 'ਇਸ ਜਿਮ ਦੇ ਸਾਰੇ। ਅਜੇ ਕੁਝ ਨਹੀਂ ਕਿਹਾ ਗਿਆ।';
+
+  @override
+  String get unofficialGroupEmpty => 'ਸਿਰਫ਼ ਮੈਂਬਰ। ਅਜੇ ਕੁਝ ਨਹੀਂ ਕਿਹਾ ਗਿਆ।';
+
+  @override
+  String get noMessagesYet => 'ਅਜੇ ਕੋਈ ਸੁਨੇਹਾ ਨਹੀਂ';
+
+  @override
+  String get approved => 'ਮਨਜ਼ੂਰ';
+
+  @override
+  String get declined => 'ਇਨਕਾਰ ਕੀਤਾ';
+
+  @override
+  String get cancelled => 'ਰੱਦ';
+
+  @override
+  String get flexibility => 'ਲਚਕ';
+
+  @override
+  String get rehab => 'ਰੀਹੈਬ';
+
+  @override
+  String get youPrefix => 'ਤੁਸੀਂ: ';
+
+  @override
+  String get active => 'ਸਰਗਰਮ';
+
+  @override
+  String get joined => 'ਜੁੜੇ';
+
+  @override
+  String get leftCount => 'ਛੱਡਿਆ';
+
+  @override
+  String get net => 'ਸ਼ੁੱਧ';
+
+  @override
+  String get daily => 'ਰੋਜ਼ਾਨਾ';
+
+  @override
+  String get monthly => 'ਮਹੀਨਾਵਾਰ';
+
+  @override
+  String get yearly => 'ਸਾਲਾਨਾ';
+
+  @override
+  String get add => 'ਜੋੜੋ';
+
+  @override
+  String get update => 'ਅੱਪਡੇਟ ਕਰੋ';
+
+  @override
+  String get required => 'ਲਾਜ਼ਮੀ';
+
+  @override
+  String get contact => 'ਸੰਪਰਕ';
+
+  @override
+  String get owner => 'ਮਾਲਕ';
+
+  @override
+  String get support => 'ਸਹਾਇਤਾ';
+
+  @override
   String get home => 'ਹੋਮ';
 
   @override
@@ -1143,28 +1369,16 @@ class AppLocalizationsPa extends AppLocalizations {
   String get chat => 'ਚੈਟ';
 
   @override
-  String get profile => 'ਪ੍ਰੋਫਾਈਲ';
-
-  @override
   String get findAGym => 'ਜਿਮ ਲੱਭੋ';
 
   @override
   String get searchGyms => 'ਨਾਮ ਜਾਂ ਇਲਾਕੇ ਨਾਲ ਲੱਭੋ';
 
   @override
-  String get noGymsFound => 'ਇੱਥੇ ਅਜੇ ਕੋਈ ਜਿਮ ਨਹੀਂ';
-
-  @override
   String get perks => 'ਸਹੂਲਤਾਂ';
 
   @override
-  String get contactGym => 'ਇਸ ਜਿਮ ਨਾਲ ਸੰਪਰਕ ਕਰੋ';
-
-  @override
   String get rating => 'ਰੇਟਿੰਗ';
-
-  @override
-  String get yourMembership => 'ਤੁਹਾਡੀ ਮੈਂਬਰਸ਼ਿਪ';
 
   @override
   String get onLeavePaused => 'ਛੁੱਟੀ \'ਤੇ — ਤੁਹਾਡੀ ਮੈਂਬਰਸ਼ਿਪ ਰੁਕੀ ਹੋਈ ਹੈ';
@@ -1241,10 +1455,6 @@ class AppLocalizationsPa extends AppLocalizations {
   String get yourMeasurements => 'ਤੁਹਾਡੇ ਮਾਪ';
 
   @override
-  String get addMeasurements =>
-      'ਆਪਣਾ ਭਾਰ ਅਤੇ ਕੱਦ ਦਰਜ ਕਰੋ ਤਾਂ ਜੋ ਜਿਮ ਤੁਹਾਡੇ ਨਾਲ ਤਰੱਕੀ ਦੇਖ ਸਕੇ';
-
-  @override
   String get checkInDue => 'ਇਸ ਮਹੀਨੇ ਦੀ ਜਾਂਚ ਬਾਕੀ ਹੈ';
 
   @override
@@ -1252,17 +1462,6 @@ class AppLocalizationsPa extends AppLocalizations {
 
   @override
   String get perWeek => 'ਹਰ ਹਫ਼ਤੇ';
-
-  @override
-  String weeksRunning(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'ਲਗਾਤਾਰ ਹਫ਼ਤੇ',
-      one: 'ਲਗਾਤਾਰ ਹਫ਼ਤਾ',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get lastEightWeeks => 'ਪਿਛਲੇ 8 ਹਫ਼ਤੇ';
@@ -1322,9 +1521,6 @@ class AppLocalizationsPa extends AppLocalizations {
   @override
   String get exerciseDirectorySubtitle =>
       'ਤਾਕਤ, ਕਾਰਡੀਓ ਅਤੇ ਯੋਗ, ਹਰ ਕਦਮ ਦੀ ਹਿਦਾਇਤ ਨਾਲ';
-
-  @override
-  String get steps => 'ਕਦਮ';
 
   @override
   String get attendance => 'ਹਾਜ਼ਰੀ';
@@ -1648,9 +1844,6 @@ class AppLocalizationsPa extends AppLocalizations {
 
   @override
   String get notifications => 'ਸੂਚਨਾਵਾਂ';
-
-  @override
-  String get noNotifications => 'ਨਵਾਂ ਕੁਝ ਨਹੀਂ';
 
   @override
   String get needsReview => 'ਅਨੁਵਾਦ ਦੀ ਸਮੀਖਿਆ ਬਾਕੀ';

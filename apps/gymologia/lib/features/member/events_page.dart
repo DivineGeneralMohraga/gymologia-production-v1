@@ -99,7 +99,7 @@ class _EventsPageState extends State<EventsPage> {
     if (_error != null) {
       return _Message(
         icon: Icons.cloud_off,
-        title: 'Could not load events',
+        title: AppLocalizations.of(context).couldNotLoadEvents,
         body: _error!,
         action: FilledButton.tonal(onPressed: _load, child: Text(AppLocalizations.of(context).tryAgain)),
       );
@@ -112,9 +112,8 @@ class _EventsPageState extends State<EventsPage> {
     if (mine.isEmpty && global.isEmpty) {
       return _Message(
         icon: Icons.event_outlined,
-        title: 'No events on right now',
-        body: 'Events your gym runs show up here, along with anything open '
-            'to everyone nearby.',
+        title: AppLocalizations.of(context).noEventsOnRightNow,
+        body: AppLocalizations.of(context).eventsAppearHere,
       );
     }
 
@@ -122,7 +121,7 @@ class _EventsPageState extends State<EventsPage> {
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
       children: [
         if (mine.isNotEmpty) ...[
-          _SectionLabel('At your gym'),
+          _SectionLabel(AppLocalizations.of(context).atYourGym),
           for (final event in mine)
             _EventCard(
               event: event,
@@ -240,7 +239,9 @@ class _EventCard extends StatelessWidget {
                 ),
                 _Row(
                   icon: Icons.how_to_reg_outlined,
-                  text: 'Register by ${_shortDate(event['registrationLastDate'], Dates.localeOf(context))}',
+                  text: AppLocalizations.of(context).registerByWhen(
+                      _shortDate(event['registrationLastDate'],
+                          Dates.localeOf(context))),
                 ),
                 if ((event['prize'] as String?)?.isNotEmpty ?? false)
                   _Row(
@@ -292,7 +293,8 @@ class _EventCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          blocked ?? 'How to take part',
+                          blocked ??
+                              AppLocalizations.of(context).howToTakePart,
                           style: theme.textTheme.labelSmall?.copyWith(
                             letterSpacing: 0.7,
                             fontWeight: FontWeight.w700,

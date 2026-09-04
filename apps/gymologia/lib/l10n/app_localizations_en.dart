@@ -34,13 +34,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tryAgain => 'Try again';
 
   @override
-  String get loading => 'Loading';
-
-  @override
   String get somethingWentWrong => 'Something went wrong';
-
-  @override
-  String get signIn => 'Sign in';
 
   @override
   String get phoneNumber => 'Phone number';
@@ -55,16 +49,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get verifyCode => 'Verify';
 
   @override
-  String get enterCode => 'Enter the code we sent you';
-
-  @override
   String get resendCode => 'Send it again';
 
   @override
   String get createAccount => 'Create your account';
-
-  @override
-  String get yourName => 'Your name';
 
   @override
   String get emailOptional => 'Email (optional)';
@@ -1112,6 +1100,249 @@ class AppLocalizationsEn extends AppLocalizations {
   String get followingYourDevice => 'Following your device';
 
   @override
+  String get yourGym => 'Your gym';
+
+  @override
+  String weeksRunning(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Weeks running',
+      one: 'Week running',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String noVisitsInLastDays(int days) {
+    return 'No visits recorded in the last $days days.';
+  }
+
+  @override
+  String visitsInLastDays(int count, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count visits in the last $days days.',
+      one: '1 visit in the last $days days.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get couldNotLoadEvents => 'Could not load events';
+
+  @override
+  String get noEventsOnRightNow => 'No events on right now';
+
+  @override
+  String get eventsAppearHere =>
+      'Events your gym runs show up here, along with anything open to everyone nearby.';
+
+  @override
+  String get atYourGym => 'At your gym';
+
+  @override
+  String trainerStaffMembersAt(String gym) {
+    return 'Your trainer, staff and members at $gym';
+  }
+
+  @override
+  String get trainerStaffOtherMembers =>
+      'Your trainer, the staff, and other members';
+
+  @override
+  String get comingNext => 'Coming next';
+
+  @override
+  String get progressChartsAgainstGoal => 'Progress charts against your goal';
+
+  @override
+  String get leaveLeft => 'Leave left';
+
+  @override
+  String approvedMembershipPauses(String name) {
+    return '$name approved. Their membership pauses for those days.';
+  }
+
+  @override
+  String get approveInstead => 'Approve instead';
+
+  @override
+  String get declineInstead => 'Decline instead';
+
+  @override
+  String get needsYou => 'Needs you';
+
+  @override
+  String get autoApproved => 'Auto-approved';
+
+  @override
+  String get returnedEarly => 'Returned early';
+
+  @override
+  String get whereYouAre => 'Where you are';
+
+  @override
+  String get enterTheAddress => 'Enter the address';
+
+  @override
+  String get maximumPerMembership => 'Maximum per membership';
+
+  @override
+  String removeStaffWithAssigned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'They lose access to this gym, and the $count members assigned to them will have no trainer until you reassign someone.',
+      one:
+          'They lose access to this gym, and the 1 member assigned to them will have no trainer until you reassign someone.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get removeStaffPlain =>
+      'They lose access to this gym. Their attendance history is kept.';
+
+  @override
+  String get couldNotLoadGyms => 'Could not load gyms';
+
+  @override
+  String get noGymsListedYet => 'No gyms listed yet';
+
+  @override
+  String get gymsAppearOnPro =>
+      'Gyms appear here once they are on the Pro plan and have chosen to be listed.';
+
+  @override
+  String nothingMatchedTry(String query) {
+    return 'Nothing matched “$query”. Try a different city or district.';
+  }
+
+  @override
+  String get noRatings => 'No ratings';
+
+  @override
+  String fromRatings(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'from $count ratings',
+      one: 'from 1 rating',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get onlyProGymHere => 'The only Pro gym here';
+
+  @override
+  String ofProGyms(int count) {
+    return 'of $count Pro gyms';
+  }
+
+  @override
+  String get couldNotLoadYourGyms => 'Could not load your gyms';
+
+  @override
+  String get noGymsYet => 'No gyms yet';
+
+  @override
+  String get createYourGymBlurb =>
+      'Create your gym to set up members, staff, attendance and leave. If you work at a gym, ask the owner to add you and it will appear here.';
+
+  @override
+  String newGroupSelected(int count) {
+    return 'New group ($count selected)';
+  }
+
+  @override
+  String get newMessage => 'New message';
+
+  @override
+  String get oneToOne => 'One to one';
+
+  @override
+  String get group => 'Group';
+
+  @override
+  String get buildMuscle => 'Build muscle';
+
+  @override
+  String get loseFat => 'Lose fat';
+
+  @override
+  String get getStronger => 'Get stronger';
+
+  @override
+  String get officialGroupEmpty => 'Everyone at this gym. Nothing said yet.';
+
+  @override
+  String get unofficialGroupEmpty => 'Members only. Nothing said yet.';
+
+  @override
+  String get noMessagesYet => 'No messages yet';
+
+  @override
+  String get approved => 'Approved';
+
+  @override
+  String get declined => 'Declined';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
+  String get flexibility => 'Flexibility';
+
+  @override
+  String get rehab => 'Rehab';
+
+  @override
+  String get youPrefix => 'You: ';
+
+  @override
+  String get active => 'Active';
+
+  @override
+  String get joined => 'Joined';
+
+  @override
+  String get leftCount => 'Left';
+
+  @override
+  String get net => 'Net';
+
+  @override
+  String get daily => 'Daily';
+
+  @override
+  String get monthly => 'Monthly';
+
+  @override
+  String get yearly => 'Yearly';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get required => 'Required';
+
+  @override
+  String get contact => 'Contact';
+
+  @override
+  String get owner => 'Owner';
+
+  @override
+  String get support => 'Support';
+
+  @override
   String get home => 'Home';
 
   @override
@@ -1157,28 +1388,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chat => 'Chat';
 
   @override
-  String get profile => 'Profile';
-
-  @override
   String get findAGym => 'Find a gym';
 
   @override
   String get searchGyms => 'Search by name or locality';
 
   @override
-  String get noGymsFound => 'No gyms found here yet';
-
-  @override
   String get perks => 'Perks';
 
   @override
-  String get contactGym => 'Contact this gym';
-
-  @override
   String get rating => 'Rating';
-
-  @override
-  String get yourMembership => 'Your membership';
 
   @override
   String get onLeavePaused => 'On leave — your membership is paused';
@@ -1256,10 +1475,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yourMeasurements => 'Your measurements';
 
   @override
-  String get addMeasurements =>
-      'Add your weight and height so your gym can track progress with you';
-
-  @override
   String get checkInDue => 'This month\'s check-in is due';
 
   @override
@@ -1267,17 +1482,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get perWeek => 'Per week';
-
-  @override
-  String weeksRunning(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Weeks running',
-      one: 'Week running',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get lastEightWeeks => 'Last 8 weeks';
@@ -1337,9 +1541,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get exerciseDirectorySubtitle =>
       'Strength, cardio and yoga, with step-by-step form cues';
-
-  @override
-  String get steps => 'Steps';
 
   @override
   String get attendance => 'Attendance';
@@ -1663,9 +1864,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifications => 'Notifications';
-
-  @override
-  String get noNotifications => 'Nothing new';
 
   @override
   String get needsReview => 'Translation pending review';

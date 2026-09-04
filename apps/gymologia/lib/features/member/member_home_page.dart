@@ -107,7 +107,9 @@ class _MemberHomePageState extends State<MemberHomePage> {
                     ),
                     TextButton(
                       onPressed: _openCheckIn,
-                      child: Text(latest == null ? 'Add' : 'Update'),
+                      child: Text(latest == null
+                          ? AppLocalizations.of(context).add
+                          : AppLocalizations.of(context).update),
                     ),
                   ],
                 ),
@@ -122,14 +124,14 @@ class _MemberHomePageState extends State<MemberHomePage> {
                   Row(
                     children: [
                       _Metric(
-                        label: 'Weight',
+                        label: AppLocalizations.of(context).weight,
                         value: latest.weightKg == null
                             ? '—'
                             : '${latest.weightKg!.toStringAsFixed(1)} kg',
                       ),
                       const SizedBox(width: 28),
                       _Metric(
-                        label: 'Height',
+                        label: AppLocalizations.of(context).height,
                         value: latest.heightCm == null
                             ? '—'
                             : '${latest.heightCm!.toStringAsFixed(0)} cm',
@@ -197,8 +199,10 @@ class _MemberHomePageState extends State<MemberHomePage> {
                   style: TextStyle(fontWeight: FontWeight.w700)),
               subtitle: Text(
                 widget.memberships.length > 1
-                    ? 'Your trainer, staff and members at ${membership.gymName}'
-                    : 'Your trainer, the staff, and other members',
+                    ? AppLocalizations.of(context)
+                        .trainerStaffMembersAt(membership.gymName)
+                    : AppLocalizations.of(context)
+                        .trainerStaffOtherMembers,
               ),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => Navigator.of(context).push(
@@ -238,8 +242,8 @@ class _MemberHomePageState extends State<MemberHomePage> {
 
         const SizedBox(height: 16),
         _NotBuiltCard(
-          title: 'Coming next',
-          items: const ['Progress charts against your goal'],
+          title: AppLocalizations.of(context).comingNext,
+          items: [AppLocalizations.of(context).progressChartsAgainstGoal],
         ),
       ],
     );
@@ -317,13 +321,15 @@ class _MembershipCard extends StatelessWidget {
                 Row(
                   children: [
                     _Metric(
-                      label: 'Days left',
-                      value: days < 0 ? 'Expired' : '$days',
+                      label: AppLocalizations.of(context).daysLeft,
+                      value: days < 0
+                          ? AppLocalizations.of(context).expired
+                          : '$days',
                       emphasis: expiringSoon,
                     ),
                     const SizedBox(width: 28),
                     _Metric(
-                      label: 'Leave left',
+                      label: AppLocalizations.of(context).leaveLeft,
                       value: '${membership.leaveDaysLeft} of ${membership.maxLeaveDays}',
                     ),
                   ],

@@ -162,23 +162,11 @@ abstract class AppLocalizations {
   /// **'Try again'**
   String get tryAgain;
 
-  /// No description provided for @loading.
-  ///
-  /// In en, this message translates to:
-  /// **'Loading'**
-  String get loading;
-
   /// No description provided for @somethingWentWrong.
   ///
   /// In en, this message translates to:
   /// **'Something went wrong'**
   String get somethingWentWrong;
-
-  /// No description provided for @signIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in'**
-  String get signIn;
 
   /// No description provided for @phoneNumber.
   ///
@@ -204,12 +192,6 @@ abstract class AppLocalizations {
   /// **'Verify'**
   String get verifyCode;
 
-  /// No description provided for @enterCode.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter the code we sent you'**
-  String get enterCode;
-
   /// No description provided for @resendCode.
   ///
   /// In en, this message translates to:
@@ -221,12 +203,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create your account'**
   String get createAccount;
-
-  /// No description provided for @yourName.
-  ///
-  /// In en, this message translates to:
-  /// **'Your name'**
-  String get yourName;
 
   /// No description provided for @emailOptional.
   ///
@@ -1836,6 +1812,390 @@ abstract class AppLocalizations {
   /// **'Following your device'**
   String get followingYourDevice;
 
+  /// No description provided for @yourGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Your gym'**
+  String get yourGym;
+
+  /// No description provided for @weeksRunning.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Week running} other{Weeks running}}'**
+  String weeksRunning(int count);
+
+  /// No description provided for @noVisitsInLastDays.
+  ///
+  /// In en, this message translates to:
+  /// **'No visits recorded in the last {days} days.'**
+  String noVisitsInLastDays(int days);
+
+  /// No description provided for @visitsInLastDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 visit in the last {days} days.} other{{count} visits in the last {days} days.}}'**
+  String visitsInLastDays(int count, int days);
+
+  /// No description provided for @couldNotLoadEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load events'**
+  String get couldNotLoadEvents;
+
+  /// No description provided for @noEventsOnRightNow.
+  ///
+  /// In en, this message translates to:
+  /// **'No events on right now'**
+  String get noEventsOnRightNow;
+
+  /// No description provided for @eventsAppearHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Events your gym runs show up here, along with anything open to everyone nearby.'**
+  String get eventsAppearHere;
+
+  /// No description provided for @atYourGym.
+  ///
+  /// In en, this message translates to:
+  /// **'At your gym'**
+  String get atYourGym;
+
+  /// No description provided for @trainerStaffMembersAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Your trainer, staff and members at {gym}'**
+  String trainerStaffMembersAt(String gym);
+
+  /// No description provided for @trainerStaffOtherMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'Your trainer, the staff, and other members'**
+  String get trainerStaffOtherMembers;
+
+  /// No description provided for @comingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming next'**
+  String get comingNext;
+
+  /// No description provided for @progressChartsAgainstGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress charts against your goal'**
+  String get progressChartsAgainstGoal;
+
+  /// No description provided for @leaveLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave left'**
+  String get leaveLeft;
+
+  /// No description provided for @approvedMembershipPauses.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} approved. Their membership pauses for those days.'**
+  String approvedMembershipPauses(String name);
+
+  /// No description provided for @approveInstead.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve instead'**
+  String get approveInstead;
+
+  /// No description provided for @declineInstead.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline instead'**
+  String get declineInstead;
+
+  /// No description provided for @needsYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs you'**
+  String get needsYou;
+
+  /// No description provided for @autoApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-approved'**
+  String get autoApproved;
+
+  /// No description provided for @returnedEarly.
+  ///
+  /// In en, this message translates to:
+  /// **'Returned early'**
+  String get returnedEarly;
+
+  /// No description provided for @whereYouAre.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you are'**
+  String get whereYouAre;
+
+  /// No description provided for @enterTheAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the address'**
+  String get enterTheAddress;
+
+  /// No description provided for @maximumPerMembership.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum per membership'**
+  String get maximumPerMembership;
+
+  /// No description provided for @removeStaffWithAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{They lose access to this gym, and the 1 member assigned to them will have no trainer until you reassign someone.} other{They lose access to this gym, and the {count} members assigned to them will have no trainer until you reassign someone.}}'**
+  String removeStaffWithAssigned(int count);
+
+  /// No description provided for @removeStaffPlain.
+  ///
+  /// In en, this message translates to:
+  /// **'They lose access to this gym. Their attendance history is kept.'**
+  String get removeStaffPlain;
+
+  /// No description provided for @couldNotLoadGyms.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load gyms'**
+  String get couldNotLoadGyms;
+
+  /// No description provided for @noGymsListedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No gyms listed yet'**
+  String get noGymsListedYet;
+
+  /// No description provided for @gymsAppearOnPro.
+  ///
+  /// In en, this message translates to:
+  /// **'Gyms appear here once they are on the Pro plan and have chosen to be listed.'**
+  String get gymsAppearOnPro;
+
+  /// No description provided for @nothingMatchedTry.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matched “{query}”. Try a different city or district.'**
+  String nothingMatchedTry(String query);
+
+  /// No description provided for @noRatings.
+  ///
+  /// In en, this message translates to:
+  /// **'No ratings'**
+  String get noRatings;
+
+  /// No description provided for @fromRatings.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{from 1 rating} other{from {count} ratings}}'**
+  String fromRatings(int count);
+
+  /// No description provided for @onlyProGymHere.
+  ///
+  /// In en, this message translates to:
+  /// **'The only Pro gym here'**
+  String get onlyProGymHere;
+
+  /// No description provided for @ofProGyms.
+  ///
+  /// In en, this message translates to:
+  /// **'of {count} Pro gyms'**
+  String ofProGyms(int count);
+
+  /// No description provided for @couldNotLoadYourGyms.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load your gyms'**
+  String get couldNotLoadYourGyms;
+
+  /// No description provided for @noGymsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No gyms yet'**
+  String get noGymsYet;
+
+  /// No description provided for @createYourGymBlurb.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your gym to set up members, staff, attendance and leave. If you work at a gym, ask the owner to add you and it will appear here.'**
+  String get createYourGymBlurb;
+
+  /// No description provided for @newGroupSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'New group ({count} selected)'**
+  String newGroupSelected(int count);
+
+  /// No description provided for @newMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'New message'**
+  String get newMessage;
+
+  /// No description provided for @oneToOne.
+  ///
+  /// In en, this message translates to:
+  /// **'One to one'**
+  String get oneToOne;
+
+  /// No description provided for @group.
+  ///
+  /// In en, this message translates to:
+  /// **'Group'**
+  String get group;
+
+  /// No description provided for @buildMuscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Build muscle'**
+  String get buildMuscle;
+
+  /// No description provided for @loseFat.
+  ///
+  /// In en, this message translates to:
+  /// **'Lose fat'**
+  String get loseFat;
+
+  /// No description provided for @getStronger.
+  ///
+  /// In en, this message translates to:
+  /// **'Get stronger'**
+  String get getStronger;
+
+  /// No description provided for @officialGroupEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone at this gym. Nothing said yet.'**
+  String get officialGroupEmpty;
+
+  /// No description provided for @unofficialGroupEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Members only. Nothing said yet.'**
+  String get unofficialGroupEmpty;
+
+  /// No description provided for @noMessagesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet'**
+  String get noMessagesYet;
+
+  /// No description provided for @approved.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get approved;
+
+  /// No description provided for @declined.
+  ///
+  /// In en, this message translates to:
+  /// **'Declined'**
+  String get declined;
+
+  /// No description provided for @cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
+  /// No description provided for @flexibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Flexibility'**
+  String get flexibility;
+
+  /// No description provided for @rehab.
+  ///
+  /// In en, this message translates to:
+  /// **'Rehab'**
+  String get rehab;
+
+  /// No description provided for @youPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'You: '**
+  String get youPrefix;
+
+  /// No description provided for @active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get active;
+
+  /// No description provided for @joined.
+  ///
+  /// In en, this message translates to:
+  /// **'Joined'**
+  String get joined;
+
+  /// No description provided for @leftCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Left'**
+  String get leftCount;
+
+  /// No description provided for @net.
+  ///
+  /// In en, this message translates to:
+  /// **'Net'**
+  String get net;
+
+  /// No description provided for @daily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily'**
+  String get daily;
+
+  /// No description provided for @monthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get monthly;
+
+  /// No description provided for @yearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get yearly;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// No description provided for @required.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get required;
+
+  /// No description provided for @contact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get contact;
+
+  /// No description provided for @owner.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner'**
+  String get owner;
+
+  /// No description provided for @support.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get support;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:
@@ -1926,12 +2286,6 @@ abstract class AppLocalizations {
   /// **'Chat'**
   String get chat;
 
-  /// No description provided for @profile.
-  ///
-  /// In en, this message translates to:
-  /// **'Profile'**
-  String get profile;
-
   /// No description provided for @findAGym.
   ///
   /// In en, this message translates to:
@@ -1944,35 +2298,17 @@ abstract class AppLocalizations {
   /// **'Search by name or locality'**
   String get searchGyms;
 
-  /// No description provided for @noGymsFound.
-  ///
-  /// In en, this message translates to:
-  /// **'No gyms found here yet'**
-  String get noGymsFound;
-
   /// No description provided for @perks.
   ///
   /// In en, this message translates to:
   /// **'Perks'**
   String get perks;
 
-  /// No description provided for @contactGym.
-  ///
-  /// In en, this message translates to:
-  /// **'Contact this gym'**
-  String get contactGym;
-
   /// No description provided for @rating.
   ///
   /// In en, this message translates to:
   /// **'Rating'**
   String get rating;
-
-  /// No description provided for @yourMembership.
-  ///
-  /// In en, this message translates to:
-  /// **'Your membership'**
-  String get yourMembership;
 
   /// No description provided for @onLeavePaused.
   ///
@@ -2088,12 +2424,6 @@ abstract class AppLocalizations {
   /// **'Your measurements'**
   String get yourMeasurements;
 
-  /// No description provided for @addMeasurements.
-  ///
-  /// In en, this message translates to:
-  /// **'Add your weight and height so your gym can track progress with you'**
-  String get addMeasurements;
-
   /// No description provided for @checkInDue.
   ///
   /// In en, this message translates to:
@@ -2111,12 +2441,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Per week'**
   String get perWeek;
-
-  /// No description provided for @weeksRunning.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =1{Week running} other{Weeks running}}'**
-  String weeksRunning(int count);
 
   /// No description provided for @lastEightWeeks.
   ///
@@ -2225,12 +2549,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Strength, cardio and yoga, with step-by-step form cues'**
   String get exerciseDirectorySubtitle;
-
-  /// No description provided for @steps.
-  ///
-  /// In en, this message translates to:
-  /// **'Steps'**
-  String get steps;
 
   /// No description provided for @attendance.
   ///
@@ -2837,12 +3155,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notifications'**
   String get notifications;
-
-  /// No description provided for @noNotifications.
-  ///
-  /// In en, this message translates to:
-  /// **'Nothing new'**
-  String get noNotifications;
 
   /// Shown beside a language that has been machine-translated and not yet checked by a native speaker.
   ///

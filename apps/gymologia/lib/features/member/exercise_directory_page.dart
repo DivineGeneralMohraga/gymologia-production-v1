@@ -117,12 +117,12 @@ class _ExerciseDirectoryPageState extends State<ExerciseDirectoryPage> {
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 children: [
-                  for (final g in const [
-                    ('MUSCLE_GAIN', 'Build muscle'),
-                    ('FAT_LOSS', 'Lose fat'),
-                    ('STRENGTH', 'Get stronger'),
-                    ('FLEXIBILITY', 'Flexibility'),
-                    ('REHAB', 'Rehab'),
+                  for (final g in [
+                    ('MUSCLE_GAIN', AppLocalizations.of(context).buildMuscle),
+                    ('FAT_LOSS', AppLocalizations.of(context).loseFat),
+                    ('STRENGTH', AppLocalizations.of(context).getStronger),
+                    ('FLEXIBILITY', AppLocalizations.of(context).flexibility),
+                    ('REHAB', AppLocalizations.of(context).rehab),
                   ])
                     Padding(
                       padding: const EdgeInsets.only(right: 8),

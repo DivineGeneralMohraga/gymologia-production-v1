@@ -334,21 +334,26 @@ class _AttendanceCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(record['gymDisplayName'] as String? ?? 'Your gym',
+            Text(
+                record['gymDisplayName'] as String? ??
+                    AppLocalizations.of(context).yourGym,
                 style: theme.textTheme.titleMedium
                     ?.copyWith(fontWeight: FontWeight.w600)),
             const SizedBox(height: 14),
             Row(
               children: [
-                _Stat(label: 'This month', value: '$thisMonth'),
+                _Stat(
+                    label: AppLocalizations.of(context).thisMonth,
+                    value: '$thisMonth'),
                 const SizedBox(width: 26),
                 _Stat(
-                  label: 'Per week',
+                  label: AppLocalizations.of(context).perWeek,
                   value: perWeek == null ? '—' : perWeek.toStringAsFixed(1),
                 ),
                 const SizedBox(width: 26),
                 _Stat(
-                  label: streak == 1 ? 'Week running' : 'Weeks running',
+                  label: AppLocalizations.of(context)
+                      .weeksRunning(streak),
                   value: '$streak',
                   tone: streak >= 3 ? theme.colorScheme.primary : null,
                 ),
@@ -359,9 +364,10 @@ class _AttendanceCard extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               present == 0
-                  ? 'No visits recorded in the last ${record['windowDays']} days.'
-                  : '$present visit${present == 1 ? '' : 's'} in the last '
-                      '${record['windowDays']} days.',
+                  ? AppLocalizations.of(context).noVisitsInLastDays(
+                      (record['windowDays'] as int?) ?? 0)
+                  : AppLocalizations.of(context).visitsInLastDays(
+                      present, (record['windowDays'] as int?) ?? 0),
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),

@@ -88,7 +88,8 @@ class _GrowthPageState extends State<GrowthPage> {
                       for (final unit in _units)
                         ButtonSegment(
                           value: unit,
-                          label: Text(_unitLabel(unit)),
+                          label: Text(_unitLabel(
+                              AppLocalizations.of(context), unit)),
                         ),
                     ],
                     selected: {_unit},
@@ -109,19 +110,19 @@ class _GrowthPageState extends State<GrowthPage> {
                     Row(
                       children: [
                         _Figure(
-                          label: 'Joined',
+                          label: AppLocalizations.of(context).joined,
                           value: '${data['totalJoined'] ?? 0}',
                           tone: theme.colorScheme.primary,
                         ),
                         const SizedBox(width: 28),
                         _Figure(
-                          label: 'Left',
+                          label: AppLocalizations.of(context).leftCount,
                           value: '${data['totalDeparted'] ?? 0}',
                           tone: theme.colorScheme.outline,
                         ),
                         const SizedBox(width: 28),
                         _Figure(
-                          label: 'Net',
+                          label: AppLocalizations.of(context).net,
                           value: _net(data),
                           tone: _netValue(data) < 0
                               ? theme.colorScheme.error
@@ -148,10 +149,11 @@ class _GrowthPageState extends State<GrowthPage> {
     );
   }
 
-  static String _unitLabel(String unit) => switch (unit) {
-        'day' => 'Daily',
-        'year' => 'Yearly',
-        _ => 'Monthly',
+  static String _unitLabel(AppLocalizations t, String unit) =>
+      switch (unit) {
+        'day' => t.daily,
+        'year' => t.yearly,
+        _ => t.monthly,
       };
 
   List<Map<String, dynamic>> _buckets(Map<String, dynamic> data) {
@@ -234,11 +236,13 @@ class _GrowthChart extends StatelessWidget {
       children: [
         Row(
           children: [
-            _Key(colour: theme.colorScheme.primary, label: 'Joined'),
+            _Key(
+                colour: theme.colorScheme.primary,
+                label: AppLocalizations.of(context).joined),
             const SizedBox(width: 16),
             _Key(
               colour: theme.colorScheme.outlineVariant,
-              label: 'Left',
+              label: AppLocalizations.of(context).leftCount,
             ),
             const Spacer(),
             Text(AppLocalizations.of(context).peakValue(peak),

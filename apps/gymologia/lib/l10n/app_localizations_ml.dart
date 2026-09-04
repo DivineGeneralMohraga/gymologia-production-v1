@@ -34,13 +34,7 @@ class AppLocalizationsMl extends AppLocalizations {
   String get tryAgain => 'വീണ്ടും ശ്രമിക്കുക';
 
   @override
-  String get loading => 'ലോഡ് ചെയ്യുന്നു';
-
-  @override
   String get somethingWentWrong => 'എന്തോ കുഴപ്പം സംഭവിച്ചു';
-
-  @override
-  String get signIn => 'സൈൻ ഇൻ';
 
   @override
   String get phoneNumber => 'മൊബൈൽ നമ്പർ';
@@ -55,16 +49,10 @@ class AppLocalizationsMl extends AppLocalizations {
   String get verifyCode => 'സ്ഥിരീകരിക്കുക';
 
   @override
-  String get enterCode => 'ഞങ്ങൾ അയച്ച കോഡ് നൽകുക';
-
-  @override
   String get resendCode => 'വീണ്ടും അയയ്ക്കുക';
 
   @override
   String get createAccount => 'നിങ്ങളുടെ അക്കൗണ്ട് ഉണ്ടാക്കുക';
-
-  @override
-  String get yourName => 'നിങ്ങളുടെ പേര്';
 
   @override
   String get emailOptional => 'ഇമെയിൽ (ഐച്ഛികം)';
@@ -1102,6 +1090,248 @@ class AppLocalizationsMl extends AppLocalizations {
   String get followingYourDevice => 'നിങ്ങളുടെ ഉപകരണം അനുസരിച്ച്';
 
   @override
+  String get yourGym => 'നിങ്ങളുടെ ജിം';
+
+  @override
+  String weeksRunning(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'തുടർച്ചയായ ആഴ്ചകൾ',
+      one: 'തുടർച്ചയായ ആഴ്ച',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String noVisitsInLastDays(int days) {
+    return 'കഴിഞ്ഞ $days ദിവസത്തിൽ വരവ് രേഖപ്പെടുത്തിയിട്ടില്ല.';
+  }
+
+  @override
+  String visitsInLastDays(int count, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'കഴിഞ്ഞ $days ദിവസത്തിൽ $count വരവുകൾ.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get couldNotLoadEvents => 'ഇവന്റുകൾ ലോഡ് ചെയ്യാനായില്ല';
+
+  @override
+  String get noEventsOnRightNow => 'ഇപ്പോൾ ഇവന്റുകളൊന്നുമില്ല';
+
+  @override
+  String get eventsAppearHere =>
+      'നിങ്ങളുടെ ജിം നടത്തുന്ന ഇവന്റുകൾ ഇവിടെ കാണാം, അടുത്ത് എല്ലാവർക്കും തുറന്നവയും.';
+
+  @override
+  String get atYourGym => 'നിങ്ങളുടെ ജിമ്മിൽ';
+
+  @override
+  String trainerStaffMembersAt(String gym) {
+    return '$gym ലെ നിങ്ങളുടെ പരിശീലകൻ, ജീവനക്കാർ, അംഗങ്ങൾ';
+  }
+
+  @override
+  String get trainerStaffOtherMembers =>
+      'നിങ്ങളുടെ പരിശീലകൻ, ജീവനക്കാർ, മറ്റ് അംഗങ്ങൾ';
+
+  @override
+  String get comingNext => 'അടുത്തതായി';
+
+  @override
+  String get progressChartsAgainstGoal =>
+      'നിങ്ങളുടെ ലക്ഷ്യത്തിനെതിരായ പുരോഗതി ചാർട്ടുകൾ';
+
+  @override
+  String get leaveLeft => 'ബാക്കി അവധി';
+
+  @override
+  String approvedMembershipPauses(String name) {
+    return '$name അംഗീകരിച്ചു. ആ ദിവസങ്ങളിൽ അവരുടെ അംഗത്വം നിർത്തും.';
+  }
+
+  @override
+  String get approveInstead => 'പകരം അംഗീകരിക്കുക';
+
+  @override
+  String get declineInstead => 'പകരം നിരസിക്കുക';
+
+  @override
+  String get needsYou => 'നിങ്ങളെ വേണം';
+
+  @override
+  String get autoApproved => 'സ്വയമേവ അംഗീകരിച്ചു';
+
+  @override
+  String get returnedEarly => 'നേരത്തെ മടങ്ങി';
+
+  @override
+  String get whereYouAre => 'നിങ്ങൾ എവിടെയാണ്';
+
+  @override
+  String get enterTheAddress => 'വിലാസം നൽകുക';
+
+  @override
+  String get maximumPerMembership => 'ഓരോ അംഗത്വത്തിനും പരമാവധി';
+
+  @override
+  String removeStaffWithAssigned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'അവർക്ക് ഈ ജിമ്മിലേക്കുള്ള പ്രവേശനം നഷ്ടപ്പെടും, അവർക്ക് നിയോഗിച്ച $count അംഗങ്ങൾക്ക് നിങ്ങൾ മറ്റൊരാളെ നിയോഗിക്കുന്നത് വരെ പരിശീലകൻ ഉണ്ടാകില്ല.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get removeStaffPlain =>
+      'അവർക്ക് ഈ ജിമ്മിലേക്കുള്ള പ്രവേശനം നഷ്ടപ്പെടും. അവരുടെ ഹാജർ രേഖ സൂക്ഷിക്കും.';
+
+  @override
+  String get couldNotLoadGyms => 'ജിമ്മുകൾ ലോഡ് ചെയ്യാനായില്ല';
+
+  @override
+  String get noGymsListedYet => 'ഇതുവരെ ജിമ്മുകൾ ലിസ്റ്റ് ചെയ്തിട്ടില്ല';
+
+  @override
+  String get gymsAppearOnPro =>
+      'പ്രോ പ്ലാനിലുള്ളതും ലിസ്റ്റ് ചെയ്യാൻ തിരഞ്ഞെടുത്തതുമായ ജിമ്മുകൾ ഇവിടെ വരും.';
+
+  @override
+  String nothingMatchedTry(String query) {
+    return '“$query” ന് ഒന്നും കണ്ടെത്തിയില്ല. മറ്റൊരു നഗരമോ ജില്ലയോ പരീക്ഷിക്കുക.';
+  }
+
+  @override
+  String get noRatings => 'റേറ്റിംഗുകളില്ല';
+
+  @override
+  String fromRatings(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count റേറ്റിംഗുകളിൽ നിന്ന്',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get onlyProGymHere => 'ഇവിടത്തെ ഏക പ്രോ ജിം';
+
+  @override
+  String ofProGyms(int count) {
+    return '$count പ്രോ ജിമ്മുകളിൽ';
+  }
+
+  @override
+  String get couldNotLoadYourGyms => 'നിങ്ങളുടെ ജിമ്മുകൾ ലോഡ് ചെയ്യാനായില്ല';
+
+  @override
+  String get noGymsYet => 'ഇതുവരെ ജിമ്മുകളില്ല';
+
+  @override
+  String get createYourGymBlurb =>
+      'അംഗങ്ങൾ, ജീവനക്കാർ, ഹാജർ, അവധി ക്രമീകരിക്കാൻ നിങ്ങളുടെ ജിം ഉണ്ടാക്കുക. ഒരു ജിമ്മിൽ ജോലി ചെയ്യുന്നെങ്കിൽ ഉടമയോട് ചേർക്കാൻ പറയുക, അത് ഇവിടെ വരും.';
+
+  @override
+  String newGroupSelected(int count) {
+    return 'പുതിയ ഗ്രൂപ്പ് ($count തിരഞ്ഞെടുത്തു)';
+  }
+
+  @override
+  String get newMessage => 'പുതിയ സന്ദേശം';
+
+  @override
+  String get oneToOne => 'ഒന്നിനൊന്ന്';
+
+  @override
+  String get group => 'ഗ്രൂപ്പ്';
+
+  @override
+  String get buildMuscle => 'പേശി വളർത്തുക';
+
+  @override
+  String get loseFat => 'കൊഴുപ്പ് കുറയ്ക്കുക';
+
+  @override
+  String get getStronger => 'ശക്തി കൂട്ടുക';
+
+  @override
+  String get officialGroupEmpty =>
+      'ഈ ജിമ്മിലെ എല്ലാവരും. ഇതുവരെ ഒന്നും പറഞ്ഞിട്ടില്ല.';
+
+  @override
+  String get unofficialGroupEmpty =>
+      'അംഗങ്ങൾ മാത്രം. ഇതുവരെ ഒന്നും പറഞ്ഞിട്ടില്ല.';
+
+  @override
+  String get noMessagesYet => 'ഇതുവരെ സന്ദേശങ്ങളില്ല';
+
+  @override
+  String get approved => 'അംഗീകരിച്ചു';
+
+  @override
+  String get declined => 'നിരസിച്ചു';
+
+  @override
+  String get cancelled => 'റദ്ദാക്കി';
+
+  @override
+  String get flexibility => 'വഴക്കം';
+
+  @override
+  String get rehab => 'റീഹാബ്';
+
+  @override
+  String get youPrefix => 'നിങ്ങൾ: ';
+
+  @override
+  String get active => 'സജീവം';
+
+  @override
+  String get joined => 'ചേർന്നു';
+
+  @override
+  String get leftCount => 'വിട്ടു';
+
+  @override
+  String get net => 'അറ്റം';
+
+  @override
+  String get daily => 'ദിവസേന';
+
+  @override
+  String get monthly => 'പ്രതിമാസം';
+
+  @override
+  String get yearly => 'വാർഷികം';
+
+  @override
+  String get add => 'ചേർക്കുക';
+
+  @override
+  String get update => 'പുതുക്കുക';
+
+  @override
+  String get required => 'നിർബന്ധം';
+
+  @override
+  String get contact => 'ബന്ധപ്പെടാൻ';
+
+  @override
+  String get owner => 'ഉടമ';
+
+  @override
+  String get support => 'പിന്തുണ';
+
+  @override
   String get home => 'ഹോം';
 
   @override
@@ -1147,28 +1377,16 @@ class AppLocalizationsMl extends AppLocalizations {
   String get chat => 'ചാറ്റ്';
 
   @override
-  String get profile => 'പ്രൊഫൈൽ';
-
-  @override
   String get findAGym => 'ജിം കണ്ടെത്തുക';
 
   @override
   String get searchGyms => 'പേരോ പ്രദേശമോ ഉപയോഗിച്ച് തിരയുക';
 
   @override
-  String get noGymsFound => 'ഇവിടെ ഇതുവരെ ജിമ്മുകളൊന്നുമില്ല';
-
-  @override
   String get perks => 'സൗകര്യങ്ങൾ';
 
   @override
-  String get contactGym => 'ഈ ജിമ്മുമായി ബന്ധപ്പെടുക';
-
-  @override
   String get rating => 'റേറ്റിംഗ്';
-
-  @override
-  String get yourMembership => 'നിങ്ങളുടെ അംഗത്വം';
 
   @override
   String get onLeavePaused => 'അവധിയിൽ — നിങ്ങളുടെ അംഗത്വം നിർത്തിവച്ചു';
@@ -1247,10 +1465,6 @@ class AppLocalizationsMl extends AppLocalizations {
   String get yourMeasurements => 'നിങ്ങളുടെ അളവുകൾ';
 
   @override
-  String get addMeasurements =>
-      'നിങ്ങളുടെ ഭാരവും ഉയരവും ചേർക്കുക, അപ്പോൾ ജിമ്മിന് നിങ്ങളുടെ പുരോഗതി കാണാം';
-
-  @override
   String get checkInDue => 'ഈ മാസത്തെ ചെക്ക്-ഇൻ ബാക്കിയുണ്ട്';
 
   @override
@@ -1258,17 +1472,6 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get perWeek => 'ആഴ്ചയിൽ';
-
-  @override
-  String weeksRunning(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'തുടർച്ചയായ ആഴ്ചകൾ',
-      one: 'തുടർച്ചയായ ആഴ്ച',
-    );
-    return '$_temp0';
-  }
 
   @override
   String get lastEightWeeks => 'കഴിഞ്ഞ 8 ആഴ്ച';
@@ -1330,9 +1533,6 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get exerciseDirectorySubtitle =>
       'കരുത്ത്, കാർഡിയോ, യോഗ — ഓരോ ഘട്ടത്തിന്റെയും നിർദ്ദേശങ്ങളോടെ';
-
-  @override
-  String get steps => 'ഘട്ടങ്ങൾ';
 
   @override
   String get attendance => 'ഹാജർ';
@@ -1658,9 +1858,6 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get notifications => 'അറിയിപ്പുകൾ';
-
-  @override
-  String get noNotifications => 'പുതിയതായി ഒന്നുമില്ല';
 
   @override
   String get needsReview => 'വിവർത്തനം പരിശോധിക്കാനുണ്ട്';

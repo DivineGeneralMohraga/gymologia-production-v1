@@ -273,7 +273,7 @@ class _DaysBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final (label, color) = member.expired
-        ? ('Expired', theme.colorScheme.error)
+        ? (AppLocalizations.of(context).expired, theme.colorScheme.error)
         : member.expiringSoon
             ? ('${member.daysRemaining}d left', theme.colorScheme.error)
             : ('${member.daysRemaining}d', theme.colorScheme.onSurfaceVariant);
