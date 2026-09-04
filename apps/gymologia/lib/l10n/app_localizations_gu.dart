@@ -510,6 +510,117 @@ class AppLocalizationsGu extends AppLocalizations {
   String get goalDialogHint => '80 કિલો સુધી બલ્ક, વજન ઘટાડો, રિહેબ…';
 
   @override
+  String signedUpCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count લોકોએ નામ નોંધાવ્યું',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nobodyYet => 'હજી કોઈ નથી.';
+
+  @override
+  String get hostAnEvent => 'ઇવેન્ટ યોજો';
+
+  @override
+  String get noEventsYet =>
+      'હજી કોઈ ઇવેન્ટ નથી. એક યોજો, તે તમારા સભ્યોને તરત દેખાશે.';
+
+  @override
+  String get eventTitleHint => 'સમર ડેડલિફ્ટ મીટ';
+
+  @override
+  String get howToTakePart => 'કેવી રીતે ભાગ લેવો';
+
+  @override
+  String get howToTakePartHint => 'સવારે 8 વાગ્યે વજન. પોતાનો બેલ્ટ લાવો.';
+
+  @override
+  String get prizeOptional => 'ઇનામ (વૈકલ્પિક)';
+
+  @override
+  String get prizeHint => '₹10,000';
+
+  @override
+  String get membersCanSignUp => 'સભ્યો ઍપમાં નામ નોંધાવી શકે છે';
+
+  @override
+  String get membersCanSignUpNote =>
+      'બંધ કરશો તો બટનને બદલે તમારી શરતો દેખાશે.';
+
+  @override
+  String get listPublicly => 'જાહેરમાં દેખાડો';
+
+  @override
+  String get listPubliclyNote => 'આખા દેશની ઇવેન્ટ ફીડમાં દેખાય છે.';
+
+  @override
+  String get listPubliclyProOnly =>
+      'ફક્ત પ્રો પ્લાનમાં. તમારા સભ્યો તો જોશે જ.';
+
+  @override
+  String get openToOutsiders => 'તમારા જિમ બહારના લોકો માટે પણ ખુલ્લું';
+
+  @override
+  String get publishEvent => 'ઇવેન્ટ પ્રકાશિત કરો';
+
+  @override
+  String get registrationOpen => 'નોંધણી ખુલ્લી';
+
+  @override
+  String get registrationClosed => 'નોંધણી બંધ';
+
+  @override
+  String get close => 'બંધ કરો';
+
+  @override
+  String get markAllRead => 'બધું વાંચેલું ગણો';
+
+  @override
+  String get nothingYet => 'હજી કંઈ નથી';
+
+  @override
+  String get announcementsAppearHere =>
+      'તમારા જિમ અને જિમોલોજિયાની જાહેરાતો અહીં દેખાશે.';
+
+  @override
+  String get searchPeople => 'લોકો શોધો';
+
+  @override
+  String get nobodyElseHereYet => 'અહીં હજી બીજું કોઈ નથી.';
+
+  @override
+  String get nameTheGroup => 'જૂથને નામ આપો';
+
+  @override
+  String get groupNameHint => 'શનિવાર સવારનું જૂથ';
+
+  @override
+  String get create => 'બનાવો';
+
+  @override
+  String get pickWhoIsInTheGroup => 'જૂથમાં કોણ છે તે પસંદ કરો';
+
+  @override
+  String createGroupWith(int count) {
+    return '$count લોકો સાથે જૂથ બનાવો';
+  }
+
+  @override
+  String get termsOfUse => 'ઉપયોગની શરતો';
+
+  @override
+  String get privacy => 'ગોપનીયતા';
+
+  @override
+  String versionUpdated(String version, String date) {
+    return 'આવૃત્તિ $version · અપડેટ $date';
+  }
+
+  @override
   String get home => 'હોમ';
 
   @override

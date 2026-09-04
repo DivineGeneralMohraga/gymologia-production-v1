@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -77,7 +78,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('Close'),
+            child: Text(AppLocalizations.of(ctx).close),
           ),
         ],
       ),
@@ -100,16 +101,17 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final items = _items;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notifications'),
+        title: Text(t.notifications),
         actions: [
           if (_unread > 0)
             TextButton(
               onPressed: _readAll,
-              child: const Text('Mark all read'),
+              child: Text(t.markAllRead),
             ),
         ],
       ),
@@ -123,7 +125,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     Text(_error!, textAlign: TextAlign.center),
                     const SizedBox(height: 18),
                     FilledButton.tonal(
-                        onPressed: _load, child: const Text('Try again')),
+                        onPressed: _load, child: Text(t.tryAgain)),
                   ],
                 ),
               ),
@@ -140,13 +142,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
                             Icon(Icons.notifications_none,
                                 size: 46, color: theme.colorScheme.outline),
                             const SizedBox(height: 18),
-                            Text('Nothing yet',
+                            Text(t.nothingYet,
                                 style: theme.textTheme.titleMedium
                                     ?.copyWith(fontWeight: FontWeight.w600)),
                             const SizedBox(height: 8),
                             Text(
-                              'Announcements from your gym and from Gymologia '
-                              'will appear here.',
+                              t.announcementsAppearHere,
                               textAlign: TextAlign.center,
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 color: theme.colorScheme.onSurfaceVariant,

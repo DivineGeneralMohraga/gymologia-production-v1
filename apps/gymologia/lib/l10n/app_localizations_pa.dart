@@ -514,6 +514,117 @@ class AppLocalizationsPa extends AppLocalizations {
   String get goalDialogHint => '80 ਕਿਲੋ ਤੱਕ ਬਲਕ, ਭਾਰ ਘਟਾਉਣਾ, ਰੀਹੈਬ…';
 
   @override
+  String signedUpCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਨੇ ਨਾਮ ਲਿਖਵਾਇਆ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nobodyYet => 'ਅਜੇ ਕੋਈ ਨਹੀਂ।';
+
+  @override
+  String get hostAnEvent => 'ਇੱਕ ਸਮਾਗਮ ਕਰਵਾਓ';
+
+  @override
+  String get noEventsYet =>
+      'ਅਜੇ ਕੋਈ ਸਮਾਗਮ ਨਹੀਂ। ਇੱਕ ਕਰਵਾਓ, ਉਹ ਤੁਹਾਡੇ ਮੈਂਬਰਾਂ ਨੂੰ ਤੁਰੰਤ ਦਿਖੇਗਾ।';
+
+  @override
+  String get eventTitleHint => 'ਸਮਰ ਡੈੱਡਲਿਫਟ ਮੀਟ';
+
+  @override
+  String get howToTakePart => 'ਹਿੱਸਾ ਕਿਵੇਂ ਲੈਣਾ ਹੈ';
+
+  @override
+  String get howToTakePartHint => 'ਸਵੇਰੇ 8 ਵਜੇ ਭਾਰ। ਆਪਣੀ ਬੈਲਟ ਲਿਆਓ।';
+
+  @override
+  String get prizeOptional => 'ਇਨਾਮ (ਵਿਕਲਪਿਕ)';
+
+  @override
+  String get prizeHint => '₹10,000';
+
+  @override
+  String get membersCanSignUp => 'ਮੈਂਬਰ ਐਪ ਵਿੱਚ ਨਾਮ ਲਿਖਵਾ ਸਕਦੇ ਹਨ';
+
+  @override
+  String get membersCanSignUpNote =>
+      'ਬੰਦ ਕਰਨ ਉੱਤੇ ਉਹਨਾਂ ਨੂੰ ਬਟਨ ਦੀ ਥਾਂ ਤੁਹਾਡੀਆਂ ਸ਼ਰਤਾਂ ਦਿਖਣਗੀਆਂ।';
+
+  @override
+  String get listPublicly => 'ਜਨਤਕ ਤੌਰ ਉੱਤੇ ਦਿਖਾਓ';
+
+  @override
+  String get listPubliclyNote => 'ਪੂਰੇ ਦੇਸ਼ ਦੀ ਸਮਾਗਮ ਫੀਡ ਵਿੱਚ ਦਿਖਦਾ ਹੈ।';
+
+  @override
+  String get listPubliclyProOnly =>
+      'ਸਿਰਫ਼ ਪ੍ਰੋ ਪਲਾਨ ਉੱਤੇ। ਤੁਹਾਡੇ ਮੈਂਬਰ ਫਿਰ ਵੀ ਇਹ ਵੇਖਣਗੇ।';
+
+  @override
+  String get openToOutsiders => 'ਤੁਹਾਡੇ ਜਿਮ ਤੋਂ ਬਾਹਰ ਦੇ ਲੋਕਾਂ ਲਈ ਵੀ ਖੁੱਲ੍ਹਾ';
+
+  @override
+  String get publishEvent => 'ਸਮਾਗਮ ਪ੍ਰਕਾਸ਼ਿਤ ਕਰੋ';
+
+  @override
+  String get registrationOpen => 'ਰਜਿਸਟਰੇਸ਼ਨ ਖੁੱਲ੍ਹੀ';
+
+  @override
+  String get registrationClosed => 'ਰਜਿਸਟਰੇਸ਼ਨ ਬੰਦ';
+
+  @override
+  String get close => 'ਬੰਦ ਕਰੋ';
+
+  @override
+  String get markAllRead => 'ਸਭ ਪੜ੍ਹਿਆ ਹੋਇਆ ਕਰੋ';
+
+  @override
+  String get nothingYet => 'ਅਜੇ ਕੁਝ ਨਹੀਂ';
+
+  @override
+  String get announcementsAppearHere =>
+      'ਤੁਹਾਡੇ ਜਿਮ ਅਤੇ ਜਿਮੋਲੋਜੀਆ ਵੱਲੋਂ ਐਲਾਨ ਇੱਥੇ ਦਿਖਣਗੇ।';
+
+  @override
+  String get searchPeople => 'ਲੋਕ ਲੱਭੋ';
+
+  @override
+  String get nobodyElseHereYet => 'ਇੱਥੇ ਅਜੇ ਹੋਰ ਕੋਈ ਨਹੀਂ ਹੈ।';
+
+  @override
+  String get nameTheGroup => 'ਗਰੁੱਪ ਨੂੰ ਨਾਮ ਦਿਓ';
+
+  @override
+  String get groupNameHint => 'ਸ਼ਨੀਵਾਰ ਸਵੇਰ ਦਾ ਗਰੁੱਪ';
+
+  @override
+  String get create => 'ਬਣਾਓ';
+
+  @override
+  String get pickWhoIsInTheGroup => 'ਚੁਣੋ ਕਿ ਗਰੁੱਪ ਵਿੱਚ ਕੌਣ ਹੈ';
+
+  @override
+  String createGroupWith(int count) {
+    return '$count ਨਾਲ ਗਰੁੱਪ ਬਣਾਓ';
+  }
+
+  @override
+  String get termsOfUse => 'ਵਰਤੋਂ ਦੀਆਂ ਸ਼ਰਤਾਂ';
+
+  @override
+  String get privacy => 'ਨਿੱਜਤਾ';
+
+  @override
+  String versionUpdated(String version, String date) {
+    return 'ਵਰਜਨ $version · ਅੱਪਡੇਟ $date';
+  }
+
+  @override
   String get home => 'ਹੋਮ';
 
   @override

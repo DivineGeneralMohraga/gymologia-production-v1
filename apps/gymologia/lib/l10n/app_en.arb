@@ -207,6 +207,48 @@
   "whatAreTheyWorkingTowards": "What are they working towards?",
   "goalDialogHint": "Bulk up to 80kg, lose weight, rehab…",
 
+  "signedUpCount": "{count, plural, =1{1 signed up} other{{count} signed up}}",
+  "@signedUpCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "nobodyYet": "Nobody yet.",
+  "hostAnEvent": "Host an event",
+  "noEventsYet": "No events yet. Host one and it will show up for your members straight away.",
+  "eventTitleHint": "Summer Deadlift Meet",
+  "howToTakePart": "How to take part",
+  "howToTakePartHint": "Weigh-in at 8am. Bring your own belt.",
+  "prizeOptional": "Prize (optional)",
+  "prizeHint": "Rs 10,000",
+  "membersCanSignUp": "Members can sign up in the app",
+  "membersCanSignUpNote": "Turn off and they see your requirements instead of a button.",
+  "listPublicly": "List publicly",
+  "listPubliclyNote": "Shows in the events feed across the country.",
+  "listPubliclyProOnly": "Pro plan only. Your members will still see it.",
+  "openToOutsiders": "Open to people outside your gym",
+  "publishEvent": "Publish event",
+  "registrationOpen": "registration open",
+  "registrationClosed": "registration closed",
+  "close": "Close",
+  "markAllRead": "Mark all read",
+  "nothingYet": "Nothing yet",
+  "announcementsAppearHere": "Announcements from your gym and from Gymologia will appear here.",
+  "searchPeople": "Search people",
+  "nobodyElseHereYet": "Nobody else here yet.",
+  "nameTheGroup": "Name the group",
+  "groupNameHint": "Saturday morning crew",
+  "create": "Create",
+  "pickWhoIsInTheGroup": "Pick who is in the group",
+  "createGroupWith": "Create group with {count}",
+  "@createGroupWith": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "termsOfUse": "Terms of Use",
+  "privacy": "Privacy",
+  "versionUpdated": "Version {version} · updated {date}",
+  "@versionUpdated": {
+    "placeholders": { "version": { "type": "String" }, "date": { "type": "String" } }
+  },
+
   "home": "Home",
   "myGym": "My gym",
   "discover": "Discover",

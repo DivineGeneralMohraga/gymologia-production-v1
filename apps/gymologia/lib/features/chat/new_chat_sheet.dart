@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 
@@ -142,9 +143,9 @@ class _NewChatSheetState extends State<NewChatSheet> {
             child: TextField(
               controller: _search,
               onChanged: (_) => setState(() {}),
-              decoration: const InputDecoration(
-                hintText: 'Search people',
-                prefixIcon: Icon(Icons.search),
+              decoration: InputDecoration(
+                hintText: AppLocalizations.of(context).searchPeople,
+                prefixIcon: const Icon(Icons.search),
               ),
             ),
           ),
@@ -164,7 +165,7 @@ class _NewChatSheetState extends State<NewChatSheet> {
                             child: Padding(
                               padding: const EdgeInsets.all(24),
                               child: Text(
-                                'Nobody else here yet.',
+                                AppLocalizations.of(context).nobodyElseHereYet,
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   color: theme.colorScheme.onSurfaceVariant,
                                 ),
@@ -240,8 +241,9 @@ class _NewChatSheetState extends State<NewChatSheet> {
                     onPressed:
                         _selected.isEmpty || _busy ? null : _createGroup,
                     child: Text(_selected.isEmpty
-                        ? 'Pick who is in the group'
-                        : 'Create group with ${_selected.length}'),
+                        ? AppLocalizations.of(context).pickWhoIsInTheGroup
+                        : AppLocalizations.of(context)
+                            .createGroupWith(_selected.length)),
                   ),
                 ),
               ),
@@ -270,26 +272,27 @@ class _GroupNameDialogState extends State<_GroupNameDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
     return AlertDialog(
-      title: const Text('Name the group'),
+      title: Text(t.nameTheGroup),
       content: TextField(
         controller: _controller,
         autofocus: true,
         maxLength: 120,
         textCapitalization: TextCapitalization.sentences,
-        decoration: const InputDecoration(
-          hintText: 'Saturday morning crew',
+        decoration: InputDecoration(
+          hintText: t.groupNameHint,
           counterText: '',
         ),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(t.cancel),
         ),
         FilledButton(
           onPressed: () => Navigator.of(context).pop(_controller.text.trim()),
-          child: const Text('Create'),
+          child: Text(t.create),
         ),
       ],
     );

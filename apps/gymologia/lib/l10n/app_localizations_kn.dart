@@ -513,6 +513,117 @@ class AppLocalizationsKn extends AppLocalizations {
   String get goalDialogHint => '80 ಕೆಜಿವರೆಗೆ ಬಲ್ಕ್, ತೂಕ ಇಳಿಕೆ, ಪುನರ್ವಸತಿ…';
 
   @override
+  String signedUpCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ಜನ ಹೆಸರು ನೋಂದಾಯಿಸಿದ್ದಾರೆ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nobodyYet => 'ಇನ್ನೂ ಯಾರೂ ಇಲ್ಲ.';
+
+  @override
+  String get hostAnEvent => 'ಒಂದು ಕಾರ್ಯಕ್ರಮ ನಡೆಸಿ';
+
+  @override
+  String get noEventsYet =>
+      'ಇನ್ನೂ ಕಾರ್ಯಕ್ರಮಗಳಿಲ್ಲ. ಒಂದನ್ನು ನಡೆಸಿ, ಅದು ನಿಮ್ಮ ಸದಸ್ಯರಿಗೆ ತಕ್ಷಣ ಕಾಣಿಸುತ್ತದೆ.';
+
+  @override
+  String get eventTitleHint => 'ಸಮ್ಮರ್ ಡೆಡ್‌ಲಿಫ್ಟ್ ಮೀಟ್';
+
+  @override
+  String get howToTakePart => 'ಹೇಗೆ ಭಾಗವಹಿಸುವುದು';
+
+  @override
+  String get howToTakePartHint => 'ಬೆಳಿಗ್ಗೆ 8 ಗಂಟೆಗೆ ತೂಕ. ನಿಮ್ಮ ಬೆಲ್ಟ್ ತನ್ನಿ.';
+
+  @override
+  String get prizeOptional => 'ಬಹುಮಾನ (ಐಚ್ಛಿಕ)';
+
+  @override
+  String get prizeHint => '₹10,000';
+
+  @override
+  String get membersCanSignUp => 'ಸದಸ್ಯರು ಆ್ಯಪ್‌ನಲ್ಲಿ ನೋಂದಾಯಿಸಬಹುದು';
+
+  @override
+  String get membersCanSignUpNote =>
+      'ಆಫ್ ಮಾಡಿದರೆ ಬಟನ್ ಬದಲು ನಿಮ್ಮ ಷರತ್ತುಗಳು ಕಾಣಿಸುತ್ತವೆ.';
+
+  @override
+  String get listPublicly => 'ಸಾರ್ವಜನಿಕವಾಗಿ ತೋರಿಸಿ';
+
+  @override
+  String get listPubliclyNote => 'ದೇಶದಾದ್ಯಂತ ಕಾರ್ಯಕ್ರಮ ಫೀಡ್‌ನಲ್ಲಿ ಕಾಣಿಸುತ್ತದೆ.';
+
+  @override
+  String get listPubliclyProOnly =>
+      'ಪ್ರೊ ಯೋಜನೆಯಲ್ಲಿ ಮಾತ್ರ. ನಿಮ್ಮ ಸದಸ್ಯರು ಇದನ್ನು ನೋಡುತ್ತಾರೆ.';
+
+  @override
+  String get openToOutsiders => 'ನಿಮ್ಮ ಜಿಮ್ ಹೊರಗಿನವರಿಗೂ ತೆರೆದಿದೆ';
+
+  @override
+  String get publishEvent => 'ಕಾರ್ಯಕ್ರಮ ಪ್ರಕಟಿಸಿ';
+
+  @override
+  String get registrationOpen => 'ನೋಂದಣಿ ತೆರೆದಿದೆ';
+
+  @override
+  String get registrationClosed => 'ನೋಂದಣಿ ಮುಚ್ಚಿದೆ';
+
+  @override
+  String get close => 'ಮುಚ್ಚಿ';
+
+  @override
+  String get markAllRead => 'ಎಲ್ಲವನ್ನೂ ಓದಿದಂತೆ ಗುರುತಿಸಿ';
+
+  @override
+  String get nothingYet => 'ಇನ್ನೂ ಏನೂ ಇಲ್ಲ';
+
+  @override
+  String get announcementsAppearHere =>
+      'ನಿಮ್ಮ ಜಿಮ್ ಮತ್ತು ಜಿಮಾಲಜಿಯಾದಿಂದ ಪ್ರಕಟಣೆಗಳು ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತವೆ.';
+
+  @override
+  String get searchPeople => 'ಜನರನ್ನು ಹುಡುಕಿ';
+
+  @override
+  String get nobodyElseHereYet => 'ಇಲ್ಲಿ ಇನ್ನೂ ಬೇರೆ ಯಾರೂ ಇಲ್ಲ.';
+
+  @override
+  String get nameTheGroup => 'ಗುಂಪಿಗೆ ಹೆಸರಿಡಿ';
+
+  @override
+  String get groupNameHint => 'ಶನಿವಾರ ಬೆಳಗಿನ ತಂಡ';
+
+  @override
+  String get create => 'ರಚಿಸಿ';
+
+  @override
+  String get pickWhoIsInTheGroup => 'ಗುಂಪಿನಲ್ಲಿ ಯಾರಿರಬೇಕು ಎಂದು ಆಯ್ಕೆಮಾಡಿ';
+
+  @override
+  String createGroupWith(int count) {
+    return '$count ಜನರೊಂದಿಗೆ ಗುಂಪು ರಚಿಸಿ';
+  }
+
+  @override
+  String get termsOfUse => 'ಬಳಕೆಯ ನಿಯಮಗಳು';
+
+  @override
+  String get privacy => 'ಗೌಪ್ಯತೆ';
+
+  @override
+  String versionUpdated(String version, String date) {
+    return 'ಆವೃತ್ತಿ $version · ನವೀಕರಣ $date';
+  }
+
+  @override
   String get home => 'ಮುಖಪುಟ';
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/utils/dates.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -65,14 +66,14 @@ class _EventsManagePageState extends State<EventsManagePage> {
             controller: controller,
             padding: const EdgeInsets.all(20),
             children: [
-              Text('${people.length} signed up',
+              Text(AppLocalizations.of(ctx).signedUpCount(people.length),
                   style: Theme.of(ctx)
                       .textTheme
                       .titleLarge
                       ?.copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 12),
               if (people.isEmpty)
-                Text('Nobody yet.',
+                Text(AppLocalizations.of(ctx).nobodyYet,
                     style: Theme.of(ctx).textTheme.bodyMedium?.copyWith(
                           color: Theme.of(ctx).colorScheme.onSurfaceVariant,
                         ))
@@ -104,15 +105,16 @@ class _EventsManagePageState extends State<EventsManagePage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final events = _events;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Events')),
+      appBar: AppBar(title: Text(t.events)),
       floatingActionButton: widget.gym.can(P.hostEvents)
           ? FloatingActionButton.extended(
               onPressed: _host,
               icon: const Icon(Icons.add),
-              label: const Text('Host an event'),
+              label: Text(t.hostAnEvent),
             )
           : null,
       body: _error != null
@@ -129,8 +131,7 @@ class _EventsManagePageState extends State<EventsManagePage> {
                       child: Padding(
                         padding: const EdgeInsets.all(32),
                         child: Text(
-                          'No events yet. Host one and it will show up for your '
-                          'members straight away.',
+                          t.noEventsYet,
                           textAlign: TextAlign.center,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
@@ -159,8 +160,9 @@ class _EventsManagePageState extends State<EventsManagePage> {
                                 children: [
                                   const SizedBox(height: 6),
                                   Text(
-                                    '${e['participantCount'] ?? 0} signed up  ·  '
-                                    '${open ? 'registration open' : 'registration closed'}',
+                                    '${t.signedUpCount((e['participantCount'] as int?) ?? 0)}'
+                                    '  ·  '
+                                    '${open ? t.registrationOpen : t.registrationClosed}',
                                     style: theme.textTheme.bodySmall,
                                   ),
                                   const SizedBox(height: 4),
@@ -338,6 +340,7 @@ class _HostEventSheetState extends State<_HostEventSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
@@ -359,7 +362,7 @@ class _HostEventSheetState extends State<_HostEventSheet> {
               ),
             ),
             const SizedBox(height: 20),
-            Text('Host an event',
+            Text(t.hostAnEvent,
                 style: theme.textTheme.headlineSmall
                     ?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 18),
@@ -368,9 +371,9 @@ class _HostEventSheetState extends State<_HostEventSheet> {
               controller: _title,
               autofocus: true,
               textCapitalization: TextCapitalization.sentences,
-              decoration: const InputDecoration(
-                labelText: 'Title',
-                hintText: 'Summer Deadlift Meet',
+              decoration: InputDecoration(
+                labelText: t.title,
+                hintText: t.eventTitleHint,
               ),
             ),
             const SizedBox(height: 14),
@@ -378,24 +381,24 @@ class _HostEventSheetState extends State<_HostEventSheet> {
               controller: _description,
               maxLines: 3,
               textCapitalization: TextCapitalization.sentences,
-              decoration: const InputDecoration(labelText: 'Description'),
+              decoration: InputDecoration(labelText: t.description),
             ),
             const SizedBox(height: 14),
             TextField(
               controller: _howTo,
               maxLines: 2,
               textCapitalization: TextCapitalization.sentences,
-              decoration: const InputDecoration(
-                labelText: 'How to take part',
-                hintText: 'Weigh-in at 8am. Bring your own belt.',
+              decoration: InputDecoration(
+                labelText: t.howToTakePart,
+                hintText: t.howToTakePartHint,
               ),
             ),
             const SizedBox(height: 14),
             TextField(
               controller: _prize,
-              decoration: const InputDecoration(
-                labelText: 'Prize (optional)',
-                hintText: 'Rs 10,000',
+              decoration: InputDecoration(
+                labelText: t.prizeOptional,
+                hintText: t.prizeHint,
               ),
             ),
 
@@ -421,9 +424,8 @@ class _HostEventSheetState extends State<_HostEventSheet> {
               contentPadding: EdgeInsets.zero,
               value: _membersCanParticipate,
               onChanged: (v) => setState(() => _membersCanParticipate = v),
-              title: const Text('Members can sign up in the app'),
-              subtitle: const Text(
-                  'Turn off and they see your requirements instead of a button.'),
+              title: Text(t.membersCanSignUp),
+              subtitle: Text(t.membersCanSignUpNote),
             ),
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
@@ -434,17 +436,16 @@ class _HostEventSheetState extends State<_HostEventSheet> {
                         if (!v) _allowNonMembers = false;
                       })
                   : null,
-              title: const Text('List publicly'),
-              subtitle: Text(_isPro
-                  ? 'Shows in the events feed across the country.'
-                  : 'Pro plan only. Your members will still see it.'),
+              title: Text(t.listPublicly),
+              subtitle: Text(
+                  _isPro ? t.listPubliclyNote : t.listPubliclyProOnly),
             ),
             if (_publicListing && _isPro)
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
                 value: _allowNonMembers,
                 onChanged: (v) => setState(() => _allowNonMembers = v),
-                title: const Text('Open to people outside your gym'),
+                title: Text(t.openToOutsiders),
               ),
 
             if (_error != null) ...[
@@ -462,7 +463,7 @@ class _HostEventSheetState extends State<_HostEventSheet> {
                       height: 22,
                       width: 22,
                       child: CircularProgressIndicator(strokeWidth: 2.5))
-                  : const Text('Publish event'),
+                  : Text(t.publishEvent),
             ),
           ],
         ),

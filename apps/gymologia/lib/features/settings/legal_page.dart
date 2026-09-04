@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -55,18 +56,19 @@ class _LegalPageState extends State<LegalPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final doc = _cache[_slug];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Terms & Privacy')),
+      appBar: AppBar(title: Text(t.termsAndPrivacy)),
       body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
             child: SegmentedButton<String>(
-              segments: const [
-                ButtonSegment(value: 'terms', label: Text('Terms of Use')),
-                ButtonSegment(value: 'privacy', label: Text('Privacy')),
+              segments: [
+                ButtonSegment(value: 'terms', label: Text(t.termsOfUse)),
+                ButtonSegment(value: 'privacy', label: Text(t.privacy)),
               ],
               selected: {_slug},
               onSelectionChanged: (selection) => _switchTo(selection.first),
@@ -84,7 +86,7 @@ class _LegalPageState extends State<LegalPage> {
                           const SizedBox(height: 18),
                           FilledButton.tonal(
                             onPressed: _load,
-                            child: const Text('Try again'),
+                            child: Text(t.tryAgain),
                           ),
                         ],
                       ),
@@ -100,7 +102,8 @@ class _LegalPageState extends State<LegalPage> {
                                   ?.copyWith(fontWeight: FontWeight.w700)),
                           const SizedBox(height: 4),
                           Text(
-                            'Version ${doc['version']} · updated ${doc['updatedAt']}',
+                            t.versionUpdated('${doc['version']}',
+                                '${doc['updatedAt']}'),
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.onSurfaceVariant,
                             ),

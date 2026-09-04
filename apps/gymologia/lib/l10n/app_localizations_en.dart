@@ -519,6 +519,118 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goalDialogHint => 'Bulk up to 80kg, lose weight, rehab…';
 
   @override
+  String signedUpCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count signed up',
+      one: '1 signed up',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nobodyYet => 'Nobody yet.';
+
+  @override
+  String get hostAnEvent => 'Host an event';
+
+  @override
+  String get noEventsYet =>
+      'No events yet. Host one and it will show up for your members straight away.';
+
+  @override
+  String get eventTitleHint => 'Summer Deadlift Meet';
+
+  @override
+  String get howToTakePart => 'How to take part';
+
+  @override
+  String get howToTakePartHint => 'Weigh-in at 8am. Bring your own belt.';
+
+  @override
+  String get prizeOptional => 'Prize (optional)';
+
+  @override
+  String get prizeHint => 'Rs 10,000';
+
+  @override
+  String get membersCanSignUp => 'Members can sign up in the app';
+
+  @override
+  String get membersCanSignUpNote =>
+      'Turn off and they see your requirements instead of a button.';
+
+  @override
+  String get listPublicly => 'List publicly';
+
+  @override
+  String get listPubliclyNote => 'Shows in the events feed across the country.';
+
+  @override
+  String get listPubliclyProOnly =>
+      'Pro plan only. Your members will still see it.';
+
+  @override
+  String get openToOutsiders => 'Open to people outside your gym';
+
+  @override
+  String get publishEvent => 'Publish event';
+
+  @override
+  String get registrationOpen => 'registration open';
+
+  @override
+  String get registrationClosed => 'registration closed';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get markAllRead => 'Mark all read';
+
+  @override
+  String get nothingYet => 'Nothing yet';
+
+  @override
+  String get announcementsAppearHere =>
+      'Announcements from your gym and from Gymologia will appear here.';
+
+  @override
+  String get searchPeople => 'Search people';
+
+  @override
+  String get nobodyElseHereYet => 'Nobody else here yet.';
+
+  @override
+  String get nameTheGroup => 'Name the group';
+
+  @override
+  String get groupNameHint => 'Saturday morning crew';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get pickWhoIsInTheGroup => 'Pick who is in the group';
+
+  @override
+  String createGroupWith(int count) {
+    return 'Create group with $count';
+  }
+
+  @override
+  String get termsOfUse => 'Terms of Use';
+
+  @override
+  String get privacy => 'Privacy';
+
+  @override
+  String versionUpdated(String version, String date) {
+    return 'Version $version · updated $date';
+  }
+
+  @override
   String get home => 'Home';
 
   @override

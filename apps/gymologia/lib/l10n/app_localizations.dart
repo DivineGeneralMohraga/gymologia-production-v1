@@ -936,6 +936,198 @@ abstract class AppLocalizations {
   /// **'Bulk up to 80kg, lose weight, rehab…'**
   String get goalDialogHint;
 
+  /// No description provided for @signedUpCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 signed up} other{{count} signed up}}'**
+  String signedUpCount(int count);
+
+  /// No description provided for @nobodyYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody yet.'**
+  String get nobodyYet;
+
+  /// No description provided for @hostAnEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Host an event'**
+  String get hostAnEvent;
+
+  /// No description provided for @noEventsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No events yet. Host one and it will show up for your members straight away.'**
+  String get noEventsYet;
+
+  /// No description provided for @eventTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Summer Deadlift Meet'**
+  String get eventTitleHint;
+
+  /// No description provided for @howToTakePart.
+  ///
+  /// In en, this message translates to:
+  /// **'How to take part'**
+  String get howToTakePart;
+
+  /// No description provided for @howToTakePartHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Weigh-in at 8am. Bring your own belt.'**
+  String get howToTakePartHint;
+
+  /// No description provided for @prizeOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Prize (optional)'**
+  String get prizeOptional;
+
+  /// No description provided for @prizeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Rs 10,000'**
+  String get prizeHint;
+
+  /// No description provided for @membersCanSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Members can sign up in the app'**
+  String get membersCanSignUp;
+
+  /// No description provided for @membersCanSignUpNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off and they see your requirements instead of a button.'**
+  String get membersCanSignUpNote;
+
+  /// No description provided for @listPublicly.
+  ///
+  /// In en, this message translates to:
+  /// **'List publicly'**
+  String get listPublicly;
+
+  /// No description provided for @listPubliclyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows in the events feed across the country.'**
+  String get listPubliclyNote;
+
+  /// No description provided for @listPubliclyProOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Pro plan only. Your members will still see it.'**
+  String get listPubliclyProOnly;
+
+  /// No description provided for @openToOutsiders.
+  ///
+  /// In en, this message translates to:
+  /// **'Open to people outside your gym'**
+  String get openToOutsiders;
+
+  /// No description provided for @publishEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish event'**
+  String get publishEvent;
+
+  /// No description provided for @registrationOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'registration open'**
+  String get registrationOpen;
+
+  /// No description provided for @registrationClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'registration closed'**
+  String get registrationClosed;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @markAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all read'**
+  String get markAllRead;
+
+  /// No description provided for @nothingYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing yet'**
+  String get nothingYet;
+
+  /// No description provided for @announcementsAppearHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Announcements from your gym and from Gymologia will appear here.'**
+  String get announcementsAppearHere;
+
+  /// No description provided for @searchPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'Search people'**
+  String get searchPeople;
+
+  /// No description provided for @nobodyElseHereYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody else here yet.'**
+  String get nobodyElseHereYet;
+
+  /// No description provided for @nameTheGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Name the group'**
+  String get nameTheGroup;
+
+  /// No description provided for @groupNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday morning crew'**
+  String get groupNameHint;
+
+  /// No description provided for @create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// No description provided for @pickWhoIsInTheGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick who is in the group'**
+  String get pickWhoIsInTheGroup;
+
+  /// No description provided for @createGroupWith.
+  ///
+  /// In en, this message translates to:
+  /// **'Create group with {count}'**
+  String createGroupWith(int count);
+
+  /// No description provided for @termsOfUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Use'**
+  String get termsOfUse;
+
+  /// No description provided for @privacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get privacy;
+
+  /// No description provided for @versionUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version} · updated {date}'**
+  String versionUpdated(String version, String date);
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:
