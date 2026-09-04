@@ -7,13 +7,13 @@ import {
   IsOptional,
   IsString,
   IsUUID,
-  IsUrl,
   Length,
   Matches,
   Max,
   MaxLength,
   Min,
 } from 'class-validator';
+import { IsStorageUrl } from '../../common/validation/storage-url';
 
 const trim = () =>
   Transform(({ value }) => (typeof value === 'string' ? value.trim() : value));
@@ -83,7 +83,7 @@ export class AddStaffDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsUrl()
+  @IsStorageUrl()
   @MaxLength(500)
   addressProofUrl?: string;
 }
@@ -111,7 +111,7 @@ export class UpdateStaffDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsUrl()
+  @IsStorageUrl()
   @MaxLength(500)
   addressProofUrl?: string;
 }

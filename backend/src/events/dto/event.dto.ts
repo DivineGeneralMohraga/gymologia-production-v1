@@ -8,12 +8,12 @@ import {
   IsInt,
   IsOptional,
   IsString,
-  IsUrl,
   Length,
   Max,
   MaxLength,
   Min,
 } from 'class-validator';
+import { IsStorageUrl } from '../../common/validation/storage-url';
 
 const trim = () =>
   Transform(({ value }) => (typeof value === 'string' ? value.trim() : value));
@@ -27,7 +27,7 @@ export class CreateEventDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsUrl()
+  @IsStorageUrl()
   @MaxLength(500)
   bannerUrl?: string;
 
@@ -109,7 +109,7 @@ export class UpdateEventDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsUrl()
+  @IsStorageUrl()
   @MaxLength(500)
   bannerUrl?: string;
 

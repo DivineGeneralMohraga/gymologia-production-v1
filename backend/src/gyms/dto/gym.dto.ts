@@ -9,13 +9,13 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  IsUrl,
   Length,
   Matches,
   Max,
   MaxLength,
   Min,
 } from 'class-validator';
+import { IsStorageUrl } from '../../common/validation/storage-url';
 
 const trim = () =>
   Transform(({ value }) => (typeof value === 'string' ? value.trim() : value));
@@ -113,7 +113,7 @@ export class CreateGymDto {
   @IsOptional()
   @IsArray()
   @ArrayMaxSize(20)
-  @IsUrl({}, { each: true })
+  @IsStorageUrl({ each: true })
   @MaxLength(500, { each: true })
   imageUrls?: string[];
 }
@@ -210,7 +210,8 @@ export class UpdateGymDto {
   @IsOptional()
   @IsArray()
   @ArrayMaxSize(20)
-  @IsUrl({}, { each: true })
+  @IsStorageUrl({ each: true })
+  @MaxLength(500, { each: true })
   imageUrls?: string[];
 }
 

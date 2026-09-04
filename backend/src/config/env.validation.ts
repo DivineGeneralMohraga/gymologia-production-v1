@@ -51,6 +51,7 @@ const RULES: Rule[] = [
   { key: 'CASHFREE_PAYOUT_CLIENT_ID', requiredInProd: true },
   { key: 'CASHFREE_PAYOUT_CLIENT_SECRET', requiredInProd: true },
 
+  { key: 'SUPABASE_URL', requiredInProd: true },
   { key: 'SUPABASE_SERVICE_ROLE_KEY', requiredInProd: true },
 ];
 
