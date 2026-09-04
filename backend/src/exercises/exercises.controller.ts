@@ -1,6 +1,7 @@
 import { Controller, Get, Headers, Param, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ExercisesService } from './exercises.service';
+import { normalizeLocale } from '../common/utils/locale';
 import { ListExercisesDto } from './dto/exercise.dto';
 import { Public } from '../rbac/rbac.decorators';
 
@@ -44,11 +45,4 @@ export class ExercisesController {
   ) {
     return this.exercises.findOne(slug, normalizeLocale(locale));
   }
-}
-
-/** `en-IN,en;q=0.9` becomes `en`. Falls back to English. */
-function normalizeLocale(header?: string): string {
-  if (!header) return 'en';
-  const first = header.split(',')[0]?.split('-')[0]?.trim().toLowerCase();
-  return first && /^[a-z]{2}$/.test(first) ? first : 'en';
 }
