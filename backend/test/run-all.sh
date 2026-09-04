@@ -35,6 +35,10 @@ analytics-trainers-e2e
 roles-e2e
 admin-e2e
 ranking-e2e
+kyc-e2e
+kyc-review-e2e
+uploads-e2e
+storage-url-e2e
 "
 
 API="${API:-http://localhost:3000/api/v1}"
@@ -61,6 +65,11 @@ fi
 trap 'rmdir "$LOCK" 2>/dev/null' EXIT INT TERM
 
 TOTAL=0
+# Counted rather than written down: the summary said "10 suites" for as
+# long as there happened to be ten, and went quietly wrong the moment four
+# more were added. A number in a report should come from the thing it
+# reports on.
+RAN=0
 FAILED=0
 BROKEN=""
 FIRST=1
@@ -92,6 +101,7 @@ for suite in $SUITES; do
   fails=${fails:-0}
 
   TOTAL=$((TOTAL + passes))
+  RAN=$((RAN + 1))
   FAILED=$((FAILED + fails))
 
   if [ "$code" = "0" ] && [ "$fails" = "0" ]; then
@@ -105,7 +115,7 @@ done
 
 printf "\n"
 if [ "$FAILED" = "0" ] && [ -z "$BROKEN" ]; then
-  printf "\033[32m%s checks passed across 10 suites.\033[0m\n" "$TOTAL"
+  printf "\033[32m%s checks passed across %s suites.\033[0m\n" "$TOTAL" "$RAN"
   exit 0
 fi
 
