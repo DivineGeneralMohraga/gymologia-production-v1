@@ -283,6 +283,109 @@ class AppLocalizationsGu extends AppLocalizations {
   }
 
   @override
+  String get deleteRoleWarning =>
+      'ભૂમિકા અને તેની પરવાનગીઓ જશે. તેમાં કોઈ નથી, તેથી કોઈની પહોંચ જશે નહીં.';
+
+  @override
+  String deletedNamed(String name) {
+    return '$name કાઢી નાખ્યું';
+  }
+
+  @override
+  String get needTwoCustomRoles =>
+      'ક્રમ બદલતાં પહેલાં તમે સંપાદિત કરી શકો તેવી બે કસ્ટમ ભૂમિકાઓ જોઈએ.';
+
+  @override
+  String get hierarchySaved => 'ક્રમ સાચવ્યો';
+
+  @override
+  String get reorder => 'ક્રમ બદલો';
+
+  @override
+  String get newRole => 'નવી ભૂમિકા';
+
+  @override
+  String get rolesIntro =>
+      'સૌથી વરિષ્ઠ પહેલાં. તમે ફક્ત તમારી નીચેની ભૂમિકાઓ સંપાદિત કરી શકો છો, અને ફક્ત તમારી પાસે હોય તે પરવાનગીઓ આપી શકો છો.';
+
+  @override
+  String get defaultBadge => 'ડિફોલ્ટ';
+
+  @override
+  String get everyPermission => 'દરેક પરવાનગી, પછીથી ઉમેરાય તે સહિત';
+
+  @override
+  String permissionCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count પરવાનગીઓ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nobodyInThisRole => 'આ ભૂમિકામાં કોઈ નથી';
+
+  @override
+  String peopleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count લોકો',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteDefaultRolesStay => 'કાઢો (ડિફોલ્ટ ભૂમિકાઓ રહે છે)';
+
+  @override
+  String get deleteMovePeopleFirst => 'કાઢો (પહેલાં લોકોને ખસેડો)';
+
+  @override
+  String get giveRoleAName => 'ભૂમિકાને નામ આપો';
+
+  @override
+  String get editRole => 'ભૂમિકા સંપાદિત કરો';
+
+  @override
+  String get createRole => 'ભૂમિકા બનાવો';
+
+  @override
+  String get roleName => 'ભૂમિકાનું નામ';
+
+  @override
+  String get roleNameHint => 'રિસેપ્શન, ફિઝિયો, નાઇટ શિફ્ટ';
+
+  @override
+  String get superRoleNote =>
+      'આ ભૂમિકા પાસે દરેક પરવાનગી છે, ભવિષ્યમાં ઉમેરાય તે સહિત. તેને સાંકડી કરી શકાતી નથી — એટલે જ તે હંમેશા વસ્તુઓ સુધારી શકે છે.';
+
+  @override
+  String get whatThisRoleCanDo => 'આ ભૂમિકા શું કરી શકે છે';
+
+  @override
+  String get greyedOutNote =>
+      'જે ઝાંખું દેખાય છે તે તમારી પાસે નથી, તેથી તમે તે આપી શકતા નથી.';
+
+  @override
+  String get ownerOnlyPermission => 'આ ફક્ત જિમ માલિકની છે';
+
+  @override
+  String get youDoNotHoldThis => 'આ તમારી પાસે નથી';
+
+  @override
+  String get orderTheHierarchy => 'ક્રમ ગોઠવો';
+
+  @override
+  String get hierarchyNote =>
+      'સૌથી વરિષ્ઠ ઉપર. ડિફોલ્ટ ભૂમિકાઓ પોતાની જગ્યાએ રહે છે અને અહીં દેખાતી નથી.';
+
+  @override
+  String get saveOrder => 'ક્રમ સાચવો';
+
+  @override
   String get home => 'હોમ';
 
   @override

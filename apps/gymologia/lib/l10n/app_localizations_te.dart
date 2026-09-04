@@ -286,6 +286,109 @@ class AppLocalizationsTe extends AppLocalizations {
   }
 
   @override
+  String get deleteRoleWarning =>
+      'పాత్ర, దాని అనుమతులు తొలగిపోతాయి. ఇందులో ఎవరూ లేరు, కాబట్టి ఎవరికీ యాక్సెస్ పోదు.';
+
+  @override
+  String deletedNamed(String name) {
+    return '$name తొలగించబడింది';
+  }
+
+  @override
+  String get needTwoCustomRoles =>
+      'క్రమం మార్చే ముందు మీరు సవరించగల రెండు కస్టమ్ పాత్రలు అవసరం.';
+
+  @override
+  String get hierarchySaved => 'క్రమం సేవ్ చేయబడింది';
+
+  @override
+  String get reorder => 'క్రమం మార్చు';
+
+  @override
+  String get newRole => 'కొత్త పాత్ర';
+
+  @override
+  String get rolesIntro =>
+      'అత్యంత సీనియర్ మొదట. మీ పాత్ర కంటే కింది వాటిని మాత్రమే సవరించగలరు, మీ దగ్గర ఉన్న అనుమతులను మాత్రమే ఇవ్వగలరు.';
+
+  @override
+  String get defaultBadge => 'డిఫాల్ట్';
+
+  @override
+  String get everyPermission => 'ప్రతి అనుమతి, తర్వాత చేర్చేవి కూడా';
+
+  @override
+  String permissionCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count అనుమతులు',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nobodyInThisRole => 'ఈ పాత్రలో ఎవరూ లేరు';
+
+  @override
+  String peopleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count మంది',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteDefaultRolesStay => 'తొలగించు (డిఫాల్ట్ పాత్రలు ఉంటాయి)';
+
+  @override
+  String get deleteMovePeopleFirst => 'తొలగించు (ముందు వ్యక్తులను తరలించండి)';
+
+  @override
+  String get giveRoleAName => 'పాత్రకు ఒక పేరు ఇవ్వండి';
+
+  @override
+  String get editRole => 'పాత్రను సవరించు';
+
+  @override
+  String get createRole => 'పాత్ర సృష్టించండి';
+
+  @override
+  String get roleName => 'పాత్ర పేరు';
+
+  @override
+  String get roleNameHint => 'రిసెప్షన్, ఫిజియో, నైట్ షిఫ్ట్';
+
+  @override
+  String get superRoleNote =>
+      'ఈ పాత్రకు అన్ని అనుమతులు ఉన్నాయి, భవిష్యత్తులో చేర్చేవి కూడా. దీన్ని కుదించలేరు — ఎప్పుడైనా సరిదిద్దగల పాత్ర ఇదే.';
+
+  @override
+  String get whatThisRoleCanDo => 'ఈ పాత్ర ఏమి చేయగలదు';
+
+  @override
+  String get greyedOutNote =>
+      'మసకగా ఉన్నవి మీ దగ్గర లేవు, కాబట్టి వాటిని ఇవ్వలేరు.';
+
+  @override
+  String get ownerOnlyPermission => 'ఇది జిమ్ యజమానికి మాత్రమే';
+
+  @override
+  String get youDoNotHoldThis => 'ఇది మీ దగ్గర లేదు';
+
+  @override
+  String get orderTheHierarchy => 'క్రమాన్ని అమర్చండి';
+
+  @override
+  String get hierarchyNote =>
+      'అత్యంత సీనియర్ పైన. డిఫాల్ట్ పాత్రలు తమ స్థానంలోనే ఉంటాయి, ఇక్కడ కనిపించవు.';
+
+  @override
+  String get saveOrder => 'క్రమాన్ని సేవ్ చేయి';
+
+  @override
   String get home => 'హోమ్';
 
   @override

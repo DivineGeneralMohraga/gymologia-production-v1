@@ -119,6 +119,43 @@
     "placeholders": { "plan": { "type": "String" } }
   },
 
+  "deleteRoleWarning": "The role and its permissions go. Nobody is in it, so nobody loses access.",
+  "deletedNamed": "{name} deleted",
+  "@deletedNamed": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "needTwoCustomRoles": "You need two custom roles you can edit before reordering.",
+  "hierarchySaved": "Hierarchy saved",
+  "reorder": "Reorder",
+  "newRole": "New role",
+  "rolesIntro": "Listed most senior first. You can only edit roles below your own, and only hand out permissions you hold yourself.",
+  "defaultBadge": "DEFAULT",
+  "everyPermission": "Every permission, including any added later",
+  "permissionCount": "{count, plural, =1{1 permission} other{{count} permissions}}",
+  "@permissionCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "nobodyInThisRole": "Nobody in this role",
+  "peopleCount": "{count, plural, =1{1 person} other{{count} people}}",
+  "@peopleCount": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "deleteDefaultRolesStay": "Delete (default roles stay)",
+  "deleteMovePeopleFirst": "Delete (move people out first)",
+  "giveRoleAName": "Give the role a name",
+  "editRole": "Edit role",
+  "createRole": "Create role",
+  "roleName": "Role name",
+  "roleNameHint": "Front desk, Physio, Night shift",
+  "superRoleNote": "This role holds every permission, including any added in future. That cannot be narrowed — it is what makes it the role that can always fix things.",
+  "whatThisRoleCanDo": "What this role can do",
+  "greyedOutNote": "Anything greyed out is something you do not hold yourself, so you cannot pass it on.",
+  "ownerOnlyPermission": "Belongs to the gym owner alone",
+  "youDoNotHoldThis": "You do not hold this",
+  "orderTheHierarchy": "Order the hierarchy",
+  "hierarchyNote": "Most senior at the top. Default roles keep their place and are not listed.",
+  "saveOrder": "Save order",
+
   "home": "Home",
   "myGym": "My gym",
   "discover": "Discover",

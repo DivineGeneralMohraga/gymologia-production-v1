@@ -285,6 +285,109 @@ class AppLocalizationsKn extends AppLocalizations {
   }
 
   @override
+  String get deleteRoleWarning =>
+      'ಪಾತ್ರ ಮತ್ತು ಅದರ ಅನುಮತಿಗಳು ಹೋಗುತ್ತವೆ. ಇದರಲ್ಲಿ ಯಾರೂ ಇಲ್ಲ, ಹಾಗಾಗಿ ಯಾರಿಗೂ ಪ್ರವೇಶ ಕಳೆದುಹೋಗದು.';
+
+  @override
+  String deletedNamed(String name) {
+    return '$name ಅಳಿಸಲಾಗಿದೆ';
+  }
+
+  @override
+  String get needTwoCustomRoles =>
+      'ಕ್ರಮ ಬದಲಾಯಿಸುವ ಮೊದಲು ನೀವು ಸಂಪಾದಿಸಬಹುದಾದ ಎರಡು ಕಸ್ಟಮ್ ಪಾತ್ರಗಳು ಬೇಕು.';
+
+  @override
+  String get hierarchySaved => 'ಶ್ರೇಣಿ ಉಳಿಸಲಾಗಿದೆ';
+
+  @override
+  String get reorder => 'ಕ್ರಮ ಬದಲಿಸಿ';
+
+  @override
+  String get newRole => 'ಹೊಸ ಪಾತ್ರ';
+
+  @override
+  String get rolesIntro =>
+      'ಅತ್ಯಂತ ಹಿರಿಯದು ಮೊದಲು. ನಿಮ್ಮದಕ್ಕಿಂತ ಕೆಳಗಿನ ಪಾತ್ರಗಳನ್ನು ಮಾತ್ರ ಸಂಪಾದಿಸಬಹುದು, ನಿಮ್ಮ ಬಳಿ ಇರುವ ಅನುಮತಿಗಳನ್ನು ಮಾತ್ರ ನೀಡಬಹುದು.';
+
+  @override
+  String get defaultBadge => 'ಡೀಫಾಲ್ಟ್';
+
+  @override
+  String get everyPermission => 'ಪ್ರತಿ ಅನುಮತಿ, ನಂತರ ಸೇರಿಸುವವು ಸೇರಿದಂತೆ';
+
+  @override
+  String permissionCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ಅನುಮತಿಗಳು',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nobodyInThisRole => 'ಈ ಪಾತ್ರದಲ್ಲಿ ಯಾರೂ ಇಲ್ಲ';
+
+  @override
+  String peopleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ಜನ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteDefaultRolesStay => 'ಅಳಿಸಿ (ಡೀಫಾಲ್ಟ್ ಪಾತ್ರಗಳು ಉಳಿಯುತ್ತವೆ)';
+
+  @override
+  String get deleteMovePeopleFirst => 'ಅಳಿಸಿ (ಮೊದಲು ಜನರನ್ನು ಸ್ಥಳಾಂತರಿಸಿ)';
+
+  @override
+  String get giveRoleAName => 'ಪಾತ್ರಕ್ಕೆ ಹೆಸರು ನೀಡಿ';
+
+  @override
+  String get editRole => 'ಪಾತ್ರ ಸಂಪಾದಿಸಿ';
+
+  @override
+  String get createRole => 'ಪಾತ್ರ ರಚಿಸಿ';
+
+  @override
+  String get roleName => 'ಪಾತ್ರದ ಹೆಸರು';
+
+  @override
+  String get roleNameHint => 'ರಿಸೆಪ್ಶನ್, ಫಿಸಿಯೋ, ನೈಟ್ ಶಿಫ್ಟ್';
+
+  @override
+  String get superRoleNote =>
+      'ಈ ಪಾತ್ರಕ್ಕೆ ಎಲ್ಲಾ ಅನುಮತಿಗಳಿವೆ, ಮುಂದೆ ಸೇರಿಸುವವೂ ಸೇರಿದಂತೆ. ಅದನ್ನು ಸಂಕುಚಿತಗೊಳಿಸಲಾಗದು — ಯಾವಾಗಲೂ ಸರಿಪಡಿಸಬಲ್ಲ ಪಾತ್ರ ಇದೇ.';
+
+  @override
+  String get whatThisRoleCanDo => 'ಈ ಪಾತ್ರ ಏನು ಮಾಡಬಹುದು';
+
+  @override
+  String get greyedOutNote =>
+      'ಮಸುಕಾಗಿರುವವು ನಿಮ್ಮ ಬಳಿ ಇಲ್ಲದವು, ಹಾಗಾಗಿ ಅವನ್ನು ನೀಡಲಾಗದು.';
+
+  @override
+  String get ownerOnlyPermission => 'ಇದು ಜಿಮ್ ಮಾಲೀಕರಿಗೆ ಮಾತ್ರ';
+
+  @override
+  String get youDoNotHoldThis => 'ಇದು ನಿಮ್ಮ ಬಳಿ ಇಲ್ಲ';
+
+  @override
+  String get orderTheHierarchy => 'ಶ್ರೇಣಿಯನ್ನು ಜೋಡಿಸಿ';
+
+  @override
+  String get hierarchyNote =>
+      'ಅತ್ಯಂತ ಹಿರಿಯದು ಮೇಲೆ. ಡೀಫಾಲ್ಟ್ ಪಾತ್ರಗಳು ತಮ್ಮ ಸ್ಥಾನದಲ್ಲೇ ಉಳಿಯುತ್ತವೆ, ಇಲ್ಲಿ ಕಾಣಿಸವು.';
+
+  @override
+  String get saveOrder => 'ಕ್ರಮ ಉಳಿಸಿ';
+
+  @override
   String get home => 'ಮುಖಪುಟ';
 
   @override

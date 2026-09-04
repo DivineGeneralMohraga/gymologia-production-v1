@@ -286,6 +286,111 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get deleteRoleWarning =>
+      'The role and its permissions go. Nobody is in it, so nobody loses access.';
+
+  @override
+  String deletedNamed(String name) {
+    return '$name deleted';
+  }
+
+  @override
+  String get needTwoCustomRoles =>
+      'You need two custom roles you can edit before reordering.';
+
+  @override
+  String get hierarchySaved => 'Hierarchy saved';
+
+  @override
+  String get reorder => 'Reorder';
+
+  @override
+  String get newRole => 'New role';
+
+  @override
+  String get rolesIntro =>
+      'Listed most senior first. You can only edit roles below your own, and only hand out permissions you hold yourself.';
+
+  @override
+  String get defaultBadge => 'DEFAULT';
+
+  @override
+  String get everyPermission => 'Every permission, including any added later';
+
+  @override
+  String permissionCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count permissions',
+      one: '1 permission',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nobodyInThisRole => 'Nobody in this role';
+
+  @override
+  String peopleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count people',
+      one: '1 person',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteDefaultRolesStay => 'Delete (default roles stay)';
+
+  @override
+  String get deleteMovePeopleFirst => 'Delete (move people out first)';
+
+  @override
+  String get giveRoleAName => 'Give the role a name';
+
+  @override
+  String get editRole => 'Edit role';
+
+  @override
+  String get createRole => 'Create role';
+
+  @override
+  String get roleName => 'Role name';
+
+  @override
+  String get roleNameHint => 'Front desk, Physio, Night shift';
+
+  @override
+  String get superRoleNote =>
+      'This role holds every permission, including any added in future. That cannot be narrowed — it is what makes it the role that can always fix things.';
+
+  @override
+  String get whatThisRoleCanDo => 'What this role can do';
+
+  @override
+  String get greyedOutNote =>
+      'Anything greyed out is something you do not hold yourself, so you cannot pass it on.';
+
+  @override
+  String get ownerOnlyPermission => 'Belongs to the gym owner alone';
+
+  @override
+  String get youDoNotHoldThis => 'You do not hold this';
+
+  @override
+  String get orderTheHierarchy => 'Order the hierarchy';
+
+  @override
+  String get hierarchyNote =>
+      'Most senior at the top. Default roles keep their place and are not listed.';
+
+  @override
+  String get saveOrder => 'Save order';
+
+  @override
   String get home => 'Home';
 
   @override

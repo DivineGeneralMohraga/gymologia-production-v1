@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
@@ -69,19 +70,16 @@ class _RolesPageState extends State<RolesPage> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text('Delete $name?'),
-        content: const Text(
-          'The role and its permissions go. Nobody is in it, so nobody loses '
-          'access.',
-        ),
+        title: Text(AppLocalizations.of(context).deleteNamed(name)),
+        content: Text(AppLocalizations.of(context).deleteRoleWarning),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: const Text('Keep it'),
+            child: Text(AppLocalizations.of(context).keepIt),
           ),
           FilledButton(
             onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(context).delete),
           ),
         ],
       ),
@@ -91,7 +89,7 @@ class _RolesPageState extends State<RolesPage> {
     setState(() => _busy = true);
     try {
       await _api.deleteRole(widget.gym.id, role['id'] as String);
-      if (mounted) _say('$name deleted');
+      if (mounted) _say(AppLocalizations.of(context).deletedNamed(name));
       await _load();
     } on ApiException catch (e) {
       if (mounted) _say(e.message);
@@ -110,7 +108,7 @@ class _RolesPageState extends State<RolesPage> {
         .toList();
 
     if (movable.length < 2) {
-      _say('You need two custom roles you can edit before reordering.');
+      _say(AppLocalizations.of(context).needTwoCustomRoles);
       return;
     }
 
@@ -127,7 +125,7 @@ class _RolesPageState extends State<RolesPage> {
         widget.gym.id,
         [for (final r in ordered) r['id'] as String],
       );
-      if (mounted) _say('Hierarchy saved');
+      if (mounted) _say(AppLocalizations.of(context).hierarchySaved);
       await _load();
     } on ApiException catch (e) {
       if (mounted) _say(e.message);
@@ -139,15 +137,16 @@ class _RolesPageState extends State<RolesPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final roles = _roles;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Roles'),
+        title: Text(t.roles),
         actions: [
           if (_canReorder)
             IconButton(
-              tooltip: 'Reorder',
+              tooltip: t.reorder,
               icon: const Icon(Icons.swap_vert),
               onPressed: _busy ? null : _reorder,
             ),
@@ -157,7 +156,7 @@ class _RolesPageState extends State<RolesPage> {
           ? FloatingActionButton.extended(
               onPressed: _busy ? null : () => _openEditor(),
               icon: const Icon(Icons.add),
-              label: const Text('New role'),
+              label: Text(t.newRole),
             )
           : null,
       body: _error != null
@@ -170,7 +169,7 @@ class _RolesPageState extends State<RolesPage> {
                     Text(_error!, textAlign: TextAlign.center),
                     const SizedBox(height: 18),
                     FilledButton.tonal(
-                        onPressed: _load, child: const Text('Try again')),
+                        onPressed: _load, child: Text(t.tryAgain)),
                   ],
                 ),
               ),
@@ -183,9 +182,7 @@ class _RolesPageState extends State<RolesPage> {
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
                     children: [
                       Text(
-                        'Listed most senior first. You can only edit roles '
-                        'below your own, and only hand out permissions you '
-                        'hold yourself.',
+                        t.rolesIntro,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
@@ -221,6 +218,7 @@ class _RoleTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final isSuper = role['isSuper'] as bool? ?? false;
     final isSystem = role['isSystem'] as bool? ?? false;
     final editable = (role['editable'] as bool? ?? false) && !busy;
@@ -247,7 +245,7 @@ class _RoleTile extends StatelessWidget {
                       if (isSystem) ...[
                         const SizedBox(width: 8),
                         _Badge(
-                          label: 'DEFAULT',
+                          label: t.defaultBadge.toUpperCase(),
                           colour: theme.colorScheme.outline,
                         ),
                       ],
@@ -256,9 +254,8 @@ class _RoleTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     isSuper
-                        ? 'Every permission, including any added later'
-                        : '$permissionCount permission'
-                            '${permissionCount == 1 ? '' : 's'}',
+                        ? t.everyPermission
+                        : t.permissionCount(permissionCount),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -266,8 +263,8 @@ class _RoleTile extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     staffCount == 0
-                        ? 'Nobody in this role'
-                        : '$staffCount ${staffCount == 1 ? 'person' : 'people'}',
+                        ? t.nobodyInThisRole
+                        : t.peopleCount(staffCount),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -282,7 +279,7 @@ class _RoleTile extends StatelessWidget {
                   if (value == 'delete') onDelete();
                 },
                 itemBuilder: (_) => [
-                  const PopupMenuItem(value: 'edit', child: Text('Edit')),
+                  PopupMenuItem(value: 'edit', child: Text(t.edit)),
                   PopupMenuItem(
                     value: 'delete',
                     // Disabled with the reason attached, rather than absent
@@ -290,10 +287,10 @@ class _RoleTile extends StatelessWidget {
                     enabled: deletable,
                     child: Text(
                       deletable
-                          ? 'Delete'
+                          ? t.delete
                           : isSystem
-                              ? 'Delete (default roles stay)'
-                              : 'Delete (move people out first)',
+                              ? t.deleteDefaultRolesStay
+                              : t.deleteMovePeopleFirst,
                       style: TextStyle(
                         color: deletable
                             ? theme.colorScheme.error
@@ -414,7 +411,7 @@ class _RoleEditorPageState extends State<RoleEditorPage> {
   Future<void> _save() async {
     final name = _name.text.trim();
     if (name.length < 2) {
-      _say('Give the role a name');
+      _say(AppLocalizations.of(context).giveRoleAName);
       return;
     }
 
@@ -454,9 +451,10 @@ class _RoleEditorPageState extends State<RoleEditorPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(_editing ? 'Edit role' : 'New role')),
+      appBar: AppBar(title: Text(_editing ? t.editRole : t.newRole)),
       bottomNavigationBar: _loading || _error != null
           ? null
           : SafeArea(
@@ -470,7 +468,7 @@ class _RoleEditorPageState extends State<RoleEditorPage> {
                           width: 20,
                           child: CircularProgressIndicator(strokeWidth: 2.5),
                         )
-                      : Text(_editing ? 'Save' : 'Create role'),
+                      : Text(_editing ? t.save : t.createRole),
                 ),
               ),
             ),
@@ -484,9 +482,9 @@ class _RoleEditorPageState extends State<RoleEditorPage> {
                     TextField(
                       controller: _name,
                       textCapitalization: TextCapitalization.words,
-                      decoration: const InputDecoration(
-                        labelText: 'Role name',
-                        hintText: 'Front desk, Physio, Night shift',
+                      decoration: InputDecoration(
+                        labelText: t.roleName,
+                        hintText: t.roleNameHint,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -494,26 +492,20 @@ class _RoleEditorPageState extends State<RoleEditorPage> {
                       Card(
                         color: theme.colorScheme.tertiaryContainer
                             .withValues(alpha: 0.5),
-                        child: const Padding(
-                          padding: EdgeInsets.all(16),
-                          child: Text(
-                            'This role holds every permission, including any '
-                            'added in future. That cannot be narrowed — it is '
-                            'what makes it the role that can always fix '
-                            'things.',
-                          ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(t.superRoleNote),
                         ),
                       )
                     else ...[
                       Text(
-                        'What this role can do',
+                        t.whatThisRoleCanDo,
                         style: theme.textTheme.titleSmall
                             ?.copyWith(fontWeight: FontWeight.w700),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Anything greyed out is something you do not hold '
-                        'yourself, so you cannot pass it on.',
+                        t.greyedOutNote,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
@@ -601,6 +593,7 @@ class _PermissionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final permission = entry['permission'] as String;
     final grantable = entry['grantable'] as bool? ?? false;
     final never = entry['neverGrantable'] as bool? ?? false;
@@ -617,12 +610,12 @@ class _PermissionRow extends StatelessWidget {
         ),
       ),
       subtitle: never
-          ? Text('Belongs to the gym owner alone',
+          ? Text(t.ownerOnlyPermission,
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant))
           : grantable
               ? null
-              : Text('You do not hold this',
+              : Text(t.youDoNotHoldThis,
                   style: theme.textTheme.bodySmall
                       ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
     );
@@ -646,6 +639,7 @@ class _ReorderSheetState extends State<_ReorderSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 24),
@@ -653,11 +647,10 @@ class _ReorderSheetState extends State<_ReorderSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Order the hierarchy', style: theme.textTheme.titleLarge),
+          Text(t.orderTheHierarchy, style: theme.textTheme.titleLarge),
           const SizedBox(height: 4),
           Text(
-            'Most senior at the top. Default roles keep their place and are '
-            'not listed.',
+            t.hierarchyNote,
             style: theme.textTheme.bodySmall
                 ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
           ),
@@ -683,7 +676,7 @@ class _ReorderSheetState extends State<_ReorderSheet> {
             width: double.infinity,
             child: FilledButton(
               onPressed: () => Navigator.of(context).pop(_order),
-              child: const Text('Save order'),
+              child: Text(t.saveOrder),
             ),
           ),
         ],

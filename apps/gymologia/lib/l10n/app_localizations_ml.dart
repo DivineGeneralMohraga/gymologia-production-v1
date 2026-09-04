@@ -288,6 +288,110 @@ class AppLocalizationsMl extends AppLocalizations {
   }
 
   @override
+  String get deleteRoleWarning =>
+      'റോളും അതിന്റെ അനുമതികളും പോകും. ഇതിൽ ആരുമില്ല, അതിനാൽ ആർക്കും ആക്സസ് നഷ്ടപ്പെടില്ല.';
+
+  @override
+  String deletedNamed(String name) {
+    return '$name നീക്കി';
+  }
+
+  @override
+  String get needTwoCustomRoles =>
+      'ക്രമം മാറ്റും മുൻപ് നിങ്ങൾക്ക് തിരുത്താവുന്ന രണ്ട് ഇഷ്ട റോളുകൾ വേണം.';
+
+  @override
+  String get hierarchySaved => 'ശ്രേണി സംരക്ഷിച്ചു';
+
+  @override
+  String get reorder => 'ക്രമം മാറ്റുക';
+
+  @override
+  String get newRole => 'പുതിയ റോൾ';
+
+  @override
+  String get rolesIntro =>
+      'ഏറ്റവും മുതിർന്നത് ആദ്യം. നിങ്ങളുടേതിന് താഴെയുള്ള റോളുകൾ മാത്രമേ തിരുത്താനാകൂ, നിങ്ങൾക്കുള്ള അനുമതികൾ മാത്രമേ നൽകാനാകൂ.';
+
+  @override
+  String get defaultBadge => 'സ്ഥിരം';
+
+  @override
+  String get everyPermission =>
+      'എല്ലാ അനുമതികളും, പിന്നീട് ചേർക്കുന്നവ ഉൾപ്പെടെ';
+
+  @override
+  String permissionCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count അനുമതികൾ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nobodyInThisRole => 'ഈ റോളിൽ ആരുമില്ല';
+
+  @override
+  String peopleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count പേർ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteDefaultRolesStay => 'നീക്കുക (സ്ഥിര റോളുകൾ നിലനിൽക്കും)';
+
+  @override
+  String get deleteMovePeopleFirst => 'നീക്കുക (ആദ്യം ആളുകളെ മാറ്റുക)';
+
+  @override
+  String get giveRoleAName => 'റോളിന് ഒരു പേര് നൽകുക';
+
+  @override
+  String get editRole => 'റോൾ തിരുത്തുക';
+
+  @override
+  String get createRole => 'റോൾ ഉണ്ടാക്കുക';
+
+  @override
+  String get roleName => 'റോളിന്റെ പേര്';
+
+  @override
+  String get roleNameHint => 'റിസപ്ഷൻ, ഫിസിയോ, നൈറ്റ് ഷിഫ്റ്റ്';
+
+  @override
+  String get superRoleNote =>
+      'ഈ റോളിന് എല്ലാ അനുമതികളുമുണ്ട്, ഭാവിയിൽ ചേർക്കുന്നവയും. ഇത് കുറയ്ക്കാനാകില്ല — എപ്പോഴും കാര്യങ്ങൾ ശരിയാക്കാൻ കഴിയുന്ന റോൾ ഇതാണ്.';
+
+  @override
+  String get whatThisRoleCanDo => 'ഈ റോളിന് എന്തു ചെയ്യാം';
+
+  @override
+  String get greyedOutNote =>
+      'മങ്ങിയവ നിങ്ങൾക്കില്ലാത്തവയാണ്, അതിനാൽ അവ കൈമാറാനാകില്ല.';
+
+  @override
+  String get ownerOnlyPermission => 'ഇത് ജിം ഉടമയ്ക്ക് മാത്രം';
+
+  @override
+  String get youDoNotHoldThis => 'ഇത് നിങ്ങൾക്കില്ല';
+
+  @override
+  String get orderTheHierarchy => 'ശ്രേണി ക്രമപ്പെടുത്തുക';
+
+  @override
+  String get hierarchyNote =>
+      'ഏറ്റവും മുതിർന്നത് മുകളിൽ. സ്ഥിര റോളുകൾ അവയുടെ സ്ഥാനത്ത് തുടരും, ഇവിടെ കാണില്ല.';
+
+  @override
+  String get saveOrder => 'ക്രമം സംരക്ഷിക്കുക';
+
+  @override
   String get home => 'ഹോം';
 
   @override

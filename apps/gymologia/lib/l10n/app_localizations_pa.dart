@@ -287,6 +287,109 @@ class AppLocalizationsPa extends AppLocalizations {
   }
 
   @override
+  String get deleteRoleWarning =>
+      'ਭੂਮਿਕਾ ਅਤੇ ਉਸ ਦੀਆਂ ਇਜਾਜ਼ਤਾਂ ਚਲੀਆਂ ਜਾਣਗੀਆਂ। ਇਸ ਵਿੱਚ ਕੋਈ ਨਹੀਂ ਹੈ, ਇਸ ਲਈ ਕਿਸੇ ਦੀ ਪਹੁੰਚ ਨਹੀਂ ਜਾਵੇਗੀ।';
+
+  @override
+  String deletedNamed(String name) {
+    return '$name ਮਿਟਾ ਦਿੱਤਾ';
+  }
+
+  @override
+  String get needTwoCustomRoles =>
+      'ਕ੍ਰਮ ਬਦਲਣ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਦੋ ਅਜਿਹੀਆਂ ਕਸਟਮ ਭੂਮਿਕਾਵਾਂ ਚਾਹੀਦੀਆਂ ਹਨ ਜੋ ਤੁਸੀਂ ਸੋਧ ਸਕੋ।';
+
+  @override
+  String get hierarchySaved => 'ਦਰਜਾਬੰਦੀ ਸੰਭਾਲੀ ਗਈ';
+
+  @override
+  String get reorder => 'ਕ੍ਰਮ ਬਦਲੋ';
+
+  @override
+  String get newRole => 'ਨਵੀਂ ਭੂਮਿਕਾ';
+
+  @override
+  String get rolesIntro =>
+      'ਸਭ ਤੋਂ ਸੀਨੀਅਰ ਪਹਿਲਾਂ। ਤੁਸੀਂ ਸਿਰਫ਼ ਆਪਣੇ ਤੋਂ ਹੇਠਲੀਆਂ ਭੂਮਿਕਾਵਾਂ ਸੋਧ ਸਕਦੇ ਹੋ, ਅਤੇ ਸਿਰਫ਼ ਉਹੀ ਇਜਾਜ਼ਤਾਂ ਦੇ ਸਕਦੇ ਹੋ ਜੋ ਤੁਹਾਡੇ ਕੋਲ ਹਨ।';
+
+  @override
+  String get defaultBadge => 'ਡਿਫਾਲਟ';
+
+  @override
+  String get everyPermission => 'ਹਰ ਇਜਾਜ਼ਤ, ਬਾਅਦ ਵਿੱਚ ਜੁੜਨ ਵਾਲੀਆਂ ਸਮੇਤ';
+
+  @override
+  String permissionCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਇਜਾਜ਼ਤਾਂ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nobodyInThisRole => 'ਇਸ ਭੂਮਿਕਾ ਵਿੱਚ ਕੋਈ ਨਹੀਂ';
+
+  @override
+  String peopleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ਲੋਕ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteDefaultRolesStay => 'ਮਿਟਾਓ (ਡਿਫਾਲਟ ਭੂਮਿਕਾਵਾਂ ਰਹਿੰਦੀਆਂ ਹਨ)';
+
+  @override
+  String get deleteMovePeopleFirst => 'ਮਿਟਾਓ (ਪਹਿਲਾਂ ਲੋਕਾਂ ਨੂੰ ਹਟਾਓ)';
+
+  @override
+  String get giveRoleAName => 'ਭੂਮਿਕਾ ਨੂੰ ਨਾਮ ਦਿਓ';
+
+  @override
+  String get editRole => 'ਭੂਮਿਕਾ ਸੋਧੋ';
+
+  @override
+  String get createRole => 'ਭੂਮਿਕਾ ਬਣਾਓ';
+
+  @override
+  String get roleName => 'ਭੂਮਿਕਾ ਦਾ ਨਾਮ';
+
+  @override
+  String get roleNameHint => 'ਰਿਸੈਪਸ਼ਨ, ਫਿਜ਼ੀਓ, ਨਾਈਟ ਸ਼ਿਫਟ';
+
+  @override
+  String get superRoleNote =>
+      'ਇਸ ਭੂਮਿਕਾ ਕੋਲ ਹਰ ਇਜਾਜ਼ਤ ਹੈ, ਅੱਗੇ ਜੁੜਨ ਵਾਲੀਆਂ ਸਮੇਤ। ਇਸ ਨੂੰ ਸੀਮਤ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ — ਇਹੀ ਉਹ ਭੂਮਿਕਾ ਹੈ ਜੋ ਹਮੇਸ਼ਾ ਚੀਜ਼ਾਂ ਠੀਕ ਕਰ ਸਕਦੀ ਹੈ।';
+
+  @override
+  String get whatThisRoleCanDo => 'ਇਹ ਭੂਮਿਕਾ ਕੀ ਕਰ ਸਕਦੀ ਹੈ';
+
+  @override
+  String get greyedOutNote =>
+      'ਜੋ ਧੁੰਦਲਾ ਦਿਖਦਾ ਹੈ ਉਹ ਤੁਹਾਡੇ ਕੋਲ ਨਹੀਂ ਹੈ, ਇਸ ਲਈ ਤੁਸੀਂ ਉਹ ਅੱਗੇ ਨਹੀਂ ਦੇ ਸਕਦੇ।';
+
+  @override
+  String get ownerOnlyPermission => 'ਇਹ ਸਿਰਫ਼ ਜਿਮ ਮਾਲਕ ਕੋਲ ਹੈ';
+
+  @override
+  String get youDoNotHoldThis => 'ਇਹ ਤੁਹਾਡੇ ਕੋਲ ਨਹੀਂ ਹੈ';
+
+  @override
+  String get orderTheHierarchy => 'ਦਰਜਾਬੰਦੀ ਤੈਅ ਕਰੋ';
+
+  @override
+  String get hierarchyNote =>
+      'ਸਭ ਤੋਂ ਸੀਨੀਅਰ ਉੱਪਰ। ਡਿਫਾਲਟ ਭੂਮਿਕਾਵਾਂ ਆਪਣੀ ਥਾਂ ਰਹਿੰਦੀਆਂ ਹਨ ਅਤੇ ਇੱਥੇ ਨਹੀਂ ਦਿਖਦੀਆਂ।';
+
+  @override
+  String get saveOrder => 'ਕ੍ਰਮ ਸੰਭਾਲੋ';
+
+  @override
   String get home => 'ਹੋਮ';
 
   @override

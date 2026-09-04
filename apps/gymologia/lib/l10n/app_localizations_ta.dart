@@ -290,6 +290,109 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
+  String get deleteRoleWarning =>
+      'பங்கும் அதன் அனுமதிகளும் நீங்கும். இதில் யாரும் இல்லை, எனவே யாருக்கும் அணுகல் இழக்காது.';
+
+  @override
+  String deletedNamed(String name) {
+    return '$name நீக்கப்பட்டது';
+  }
+
+  @override
+  String get needTwoCustomRoles =>
+      'வரிசையை மாற்றும் முன், நீங்கள் திருத்தக்கூடிய இரண்டு தனிப்பயன் பங்குகள் தேவை.';
+
+  @override
+  String get hierarchySaved => 'படிநிலை சேமிக்கப்பட்டது';
+
+  @override
+  String get reorder => 'வரிசை மாற்று';
+
+  @override
+  String get newRole => 'புதிய பங்கு';
+
+  @override
+  String get rolesIntro =>
+      'மூத்தவை முதலில். உங்கள் பங்குக்குக் கீழ் உள்ளவற்றை மட்டுமே திருத்த முடியும், உங்களிடம் உள்ள அனுமதிகளை மட்டுமே வழங்க முடியும்.';
+
+  @override
+  String get defaultBadge => 'இயல்பு';
+
+  @override
+  String get everyPermission => 'எல்லா அனுமதிகளும், பின்னர் சேர்ப்பவை உட்பட';
+
+  @override
+  String permissionCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count அனுமதிகள்',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nobodyInThisRole => 'இந்தப் பங்கில் யாரும் இல்லை';
+
+  @override
+  String peopleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count பேர்',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteDefaultRolesStay => 'நீக்கு (இயல்பு பங்குகள் இருக்கும்)';
+
+  @override
+  String get deleteMovePeopleFirst => 'நீக்கு (முதலில் நபர்களை மாற்று)';
+
+  @override
+  String get giveRoleAName => 'பங்குக்கு ஒரு பெயர் கொடுங்கள்';
+
+  @override
+  String get editRole => 'பங்கைத் திருத்து';
+
+  @override
+  String get createRole => 'பங்கை உருவாக்கு';
+
+  @override
+  String get roleName => 'பங்கின் பெயர்';
+
+  @override
+  String get roleNameHint => 'வரவேற்பு, பிசியோ, இரவு ஷிப்ட்';
+
+  @override
+  String get superRoleNote =>
+      'இந்தப் பங்கிடம் எல்லா அனுமதிகளும் உள்ளன, எதிர்காலத்தில் சேர்ப்பவை உட்பட. இதைக் குறைக்க முடியாது — எப்போதும் சரிசெய்யக்கூடிய பங்கு இதுவே.';
+
+  @override
+  String get whatThisRoleCanDo => 'இந்தப் பங்கு என்ன செய்யலாம்';
+
+  @override
+  String get greyedOutNote =>
+      'மங்கலாக இருப்பவை உங்களிடம் இல்லாதவை, எனவே அவற்றை வழங்க முடியாது.';
+
+  @override
+  String get ownerOnlyPermission => 'இது கூட உரிமையாளருக்கு மட்டுமே';
+
+  @override
+  String get youDoNotHoldThis => 'இது உங்களிடம் இல்லை';
+
+  @override
+  String get orderTheHierarchy => 'படிநிலையை வரிசைப்படுத்து';
+
+  @override
+  String get hierarchyNote =>
+      'மூத்தவை மேலே. இயல்பு பங்குகள் தங்கள் இடத்திலேயே இருக்கும், இங்கே பட்டியலிடப்படாது.';
+
+  @override
+  String get saveOrder => 'வரிசையைச் சேமி';
+
+  @override
   String get home => 'முகப்பு';
 
   @override

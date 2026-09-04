@@ -285,6 +285,109 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
+  String get deleteRoleWarning =>
+      'ভূমিকা ও তার অনুমতিগুলি চলে যাবে। এতে কেউ নেই, তাই কারও অ্যাক্সেস যাবে না।';
+
+  @override
+  String deletedNamed(String name) {
+    return '$name মুছে ফেলা হয়েছে';
+  }
+
+  @override
+  String get needTwoCustomRoles =>
+      'ক্রম বদলানোর আগে আপনার এমন দুটি কাস্টম ভূমিকা লাগবে যা আপনি সম্পাদনা করতে পারেন।';
+
+  @override
+  String get hierarchySaved => 'ক্রম সংরক্ষিত হয়েছে';
+
+  @override
+  String get reorder => 'ক্রম বদলান';
+
+  @override
+  String get newRole => 'নতুন ভূমিকা';
+
+  @override
+  String get rolesIntro =>
+      'সবচেয়ে জ্যেষ্ঠ প্রথমে। আপনি কেবল নিজের নিচের ভূমিকাগুলি সম্পাদনা করতে পারেন, আর কেবল নিজের কাছে থাকা অনুমতিই দিতে পারেন।';
+
+  @override
+  String get defaultBadge => 'ডিফল্ট';
+
+  @override
+  String get everyPermission => 'প্রতিটি অনুমতি, পরে যোগ হওয়া সহ';
+
+  @override
+  String permissionCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count অনুমতি',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nobodyInThisRole => 'এই ভূমিকায় কেউ নেই';
+
+  @override
+  String peopleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count জন',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteDefaultRolesStay => 'মুছুন (ডিফল্ট ভূমিকা থেকে যায়)';
+
+  @override
+  String get deleteMovePeopleFirst => 'মুছুন (আগে লোকজন সরান)';
+
+  @override
+  String get giveRoleAName => 'ভূমিকাটির একটি নাম দিন';
+
+  @override
+  String get editRole => 'ভূমিকা সম্পাদনা';
+
+  @override
+  String get createRole => 'ভূমিকা তৈরি করুন';
+
+  @override
+  String get roleName => 'ভূমিকার নাম';
+
+  @override
+  String get roleNameHint => 'রিসেপশন, ফিজিও, নাইট শিফট';
+
+  @override
+  String get superRoleNote =>
+      'এই ভূমিকার কাছে সব অনুমতি আছে, ভবিষ্যতে যোগ হওয়া সহ। এটি সীমিত করা যায় না — এ কারণেই এটি সব সময় সমস্যা মেটাতে পারে।';
+
+  @override
+  String get whatThisRoleCanDo => 'এই ভূমিকা কী করতে পারে';
+
+  @override
+  String get greyedOutNote =>
+      'যা ধূসর দেখাচ্ছে তা আপনার নিজের কাছে নেই, তাই সেটি আপনি দিতে পারবেন না।';
+
+  @override
+  String get ownerOnlyPermission => 'এটি কেবল জিম মালিকের';
+
+  @override
+  String get youDoNotHoldThis => 'এটি আপনার কাছে নেই';
+
+  @override
+  String get orderTheHierarchy => 'ক্রম ঠিক করুন';
+
+  @override
+  String get hierarchyNote =>
+      'সবচেয়ে জ্যেষ্ঠ উপরে। ডিফল্ট ভূমিকাগুলি নিজের জায়গায় থাকে এবং এখানে দেখা যায় না।';
+
+  @override
+  String get saveOrder => 'ক্রম সংরক্ষণ করুন';
+
+  @override
   String get home => 'হোম';
 
   @override

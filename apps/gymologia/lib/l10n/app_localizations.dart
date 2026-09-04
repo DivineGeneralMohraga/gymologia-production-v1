@@ -600,6 +600,168 @@ abstract class AppLocalizations {
   /// **'Choose {plan}'**
   String choosePlanNamed(String plan);
 
+  /// No description provided for @deleteRoleWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'The role and its permissions go. Nobody is in it, so nobody loses access.'**
+  String get deleteRoleWarning;
+
+  /// No description provided for @deletedNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} deleted'**
+  String deletedNamed(String name);
+
+  /// No description provided for @needTwoCustomRoles.
+  ///
+  /// In en, this message translates to:
+  /// **'You need two custom roles you can edit before reordering.'**
+  String get needTwoCustomRoles;
+
+  /// No description provided for @hierarchySaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Hierarchy saved'**
+  String get hierarchySaved;
+
+  /// No description provided for @reorder.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder'**
+  String get reorder;
+
+  /// No description provided for @newRole.
+  ///
+  /// In en, this message translates to:
+  /// **'New role'**
+  String get newRole;
+
+  /// No description provided for @rolesIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Listed most senior first. You can only edit roles below your own, and only hand out permissions you hold yourself.'**
+  String get rolesIntro;
+
+  /// No description provided for @defaultBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'DEFAULT'**
+  String get defaultBadge;
+
+  /// No description provided for @everyPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Every permission, including any added later'**
+  String get everyPermission;
+
+  /// No description provided for @permissionCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 permission} other{{count} permissions}}'**
+  String permissionCount(int count);
+
+  /// No description provided for @nobodyInThisRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody in this role'**
+  String get nobodyInThisRole;
+
+  /// No description provided for @peopleCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 person} other{{count} people}}'**
+  String peopleCount(int count);
+
+  /// No description provided for @deleteDefaultRolesStay.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete (default roles stay)'**
+  String get deleteDefaultRolesStay;
+
+  /// No description provided for @deleteMovePeopleFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete (move people out first)'**
+  String get deleteMovePeopleFirst;
+
+  /// No description provided for @giveRoleAName.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the role a name'**
+  String get giveRoleAName;
+
+  /// No description provided for @editRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit role'**
+  String get editRole;
+
+  /// No description provided for @createRole.
+  ///
+  /// In en, this message translates to:
+  /// **'Create role'**
+  String get createRole;
+
+  /// No description provided for @roleName.
+  ///
+  /// In en, this message translates to:
+  /// **'Role name'**
+  String get roleName;
+
+  /// No description provided for @roleNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Front desk, Physio, Night shift'**
+  String get roleNameHint;
+
+  /// No description provided for @superRoleNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This role holds every permission, including any added in future. That cannot be narrowed — it is what makes it the role that can always fix things.'**
+  String get superRoleNote;
+
+  /// No description provided for @whatThisRoleCanDo.
+  ///
+  /// In en, this message translates to:
+  /// **'What this role can do'**
+  String get whatThisRoleCanDo;
+
+  /// No description provided for @greyedOutNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Anything greyed out is something you do not hold yourself, so you cannot pass it on.'**
+  String get greyedOutNote;
+
+  /// No description provided for @ownerOnlyPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Belongs to the gym owner alone'**
+  String get ownerOnlyPermission;
+
+  /// No description provided for @youDoNotHoldThis.
+  ///
+  /// In en, this message translates to:
+  /// **'You do not hold this'**
+  String get youDoNotHoldThis;
+
+  /// No description provided for @orderTheHierarchy.
+  ///
+  /// In en, this message translates to:
+  /// **'Order the hierarchy'**
+  String get orderTheHierarchy;
+
+  /// No description provided for @hierarchyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Most senior at the top. Default roles keep their place and are not listed.'**
+  String get hierarchyNote;
+
+  /// No description provided for @saveOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Save order'**
+  String get saveOrder;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:

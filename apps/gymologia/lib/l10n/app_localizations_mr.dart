@@ -283,6 +283,109 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
+  String get deleteRoleWarning =>
+      'भूमिका आणि तिच्या परवानग्या जातील. यात कोणी नाही, त्यामुळे कोणाचाही प्रवेश जाणार नाही.';
+
+  @override
+  String deletedNamed(String name) {
+    return '$name काढून टाकले';
+  }
+
+  @override
+  String get needTwoCustomRoles =>
+      'क्रम बदलण्याआधी तुम्हाला संपादित करता येतील अशा दोन कस्टम भूमिका हव्यात.';
+
+  @override
+  String get hierarchySaved => 'उतरंड जतन केली';
+
+  @override
+  String get reorder => 'क्रम बदला';
+
+  @override
+  String get newRole => 'नवी भूमिका';
+
+  @override
+  String get rolesIntro =>
+      'सर्वात वरिष्ठ आधी. तुम्ही फक्त तुमच्या खालच्या भूमिका बदलू शकता, आणि फक्त तुमच्याकडे असलेल्या परवानग्या देऊ शकता.';
+
+  @override
+  String get defaultBadge => 'डीफॉल्ट';
+
+  @override
+  String get everyPermission => 'प्रत्येक परवानगी, नंतर जोडल्या जाणाऱ्यांसह';
+
+  @override
+  String permissionCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count परवानग्या',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get nobodyInThisRole => 'या भूमिकेत कोणी नाही';
+
+  @override
+  String peopleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count जण',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get deleteDefaultRolesStay => 'काढा (डीफॉल्ट भूमिका राहतात)';
+
+  @override
+  String get deleteMovePeopleFirst => 'काढा (आधी लोकांना हलवा)';
+
+  @override
+  String get giveRoleAName => 'भूमिकेला नाव द्या';
+
+  @override
+  String get editRole => 'भूमिका संपादित करा';
+
+  @override
+  String get createRole => 'भूमिका तयार करा';
+
+  @override
+  String get roleName => 'भूमिकेचे नाव';
+
+  @override
+  String get roleNameHint => 'रिसेप्शन, फिजिओ, नाइट शिफ्ट';
+
+  @override
+  String get superRoleNote =>
+      'या भूमिकेकडे प्रत्येक परवानगी आहे, पुढे जोडल्या जाणाऱ्यांसह. ती मर्यादित करता येत नाही — म्हणूनच ती नेहमी गोष्टी दुरुस्त करू शकते.';
+
+  @override
+  String get whatThisRoleCanDo => 'ही भूमिका काय करू शकते';
+
+  @override
+  String get greyedOutNote =>
+      'जे धूसर दिसते ते तुमच्याकडे नाही, त्यामुळे तुम्ही ते देऊ शकत नाही.';
+
+  @override
+  String get ownerOnlyPermission => 'हे फक्त जिम मालकाकडेच असते';
+
+  @override
+  String get youDoNotHoldThis => 'हे तुमच्याकडे नाही';
+
+  @override
+  String get orderTheHierarchy => 'उतरंड ठरवा';
+
+  @override
+  String get hierarchyNote =>
+      'सर्वात वरिष्ठ वर. डीफॉल्ट भूमिका आपल्या जागी राहतात आणि इथे दिसत नाहीत.';
+
+  @override
+  String get saveOrder => 'क्रम जतन करा';
+
+  @override
   String get home => 'होम';
 
   @override
