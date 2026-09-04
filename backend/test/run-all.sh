@@ -21,10 +21,21 @@
 # limited to 5 per minute per IP, which is correct for a login endpoint and
 # means seven suites back to back exhaust the quota and fail at setup with a
 # 401 that has nothing to do with the code under test.
+#
+# THIS RUN TAKES ABOUT HALF AN HOUR. Thirteen cooldowns are fourteen minutes
+# on their own, before a single request is sent. Start it in the background
+# and let it finish; do not run it inside anything that will time out and
+# kill the process group. That happened once: the run was killed at the ten
+# minute mark, the server -- a child of the same shell -- was killed with
+# it, and payments-e2e stopped mid-suite looking exactly like a regression
+# in the security change that had just been made. It was not. Detaching the
+# server, as the block above says, is half the fix; the other half is not
+# putting a thirty minute job on a ten minute leash.
 
 set -u
 
 SUITES="
+unit-specs
 crm-e2e
 crm-management-e2e
 payments-e2e
@@ -88,15 +99,21 @@ for suite in $SUITES; do
   bash "test/$suite.sh" > "$OUT/$suite.out" 2>&1
   code=$?
 
-  # Count the check lines, not every line containing PASS. Matching the
-  # colour reset that follows the word is what separates a real check from
-  # the suite's own "ALL CHECKS PASSED" banner, which would otherwise add
-  # one to every suite's total.
+  # Count the check lines, not every line containing PASS. What separates a
+  # real check from the suite's own "ALL CHECKS PASSED" banner is the
+  # indent: a check is two spaces in, the banner starts at column 0.
+  #
+  # Colour is optional here on purpose. The shell suites print PASS wrapped
+  # in escape codes; the TypeScript specs print it plain. Keying the count
+  # on the colour reset -- as this did -- scored every plain-text spec zero
+  # while it sat there passing, which is a quiet undercount and exactly the
+  # kind of number this runner exists to get right.
+  #
   # `grep -c` already prints 0 and exits 1 when nothing matches, so adding
   # `|| echo 0` appends a SECOND zero and the arithmetic below dies on the
   # two-line result. Swallow the exit status rather than adding to output.
-  passes=$(grep -cE 'PASS.\[0m  ' "$OUT/$suite.out" 2>/dev/null) || true
-  fails=$(grep -cE 'FAIL.\[0m  ' "$OUT/$suite.out" 2>/dev/null) || true
+  passes=$(grep -cE '^  (.\[32m)?PASS(.\[0m)?  ' "$OUT/$suite.out" 2>/dev/null) || true
+  fails=$(grep -cE '^  (.\[31m)?FAIL(.\[0m)?  ' "$OUT/$suite.out" 2>/dev/null) || true
   passes=${passes:-0}
   fails=${fails:-0}
 

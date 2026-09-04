@@ -89,7 +89,7 @@ CODE=$(sign_code "$OWNER" "GYM_IMAGE" "image/png")
 if [ "$CODE" = "503" ]; then
   skip "storage is not configured on this server (SUPABASE_SERVICE_ROLE_KEY)"
   skip "set it and re-run to check the signed URL itself"
-elif [ "$CODE" = "200" ]; then
+elif [ "$CODE" = "200" ] || [ "$CODE" = "201" ]; then
   UP=$(echo "$RESP" | field uploadUrl)
   ASSET=$(echo "$RESP" | field assetUrl)
   PATH_=$(echo "$RESP" | field path)
@@ -111,7 +111,7 @@ elif [ "$CODE" = "200" ]; then
     && ok "a KYC document is not given a public URL" \
     || bad "kyc privacy" "$KASSET"
 else
-  bad "sign" "got HTTP $CODE, expected 200 or 503"
+  bad "sign" "got HTTP $CODE, expected 201 or 503"
 fi
 
 printf "\n"
