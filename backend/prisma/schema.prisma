@@ -296,14 +296,22 @@ model GymKyc {
   gstinEnc     String? @db.Text
   gstinLast4   String? @db.VarChar(4)
 
-  /// Businesses without GST upload Udyam registration or an electricity bill.
+  /// Businesses without GST upload something else that proves the premises
+  /// trade legitimately -- Udyam registration or an electricity bill are
+  /// the usual two, and OTHER carries whatever else a reviewer accepts.
   altProofUrl  String?       @db.VarChar(500)
   altProofType AltProofType?
 
   aadhaarStatus VerificationStatus @default(NOT_SUBMITTED)
   panStatus     VerificationStatus @default(NOT_SUBMITTED)
   gstStatus     VerificationStatus @default(NOT_SUBMITTED)
-  videoKycStatus VerificationStatus @default(NOT_SUBMITTED)
+
+  /// Owned or rented. A rented gym also needs a no-objection letter from
+  /// the landlord: without it, a tenant could register premises they have
+  /// no permission to trade from.
+  premises   PremisesOwnership?
+  nocUrl     String?            @db.VarChar(500)
+  nocStatus  VerificationStatus @default(NOT_SUBMITTED)
 
   /// Cashfree Verification Suite reference ids, for audit + re-check.
   cashfreeAadhaarRefId String? @db.VarChar(120)
@@ -317,14 +325,21 @@ model GymKyc {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  kycSessions KycSession[]
-
   @@map("gym_kyc")
 }
 
 enum AltProofType {
   UDYAM
   ELECTRICITY_BILL
+  /// Anything else a reviewer accepts -- a trade licence, a property tax
+  /// receipt. The reviewer decides; the app does not pretend to enumerate
+  /// every legal document in the country.
+  OTHER
+}
+
+enum PremisesOwnership {
+  OWNED
+  RENTED
 }
 
 enum VerificationStatus {
@@ -1221,7 +1236,6 @@ model AdminStaff {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  kycSessions    KycSession[]
   assignedTickets SupportTicket[]
 
   @@map("admin_staff")
@@ -1233,40 +1247,6 @@ enum AdminRole {
   MANAGER         // KYC + gyms + support visibility
   CUSTOMER_SUPPORT
   KYC_AGENT
-}
-
-/// Video KYC appointment. The meeting is link-only: the joining URL is a
-/// signed single-use token, valid for a window around the slot.
-model KycSession {
-  id       String  @id @default(uuid()) @db.Uuid
-  gymKycId String  @db.Uuid
-  gymKyc   GymKyc  @relation(fields: [gymKycId], references: [id], onDelete: Cascade)
-
-  adminStaffId String?     @db.Uuid
-  adminStaff   AdminStaff? @relation(fields: [adminStaffId], references: [id])
-
-  scheduledAt   DateTime
-  joinTokenHash String    @unique @db.VarChar(255)
-  tokenExpiresAt DateTime
-  startedAt     DateTime?
-  endedAt       DateTime?
-
-  status  KycSessionStatus @default(SCHEDULED)
-  outcome VerificationStatus?
-  notes   String? @db.Text
-
-  createdAt DateTime @default(now())
-
-  @@index([status, scheduledAt])
-  @@map("kyc_sessions")
-}
-
-enum KycSessionStatus {
-  SCHEDULED
-  IN_PROGRESS
-  COMPLETED
-  NO_SHOW
-  CANCELLED
 }
 
 model SupportTicket {

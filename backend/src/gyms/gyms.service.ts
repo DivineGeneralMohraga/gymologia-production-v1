@@ -203,7 +203,8 @@ export class GymsService {
             aadhaarStatus: true,
             panStatus: true,
             gstStatus: true,
-            videoKycStatus: true,
+            nocStatus: true,
+            premises: true,
           },
         },
         subscriptions: {
@@ -621,7 +622,8 @@ type GymWithDetail = Prisma.GymGetPayload<{
         aadhaarStatus: true;
         panStatus: true;
         gstStatus: true;
-        videoKycStatus: true;
+        nocStatus: true;
+        premises: true;
       };
     };
     subscriptions: true;

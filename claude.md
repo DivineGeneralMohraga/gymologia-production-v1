@@ -150,6 +150,10 @@ Aadhar verification
 Pan card verification
 Gst verification if has
 udyam/electricty bill upload if dont has gst
+NOC letter from the landlord if the premises are rented
+(UPDATED 2026-09-04: video KYC removed. Verification is documents only --
+Aadhaar, PAN, and either GST or another legal proof, plus the landlord NOC
+when the gym is on rent.)
 Subscription models(7 days free for new users of gymologia staff gym owners only for paymrent) need to be choosed for the gym : 
 599 : basic no listing in gymologia search engine 
 1199 : pro plan all in basic + gymologia search bar listing 
@@ -432,8 +436,10 @@ Login through number : otp verified using same msg91 for all
 
  
 Performs customer support 
-Verifications (KYC video call)
-Make a only link joining meeting area where user can get admin/owner who works with in gymologia can join and person who is doing kyc
+Verifications (document review)
+(UPDATED 2026-09-04: the video KYC call and its link-only meeting area are
+removed from both the admin app and the main app. Admins review the
+uploaded documents instead.)
 
 Can see logs
 Handle staff
