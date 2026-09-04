@@ -36,6 +36,15 @@ def load(path):
     return json.load(io.open(path, encoding="utf-8"))
 
 
+# ICU keywords that sit in braces but are not placeholders.
+PLURAL_WORDS = {"plural", "other", "one", "zero", "two", "few", "many"}
+
+
+def slots(text: str) -> set:
+    """The placeholder names a message expects."""
+    return set(re.findall(r"\{(\w+)[},]", text)) - PLURAL_WORDS
+
+
 def main() -> int:
     template = load(os.path.join(L10N, "app_en.arb"))
     keys = {k for k in template if not k.startswith("@")}
@@ -60,6 +69,20 @@ def main() -> int:
         missing = [k for k in missing if k != "appName"]
         if missing:
             print("  %s: %d falling back to English" % (locale, len(missing)))
+
+        # A translation that drops or renames a placeholder renders with a
+        # hole in it -- "You have  leave days left." -- and nothing else
+        # catches that, because the file is still valid JSON and still
+        # compiles.
+        for key in sorted(theirs & keys):
+            value = data[key]
+            if not isinstance(value, str):
+                continue
+            want, got = slots(template[key]), slots(value)
+            if want != got:
+                problems += 1
+                print("  %s: %s expects %s but has %s"
+                      % (locale, key, sorted(want), sorted(got)))
 
     source = ""
     for path in glob.glob(os.path.join(APP, "lib", "**", "*.dart"), recursive=True):
@@ -87,7 +110,8 @@ def main() -> int:
             print("  %r -> %s" % (value, ks))
 
     if problems:
-        print("\nFAIL: keys defined in a translation but absent from the template.")
+        print("\nFAIL: %d problem(s) above -- an orphan key, or a "
+              "placeholder a translation does not carry." % problems)
         return 1
     print("\nOK")
     return 0
