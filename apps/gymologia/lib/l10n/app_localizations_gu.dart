@@ -114,6 +114,87 @@ class AppLocalizationsGu extends AppLocalizations {
   String get createAccountAction => 'ખાતું બનાવો';
 
   @override
+  String get supportSent => 'મોકલાયું. તમે આપેલા નંબર પર જવાબ આવશે.';
+
+  @override
+  String get supportSubject => 'આ શેના વિશે છે?';
+
+  @override
+  String get supportSubjectHint => 'મારા સભ્યપદના દિવસો ખોટા દેખાય છે';
+
+  @override
+  String get supportMessage => 'શું થયું તે જણાવો';
+
+  @override
+  String get supportReplyTo => 'અમે ક્યાં જવાબ આપીએ?';
+
+  @override
+  String get supportUrgent => 'આના કારણે મારું જિમ ચાલી શકતું નથી';
+
+  @override
+  String get supportUrgentNote => 'પ્રાથમિકતા વધારે છે.';
+
+  @override
+  String copiedToClipboard(String value) {
+    return '$value કૉપિ થયું';
+  }
+
+  @override
+  String orEmailUs(String email) {
+    return 'અથવા $email પર ઇમેઇલ કરો';
+  }
+
+  @override
+  String get whatYouHaveAsked => 'તમે શું પૂછ્યું છે';
+
+  @override
+  String get aFewWordsIsEnough => 'થોડા શબ્દો પૂરતા છે';
+
+  @override
+  String get aSentenceOrTwoHelps => 'એક-બે વાક્ય લખશો તો ઝડપથી ઉકેલાશે';
+
+  @override
+  String get ticketOpen => 'કોઈ હાથ પર લે તેની રાહ જોવાય છે';
+
+  @override
+  String get ticketInProgress => 'કોઈ આ જોઈ રહ્યું છે';
+
+  @override
+  String get ticketWaitingOnUser => 'તમારા જવાબની રાહ જોવાય છે';
+
+  @override
+  String get ticketResolved => 'ઉકેલાયું';
+
+  @override
+  String get ticketClosed => 'બંધ';
+
+  @override
+  String get referralPitch =>
+      'કોડ શેર કરો, અને કોઈ જિમ માલિક સબસ્ક્રિપ્શન લે ત્યારે કમાઓ. રેફરલ ઍપ હજી આવી નથી.';
+
+  @override
+  String get appTagline => 'જિમોલોજિયા · સભ્યો અને સ્ટાફ';
+
+  @override
+  String get signOutQuestion => 'સાઇન આઉટ કરવું છે?';
+
+  @override
+  String get signOutWarning => 'ફરી સાઇન ઇન કરવા તમારો ફોન જોઈશે.';
+
+  @override
+  String get profileUpdated => 'પ્રોફાઇલ અપડેટ થઈ.';
+
+  @override
+  String get yourProfile => 'તમારી પ્રોફાઇલ';
+
+  @override
+  String get emailClearToRemove => 'વૈકલ્પિક. કાઢી નાખવા ખાલી કરો.';
+
+  @override
+  String get phoneIsYourLogin =>
+      'આનાથી જ તમે સાઇન ઇન કરો છો, તેથી અહીં હમણાં બદલી શકાતું નથી. બદલવું હોય તો સપોર્ટનો સંપર્ક કરો.';
+
+  @override
   String get home => 'હોમ';
 
   @override

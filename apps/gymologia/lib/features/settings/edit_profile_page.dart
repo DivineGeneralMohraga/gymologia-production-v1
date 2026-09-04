@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -67,7 +68,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profile updated.')),
+        SnackBar(content: Text(AppLocalizations.of(context).profileUpdated)),
       );
       Navigator.of(context).pop(true);
     } on ApiException catch (e) {
@@ -86,7 +87,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final user = context.watch<AuthController>().user;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Your profile')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).yourProfile)),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -95,16 +96,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
             TextFormField(
               controller: _name,
               textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(labelText: 'Name'),
+              decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).name),
               validator: validateName,
             ),
             const SizedBox(height: 16),
             TextFormField(
               controller: _email,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                helperText: 'Optional. Clear it to remove.',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).email,
+                helperText: AppLocalizations.of(context).emailClearToRemove,
               ),
               validator: validateOptionalEmail,
             ),
@@ -116,7 +118,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 FilteringTextInputFormatter.digitsOnly,
                 LengthLimitingTextInputFormatter(3),
               ],
-              decoration: const InputDecoration(labelText: 'Age'),
+              decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).age),
               validator: validateAge,
             ),
 
@@ -143,8 +146,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ?.copyWith(fontWeight: FontWeight.w600)),
                         const SizedBox(height: 4),
                         Text(
-                          'This is how you sign in, so it cannot be changed here '
-                          'yet. Contact support if you need it moved.',
+                          AppLocalizations.of(context).phoneIsYourLogin,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                             height: 1.4,
@@ -172,7 +174,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       height: 22,
                       width: 22,
                       child: CircularProgressIndicator(strokeWidth: 2.5))
-                  : const Text('Save'),
+                  : Text(AppLocalizations.of(context).save),
             ),
           ],
         ),

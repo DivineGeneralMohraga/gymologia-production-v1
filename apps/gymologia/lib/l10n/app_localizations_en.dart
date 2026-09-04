@@ -115,6 +115,87 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createAccountAction => 'Create account';
 
   @override
+  String get supportSent => 'Sent. Someone will reply on the number you gave.';
+
+  @override
+  String get supportSubject => 'What is this about?';
+
+  @override
+  String get supportSubjectHint => 'My membership days look wrong';
+
+  @override
+  String get supportMessage => 'Tell us what happened';
+
+  @override
+  String get supportReplyTo => 'Where should we reply?';
+
+  @override
+  String get supportUrgent => 'This is stopping my gym from operating';
+
+  @override
+  String get supportUrgentNote => 'Raises the priority.';
+
+  @override
+  String copiedToClipboard(String value) {
+    return '$value copied';
+  }
+
+  @override
+  String orEmailUs(String email) {
+    return 'Or email $email';
+  }
+
+  @override
+  String get whatYouHaveAsked => 'WHAT YOU HAVE ASKED';
+
+  @override
+  String get aFewWordsIsEnough => 'A few words is enough';
+
+  @override
+  String get aSentenceOrTwoHelps => 'A sentence or two helps us fix it faster';
+
+  @override
+  String get ticketOpen => 'Waiting for someone to pick it up';
+
+  @override
+  String get ticketInProgress => 'Someone is looking at it';
+
+  @override
+  String get ticketWaitingOnUser => 'Waiting on your reply';
+
+  @override
+  String get ticketResolved => 'Resolved';
+
+  @override
+  String get ticketClosed => 'Closed';
+
+  @override
+  String get referralPitch =>
+      'Share a code, and earn when a gym owner subscribes. The referral app is not out yet.';
+
+  @override
+  String get appTagline => 'Gymologia · member and staff';
+
+  @override
+  String get signOutQuestion => 'Sign out?';
+
+  @override
+  String get signOutWarning => 'You will need your phone to sign back in.';
+
+  @override
+  String get profileUpdated => 'Profile updated.';
+
+  @override
+  String get yourProfile => 'Your profile';
+
+  @override
+  String get emailClearToRemove => 'Optional. Clear it to remove.';
+
+  @override
+  String get phoneIsYourLogin =>
+      'This is how you sign in, so it cannot be changed here yet. Contact support if you need it moved.';
+
+  @override
   String get home => 'Home';
 
   @override

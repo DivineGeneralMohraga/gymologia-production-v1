@@ -117,6 +117,88 @@ class AppLocalizationsMl extends AppLocalizations {
   String get createAccountAction => 'അക്കൗണ്ട് ഉണ്ടാക്കുക';
 
   @override
+  String get supportSent => 'അയച്ചു. നിങ്ങൾ നൽകിയ നമ്പറിൽ മറുപടി വരും.';
+
+  @override
+  String get supportSubject => 'ഇത് എന്തിനെക്കുറിച്ചാണ്?';
+
+  @override
+  String get supportSubjectHint => 'എന്റെ അംഗത്വ ദിവസങ്ങൾ തെറ്റായി കാണുന്നു';
+
+  @override
+  String get supportMessage => 'എന്താണ് സംഭവിച്ചതെന്ന് പറയൂ';
+
+  @override
+  String get supportReplyTo => 'ഞങ്ങൾ എവിടെ മറുപടി നൽകണം?';
+
+  @override
+  String get supportUrgent => 'ഇതുകാരണം എന്റെ ജിം പ്രവർത്തിക്കാൻ കഴിയുന്നില്ല';
+
+  @override
+  String get supportUrgentNote => 'മുൻഗണന കൂട്ടുന്നു.';
+
+  @override
+  String copiedToClipboard(String value) {
+    return '$value പകർത്തി';
+  }
+
+  @override
+  String orEmailUs(String email) {
+    return 'അല്ലെങ്കിൽ $email എന്ന വിലാസത്തിൽ ഇമെയിൽ ചെയ്യുക';
+  }
+
+  @override
+  String get whatYouHaveAsked => 'നിങ്ങൾ ചോദിച്ചത്';
+
+  @override
+  String get aFewWordsIsEnough => 'കുറച്ച് വാക്കുകൾ മതി';
+
+  @override
+  String get aSentenceOrTwoHelps =>
+      'ഒന്നോ രണ്ടോ വാചകം എഴുതിയാൽ വേഗം പരിഹരിക്കാം';
+
+  @override
+  String get ticketOpen => 'ആരെങ്കിലും ഏറ്റെടുക്കാൻ കാത്തിരിക്കുന്നു';
+
+  @override
+  String get ticketInProgress => 'ആരോ ഇത് നോക്കുന്നു';
+
+  @override
+  String get ticketWaitingOnUser => 'നിങ്ങളുടെ മറുപടിക്കായി കാത്തിരിക്കുന്നു';
+
+  @override
+  String get ticketResolved => 'പരിഹരിച്ചു';
+
+  @override
+  String get ticketClosed => 'അടച്ചു';
+
+  @override
+  String get referralPitch =>
+      'കോഡ് പങ്കിടുക, ഒരു ജിം ഉടമ സബ്‌സ്‌ക്രിപ്ഷൻ എടുക്കുമ്പോൾ സമ്പാദിക്കുക. റഫറൽ ആപ്പ് ഇനിയും വന്നിട്ടില്ല.';
+
+  @override
+  String get appTagline => 'ജിമോളജിയ · അംഗങ്ങളും ജീവനക്കാരും';
+
+  @override
+  String get signOutQuestion => 'സൈൻ ഔട്ട് ചെയ്യണോ?';
+
+  @override
+  String get signOutWarning => 'വീണ്ടും സൈൻ ഇൻ ചെയ്യാൻ നിങ്ങളുടെ ഫോൺ വേണം.';
+
+  @override
+  String get profileUpdated => 'പ്രൊഫൈൽ പുതുക്കി.';
+
+  @override
+  String get yourProfile => 'നിങ്ങളുടെ പ്രൊഫൈൽ';
+
+  @override
+  String get emailClearToRemove => 'ഐച്ഛികം. നീക്കാൻ ഒഴിവാക്കുക.';
+
+  @override
+  String get phoneIsYourLogin =>
+      'ഇതുപയോഗിച്ചാണ് നിങ്ങൾ സൈൻ ഇൻ ചെയ്യുന്നത്, അതിനാൽ ഇവിടെ ഇപ്പോൾ മാറ്റാനാകില്ല. മാറ്റണമെങ്കിൽ പിന്തുണയുമായി ബന്ധപ്പെടുക.';
+
+  @override
   String get home => 'ഹോം';
 
   @override

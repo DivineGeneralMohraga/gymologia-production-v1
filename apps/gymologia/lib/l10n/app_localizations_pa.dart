@@ -115,6 +115,88 @@ class AppLocalizationsPa extends AppLocalizations {
   String get createAccountAction => 'ਖਾਤਾ ਬਣਾਓ';
 
   @override
+  String get supportSent => 'ਭੇਜ ਦਿੱਤਾ। ਤੁਹਾਡੇ ਦਿੱਤੇ ਨੰਬਰ ਉੱਤੇ ਜਵਾਬ ਆਵੇਗਾ।';
+
+  @override
+  String get supportSubject => 'ਇਹ ਕਿਸ ਬਾਰੇ ਹੈ?';
+
+  @override
+  String get supportSubjectHint => 'ਮੇਰੇ ਮੈਂਬਰਸ਼ਿਪ ਦੇ ਦਿਨ ਗਲਤ ਦਿਖ ਰਹੇ ਹਨ';
+
+  @override
+  String get supportMessage => 'ਦੱਸੋ ਕੀ ਹੋਇਆ';
+
+  @override
+  String get supportReplyTo => 'ਅਸੀਂ ਕਿੱਥੇ ਜਵਾਬ ਦੇਈਏ?';
+
+  @override
+  String get supportUrgent => 'ਇਸ ਕਰਕੇ ਮੇਰਾ ਜਿਮ ਚੱਲ ਨਹੀਂ ਰਿਹਾ';
+
+  @override
+  String get supportUrgentNote => 'ਤਰਜੀਹ ਵਧਾਉਂਦਾ ਹੈ।';
+
+  @override
+  String copiedToClipboard(String value) {
+    return '$value ਕਾਪੀ ਹੋ ਗਿਆ';
+  }
+
+  @override
+  String orEmailUs(String email) {
+    return 'ਜਾਂ $email ਉੱਤੇ ਈਮੇਲ ਕਰੋ';
+  }
+
+  @override
+  String get whatYouHaveAsked => 'ਤੁਸੀਂ ਕੀ ਪੁੱਛਿਆ ਹੈ';
+
+  @override
+  String get aFewWordsIsEnough => 'ਕੁਝ ਸ਼ਬਦ ਹੀ ਕਾਫ਼ੀ ਹਨ';
+
+  @override
+  String get aSentenceOrTwoHelps => 'ਇੱਕ-ਦੋ ਵਾਕ ਲਿਖੋ, ਇਸ ਨਾਲ ਛੇਤੀ ਹੱਲ ਹੋਵੇਗਾ';
+
+  @override
+  String get ticketOpen => 'ਕਿਸੇ ਦੇ ਚੁੱਕਣ ਦੀ ਉਡੀਕ ਹੈ';
+
+  @override
+  String get ticketInProgress => 'ਕੋਈ ਇਸ ਨੂੰ ਵੇਖ ਰਿਹਾ ਹੈ';
+
+  @override
+  String get ticketWaitingOnUser => 'ਤੁਹਾਡੇ ਜਵਾਬ ਦੀ ਉਡੀਕ ਹੈ';
+
+  @override
+  String get ticketResolved => 'ਹੱਲ ਹੋ ਗਿਆ';
+
+  @override
+  String get ticketClosed => 'ਬੰਦ';
+
+  @override
+  String get referralPitch =>
+      'ਕੋਡ ਸਾਂਝਾ ਕਰੋ, ਅਤੇ ਜਦੋਂ ਕੋਈ ਜਿਮ ਮਾਲਕ ਸਬਸਕ੍ਰਿਪਸ਼ਨ ਲਵੇ ਤਾਂ ਕਮਾਓ। ਰੈਫ਼ਰਲ ਐਪ ਅਜੇ ਨਹੀਂ ਆਈ।';
+
+  @override
+  String get appTagline => 'ਜਿਮੋਲੋਜੀਆ · ਮੈਂਬਰ ਅਤੇ ਸਟਾਫ';
+
+  @override
+  String get signOutQuestion => 'ਸਾਈਨ ਆਊਟ ਕਰਨਾ ਹੈ?';
+
+  @override
+  String get signOutWarning =>
+      'ਦੁਬਾਰਾ ਸਾਈਨ ਇਨ ਕਰਨ ਲਈ ਤੁਹਾਡਾ ਫ਼ੋਨ ਚਾਹੀਦਾ ਹੋਵੇਗਾ।';
+
+  @override
+  String get profileUpdated => 'ਪ੍ਰੋਫਾਈਲ ਅੱਪਡੇਟ ਹੋ ਗਈ।';
+
+  @override
+  String get yourProfile => 'ਤੁਹਾਡੀ ਪ੍ਰੋਫਾਈਲ';
+
+  @override
+  String get emailClearToRemove => 'ਵਿਕਲਪਿਕ। ਹਟਾਉਣ ਲਈ ਖਾਲੀ ਕਰੋ।';
+
+  @override
+  String get phoneIsYourLogin =>
+      'ਇਸੇ ਨਾਲ ਤੁਸੀਂ ਸਾਈਨ ਇਨ ਕਰਦੇ ਹੋ, ਇਸ ਲਈ ਇਸ ਨੂੰ ਇੱਥੇ ਹੁਣੇ ਬਦਲਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ। ਬਦਲਵਾਉਣਾ ਹੋਵੇ ਤਾਂ ਸਹਾਇਤਾ ਨਾਲ ਸੰਪਰਕ ਕਰੋ।';
+
+  @override
   String get home => 'ਹੋਮ';
 
   @override

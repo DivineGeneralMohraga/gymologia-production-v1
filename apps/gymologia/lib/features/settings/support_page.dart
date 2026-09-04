@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -81,9 +82,7 @@ class _SupportPageState extends State<SupportPage> {
         _busy = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Sent. Someone will reply on the number you gave.'),
-        ),
+        SnackBar(content: Text(AppLocalizations.of(context).supportSent)),
       );
       await _loadTickets();
     } on ApiException catch (e) {
@@ -99,10 +98,11 @@ class _SupportPageState extends State<SupportPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final tickets = _tickets;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Get help')),
+      appBar: AppBar(title: Text(t.getHelp)),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -111,26 +111,24 @@ class _SupportPageState extends State<SupportPage> {
             TextFormField(
               controller: _subject,
               textCapitalization: TextCapitalization.sentences,
-              decoration: const InputDecoration(
-                labelText: 'What is this about?',
-                hintText: 'My membership days look wrong',
+              decoration: InputDecoration(
+                labelText: t.supportSubject,
+                hintText: t.supportSubjectHint,
               ),
-              validator: (v) => (v?.trim().length ?? 0) < 3
-                  ? 'A few words is enough'
-                  : null,
+              validator: (v) =>
+                  (v?.trim().length ?? 0) < 3 ? t.aFewWordsIsEnough : null,
             ),
             const SizedBox(height: 16),
             TextFormField(
               controller: _message,
               maxLines: 5,
               textCapitalization: TextCapitalization.sentences,
-              decoration: const InputDecoration(
-                labelText: 'Tell us what happened',
+              decoration: InputDecoration(
+                labelText: t.supportMessage,
                 alignLabelWithHint: true,
               ),
-              validator: (v) => (v?.trim().length ?? 0) < 10
-                  ? 'A sentence or two helps us fix it faster'
-                  : null,
+              validator: (v) =>
+                  (v?.trim().length ?? 0) < 10 ? t.aSentenceOrTwoHelps : null,
             ),
             const SizedBox(height: 16),
             TextFormField(
@@ -140,8 +138,8 @@ class _SupportPageState extends State<SupportPage> {
                 FilteringTextInputFormatter.digitsOnly,
                 LengthLimitingTextInputFormatter(10),
               ],
-              decoration: const InputDecoration(
-                labelText: 'Where should we reply?',
+              decoration: InputDecoration(
+                labelText: t.supportReplyTo,
                 prefixText: '+91  ',
               ),
               validator: validateIndianMobile,
@@ -151,8 +149,8 @@ class _SupportPageState extends State<SupportPage> {
               contentPadding: EdgeInsets.zero,
               value: _urgent,
               onChanged: (v) => setState(() => _urgent = v ?? false),
-              title: const Text('This is stopping my gym from operating'),
-              subtitle: const Text('Raises the priority.'),
+              title: Text(t.supportUrgent),
+              subtitle: Text(t.supportUrgentNote),
               controlAffinity: ListTileControlAffinity.leading,
             ),
 
@@ -171,7 +169,7 @@ class _SupportPageState extends State<SupportPage> {
                       height: 22,
                       width: 22,
                       child: CircularProgressIndicator(strokeWidth: 2.5))
-                  : const Text('Send'),
+                  : Text(t.send),
             ),
             const SizedBox(height: 10),
             Center(
@@ -181,39 +179,42 @@ class _SupportPageState extends State<SupportPage> {
                       const ClipboardData(text: AppConfig.supportEmail));
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('${AppConfig.supportEmail} copied')),
+                      SnackBar(
+                          content: Text(AppLocalizations.of(context)
+                              .copiedToClipboard(AppConfig.supportEmail))),
                     );
                   }
                 },
                 icon: const Icon(Icons.mail_outline, size: 16),
-                label: const Text('Or email ${AppConfig.supportEmail}'),
+                label: Text(t.orEmailUs(AppConfig.supportEmail)),
               ),
             ),
 
             if (tickets != null && tickets.isNotEmpty) ...[
               const SizedBox(height: 30),
-              Text('WHAT YOU HAVE ASKED',
+              Text(t.whatYouHaveAsked.toUpperCase(),
                   style: theme.textTheme.labelSmall?.copyWith(
                     letterSpacing: 0.9,
                     fontWeight: FontWeight.w700,
                     color: theme.colorScheme.primary,
                   )),
               const SizedBox(height: 10),
-              for (final t in tickets)
+              for (final ticket in tickets)
                 Card(
                   elevation: 0,
                   color: theme.colorScheme.surfaceContainerHighest
                       .withValues(alpha: 0.35),
                   child: ListTile(
-                    title: Text(t['subject'] as String? ?? '',
+                    title: Text(ticket['subject'] as String? ?? '',
                         style: const TextStyle(fontWeight: FontWeight.w600)),
                     subtitle: Text(
-                      t['resolutionNote'] as String? ??
-                          _statusLabel(t['status'] as String? ?? 'OPEN'),
+                      ticket['resolutionNote'] as String? ??
+                          _statusLabel(
+                              t, ticket['status'] as String? ?? 'OPEN'),
                     ),
                     trailing: Icon(
-                      t['status'] == 'RESOLVED' || t['status'] == 'CLOSED'
+                      ticket['status'] == 'RESOLVED' ||
+                              ticket['status'] == 'CLOSED'
                           ? Icons.check_circle_outline
                           : Icons.schedule,
                       size: 18,
@@ -229,11 +230,11 @@ class _SupportPageState extends State<SupportPage> {
   }
 }
 
-String _statusLabel(String status) => switch (status) {
-      'OPEN' => 'Waiting for someone to pick it up',
-      'IN_PROGRESS' => 'Someone is looking at it',
-      'WAITING_ON_USER' => 'Waiting on your reply',
-      'RESOLVED' => 'Resolved',
-      'CLOSED' => 'Closed',
+String _statusLabel(AppLocalizations t, String status) => switch (status) {
+      'OPEN' => t.ticketOpen,
+      'IN_PROGRESS' => t.ticketInProgress,
+      'WAITING_ON_USER' => t.ticketWaitingOnUser,
+      'RESOLVED' => t.ticketResolved,
+      'CLOSED' => t.ticketClosed,
       _ => status,
     };

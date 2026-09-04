@@ -48,6 +48,38 @@
   "verified": "Verified",
   "createAccountAction": "Create account",
 
+  "supportSent": "Sent. Someone will reply on the number you gave.",
+  "supportSubject": "What is this about?",
+  "supportSubjectHint": "My membership days look wrong",
+  "supportMessage": "Tell us what happened",
+  "supportReplyTo": "Where should we reply?",
+  "supportUrgent": "This is stopping my gym from operating",
+  "supportUrgentNote": "Raises the priority.",
+  "copiedToClipboard": "{value} copied",
+  "@copiedToClipboard": {
+    "placeholders": { "value": { "type": "String" } }
+  },
+  "orEmailUs": "Or email {email}",
+  "@orEmailUs": {
+    "placeholders": { "email": { "type": "String" } }
+  },
+  "whatYouHaveAsked": "WHAT YOU HAVE ASKED",
+  "aFewWordsIsEnough": "A few words is enough",
+  "aSentenceOrTwoHelps": "A sentence or two helps us fix it faster",
+  "ticketOpen": "Waiting for someone to pick it up",
+  "ticketInProgress": "Someone is looking at it",
+  "ticketWaitingOnUser": "Waiting on your reply",
+  "ticketResolved": "Resolved",
+  "ticketClosed": "Closed",
+  "referralPitch": "Share a code, and earn when a gym owner subscribes. The referral app is not out yet.",
+  "appTagline": "Gymologia · member and staff",
+  "signOutQuestion": "Sign out?",
+  "signOutWarning": "You will need your phone to sign back in.",
+  "profileUpdated": "Profile updated.",
+  "yourProfile": "Your profile",
+  "emailClearToRemove": "Optional. Clear it to remove.",
+  "phoneIsYourLogin": "This is how you sign in, so it cannot be changed here yet. Contact support if you need it moved.",
+
   "home": "Home",
   "myGym": "My gym",
   "discover": "Discover",

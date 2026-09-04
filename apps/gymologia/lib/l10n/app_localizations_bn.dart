@@ -115,6 +115,87 @@ class AppLocalizationsBn extends AppLocalizations {
   String get createAccountAction => 'অ্যাকাউন্ট তৈরি করুন';
 
   @override
+  String get supportSent => 'পাঠানো হয়েছে। আপনার দেওয়া নম্বরে উত্তর আসবে।';
+
+  @override
+  String get supportSubject => 'এটি কী নিয়ে?';
+
+  @override
+  String get supportSubjectHint => 'আমার সদস্যপদের দিন ভুল দেখাচ্ছে';
+
+  @override
+  String get supportMessage => 'কী হয়েছে বলুন';
+
+  @override
+  String get supportReplyTo => 'আমরা কোথায় উত্তর দেব?';
+
+  @override
+  String get supportUrgent => 'এতে আমার জিম চালানো যাচ্ছে না';
+
+  @override
+  String get supportUrgentNote => 'অগ্রাধিকার বাড়ায়।';
+
+  @override
+  String copiedToClipboard(String value) {
+    return '$value কপি হয়েছে';
+  }
+
+  @override
+  String orEmailUs(String email) {
+    return 'অথবা $email এ ইমেল করুন';
+  }
+
+  @override
+  String get whatYouHaveAsked => 'আপনি যা জিজ্ঞাসা করেছেন';
+
+  @override
+  String get aFewWordsIsEnough => 'কয়েকটি শব্দই যথেষ্ট';
+
+  @override
+  String get aSentenceOrTwoHelps => 'এক-দুই বাক্য লিখলে দ্রুত সমাধান হয়';
+
+  @override
+  String get ticketOpen => 'কেউ হাতে নেওয়ার অপেক্ষায়';
+
+  @override
+  String get ticketInProgress => 'কেউ এটি দেখছেন';
+
+  @override
+  String get ticketWaitingOnUser => 'আপনার উত্তরের অপেক্ষায়';
+
+  @override
+  String get ticketResolved => 'সমাধান হয়েছে';
+
+  @override
+  String get ticketClosed => 'বন্ধ';
+
+  @override
+  String get referralPitch =>
+      'কোড শেয়ার করুন, আর কোনো জিম মালিক সাবস্ক্রিপশন নিলে আয় করুন। রেফারেল অ্যাপ এখনও আসেনি।';
+
+  @override
+  String get appTagline => 'জিমোলজিয়া · সদস্য ও স্টাফ';
+
+  @override
+  String get signOutQuestion => 'সাইন আউট করবেন?';
+
+  @override
+  String get signOutWarning => 'আবার সাইন ইন করতে আপনার ফোন লাগবে।';
+
+  @override
+  String get profileUpdated => 'প্রোফাইল আপডেট হয়েছে।';
+
+  @override
+  String get yourProfile => 'আপনার প্রোফাইল';
+
+  @override
+  String get emailClearToRemove => 'ঐচ্ছিক। মুছতে খালি করে দিন।';
+
+  @override
+  String get phoneIsYourLogin =>
+      'এটি দিয়েই আপনি সাইন ইন করেন, তাই এখানে এখনই বদলানো যায় না। বদলাতে হলে সহায়তায় যোগাযোগ করুন।';
+
+  @override
   String get home => 'হোম';
 
   @override

@@ -312,6 +312,156 @@ abstract class AppLocalizations {
   /// **'Create account'**
   String get createAccountAction;
 
+  /// No description provided for @supportSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent. Someone will reply on the number you gave.'**
+  String get supportSent;
+
+  /// No description provided for @supportSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'What is this about?'**
+  String get supportSubject;
+
+  /// No description provided for @supportSubjectHint.
+  ///
+  /// In en, this message translates to:
+  /// **'My membership days look wrong'**
+  String get supportSubjectHint;
+
+  /// No description provided for @supportMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us what happened'**
+  String get supportMessage;
+
+  /// No description provided for @supportReplyTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Where should we reply?'**
+  String get supportReplyTo;
+
+  /// No description provided for @supportUrgent.
+  ///
+  /// In en, this message translates to:
+  /// **'This is stopping my gym from operating'**
+  String get supportUrgent;
+
+  /// No description provided for @supportUrgentNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Raises the priority.'**
+  String get supportUrgentNote;
+
+  /// No description provided for @copiedToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'{value} copied'**
+  String copiedToClipboard(String value);
+
+  /// No description provided for @orEmailUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Or email {email}'**
+  String orEmailUs(String email);
+
+  /// No description provided for @whatYouHaveAsked.
+  ///
+  /// In en, this message translates to:
+  /// **'WHAT YOU HAVE ASKED'**
+  String get whatYouHaveAsked;
+
+  /// No description provided for @aFewWordsIsEnough.
+  ///
+  /// In en, this message translates to:
+  /// **'A few words is enough'**
+  String get aFewWordsIsEnough;
+
+  /// No description provided for @aSentenceOrTwoHelps.
+  ///
+  /// In en, this message translates to:
+  /// **'A sentence or two helps us fix it faster'**
+  String get aSentenceOrTwoHelps;
+
+  /// No description provided for @ticketOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for someone to pick it up'**
+  String get ticketOpen;
+
+  /// No description provided for @ticketInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone is looking at it'**
+  String get ticketInProgress;
+
+  /// No description provided for @ticketWaitingOnUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting on your reply'**
+  String get ticketWaitingOnUser;
+
+  /// No description provided for @ticketResolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolved'**
+  String get ticketResolved;
+
+  /// No description provided for @ticketClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get ticketClosed;
+
+  /// No description provided for @referralPitch.
+  ///
+  /// In en, this message translates to:
+  /// **'Share a code, and earn when a gym owner subscribes. The referral app is not out yet.'**
+  String get referralPitch;
+
+  /// No description provided for @appTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Gymologia · member and staff'**
+  String get appTagline;
+
+  /// No description provided for @signOutQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out?'**
+  String get signOutQuestion;
+
+  /// No description provided for @signOutWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'You will need your phone to sign back in.'**
+  String get signOutWarning;
+
+  /// No description provided for @profileUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated.'**
+  String get profileUpdated;
+
+  /// No description provided for @yourProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Your profile'**
+  String get yourProfile;
+
+  /// No description provided for @emailClearToRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. Clear it to remove.'**
+  String get emailClearToRemove;
+
+  /// No description provided for @phoneIsYourLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'This is how you sign in, so it cannot be changed here yet. Contact support if you need it moved.'**
+  String get phoneIsYourLogin;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:

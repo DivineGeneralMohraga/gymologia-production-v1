@@ -115,6 +115,88 @@ class AppLocalizationsHi extends AppLocalizations {
   String get createAccountAction => 'खाता बनाएं';
 
   @override
+  String get supportSent => 'भेज दिया गया। आपके दिए नंबर पर जवाब आएगा।';
+
+  @override
+  String get supportSubject => 'यह किस बारे में है?';
+
+  @override
+  String get supportSubjectHint => 'मेरी सदस्यता के दिन गलत दिख रहे हैं';
+
+  @override
+  String get supportMessage => 'बताइए क्या हुआ';
+
+  @override
+  String get supportReplyTo => 'हम कहाँ जवाब दें?';
+
+  @override
+  String get supportUrgent => 'इससे मेरा जिम चल नहीं पा रहा';
+
+  @override
+  String get supportUrgentNote => 'प्राथमिकता बढ़ा देता है।';
+
+  @override
+  String copiedToClipboard(String value) {
+    return '$value कॉपी हो गया';
+  }
+
+  @override
+  String orEmailUs(String email) {
+    return 'या $email पर ईमेल करें';
+  }
+
+  @override
+  String get whatYouHaveAsked => 'आपने क्या पूछा है';
+
+  @override
+  String get aFewWordsIsEnough => 'कुछ शब्द काफी हैं';
+
+  @override
+  String get aSentenceOrTwoHelps => 'एक-दो वाक्य लिखें, इससे जल्दी हल होगा';
+
+  @override
+  String get ticketOpen => 'किसी के उठाने का इंतज़ार है';
+
+  @override
+  String get ticketInProgress => 'कोई इसे देख रहा है';
+
+  @override
+  String get ticketWaitingOnUser => 'आपके जवाब का इंतज़ार है';
+
+  @override
+  String get ticketResolved => 'हल हो गया';
+
+  @override
+  String get ticketClosed => 'बंद';
+
+  @override
+  String get referralPitch =>
+      'कोड साझा करें और जब कोई जिम मालिक सदस्यता लेता है तो कमाएँ। रेफरल ऐप अभी नहीं आया है।';
+
+  @override
+  String get appTagline => 'जिमोलॉजिया · सदस्य और स्टाफ';
+
+  @override
+  String get signOutQuestion => 'साइन आउट करें?';
+
+  @override
+  String get signOutWarning =>
+      'वापस साइन इन करने के लिए आपको अपना फ़ोन चाहिए होगा।';
+
+  @override
+  String get profileUpdated => 'प्रोफ़ाइल अपडेट हो गई।';
+
+  @override
+  String get yourProfile => 'आपकी प्रोफ़ाइल';
+
+  @override
+  String get emailClearToRemove => 'वैकल्पिक। हटाने के लिए खाली कर दें।';
+
+  @override
+  String get phoneIsYourLogin =>
+      'इसी से आप साइन इन करते हैं, इसलिए इसे यहाँ अभी बदला नहीं जा सकता। बदलवाना हो तो सहायता से संपर्क करें।';
+
+  @override
   String get home => 'होम';
 
   @override

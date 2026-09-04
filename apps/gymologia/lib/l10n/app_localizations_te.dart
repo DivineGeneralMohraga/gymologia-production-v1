@@ -114,6 +114,88 @@ class AppLocalizationsTe extends AppLocalizations {
   String get createAccountAction => 'ఖాతా సృష్టించండి';
 
   @override
+  String get supportSent => 'పంపబడింది. మీరు ఇచ్చిన నంబర్‌కు సమాధానం వస్తుంది.';
+
+  @override
+  String get supportSubject => 'ఇది దేని గురించి?';
+
+  @override
+  String get supportSubjectHint => 'నా సభ్యత్వ రోజులు తప్పుగా కనిపిస్తున్నాయి';
+
+  @override
+  String get supportMessage => 'ఏమి జరిగిందో చెప్పండి';
+
+  @override
+  String get supportReplyTo => 'మేము ఎక్కడ సమాధానం ఇవ్వాలి?';
+
+  @override
+  String get supportUrgent => 'దీనివల్ల నా జిమ్ నడవడం లేదు';
+
+  @override
+  String get supportUrgentNote => 'ప్రాధాన్యతను పెంచుతుంది.';
+
+  @override
+  String copiedToClipboard(String value) {
+    return '$value కాపీ అయ్యింది';
+  }
+
+  @override
+  String orEmailUs(String email) {
+    return 'లేదా $emailకి ఇమెయిల్ చేయండి';
+  }
+
+  @override
+  String get whatYouHaveAsked => 'మీరు అడిగినవి';
+
+  @override
+  String get aFewWordsIsEnough => 'కొన్ని పదాలు చాలు';
+
+  @override
+  String get aSentenceOrTwoHelps =>
+      'ఒకటి రెండు వాక్యాలు రాస్తే త్వరగా పరిష్కరిస్తాం';
+
+  @override
+  String get ticketOpen => 'ఎవరైనా చేపట్టడం కోసం వేచి ఉంది';
+
+  @override
+  String get ticketInProgress => 'ఎవరో దీన్ని చూస్తున్నారు';
+
+  @override
+  String get ticketWaitingOnUser => 'మీ సమాధానం కోసం వేచి ఉంది';
+
+  @override
+  String get ticketResolved => 'పరిష్కరించబడింది';
+
+  @override
+  String get ticketClosed => 'మూసివేయబడింది';
+
+  @override
+  String get referralPitch =>
+      'కోడ్ పంచుకోండి, ఏ జిమ్ యజమాని అయినా సబ్‌స్క్రిప్షన్ తీసుకుంటే సంపాదించండి. రెఫరల్ యాప్ ఇంకా రాలేదు.';
+
+  @override
+  String get appTagline => 'జిమాలజియా · సభ్యులు మరియు సిబ్బంది';
+
+  @override
+  String get signOutQuestion => 'సైన్ అవుట్ చేయాలా?';
+
+  @override
+  String get signOutWarning => 'మళ్లీ సైన్ ఇన్ చేయడానికి మీ ఫోన్ కావాలి.';
+
+  @override
+  String get profileUpdated => 'ప్రొఫైల్ నవీకరించబడింది.';
+
+  @override
+  String get yourProfile => 'మీ ప్రొఫైల్';
+
+  @override
+  String get emailClearToRemove => 'ఐచ్ఛికం. తీసివేయడానికి ఖాళీ చేయండి.';
+
+  @override
+  String get phoneIsYourLogin =>
+      'దీనితోనే మీరు సైన్ ఇన్ చేస్తారు, కాబట్టి ఇక్కడ ఇప్పుడు మార్చలేరు. మార్చాలంటే సహాయాన్ని సంప్రదించండి.';
+
+  @override
   String get home => 'హోమ్';
 
   @override

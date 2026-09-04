@@ -115,6 +115,90 @@ class AppLocalizationsTa extends AppLocalizations {
   String get createAccountAction => 'கணக்கை உருவாக்கு';
 
   @override
+  String get supportSent =>
+      'அனுப்பப்பட்டது. நீங்கள் தந்த எண்ணுக்கு பதில் வரும்.';
+
+  @override
+  String get supportSubject => 'இது எதைப் பற்றியது?';
+
+  @override
+  String get supportSubjectHint => 'என் உறுப்பினர் நாட்கள் தவறாக தெரிகிறது';
+
+  @override
+  String get supportMessage => 'என்ன நடந்தது என்று சொல்லுங்கள்';
+
+  @override
+  String get supportReplyTo => 'நாங்கள் எங்கே பதில் அளிக்க வேண்டும்?';
+
+  @override
+  String get supportUrgent =>
+      'இதனால் என் உடற்பயிற்சிக் கூடம் இயங்க முடியவில்லை';
+
+  @override
+  String get supportUrgentNote => 'முன்னுரிமையை உயர்த்தும்.';
+
+  @override
+  String copiedToClipboard(String value) {
+    return '$value நகலெடுக்கப்பட்டது';
+  }
+
+  @override
+  String orEmailUs(String email) {
+    return 'அல்லது $email க்கு மின்னஞ்சல் அனுப்புங்கள்';
+  }
+
+  @override
+  String get whatYouHaveAsked => 'நீங்கள் கேட்டவை';
+
+  @override
+  String get aFewWordsIsEnough => 'சில வார்த்தைகள் போதும்';
+
+  @override
+  String get aSentenceOrTwoHelps =>
+      'ஓரிரு வாக்கியங்கள் விரைவாக சரிசெய்ய உதவும்';
+
+  @override
+  String get ticketOpen => 'யாராவது எடுக்கக் காத்திருக்கிறது';
+
+  @override
+  String get ticketInProgress => 'ஒருவர் இதைப் பார்க்கிறார்';
+
+  @override
+  String get ticketWaitingOnUser => 'உங்கள் பதிலுக்குக் காத்திருக்கிறோம்';
+
+  @override
+  String get ticketResolved => 'தீர்க்கப்பட்டது';
+
+  @override
+  String get ticketClosed => 'மூடப்பட்டது';
+
+  @override
+  String get referralPitch =>
+      'குறியீட்டைப் பகிருங்கள், ஒரு உரிமையாளர் சந்தா எடுக்கும்போது சம்பாதியுங்கள். பரிந்துரை செயலி இன்னும் வரவில்லை.';
+
+  @override
+  String get appTagline => 'ஜிமாலஜியா · உறுப்பினர் மற்றும் பணியாளர்';
+
+  @override
+  String get signOutQuestion => 'வெளியேறவா?';
+
+  @override
+  String get signOutWarning => 'மீண்டும் உள்நுழைய உங்கள் தொலைபேசி தேவைப்படும்.';
+
+  @override
+  String get profileUpdated => 'சுயவிவரம் புதுப்பிக்கப்பட்டது.';
+
+  @override
+  String get yourProfile => 'உங்கள் சுயவிவரம்';
+
+  @override
+  String get emailClearToRemove => 'விருப்பத்தேர்வு. நீக்க காலியாக விடுங்கள்.';
+
+  @override
+  String get phoneIsYourLogin =>
+      'இதன் மூலம்தான் நீங்கள் உள்நுழைகிறீர்கள், எனவே இங்கே இப்போது மாற்ற முடியாது. மாற்ற வேண்டுமானால் ஆதரவைத் தொடர்பு கொள்ளுங்கள்.';
+
+  @override
   String get home => 'முகப்பு';
 
   @override

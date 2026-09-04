@@ -127,8 +127,7 @@ class SettingsPage extends StatelessWidget {
             child: ListTile(
               leading: const Icon(Icons.card_giftcard_outlined),
               title: Text(t.earnByReferring),
-              subtitle: const Text(
-                  'Share a code, and earn when a gym owner subscribes. The referral app is not out yet.'),
+              subtitle: Text(t.referralPitch),
               isThreeLine: true,
             ),
           ),
@@ -167,7 +166,7 @@ class SettingsPage extends StatelessWidget {
         ListTile(
           leading: const Icon(Icons.support_agent_outlined),
           title: Text(t.getHelp),
-          subtitle: const Text('Send us a message and we will call you back'),
+          subtitle: Text(t.getHelpSubtitle),
           trailing: const Icon(Icons.chevron_right),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(builder: (_) => const SupportPage()),
@@ -207,13 +206,14 @@ class SettingsPage extends StatelessWidget {
         _SectionLabel(t.session),
         ListTile(
           leading: Icon(Icons.logout, color: theme.colorScheme.error),
-          title: Text('Sign out', style: TextStyle(color: theme.colorScheme.error)),
+          title: Text(t.signOut,
+              style: TextStyle(color: theme.colorScheme.error)),
           onTap: () => _confirmSignOut(context, auth),
         ),
 
         const SizedBox(height: 24),
         Center(
-          child: Text('Gymologia · member and staff',
+          child: Text(t.appTagline,
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.outline)),
         ),
@@ -230,16 +230,16 @@ class SettingsPage extends StatelessWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Sign out?'),
-        content: const Text('You will need your phone to sign back in.'),
+        title: Text(AppLocalizations.of(ctx).signOutQuestion),
+        content: Text(AppLocalizations.of(ctx).signOutWarning),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(ctx).cancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Sign out'),
+            child: Text(AppLocalizations.of(ctx).signOut),
           ),
         ],
       ),

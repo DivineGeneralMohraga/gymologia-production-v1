@@ -114,6 +114,87 @@ class AppLocalizationsKn extends AppLocalizations {
   String get createAccountAction => 'ಖಾತೆ ರಚಿಸಿ';
 
   @override
+  String get supportSent => 'ಕಳುಹಿಸಲಾಗಿದೆ. ನೀವು ನೀಡಿದ ಸಂಖ್ಯೆಗೆ ಉತ್ತರ ಬರುತ್ತದೆ.';
+
+  @override
+  String get supportSubject => 'ಇದು ಯಾವುದರ ಬಗ್ಗೆ?';
+
+  @override
+  String get supportSubjectHint => 'ನನ್ನ ಸದಸ್ಯತ್ವದ ದಿನಗಳು ತಪ್ಪಾಗಿ ಕಾಣಿಸುತ್ತಿವೆ';
+
+  @override
+  String get supportMessage => 'ಏನಾಯಿತು ಎಂದು ತಿಳಿಸಿ';
+
+  @override
+  String get supportReplyTo => 'ನಾವು ಎಲ್ಲಿ ಉತ್ತರಿಸಬೇಕು?';
+
+  @override
+  String get supportUrgent => 'ಇದರಿಂದ ನನ್ನ ಜಿಮ್ ನಡೆಯುತ್ತಿಲ್ಲ';
+
+  @override
+  String get supportUrgentNote => 'ಆದ್ಯತೆಯನ್ನು ಹೆಚ್ಚಿಸುತ್ತದೆ.';
+
+  @override
+  String copiedToClipboard(String value) {
+    return '$value ನಕಲಿಸಲಾಗಿದೆ';
+  }
+
+  @override
+  String orEmailUs(String email) {
+    return 'ಅಥವಾ $email ಗೆ ಇಮೇಲ್ ಮಾಡಿ';
+  }
+
+  @override
+  String get whatYouHaveAsked => 'ನೀವು ಕೇಳಿದ್ದು';
+
+  @override
+  String get aFewWordsIsEnough => 'ಕೆಲವು ಪದಗಳು ಸಾಕು';
+
+  @override
+  String get aSentenceOrTwoHelps => 'ಒಂದೆರಡು ವಾಕ್ಯ ಬರೆದರೆ ಬೇಗ ಸರಿಪಡಿಸಬಹುದು';
+
+  @override
+  String get ticketOpen => 'ಯಾರಾದರೂ ಕೈಗೆತ್ತಿಕೊಳ್ಳಲು ಕಾಯುತ್ತಿದೆ';
+
+  @override
+  String get ticketInProgress => 'ಯಾರೋ ಇದನ್ನು ನೋಡುತ್ತಿದ್ದಾರೆ';
+
+  @override
+  String get ticketWaitingOnUser => 'ನಿಮ್ಮ ಉತ್ತರಕ್ಕಾಗಿ ಕಾಯುತ್ತಿದೆ';
+
+  @override
+  String get ticketResolved => 'ಪರಿಹರಿಸಲಾಗಿದೆ';
+
+  @override
+  String get ticketClosed => 'ಮುಚ್ಚಲಾಗಿದೆ';
+
+  @override
+  String get referralPitch =>
+      'ಕೋಡ್ ಹಂಚಿಕೊಳ್ಳಿ, ಜಿಮ್ ಮಾಲೀಕರು ಚಂದಾದಾರರಾದಾಗ ಗಳಿಸಿ. ರೆಫರಲ್ ಆ್ಯಪ್ ಇನ್ನೂ ಬಂದಿಲ್ಲ.';
+
+  @override
+  String get appTagline => 'ಜಿಮಾಲಜಿಯಾ · ಸದಸ್ಯರು ಮತ್ತು ಸಿಬ್ಬಂದಿ';
+
+  @override
+  String get signOutQuestion => 'ಸೈನ್ ಔಟ್ ಮಾಡಬೇಕೆ?';
+
+  @override
+  String get signOutWarning => 'ಮತ್ತೆ ಸೈನ್ ಇನ್ ಮಾಡಲು ನಿಮ್ಮ ಫೋನ್ ಬೇಕು.';
+
+  @override
+  String get profileUpdated => 'ಪ್ರೊಫೈಲ್ ನವೀಕರಿಸಲಾಗಿದೆ.';
+
+  @override
+  String get yourProfile => 'ನಿಮ್ಮ ಪ್ರೊಫೈಲ್';
+
+  @override
+  String get emailClearToRemove => 'ಐಚ್ಛಿಕ. ತೆಗೆದುಹಾಕಲು ಖಾಲಿ ಮಾಡಿ.';
+
+  @override
+  String get phoneIsYourLogin =>
+      'ಇದರಿಂದಲೇ ನೀವು ಸೈನ್ ಇನ್ ಮಾಡುತ್ತೀರಿ, ಆದ್ದರಿಂದ ಇಲ್ಲಿ ಈಗ ಬದಲಾಯಿಸಲಾಗದು. ಬದಲಾಯಿಸಬೇಕಿದ್ದರೆ ಬೆಂಬಲವನ್ನು ಸಂಪರ್ಕಿಸಿ.';
+
+  @override
   String get home => 'ಮುಖಪುಟ';
 
   @override
