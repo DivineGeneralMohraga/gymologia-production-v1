@@ -80,6 +80,40 @@ class AppLocalizationsTe extends AppLocalizations {
       'ఖాతా సృష్టించడం అంటే మీరు వినియోగ నిబంధనలు మరియు గోప్యతా విధానాన్ని అంగీకరిస్తున్నారు.';
 
   @override
+  String get signInWithMobile => 'మీ మొబైల్ నంబర్‌తో సైన్ ఇన్ చేయండి';
+
+  @override
+  String get mobileNumber => 'మొబైల్ నంబర్';
+
+  @override
+  String get couldNotSendCode => 'కోడ్ పంపడం సాధ్యం కాలేదు.';
+
+  @override
+  String get verificationFailed => 'ధృవీకరణ విఫలమైంది.';
+
+  @override
+  String get couldNotResendCode => 'కోడ్ మళ్లీ పంపడం సాధ్యం కాలేదు.';
+
+  @override
+  String get couldNotCreateAccount => 'మీ ఖాతా సృష్టించడం సాధ్యం కాలేదు.';
+
+  @override
+  String weSentCodeTo(String phone) {
+    return '$phoneకి కోడ్ పంపాము';
+  }
+
+  @override
+  String resendInSeconds(int seconds) {
+    return '$seconds సెకన్లలో మళ్లీ పంపండి';
+  }
+
+  @override
+  String get verified => 'ధృవీకరించబడింది';
+
+  @override
+  String get createAccountAction => 'ఖాతా సృష్టించండి';
+
+  @override
   String get home => 'హోమ్';
 
   @override
@@ -494,8 +528,30 @@ class AppLocalizationsTe extends AppLocalizations {
   String get createGym => 'జిమ్ సృష్టించు';
 
   @override
+  String get deleteGym => 'జిమ్ తొలగించు';
+
+  @override
+  String get gymProfile => 'జిమ్ ప్రొఫైల్';
+
+  @override
+  String get description => 'వివరణ';
+
+  @override
+  String get leavePolicy => 'సెలవు విధానం';
+
+  @override
+  String get leaveDaysPerMonth => 'నెలకు సెలవు రోజులు';
+
+  @override
+  String get deleteThisGym => 'ఈ జిమ్ తొలగించు';
+
+  @override
+  String get leaveLimitNote =>
+      'ఈ పరిమితిలోపు సభ్యుల అభ్యర్థనలు స్వయంచాలకంగా ఆమోదించబడతాయి. అంతకు మించితే ఎవరైనా ఆమోదించాలి.';
+
+  @override
   String get draftNote =>
-      'మీ జిమ్ చిత్తుప్రతిగా మొదలవుతుంది. ప్లాన్ తీసుకునే వరకు సెర్చ్‌లో కనిపించదు.';
+      'మీ జిమ్ చిత్తుప్రతిగా మొదలవుతుంది. ధృవీకరణ పూర్తి చేసి ప్లాన్ తీసుకునే వరకు సెర్చ్‌లో కనిపించదు.';
 
   @override
   String get sendThis => 'దీన్ని పంపాలా?';
@@ -577,9 +633,6 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get announce => 'ప్రకటన';
-
-  @override
-  String get gymProfile => 'జిమ్ ప్రొఫైల్';
 
   @override
   String get trainers => 'శిక్షకులు';

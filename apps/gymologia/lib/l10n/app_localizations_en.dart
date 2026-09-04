@@ -81,6 +81,40 @@ class AppLocalizationsEn extends AppLocalizations {
       'Creating an account means you accept the Terms of Use and Privacy Policy.';
 
   @override
+  String get signInWithMobile => 'Sign in with your mobile number';
+
+  @override
+  String get mobileNumber => 'Mobile number';
+
+  @override
+  String get couldNotSendCode => 'Could not send the code.';
+
+  @override
+  String get verificationFailed => 'Verification failed.';
+
+  @override
+  String get couldNotResendCode => 'Could not resend the code.';
+
+  @override
+  String get couldNotCreateAccount => 'Could not create your account.';
+
+  @override
+  String weSentCodeTo(String phone) {
+    return 'We sent a code to $phone';
+  }
+
+  @override
+  String resendInSeconds(int seconds) {
+    return 'Resend in ${seconds}s';
+  }
+
+  @override
+  String get verified => 'Verified';
+
+  @override
+  String get createAccountAction => 'Create account';
+
+  @override
   String get home => 'Home';
 
   @override
@@ -494,8 +528,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createGym => 'Create gym';
 
   @override
+  String get deleteGym => 'Delete gym';
+
+  @override
+  String get gymProfile => 'Gym profile';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get leavePolicy => 'Leave policy';
+
+  @override
+  String get leaveDaysPerMonth => 'Leave days per month';
+
+  @override
+  String get deleteThisGym => 'Delete this gym';
+
+  @override
+  String get leaveLimitNote =>
+      'Member requests inside this limit are approved automatically. Anything beyond it needs someone to approve.';
+
+  @override
   String get draftNote =>
-      'Your gym starts as a draft. It will not appear in search until you choose a plan.';
+      'Your gym starts as a draft. It will not appear in search until you complete verification and choose a plan.';
 
   @override
   String get sendThis => 'Send this?';
@@ -577,9 +633,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get announce => 'Announce';
-
-  @override
-  String get gymProfile => 'Gym profile';
 
   @override
   String get trainers => 'Trainers';

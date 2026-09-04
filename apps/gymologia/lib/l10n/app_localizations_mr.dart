@@ -80,6 +80,40 @@ class AppLocalizationsMr extends AppLocalizations {
       'खाते तयार करणे म्हणजे तुम्ही वापराच्या अटी आणि गोपनीयता धोरण स्वीकारता.';
 
   @override
+  String get signInWithMobile => 'तुमच्या मोबाइल नंबरने साइन इन करा';
+
+  @override
+  String get mobileNumber => 'मोबाइल नंबर';
+
+  @override
+  String get couldNotSendCode => 'कोड पाठवता आला नाही.';
+
+  @override
+  String get verificationFailed => 'पडताळणी अयशस्वी झाली.';
+
+  @override
+  String get couldNotResendCode => 'कोड पुन्हा पाठवता आला नाही.';
+
+  @override
+  String get couldNotCreateAccount => 'तुमचे खाते तयार करता आले नाही.';
+
+  @override
+  String weSentCodeTo(String phone) {
+    return 'आम्ही $phone वर कोड पाठवला आहे';
+  }
+
+  @override
+  String resendInSeconds(int seconds) {
+    return '$seconds सेकंदात पुन्हा पाठवा';
+  }
+
+  @override
+  String get verified => 'पडताळले';
+
+  @override
+  String get createAccountAction => 'खाते तयार करा';
+
+  @override
   String get home => 'होम';
 
   @override
@@ -493,8 +527,30 @@ class AppLocalizationsMr extends AppLocalizations {
   String get createGym => 'जिम तयार करा';
 
   @override
+  String get deleteGym => 'जिम हटवा';
+
+  @override
+  String get gymProfile => 'जिम प्रोफाइल';
+
+  @override
+  String get description => 'वर्णन';
+
+  @override
+  String get leavePolicy => 'रजा धोरण';
+
+  @override
+  String get leaveDaysPerMonth => 'दरमहा रजेचे दिवस';
+
+  @override
+  String get deleteThisGym => 'हे जिम हटवा';
+
+  @override
+  String get leaveLimitNote =>
+      'या मर्यादेतील सदस्यांच्या विनंत्या आपोआप मंजूर होतात. त्यापेक्षा जास्तसाठी कोणाची तरी मंजुरी लागते.';
+
+  @override
   String get draftNote =>
-      'तुमचे जिम मसुदा म्हणून सुरू होते. प्लॅन घेईपर्यंत ते शोधात दिसणार नाही.';
+      'तुमचे जिम मसुदा म्हणून सुरू होते. पडताळणी पूर्ण करून प्लॅन घेईपर्यंत ते शोधात दिसणार नाही.';
 
   @override
   String get sendThis => 'हे पाठवायचे?';
@@ -576,9 +632,6 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get announce => 'घोषणा';
-
-  @override
-  String get gymProfile => 'जिम प्रोफाइल';
 
   @override
   String get trainers => 'प्रशिक्षक';

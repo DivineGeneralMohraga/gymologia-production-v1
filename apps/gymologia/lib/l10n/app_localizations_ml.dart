@@ -81,6 +81,42 @@ class AppLocalizationsMl extends AppLocalizations {
       'അക്കൗണ്ട് ഉണ്ടാക്കുന്നത് ഉപയോഗ നിബന്ധനകളും സ്വകാര്യതാ നയവും അംഗീകരിക്കുന്നു എന്നാണ്.';
 
   @override
+  String get signInWithMobile =>
+      'നിങ്ങളുടെ മൊബൈൽ നമ്പർ ഉപയോഗിച്ച് സൈൻ ഇൻ ചെയ്യുക';
+
+  @override
+  String get mobileNumber => 'മൊബൈൽ നമ്പർ';
+
+  @override
+  String get couldNotSendCode => 'കോഡ് അയയ്ക്കാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String get verificationFailed => 'പരിശോധന പരാജയപ്പെട്ടു.';
+
+  @override
+  String get couldNotResendCode => 'കോഡ് വീണ്ടും അയയ്ക്കാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String get couldNotCreateAccount =>
+      'നിങ്ങളുടെ അക്കൗണ്ട് ഉണ്ടാക്കാൻ കഴിഞ്ഞില്ല.';
+
+  @override
+  String weSentCodeTo(String phone) {
+    return '$phone എന്ന നമ്പറിലേക്ക് കോഡ് അയച്ചു';
+  }
+
+  @override
+  String resendInSeconds(int seconds) {
+    return '$seconds സെക്കൻഡിൽ വീണ്ടും അയയ്ക്കുക';
+  }
+
+  @override
+  String get verified => 'പരിശോധിച്ചു';
+
+  @override
+  String get createAccountAction => 'അക്കൗണ്ട് ഉണ്ടാക്കുക';
+
+  @override
   String get home => 'ഹോം';
 
   @override
@@ -498,8 +534,30 @@ class AppLocalizationsMl extends AppLocalizations {
   String get createGym => 'ജിം ഉണ്ടാക്കുക';
 
   @override
+  String get deleteGym => 'ജിം ഇല്ലാതാക്കുക';
+
+  @override
+  String get gymProfile => 'ജിം പ്രൊഫൈൽ';
+
+  @override
+  String get description => 'വിവരണം';
+
+  @override
+  String get leavePolicy => 'അവധി നയം';
+
+  @override
+  String get leaveDaysPerMonth => 'മാസത്തിൽ അവധി ദിവസങ്ങൾ';
+
+  @override
+  String get deleteThisGym => 'ഈ ജിം ഇല്ലാതാക്കുക';
+
+  @override
+  String get leaveLimitNote =>
+      'ഈ പരിധിക്കുള്ളിലെ അംഗങ്ങളുടെ അപേക്ഷകൾ സ്വയമേവ അംഗീകരിക്കപ്പെടും. അതിലധികമായാൽ ആരുടെയെങ്കിലും അനുമതി വേണം.';
+
+  @override
   String get draftNote =>
-      'നിങ്ങളുടെ ജിം കരടായി തുടങ്ങുന്നു. പ്ലാൻ എടുക്കുന്നത് വരെ തിരയലിൽ വരില്ല.';
+      'നിങ്ങളുടെ ജിം കരടായി തുടങ്ങുന്നു. പരിശോധന പൂർത്തിയാക്കി പ്ലാൻ എടുക്കുന്നത് വരെ തിരയലിൽ വരില്ല.';
 
   @override
   String get sendThis => 'ഇത് അയയ്ക്കണോ?';
@@ -581,9 +639,6 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get announce => 'അറിയിപ്പ്';
-
-  @override
-  String get gymProfile => 'ജിം പ്രൊഫൈൽ';
 
   @override
   String get trainers => 'പരിശീലകർ';

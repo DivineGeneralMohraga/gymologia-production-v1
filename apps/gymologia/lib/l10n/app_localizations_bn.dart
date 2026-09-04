@@ -81,6 +81,40 @@ class AppLocalizationsBn extends AppLocalizations {
       'অ্যাকাউন্ট তৈরি করার অর্থ আপনি ব্যবহারের শর্তাবলী ও গোপনীয়তা নীতি মেনে নিচ্ছেন।';
 
   @override
+  String get signInWithMobile => 'আপনার মোবাইল নম্বর দিয়ে সাইন ইন করুন';
+
+  @override
+  String get mobileNumber => 'মোবাইল নম্বর';
+
+  @override
+  String get couldNotSendCode => 'কোড পাঠানো যায়নি।';
+
+  @override
+  String get verificationFailed => 'যাচাই ব্যর্থ হয়েছে।';
+
+  @override
+  String get couldNotResendCode => 'কোড আবার পাঠানো যায়নি।';
+
+  @override
+  String get couldNotCreateAccount => 'আপনার অ্যাকাউন্ট তৈরি করা যায়নি।';
+
+  @override
+  String weSentCodeTo(String phone) {
+    return 'আমরা $phone নম্বরে কোড পাঠিয়েছি';
+  }
+
+  @override
+  String resendInSeconds(int seconds) {
+    return '$seconds সেকেন্ডে আবার পাঠান';
+  }
+
+  @override
+  String get verified => 'যাচাই করা হয়েছে';
+
+  @override
+  String get createAccountAction => 'অ্যাকাউন্ট তৈরি করুন';
+
+  @override
   String get home => 'হোম';
 
   @override
@@ -493,8 +527,30 @@ class AppLocalizationsBn extends AppLocalizations {
   String get createGym => 'জিম তৈরি করুন';
 
   @override
+  String get deleteGym => 'জিম মুছুন';
+
+  @override
+  String get gymProfile => 'জিম প্রোফাইল';
+
+  @override
+  String get description => 'বিবরণ';
+
+  @override
+  String get leavePolicy => 'ছুটির নীতি';
+
+  @override
+  String get leaveDaysPerMonth => 'মাসে ছুটির দিন';
+
+  @override
+  String get deleteThisGym => 'এই জিম মুছুন';
+
+  @override
+  String get leaveLimitNote =>
+      'এই সীমার মধ্যে সদস্যদের অনুরোধ স্বয়ংক্রিয়ভাবে অনুমোদিত হয়। তার বেশি হলে কারও অনুমোদন লাগে।';
+
+  @override
   String get draftNote =>
-      'আপনার জিম খসড়া হিসেবে শুরু হয়। প্ল্যান না নেওয়া পর্যন্ত এটি সার্চে দেখা যাবে না।';
+      'আপনার জিম খসড়া হিসেবে শুরু হয়। যাচাই সম্পূর্ণ করে প্ল্যান না নেওয়া পর্যন্ত এটি সার্চে দেখা যাবে না।';
 
   @override
   String get sendThis => 'এটি পাঠাবেন?';
@@ -576,9 +632,6 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get announce => 'ঘোষণা';
-
-  @override
-  String get gymProfile => 'জিম প্রোফাইল';
 
   @override
   String get trainers => 'ট্রেনার';

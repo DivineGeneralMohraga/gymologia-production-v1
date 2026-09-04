@@ -31,6 +31,23 @@
   "whyAgeNotBirthday": "We ask for your age, not your date of birth. A date of birth is tied to your bank and government records — an age is all a gym app needs.",
   "termsAgreement": "Creating an account means you accept the Terms of Use and Privacy Policy.",
 
+  "signInWithMobile": "Sign in with your mobile number",
+  "mobileNumber": "Mobile number",
+  "couldNotSendCode": "Could not send the code.",
+  "verificationFailed": "Verification failed.",
+  "couldNotResendCode": "Could not resend the code.",
+  "couldNotCreateAccount": "Could not create your account.",
+  "weSentCodeTo": "We sent a code to {phone}",
+  "@weSentCodeTo": {
+    "placeholders": { "phone": { "type": "String" } }
+  },
+  "resendInSeconds": "Resend in {seconds}s",
+  "@resendInSeconds": {
+    "placeholders": { "seconds": { "type": "int" } }
+  },
+  "verified": "Verified",
+  "createAccountAction": "Create account",
+
   "home": "Home",
   "myGym": "My gym",
   "discover": "Discover",
@@ -193,7 +210,14 @@
   "perksLabel": "Perks, separated by commas",
   "perksHint": "Steam room, Free parking, Personal training",
   "createGym": "Create gym",
-  "draftNote": "Your gym starts as a draft. It will not appear in search until you choose a plan.",
+  "deleteGym": "Delete gym",
+  "gymProfile": "Gym profile",
+  "description": "Description",
+  "leavePolicy": "Leave policy",
+  "leaveDaysPerMonth": "Leave days per month",
+  "deleteThisGym": "Delete this gym",
+  "leaveLimitNote": "Member requests inside this limit are approved automatically. Anything beyond it needs someone to approve.",
+  "draftNote": "Your gym starts as a draft. It will not appear in search until you complete verification and choose a plan.",
   "sendThis": "Send this?",
   "send": "Send",
   "announcements": "Announcements",

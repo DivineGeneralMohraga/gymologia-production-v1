@@ -252,6 +252,66 @@ abstract class AppLocalizations {
   /// **'Creating an account means you accept the Terms of Use and Privacy Policy.'**
   String get termsAgreement;
 
+  /// No description provided for @signInWithMobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with your mobile number'**
+  String get signInWithMobile;
+
+  /// No description provided for @mobileNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile number'**
+  String get mobileNumber;
+
+  /// No description provided for @couldNotSendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send the code.'**
+  String get couldNotSendCode;
+
+  /// No description provided for @verificationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification failed.'**
+  String get verificationFailed;
+
+  /// No description provided for @couldNotResendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not resend the code.'**
+  String get couldNotResendCode;
+
+  /// No description provided for @couldNotCreateAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not create your account.'**
+  String get couldNotCreateAccount;
+
+  /// No description provided for @weSentCodeTo.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a code to {phone}'**
+  String weSentCodeTo(String phone);
+
+  /// No description provided for @resendInSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in {seconds}s'**
+  String resendInSeconds(int seconds);
+
+  /// No description provided for @verified.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get verified;
+
+  /// No description provided for @createAccountAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get createAccountAction;
+
   /// No description provided for @home.
   ///
   /// In en, this message translates to:
@@ -984,10 +1044,52 @@ abstract class AppLocalizations {
   /// **'Create gym'**
   String get createGym;
 
+  /// No description provided for @deleteGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete gym'**
+  String get deleteGym;
+
+  /// No description provided for @gymProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Gym profile'**
+  String get gymProfile;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @leavePolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave policy'**
+  String get leavePolicy;
+
+  /// No description provided for @leaveDaysPerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave days per month'**
+  String get leaveDaysPerMonth;
+
+  /// No description provided for @deleteThisGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this gym'**
+  String get deleteThisGym;
+
+  /// No description provided for @leaveLimitNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Member requests inside this limit are approved automatically. Anything beyond it needs someone to approve.'**
+  String get leaveLimitNote;
+
   /// No description provided for @draftNote.
   ///
   /// In en, this message translates to:
-  /// **'Your gym starts as a draft. It will not appear in search until you choose a plan.'**
+  /// **'Your gym starts as a draft. It will not appear in search until you complete verification and choose a plan.'**
   String get draftNote;
 
   /// No description provided for @sendThis.
@@ -1145,12 +1247,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Announce'**
   String get announce;
-
-  /// No description provided for @gymProfile.
-  ///
-  /// In en, this message translates to:
-  /// **'Gym profile'**
-  String get gymProfile;
 
   /// No description provided for @trainers.
   ///

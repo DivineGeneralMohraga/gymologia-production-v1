@@ -80,6 +80,40 @@ class AppLocalizationsGu extends AppLocalizations {
       'ખાતું બનાવવાનો અર્થ છે કે તમે ઉપયોગની શરતો અને ગોપનીયતા નીતિ સ્વીકારો છો.';
 
   @override
+  String get signInWithMobile => 'તમારા મોબાઇલ નંબરથી સાઇન ઇન કરો';
+
+  @override
+  String get mobileNumber => 'મોબાઇલ નંબર';
+
+  @override
+  String get couldNotSendCode => 'કોડ મોકલી શકાયો નથી.';
+
+  @override
+  String get verificationFailed => 'ચકાસણી નિષ્ફળ ગઈ.';
+
+  @override
+  String get couldNotResendCode => 'કોડ ફરી મોકલી શકાયો નથી.';
+
+  @override
+  String get couldNotCreateAccount => 'તમારું ખાતું બનાવી શકાયું નથી.';
+
+  @override
+  String weSentCodeTo(String phone) {
+    return 'અમે $phone પર કોડ મોકલ્યો છે';
+  }
+
+  @override
+  String resendInSeconds(int seconds) {
+    return '$seconds સેકન્ડમાં ફરી મોકલો';
+  }
+
+  @override
+  String get verified => 'ચકાસાયેલ';
+
+  @override
+  String get createAccountAction => 'ખાતું બનાવો';
+
+  @override
   String get home => 'હોમ';
 
   @override
@@ -492,8 +526,30 @@ class AppLocalizationsGu extends AppLocalizations {
   String get createGym => 'જિમ બનાવો';
 
   @override
+  String get deleteGym => 'જિમ કાઢી નાખો';
+
+  @override
+  String get gymProfile => 'જિમ પ્રોફાઇલ';
+
+  @override
+  String get description => 'વર્ણન';
+
+  @override
+  String get leavePolicy => 'રજા નીતિ';
+
+  @override
+  String get leaveDaysPerMonth => 'મહિને રજાના દિવસો';
+
+  @override
+  String get deleteThisGym => 'આ જિમ કાઢી નાખો';
+
+  @override
+  String get leaveLimitNote =>
+      'આ મર્યાદામાં સભ્યોની વિનંતીઓ આપોઆપ મંજૂર થાય છે. તેથી વધુ માટે કોઈની મંજૂરી જોઈએ.';
+
+  @override
   String get draftNote =>
-      'તમારું જિમ ડ્રાફ્ટ તરીકે શરૂ થાય છે. પ્લાન ન લો ત્યાં સુધી શોધમાં નહીં દેખાય.';
+      'તમારું જિમ ડ્રાફ્ટ તરીકે શરૂ થાય છે. ચકાસણી પૂરી કરીને પ્લાન ન લો ત્યાં સુધી શોધમાં નહીં દેખાય.';
 
   @override
   String get sendThis => 'આ મોકલવું?';
@@ -575,9 +631,6 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get announce => 'જાહેરાત';
-
-  @override
-  String get gymProfile => 'જિમ પ્રોફાઇલ';
 
   @override
   String get trainers => 'ટ્રેનરો';

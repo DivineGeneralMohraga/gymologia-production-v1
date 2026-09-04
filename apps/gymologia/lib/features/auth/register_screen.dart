@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -50,7 +51,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (!mounted) return;
     if (!ok) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(auth.error ?? 'Could not create your account.')),
+        SnackBar(
+            content: Text(auth.error ??
+                AppLocalizations.of(context).couldNotCreateAccount)),
       );
       return;
     }
@@ -74,7 +77,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Create your account')),
+      appBar: AppBar(
+          title: Text(AppLocalizations.of(context).createAccount)),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -89,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     Text(widget.phone,
                         style: theme.textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.w600)),
-                    Text('Verified',
+                    Text(AppLocalizations.of(context).verified,
                         style: theme.textTheme.bodySmall
                             ?.copyWith(color: Colors.green.shade600)),
                     const SizedBox(height: 24),
@@ -97,15 +101,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       controller: _name,
                       autofocus: true,
                       textCapitalization: TextCapitalization.words,
-                      decoration: const InputDecoration(labelText: 'Name'),
+                      decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context).name),
                       validator: validateName,
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
                       controller: _email,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        labelText: 'Email (optional)',
+                      decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context).emailOptional,
                       ),
                       validator: validateOptionalEmail,
                     ),
@@ -117,7 +122,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(3),
                       ],
-                      decoration: const InputDecoration(labelText: 'Age'),
+                      decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context).age),
                       validator: validateAge,
                     ),
                     const SizedBox(height: 12),
@@ -139,9 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
-                              'We ask for your age, not your date of birth. '
-                              'A date of birth is tied to your bank and government '
-                              'records — an age is all a gym app needs.',
+                              AppLocalizations.of(context).whyAgeNotBirthday,
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: theme.colorScheme.onSurfaceVariant,
                                 height: 1.4,
@@ -152,37 +156,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Text.rich(
-                      TextSpan(
+                    Text(
+                      AppLocalizations.of(context).termsAgreement,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                        height: 1.5,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const LegalPage()),
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context).termsAndPrivacy,
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
+                          color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.underline,
                           height: 1.5,
                         ),
-                        children: [
-                          const TextSpan(
-                              text: 'Creating an account means you accept the '),
-                          WidgetSpan(
-                            alignment: PlaceholderAlignment.baseline,
-                            baseline: TextBaseline.alphabetic,
-                            child: GestureDetector(
-                              onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) => const LegalPage(),
-                                ),
-                              ),
-                              child: Text(
-                                'Terms of Use and Privacy Policy',
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: theme.colorScheme.primary,
-                                  fontWeight: FontWeight.w600,
-                                  decoration: TextDecoration.underline,
-                                  height: 1.5,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const TextSpan(text: '.'),
-                        ],
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -194,7 +187,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               width: 22,
                               child: CircularProgressIndicator(strokeWidth: 2.5),
                             )
-                          : const Text('Create account'),
+                          : Text(AppLocalizations.of(context).createAccountAction),
                     ),
                   ],
                 ),

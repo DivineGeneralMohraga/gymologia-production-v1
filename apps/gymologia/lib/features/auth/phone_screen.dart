@@ -35,7 +35,8 @@ class _PhoneScreenState extends State<PhoneScreen> {
 
     if (!mounted) return;
     if (challenge == null) {
-      final message = auth.error ?? 'Could not send the code.';
+      final message =
+          auth.error ?? AppLocalizations.of(context).couldNotSendCode;
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(message)));
       return;
@@ -68,13 +69,13 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     Icon(Icons.fitness_center,
                         size: 56, color: theme.colorScheme.primary),
                     const SizedBox(height: 20),
-                    Text('Gymologia',
+                    Text(AppLocalizations.of(context).appName,
                         textAlign: TextAlign.center,
                         style: theme.textTheme.headlineMedium
                             ?.copyWith(fontWeight: FontWeight.bold)),
                     const SizedBox(height: 8),
                     Text(
-                      'Sign in with your mobile number',
+                      AppLocalizations.of(context).signInWithMobile,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
@@ -90,9 +91,9 @@ class _PhoneScreenState extends State<PhoneScreen> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(10),
                       ],
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         prefixText: '+91  ',
-                        labelText: 'Mobile number',
+                        labelText: AppLocalizations.of(context).mobileNumber,
                         hintText: '9876543210',
                       ),
                       validator: validateIndianMobile,

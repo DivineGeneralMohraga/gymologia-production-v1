@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
@@ -82,7 +83,7 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('Delete ${widget.gym.name}?'),
+        title: Text(AppLocalizations.of(context).deleteNamed(widget.gym.name)),
         content: Text(
           'All ${widget.gym.memberCount} members and ${widget.gym.staffCount} '
           'staff lose access. This cannot be undone from the app.',
@@ -90,14 +91,14 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context).cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(ctx).colorScheme.error,
             ),
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Delete gym'),
+            child: Text(AppLocalizations.of(context).deleteGym),
           ),
         ],
       ),
@@ -127,7 +128,7 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Gym profile')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).gymProfile)),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -136,7 +137,7 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
             TextFormField(
               controller: _name,
               textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(labelText: 'Gym name'),
+              decoration: InputDecoration(labelText: AppLocalizations.of(context).gymName),
               validator: (v) =>
                   (v?.trim().length ?? 0) < 2 ? 'Enter your gym name' : null,
             ),
@@ -151,9 +152,9 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
               controller: _description,
               maxLines: 4,
               maxLength: 400,
-              decoration: const InputDecoration(
-                labelText: 'Description',
-                hintText: 'What makes your gym worth joining?',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).description,
+                hintText: AppLocalizations.of(context).descriptionHint,
               ),
             ),
             const SizedBox(height: 10),
@@ -164,8 +165,8 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
                 FilteringTextInputFormatter.digitsOnly,
                 LengthLimitingTextInputFormatter(10),
               ],
-              decoration: const InputDecoration(
-                labelText: 'Contact number',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).contactNumber,
                 prefixText: '+91  ',
               ),
               validator: (v) => RegExp(r'^[6-9]\d{9}$').hasMatch(v?.trim() ?? '')
@@ -175,14 +176,14 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
             const SizedBox(height: 18),
             TextFormField(
               controller: _perks,
-              decoration: const InputDecoration(
-                labelText: 'Perks, separated by commas',
-                hintText: 'Steam room, Free parking, Personal training',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).perksLabel,
+                hintText: AppLocalizations.of(context).perksHint,
               ),
             ),
 
             const SizedBox(height: 26),
-            Text('LEAVE POLICY',
+            Text(AppLocalizations.of(context).leavePolicy.toUpperCase(),
                 style: theme.textTheme.labelSmall?.copyWith(
                   letterSpacing: 0.9,
                   fontWeight: FontWeight.w700,
@@ -190,8 +191,7 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
                 )),
             const SizedBox(height: 8),
             Text(
-              'Member requests inside this limit are approved automatically. '
-              'Anything more comes to you.',
+              AppLocalizations.of(context).leaveLimitNote,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
                 height: 1.4,
@@ -200,7 +200,9 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
             const SizedBox(height: 10),
             Row(
               children: [
-                const Expanded(child: Text('Leave days per month')),
+                Expanded(
+                    child: Text(
+                        AppLocalizations.of(context).leaveDaysPerMonth)),
                 IconButton(
                   onPressed: _leavePerMonth > 0
                       ? () => setState(() => _leavePerMonth--)
@@ -242,7 +244,7 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
                       height: 22,
                       width: 22,
                       child: CircularProgressIndicator(strokeWidth: 2.5))
-                  : const Text('Save changes'),
+                  : Text(AppLocalizations.of(context).saveChanges),
             ),
 
             // Deleting follows gym ownership, not a role — no permission
@@ -255,7 +257,7 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
                 onPressed: _busy ? null : _delete,
                 icon: Icon(Icons.delete_outline,
                     size: 18, color: theme.colorScheme.error),
-                label: Text('Delete this gym',
+                label: Text(AppLocalizations.of(context).deleteThisGym,
                     style: TextStyle(color: theme.colorScheme.error)),
               ),
             ],

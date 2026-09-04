@@ -81,6 +81,40 @@ class AppLocalizationsTa extends AppLocalizations {
       'கணக்கை உருவாக்குவது பயன்பாட்டு விதிமுறைகளையும் தனியுரிமைக் கொள்கையையும் ஏற்பதாகும்.';
 
   @override
+  String get signInWithMobile => 'உங்கள் மொபைல் எண்ணுடன் உள்நுழையவும்';
+
+  @override
+  String get mobileNumber => 'மொபைல் எண்';
+
+  @override
+  String get couldNotSendCode => 'குறியீட்டை அனுப்ப முடியவில்லை.';
+
+  @override
+  String get verificationFailed => 'சரிபார்ப்பு தோல்வியடைந்தது.';
+
+  @override
+  String get couldNotResendCode => 'குறியீட்டை மீண்டும் அனுப்ப முடியவில்லை.';
+
+  @override
+  String get couldNotCreateAccount => 'உங்கள் கணக்கை உருவாக்க முடியவில்லை.';
+
+  @override
+  String weSentCodeTo(String phone) {
+    return '$phone க்கு குறியீட்டை அனுப்பியுள்ளோம்';
+  }
+
+  @override
+  String resendInSeconds(int seconds) {
+    return '$seconds வினாடிகளில் மீண்டும் அனுப்பவும்';
+  }
+
+  @override
+  String get verified => 'சரிபார்க்கப்பட்டது';
+
+  @override
+  String get createAccountAction => 'கணக்கை உருவாக்கு';
+
+  @override
   String get home => 'முகப்பு';
 
   @override
@@ -500,8 +534,30 @@ class AppLocalizationsTa extends AppLocalizations {
   String get createGym => 'கூடத்தை உருவாக்கு';
 
   @override
+  String get deleteGym => 'கூடத்தை நீக்கு';
+
+  @override
+  String get gymProfile => 'கூட சுயவிவரம்';
+
+  @override
+  String get description => 'விவரம்';
+
+  @override
+  String get leavePolicy => 'விடுப்புக் கொள்கை';
+
+  @override
+  String get leaveDaysPerMonth => 'மாதத்திற்கு விடுப்பு நாட்கள்';
+
+  @override
+  String get deleteThisGym => 'இந்தக் கூடத்தை நீக்கு';
+
+  @override
+  String get leaveLimitNote =>
+      'இந்த வரம்பிற்குள் உறுப்பினர் கோரிக்கைகள் தானாக ஒப்புக்கொள்ளப்படும். அதற்கு மேல் ஒருவரின் ஒப்புதல் தேவை.';
+
+  @override
   String get draftNote =>
-      'உங்கள் கூடம் வரைவாகத் தொடங்குகிறது. திட்டம் எடுக்கும் வரை தேடலில் தோன்றாது.';
+      'உங்கள் கூடம் வரைவாகத் தொடங்குகிறது. சரிபார்ப்பை முடித்து திட்டம் எடுக்கும் வரை தேடலில் தோன்றாது.';
 
   @override
   String get sendThis => 'இதை அனுப்பவா?';
@@ -583,9 +639,6 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get announce => 'அறிவிப்பு';
-
-  @override
-  String get gymProfile => 'கூட சுயவிவரம்';
 
   @override
   String get trainers => 'பயிற்சியாளர்கள்';

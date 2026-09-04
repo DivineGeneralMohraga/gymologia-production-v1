@@ -165,8 +165,7 @@ class _CreateGymPageState extends State<CreateGymPage> {
             ),
             const SizedBox(height: 6),
             Text(
-              'Your district appears next to your gym name in search, so members '
-              'can tell you apart from a gym with a similar name elsewhere.',
+              AppLocalizations.of(context).districtNote,
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
             ),
@@ -218,9 +217,7 @@ class _CreateGymPageState extends State<CreateGymPage> {
 
             _Label('Leave policy'),
             Text(
-              'Members can pause their membership for a few days a month. Requests '
-              'inside these limits are approved automatically; anything more comes '
-              'to you.',
+              AppLocalizations.of(context).leavePolicyNote,
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant, height: 1.4),
             ),
@@ -274,8 +271,7 @@ class _CreateGymPageState extends State<CreateGymPage> {
             ),
             const SizedBox(height: 12),
             Text(
-              'Your gym starts as a draft. It will not appear in search until you '
-              'complete verification and choose a plan.',
+              AppLocalizations.of(context).draftNote,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodySmall
                   ?.copyWith(color: theme.colorScheme.onSurfaceVariant),

@@ -68,7 +68,9 @@ class _OtpScreenState extends State<OtpScreen> {
       case null:
         _controller.clear();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(auth.error ?? 'Verification failed.')),
+          SnackBar(
+              content: Text(auth.error ??
+                  AppLocalizations.of(context).verificationFailed)),
         );
       case NewUserOutcome(:final registrationToken):
         Navigator.of(context).pushReplacement(
@@ -91,7 +93,9 @@ class _OtpScreenState extends State<OtpScreen> {
     if (!mounted) return;
     if (fresh == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(auth.error ?? 'Could not resend the code.')),
+        SnackBar(
+            content: Text(auth.error ??
+                AppLocalizations.of(context).couldNotResendCode)),
       );
       return;
     }
@@ -120,7 +124,10 @@ class _OtpScreenState extends State<OtpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'We sent a code to ${_challenge.phoneMasked.isEmpty ? widget.phone : _challenge.phoneMasked}',
+                    AppLocalizations.of(context).weSentCodeTo(
+                        _challenge.phoneMasked.isEmpty
+                            ? widget.phone
+                            : _challenge.phoneMasked),
                     style: theme.textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 28),
@@ -160,8 +167,9 @@ class _OtpScreenState extends State<OtpScreen> {
                     onPressed: canResend ? _resend : null,
                     child: Text(
                       canResend
-                          ? 'Resend code'
-                          : 'Resend in ${_secondsLeft}s',
+                          ? AppLocalizations.of(context).resendCode
+                          : AppLocalizations.of(context)
+                              .resendInSeconds(_secondsLeft),
                     ),
                   ),
                 ],
