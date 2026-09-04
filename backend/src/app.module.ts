@@ -19,6 +19,7 @@ import { LeaveModule } from './leave/leave.module';
 import { PaymentsModule } from './payments/payments.module';
 import { MaintenanceModule } from './maintenance/maintenance.module';
 import { EventsModule } from './events/events.module';
+import { UploadsModule } from './uploads/uploads.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { ExercisesModule } from './exercises/exercises.module';
 import { SupportModule } from './support/support.module';
@@ -63,6 +64,7 @@ import { InputSanitizerInterceptor } from './common/interceptors/input-sanitizer
     PaymentsModule,
     MaintenanceModule,
     EventsModule,
+    UploadsModule,
     NotificationsModule,
     ExercisesModule,
     SupportModule,

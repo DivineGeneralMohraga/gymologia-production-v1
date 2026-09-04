@@ -54,6 +54,18 @@ let failures = run('With SUPABASE_URL configured', [
   ['a URL longer than the column', `${HOST}/storage/v1/object/public/${'a'.repeat(600)}`, false],
 ]);
 
+// The URLs the upload service actually mints have to survive the check
+// that guards the field they are submitted into. These two shapes are what
+// StorageService.signUpload returns for a public and a private bucket; if
+// the two ever drift apart, an owner uploads a file successfully and is
+// then told the URL is invalid.
+failures += run('URLs the upload service produces', [
+  ['a public gym image', `${HOST}/storage/v1/object/public/gym-images/a-gym-id/f47ac10b.jpg`, true],
+  ['a public event banner', `${HOST}/storage/v1/object/public/event-banners/a-gym-id/f47ac10b.webp`, true],
+  ['a private KYC document', `${HOST}/storage/v1/object/kyc-documents/a-gym-id/f47ac10b.pdf`, true],
+  ['a signed read of a KYC document', `${HOST}/storage/v1/object/sign/kyc-documents/a-gym-id/f47ac10b.pdf?token=abc`, true],
+]);
+
 // A developer machine with nothing configured must still refuse hostile
 // hosts. Failing open here is how a bad URL reaches a fixture.
 delete process.env.SUPABASE_URL;
