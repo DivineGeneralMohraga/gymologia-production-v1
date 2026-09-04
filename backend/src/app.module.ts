@@ -20,6 +20,7 @@ import { PaymentsModule } from './payments/payments.module';
 import { MaintenanceModule } from './maintenance/maintenance.module';
 import { EventsModule } from './events/events.module';
 import { UploadsModule } from './uploads/uploads.module';
+import { KycModule } from './kyc/kyc.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { ExercisesModule } from './exercises/exercises.module';
 import { SupportModule } from './support/support.module';
@@ -65,6 +66,7 @@ import { InputSanitizerInterceptor } from './common/interceptors/input-sanitizer
     MaintenanceModule,
     EventsModule,
     UploadsModule,
+    KycModule,
     NotificationsModule,
     ExercisesModule,
     SupportModule,
