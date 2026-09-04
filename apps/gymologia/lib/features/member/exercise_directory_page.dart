@@ -389,11 +389,11 @@ class _ExerciseDetailPageState extends State<_ExerciseDetailPage> {
             ),
           ],
 
-          // Only when the server actually served this locale. English
-          // readers are looking at the original and need no warning, and
-          // a language with no rows yet has already fallen back to it.
-          if (e['translated'] == true &&
-              Localizations.localeOf(context).languageCode != 'en') ...[
+          // The response says which language the content is actually in.
+          // Anything but English is machine-written; English is the
+          // original and needs no warning, and a language with no rows
+          // has already fallen back to it and reports 'en' here.
+          if (e['locale'] is String && e['locale'] != 'en') ...[
             const SizedBox(height: 20),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -125,6 +125,21 @@ export class ExercisesService {
         ? {
             steps: text?.steps ?? [],
             cautions: text?.cautions ?? [],
+            /**
+             * The language this content is actually in, after the
+             * Accept-Language header was resolved against the languages
+             * the app ships. A caller that asked for one we do not have
+             * sees `en` here and can say so itself.
+             */
+            locale: text?.locale ?? 'en',
+            /**
+             * Whether the resolved locale had its own rows, as opposed to
+             * falling back to English. Note this is about the *resolved*
+             * locale, not the raw header: `Accept-Language: fr` resolves
+             * to English, and English content is not a fallback, so this
+             * is true. Compare `locale` against what you asked for if you
+             * need the other question answered.
+             */
             translated: text?.locale === locale,
           }
         : { stepCount: text?.steps.length ?? 0 }),
