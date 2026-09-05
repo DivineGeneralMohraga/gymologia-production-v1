@@ -22,8 +22,32 @@ export interface AuditInput {
  *
  * Every state change that a human could later dispute goes through here:
  * attendance edits, leave overrides, permission grants, member removals,
- * subscription changes, payouts. There is no update or delete path, and
- * the runtime DB role is granted INSERT and SELECT on audit_logs only.
+ * subscription changes, payouts. There is no update or delete path in this
+ * service, and nothing else in the codebase writes to the table.
+ *
+ * APPEND-ONLY IS A PROPERTY OF THIS CODE, NOT OF THE DATABASE. This
+ * comment used to claim "the runtime DB role is granted INSERT and SELECT
+ * on audit_logs only", and that was simply untrue. Checked against the
+ * live database rather than assumed:
+ *
+ *   current_user                                    -> postgres
+ *   tableowner of audit_logs                        -> postgres
+ *   has_table_privilege(..., 'UPDATE' / 'DELETE')   -> true, true
+ *
+ * The application connects as the owner of the table and can rewrite or
+ * empty it at will. Nothing does, but "nobody can" and "nothing does" are
+ * different promises, and only the second one is being kept. That matters
+ * before anyone repeats the stronger version in a compliance
+ * conversation, where an append-only trail is taken to mean tamper
+ * evidence rather than good manners.
+ *
+ * Making it true is not a one-line change, and the reason is worth
+ * recording. Row level security is enabled on every table with no
+ * policies, which the application survives only because `postgres` has
+ * rolbypassrls. A restricted role with INSERT and SELECT on audit_logs
+ * would need BYPASSRLS as well, or every query in the product stops
+ * working the moment the connection string changes. That is a deliberate
+ * piece of infrastructure work, not a tidy-up.
  */
 @Injectable()
 export class AuditService {
