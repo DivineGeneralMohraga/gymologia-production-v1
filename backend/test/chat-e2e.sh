@@ -176,11 +176,23 @@ STORED=$(node -e '
   p.message.findFirst({where:{conversationId:process.argv[1]},orderBy:{createdAt:"desc"}})
     .then(m=>{ console.log(JSON.stringify({c:m.ciphertext.slice(0,20), n:m.nonce})); return p.$disconnect(); });
 ' "$DM")
-echo "$STORED" | grep -q 'Thursday' \
-  && bad "plaintext" "the message body is readable in the database" \
-  || ok "the body is not stored in plain text"
-echo "$STORED" | grep -q 'v1-server' \
-  && ok "and is stamped with the scheme that wrote it" || bad "scheme stamp" "$STORED"
+# Establish that the row was actually read before drawing any conclusion
+# from its contents. "The plaintext is not in there" is trivially true of
+# an empty string, so when the helper above failed -- a dropped database
+# connection was enough -- this reported that message bodies were safely
+# encrypted while having looked at nothing at all. The most reassuring
+# check in the suite was the one that could not fail.
+echo "$STORED" | grep -q '"c":' \
+  && ok "the stored row was read back" \
+  || { bad "read stored row" "helper returned: ${STORED:-<nothing>}"; STORED=""; }
+
+if [ -n "$STORED" ]; then
+  echo "$STORED" | grep -q 'Thursday' \
+    && bad "plaintext" "the message body is readable in the database" \
+    || ok "the body is not stored in plain text"
+  echo "$STORED" | grep -q 'v1-server' \
+    && ok "and is stamped with the scheme that wrote it" || bad "scheme stamp" "$STORED"
+fi
 
 hdr "Access"
 OUTSIDER=$(login "+9198600${STAMP}9" "Outsider")
