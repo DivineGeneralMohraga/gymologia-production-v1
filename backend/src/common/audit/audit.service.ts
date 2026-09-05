@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { AppClient, Prisma } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
+import { redactSnapshot } from './redact';
 
 export interface AuditInput {
   actorId?: string | null;
@@ -15,32 +16,6 @@ export interface AuditInput {
   userAgent?: string | null;
   appClient?: AppClient | null;
 }
-
-/**
- * Keys whose values must never reach the audit table. Snapshots run
- * through a redactor before they are written, because "before/after" on a
- * KYC update would otherwise be the one place raw Aadhaar numbers sit in
- * plain text.
- */
-const REDACTED_KEYS = new Set([
-  'aadhaar',
-  'aadhaarenc',
-  'pan',
-  'panenc',
-  'gstin',
-  'gstinenc',
-  'upiid',
-  'upiidenc',
-  'codehash',
-  'tokenhash',
-  'salt',
-  'ciphertext',
-  'password',
-  'accesstoken',
-  'refreshtoken',
-  'clientsecret',
-  'authkey',
-]);
 
 /**
  * Append-only record of who did what.
@@ -65,8 +40,8 @@ export class AuditService {
           action: input.action.slice(0, 80),
           entityType: input.entityType.slice(0, 60),
           entityId: input.entityId?.slice(0, 64) ?? null,
-          before: this.redact(input.before),
-          after: this.redact(input.after),
+          before: redactSnapshot(input.before) as Prisma.InputJsonValue | undefined,
+          after: redactSnapshot(input.after) as Prisma.InputJsonValue | undefined,
           ip: input.ip?.slice(0, 64) ?? null,
           userAgent: input.userAgent?.slice(0, 300) ?? null,
           appClient: input.appClient ?? null,
@@ -81,25 +56,4 @@ export class AuditService {
     }
   }
 
-  /** Recursively replaces sensitive values with a marker. */
-  private redact(value: unknown): Prisma.InputJsonValue | undefined {
-    if (value === undefined || value === null) return undefined;
-
-    const walk = (node: unknown, depth: number): unknown => {
-      if (depth > 6) return '[depth-limit]';
-      if (node === null || typeof node !== 'object') return node;
-      if (node instanceof Date) return node.toISOString();
-      if (Array.isArray(node)) return node.slice(0, 50).map((v) => walk(v, depth + 1));
-
-      const out: Record<string, unknown> = {};
-      for (const [key, val] of Object.entries(node as Record<string, unknown>)) {
-        out[key] = REDACTED_KEYS.has(key.toLowerCase())
-          ? '[redacted]'
-          : walk(val, depth + 1);
-      }
-      return out;
-    };
-
-    return walk(value, 0) as Prisma.InputJsonValue;
-  }
 }
