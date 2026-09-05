@@ -22,6 +22,19 @@
 # means seven suites back to back exhaust the quota and fail at setup with a
 # 401 that has nothing to do with the code under test.
 #
+# NOT EVERY FAILURE IS A REGRESSION. The database is a hosted pooler over
+# the network, and it does occasionally go away for a few seconds. When it
+# does, whichever suite is running fails with a 500 that looks exactly like
+# a bug in whatever changed last. Before believing a failure, check:
+#
+#   grep -i "can't reach database" server.err.log
+#
+# and compare the timestamp with the failing suite. Then re-run that one
+# suite on its own. That is the whole diagnosis, and it takes a minute --
+# admin-e2e failed two checks that way once, and passed 44 of 44 on retry
+# with nothing changed. Deliberately not retried automatically: a runner
+# that hides intermittent failures hides real ones the same way.
+#
 # THIS RUN TAKES ABOUT HALF AN HOUR. Thirteen cooldowns are fourteen minutes
 # on their own, before a single request is sent. Start it in the background
 # and let it finish; do not run it inside anything that will time out and
