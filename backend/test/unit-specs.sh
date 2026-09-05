@@ -15,7 +15,7 @@
 
 cd "$(dirname "$0")/.." || exit 1
 
-SPECS="india-ids storage-url exercise-translations ip-block"
+SPECS="india-ids storage-url exercise-translations ip-block env-validation"
 FAILED=""
 
 for spec in $SPECS; do
