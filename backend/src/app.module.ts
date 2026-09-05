@@ -23,6 +23,7 @@ import { EventsModule } from './events/events.module';
 import { UploadsModule } from './uploads/uploads.module';
 import { KycModule } from './kyc/kyc.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { ReferralsModule } from './referrals/referrals.module';
 import { ExercisesModule } from './exercises/exercises.module';
 import { SupportModule } from './support/support.module';
 import { LegalModule } from './legal/legal.module';
@@ -69,6 +70,7 @@ import { InputSanitizerInterceptor } from './common/interceptors/input-sanitizer
     UploadsModule,
     KycModule,
     NotificationsModule,
+    ReferralsModule,
     ExercisesModule,
     SupportModule,
     LegalModule,

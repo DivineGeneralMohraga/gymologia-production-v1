@@ -98,21 +98,30 @@ SECOND=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/gyms/$GID_A2/subsc
 
 hdr "Referral codes"
 REFERRER=$(login "$P_REF" "Referrer")
-REF_USER=$(curl -s "$API/auth/me" -H "Authorization: Bearer $REFERRER" | field id)
-CODE=$(node -e '
-  const fs=require("fs");
-  for (const l of fs.readFileSync(".env","utf8").split(/\r?\n/)) {
-    const m=/^([A-Z0-9_]+)=(.*)$/.exec(l.trim());
-    if (m) process.env[m[1]] = m[2].replace(/^"|"$/g,"");
-  }
-  const {PrismaClient}=require("@prisma/client");
-  const p=new PrismaClient();
-  const code = "TEST" + Math.random().toString(36).slice(2,8).toUpperCase();
-  p.referralAccount.create({data:{userId:process.argv[1], code}})
-    .then(r=>{ console.log(r.code); return p.$disconnect(); })
-    .catch(e=>{ console.log(""); process.exit(0); });
-' "$REF_USER")
-[ -n "$CODE" ] && ok "referral account created ($CODE)" || bad "referral setup" "no code"
+
+# Ask the product for the code, the way a referrer would.
+#
+# This used to reach past the API and INSERT a referral_accounts row with
+# Prisma, because there was no other way to get one -- and that back door
+# is exactly what hid the gap. Redeeming a code was tested and worked;
+# nothing in the product could issue one, so the discount was unreachable
+# for every real user while this suite reported it working. A test that
+# manufactures the thing under test proves the half it did not manufacture.
+CODE=$(curl -s "$API/me/referral" -H "Authorization: Bearer $REFERRER" | field code)
+[ -n "$CODE" ] && ok "a referrer can get their own code from the API ($CODE)" \
+                || bad "referral setup" "no code came back"
+
+AGAIN=$(curl -s "$API/me/referral" -H "Authorization: Bearer $REFERRER" | field code)
+[ "$AGAIN" = "$CODE" ] && ok "and asking twice returns the same one" \
+                       || bad "code stability" "first $CODE then $AGAIN"
+
+# The spec excludes gym owners from the referral programme, and someone can
+# register a gym after signing up -- so the rule has to hold here and not
+# only at login.
+OWNER_REF=$(curl -s -o /dev/null -w "%{http_code}" "$API/me/referral" \
+            -H "Authorization: Bearer $OWNER_A")
+[ "$OWNER_REF" = "403" ] && ok "a gym owner is refused a referral account" \
+                         || bad "owner referral" "got HTTP $OWNER_REF, expected 403"
 
 OWNER_B=$(login "$P_B" "Owner B")
 GID_B=$(make_gym "$OWNER_B" "Paying Gym" "$P_B")
