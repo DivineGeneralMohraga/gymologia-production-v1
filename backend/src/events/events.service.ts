@@ -257,7 +257,19 @@ export class EventsService {
           ...upcoming,
           ...locality,
           publicListing: true,
-          gymId: { notIn: myGymIds.length > 0 ? myGymIds : [''] },
+          // Exclude this member's own gyms, whose events are already in the
+          // list above -- and only when they have some.
+          //
+          // This used to pass `['']` as a "matches nothing" sentinel when
+          // the member had no gyms, and an empty string is not a UUID:
+          // Prisma refused the query with "Error creating UUID, invalid
+          // length: expected length 32, found 0" and the endpoint answered
+          // 500. That is the events feed, and the member it broke for is
+          // one with no membership -- which is exactly the person the
+          // browser and the national feed exist for. The suites never saw
+          // it because their members always belong to a gym by the time
+          // they open the feed.
+          ...(myGymIds.length > 0 ? { gymId: { notIn: myGymIds } } : {}),
           // Only Pro gyms reach the national feed.
           gym: {
             ...(locality.gym as object),

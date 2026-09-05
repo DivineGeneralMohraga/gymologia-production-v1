@@ -117,9 +117,29 @@ GLOBAL=$(echo "$FEED" | count global)
   || bad "global" "got $GLOBAL"
 
 STRANGER=$(login "$P_STRANGER" "Stranger")
+
+# Check the status before the shape, because the two checks below both
+# passed for the wrong reason for weeks. This endpoint answered 500 for a
+# member with no gym -- the feed built a `notIn: ['']` sentinel and Prisma
+# refused to read an empty string as a UUID -- and an error body has no
+# `myGyms` key, so counting it gave 0 and "sees nothing under their own
+# gyms" reported PASS. The grep for a leaked title found nothing in the
+# error body either, so that passed too. A member with no membership is
+# precisely who the national feed is for.
+S_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$API/events" -H "Authorization: Bearer $STRANGER")
+[ "$S_CODE" = "200" ] \
+  && ok "a member with no gym can open the events feed at all" \
+  || bad "stranger feed" "got HTTP $S_CODE"
+
 S_FEED=$(curl -s "$API/events" -H "Authorization: Bearer $STRANGER")
-[ "$(echo "$S_FEED" | count myGyms)" = "0" ] \
+[ "$S_CODE" = "200" ] && [ "$(echo "$S_FEED" | count myGyms)" = "0" ] \
   && ok "a stranger sees nothing under their own gyms" || bad "stranger mine" "not empty"
+# And the national feed is not empty for them, which is the other half of
+# "it works": an endpoint that returns an empty list for everybody would
+# also have satisfied every check above.
+[ "$(echo "$S_FEED" | count global)" -ge "1" ] \
+  && ok "and does see the public feed" \
+  || bad "stranger global" "the national feed came back empty"
 echo "$S_FEED" | grep -q "Members Only Circuit" \
   && bad "leak" "unpaid gym's event reached the public feed" \
   || ok "the unpaid gym's event stays off the public feed"
