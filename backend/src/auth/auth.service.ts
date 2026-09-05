@@ -10,6 +10,7 @@ import { AppClient, OtpPurpose, User } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CryptoService } from '../common/crypto/crypto.service';
 import { SecurityEventService } from '../common/security/security-event.service';
+import { NotificationsService } from '../notifications/notifications.service';
 import { OtpService } from './otp.service';
 import { Msg91Service } from './msg91.service';
 import { TokenService, TokenPair, SessionMeta } from './token.service';
@@ -57,6 +58,7 @@ export class AuthService {
     private readonly crypto: CryptoService,
     private readonly jwt: JwtService,
     private readonly securityEvents: SecurityEventService,
+    private readonly notifications: NotificationsService,
     config: ConfigService,
   ) {
     this.jwtCfg = config.getOrThrow<JwtConfig>('jwt');
@@ -230,6 +232,13 @@ export class AuthService {
     );
 
     this.logger.log(`New user registered via ${payload.client}`);
+
+    // The two default messages the spec asks every new user to be sent.
+    // Deliberately not awaited: the account exists and the tokens are
+    // issued, and a welcome message that cannot be written must not turn a
+    // successful registration into a failed one. The service swallows its
+    // own errors and logs them.
+    void this.notifications.sendOnboarding(user.id);
 
     return { tokens, user: this.toPublicUser(user), alreadyRegistered: false };
   }

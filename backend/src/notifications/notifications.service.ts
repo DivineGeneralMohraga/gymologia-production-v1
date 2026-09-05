@@ -18,6 +18,19 @@ import { PermissionService, ActorContext } from '../rbac/permission.service';
 import type { RequestMeta } from '../gyms/gyms.service';
 import { BroadcastNotificationDto, SendNotificationDto } from './dto/notification.dto';
 
+/**
+ * The deep links on the two onboarding messages.
+ *
+ * These are the identifier, not the copy. The app matches on the link and
+ * renders its own translated text, so changing the English below is safe
+ * and changing these strings is not -- a message already sitting in
+ * somebody's inbox carries the old one.
+ */
+export const ONBOARDING_LINKS = {
+  becomeOwnerOrStaff: 'gymologia://settings/mode',
+  referral: 'gymologia://referral',
+} as const;
+
 /** Fan-out is chunked so one announcement cannot build a 10k-row insert. */
 const FANOUT_CHUNK = 500;
 
@@ -97,6 +110,63 @@ export class NotificationsService {
       sentTo: recipients.length,
       sentAt: notification.sentAt,
     };
+  }
+
+  /**
+   * The two messages the spec asks every new user to be sent.
+   *
+   * They existed as cards on the settings screen, which is not the same
+   * thing: a card is found by somebody who goes looking, and the point of
+   * these two is to tell a person something they do not yet know -- that
+   * the app has an owner/staff side, and that referring earns money. So
+   * they go to the inbox, where the header badge brings them to it.
+   *
+   * The stored text is English and the deep link is the real identifier.
+   * The app matches on the link and renders its own translated copy, which
+   * is how a message written once on the server can arrive in the reader's
+   * language; the stored English is what shows if it ever meets a client
+   * that does not recognise the link.
+   *
+   * Fire-and-forget from the caller's point of view. A welcome message
+   * failing must never fail the registration it is welcoming.
+   */
+  async sendOnboarding(userId: string): Promise<void> {
+    const messages = [
+      {
+        deepLink: ONBOARDING_LINKS.becomeOwnerOrStaff,
+        title: 'Do you run a gym, or work at one?',
+        body:
+          'Open Settings and switch to owner and staff mode. You can create a ' +
+          'gym there, or appear in one you already work at.',
+      },
+      {
+        deepLink: ONBOARDING_LINKS.referral,
+        title: 'Earn by referring',
+        body:
+          'Share a referral code and earn when a gym owner subscribes. ' +
+          'They get 10% off, you get paid.',
+      },
+    ];
+
+    try {
+      for (const m of messages) {
+        await this.prisma.notification.create({
+          data: {
+            source: NotificationSource.GYMOLOGIA,
+            audience: NotificationAudience.ALL_MEMBERS,
+            title: m.title,
+            body: m.body,
+            deepLink: m.deepLink,
+            recipients: { create: [{ userId, deliveredAt: new Date() }] },
+          },
+        });
+      }
+    } catch (error) {
+      // Never let a welcome message break the account it is welcoming.
+      this.logger.error(
+        `Onboarding notifications failed for ${userId}: ${(error as Error).message}`,
+      );
+    }
   }
 
   /**

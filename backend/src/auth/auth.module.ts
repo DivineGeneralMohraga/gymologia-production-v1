@@ -7,6 +7,7 @@ import { Msg91Service } from './msg91.service';
 import { TokenService } from './token.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { PaymentsModule } from '../payments/payments.module';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 @Global()
 @Module({
@@ -17,6 +18,9 @@ import { PaymentsModule } from '../payments/payments.module';
     // Only for CashfreeService, so /auth/config can tell the app which
     // Cashfree environment this server is pointed at.
     forwardRef(() => PaymentsModule),
+    // The two onboarding messages the spec asks every new user to be
+    // sent land in the inbox at registration.
+    forwardRef(() => NotificationsModule),
   ],
   controllers: [AuthController],
   providers: [AuthService, OtpService, Msg91Service, TokenService, JwtAuthGuard],

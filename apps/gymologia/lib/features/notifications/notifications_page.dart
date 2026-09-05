@@ -6,6 +6,33 @@ import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 import '../auth/auth_controller.dart';
 
+/// The two messages Gymologia sends every new account, keyed by the deep
+/// link the server puts on them.
+///
+/// A gym's announcement is written by a person and stored as they typed it,
+/// so it arrives in whatever language they wrote. These two are written by
+/// us, once, for everybody — so the server stores English and the real
+/// identifier is the link. Matching on it here lets the same stored row
+/// arrive in the reader's own language, using the copy that already exists
+/// for the same two prompts on the settings screen.
+///
+/// Returns null for anything else, and the caller falls back to the stored
+/// text — which is also what happens if these links ever change: an older
+/// message in somebody's inbox still reads correctly, in English.
+({String title, String body})? _localisedOnboarding(
+  AppLocalizations t,
+  Object? deepLink,
+) {
+  switch (deepLink) {
+    case 'gymologia://settings/mode':
+      return (title: t.switchToStaff, body: t.openingAGymNote);
+    case 'gymologia://referral':
+      return (title: t.earnByReferring, body: t.referralPitch);
+    default:
+      return null;
+  }
+}
+
 /// Announcements from the gyms someone belongs to, and from Gymologia.
 ///
 /// Opening one marks it read, which is the behaviour people expect from an
@@ -55,10 +82,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
     }
 
     if (!mounted) return;
+    final own = _localisedOnboarding(AppLocalizations.of(context), item['deepLink']);
     await showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(item['title'] as String? ?? ''),
+        title: Text(own?.title ?? item['title'] as String? ?? ''),
         content: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +99,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     ),
               ),
               const SizedBox(height: 12),
-              Text(item['body'] as String? ?? '',
+              Text(own?.body ?? item['body'] as String? ?? '',
                   style: const TextStyle(height: 1.5)),
             ],
           ),
@@ -166,6 +194,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         itemBuilder: (_, i) {
                           final item = items[i];
                           final read = item['read'] == true;
+                          final own = _localisedOnboarding(t, item['deepLink']);
                           return ListTile(
                             onTap: () => _open(item),
                             leading: Container(
@@ -180,7 +209,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                               ),
                             ),
                             title: Text(
-                              item['title'] as String? ?? '',
+                              own?.title ?? item['title'] as String? ?? '',
                               style: TextStyle(
                                 fontWeight:
                                     read ? FontWeight.w400 : FontWeight.w700,
@@ -191,7 +220,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                               children: [
                                 const SizedBox(height: 2),
                                 Text(
-                                  item['body'] as String? ?? '',
+                                  own?.body ?? item['body'] as String? ?? '',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),

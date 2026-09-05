@@ -178,9 +178,34 @@ INBOX=$(curl -s "$API/me/notifications" -H "Authorization: Bearer $MEMBER")
 echo "$INBOX" | grep -q "Closed Sunday" && ok "it is in their inbox" || bad "inbox" "$INBOX"
 echo "$INBOX" | grep -q "Unpaid Gym" && ok "attributed to the sending gym" || bad "attribution" "no gym name"
 
-STRANGER_INBOX=$(curl -s "$API/me/notifications" -H "Authorization: Bearer $STRANGER" | count items)
-[ "$STRANGER_INBOX" = "0" ] && ok "a non-member of that gym received nothing" \
-  || bad "fan-out scope" "stranger got $STRANGER_INBOX"
+# Scoped to the gym's announcement rather than counting the whole inbox.
+# This used to assert the stranger's inbox was empty, which stopped being
+# true the moment every new account started receiving the two onboarding
+# messages -- and "empty" was never what the check meant. What it is for is
+# that a gym's announcement reaches that gym's members and nobody else.
+STRANGER_INBOX=$(curl -s "$API/me/notifications" -H "Authorization: Bearer $STRANGER")
+echo "$STRANGER_INBOX" | grep -q "Closed Sunday" \
+  && bad "fan-out scope" "a non-member received the gym's announcement" \
+  || ok "a non-member of that gym did not receive its announcement"
+
+hdr "What a brand new account is told"
+# The spec asks for two default messages every user is sent: that there is
+# an owner/staff side to the app, and that referring earns money. They used
+# to be cards on the settings screen, which is a different thing -- a card
+# is found by somebody already looking. These arrive in the inbox, where
+# the header badge brings the reader to them.
+NEW_INBOX=$(curl -s "$API/me/notifications" -H "Authorization: Bearer $STRANGER")
+echo "$NEW_INBOX" | grep -q 'gymologia://settings/mode' \
+  && ok "a new account is told about owner/staff mode" \
+  || bad "onboarding staff msg" "$NEW_INBOX"
+echo "$NEW_INBOX" | grep -q 'gymologia://referral' \
+  && ok "and about earning by referring" \
+  || bad "onboarding referral msg" "$NEW_INBOX"
+# The deep link is the identifier the app localises against, so it matters
+# more than the stored English text and is what these assert on.
+echo "$NEW_INBOX" | grep -q '"from": *"Gymologia"' \
+  && ok "both are attributed to Gymologia, not a gym" \
+  || bad "onboarding attribution" "$NEW_INBOX"
 
 RID=$(curl -s "$API/me/notifications" -H "Authorization: Bearer $MEMBER" | python -c "
 import sys,json;d=json.load(sys.stdin);print(d['items'][0]['id'] if d['items'] else '')" 2>/dev/null)
