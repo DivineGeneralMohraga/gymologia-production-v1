@@ -24,6 +24,12 @@
  *                   the question it exists to answer.
  *   aadhaarLast     the last four digits are what a reviewer works from
  *                   and what the owner sees; they are not the number.
+ *   panLast4        the same rule as aadhaarLast, and the referral audit
+ *                   trail writes it: four digits do not reconstruct a PAN.
+ *   upiIdMasked     `sa*****@okhdfcbank`. Redacting it would leave no way
+ *                   to tell from the log which address a referrer changed
+ *                   their payouts to, which is the one question that trail
+ *                   exists to answer. The address itself is `upiId`, above.
  *   publicKey       public by definition -- it is half of a key exchange.
  *   idempotencyKey  not a credential; it identifies a payout attempt, and
  *                   seeing which one was retried is the trail's job.

@@ -198,6 +198,35 @@ STRIP=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH "$API/gyms/$GID/roles/$M
         -d '{"permissions":["ADD_MEMBER"]}')
 [ "$STRIP" = "403" ] && ok "a junior cannot rewrite a senior role" || bad "strip senior" "got $STRIP"
 
+# Removing a permission you do not hold, on a role you ARE allowed to edit.
+# The check above never reaches this: a junior is refused the senior role
+# outright, on hierarchy, before the permission diff is ever computed. So
+# the revoke rule had no test that actually ran it.
+#
+# Front Desk holds EDIT_PERMISSIONS and outranks level 85, but does not hold
+# MANAGE_STAFF. Stripping MANAGE_STAFF from a junior role is an exercise of
+# authority over a permission it does not have.
+JUNIOR=$(curl -s -X POST "$API/gyms/$GID/roles" -H "Authorization: Bearer $OWNER" \
+         -H 'Content-Type: application/json' \
+         -d '{"name":"Strippable","level":85,"permissions":["ADD_MEMBER","MANAGE_STAFF"]}' \
+         | python -c "import sys,json;print(json.load(sys.stdin).get('id',''))" 2>/dev/null)
+[ -n "$JUNIOR" ] && ok "owner created a role holding MANAGE_STAFF" || bad "junior role" "no id"
+
+REVOKE=$(curl -s -w "\n%{http_code}" -X PATCH "$API/gyms/$GID/roles/$JUNIOR" \
+         -H "Authorization: Bearer $DESK" -H 'Content-Type: application/json' \
+         -d '{"permissions":["ADD_MEMBER"]}')
+REVOKE_CODE=$(echo "$REVOKE" | tail -1)
+REVOKE_MSG=$(echo "$REVOKE" | head -n -1)
+[ "$REVOKE_CODE" = "403" ] && ok "cannot strip a permission you do not hold yourself" \
+  || bad "revoke" "got HTTP $REVOKE_CODE"
+
+# And the refusal has to name the right action. This said "you cannot GRANT
+# permissions you do not hold" to somebody removing one, which sends them
+# looking for a mistake they did not make. assertCanRevoke was written for
+# this and had no caller.
+echo "$REVOKE_MSG" | grep -qi "revoke" && ok "and the refusal says revoke, not grant" \
+  || bad "revoke wording" "message was: $REVOKE_MSG"
+
 OWNER_EDIT=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH "$API/gyms/$GID/roles/$OWNER_ROLE" \
              -H "Authorization: Bearer $MANAGER" -H 'Content-Type: application/json' \
              -d '{"name":"Boss"}')

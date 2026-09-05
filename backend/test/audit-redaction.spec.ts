@@ -76,6 +76,13 @@ const keeps = redactSnapshot({
   code: 'REF-4XY9',
   aadhaarLast: '4321',
   panLast: 'ABCDE',
+  // The real column is panLast4, and the referral payout trail writes it.
+  // Testing `panLast` alone proved nothing about the name actually used.
+  panLast4: '234F',
+  // `sa*****@okhdfcbank`. Redacting it would leave no way to tell from the
+  // log which address a referrer moved their payouts to, which is the one
+  // question that trail exists to answer.
+  upiIdMasked: 'sa*****@okhdfcbank',
   roleName: 'Manager',
   status: 'APPROVED',
   reason: 'Marked present on the wrong day',
@@ -86,6 +93,8 @@ for (const [key, want] of Object.entries({
   code: 'REF-4XY9',
   aadhaarLast: '4321',
   panLast: 'ABCDE',
+  panLast4: '234F',
+  upiIdMasked: 'sa*****@okhdfcbank',
   roleName: 'Manager',
   status: 'APPROVED',
   idempotencyKey: 'payout-attempt-7',
@@ -118,6 +127,31 @@ else bad('session row', 'the token hash came through');
 const otpRow = { id: 'fake', phone: '+919999999999', codeHash: SECRET, salt: SECRET };
 if (!survives(otpRow)) ok('a whole otp_challenge row leaks nothing');
 else bad('otp row', 'the code hash came through');
+
+// A referral_accounts row carries a payment address and a tax number. The
+// service deliberately writes a chosen subset into the audit log rather
+// than the row, but this is the shape it would take if anyone ever spread
+// it, and the masked handle and last four must still come through.
+const referralRow = {
+  id: 'fake',
+  userId: 'fake',
+  code: 'REF-4XY9',
+  upiIdEnc: SECRET,
+  upiIdMasked: 'sa*****@okhdfcbank',
+  upiHolderName: 'Sarthak Sharma',
+  upiVerified: true,
+  panEnc: SECRET,
+  panLast4: '234F',
+  panStatus: 'PENDING',
+};
+if (!survives(referralRow)) ok('a whole referral_accounts row leaks nothing');
+else bad('referral row', 'an encrypted value came through');
+const referralOut = redactSnapshot(referralRow) as Record<string, unknown>;
+if (referralOut.upiIdMasked === 'sa*****@okhdfcbank' && referralOut.panLast4 === '234F') {
+  ok('and the masked handle and last four still come through');
+} else {
+  bad('referral row survivors', JSON.stringify(referralOut));
+}
 
 const authPayload = { registrationToken: SECRET, phone: '+919999999999' };
 if (!survives(authPayload)) ok('a registration token leaks nothing');

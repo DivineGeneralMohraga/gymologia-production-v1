@@ -138,6 +138,17 @@ export class CryptoService {
       .digest('hex');
   }
 
+  /**
+   * Compare two secrets without leaking their contents through timing.
+   *
+   * This has no caller today, and that is deliberate rather than an
+   * oversight. The one comparison in the product that needs it -- the
+   * Cashfree webhook signature -- calls `timingSafeEqual` inline instead,
+   * so the payment client does not have to take a dependency that reads
+   * the encryption key out of config just to compare two buffers. It is
+   * kept here so that the next thing needing to compare a secret finds an
+   * obvious answer that is not `===`; the payout signing work will.
+   */
   constantTimeEquals(a: string, b: string): boolean {
     const bufA = Buffer.from(a, 'utf8');
     const bufB = Buffer.from(b, 'utf8');

@@ -205,10 +205,17 @@ export class RolesService {
       // Removing a permission is also an exercise of authority over it.
       // Without this, someone who cannot grant MANAGE_STAFF could still
       // strip it from a role that has it.
+      //
+      // assertCanRevoke, not assertCanGrant. The two have identical bodies,
+      // so the rule enforced here was always right -- but the refusal read
+      // "you cannot GRANT permissions you do not hold" to somebody who was
+      // trying to remove one, which sends them looking for the wrong
+      // mistake. assertCanRevoke was written for this line and had no
+      // caller anywhere in the codebase.
       const removed = before.permissions
         .map((p) => p.permission)
         .filter((p) => !permissions!.includes(p));
-      this.permissions.assertCanGrant(actor, removed);
+      this.permissions.assertCanRevoke(actor, removed);
     }
 
     await this.prisma.$transaction(async (tx) => {
