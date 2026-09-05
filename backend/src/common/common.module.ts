@@ -1,6 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { CryptoService } from './crypto/crypto.service';
 import { SecurityEventService } from './security/security-event.service';
+import { IpBlockService } from './security/ip-block.service';
 import { AuditService } from './audit/audit.service';
 
 /**
@@ -9,7 +10,7 @@ import { AuditService } from './audit/audit.service';
  */
 @Global()
 @Module({
-  providers: [CryptoService, SecurityEventService, AuditService],
-  exports: [CryptoService, SecurityEventService, AuditService],
+  providers: [CryptoService, SecurityEventService, AuditService, IpBlockService],
+  exports: [CryptoService, SecurityEventService, AuditService, IpBlockService],
 })
 export class CommonModule {}

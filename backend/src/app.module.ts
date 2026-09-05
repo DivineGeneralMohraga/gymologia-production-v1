@@ -8,6 +8,7 @@ import configuration from './config/configuration';
 import { validateEnv } from './config/env.validation';
 import { PrismaModule } from './prisma/prisma.module';
 import { CommonModule } from './common/common.module';
+import { IpBlockGuard } from './common/security/ip-block.guard';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { RbacModule } from './rbac/rbac.module';
@@ -77,7 +78,12 @@ import { InputSanitizerInterceptor } from './common/interceptors/input-sanitizer
   ],
   controllers: [HealthController],
   providers: [
-    // Order matters: throttle, then authenticate, then authorize.
+    // Order matters: refuse blocked addresses, then throttle, then
+    // authenticate, then authorize. The block guard is first so a caller
+    // that has already earned one costs a Map lookup and nothing else --
+    // no throttler bookkeeping, no token verification, no database. The
+    // point of blocking an attacker is to stop paying for them.
+    { provide: APP_GUARD, useClass: IpBlockGuard },
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_GUARD, useClass: PermissionsGuard },

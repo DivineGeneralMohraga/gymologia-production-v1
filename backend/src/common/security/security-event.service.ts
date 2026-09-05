@@ -1,6 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Prisma, SecurityEventType, Severity } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
+import { IpBlockService } from './ip-block.service';
+import { decide, isExempt, ruleFor } from './ip-block.policy';
 
 export interface SecurityEventInput {
   type: keyof typeof SecurityEventType;
@@ -19,17 +21,26 @@ export interface SecurityEventInput {
  * Everything suspicious lands here: OTP farming, brute force, permission
  * probing, webhook signatures that do not verify, payout velocity spikes,
  * injection signatures in input. Two consumers read it — the admin app's
- * log viewer, and the throttling logic that decides whether an IP or an
- * account has earned a temporary block.
+ * log viewer, and the blocking logic below, which decides whether an
+ * address has earned a temporary refusal.
+ *
+ * That second consumer used to be a claim rather than a fact: this file
+ * described it and exposed `countRecent` for it, and nothing in the
+ * codebase called that method. Detection recorded; nothing acted.
  *
  * Recording is deliberately fire-and-forget: a failure to write telemetry
- * must never turn into a failure of the request being protected.
+ * must never turn into a failure of the request being protected. The same
+ * applies to the block evaluation that follows it — if counting throws,
+ * the request carries on unblocked.
  */
 @Injectable()
 export class SecurityEventService {
   private readonly logger = new Logger(SecurityEventService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly blocks: IpBlockService,
+  ) {}
 
   async record(input: SecurityEventInput): Promise<void> {
     try {
@@ -55,6 +66,71 @@ export class SecurityEventService {
       // Never let telemetry break the request it is observing.
       this.logger.error(
         `Failed to record security event ${input.type}: ${(error as Error).message}`,
+      );
+    }
+
+    await this.considerBlocking(input);
+  }
+
+  /**
+   * Has this address now done enough of this to be refused for a while?
+   *
+   * Only runs for the few event types that carry a rule, and only for
+   * addresses that are blockable at all, so the common case costs one Map
+   * lookup and no query. A failure here is swallowed: the worst outcome
+   * of a broken counter must be an attacker who is merely rate limited,
+   * never a legitimate request that fails because telemetry did.
+   */
+  private async considerBlocking(input: SecurityEventInput): Promise<void> {
+    const rule = ruleFor(input.type);
+    if (!rule) return;
+    if (isExempt(input.ip)) return;
+
+    const ip = input.ip as string;
+    try {
+      const seen = await this.countRecent(input.type, rule.windowMinutes, { ip });
+      const verdict = decide(input.type, seen);
+      if (!verdict) return;
+
+      const newlyBlocked = this.blocks.block(
+        ip,
+        verdict.blockMinutes,
+        `${seen} ${input.type} in ${rule.windowMinutes}m`,
+      );
+
+      // One log entry per block, not one per evaluation that reached the
+      // same conclusion. Recording is fire-and-forget, so a burst of
+      // probes produces several concurrent evaluations that each count
+      // after all the rows have landed; before this check that wrote three
+      // IP_BLOCKED rows for a single block, which reads as three separate
+      // incidents to whoever opens the log.
+      if (!newlyBlocked) return;
+
+      // The block is itself an action taken against a caller, so it goes
+      // in the same log as the events that earned it. Without this an
+      // operator sees the attack and cannot tell what was done about it.
+      await this.prisma.securityEvent
+        .create({
+          data: {
+            type: SecurityEventType.IP_BLOCKED,
+            severity: Severity.HIGH,
+            userId: input.userId ?? null,
+            ip: this.truncate(ip, 64),
+            route: this.truncate(input.route, 200),
+            details: {
+              trigger: input.type,
+              seen,
+              windowMinutes: rule.windowMinutes,
+              threshold: rule.threshold,
+              because: rule.because,
+            },
+            actionTaken: `blocked for ${verdict.blockMinutes} minutes`,
+          },
+        })
+        .catch(() => undefined);
+    } catch (error) {
+      this.logger.error(
+        `Block evaluation failed for ${input.type}: ${(error as Error).message}`,
       );
     }
   }

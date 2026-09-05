@@ -1358,6 +1358,7 @@ enum SecurityEventType {
   REFERRAL_FRAUD
   SUSPICIOUS_UPLOAD
   ANOMALOUS_LOGIN
+  IP_BLOCKED
 }
 
 enum Severity {

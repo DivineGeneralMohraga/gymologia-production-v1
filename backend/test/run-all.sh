@@ -36,6 +36,7 @@ set -u
 
 SUITES="
 unit-specs
+ip-block-e2e
 crm-e2e
 crm-management-e2e
 payments-e2e

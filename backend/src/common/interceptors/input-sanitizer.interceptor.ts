@@ -49,10 +49,16 @@ const MAX_STRING_SAMPLE = 400;
 
 /**
  * Watches request bodies and query strings for attack signatures and
- * records what it sees. It observes rather than blocks: a false positive
- * that rejects a legitimate gym description ("Perks: 24/7 access -- best
- * rates") would be a worse outcome than a logged event nobody acts on.
- * Genuine blocking happens at the throttler and the WAF.
+ * records what it sees. It does not reject the request it is looking at:
+ * a false positive that turned away a legitimate gym description ("Perks:
+ * 24/7 access -- best rates") would be a worse outcome than a logged
+ * event.
+ *
+ * Repetition is a different matter. The events recorded here feed the
+ * block policy, so an address that produces several of these inside ten
+ * minutes is refused for a while — one probe is a maybe, five is an
+ * answer. See common/security/ip-block.policy.ts for the numbers and why
+ * they are where they are.
  */
 @Injectable()
 export class InputSanitizerInterceptor implements NestInterceptor {
