@@ -101,16 +101,25 @@ CODE=$(curl -s -o /dev/null -w "%{http_code}" "$API/admin/kyc/$GYM" -H "Authoriz
 [ "$CODE" = "403" ] && ok "nor one gym's documents" || bad "support detail blocked" "got HTTP $CODE"
 
 hdr "The queue"
+# "No full Aadhaar anywhere in it" is trivially true of an empty response,
+# so each of these pairs a positive assertion with the negative one. The
+# positive check is what makes the negative one mean something: without it
+# a crashed request prints a reassuring green line about privacy holding
+# while having examined nothing at all.
 Q=$(curl -s "$API/admin/kyc" -H "Authorization: Bearer $REVIEWER")
 echo "$Q" | grep -q "$GYM" && ok "the submission is waiting in it" || bad "queue" "$Q"
-echo "$Q" | grep -q "$AADHAAR" && bad "full Aadhaar in the queue" "$Q" \
-                              || ok "with no full Aadhaar anywhere in it"
+echo "$Q" | grep -q "$GYM" \
+  && { echo "$Q" | grep -q "$AADHAAR" && bad "full Aadhaar in the queue" "$Q" \
+                                      || ok "with no full Aadhaar anywhere in it"; } \
+  || bad "queue privacy" "nothing to inspect: ${Q:-<nothing>}"
 
 D=$(curl -s "$API/admin/kyc/$GYM" -H "Authorization: Bearer $REVIEWER")
 [ "$(echo "$D" | field aadhaarLast4)" = "0124" ] && ok "detail shows the last four" \
   || bad "detail last4" "$(echo "$D" | field aadhaarLast4)"
-echo "$D" | grep -q "$AADHAAR" && bad "full Aadhaar in the detail" "$D" \
-                              || ok "and never the whole number"
+[ "$(echo "$D" | field aadhaarLast4)" = "0124" ] \
+  && { echo "$D" | grep -q "$AADHAAR" && bad "full Aadhaar in the detail" "$D" \
+                                     || ok "and never the whole number"; } \
+  || bad "detail privacy" "nothing to inspect: ${D:-<nothing>}"
 
 hdr "Deciding"
 CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/admin/kyc/$GYM/decision" \

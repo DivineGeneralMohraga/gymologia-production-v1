@@ -107,6 +107,17 @@ hdr "What comes back out"
 GET=$(curl -s "$API/gyms/$GYM/kyc" -H "Authorization: Bearer $OWNER")
 [ "$(echo "$GET" | field aadhaarLast4)" = "0124" ] && ok "only the last four of the Aadhaar" \
   || bad "aadhaar last4" "$(echo "$GET" | field aadhaarLast4)"
+# The two checks below assert an ABSENCE, and an absence is trivially true
+# of an empty string. The last4 check above would already fail the suite if
+# this response were empty -- but these two would still print PASS beside
+# it, and "the full Aadhaar is never returned" is exactly the green line
+# somebody would read past. So say plainly that there was something to look
+# at first. (Two checks of this shape were found passing against a 500
+# elsewhere in this suite set; see events-notifications-e2e and chat-e2e.)
+echo "$GET" | grep -q 'aadhaarLast4' \
+  && ok "the response has something in it to inspect" \
+  || bad "empty kyc response" "${GET:-<nothing>}"
+
 echo "$GET" | grep -q "$AADHAAR" \
   && bad "full Aadhaar leaked in the response" "$GET" \
   || ok "the full Aadhaar is never returned"
