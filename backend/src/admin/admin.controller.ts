@@ -1,5 +1,6 @@
 import {
-  Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query, Req, UseGuards,
+  Body, Controller, Delete, Get, NotFoundException, Param, ParseUUIDPipe, Patch,
+  Post, Query, Req, UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AdminRole } from '@prisma/client';
@@ -11,6 +12,7 @@ import { NotificationAudience } from '@prisma/client';
 import { AdminGuard, RequireAdminRole } from './admin.guard';
 import type { AdminContext } from './admin.guard';
 import { CurrentAdmin } from './admin.decorators';
+import { IpBlockService } from '../common/security/ip-block.service';
 import {
   AddAdminStaffDto,
   AdminLookupDto,
@@ -40,6 +42,7 @@ export class AdminController {
   constructor(
     private readonly admin: AdminService,
     private readonly notifications: NotificationsService,
+    private readonly ipBlocks: IpBlockService,
   ) {}
 
   @Get('me')
@@ -188,5 +191,36 @@ export class AdminController {
   @ApiOperation({ summary: 'Refused access, OTP abuse, bad signatures' })
   securityLog(@Query() dto: ListLogsDto) {
     return this.admin.securityLog(dto);
+  }
+
+  /**
+   * Automatic blocks are still decisions made about real people, and an
+   * automatic decision nobody can see or reverse is the wrong kind. These
+   * two endpoints exist so an operator can answer "why can this gym not
+   * reach the app?" and act on the answer.
+   *
+   * The block list lives in the process, not the database, so this reports
+   * what *this* instance is refusing. Restarting clears it, which is also
+   * the crudest way to lift every block at once.
+   */
+  @Get('security/blocks')
+  @RequireAdminRole(AdminRole.ADMIN)
+  @ApiOperation({ summary: 'Addresses currently refused, and for how long' })
+  blockedAddresses() {
+    const blocks = this.ipBlocks.active();
+    return { blocks, count: blocks.length };
+  }
+
+  @Delete('security/blocks/:ip')
+  @RequireAdminRole(AdminRole.ADMIN)
+  @ApiOperation({ summary: 'Lift a block early' })
+  liftBlock(@Param('ip') ip: string) {
+    // 404 rather than a cheerful 200: "already gone" and "never blocked"
+    // look the same to the caller otherwise, and an operator who typed the
+    // address wrong would believe they had fixed something.
+    if (!this.ipBlocks.unblock(ip)) {
+      throw new NotFoundException('That address is not currently blocked.');
+    }
+    return { lifted: ip };
   }
 }

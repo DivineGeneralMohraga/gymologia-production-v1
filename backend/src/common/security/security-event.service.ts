@@ -18,11 +18,17 @@ export interface SecurityEventInput {
 /**
  * The defensive telemetry sink.
  *
- * Everything suspicious lands here: OTP farming, brute force, permission
- * probing, webhook signatures that do not verify, payout velocity spikes,
- * injection signatures in input. Two consumers read it — the admin app's
- * log viewer, and the blocking logic below, which decides whether an
- * address has earned a temporary refusal.
+ * What lands here today: OTP farming and code guessing, tokens that do not
+ * verify, permission probing, webhook signatures that fail, logins that
+ * look out of character, and injection signatures in input. The enum also
+ * carries RATE_LIMIT_TRIPPED, PAYOUT_VELOCITY, REFERRAL_FRAUD and
+ * SUSPICIOUS_UPLOAD, and nothing writes any of them — they are room left
+ * for later, not features. This comment used to list payout velocity as
+ * though it were arriving.
+ *
+ * Two consumers read it — the admin app's log viewer, and the blocking
+ * logic below, which decides whether an address has earned a temporary
+ * refusal.
  *
  * That second consumer used to be a claim rather than a fact: this file
  * described it and exposed `countRecent` for it, and nothing in the

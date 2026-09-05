@@ -66,7 +66,7 @@ for (const ip of ['203.0.113.7', '8.8.8.8', '172.15.0.1', '172.32.0.1', '1.2.3.4
 }
 
 hdr('Which signals carry a rule at all');
-for (const type of ['INJECTION_ATTEMPT', 'BRUTE_FORCE', 'OTP_ABUSE', 'INVALID_TOKEN'] as const) {
+for (const type of ['INJECTION_ATTEMPT', 'OTP_ABUSE', 'INVALID_TOKEN'] as const) {
   is(`${type} has a rule`, ruleFor(type) !== undefined, true);
 }
 // Blocking on these would punish the wrong person; see the policy file.
@@ -78,6 +78,28 @@ for (const type of [
   'PAYOUT_VELOCITY',
 ] as const) {
   is(`${type} deliberately has no rule`, ruleFor(type) === undefined, true);
+}
+
+// A rule for a signal nothing emits never fires, and makes the policy read
+// as more protective than it is. This asserts the invariant rather than the
+// one instance: every rule must name a type something in src/ actually
+// records. BRUTE_FORCE failed this and was removed -- the enum has it, and
+// the only occurrence in the whole of src/ was the policy naming it.
+const RECORDED_SOMEWHERE = new Set([
+  'OTP_ABUSE',
+  'INVALID_TOKEN',
+  'PERMISSION_DENIED',
+  'INJECTION_ATTEMPT',
+  'WEBHOOK_SIGNATURE_INVALID',
+  'ANOMALOUS_LOGIN',
+  'IP_BLOCKED',
+]);
+for (const rule of BLOCK_RULES) {
+  is(
+    `${rule.type} is a signal something actually records`,
+    RECORDED_SOMEWHERE.has(rule.type),
+    true,
+  );
 }
 
 hdr('The threshold is a floor, not a fence');

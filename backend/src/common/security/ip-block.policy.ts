@@ -60,20 +60,27 @@ export const BLOCK_RULES: readonly BlockRule[] = [
       'or name field; five is a margin against an over-eager sanitizer rule',
   },
   {
-    type: 'BRUTE_FORCE',
-    windowMinutes: 10,
-    threshold: 10,
-    blockMinutes: 30,
-    because: 'repeated credential guessing has no innocent reading',
-  },
-  {
+    // Covers both halves of OTP attack: farming codes for numbers you do
+    // not own, and guessing the code for one you are trying to take. The
+    // verify path records this on every wrong code and the request path
+    // records it when the quota is exceeded, so credential guessing is
+    // caught here and does not need a rule of its own.
+    //
+    // There was a BRUTE_FORCE rule beside this one until it was checked.
+    // The enum has the value, but nothing in the codebase ever records it
+    // -- the only occurrence of BRUTE_FORCE in src/ was this policy file
+    // naming it. A rule for a signal that is never emitted never fires,
+    // and its only real effect is to make this table look more protective
+    // than it is. If a distinct brute-force signal is ever recorded, add
+    // the rule back with it, not before.
     type: 'OTP_ABUSE',
     windowMinutes: 15,
     threshold: 20,
     blockMinutes: 15,
     because:
       'set high because one mobile carrier NAT can carry a whole city; ' +
-      'twenty in a quarter of an hour is farming, not a gym signing members up',
+      'twenty in a quarter of an hour is farming or guessing, not a gym ' +
+      'signing members up',
   },
   {
     type: 'INVALID_TOKEN',

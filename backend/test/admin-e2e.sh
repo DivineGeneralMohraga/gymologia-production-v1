@@ -162,6 +162,27 @@ S_TICKETS=$(curl -s -o /dev/null -w "%{http_code}" "$API/admin/tickets" -H "Auth
 [ "$S_TICKETS" = "200" ] && ok "and can read the support queue, which is the job" \
   || bad "support tickets" "got $S_TICKETS"
 
+S_BLOCKS=$(curl -s -o /dev/null -w "%{http_code}" "$API/admin/security/blocks" -H "Authorization: Bearer $SUPPORT")
+[ "$S_BLOCKS" = "403" ] && ok "and cannot see or lift address blocks" \
+  || bad "support blocks" "got $S_BLOCKS, expected 403"
+
+hdr "Seeing and undoing an automatic block"
+# An automatic decision nobody can inspect or reverse is the wrong kind, so
+# these exist for the operator who has to answer "why can this gym not
+# reach the app?" The list is per-instance and in memory, so this checks
+# the shape of the answer rather than a particular address being in it.
+BLOCKS=$(curl -s "$API/admin/security/blocks" -H "Authorization: Bearer $ADMIN")
+echo "$BLOCKS" | grep -q '"blocks"' && echo "$BLOCKS" | grep -q '"count"' \
+  && ok "an admin can list what is currently refused" \
+  || bad "list blocks" "$BLOCKS"
+
+# 198.51.100.0/24 is TEST-NET-2, reserved for documentation, so this can
+# never name a real host.
+LIFT=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE \
+       "$API/admin/security/blocks/198.51.100.201" -H "Authorization: Bearer $ADMIN")
+[ "$LIFT" = "404" ] && ok "lifting a block that is not there is a 404, not a cheerful 200" \
+  || bad "lift missing block" "got $LIFT, expected 404"
+
 hdr "Guarding the last owner"
 # Identify both records through /admin/me rather than picking the first row
 # with a matching role. The database keeps admins from previous runs, so
