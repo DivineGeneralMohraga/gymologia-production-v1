@@ -295,6 +295,41 @@ d=json.load(sys.stdin)
 print('yes' if any(n['title']=='Scheduled maintenance' for n in d) else 'no')" 2>/dev/null)
 [ "$HIST" = "yes" ] && ok "it appears in what Gymologia has announced" || bad "history" "$HIST"
 
+# ALL_REFERRERS went from always-empty to real without a line of this code
+# changing. It resolved to nobody for as long as nothing in the product
+# could create a referral account; asking for your own code creates one
+# now, so the audience quietly became live and nothing re-checked it. Every
+# platform audience is sized here rather than only the one that was
+# convenient at the time.
+for AUD in ALL_MEMBERS ALL_STAFF ALL_OWNERS ALL_REFERRERS EVERYONE; do
+  A=$(curl -s "$API/admin/broadcast/audience?audience=$AUD" -H "Authorization: Bearer $OWNER_TOKEN")
+  AN=$(echo "$A" | field recipients)
+  case "$AN" in
+    ''|*[!0-9]*) bad "audience $AUD" "not a number: ${A:-<nothing>}" ;;
+    *)           ok "$AUD sizes to $AN" ;;
+  esac
+done
+
+# And the one that just went live must actually find somebody. This suite
+# enrols its own referrer rather than relying on one another suite happened
+# to leave behind: a check that passes on residue from a neighbour is not
+# testing this endpoint.
+BEFORE_REF=$(curl -s "$API/admin/broadcast/audience?audience=ALL_REFERRERS" \
+             -H "Authorization: Bearer $OWNER_TOKEN" | field recipients)
+CODE=$(curl -s "$API/me/referral" -H "Authorization: Bearer $CIVILIAN" | field code)
+[ -n "$CODE" ] && ok "an ordinary person took a referral code ($CODE)" \
+               || bad "referral enrol" "no code came back"
+
+AFTER_REF=$(curl -s "$API/admin/broadcast/audience?audience=ALL_REFERRERS" \
+            -H "Authorization: Bearer $OWNER_TOKEN" | field recipients)
+if [ -n "$BEFORE_REF" ] && [ -n "$AFTER_REF" ] 2>/dev/null; then
+  [ "$AFTER_REF" -gt "$BEFORE_REF" ] 2>/dev/null \
+    && ok "and ALL_REFERRERS grew to include them ($BEFORE_REF then $AFTER_REF)" \
+    || bad "ALL_REFERRERS" "stayed at $AFTER_REF -- the audience that resolved to nobody still does"
+else
+  bad "ALL_REFERRERS" "nothing to inspect: '${BEFORE_REF:-<nothing>}' then '${AFTER_REF:-<nothing>}'"
+fi
+
 # Support staff must not be able to message the whole platform.
 S_CAST=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/admin/broadcast" \
          -H "Authorization: Bearer $CIVILIAN" -H 'Content-Type: application/json' \

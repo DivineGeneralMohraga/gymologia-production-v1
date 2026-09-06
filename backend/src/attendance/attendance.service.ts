@@ -347,28 +347,43 @@ export class AttendanceService {
           _count: { _all: true },
           orderBy: { date: "asc" },
         }),
-        this.prisma.attendanceRecord.findMany({
-          where: {
-            gymId: actor.gymId,
-            subjectType: SubjectType.MEMBER,
-            status: AttendanceStatus.PRESENT,
-            date: { gte: sinceDay },
-          },
-          distinct: ["subjectId"],
-          select: { subjectId: true },
-        }),
+        // Counted in the database, not by fetching the rows and measuring
+        // the array.
+        //
+        // This is the same bug the admin dashboard had and had fixed --
+        // and the fix did not reach here, because the two were written at
+        // different times and nothing connected them. The old version
+        // pulled one row for every distinct member who attended in the
+        // window, across the wire, to produce a single integer. It is
+        // correct, it is fast on a gym with nine members, and it gets
+        // steadily worse for exactly the gyms that are succeeding.
+        this.prisma.$queryRaw<{ count: number }[]>`
+          SELECT COUNT(DISTINCT "subjectId")::int AS count
+          FROM attendance_records
+          WHERE "gymId" = ${actor.gymId}::uuid
+            AND "subjectType"::text = 'MEMBER'
+            AND status::text = 'PRESENT'
+            AND date >= ${sinceDay}
+        `,
       ]);
+
+    // Read once into a name. Both figures below derive from it, and when
+    // this was a row array the second one used `.length` -- which the
+    // typechecker was happy with after the change, because an array of one
+    // count row still has a length. It would have reported every gym's
+    // engagement as 1 divided by its member count.
+    const engagedMembers = distinctAttendees[0]?.count ?? 0;
 
     return {
       windowDays: days,
       activeMembers,
       joinedInWindow: joined,
       /** Members who came at least once — the spec's "engagement" figure. */
-      engagedMembers: distinctAttendees.length,
+      engagedMembers,
       engagementRate:
         activeMembers === 0
           ? 0
-          : Math.round((distinctAttendees.length / activeMembers) * 100),
+          : Math.round((engagedMembers / activeMembers) * 100),
       dailyPresent: attendanceRows.map((row) => ({
         date: row.date,
         count: row._count._all,

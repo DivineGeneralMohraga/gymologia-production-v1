@@ -397,9 +397,15 @@ export class NotificationsService {
    * Platform-wide audiences. A person is counted once however many gyms
    * they belong to or work at.
    *
-   * ALL_REFERRERS resolves to nobody today because referral accounts do not
-   * exist yet; that is deliberate rather than an oversight, and the empty
-   * result is refused above rather than sending to nobody silently.
+   * ALL_REFERRERS used to resolve to nobody, because nothing in the product
+   * could create a referral account. That is no longer true: asking for
+   * your own code creates one, so this audience is now the people who have
+   * done that -- which is the right definition of a referrer, and a
+   * different set from "everyone", so it is worth knowing it went from
+   * always-empty to real without anyone changing this file.
+   *
+   * An empty audience is still refused by the caller rather than sent to
+   * nobody silently.
    */
   private async resolvePlatformAudience(
     audience: NotificationAudience,

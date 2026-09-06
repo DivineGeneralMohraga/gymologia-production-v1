@@ -322,6 +322,55 @@ print(sum(1 for r in rows if str(r.get('date',''))[:10]=='$TODAY_IST'))" 2>/dev/
 [ "${MARKED:-0}" -ge 1 ] && ok "today's attendance is filed under today's Indian date" \
   || bad "IST attendance day" "no record on $TODAY_IST"
 
+hdr "Engagement"
+# A SECOND attending member, and the reason is the whole point of this
+# section. With one, "count the distinct attendees" and "measure the length
+# of the row array" both answer 1, so the check below would pass against
+# either -- the exact shape of a check that cannot fail. With two present
+# out of three active it is 67% the right way and 33% the wrong way.
+P_MEMBER2="+9197600${STAMP}5"
+login "$P_MEMBER2" "Second Member" > /dev/null
+M2RES=$(add_member "$OWNER" "$GID" "$P_MEMBER2" "Second Member")
+M2USER=$(echo "$M2RES" | nested user id)
+[ -n "$M2USER" ] && ok "a second member joined" || bad "second member" "$M2RES"
+
+curl -s -X POST "$API/gyms/$GID/attendance" -H "Authorization: Bearer $OWNER" \
+  -H 'Content-Type: application/json' \
+  -d "{\"subjectType\":\"MEMBER\",\"subjectId\":\"$M2USER\",\"status\":\"PRESENT\"}" > /dev/null
+
+# engagedMembers used to be produced by fetching one row per attending
+# member and taking the array's length. Counting it in the database instead
+# is invisible to a test that only asks whether the rate is a percentage --
+# which is what the admin suite asked, and why nothing caught the moment the
+# rate started being computed from a different number than the count beside
+# it. These two must agree with each other and with the members marked
+# present above.
+SUM=$(curl -s "$API/gyms/$GID/attendance/analytics" -H "Authorization: Bearer $OWNER")
+ENGAGED=$(echo "$SUM" | python -c "import sys,json;print(json.load(sys.stdin)['engagedMembers'])" 2>/dev/null)
+ACTIVE=$(echo "$SUM" | python -c "import sys,json;print(json.load(sys.stdin)['activeMembers'])" 2>/dev/null)
+RATE=$(echo "$SUM" | python -c "import sys,json;print(json.load(sys.stdin)['engagementRate'])" 2>/dev/null)
+
+[ -n "$ENGAGED" ] && [ "$ENGAGED" -ge 2 ] 2>/dev/null \
+  && ok "engagedMembers counts the members who actually turned up ($ENGAGED)" \
+  || bad "engagedMembers" "got '${ENGAGED:-<nothing>}', expected at least 2"
+
+# Which of these two actually discriminates is worth being precise about,
+# because I got it wrong first time. The COUNT above is the one that
+# catches the bug: reverting the fix makes engagedMembers report 1 instead
+# of 2 and that check fails. The consistency check below passes against the
+# broken version -- 1 engaged of 3 active is 33%, which is perfectly
+# self-consistent. It is not redundant, but it guards a different thing:
+# that the count and the rate are never again computed from two different
+# sources, which is what the original bug actually was.
+if [ -n "$ENGAGED" ] && [ -n "$ACTIVE" ] && [ -n "$RATE" ]; then
+  WANT=$(python -c "print(round(($ENGAGED/$ACTIVE)*100) if $ACTIVE else 0)" 2>/dev/null)
+  [ "$RATE" = "$WANT" ] \
+    && ok "engagementRate agrees with the count beside it ($RATE%)" \
+    || bad "engagementRate" "reported $RATE, but $ENGAGED of $ACTIVE is $WANT"
+else
+  bad "engagementRate" "nothing to inspect: ${SUM:-<nothing>}"
+fi
+
 # Marking a second time the same Indian day must update the one record
 # rather than create another under a different UTC date.
 curl -s -X POST "$API/gyms/$GID/attendance" -H "Authorization: Bearer $OWNER" \
