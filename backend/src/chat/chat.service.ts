@@ -83,37 +83,61 @@ export class ChatService {
       },
     });
 
-    const shaped = await Promise.all(
-      rows.map(async (row) => {
-        const c = row.conversation;
-        const last = c.messages[0];
-
-        const unread = await this.prisma.message.count({
-          where: {
-            conversationId: c.id,
-            deletedAt: null,
-            senderId: { not: userId },
-            ...(row.lastReadAt ? { createdAt: { gt: row.lastReadAt } } : {}),
-          },
-        });
-
-        return {
-          id: c.id,
-          type: c.type,
-          name: this.displayName(c, row.userId),
-          memberCount: c._count.members,
-          lastMessage: last
-            ? {
-                preview: this.previewOf(last),
-                at: last.createdAt,
-                fromMe: last.senderId === userId,
-              }
-            : null,
-          lastMessageAt: c.lastMessageAt,
-          unread,
-        };
-      }),
+    // Unread counts for every conversation in ONE query.
+    //
+    // This used to be a `message.count` inside `rows.map`, which is one
+    // round trip per conversation: the classic N+1. It is invisible on a
+    // test account with two standing groups and it is the whole cost of
+    // the screen for a member of a busy gym, who opens chat and waits for
+    // one query per conversation they belong to, in sequence.
+    //
+    // The per-row `lastReadAt` is what makes this awkward to express in
+    // Prisma -- each conversation has its own cutoff, so a single groupBy
+    // cannot carry it. Joining conversation_members supplies each row's own
+    // cutoff, which is exactly what the loop was doing one at a time.
+    const conversationIds = rows.map((r) => r.conversation.id);
+    const unreadRows =
+      conversationIds.length === 0
+        ? []
+        : await this.prisma.$queryRaw<Array<{ conversationId: string; count: number }>>`
+            SELECT m."conversationId", COUNT(*)::int AS count
+            FROM messages m
+            JOIN conversation_members cm
+              ON cm."conversationId" = m."conversationId"
+             AND cm."userId" = ${userId}::uuid
+            WHERE m."deletedAt" IS NULL
+              AND m."senderId" <> ${userId}::uuid
+              AND (cm."lastReadAt" IS NULL OR m."createdAt" > cm."lastReadAt")
+              AND m."conversationId" = ANY(${conversationIds}::uuid[])
+            GROUP BY m."conversationId"
+          `;
+    const unreadByConversation = new Map(
+      unreadRows.map((u) => [u.conversationId, Number(u.count)]),
     );
+
+    const shaped = rows.map((row) => {
+      const c = row.conversation;
+      const last = c.messages[0];
+      // Absent from the result means none unread, not missing data: the
+      // GROUP BY only returns conversations that have at least one.
+      const unread = unreadByConversation.get(c.id) ?? 0;
+
+      return {
+        id: c.id,
+        type: c.type,
+        name: this.displayName(c, row.userId),
+        memberCount: c._count.members,
+        lastMessage: last
+          ? {
+              preview: this.previewOf(last),
+              at: last.createdAt,
+              fromMe: last.senderId === userId,
+            }
+          : null,
+        lastMessageAt: c.lastMessageAt,
+        unread,
+      };
+    });
 
     // Standing groups first, then whatever has spoken most recently.
     return shaped.sort((a, b) => {

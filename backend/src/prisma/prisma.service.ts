@@ -40,13 +40,32 @@ export class PrismaService
     this.$on('warn', (e) => this.logger.warn(e.message));
     this.$on('error', (e) => this.logger.error(e.message));
 
-    if (process.env.NODE_ENV !== 'production') {
-      this.$on('query', (e) => {
-        if (e.duration > 200) {
-          this.logger.debug(`slow query ${e.duration}ms: ${e.query}`);
-        }
-      });
-    }
+    // Every query is counted; only the slow ones are printed.
+    //
+    // The threshold used to be a hardcoded 200ms, and against a hosted
+    // pooler on the other side of the internet that is not a slow query,
+    // it is the round trip. One test run produced 1,028 "slow query" lines
+    // of which 990 were between 200 and 300ms and none were over a second.
+    // A label that fires on everything is not a signal, and it is exactly
+    // the noise a genuinely slow query would hide in. The default is a
+    // second now, and PRISMA_SLOW_QUERY_MS moves it -- setting it to 0
+    // prints every statement, which is how to count queries per request
+    // and find an N+1.
+    const slowMs = Number(process.env.PRISMA_SLOW_QUERY_MS ?? 1000);
+
+    this.$on('query', (e) => {
+      this.queryCount += 1;
+      if (process.env.NODE_ENV !== 'production' && e.duration >= slowMs) {
+        this.logger.debug(`slow query ${e.duration}ms: ${e.query}`);
+      }
+    });
+  }
+
+  private queryCount = 0;
+
+  /** Statements issued since boot. Cheap, and the only way to see an N+1. */
+  get queriesIssued(): number {
+    return this.queryCount;
   }
 
   async onModuleDestroy(): Promise<void> {
