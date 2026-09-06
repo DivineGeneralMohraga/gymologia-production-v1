@@ -23,6 +23,30 @@ migrations, restarts the service, and waits for the health check.
 **If the new build does not come healthy within 100 seconds it rolls back
 to the previous commit automatically** and prints the last 60 log lines.
 
+### When there is no remote to pull from
+
+```bash
+./backend/deploy.sh --no-pull
+```
+
+Deploys whatever is already on the box instead of fetching. Put the code
+there yourself first — `rsync -az --delete ./ ubuntu@HOST:/opt/gymologia/`
+from a machine that has it, or a tarball, or a git bundle.
+
+This exists because the deploy path otherwise depends on the GitHub remote
+being reachable, and it currently answers "Repository not found". Every
+other prerequisite can be ready and the deploy still fails at its first
+step.
+
+**A `--no-pull` deploy cannot be rolled back.** The rollback works by
+resetting to the commit that was checked out before the fetch; with no
+fetch there is no earlier state to return to, because the working tree
+already is the new code. The script says so at the point it would otherwise
+have rolled back rather than running a reset that quietly does nothing and
+reporting success. If a `--no-pull` build fails, the previous service is
+left running untouched; if it starts but never becomes healthy, you are
+restoring the old code by hand.
+
 Day-to-day commands:
 
 ```bash

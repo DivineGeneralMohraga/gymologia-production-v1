@@ -20,6 +20,31 @@ log()  { printf '\n\033[1;36m==> %s\033[0m\n' "$*"; }
 warn() { printf '\033[1;33m    %s\033[0m\n' "$*"; }
 fail() { printf '\n\033[1;31mFAILED: %s\033[0m\n' "$*" >&2; exit 1; }
 
+# Deploy whatever is already on disk instead of fetching it.
+#
+# The normal path fetches origin/$BRANCH and resets to it. That is the right
+# way round when there IS a remote; it stopped being possible when the
+# GitHub repository began answering "Repository not found", which blocks the
+# deploy at its first real step regardless of anything else being ready.
+#
+# With --no-pull you put the code on the box yourself -- rsync, scp, a
+# tarball -- and this script does the rest: install, generate, build,
+# migrate, restart, health-gate.
+#
+# READ THIS BEFORE USING IT. A no-pull deploy CANNOT BE ROLLED BACK. The
+# rollback below works by resetting to the commit that was checked out
+# before the fetch, and without a fetch there is no earlier state to return
+# to: the working tree already is the new code. The script says so at the
+# point it would otherwise have rolled back, rather than running a reset
+# that quietly does nothing and reporting success.
+SKIP_PULL="${SKIP_PULL:-}"
+for arg in "$@"; do
+  case "$arg" in
+    --no-pull) SKIP_PULL=1 ;;
+    *) fail "unknown argument: $arg" ;;
+  esac
+done
+
 # ── Preflight ─────────────────────────────────────────────────────────
 [ -f "$ENV_FILE" ] || fail "$ENV_FILE is missing. See backend/DEPLOY-AWS.md."
 command -v node >/dev/null || fail "node is not installed. See backend/DEPLOY-AWS.md."
@@ -54,10 +79,19 @@ PREVIOUS=$(git rev-parse HEAD)
 log "Currently at $(git rev-parse --short HEAD)"
 
 # ── Pull ──────────────────────────────────────────────────────────────
-log "Fetching $BRANCH"
-git fetch origin "$BRANCH"
-git reset --hard "origin/$BRANCH"
-log "Now at $(git rev-parse --short HEAD)"
+if [ -n "$SKIP_PULL" ]; then
+  warn "--no-pull: deploying the working tree as it stands, not fetching."
+  warn "This deploy CANNOT be rolled back automatically."
+  if ! git diff --quiet 2>/dev/null || [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+    warn "The working tree has uncommitted changes. That is allowed here,"
+    warn "but it means nothing records what was deployed."
+  fi
+else
+  log "Fetching $BRANCH"
+  git fetch origin "$BRANCH"     || fail "could not fetch origin/$BRANCH. If the remote is unreachable, put the code on the box yourself and re-run with --no-pull."
+  git reset --hard "origin/$BRANCH"
+  log "Now at $(git rev-parse --short HEAD)"
+fi
 
 build_and_start() {
   cd "$REPO_DIR/backend"
@@ -81,6 +115,12 @@ build_and_start() {
 }
 
 if ! build_and_start; then
+  if [ -n "$SKIP_PULL" ]; then
+    warn "Build failed. There is nothing to roll back to: --no-pull means the"
+    warn "working tree already was the new code. The running service was not"
+    warn "restarted, so it is still serving the previous build."
+    fail "build failed; service left untouched, no rollback possible"
+  fi
   log "Build failed — rolling back to ${PREVIOUS:0:7}"
   cd "$REPO_DIR" && git reset --hard "$PREVIOUS"
   fail "build failed; the running service was left untouched"
@@ -102,9 +142,16 @@ for i in $(seq 1 20); do
 done
 
 # ── Rollback ──────────────────────────────────────────────────────────
-log "Health check never passed — rolling back to ${PREVIOUS:0:7}"
 journalctl -u "$SERVICE" -n 60 --no-pager || true
 
+if [ -n "$SKIP_PULL" ]; then
+  warn "Health check never passed, and --no-pull leaves nothing to return to."
+  warn "The service is running the new build and is NOT healthy. Restore the"
+  warn "previous code on the box by hand and re-run."
+  fail "unhealthy after deploy; no rollback possible with --no-pull"
+fi
+
+log "Health check never passed — rolling back to ${PREVIOUS:0:7}"
 cd "$REPO_DIR"
 git reset --hard "$PREVIOUS"
 cd "$REPO_DIR/backend"
