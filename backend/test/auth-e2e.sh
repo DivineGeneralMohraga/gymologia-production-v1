@@ -107,24 +107,31 @@ else
 fi
 
 hdr "And then it works"
-# Last, so a failure above cannot be mistaken for this succeeding. A fresh
-# challenge, because the attempts above were spent against the first one.
-sleep 31
-R3=$(request "$PHONE")
-C3=$(echo "$R3" | field challengeId)
-[ -n "$C3" ] && ok "a fresh challenge was issued" || bad "reissue" "$R3"
-
-C=$(verify_code "$C3" "$PHONE" "$OTP")
+# The SAME challenge as the refusals above, deliberately.
+#
+# The first version asked for a second code here, and that made the suite
+# fail whenever it ran twice inside fifteen minutes: a number may request
+# five codes per fifteen minutes, and two requests per run plus a standalone
+# run beforehand exhausts it. It failed in the full run having passed on its
+# own, which is the worst way to find out.
+#
+# A wrong code only increments the attempt counter; it does not consume the
+# challenge. Two wrong guesses leave three of the five attempts, so the
+# correct code can be checked against the challenge already issued. One
+# request per run, no waiting, and the same assertions.
+C=$(verify_code "$CID" "$PHONE" "$OTP")
 STATUS=$(python -c "import sys,json;print(json.load(open('/tmp/auth-body.json')).get('status',''))" 2>/dev/null)
-[ "$C" = "200" ] || [ "$C" = "201" ] \
-  && ok "the fixed code signs the test account in (HTTP $C, status ${STATUS:-session})" \
-  || bad "test code" "got HTTP $C"
+if [ "$C" = "200" ] || [ "$C" = "201" ]; then
+  ok "the fixed code signs the test account in (HTTP $C, status ${STATUS:-session})"
+else
+  bad "test code" "got HTTP $C"
+fi
 
-# Single-use, like any other challenge: the same code against the consumed
-# challenge must not work twice.
-C=$(verify_code "$C3" "$PHONE" "$OTP")
-[ "$C" = "400" ] && ok "and the challenge is single-use, as any other is" \
-                 || bad "replay" "the consumed challenge accepted the code again (HTTP $C)"
+# Single-use, like any other challenge: the code that just worked must not
+# work again against the consumed challenge.
+C=$(verify_code "$CID" "$PHONE" "$OTP")
+[ "$C" = "400" ] && ok "and the challenge is single-use, as any other is"                  || bad "replay" "the consumed challenge accepted the code again (HTTP $C)"
+
 
 rm -f /tmp/auth-body.json
 printf "\n"
