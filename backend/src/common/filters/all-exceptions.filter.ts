@@ -7,6 +7,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { httpForPrisma } from './prisma-http';
 import type { Request, Response } from 'express';
 import { randomUUID } from 'node:crypto';
 
@@ -86,8 +87,17 @@ export class AllExceptionsFilter implements ExceptionFilter {
       };
     }
 
-    if (exception instanceof Prisma.PrismaClientKnownRequestError) {
-      return { ...this.translatePrisma(exception), logLevel: 'warn' };
+    // Both Prisma error classes, not just the known-request one: a
+    // database that has gone away arrives as a
+    // PrismaClientInitializationError, and inspecting only the other class
+    // sent exactly that case to the generic 500 below.
+    const mapped = httpForPrisma(exception);
+    if (mapped) {
+      return {
+        ...mapped,
+        logLevel:
+          mapped.status >= HttpStatus.INTERNAL_SERVER_ERROR ? 'error' : 'warn',
+      };
     }
 
     if (exception instanceof Prisma.PrismaClientValidationError) {
@@ -107,45 +117,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
       error: 'Internal Server Error',
       logLevel: 'error',
     };
-  }
-
-  private translatePrisma(error: Prisma.PrismaClientKnownRequestError): {
-    status: number;
-    message: string;
-    error: string;
-  } {
-    switch (error.code) {
-      case 'P2002':
-        return {
-          status: HttpStatus.CONFLICT,
-          message: 'This record already exists',
-          error: 'Conflict',
-        };
-      case 'P2003':
-        return {
-          status: HttpStatus.BAD_REQUEST,
-          message: 'Referenced record does not exist',
-          error: 'Bad Request',
-        };
-      case 'P2025':
-        return {
-          status: HttpStatus.NOT_FOUND,
-          message: 'Record not found',
-          error: 'Not Found',
-        };
-      case 'P2014':
-        return {
-          status: HttpStatus.BAD_REQUEST,
-          message: 'This change would break a required relation',
-          error: 'Bad Request',
-        };
-      default:
-        return {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'Something went wrong. Quote the reference id to support.',
-          error: 'Internal Server Error',
-        };
-    }
   }
 
   private describe(exception: unknown): string {

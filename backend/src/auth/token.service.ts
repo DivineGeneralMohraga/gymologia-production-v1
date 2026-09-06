@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AppClient } from '@prisma/client';
@@ -36,6 +36,8 @@ export interface SessionMeta {
  */
 @Injectable()
 export class TokenService {
+  private readonly logger = new Logger(TokenService.name);
+
   private readonly cfg: JwtConfig;
 
   constructor(
@@ -181,19 +183,43 @@ export class TokenService {
    * instead of "immediate in fifteen minutes".
    */
   async assertSessionActive(sessionId: string): Promise<void> {
-    const session = await this.prisma.session.findUnique({
-      where: { id: sessionId },
-      select: { revokedAt: true, expiresAt: true },
-    });
+    // Retried, because this is the single hottest query in the product and
+    // the one the hosted pooler drops. A brief connection failure here is
+    // not "your session ended" -- it is us being unable to ask. Safe to
+    // repeat: it is a read.
+    const session = await this.prisma.withRetry(
+      'assertSessionActive',
+      () =>
+        this.prisma.session.findUnique({
+          where: { id: sessionId },
+          select: { revokedAt: true, expiresAt: true },
+        }),
+      { safeToRepeat: true },
+    );
 
     if (!session || session.revokedAt || session.expiresAt.getTime() < Date.now()) {
       throw new UnauthorizedException('Session expired. Please sign in again.');
     }
 
-    await this.prisma.session.update({
-      where: { id: sessionId },
-      data: { lastUsedAt: new Date() },
-    });
+    // Bookkeeping, and deliberately not allowed to fail the request.
+    //
+    // `lastUsedAt` is written here on every authenticated request and read
+    // by nothing in the codebase. Awaiting it meant a timestamp nobody
+    // consumes could turn an authorised request into a 500 -- the
+    // authorisation decision was already made two lines above. If it
+    // fails, the request proceeds and the failure is logged.
+    try {
+      await this.prisma.session.update({
+        where: { id: sessionId },
+        data: { lastUsedAt: new Date() },
+      });
+    } catch (error) {
+      this.logger.warn(
+        `could not update lastUsedAt for session ${sessionId}: ${
+          error instanceof Error ? error.message : String(error)
+        }`,
+      );
+    }
   }
 
   private signAccess(payload: AccessTokenPayload): Promise<string> {

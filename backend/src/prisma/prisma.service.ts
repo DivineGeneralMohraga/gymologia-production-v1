@@ -53,6 +53,99 @@ export class PrismaService
     await this.$disconnect();
   }
 
+  // ── Transient connection failures ──────────────────────────────────
+  //
+  // The hosted pooler goes away from time to time. Four separate outages
+  // landed inside test runs in one day; the failing call is usually
+  // `session.findUnique`, which every authenticated request makes, so the
+  // user-visible version is that nobody can sign in and everybody signed
+  // in is thrown out.
+  //
+  // WHY THIS IS A HELPER AND NOT A BLANKET WRAPPER. The obvious move is to
+  // wrap every model delegate so all queries retry. That works -- the
+  // delegates can be replaced on the instance -- and it silently breaks
+  // the five call sites that use the ARRAY form of `$transaction`, which
+  // requires real `PrismaPromise` objects rather than the plain promises a
+  // wrapper returns. `token.service.ts` creating a session is one of them.
+  // A retry that breaks session creation is not an improvement.
+  //
+  // WHAT IT DELIBERATELY DOES NOT DO. It does not try to ride out a long
+  // outage. Two of the four were seconds and two were minutes; holding an
+  // HTTP request open for minutes ties up a connection and makes an outage
+  // worse rather than better. This covers the sub-second transient and the
+  // connection-establishment race. The multi-minute case is a Supabase-side
+  // problem and is written up as one.
+
+  /** Codes that mean the statement never reached the server. Safe to repeat. */
+  private static readonly NEVER_RAN = new Set(['P1001', 'P1002', 'P2024']);
+
+  /**
+   * The connection dropped and the statement may or may not have run.
+   * Repeating this is safe for a read and NOT safe for a write.
+   */
+  private static readonly AMBIGUOUS = new Set(['P1017']);
+
+  private retryCount = 0;
+
+  /** How many times a query has been retried since boot, for the health probe. */
+  get transientRetries(): number {
+    return this.retryCount;
+  }
+
+  /**
+   * Run a database call, repeating it if the connection failed.
+   *
+   * `safeToRepeat` must only be true when running the operation twice is
+   * harmless -- a read, or a write that sets the same value again. It is
+   * false by default so that the careless call is the conservative one:
+   * with it false, only failures that prove the statement never executed
+   * are retried.
+   */
+  async withRetry<T>(
+    label: string,
+    fn: () => Promise<T>,
+    opts: { safeToRepeat?: boolean; attempts?: number } = {},
+  ): Promise<T> {
+    const attempts = opts.attempts ?? 3;
+    const safeToRepeat = opts.safeToRepeat ?? false;
+
+    for (let attempt = 1; ; attempt += 1) {
+      try {
+        const result = await fn();
+        if (attempt > 1) {
+          this.logger.warn(
+            `${label} succeeded on attempt ${attempt} after a transient database failure`,
+          );
+        }
+        return result;
+      } catch (error) {
+        const code =
+          error instanceof Prisma.PrismaClientKnownRequestError
+            ? error.code
+            : error instanceof Prisma.PrismaClientInitializationError
+              ? (error.errorCode ?? '')
+              : '';
+
+        const retryable =
+          PrismaService.NEVER_RAN.has(code) ||
+          (safeToRepeat && PrismaService.AMBIGUOUS.has(code));
+
+        if (!retryable || attempt >= attempts) throw error;
+
+        this.retryCount += 1;
+
+        // Jittered, so that everything queued behind an outage does not
+        // come back at the pooler in lockstep the instant it recovers.
+        const base = 200 * 3 ** (attempt - 1);
+        const delay = Math.round(base * (0.75 + Math.random() * 0.5));
+        this.logger.warn(
+          `${label} hit ${code}; retrying in ${delay}ms (attempt ${attempt} of ${attempts})`,
+        );
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      }
+    }
+  }
+
   async enableShutdownHooks(app: INestApplication): Promise<void> {
     process.on('beforeExit', () => {
       void app.close();
