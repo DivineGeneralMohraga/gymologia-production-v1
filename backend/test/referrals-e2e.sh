@@ -73,6 +73,12 @@ db() {
           data: { upiVerified: true, upiVerifiedAt: new Date() },
         });
         console.log("ok");
+      } else if (op === "verify-pan" || op === "reject-pan") {
+        await p.referralAccount.update({
+          where: { id: acct.id },
+          data: { panStatus: op === "verify-pan" ? "VERIFIED" : "REJECTED" },
+        });
+        console.log("ok");
       } else if (op === "read") {
         console.log(JSON.stringify(acct));
       } else if (op === "audit") {
@@ -137,23 +143,40 @@ M=$(echo "$B" | field upiIdMasked)
 
 # Case is not significant in a VPA, so it is lowercased before storage --
 # otherwise one address is two rows depending on how it was typed.
-echo "$B" | grep -qF "OKHDFCBANK" && bad "normalisation" "uppercase survived" \
-                                  || ok "the address is normalised to lower case"
+#
+# Each negative below is gated on the positive check above it, the way the
+# Aadhaar checks in kyc-review-e2e are. "The uppercase did not survive" and
+# "the raw address is not in here" are both trivially true of an empty
+# response, so ungated they would print a reassuring green line about
+# privacy holding while having examined nothing at all -- inside a run that
+# is already failing, next to the strongest privacy claim in the feature.
+[ "$M" = "$MASK1" ] \
+  && { echo "$B" | grep -qF "OKHDFCBANK" && bad "normalisation" "uppercase survived" \
+                                         || ok "the address is normalised to lower case"; } \
+  || bad "normalisation" "nothing to inspect: ${B:-<nothing>}"
 
 N=$(echo "$B" | field upiHolderName)
 [ "$N" = "Sarthak Sharma" ] && ok "the holder name is trimmed and collapsed" || bad "name" "got '$N'"
 
 # The whole point of a masked handle is that the address does not come back.
-echo "$B" | grep -qF "$VPA1" && bad "leak" "the raw address is in the response" \
-                             || ok "the raw address is never returned"
+[ "$M" = "$MASK1" ] \
+  && { echo "$B" | grep -qF "$VPA1" && bad "leak" "the raw address is in the response" \
+                                    || ok "the raw address is never returned"; } \
+  || bad "leak" "nothing to inspect: ${B:-<nothing>}"
 
 V=$(echo "$B" | field upiVerified)
 [ "$V" = "False" ] && ok "a freshly set address is not verified" || bad "verified" "got $V"
 
+# The same trap once more, and this one is easy to miss: an empty list and
+# a failed parse both produce an empty string, and "it no longer mentions
+# UPI" is true of both. Gated on the list still naming the PAN, which is
+# what proves it was read at all.
 STILL=$(echo "$B" | python -c "
 import sys,json;print('|'.join(json.load(sys.stdin)['youStillNeedTo']))" 2>/dev/null)
-echo "$STILL" | grep -q "UPI" && bad "todo list" "still asks for a UPI ID" \
-                              || ok "the outstanding list drops the UPI ID once it is set"
+echo "$STILL" | grep -q "PAN" \
+  && { echo "$STILL" | grep -q "UPI" && bad "todo list" "still asks for a UPI ID" \
+                                     || ok "the outstanding list drops the UPI ID once it is set"; } \
+  || bad "todo list" "nothing to inspect: ${STILL:-<nothing>}"
 
 G=$(curl -s "$API/me/referral" -H "Authorization: Bearer $TOK" | nested payout upiIdMasked)
 [ "$G" = "$MASK1" ] && ok "and it is there on the next read" || bad "persistence" "got $G"
@@ -206,11 +229,40 @@ S=$(echo "$B" | field panStatus)
 [ "$S" = "PENDING" ] && ok "status is PENDING, not VERIFIED -- nothing has checked it" \
                      || bad "panStatus" "got $S"
 
-echo "$B" | grep -qF "$PAN" && bad "pan leak" "the full PAN is in the response" \
-                            || ok "the full PAN is never returned"
+[ "$L" = "234F" ] \
+  && { echo "$B" | grep -qF "$PAN" && bad "pan leak" "the full PAN is in the response" \
+                                   || ok "the full PAN is never returned"; } \
+  || bad "pan leak" "nothing to inspect: ${B:-<nothing>}"
 
 C=$(put pan '{"pan":"ABCD1234F"}')
 [ "$C" = "400" ] && ok "refused: a malformed PAN" || bad "bad pan" "got HTTP $C"
+
+# A PAN verification must behave like the UPI one. The first version of
+# this endpoint forced PENDING on every write, so opening the form and
+# pressing save cost somebody their verification. Nothing could reach that
+# difference -- nothing sets a PAN to VERIFIED -- which is exactly why it
+# would have sat there until PAN verification was built and then been wrong.
+[ "$(db verify-pan "$CODE")" = "ok" ] || bad "precondition" "could not mark the PAN verified"
+C=$(put pan "{\"pan\":\"$PAN\"}")
+S=$(cat /tmp/ref-body.json | field panStatus)
+[ "$S" = "VERIFIED" ] && ok "re-sending the same PAN keeps its verification" \
+                      || bad "pan idempotent" "status became $S"
+
+C=$(put pan '{"pan":"ZZZZZ9999Z"}')
+S=$(cat /tmp/ref-body.json | field panStatus)
+[ "$S" = "PENDING" ] && ok "a different PAN goes back to PENDING" \
+                     || bad "pan changed" "status is $S"
+
+# A rejected PAN sent again is a request for another look, which is how gym
+# KYC resubmission already behaves.
+[ "$(db reject-pan "$CODE")" = "ok" ] || bad "precondition" "could not reject the PAN"
+C=$(put pan '{"pan":"ZZZZZ9999Z"}')
+S=$(cat /tmp/ref-body.json | field panStatus)
+[ "$S" = "PENDING" ] && ok "and resubmitting a rejected PAN asks for review again" \
+                     || bad "pan rejected" "status is $S"
+
+# Put the real one back so the later checks read what they expect.
+put pan "{\"pan\":\"$PAN\"}" > /dev/null
 
 hdr "Encrypted at rest"
 # Guarded so this cannot pass on nothing: "the plaintext is not in the row"

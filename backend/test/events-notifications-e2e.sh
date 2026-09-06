@@ -183,10 +183,18 @@ echo "$INBOX" | grep -q "Unpaid Gym" && ok "attributed to the sending gym" || ba
 # true the moment every new account started receiving the two onboarding
 # messages -- and "empty" was never what the check meant. What it is for is
 # that a gym's announcement reaches that gym's members and nobody else.
+#
+# Gated, because "their inbox does not contain it" is trivially true of an
+# inbox that failed to load. Last week's rework fixed WHAT this asserts and
+# left that part alone. The gate is free: a stranger's inbox is never empty
+# any more, precisely because every account is sent the two onboarding
+# messages, so their deep link is something we know is in there.
 STRANGER_INBOX=$(curl -s "$API/me/notifications" -H "Authorization: Bearer $STRANGER")
-echo "$STRANGER_INBOX" | grep -q "Closed Sunday" \
-  && bad "fan-out scope" "a non-member received the gym's announcement" \
-  || ok "a non-member of that gym did not receive its announcement"
+echo "$STRANGER_INBOX" | grep -q "gymologia://" \
+  && { echo "$STRANGER_INBOX" | grep -q "Closed Sunday" \
+         && bad "fan-out scope" "a non-member received the gym's announcement" \
+         || ok "a non-member of that gym did not receive its announcement"; } \
+  || bad "fan-out scope" "nothing to inspect: ${STRANGER_INBOX:-<nothing>}"
 
 hdr "What a brand new account is told"
 # The spec asks for two default messages every user is sent: that there is

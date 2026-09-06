@@ -186,12 +186,23 @@ export class ReferralsService {
 
     const pan = dto.pan;
 
+    // The same rule as the UPI address, for the same reason. Re-sending an
+    // unchanged, already-verified PAN must not quietly un-verify it --
+    // otherwise opening the form and pressing save costs somebody their
+    // verification. Anything else goes back to PENDING: a changed number
+    // has plainly not been checked, and a REJECTED one that is sent again
+    // is a request for another look, which is how gym KYC resubmission
+    // already behaves.
+    const changed = this.decryptOrNull(account.panEnc, 'PAN', account.id) !== pan;
+    const keepVerified =
+      !changed && account.panStatus === VerificationStatus.VERIFIED;
+
     const updated = await this.prisma.referralAccount.update({
       where: { id: account.id },
       data: {
         panEnc: this.crypto.encrypt(pan),
         panLast4: this.crypto.last4(pan),
-        panStatus: VerificationStatus.PENDING,
+        ...(keepVerified ? {} : { panStatus: VerificationStatus.PENDING }),
       },
     });
 
@@ -253,16 +264,29 @@ export class ReferralsService {
 
   /** The stored address in clear, or null if there is none or it will not decrypt. */
   private storedVpa(account: ReferralAccount): string | null {
-    if (!account.upiIdEnc) return null;
+    return this.decryptOrNull(account.upiIdEnc, 'UPI ID', account.id);
+  }
+
+  /**
+   * Decrypt a stored field for comparison, or null if it is absent or
+   * unreadable.
+   *
+   * A value that will not decrypt cannot be compared, so it is treated as
+   * absent. That errs towards clearing the verification, which is the safe
+   * direction: the alternative is carrying a VERIFIED onto a value we
+   * cannot even read.
+   */
+  private decryptOrNull(
+    cipher: string | null,
+    what: string,
+    accountId: string,
+  ): string | null {
+    if (!cipher) return null;
     try {
-      return this.crypto.decrypt(account.upiIdEnc);
+      return this.crypto.decrypt(cipher);
     } catch {
-      // A value that will not decrypt cannot be compared, so treat it as
-      // absent. That errs towards clearing the verification flag, which is
-      // the safe direction: the alternative is carrying a VERIFIED onto an
-      // address we cannot even read.
       this.logger.warn(
-        `Stored UPI ID for referral account ${account.id} did not decrypt`,
+        `Stored ${what} for referral account ${accountId} did not decrypt`,
       );
       return null;
     }
