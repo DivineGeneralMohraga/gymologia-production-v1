@@ -1,4 +1,4 @@
-package com.gymologia.gymologia
+package com.gandagrouptechnologies.gymologia.member
 
 import io.flutter.embedding.android.FlutterActivity
 
