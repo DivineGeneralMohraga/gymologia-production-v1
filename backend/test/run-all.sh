@@ -35,7 +35,7 @@
 # with nothing changed. Deliberately not retried automatically: a runner
 # that hides intermittent failures hides real ones the same way.
 #
-# THIS RUN TAKES ABOUT HALF AN HOUR. Sixteen cooldowns are seventeen minutes
+# THIS RUN TAKES ABOUT HALF AN HOUR. Seventeen cooldowns are eighteen minutes
 # on their own, before a single request is sent. Start it in the background
 # and let it finish; do not run it inside anything that will time out and
 # kill the process group. That happened once: the run was killed at the ten
@@ -50,6 +50,7 @@ set -u
 SUITES="
 unit-specs
 ip-block-e2e
+auth-e2e
 crm-e2e
 crm-management-e2e
 payments-e2e

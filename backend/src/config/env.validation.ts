@@ -110,6 +110,40 @@ export function validateEnv(
     }
   }
 
+  // The test account: a phone number that signs in with a fixed code. It
+  // is a standing credential, so the ways of half-configuring it are
+  // refused rather than silently producing something weaker.
+  const testPhone = String(raw.TEST_ACCOUNT_PHONE ?? '').trim();
+  const testOtp = String(raw.TEST_ACCOUNT_OTP ?? '').trim();
+
+  if (testPhone !== '' || testOtp !== '') {
+    // Half-configured is the dangerous state: with only a number set, the
+    // number would fall through to a real SMS nobody can receive, and the
+    // reviewer is stuck on the OTP screen with no way to say why.
+    if (testPhone === '' || testOtp === '') {
+      problems.push(
+        'TEST_ACCOUNT_PHONE and TEST_ACCOUNT_OTP must be set together, or neither',
+      );
+    }
+    if (testPhone !== '' && !/^\+[1-9]\d{7,14}$/.test(testPhone)) {
+      problems.push('TEST_ACCOUNT_PHONE must be E.164, e.g. +919999900000');
+    }
+    const otpLength = Number(raw.MSG91_OTP_LENGTH ?? 6);
+    if (testOtp !== '' && !new RegExp(`^\\d{${otpLength}}$`).test(testOtp)) {
+      problems.push(
+        `TEST_ACCOUNT_OTP must be exactly ${otpLength} digits, to match MSG91_OTP_LENGTH`,
+      );
+    }
+    // A guessable code on an account that works in production is a way in
+    // for anybody who tries the obvious ones against that number.
+    if (/^(\d)\1*$/.test(testOtp) || ['123456', '654321', '000000'].includes(testOtp)) {
+      problems.push(
+        'TEST_ACCOUNT_OTP is a guessable sequence. It works in production, ' +
+          'against a number an attacker can try; use something arbitrary.',
+      );
+    }
+  }
+
   if (problems.length > 0) {
     throw new Error(
       `Invalid environment configuration:\n  - ${problems.join('\n  - ')}\n\n` +

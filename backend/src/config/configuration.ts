@@ -40,6 +40,20 @@ export interface Msg91Config {
   widgetToken: string;
   otpTtlSeconds: number;
   otpLength: number;
+
+  /**
+   * A single phone number that signs in with a fixed code instead of a
+   * real SMS, for Play Store review and for handing to testers.
+   *
+   * Both must be set together or neither works -- see validateEnv. It is
+   * ONE number, compared for exact equality, and it changes only how the
+   * code is chosen: the challenge is stored, hashed, expired, attempt
+   * counted and single-used exactly like any other, so nothing in the
+   * verification path is bypassed. Empty by default, so a deployment that
+   * does not configure it has no test account at all.
+   */
+  testAccountPhone: string;
+  testAccountOtp: string;
 }
 
 export interface CashfreeConfig {
@@ -115,6 +129,8 @@ export default () => {
       widgetToken: process.env.MSG91_WIDGET_TOKEN ?? '',
       otpTtlSeconds: int(process.env.MSG91_OTP_TTL_SECONDS, 300),
       otpLength: int(process.env.MSG91_OTP_LENGTH, 6),
+      testAccountPhone: process.env.TEST_ACCOUNT_PHONE ?? '',
+      testAccountOtp: process.env.TEST_ACCOUNT_OTP ?? '',
     } satisfies Msg91Config,
 
     cashfree: {

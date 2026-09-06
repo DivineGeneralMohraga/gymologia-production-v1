@@ -70,14 +70,58 @@ export class OtpService {
   ): Promise<IssuedChallenge> {
     await this.enforceIssueLimits(phone, purpose, meta.ip ?? null);
 
-    const widget = this.msg91.usesWidgetDelivery;
+    // The one number that signs in with a fixed code and no SMS: Play's
+    // reviewers need to get past the login screen, and a tester cannot wait
+    // on a text to a number nobody owns.
+    //
+    // WHAT THIS DELIBERATELY DOES NOT DO. It does not skip verification. A
+    // test challenge is written, hashed, expired, attempt-counted and
+    // single-used exactly like every other one -- the only difference is
+    // that the digits are read from configuration instead of the random
+    // generator, and MSG91 is not asked to carry them. `verify` is not
+    // touched at all and cannot tell the two apart, which is the property
+    // worth having: there is no branch anywhere that accepts a code
+    // without checking it.
+    //
+    // It is exact-equality on one number, both values must be set, and
+    // both are empty by default -- so a deployment that has not configured
+    // it has no test account rather than a weaker one.
+    const isTestAccount =
+      this.cfg.testAccountPhone !== '' &&
+      this.cfg.testAccountOtp !== '' &&
+      phone === this.cfg.testAccountPhone;
+
+    // Forced onto the DIRECT path even where the widget is configured,
+    // because in WIDGET mode MSG91 owns the code and would have to be the
+    // one to accept it -- which it will not, for a code it never issued.
+    const widget = this.msg91.usesWidgetDelivery && !isTestAccount;
     const expiresAt = new Date(Date.now() + this.cfg.otpTtlSeconds * 1000);
 
     // In WIDGET mode MSG91 owns the code: it generates, sends and later
     // verifies it. We never see the digits, so there is nothing to hash.
-    const code = widget ? '' : this.crypto.generateOtp(this.cfg.otpLength);
+    const code = widget
+      ? ''
+      : isTestAccount
+        ? this.cfg.testAccountOtp
+        : this.crypto.generateOtp(this.cfg.otpLength);
     const salt = widget ? '' : this.crypto.newSalt();
     const codeHash = widget ? '' : await this.crypto.hashSecret(code, salt);
+
+    if (isTestAccount) {
+      // Recorded every time, because a standing credential that works in
+      // production should be visible in the security log rather than being
+      // something only this file knows about.
+      void this.securityEvents.record({
+        type: 'ANOMALOUS_LOGIN',
+        severity: 'LOW',
+        ip: meta.ip,
+        details: {
+          reason: 'test-account-otp-issued',
+          phone: this.crypto.maskPhone(phone),
+          purpose,
+        },
+      });
+    }
 
     // Any earlier live challenge for this number and purpose is retired, so
     // only the newest code can ever be used.
@@ -92,7 +136,14 @@ export class OtpService {
     let delivered = true;
 
     try {
-      if (widget) {
+      if (isTestAccount) {
+        // Nothing is sent. The number is not expected to belong to anyone,
+        // and asking MSG91 to text it would either fail or bill for a
+        // message to a handset that does not exist.
+        this.logger.log(
+          `Test-account code issued for ${this.crypto.maskPhone(phone)}; no SMS sent`,
+        );
+      } else if (widget) {
         providerRef = await this.msg91.widgetSendOtp(phone);
       } else {
         await this.msg91.sendOtp(phone, code);
