@@ -192,7 +192,9 @@ export class TokenService {
       () =>
         this.prisma.session.findUnique({
           where: { id: sessionId },
-          select: { revokedAt: true, expiresAt: true },
+          // lastUsedAt comes back so the write below can be skipped. It is
+          // the same row that was being read anyway, so it costs nothing.
+          select: { revokedAt: true, expiresAt: true, lastUsedAt: true },
         }),
       { safeToRepeat: true },
     );
@@ -201,19 +203,31 @@ export class TokenService {
       throw new UnauthorizedException('Session expired. Please sign in again.');
     }
 
-    // Bookkeeping, and deliberately not allowed to fail the request.
+    // Bookkeeping, throttled, and not allowed to fail the request.
     //
-    // `lastUsedAt` is written here on every authenticated request and read
-    // by nothing in the codebase. Awaiting it meant a timestamp nobody
-    // consumes could turn an authorised request into a 500 -- the
-    // authorisation decision was already made two lines above. If it
-    // fails, the request proceeds and the failure is logged.
+    // `lastUsedAt` is read by nothing in the codebase, and it was written on
+    // EVERY authenticated request. Measured against the running server, one
+    // GET /auth/me cost twelve statements for three logical queries -- the
+    // pooler wraps each in BEGIN, DEALLOCATE ALL and COMMIT -- and four of
+    // those twelve were this write. A third of the database work on the
+    // hottest path in the product, for a column nobody consumes.
+    //
+    // Writing it at most once every few minutes keeps the signal it exists
+    // for -- roughly when a session was last active -- and removes the
+    // write from essentially every request, since a person making requests
+    // makes many of them inside one window.
+    const staleAfterMs = 5 * 60_000;
+    const lastUsed = session.lastUsedAt?.getTime() ?? 0;
+    if (Date.now() - lastUsed < staleAfterMs) return;
+
     try {
       await this.prisma.session.update({
         where: { id: sessionId },
         data: { lastUsedAt: new Date() },
       });
     } catch (error) {
+      // The authorisation decision was made above; a timestamp failing to
+      // record must not turn an authorised request into a 500.
       this.logger.warn(
         `could not update lastUsedAt for session ${sessionId}: ${
           error instanceof Error ? error.message : String(error)
