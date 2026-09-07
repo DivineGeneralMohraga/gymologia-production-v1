@@ -106,8 +106,45 @@ hdr "The queue"
 # positive check is what makes the negative one mean something: without it
 # a crashed request prints a reassuring green line about privacy holding
 # while having examined nothing at all.
-Q=$(curl -s "$API/admin/kyc" -H "Authorization: Bearer $REVIEWER")
-echo "$Q" | grep -q "$GYM" && ok "the submission is waiting in it" || bad "queue" "$Q"
+# Page through the queue rather than grepping the first page.
+#
+# The queue is oldest-first -- correct, the longest wait gets reviewed
+# first -- and pages at 25. This suite creates a submission and then looks
+# for it, so its record is always the NEWEST and therefore always on the
+# LAST page. It passed for weeks because there were fewer than 25 waiting,
+# and it failed the day the twenty-sixth arrived. Nothing about the product
+# changed on that day.
+#
+# The claim being tested is "a reviewer can find this submission in the
+# queue", not "it happens to be on the first page", so the check now looks
+# everywhere a reviewer could look.
+queue_page() {
+  curl -s -m 60 "$API/admin/kyc?take=100&skip=$1" -H "Authorization: Bearer $REVIEWER"
+}
+
+Q=""
+QTOTAL=0
+SKIP=0
+while : ; do
+  PAGE=$(queue_page "$SKIP")
+  QTOTAL=$(echo "$PAGE" | field total)
+  # Guard the loop on the response being usable at all: a failed request
+  # would otherwise scroll past as "not found on this page" forever.
+  case "$QTOTAL" in ''|*[!0-9]*) break ;; esac
+  Q="$Q$PAGE"
+  case "$PAGE" in *"$GYM"*) break ;; esac
+  SKIP=$((SKIP + 100))
+  [ "$SKIP" -ge "$QTOTAL" ] && break
+done
+
+[ "$QTOTAL" -gt 0 ] 2>/dev/null \
+  && ok "the review queue answers with $QTOTAL waiting" \
+  || bad "queue" "no usable queue response: ${Q:-<nothing>}"
+
+case "$Q" in
+  *"$GYM"*) ok "and the submission is somewhere in it" ;;
+  *) bad "queue" "own submission not found across $QTOTAL rows" ;;
+esac
 echo "$Q" | grep -q "$GYM" \
   && { echo "$Q" | grep -q "$AADHAAR" && bad "full Aadhaar in the queue" "$Q" \
                                       || ok "with no full Aadhaar anywhere in it"; } \

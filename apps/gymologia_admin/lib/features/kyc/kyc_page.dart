@@ -23,6 +23,8 @@ class KycPage extends StatefulWidget {
 
 class _KycPageState extends State<KycPage> {
   List<dynamic>? _queue;
+  int _total = 0;
+  bool _loadingMore = false;
   String? _error;
 
   @override
@@ -31,13 +33,47 @@ class _KycPageState extends State<KycPage> {
     _load();
   }
 
+  /// The first page, replacing whatever was there.
   Future<void> _load() async {
     setState(() => _error = null);
     try {
       final q = await context.read<AuthController>().api.kycQueue();
-      if (mounted) setState(() => _queue = q);
+      if (mounted) {
+        setState(() {
+          _queue = q.items;
+          _total = q.total;
+        });
+      }
     } on ApiException catch (e) {
       if (mounted) setState(() => _error = e.message);
+    }
+  }
+
+  /// The next page, appended.
+  ///
+  /// This screen used to fetch one page of 25 and stop, with nothing saying
+  /// so. The queue is oldest-first, so the gyms that have waited longest
+  /// were on it -- but a backlog of more than 25 left the rest unreachable
+  /// and invisible. A test run with 27 waiting is what surfaced it.
+  Future<void> _loadMore() async {
+    final have = _queue?.length ?? 0;
+    if (_loadingMore || have >= _total) return;
+    setState(() => _loadingMore = true);
+    try {
+      final q = await context.read<AuthController>().api.kycQueue(skip: have);
+      if (mounted) {
+        setState(() {
+          _queue = [...?_queue, ...q.items];
+          _total = q.total;
+        });
+      }
+    } on ApiException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(e.message)));
+      }
+    } finally {
+      if (mounted) setState(() => _loadingMore = false);
     }
   }
 
@@ -64,9 +100,12 @@ class _KycPageState extends State<KycPage> {
       onRefresh: _load,
       child: ListView.separated(
         padding: const EdgeInsets.all(12),
-        itemCount: _queue!.length,
+        // One extra row for the footer: either "showing N of M" with a
+        // button, or nothing once the whole queue is on screen.
+        itemCount: _queue!.length + 1,
         separatorBuilder: (_, _) => const SizedBox(height: 8),
         itemBuilder: (_, i) {
+          if (i == _queue!.length) return _footer();
           final row = _queue![i] as Map<String, dynamic>;
           return Card(
             child: ListTile(
@@ -85,6 +124,49 @@ class _KycPageState extends State<KycPage> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  /// Says how much of the queue is on screen, and offers the rest.
+  ///
+  /// Drawn even when everything is showing, because "25 of 27" and "27 of
+  /// 27" are different facts and a reviewer should be able to tell which
+  /// one they are looking at without counting rows.
+  Widget _footer() {
+    final have = _queue?.length ?? 0;
+    final theme = Theme.of(context);
+    if (have >= _total) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(8, 14, 8, 4),
+        child: Text(
+          have == 1 ? '1 waiting' : '$have waiting',
+          textAlign: TextAlign.center,
+          style: theme.textTheme.bodySmall
+              ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+        ),
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 14, 8, 4),
+      child: Column(
+        children: [
+          Text(
+            'Showing $have of $_total, oldest first',
+            style: theme.textTheme.bodySmall
+                ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+          ),
+          const SizedBox(height: 8),
+          OutlinedButton(
+            onPressed: _loadingMore ? null : _loadMore,
+            child: _loadingMore
+                ? const SizedBox(
+                    height: 16,
+                    width: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2))
+                : const Text('Load more'),
+          ),
+        ],
       ),
     );
   }

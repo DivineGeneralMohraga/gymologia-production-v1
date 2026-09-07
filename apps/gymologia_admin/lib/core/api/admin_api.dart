@@ -53,9 +53,24 @@ class AdminApi {
 
   // ── Verification desk ──────────────────────────────────────────────
 
-  Future<List<dynamic>> kycQueue({int take = 25, int skip = 0}) async {
-    final res = await _client.get('/admin/kyc', query: {'take': take, 'skip': skip});
-    return _list(res);
+  /// One page of the verification queue, and how many are waiting overall.
+  ///
+  /// The total is returned rather than dropped because the screen has to be
+  /// able to say "25 of 27". The first version of this threw it away and
+  /// returned only the rows, so a reviewer with a backlog longer than one
+  /// page could not tell there was one, let alone reach it.
+  Future<({List<dynamic> items, int total})> kycQueue({
+    int take = 25,
+    int skip = 0,
+  }) async {
+    final res = await _client.get('/admin/kyc', query: {
+      'take': take,
+      'skip': skip,
+    });
+    return (
+      items: _list(res),
+      total: (res['total'] as num?)?.toInt() ?? 0,
+    );
   }
 
   Future<Map<String, dynamic>> kycDetail(String gymId) =>
