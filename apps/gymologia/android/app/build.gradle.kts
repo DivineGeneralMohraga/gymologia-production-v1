@@ -79,19 +79,43 @@ android {
             // and a debug key is a published, shared secret, so an artifact
             // signed with it is not a release artifact in any meaningful sense.
             //
-            // A missing keystore now FAILS the release build rather than
-            // quietly falling back. Anyone can produce a debug build on
-            // purpose; nobody wants one by accident with "release" in its name.
-            if (!hasReleaseKeystore) {
-                throw GradleException(
-                    "No android/key.properties -- refusing to build a release " +
-                        "signed with debug keys. Play rejects those, and a debug " +
-                        "key is a shared public secret. Create key.properties with " +
-                        "storePassword / keyPassword / keyAlias / storeFile, or " +
-                        "build a debug variant instead.",
-                )
+            // Left unset when there is no keystore, so merely configuring
+            // this build type cannot fail. The refusal below fires when a
+            // release is actually asked for. Anyone can produce a debug build
+            // on purpose; nobody wants one by accident with "release" in its
+            // name.
+            if (hasReleaseKeystore) {
+                signingConfig = signingConfigs.getByName("release")
             }
-            signingConfig = signingConfigs.getByName("release")
+        }
+    }
+}
+
+// Refuse a release build with no keystore -- at the moment one is asked
+// for, not while Gradle is merely configuring the project.
+//
+// The first version of this guard threw at configuration time, which
+// happens on every build, so `flutter run` and `flutter build apk --debug`
+// both died on a message about release signing that ended "or build a
+// debug variant instead" while refusing exactly that. Configuration runs
+// for all variants; only the task graph knows which one you asked for.
+if (!hasReleaseKeystore) {
+    gradle.taskGraph.whenReady {
+        val releaseTask = allTasks.firstOrNull {
+            it.project == project &&
+                it.name.contains("Release") &&
+                (it.name.startsWith("assemble") ||
+                    it.name.startsWith("bundle") ||
+                    it.name.startsWith("package"))
+        }
+        if (releaseTask != null) {
+            throw GradleException(
+                "No android/key.properties -- refusing to build a release " +
+                    "signed with debug keys. Play rejects those, and a debug key " +
+                    "is a shared public secret. Create key.properties with " +
+                    "storePassword / keyPassword / keyAlias / storeFile, or " +
+                    "build a debug variant instead.",
+            )
         }
     }
 }

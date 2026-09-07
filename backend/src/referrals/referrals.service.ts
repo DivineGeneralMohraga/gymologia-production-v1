@@ -17,7 +17,9 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CryptoService } from '../common/crypto/crypto.service';
 import { AuditService } from '../common/audit/audit.service';
 import { normaliseVpa } from '../common/validation/upi-vpa';
+import { SupportedLocale } from '../common/utils/locale';
 import { SetPanDto, SetPayoutMethodDto } from './dto/referrals.dto';
+import { shareText } from './share-text';
 
 interface RequestMeta {
   ip?: string | null;
@@ -61,7 +63,7 @@ export class ReferralsService {
    * will not use is a cost with no reader. Asking for the code is the
    * moment somebody has decided to use it.
    */
-  async mine(userId: string) {
+  async mine(userId: string, locale: SupportedLocale = 'en') {
     const account = await this.accountFor(userId);
 
     // Counted from the redemptions rather than read off the running totals
@@ -81,17 +83,12 @@ export class ReferralsService {
     return {
       code: account.code,
       status: account.status,
-      // ENGLISH ONLY, and that is a gap rather than a decision. Every other
-      // user-facing string in this product is translated into ten
-      // languages; this one is built on the server and ships as English to
-      // all of them. The exercises endpoint already shows the shape of the
-      // fix -- honour Accept-Language and return the caller's language --
-      // and it should be applied here when the referral app is built,
-      // because the whole point of this string is that it gets forwarded
-      // to somebody else.
-      shareText:
-        `Use my Gymologia code ${account.code} when you subscribe your gym ` +
-        `and get 10% off.`,
+      // In the caller's language, resolved from Accept-Language the same
+      // way the exercise directory does it. This string is unusual in that
+      // its real audience is not the person reading the screen -- it gets
+      // forwarded to a gym owner -- so shipping English to a Marathi
+      // speaker makes them retype it before it is useful.
+      shareText: shareText(account.code, locale),
       timesRedeemed: redeemed,
       awaitingClearance: pending,
       earnings: {
@@ -101,6 +98,87 @@ export class ReferralsService {
         totalTdsPaise: account.totalTdsPaise,
       },
       payout: this.payoutView(account),
+    };
+  }
+
+  /**
+   * The individual rewards behind the totals.
+   *
+   * `mine()` returns four running counters, and a counter is not something
+   * a person can check. Somebody who handed their code to three gym owners
+   * and sees ₹100 earned has no way, from a number, to find out which of
+   * the three did not count -- and that is exactly the question a referrer
+   * asks. This is the answer: one row per redemption, with the gym, the
+   * reward, and where it has got to.
+   *
+   * What the gym paid is deliberately NOT here. The referrer's reward is a
+   * flat ₹50 and is theirs; the discount is a fraction of what that gym
+   * spent, which is the gym's business and none of theirs. Nor is anything
+   * else about the gym -- no address, no owner, no contact. The name is
+   * included because without it the screen is a list of anonymous amounts,
+   * which cannot settle the question it exists to settle.
+   *
+   * A REVERSED row stays in the list rather than disappearing. A refunded
+   * subscription takes the reward back, and a reward that silently vanishes
+   * from a list is how a support ticket gets written.
+   */
+  async earnings(userId: string, limit = 50) {
+    const account = await this.accountFor(userId);
+    const take = Math.min(Math.max(Math.trunc(limit) || 50, 1), 100);
+
+    // take + 1, so "is there another page" is answered by looking rather
+    // than inferred from a full one. `rows.length === take` is true both
+    // when more exist and when the count lands exactly on the limit, and
+    // the second case would tell a referrer with exactly fifty rewards
+    // that some of them are hidden. The extra row is dropped below.
+    const rows = await this.prisma.referralRedemption.findMany({
+      where: { referralAccountId: account.id },
+      orderBy: { createdAt: 'desc' },
+      take: take + 1,
+      select: {
+        id: true,
+        gymId: true,
+        rewardPaise: true,
+        status: true,
+        createdAt: true,
+        eligibleAt: true,
+      },
+    });
+
+    const hasMore = rows.length > take;
+    const page = hasMore ? rows.slice(0, take) : rows;
+
+    // One query for every gym on the page rather than one per row. The
+    // list is capped at a hundred, so this is two queries at any length.
+    const gymIds = [...new Set(page.map((r) => r.gymId))];
+    const gyms = gymIds.length
+      ? await this.prisma.gym.findMany({
+          where: { id: { in: gymIds } },
+          select: { id: true, name: true, district: true },
+        })
+      : [];
+    const byId = new Map(gyms.map((g) => [g.id, g]));
+
+    return {
+      items: page.map((r) => {
+        const gym = byId.get(r.gymId);
+        return {
+          id: r.id,
+          // A deleted gym leaves the redemption standing -- the reward was
+          // still earned -- so the name has to survive its absence.
+          gymName: gym ? `${gym.name} - ${gym.district}` : 'A gym',
+          rewardPaise: r.rewardPaise,
+          status: r.status,
+          createdAt: r.createdAt,
+          eligibleAt: r.eligibleAt,
+        };
+      }),
+      // Said here rather than inferred from a short page: the list is
+      // capped, and a referrer with more than a hundred redemptions should
+      // be told the screen is not showing all of them.
+      returned: page.length,
+      limit: take,
+      hasMore,
     };
   }
 
@@ -316,9 +394,16 @@ export class ReferralsService {
       select: { id: true },
     });
     if (inFlight) {
-      throw new ConflictException(
-        'A payout is already on its way. These details can be changed once it settles.',
-      );
+      throw new ConflictException({
+        message:
+          'A payout is already on its way. These details can be changed once it settles.',
+        // The second and last code in the product. It earns one because
+        // this refusal lands on the form where somebody sets where their
+        // money goes: they press save, nothing changes, and the only
+        // explanation is a sentence they may not read. Every other message
+        // from this service is shown as prose, which is the right default.
+        code: 'PAYOUT_IN_FLIGHT',
+      });
     }
   }
 
@@ -346,9 +431,14 @@ export class ReferralsService {
       select: { id: true },
     });
     if (ownedGym) {
-      throw new ForbiddenException(
-        'Gym owners cannot hold a referral account. Gym staff and everyone else can.',
-      );
+      throw new ForbiddenException({
+        message:
+          'Gym owners cannot hold a referral account. Gym staff and everyone else can.',
+        // The same code the login path uses, because it is the same rule
+        // and the app says the same thing about it. A second code would
+        // mean a second translation of one sentence.
+        code: 'REFERRAL_OWNER_EXCLUDED',
+      });
     }
   }
 

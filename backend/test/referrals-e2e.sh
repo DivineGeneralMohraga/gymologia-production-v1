@@ -371,11 +371,130 @@ C=$(put pan '{"pan":"ABCDE1234F"}')
 [ "$C" = "409" ] && ok "nor can the PAN tax is withheld against" \
                  || bad "in-flight guard (pan)" "got HTTP $C, expected 409"
 
+# The app has this sentence in ten languages and picks its own by the code.
+# Without one it would show the server's English on the screen where
+# somebody sets where their money goes -- and the only thing that refusal
+# has to do is be understood.
+[ "$(field code < /tmp/ref-body.json)" = "PAYOUT_IN_FLIGHT" ] \
+  && ok "and the refusal names itself so the app can translate it" \
+  || bad "in-flight code" "$(cat /tmp/ref-body.json)"
+
 # And the guard lifts once the payout is gone, rather than locking the
 # account permanently -- a refusal you cannot get out of is its own bug.
 [ "$(db clear-payouts "$CODE")" = "ok" ] || bad "cleanup" "could not clear payouts"
 C=$(put payout-method "{\"upiId\":\"$VPA1\",\"holderName\":\"Sarthak Sharma\"}")
 [ "$C" = "200" ] && ok "and it lifts once the payout has settled" || bad "guard release" "got HTTP $C"
+
+hdr "The rewards behind the totals"
+
+get_earn() {
+  curl -s -o /tmp/ref-earn.json -w "%{http_code}" -m 60 \
+    "$API/me/referral/earnings$1" -H "Authorization: Bearer $TOK"
+}
+
+C=$(get_earn "")
+E=$(cat /tmp/ref-earn.json)
+[ "$C" = "200" ] && ok "a referrer can list their rewards" || bad "earnings" "HTTP $C"
+[ "$(echo "$E" | field returned)" = "0" ] \
+  && ok "and one who has referred nobody gets an empty list" \
+  || bad "empty list" "$E"
+[ "$(echo "$E" | field hasMore)" = "False" ] \
+  && ok "with hasMore false rather than absent" || bad "hasMore" "$E"
+
+# `?limit=20` arrives as the STRING "20". The global pipe runs with
+# enableImplicitConversion off, so without @Type(() => Number) this fails
+# @IsInt and the screen shows a validation error for a parameter the user
+# never typed. This is the check that a working limit works for the right
+# reason.
+C=$(get_earn "?limit=1")
+[ "$C" = "200" ] && ok "a numeric limit survives arriving as a string" \
+                 || bad "limit coercion" "HTTP $C -- $(cat /tmp/ref-earn.json)"
+
+for LIM in 0 101 -1 abc 1.5; do
+  C=$(get_earn "?limit=$LIM")
+  [ "$C" = "400" ] && ok "limit=$LIM is refused" || bad "limit=$LIM" "got HTTP $C"
+done
+
+C=$(get_earn "?offset=10")
+[ "$C" = "400" ] && ok "an unexpected query parameter is refused, not ignored" \
+                 || bad "whitelist" "got HTTP $C"
+
+C=$(curl -s -o /dev/null -w "%{http_code}" -m 60 "$API/me/referral/earnings")
+[ "$C" = "401" ] && ok "a stranger cannot list somebody's rewards" \
+                 || bad "anon earnings" "got HTTP $C"
+
+hdr "The sentence that gets forwarded"
+
+share() {
+  if [ -z "$1" ]; then
+    curl -s -m 60 "$API/me/referral" -H "Authorization: Bearer $TOK" | field shareText
+  else
+    curl -s -m 60 "$API/me/referral" -H "Authorization: Bearer $TOK" \
+      -H "Accept-Language: $1" | field shareText
+  fi
+}
+
+EN=$(share "")
+case "$EN" in
+  *"$CODE"*) ok "the share text carries the code" ;;
+  *) bad "share text" "code missing from: $EN" ;;
+esac
+case "$EN" in
+  *"10%"*) ok "and says what the gym owner gets out of it" ;;
+  *) bad "share text" "no discount in: $EN" ;;
+esac
+
+# Every supported language, because a locale added to SUPPORTED_LOCALES
+# without a line in share-text.ts would otherwise put the word "undefined"
+# in front of a gym owner.
+SHARES=""
+for L in en hi bn ta te mr ml kn gu pa; do
+  T=$(share "$L")
+  case "$T" in
+    *"$CODE"*) ok "$L: answered, and the code is still Latin script" ;;
+    *) bad "$L share text" "got: $T" ;;
+  esac
+  SHARES="$SHARES$T
+"
+done
+
+DISTINCT=$(printf '%s' "$SHARES" | sort -u | grep -c .)
+[ "$DISTINCT" = "10" ] \
+  && ok "all ten languages differ -- none is a copy of another" \
+  || bad "translations" "only $DISTINCT distinct strings across ten languages"
+
+# Different is not the same as translated: a typo'd English line would pass
+# the distinctness check above. The script itself has to be there.
+HI=$(share hi)
+if printf '%s' "$HI" | python -c "
+import sys
+t = sys.stdin.buffer.read().decode('utf-8')
+sys.exit(0 if any('\u0900' <= c <= '\u097f' for c in t) else 1)"; then
+  ok "the Hindi one is in Devanagari, not merely different"
+else
+  bad "hi" "no Devanagari in: $HI"
+fi
+
+TA=$(share ta)
+if printf '%s' "$TA" | python -c "
+import sys
+t = sys.stdin.buffer.read().decode('utf-8')
+sys.exit(0 if any('\u0b80' <= c <= '\u0bff' for c in t) else 1)"; then
+  ok "and the Tamil one is in Tamil script"
+else
+  bad "ta" "no Tamil script in: $TA"
+fi
+
+# A real Accept-Language is a weighted list. Reading the first entry and
+# stopping would serve English to somebody who plainly asked for Marathi.
+W=$(share "en;q=0.5,mr;q=0.9")
+MR=$(share mr)
+[ "$W" = "$MR" ] && ok "a weighted header picks the highest q, not the first entry" \
+                 || bad "weighted header" "got: $W"
+
+FR=$(share "fr-FR,fr;q=0.9")
+[ "$FR" = "$EN" ] && ok "an unsupported language falls back to English" \
+                  || bad "fallback" "got: $FR"
 
 hdr "Who may not do this at all"
 OWN=$(login "$P_OWN" "Owner")
@@ -394,11 +513,90 @@ C=$(curl -s -o /dev/null -w "%{http_code}" -X PUT "$API/me/referral/pan" \
     -H "Authorization: Bearer $OWN" -H 'Content-Type: application/json' -d '{"pan":"ABCDE1234F"}')
 [ "$C" = "403" ] && ok "nor a PAN" || bad "owner pan" "got HTTP $C"
 
+C=$(curl -s -o /dev/null -w "%{http_code}" "$API/me/referral/earnings" \
+    -H "Authorization: Bearer $OWN")
+[ "$C" = "403" ] && ok "nor read an earnings list they cannot have" \
+                 || bad "owner earnings" "got HTTP $C"
+
+# The refusal has to be machine-readable, not just readable.
+#
+# This sentence is the entire screen for a gym owner and the only thing
+# they will ever see from us -- so the app carries it in all ten languages
+# and picks its own by this code. Matching on the English would break the
+# first time the wording improved, and could not tell this 403 apart from
+# the suspended-account one that shares its status.
+BODY=$(curl -s "$API/me/referral" -H "Authorization: Bearer $OWN")
+[ "$(echo "$BODY" | field code)" = "REFERRAL_OWNER_EXCLUDED" ] \
+  && ok "and the refusal names itself, so the app can translate it" \
+  || bad "error code" "$BODY"
+
+# The login path enforces the same rule and has to answer the same way --
+# it is one sentence in the app, not two, and it is the path a real gym
+# owner actually hits.
+#
+# This costs a wait, and the wait is the point. `$P_OWN` was signed in a
+# moment ago to create the gym, and a number may only be sent a code every
+# thirty seconds. The first version of this check ignored that, got an
+# empty challenge id, and failed with a validation error about a field the
+# test never filled in -- which looks nothing like the cooldown that
+# actually caused it. So the delay is read off the server's own answer
+# rather than slept blind, and the suite says out loud that it is waiting.
+otp_request() {
+  curl -s -m 60 -X POST "$API/auth/otp/request" -H 'Content-Type: application/json' \
+    -d "{\"phone\":\"$1\",\"appClient\":\"$2\"}"
+}
+
+LOGIN=$(otp_request "$P_OWN" REFERRAL)
+WAIT=$(echo "$LOGIN" | python -c "
+import sys, json, re
+try:
+    d = json.load(sys.stdin)
+except Exception:
+    print(0); raise SystemExit
+if d.get('challengeId'):
+    print(0)
+else:
+    m = re.search(r'(\d+)s', str(d.get('message', '')))
+    print(int(m.group(1)) + 2 if m else 0)" 2>/dev/null)
+
+if [ "${WAIT:-0}" -gt 0 ] 2>/dev/null; then
+  printf '  ..    waiting %ss for the per-number resend cooldown\n' "$WAIT"
+  sleep "$WAIT"
+  LOGIN=$(otp_request "$P_OWN" REFERRAL)
+fi
+
+LCID=$(echo "$LOGIN" | field challengeId); LCODE=$(echo "$LOGIN" | field devCode)
+[ -n "$LCID" ] && [ -n "$LCODE" ] \
+  && ok "a fresh referral-app challenge was issued to a gym owner" \
+  || bad "referral challenge" "$LOGIN"
+
+LV=$(curl -s -m 60 -X POST "$API/auth/otp/verify" -H 'Content-Type: application/json' \
+     -d "{\"challengeId\":\"$LCID\",\"phone\":\"$P_OWN\",\"code\":\"$LCODE\",\"appClient\":\"REFERRAL\"}")
+[ "$(echo "$LV" | field statusCode)" = "403" ] \
+  && ok "and a correct code still does not let them in" \
+  || bad "referral login" "$LV"
+[ "$(echo "$LV" | field code)" = "REFERRAL_OWNER_EXCLUDED" ] \
+  && ok "with the same code the referral endpoints use" || bad "login code" "$LV"
+
+# The member app is where this person belongs, and $OWN is a live token
+# from exactly that login a few checks ago. A rule that turned an owner
+# away everywhere would be a worse bug than the one it guards against, and
+# this says so without spending another code.
+[ "$(curl -s -o /dev/null -w "%{http_code}" "$API/auth/me" -H "Authorization: Bearer $OWN")" = "200" ] \
+  && ok "while the same owner's member session still works" || bad "member session" "refused"
+
+# The code is added deliberately, one refusal at a time. If it started
+# appearing on everything it would become a second, unversioned API that
+# nobody maintains -- so an ordinary validation failure must not carry one.
+PLAIN=$(curl -s "$API/me/referral/earnings?limit=0" -H "Authorization: Bearer $TOK")
+[ -z "$(echo "$PLAIN" | field code)" ] \
+  && ok "and an ordinary 400 carries no code at all" || bad "code leak" "$PLAIN"
+
 C=$(curl -s -o /dev/null -w "%{http_code}" -X PUT "$API/me/referral/payout-method" \
     -H 'Content-Type: application/json' -d "{\"upiId\":\"$VPA1\",\"holderName\":\"Nobody\"}")
 [ "$C" = "401" ] && ok "and a stranger with no token is refused" || bad "anon" "got HTTP $C"
 
-rm -f /tmp/ref-body.json
+rm -f /tmp/ref-body.json /tmp/ref-earn.json
 printf "\n"
 if [ -z "$FAILED" ]; then
   printf "\033[32mALL CHECKS PASSED\033[0m\n"; exit 0

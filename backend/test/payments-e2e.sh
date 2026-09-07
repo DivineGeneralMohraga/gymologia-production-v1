@@ -221,6 +221,64 @@ REWARDS=$(node -e '
 [ "$REWARDS" = "1" ] && ok "replayed webhook did not double-reward the referrer" \
   || bad "idempotency" "expected 1 redemption, got $REWARDS"
 
+# And the referrer can now SEE it. Everything above proves a redemption row
+# exists in the database; this proves the person who earned it is told. The
+# row is produced by the product here -- a real checkout, a real signed
+# webhook -- rather than inserted by the test, which is the only way this
+# check means anything.
+hdr "What the referrer is shown"
+EARN=$(curl -s "$API/me/referral/earnings" -H "Authorization: Bearer $REFERRER")
+COUNT=$(echo "$EARN" | python -c "
+import sys, json
+print(len(json.load(sys.stdin)['items']))" 2>/dev/null)
+[ "$COUNT" = "1" ] && ok "the reward appears in the referrer's own list" \
+                   || bad "earnings list" "got $COUNT rows -- $EARN"
+
+ROW=$(echo "$EARN" | python -c "
+import sys, json
+i = json.load(sys.stdin)['items'][0]
+print('%s|%s|%s' % (i['gymName'], i['rewardPaise'], i['status']))" 2>/dev/null)
+
+case "$ROW" in
+  "Paying Gym - "*) ok "named after the gym that used the code" ;;
+  *) bad "gym name" "got $ROW" ;;
+esac
+case "$ROW" in
+  *"|5000|"*) ok "for the flat 5000 paise reward" ;;
+  *) bad "reward" "got $ROW" ;;
+esac
+case "$ROW" in
+  *"|PENDING") ok "held PENDING until the refund window closes" ;;
+  *) bad "status" "got $ROW" ;;
+esac
+
+# What the gym paid is the gym's business. The referrer's reward is flat
+# and is theirs; the discount is a fraction of somebody else's invoice.
+echo "$EARN" | grep -q discountPaise \
+  && bad "leak" "the earnings list exposes what the gym paid" \
+  || ok "and says nothing about what that gym was charged"
+
+TOTALS=$(curl -s "$API/me/referral" -H "Authorization: Bearer $REFERRER" | python -c "
+import sys, json
+d = json.load(sys.stdin)
+print('%s|%s' % (d['timesRedeemed'], d['earnings']['pendingPaise']))" 2>/dev/null)
+[ "$TOTALS" = "1|5000" ] && ok "and the running totals agree with the list" \
+                         || bad "totals" "got $TOTALS"
+
+# The boundary, with real data: exactly one reward, asked for one page of
+# one. `hasMore` has to be FALSE. Inferring it from a full page -- which is
+# what `rows.length === limit` does -- gets this exact case wrong and tells
+# a referrer that rewards are hidden when the screen is showing all of them.
+# The endpoint fetches one row more than it returns instead, so the answer
+# comes from looking rather than from a coincidence.
+EXACT=$(curl -s "$API/me/referral/earnings?limit=1" -H "Authorization: Bearer $REFERRER" | python -c "
+import sys, json
+d = json.load(sys.stdin)
+print('%s|%s|%s' % (len(d['items']), d['returned'], d['hasMore']))" 2>/dev/null)
+[ "$EXACT" = "1|1|False" ] \
+  && ok "a page that is exactly full is not reported as truncated" \
+  || bad "hasMore boundary" "got $EXACT, expected 1|1|False"
+
 hdr "Search listing"
 sleep 1
 FOUND=$(curl -s "$API/gyms/search?query=Paying%20Gym" | python -c "

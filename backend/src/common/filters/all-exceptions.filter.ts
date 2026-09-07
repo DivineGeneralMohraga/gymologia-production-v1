@@ -15,6 +15,24 @@ interface ErrorBody {
   statusCode: number;
   message: string | string[];
   error: string;
+  /**
+   * A stable identifier for refusals a client has to react to rather than
+   * merely display.
+   *
+   * Almost every error here is fine as prose: the message is written for
+   * the person reading it and the client shows it. The exception is a
+   * refusal that IS the whole screen for a class of user -- a gym owner
+   * signing into the referral app is told, in English, that they may not,
+   * and that sentence is the only thing they will ever see from us. A
+   * client cannot translate prose, and matching on the English text would
+   * break the first time the wording improved.
+   *
+   * Absent on everything that does not need it. Added deliberately and
+   * sparingly: a code on every error would become a second, unversioned
+   * API that nobody maintains.
+   */
+  code?: string;
+
   /** Correlates what the user saw with what the logs recorded. */
   reference: string;
   timestamp: string;
@@ -41,12 +59,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
     const reference = randomUUID();
 
-    const { status, message, error, logLevel } = this.translate(exception);
+    const { status, message, error, code, logLevel } =
+      this.translate(exception);
 
     const body: ErrorBody = {
       statusCode: status,
       message,
       error,
+      ...(code ? { code } : {}),
       reference,
       timestamp: new Date().toISOString(),
       path: request.url,
@@ -69,6 +89,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     status: number;
     message: string | string[];
     error: string;
+    code?: string;
     logLevel: 'warn' | 'error';
   } {
     if (exception instanceof HttpException) {
@@ -79,10 +100,18 @@ export class AllExceptionsFilter implements ExceptionFilter {
           ? payload
           : ((payload as { message?: string | string[] }).message ??
             exception.message);
+      // Only a string, and only from an object payload. Whatever a thrower
+      // puts here reaches a client, so it is read narrowly rather than
+      // spread from the payload wholesale.
+      const raw =
+        typeof payload === 'object' && payload !== null
+          ? (payload as { code?: unknown }).code
+          : undefined;
       return {
         status,
         message,
         error: HttpStatus[status] ?? 'Error',
+        code: typeof raw === 'string' ? raw : undefined,
         logLevel: status >= 500 ? 'error' : 'warn',
       };
     }

@@ -1,6 +1,15 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
-import { IsString, Matches, MaxLength, MinLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Transform, Type } from 'class-transformer';
+import {
+  IsInt,
+  IsOptional,
+  IsString,
+  Matches,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+} from 'class-validator';
 
 import { IsPan } from '../../common/validation/india-ids';
 import { IsUpiVpa, normaliseVpa } from '../../common/validation/upi-vpa';
@@ -53,4 +62,22 @@ export class SetPanDto {
   )
   @IsPan()
   pan!: string;
+}
+
+/**
+ * How many reward rows to return.
+ *
+ * `@Type(() => Number)` is not decoration: the global pipe runs with
+ * `enableImplicitConversion: false`, so without it `?limit=20` arrives as
+ * the string "20", fails `@IsInt`, and the screen shows a validation error
+ * for a parameter the user never typed.
+ */
+export class EarningsQueryDto {
+  @ApiPropertyOptional({ minimum: 1, maximum: 100, default: 50 })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(100)
+  limit?: number;
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  DEBUG ONLY. This file replaces the release one for debug builds, because
+  the Android resource merger prefers the variant's copy.
+
+  The development hosts live here and nowhere else. A shipped app never
+  talks to the emulator's host alias, to localhost, or to a laptop on the
+  same wifi — so permitting cleartext to them in a release build is attack
+  surface with no benefit whatsoever. It was in the shared config, which
+  meant every release carried it.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- The AWS host, over plain http until it has a certificate. -->
+        <domain includeSubdomains="false">65.0.75.45</domain>
+        <!-- Android emulator's alias for the host machine -->
+        <domain includeSubdomains="false">10.0.2.2</domain>
+        <domain includeSubdomains="false">localhost</domain>
+        <!-- Private LAN ranges, for a physical phone on the same wifi -->
+        <domain includeSubdomains="true">192.168.0.0</domain>
+        <domain includeSubdomains="true">192.168.1.0</domain>
+    </domain-config>
+</network-security-config>

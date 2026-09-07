@@ -1,11 +1,25 @@
-import { Body, Controller, Get, Put, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  Put,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import type { Request } from 'express';
 
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CurrentUser, AuthUser } from '../rbac/rbac.decorators';
+import { normalizeLocale } from '../common/utils/locale';
 import { ReferralsService } from './referrals.service';
-import { SetPanDto, SetPayoutMethodDto } from './dto/referrals.dto';
+import {
+  EarningsQueryDto,
+  SetPanDto,
+  SetPayoutMethodDto,
+} from './dto/referrals.dto';
 
 const meta = (req: Request) => ({
   ip: req.ip ?? null,
@@ -35,8 +49,21 @@ export class ReferralsController {
   @ApiOperation({
     summary: 'Your referral code and earnings, created on first ask',
   })
-  mine(@CurrentUser() user: AuthUser) {
-    return this.referrals.mine(user.userId);
+  mine(
+    @CurrentUser() user: AuthUser,
+    // The share sentence comes back in this language. It is the one string
+    // here whose reader is somebody else -- it gets forwarded to a gym
+    // owner -- so it is worth the header rather than shipping English to
+    // everybody.
+    @Headers('accept-language') locale?: string,
+  ) {
+    return this.referrals.mine(user.userId, normalizeLocale(locale));
+  }
+
+  @Get('earnings')
+  @ApiOperation({ summary: 'The individual rewards behind the totals' })
+  earnings(@CurrentUser() user: AuthUser, @Query() query: EarningsQueryDto) {
+    return this.referrals.earnings(user.userId, query.limit ?? 50);
   }
 
   @Put('payout-method')

@@ -201,6 +201,16 @@ export class AuthService {
     // verification and submit. Treat it as a login rather than an error.
     const existing = await this.prisma.user.findUnique({ where: { phone } });
     if (existing) {
+      // The same eligibility check the login path runs, and it belongs on
+      // this branch too. The account was created in the fifteen minutes
+      // since this token was issued, and creating a gym is one of the
+      // things that can have happened in them -- so this is the one path
+      // to a REFERRAL session that could otherwise skip the owner check.
+      // Nothing much comes of holding one, because every referral endpoint
+      // asks again, but a rule with two versions is a rule waiting to be
+      // enforced in only one of them.
+      await this.assertClientAllowed(existing.id, payload.client);
+
       const tokens = await this.tokens.issuePair(
         existing.id,
         existing.phone,
@@ -281,9 +291,15 @@ export class AuthService {
     });
 
     if (ownedGym) {
-      throw new ForbiddenException(
-        'Gym owners cannot use the referral app. Gym staff and everyone else can.',
-      );
+      throw new ForbiddenException({
+        message:
+          'Gym owners cannot use the referral app. Gym staff and everyone else can.',
+        // The referral app carries this sentence in ten languages and
+        // shows its own when it sees this code. Without it the client
+        // would have to match on the English, which breaks the first
+        // time the wording is improved.
+        code: 'REFERRAL_OWNER_EXCLUDED',
+      });
     }
   }
 

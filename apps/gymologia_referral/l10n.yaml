@@ -1,0 +1,11 @@
+# Where the translations live and what gets generated from them.
+#
+# Same settings as the member app, so a string can be moved between the two
+# without rewriting how it is looked up. Missing keys fall back to the
+# template locale rather than rendering blank, which is what lets a language
+# be filled in a few strings at a time.
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+nullable-getter: false
