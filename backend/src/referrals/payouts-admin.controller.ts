@@ -91,6 +91,19 @@ export class PayoutsAdminController {
     };
   }
 
+  @Post(':payoutId/reconcile')
+  @RequireAdminRole(AdminRole.OWNER, AdminRole.ADMIN)
+  @ApiOperation({
+    summary: 'Ask Cashfree what became of a payout stuck in PROCESSING',
+    description:
+      'Reads the transfer by its idempotency key and settles or releases on ' +
+      'the answer. Never re-sends: a payout is left PROCESSING precisely ' +
+      'because a network error is not proof it did not go.',
+  })
+  reconcile(@Param('payoutId', ParseUUIDPipe) payoutId: string) {
+    return this.runner.reconcile(payoutId);
+  }
+
   @Post(':payoutId/run')
   @RequireAdminRole(AdminRole.OWNER, AdminRole.ADMIN)
   @ApiOperation({

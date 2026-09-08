@@ -34,8 +34,11 @@ export interface RunResult {
  * The status moves to PROCESSING **before** the network call and back only
  * on a definite answer. A crash between the two leaves PROCESSING, which
  * `assertNoPayoutInFlight` already treats as in-flight, so nothing else can
- * raise a second payout for the same rewards. Recovering one of those is a
- * status read against the transfer id, never a re-send.
+ * raise a second payout for the same rewards. Recovering one of those is
+ * `reconcile()` below -- a status read against the transfer id, never a
+ * re-send. That sentence was here before the method was, describing a
+ * recovery path that did not exist; a sweep for functions with no callers
+ * found `getTransfer` unused and this is what it was missing.
  *
  * ## When it fails
  *
@@ -158,6 +161,60 @@ export class PayoutRunnerService {
       );
       return { payoutId, outcome: 'PENDING', detail };
     }
+  }
+
+  /**
+   * Resolve a payout that is stuck in PROCESSING, by asking rather than
+   * re-sending.
+   *
+   * This is the other half of the promise the error handling above makes.
+   * A network failure is not proof the transfer did not happen, so those
+   * payouts are left PROCESSING deliberately -- and that is only a safe
+   * choice if something can later find out what actually became of them.
+   * Without this method that sentence was a comment describing a recovery
+   * path that did not exist, and the payout would have sat there forever.
+   *
+   * It never sends. It reads the transfer by the same idempotency key that
+   * was submitted and settles or releases on the answer.
+   */
+  async reconcile(payoutId: string): Promise<RunResult> {
+    const payout = await this.prisma.payout.findUnique({
+      where: { id: payoutId },
+    });
+    if (!payout) return { payoutId, outcome: 'FAILED', detail: 'No such payout' };
+
+    if (payout.status !== PayoutStatus.PROCESSING) {
+      return {
+        payoutId,
+        outcome: 'REFUSED',
+        detail: `Only a PROCESSING payout can be reconciled (${payout.status})`,
+      };
+    }
+    if (!this.payouts.isConfigured) {
+      return {
+        payoutId,
+        outcome: 'REFUSED',
+        detail: 'Cashfree Payouts credentials are not set',
+      };
+    }
+
+    const result = await this.payouts.getTransfer(payout.idempotencyKey);
+
+    if (result.state === 'SUCCESS') {
+      await this.settle(
+        payout.id,
+        payout.referralAccountId,
+        payout.netPaise,
+        result.utr,
+      );
+      return { payoutId, outcome: 'SENT', detail: result.utr ?? 'sent' };
+    }
+    if (result.state === 'FAILED') {
+      await this.giveBack(payout.id, result.reason);
+      return { payoutId, outcome: 'FAILED', detail: result.reason };
+    }
+    // Still genuinely in flight at Cashfree's end. Left alone.
+    return { payoutId, outcome: 'PENDING', detail: 'Still with Cashfree' };
   }
 
   /** Money arrived: mark everything, once, in one transaction. */

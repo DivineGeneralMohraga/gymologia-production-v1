@@ -75,8 +75,21 @@ fi
 cd "$REPO_DIR" || fail "$REPO_DIR not found"
 
 # Where to return to if this goes wrong.
-PREVIOUS=$(git rev-parse HEAD)
-log "Currently at $(git rev-parse --short HEAD)"
+#
+# Only meaningful when there is a git checkout to return TO. With --no-pull
+# the code got here by rsync, scp or a tarball and there may be no .git at
+# all -- which is exactly the situation --no-pull was added for, so asking
+# git for a commit first killed the script before it did any work. The
+# rollback paths below already refuse to run under --no-pull for the same
+# reason, so nothing is lost by not having it.
+if git rev-parse --git-dir >/dev/null 2>&1; then
+  PREVIOUS=$(git rev-parse HEAD)
+  log "Currently at $(git rev-parse --short HEAD)"
+else
+  PREVIOUS=""
+  [ -n "$SKIP_PULL" ] || fail "$REPO_DIR is not a git checkout. Use --no-pull."
+  warn "No git checkout here; nothing records which commit is being deployed."
+fi
 
 # ── Pull ──────────────────────────────────────────────────────────────
 if [ -n "$SKIP_PULL" ]; then
@@ -94,26 +107,41 @@ else
 fi
 
 build_and_start() {
-  cd "$REPO_DIR/backend"
+  cd "$REPO_DIR/backend" || return 1
 
   log "Installing dependencies"
-  # `npm ci` wipes node_modules and installs exactly what the lockfile
-  # says. Dev dependencies are needed here because the TypeScript build
-  # runs on the box.
-  npm ci --no-audit --no-fund
+  # `npm ci` wipes node_modules and installs exactly what the lockfile says.
+  #
+  # --include=dev is not optional and not a style choice. This script sources
+  # $ENV_FILE a few lines up, because `prisma migrate deploy` needs
+  # DATABASE_URL -- and that file sets NODE_ENV=production, which npm reads
+  # as "omit devDependencies". The nest CLI is a devDependency, so without
+  # this flag the compile below fails with `sh: 1: nest: not found` on a box
+  # that has 365MB of node_modules sitting right there.
+  npm ci --no-audit --no-fund --include=dev || return 1
 
   log "Generating the Prisma client"
-  npx prisma generate
+  npx prisma generate || return 1
 
   log "Compiling"
-  npm run build
+  npm run build || return 1
+
+  # Proof, not inference. `npm run build` exiting 0 is not the same as the
+  # entry point existing, and the thing systemd is about to run is this file.
+  [ -f dist/main.js ] || { warn "build produced no dist/main.js"; return 1; }
 
   log "Applying database migrations"
   # Before the restart, so a failed migration stops the deploy instead of
   # leaving the API running against a schema it does not understand.
-  npx prisma migrate deploy
+  npx prisma migrate deploy || return 1
 }
 
+# Every step inside build_and_start ends in `|| return 1` because bash
+# TURNS OFF errexit inside a function used as an `if` condition -- the
+# `set -euo pipefail` at the top of this file does not reach in here. Before
+# that was true of the code rather than just the comment, a failed compile
+# followed by a successful migration returned 0 from this function and the
+# service was restarted with no build at all.
 if ! build_and_start; then
   if [ -n "$SKIP_PULL" ]; then
     warn "Build failed. There is nothing to roll back to: --no-pull means the"
@@ -135,7 +163,11 @@ for i in $(seq 1 20); do
   if curl -fsS -m 5 "$HEALTH_URL" >/dev/null 2>&1; then
     printf '\n'
     curl -fsS "$HEALTH_URL"; printf '\n'
-    log "Deployed $(git -C "$REPO_DIR" rev-parse --short HEAD)"
+    if [ -n "$PREVIOUS" ]; then
+      log "Deployed $(git -C "$REPO_DIR" rev-parse --short HEAD)"
+    else
+      log "Deployed the working tree (no git checkout to name a commit)"
+    fi
     exit 0
   fi
   sleep 5
