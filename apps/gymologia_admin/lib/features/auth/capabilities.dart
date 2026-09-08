@@ -42,8 +42,15 @@ bool canReach(String section, String role, Map<String, dynamic>? flags) {
       return adminRoles.contains(role);
     case 'kyc':
       // KYC_AGENT exists to do exactly this, and MANAGER upwards can too.
-      // The only section without a server flag, so the rule is written out.
+      // One of two sections the server has no capability flag for, so the
+      // rule is written out here; payouts is the other.
       return role == 'KYC_AGENT' || _isAtLeast(role, 'MANAGER');
+    case 'payouts':
+      // Owner and admin only, and written out rather than read from a flag
+      // because the server has no flag for it -- it uses the role list
+      // directly. This is the one screen where a button moves money, so the
+      // narrowest rule in the console is the right one.
+      return _isAtLeast(role, 'ADMIN');
     case 'tickets':
       return flag('canHandleSupport');
     case 'broadcast':

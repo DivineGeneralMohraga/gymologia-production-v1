@@ -177,6 +177,19 @@ class AdminApi {
     return _list(res);
   }
 
+  // ── Payouts ────────────────────────────────────────────────────────
+
+  /// Withdrawals waiting to be sent, and whether anything can be.
+  ///
+  /// The whole map, not just the rows: `blockedReason` is the difference
+  /// between "nobody has withdrawn" and "everybody has, and none of it can
+  /// move", and a screen that dropped it would show the same empty-looking
+  /// queue for both.
+  Future<Map<String, dynamic>> payoutQueue() => _client.get('/admin/payouts');
+
+  Future<Map<String, dynamic>> runPayout(String payoutId) =>
+      _client.post('/admin/payouts/$payoutId/run');
+
   // ── Blocked addresses ──────────────────────────────────────────────
 
   Future<List<dynamic>> blocks() async =>

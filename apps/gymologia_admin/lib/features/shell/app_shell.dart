@@ -6,6 +6,7 @@ import '../auth/auth_controller.dart';
 import '../broadcast/broadcast_page.dart';
 import '../dashboard/dashboard_page.dart';
 import '../kyc/kyc_page.dart';
+import '../payouts/payouts_page.dart';
 import '../logs/logs_page.dart';
 import '../staff/staff_page.dart';
 import '../tickets/tickets_page.dart';
@@ -46,6 +47,9 @@ class _AppShellState extends State<AppShell> {
       if (auth.can('broadcast'))
         const _Section('broadcast', 'Announce', Icons.campaign_outlined,
             Icons.campaign, BroadcastPage()),
+      if (auth.can('payouts'))
+        const _Section('payouts', 'Payouts', Icons.payments_outlined,
+            Icons.payments, PayoutsPage()),
       if (auth.can('staff'))
         const _Section('staff', 'Staff', Icons.badge_outlined, Icons.badge,
             StaffPage()),

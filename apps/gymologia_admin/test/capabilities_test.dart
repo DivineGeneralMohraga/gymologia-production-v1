@@ -69,6 +69,26 @@ void main() {
     });
   });
 
+  group('the payout desk', () {
+    test('is owner and admin only', () {
+      expect(canReach('payouts', 'OWNER', owner), isTrue);
+      expect(canReach('payouts', 'ADMIN', flags()), isTrue);
+    });
+
+    test('and nobody else, whatever flags they carry', () {
+      // Deliberately checked against a manager holding every flag: this is
+      // the one screen where a button moves money, so it must not widen by
+      // accident when a flag is granted for some other reason.
+      expect(canReach('payouts', 'MANAGER', owner), isFalse);
+      expect(canReach('payouts', 'CUSTOMER_SUPPORT', owner), isFalse);
+      expect(canReach('payouts', 'KYC_AGENT', owner), isFalse);
+    });
+
+    test('and not for a role the server has never heard of', () {
+      expect(canReach('payouts', 'ANALYST', owner), isFalse);
+    });
+  });
+
   group('sections gated by a server flag', () {
     test('follow the flag, not the role name', () {
       // The point of reading flags: the server can change who may broadcast
@@ -123,7 +143,12 @@ void main() {
 
     test('an unknown section is not drawn', () {
       // A typo in a section name should hide a tab, never reveal one.
-      expect(canReach('payouts', 'OWNER', owner), isFalse);
+      //
+      // The example used to be 'payouts', which stopped being unknown the
+      // day the payout desk was added -- and the test failed, correctly,
+      // for exactly that reason. Kept deliberately meaningless now.
+      expect(canReach('refunds', 'OWNER', owner), isFalse);
+      expect(canReach('payoutz', 'OWNER', owner), isFalse);
       expect(canReach('', 'OWNER', owner), isFalse);
     });
   });
