@@ -183,6 +183,75 @@ LIFT=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE \
 [ "$LIFT" = "404" ] && ok "lifting a block that is not there is a 404, not a cheerful 200" \
   || bad "lift missing block" "got $LIFT, expected 404"
 
+# NOTE: this section must stay ABOVE "Guarding the last owner".
+# That section removes $ADMIN from the platform and promotes
+# $SUPPORT to OWNER, so below it the two tokens mean the opposite
+# of what they read as here.
+hdr "The payout desk"
+
+# A queued payout to look at. Raised by hand because getting a real one here
+# would mean running the whole subscription and referral chain inside the
+# admin suite -- payments-e2e already proves that path end to end. What is
+# under test here is who may open this desk and what it does when asked to
+# send, neither of which depends on how the payout came to exist.
+PAYOUT_ID=$(db "
+  const acct = await p.referralAccount.create({ data: {
+    user: { create: { phone: '+9199999' + String(Date.now()).slice(-5), name: 'Payout Desk', age: 30 } },
+    code: 'PD' + String(Date.now()).slice(-6),
+    upiIdMasked: 'pa*****@okhdfcbank',
+    upiHolderName: 'Payout Desk',
+    upiVerified: false,
+  } });
+  const out = await p.payout.create({ data: {
+    referralAccountId: acct.id, grossPaise: 5000, netPaise: 4000,
+    verifyFeePaise: 1000, status: 'QUEUED',
+    idempotencyKey: 'desk-' + Date.now(), financialYear: '2026-2027',
+  } });
+  console.log(out.id);
+")
+[ -n "$PAYOUT_ID" ] && ok "a queued payout exists to look at" || bad "setup" "no payout"
+
+Q=$(curl -s "$API/admin/payouts" -H "Authorization: Bearer $ADMIN")
+[ -n "$(echo "$Q" | field total)" ] && ok "an owner can open the payout desk" || bad "desk" "$Q"
+
+# The queue must never show a full payment address, on a screen opened by
+# staff who have no business reading one.
+echo "$Q" | grep -q "upiIdMasked" \
+  && { echo "$Q" | grep -qE '"upiIdMasked":"[a-z0-9._-]+@' \
+         && bad "queue privacy" "an unmasked address is in the payout queue" \
+         || ok "and sees masked addresses only"; } \
+  || bad "queue privacy" "nothing to inspect: $Q"
+
+# Said up front rather than left as an unexplained queue of held money.
+BLOCKED=$(echo "$Q" | field blockedReason)
+case "$BLOCKED" in
+  *Verification*) ok "and is told why nothing can be sent yet" ;;
+  *) bad "blockedReason" "got: $BLOCKED" ;;
+esac
+
+# The check that matters most: asked to send, it refuses and changes
+# NOTHING. Charging ten rupees for a check that never ran and then paying
+# an unverified address is the failure this whole design exists to avoid.
+RUN=$(curl -s -X POST "$API/admin/payouts/$PAYOUT_ID/run" -H "Authorization: Bearer $ADMIN")
+[ "$(echo "$RUN" | field outcome)" = "REFUSED" ] \
+  && ok "asked to send, it refuses" || bad "run" "$RUN"
+
+STILL=$(db "
+  const out = await p.payout.findUnique({ where: { id: process.argv[1] } });
+  console.log(out ? out.status : 'GONE');
+" "$PAYOUT_ID")
+[ "$STILL" = "QUEUED" ] \
+  && ok "and leaves the payout QUEUED -- the money is still owed" \
+  || bad "run side effect" "status is now $STILL"
+
+# Customer support has no business here at all.
+SUP=$(curl -s -o /dev/null -w "%{http_code}" "$API/admin/payouts" -H "Authorization: Bearer $SUPPORT")
+[ "$SUP" = "403" ] && ok "customer support cannot open the payout desk" \
+                   || bad "support payouts" "got HTTP $SUP"
+
+CIV=$(curl -s -o /dev/null -w "%{http_code}" "$API/admin/payouts" -H "Authorization: Bearer $CIVILIAN")
+[ "$CIV" = "403" ] && ok "nor can an ordinary account" || bad "civilian payouts" "got HTTP $CIV"
+
 hdr "Guarding the last owner"
 # Identify both records through /admin/me rather than picking the first row
 # with a matching role. The database keeps admins from previous runs, so
