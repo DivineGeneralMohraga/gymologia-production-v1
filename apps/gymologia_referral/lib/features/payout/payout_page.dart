@@ -8,6 +8,7 @@ import '../../core/api/error_text.dart';
 import '../../l10n/app_localizations.dart';
 import '../auth/auth_controller.dart';
 import '../referral/referral_controller.dart';
+import 'withdraw_card.dart';
 
 /// Where the money goes: a UPI ID, a name to check it against, and a PAN.
 ///
@@ -106,9 +107,13 @@ class PayoutPage extends StatelessWidget {
           ),
         ],
         const SizedBox(height: 14),
+        const WithdrawCard(),
+        const SizedBox(height: 14),
         _UpiCard(payout: payout),
         const SizedBox(height: 14),
         _PanCard(payout: payout),
+        const SizedBox(height: 22),
+        const WithdrawHistory(),
       ],
     );
   }

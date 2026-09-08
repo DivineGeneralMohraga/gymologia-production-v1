@@ -58,3 +58,31 @@ export function istWeekStart(input: string | Date): Date {
   const offset = (day.getUTCDay() + 6) % 7;
   return new Date(day.getTime() - offset * 24 * 60 * 60 * 1000);
 }
+
+/**
+ * The Indian financial year containing `input`, as "2026-2027".
+ *
+ * India's tax year runs 1 April to 31 March, so the calendar year is the
+ * wrong bucket for anything a chartered accountant will ever look at: a
+ * payout on 15 March and one on 15 April belong to different years despite
+ * being a month apart, and two payouts in the same calendar year can
+ * straddle the boundary.
+ *
+ * Decided in IST for the same reason every other day question here is: a
+ * transfer at 02:00 IST on 1 April is 20:30 UTC on 31 March, which lands in
+ * the previous financial year if the shift is skipped. That is one row in
+ * the wrong annual return.
+ *
+ * Nothing withholds tax today -- a ₹50 reward would need four hundred
+ * referrals in one year to reach the threshold -- but the year is stamped
+ * on every payout from the start, because the day that changes the records
+ * have to already exist rather than begin then.
+ */
+export function istFinancialYear(input: string | Date): string {
+  const day = istDay(input);
+  const year = day.getUTCFullYear();
+  // getUTCMonth is zero-based, so 3 is April: on or after 1 April the
+  // financial year starts this calendar year, before it the previous one.
+  const startYear = day.getUTCMonth() >= 3 ? year : year - 1;
+  return `${startYear}-${startYear + 1}`;
+}

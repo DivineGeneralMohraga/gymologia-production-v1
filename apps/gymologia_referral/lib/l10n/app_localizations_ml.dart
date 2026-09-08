@@ -226,6 +226,69 @@ class AppLocalizationsMl extends AppLocalizations {
   String get payoutTitle => 'നിങ്ങളുടെ പണം എവിടെ പോകുന്നു';
 
   @override
+  String get withdrawTitle => 'പണം പിൻവലിക്കുക';
+
+  @override
+  String get withdrawAvailable => 'പിൻവലിക്കാൻ തയ്യാർ';
+
+  @override
+  String get withdrawFee => 'ഒറ്റത്തവണ UPI പരിശോധന';
+
+  @override
+  String get withdrawArrives => 'നിങ്ങൾക്ക് ലഭിക്കുന്നത്';
+
+  @override
+  String withdrawButton(String amount) {
+    return '$amount പിൻവലിക്കുക';
+  }
+
+  @override
+  String withdrawConfirm(String amount, String upi) {
+    return '$upi ലേക്ക് $amount അയയ്ക്കണോ?';
+  }
+
+  @override
+  String get withdrawConfirmBody =>
+      'ഇത് തിരികെയെടുക്കാനാവില്ല. അയയ്ക്കുന്നതിന് മുൻപ് വിലാസം ശരിയാണോ എന്ന് നോക്കുക.';
+
+  @override
+  String get withdrawRequested => 'അഭ്യർത്ഥിച്ചു. പണം വഴിയിലാണ്.';
+
+  @override
+  String withdrawFeeWhy(String amount) {
+    return 'വിലാസം ശരിക്കും നിങ്ങളുടേതാണോ എന്ന് പരിശോധിക്കാൻ ഒരിക്കൽ $amount ഈടാക്കും. അതിനുശേഷം ഒന്നും ഈടാക്കില്ല.';
+  }
+
+  @override
+  String get withdrawNoTax => 'ഈ തുകകൾക്ക് നികുതിയൊന്നും പിടിക്കുന്നില്ല.';
+
+  @override
+  String get withdrawHistoryTitle => 'പിൻവലിക്കലുകൾ';
+
+  @override
+  String get withdrawNone => 'നിങ്ങൾ ഇതുവരെ ഒന്നും പിൻവലിച്ചിട്ടില്ല.';
+
+  @override
+  String get withdrawStatusQueued => 'ക്യൂവിൽ';
+
+  @override
+  String get withdrawStatusProcessing => 'അയയ്ക്കുന്നു';
+
+  @override
+  String get withdrawStatusSuccess => 'അയച്ചു';
+
+  @override
+  String get withdrawStatusFailed => 'പരാജയപ്പെട്ടു';
+
+  @override
+  String get withdrawStatusReversed => 'തിരികെ വന്നു';
+
+  @override
+  String withdrawUtr(String utr) {
+    return 'റഫറൻസ് $utr';
+  }
+
+  @override
   String get payoutsNotLive =>
       'പണമടയ്ക്കൽ ഇതുവരെ ആരംഭിച്ചിട്ടില്ല. അതുവരെ വരുമാനം കണക്കാക്കി പിടിച്ചുവയ്ക്കുന്നു.';
 

@@ -224,6 +224,69 @@ class AppLocalizationsKn extends AppLocalizations {
   String get payoutTitle => 'ನಿಮ್ಮ ಹಣ ಎಲ್ಲಿಗೆ ಹೋಗುತ್ತದೆ';
 
   @override
+  String get withdrawTitle => 'ಹಣ ಹಿಂಪಡೆಯಿರಿ';
+
+  @override
+  String get withdrawAvailable => 'ಹಿಂಪಡೆಯಲು ಸಿದ್ಧ';
+
+  @override
+  String get withdrawFee => 'ಒಂದು ಬಾರಿಯ UPI ಪರಿಶೀಲನೆ';
+
+  @override
+  String get withdrawArrives => 'ನಿಮಗೆ ಸಿಗುವುದು';
+
+  @override
+  String withdrawButton(String amount) {
+    return '$amount ಹಿಂಪಡೆಯಿರಿ';
+  }
+
+  @override
+  String withdrawConfirm(String amount, String upi) {
+    return '$upi ಗೆ $amount ಕಳುಹಿಸಬೇಕೇ?';
+  }
+
+  @override
+  String get withdrawConfirmBody =>
+      'ಇದನ್ನು ಹಿಂತಿರುಗಿಸಲಾಗದು. ಕಳುಹಿಸುವ ಮೊದಲು ವಿಳಾಸ ಸರಿಯಿದೆಯೇ ಎಂದು ನೋಡಿ.';
+
+  @override
+  String get withdrawRequested => 'ಕೋರಲಾಗಿದೆ. ಹಣ ದಾರಿಯಲ್ಲಿದೆ.';
+
+  @override
+  String withdrawFeeWhy(String amount) {
+    return 'ವಿಳಾಸ ನಿಜವಾಗಿಯೂ ನಿಮ್ಮದೇ ಎಂದು ಪರಿಶೀಲಿಸಲು ಒಮ್ಮೆ $amount ಕಡಿತಗೊಳಿಸಲಾಗುತ್ತದೆ. ನಂತರ ಏನೂ ಕಡಿತವಾಗುವುದಿಲ್ಲ.';
+  }
+
+  @override
+  String get withdrawNoTax => 'ಈ ಮೊತ್ತಗಳಿಗೆ ಯಾವುದೇ ತೆರಿಗೆ ಕಡಿತಗೊಳಿಸುವುದಿಲ್ಲ.';
+
+  @override
+  String get withdrawHistoryTitle => 'ಹಿಂಪಡೆದವು';
+
+  @override
+  String get withdrawNone => 'ನೀವು ಇನ್ನೂ ಏನನ್ನೂ ಹಿಂಪಡೆದಿಲ್ಲ.';
+
+  @override
+  String get withdrawStatusQueued => 'ಸರತಿಯಲ್ಲಿ';
+
+  @override
+  String get withdrawStatusProcessing => 'ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ';
+
+  @override
+  String get withdrawStatusSuccess => 'ಕಳುಹಿಸಲಾಗಿದೆ';
+
+  @override
+  String get withdrawStatusFailed => 'ವಿಫಲವಾಗಿದೆ';
+
+  @override
+  String get withdrawStatusReversed => 'ಹಿಂತಿರುಗಿದೆ';
+
+  @override
+  String withdrawUtr(String utr) {
+    return 'ಉಲ್ಲೇಖ $utr';
+  }
+
+  @override
   String get payoutsNotLive =>
       'ಪಾವತಿಗಳು ಇನ್ನೂ ಆರಂಭವಾಗಿಲ್ಲ. ಅಲ್ಲಿಯವರೆಗೆ ಗಳಿಕೆಯನ್ನು ಎಣಿಸಿ ತಡೆಹಿಡಿಯಲಾಗುತ್ತದೆ.';
 

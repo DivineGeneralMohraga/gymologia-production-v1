@@ -279,6 +279,150 @@ print('%s|%s|%s' % (len(d['items']), d['returned'], d['hasMore']))" 2>/dev/null)
   && ok "a page that is exactly full is not reported as truncated" \
   || bad "hasMore boundary" "got $EXACT, expected 1|1|False"
 
+hdr "Taking it out"
+
+# Direct database access for ONE thing only: moving the reward from PENDING
+# to ELIGIBLE, which in the product is the maintenance job noticing the
+# refund window has closed. Waiting seven days inside a test is not an
+# option, and the alternative -- having the test create the reward too --
+# is the back door this suite already removed once.
+#
+# Everything asserted below is behaviour the API is responsible for. The
+# manufactured part is only the passage of time.
+refdb() {
+  node -e '
+    const fs = require("fs");
+    for (const l of fs.readFileSync(".env", "utf8").split(/\r?\n/)) {
+      const m = /^([A-Z0-9_]+)=(.*)$/.exec(l.trim());
+      if (m) process.env[m[1]] = m[2].replace(/^"|"$/g, "");
+    }
+    const { PrismaClient } = require("@prisma/client");
+    const p = new PrismaClient();
+    const [op, sub] = process.argv.slice(1);
+    (async () => {
+      const r = await p.referralRedemption.findUnique({ where: { subscriptionId: sub } });
+      if (!r) { console.log("NOREDEMPTION"); return; }
+      if (op === "clear") {
+        await p.referralRedemption.update({
+          where: { id: r.id },
+          data: { status: "ELIGIBLE", eligibleAt: new Date() },
+        });
+        console.log("ok");
+      } else if (op === "verify-upi") {
+        await p.referralAccount.update({
+          where: { id: r.referralAccountId },
+          data: { upiVerified: true, upiVerifiedAt: new Date() },
+        });
+        console.log("ok");
+      } else if (op === "drop-payouts") {
+        await p.referralRedemption.updateMany({
+          where: { referralAccountId: r.referralAccountId },
+          data: { payoutId: null, status: "ELIGIBLE" },
+        });
+        await p.payout.deleteMany({ where: { referralAccountId: r.referralAccountId } });
+        console.log("ok");
+      } else if (op === "read") {
+        console.log(JSON.stringify(r));
+      }
+    })().catch(e => console.log("ERR " + e.message)).finally(() => p.$disconnect());
+  ' "$1" "$2"
+}
+
+withdrawable() {
+  curl -s -m 60 "$API/me/referral" -H "Authorization: Bearer $REFERRER" | python -c "
+import sys, json
+w = json.load(sys.stdin).get('withdrawable') or {}
+print('%s|%s|%s|%s|%s' % (w.get('grossPaise'), w.get('verifyFeePaise'),
+                          w.get('netPaise'), w.get('tdsPaise'), w.get('canWithdraw')))" 2>/dev/null
+}
+
+# Nothing has cleared yet: the reward is still held against a refund.
+W=$(withdrawable)
+[ "$W" = "0|1000|0|0|False" ] \
+  && ok "a reward still held against a refund is not withdrawable" \
+  || bad "withdrawable" "got $W, expected 0|1000|0|0|False"
+
+
+C=$(curl -s -o /tmp/wd.json -w "%{http_code}" -X POST "$API/me/referral/withdraw" \
+    -H "Authorization: Bearer $REFERRER")
+[ "$C" = "400" ] && ok "and withdrawing an uncleared reward is refused" \
+                 || bad "premature withdraw" "got HTTP $C -- $(cat /tmp/wd.json)"
+
+# An address is needed before any of this means anything.
+curl -s -o /dev/null -X PUT "$API/me/referral/payout-method" \
+  -H "Authorization: Bearer $REFERRER" -H 'Content-Type: application/json' \
+  -d '{"upiId":"payout.test@okhdfcbank","holderName":"Payout Test"}'
+# And the reason says it is clearing rather than that they have earned
+# nothing. Those are different things to be told, and only one of them
+# is discouraging for the wrong reason.
+WHY=$(curl -s -m 60 "$API/me/referral" -H "Authorization: Bearer $REFERRER" | python -c "
+import sys, json
+print((json.load(sys.stdin).get('withdrawable') or {}).get('blockedBy', [''])[0])" 2>/dev/null)
+[ "$WHY" = "Your rewards are still clearing" ] \
+  && ok "and told it is clearing, not that nothing was ever earned" \
+  || bad "blocked reason" "got: $WHY"
+
+[ "$(refdb clear "$SUB_ID")" = "ok" ] || bad "precondition" "could not clear the reward"
+
+W=$(withdrawable)
+[ "$W" = "5000|1000|4000|0|True" ] \
+  && ok "once it clears, 50 rupees less the 10 rupee check is withdrawable" \
+  || bad "withdrawable after clearing" "got $W, expected 5000|1000|4000|0|True"
+
+C=$(curl -s -o /tmp/wd.json -w "%{http_code}" -X POST "$API/me/referral/withdraw" \
+    -H "Authorization: Bearer $REFERRER")
+[ "$C" = "201" ] && ok "the withdrawal is accepted" || bad "withdraw" "HTTP $C -- $(cat /tmp/wd.json)"
+
+# Piped rather than opened by path. Bash's /tmp here is a Windows temp
+# directory that native python cannot resolve, so open('/tmp/...') threw,
+# 2>/dev/null swallowed it, and the check reported "got " with no clue why.
+# Every other check in this suite pipes for exactly this reason.
+PAY=$(cat /tmp/wd.json | python -c "
+import sys, json
+d = json.load(sys.stdin)
+print('%s|%s|%s|%s|%s' % (d.get('grossPaise'), d.get('verifyFeePaise'),
+                          d.get('netPaise'), d.get('tdsPaise'), d.get('status')))" 2>/dev/null)
+[ "$PAY" = "5000|1000|4000|0|QUEUED" ] \
+  && ok "for 50 gross, 10 fee, 40 net, queued" || bad "payout figures" "got $PAY"
+
+# The whole point of asking the owner rather than guessing: nothing is
+# withheld for tax at these amounts, and the row says so rather than
+# leaving it to be inferred from a missing field.
+[ "$(cat /tmp/wd.json | field tdsPaise)" = "0" ] \
+  && ok "and no tax withheld -- 400 referrals a year would be needed first" \
+  || bad "tds" "expected 0"
+
+# Asking twice must not pay twice.
+C=$(curl -s -o /tmp/wd2.json -w "%{http_code}" -X POST "$API/me/referral/withdraw" \
+    -H "Authorization: Bearer $REFERRER")
+[ "$C" = "409" ] && ok "a second request while one is moving is refused" \
+                 || bad "double withdraw" "got HTTP $C -- $(cat /tmp/wd2.json)"
+[ "$(cat /tmp/wd2.json | field code)" = "PAYOUT_IN_FLIGHT" ] \
+  && ok "with the code the app translates" || bad "in-flight code" "$(cat /tmp/wd2.json)"
+
+# And the reward is now spoken for, so there is nothing left to take.
+W=$(withdrawable)
+[ "$W" = "0|1000|0|0|False" ] \
+  && ok "the reward is attached to that payout and no longer withdrawable" \
+  || bad "withdrawable after" "got $W, expected 0|1000|0|0|False"
+
+H=$(curl -s "$API/me/referral/withdrawals" -H "Authorization: Bearer $REFERRER" | python -c "
+import sys, json
+i = json.load(sys.stdin)['items']
+print('%s|%s' % (len(i), i[0]['netPaise'] if i else ''))" 2>/dev/null)
+[ "$H" = "1|4000" ] && ok "and it appears in the withdrawal history" || bad "history" "got $H"
+
+# The fee follows the verification, not the calendar. An address that has
+# been checked is not charged for again -- and one that has not, is.
+[ "$(refdb drop-payouts "$SUB_ID")" = "ok" ] || bad "cleanup" "could not clear payouts"
+[ "$(refdb verify-upi "$SUB_ID")" = "ok" ] || bad "precondition" "could not mark verified"
+W=$(withdrawable)
+[ "$W" = "5000|0|5000|0|True" ] \
+  && ok "a verified address pays no fee, and the whole 50 arrives" \
+  || bad "verified fee" "got $W, expected 5000|0|5000|0|True"
+
+rm -f /tmp/wd.json /tmp/wd2.json
+
 hdr "Search listing"
 sleep 1
 FOUND=$(curl -s "$API/gyms/search?query=Paying%20Gym" | python -c "

@@ -3,6 +3,9 @@ import {
   Controller,
   Get,
   Headers,
+  HttpCode,
+  HttpStatus,
+  Post,
   Put,
   Query,
   Req,
@@ -15,6 +18,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CurrentUser, AuthUser } from '../rbac/rbac.decorators';
 import { normalizeLocale } from '../common/utils/locale';
 import { ReferralsService } from './referrals.service';
+import { WithdrawalsService } from './withdrawals.service';
 import {
   EarningsQueryDto,
   SetPanDto,
@@ -43,7 +47,10 @@ const meta = (req: Request) => ({
 @UseGuards(JwtAuthGuard)
 @Controller('me/referral')
 export class ReferralsController {
-  constructor(private readonly referrals: ReferralsService) {}
+  constructor(
+    private readonly referrals: ReferralsService,
+    private readonly withdrawals: WithdrawalsService,
+  ) {}
 
   @Get()
   @ApiOperation({
@@ -74,6 +81,26 @@ export class ReferralsController {
     @Req() req: Request,
   ) {
     return this.referrals.setPayoutMethod(user.userId, dto, meta(req));
+  }
+
+  @Post('withdraw')
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({
+    summary: 'Send the cleared rewards to the UPI ID on record',
+    description:
+      'Ten rupees is deducted once, to cover checking the address is really ' +
+      'yours. Nothing else is deducted -- no tax is withheld at these amounts.',
+  })
+  async withdraw(@CurrentUser() user: AuthUser, @Req() req: Request) {
+    const account = await this.referrals.accountForWithdrawal(user.userId);
+    return this.withdrawals.withdraw(user.userId, account, meta(req));
+  }
+
+  @Get('withdrawals')
+  @ApiOperation({ summary: 'What has been withdrawn, and what happened to it' })
+  async withdrawals_(@CurrentUser() user: AuthUser) {
+    const account = await this.referrals.accountForWithdrawal(user.userId);
+    return this.withdrawals.history(account.id);
   }
 
   @Put('pan')

@@ -19,6 +19,7 @@ import { AuditService } from '../common/audit/audit.service';
 import { normaliseVpa } from '../common/validation/upi-vpa';
 import { SupportedLocale } from '../common/utils/locale';
 import { SetPanDto, SetPayoutMethodDto } from './dto/referrals.dto';
+import { WithdrawalsService } from './withdrawals.service';
 import { shareText } from './share-text';
 
 interface RequestMeta {
@@ -53,6 +54,7 @@ export class ReferralsService {
     private readonly prisma: PrismaService,
     private readonly crypto: CryptoService,
     private readonly audit: AuditService,
+    private readonly withdrawals: WithdrawalsService,
   ) {}
 
   /**
@@ -98,7 +100,27 @@ export class ReferralsService {
         totalTdsPaise: account.totalTdsPaise,
       },
       payout: this.payoutView(account),
+      // What could be taken out now, and what would actually arrive. On
+      // the same response as the totals on purpose: a person deciding
+      // whether to withdraw is looking at both numbers at once, and two
+      // round trips is two chances for them to disagree.
+      withdrawable: await this.withdrawals.quote(
+        account.id,
+        account.upiVerified,
+        Boolean(account.upiIdMasked),
+      ),
     };
+  }
+
+  /**
+   * The account row itself, for the withdrawal routes.
+   *
+   * Goes through `accountFor`, so the gym-owner exclusion is applied here
+   * exactly as it is everywhere else rather than being a rule the
+   * withdrawal path happens to be outside of.
+   */
+  async accountForWithdrawal(userId: string) {
+    return this.accountFor(userId);
   }
 
   /**
@@ -330,12 +352,16 @@ export class ReferralsService {
       upiVerified: account.upiVerified,
       panLast4: account.panLast4,
       panStatus: account.panStatus,
-      // Said plainly rather than left for the reader to infer from an empty
-      // list: money is being earned and none of it can be sent yet. This
-      // stays false even once the details are complete, because the thing
-      // that is missing is on our side, not theirs.
+      // What is true today, said plainly rather than left to be inferred.
+      // A withdrawal can be REQUESTED and is recorded against the rewards
+      // it claims; what does not exist yet is the transfer that moves the
+      // money, which needs Cashfree Payouts wired up. Saying "payouts are
+      // not connected" was accurate until the request path existed and is
+      // now half wrong, which is worse than either.
       canBePaidOut: false,
-      why: 'Payouts are not connected yet. Rewards accrue and are held.',
+      why:
+        'You can ask for a withdrawal and it is recorded against your ' +
+        'cleared rewards. The transfer itself is not switched on yet.',
       youStillNeedTo,
     };
   }

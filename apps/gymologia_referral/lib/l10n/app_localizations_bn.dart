@@ -224,6 +224,69 @@ class AppLocalizationsBn extends AppLocalizations {
   String get payoutTitle => 'আপনার টাকা কোথায় যাবে';
 
   @override
+  String get withdrawTitle => 'টাকা তুলুন';
+
+  @override
+  String get withdrawAvailable => 'তোলার জন্য প্রস্তুত';
+
+  @override
+  String get withdrawFee => 'একবারের UPI যাচাই';
+
+  @override
+  String get withdrawArrives => 'আপনি পাবেন';
+
+  @override
+  String withdrawButton(String amount) {
+    return '$amount তুলুন';
+  }
+
+  @override
+  String withdrawConfirm(String amount, String upi) {
+    return '$upi-এ $amount পাঠাবেন?';
+  }
+
+  @override
+  String get withdrawConfirmBody =>
+      'এটি ফেরানো যাবে না। পাঠানোর আগে ঠিকানাটি ভাল করে দেখে নিন।';
+
+  @override
+  String get withdrawRequested => 'অনুরোধ করা হয়েছে। টাকা পথে আছে।';
+
+  @override
+  String withdrawFeeWhy(String amount) {
+    return 'ঠিকানাটি সত্যিই আপনার কি না তা যাচাই করতে একবার $amount কেটে নেওয়া হয়। এরপর আর কিছু কাটা হয় না।';
+  }
+
+  @override
+  String get withdrawNoTax => 'এই পরিমাণে কোনো কর কাটা হয় না।';
+
+  @override
+  String get withdrawHistoryTitle => 'উত্তোলন';
+
+  @override
+  String get withdrawNone => 'আপনি এখনও কিছু তোলেননি।';
+
+  @override
+  String get withdrawStatusQueued => 'সারিতে';
+
+  @override
+  String get withdrawStatusProcessing => 'পাঠানো হচ্ছে';
+
+  @override
+  String get withdrawStatusSuccess => 'পাঠানো হয়েছে';
+
+  @override
+  String get withdrawStatusFailed => 'ব্যর্থ';
+
+  @override
+  String get withdrawStatusReversed => 'ফেরত এসেছে';
+
+  @override
+  String withdrawUtr(String utr) {
+    return 'রেফারেন্স $utr';
+  }
+
+  @override
   String get payoutsNotLive =>
       'পেমেন্ট এখনও চালু হয়নি। ততক্ষণ পর্যন্ত আয় গোনা হচ্ছে এবং আটকে রাখা হচ্ছে।';
 

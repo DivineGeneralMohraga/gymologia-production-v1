@@ -224,6 +224,69 @@ class AppLocalizationsMr extends AppLocalizations {
   String get payoutTitle => 'तुमचे पैसे कुठे जातात';
 
   @override
+  String get withdrawTitle => 'पैसे काढा';
+
+  @override
+  String get withdrawAvailable => 'काढण्यासाठी तयार';
+
+  @override
+  String get withdrawFee => 'एकदाची UPI तपासणी';
+
+  @override
+  String get withdrawArrives => 'तुम्हाला मिळतील';
+
+  @override
+  String withdrawButton(String amount) {
+    return '$amount काढा';
+  }
+
+  @override
+  String withdrawConfirm(String amount, String upi) {
+    return '$upi वर $amount पाठवायचे?';
+  }
+
+  @override
+  String get withdrawConfirmBody =>
+      'हे परत घेता येणार नाही. पाठवण्यापूर्वी पत्ता बरोबर आहे का ते तपासा.';
+
+  @override
+  String get withdrawRequested => 'विनंती झाली. पैसे वाटेवर आहेत.';
+
+  @override
+  String withdrawFeeWhy(String amount) {
+    return 'पत्ता खरोखर तुमचाच आहे हे तपासण्यासाठी एकदा $amount कापले जातात. त्यानंतर काहीही कापले जात नाही.';
+  }
+
+  @override
+  String get withdrawNoTax => 'इतक्या रकमेवर कोणताही कर कापला जात नाही.';
+
+  @override
+  String get withdrawHistoryTitle => 'काढलेले पैसे';
+
+  @override
+  String get withdrawNone => 'तुम्ही अजून काहीही काढलेले नाही.';
+
+  @override
+  String get withdrawStatusQueued => 'रांगेत';
+
+  @override
+  String get withdrawStatusProcessing => 'पाठवत आहे';
+
+  @override
+  String get withdrawStatusSuccess => 'पाठवले';
+
+  @override
+  String get withdrawStatusFailed => 'अयशस्वी';
+
+  @override
+  String get withdrawStatusReversed => 'परत आले';
+
+  @override
+  String withdrawUtr(String utr) {
+    return 'संदर्भ $utr';
+  }
+
+  @override
   String get payoutsNotLive =>
       'पेमेंट अजून सुरू झालेले नाहीत. तोपर्यंत कमाई मोजली आणि रोखून ठेवली जाते.';
 

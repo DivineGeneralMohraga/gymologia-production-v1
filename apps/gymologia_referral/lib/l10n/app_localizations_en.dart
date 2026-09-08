@@ -222,6 +222,69 @@ class AppLocalizationsEn extends AppLocalizations {
   String get payoutTitle => 'Where your money goes';
 
   @override
+  String get withdrawTitle => 'Withdraw';
+
+  @override
+  String get withdrawAvailable => 'Ready to withdraw';
+
+  @override
+  String get withdrawFee => 'One-time UPI check';
+
+  @override
+  String get withdrawArrives => 'You receive';
+
+  @override
+  String withdrawButton(String amount) {
+    return 'Withdraw $amount';
+  }
+
+  @override
+  String withdrawConfirm(String amount, String upi) {
+    return 'Send $amount to $upi?';
+  }
+
+  @override
+  String get withdrawConfirmBody =>
+      'This cannot be undone. Check the address is right before you send.';
+
+  @override
+  String get withdrawRequested => 'Requested. It is on its way.';
+
+  @override
+  String withdrawFeeWhy(String amount) {
+    return '$amount is deducted once, to check the address is really yours. After that, nothing is deducted.';
+  }
+
+  @override
+  String get withdrawNoTax => 'No tax is withheld at these amounts.';
+
+  @override
+  String get withdrawHistoryTitle => 'Withdrawals';
+
+  @override
+  String get withdrawNone => 'You have not withdrawn anything yet.';
+
+  @override
+  String get withdrawStatusQueued => 'Queued';
+
+  @override
+  String get withdrawStatusProcessing => 'Sending';
+
+  @override
+  String get withdrawStatusSuccess => 'Sent';
+
+  @override
+  String get withdrawStatusFailed => 'Failed';
+
+  @override
+  String get withdrawStatusReversed => 'Returned';
+
+  @override
+  String withdrawUtr(String utr) {
+    return 'Reference $utr';
+  }
+
+  @override
   String get payoutsNotLive =>
       'Payouts are not switched on yet. Rewards are counted and held until they are.';
 

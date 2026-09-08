@@ -92,6 +92,18 @@ class ReferralApi {
   Future<Map<String, dynamic>> setPan(String pan) =>
       _client.put('/me/referral/pan', body: {'pan': pan});
 
+  /// Ask for the cleared rewards to be sent.
+  ///
+  /// No body: what is withdrawn is everything that has cleared, and the
+  /// amount is the server's to decide. A client that named a figure could
+  /// name one the server disagrees with, and the disagreement would be
+  /// about money.
+  Future<Map<String, dynamic>> withdraw() =>
+      _client.post('/me/referral/withdraw');
+
+  Future<List<dynamic>> withdrawals() async =>
+      _list(await _client.get('/me/referral/withdrawals'));
+
   // -- account and support ---------------------------------------------
 
   Future<Map<String, dynamic>> updateProfile({String? name, String? email}) =>

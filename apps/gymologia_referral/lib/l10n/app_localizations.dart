@@ -492,6 +492,114 @@ abstract class AppLocalizations {
   /// **'Where your money goes'**
   String get payoutTitle;
 
+  /// No description provided for @withdrawTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw'**
+  String get withdrawTitle;
+
+  /// No description provided for @withdrawAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to withdraw'**
+  String get withdrawAvailable;
+
+  /// No description provided for @withdrawFee.
+  ///
+  /// In en, this message translates to:
+  /// **'One-time UPI check'**
+  String get withdrawFee;
+
+  /// No description provided for @withdrawArrives.
+  ///
+  /// In en, this message translates to:
+  /// **'You receive'**
+  String get withdrawArrives;
+
+  /// No description provided for @withdrawButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw {amount}'**
+  String withdrawButton(String amount);
+
+  /// No description provided for @withdrawConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Send {amount} to {upi}?'**
+  String withdrawConfirm(String amount, String upi);
+
+  /// No description provided for @withdrawConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This cannot be undone. Check the address is right before you send.'**
+  String get withdrawConfirmBody;
+
+  /// No description provided for @withdrawRequested.
+  ///
+  /// In en, this message translates to:
+  /// **'Requested. It is on its way.'**
+  String get withdrawRequested;
+
+  /// No description provided for @withdrawFeeWhy.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} is deducted once, to check the address is really yours. After that, nothing is deducted.'**
+  String withdrawFeeWhy(String amount);
+
+  /// No description provided for @withdrawNoTax.
+  ///
+  /// In en, this message translates to:
+  /// **'No tax is withheld at these amounts.'**
+  String get withdrawNoTax;
+
+  /// No description provided for @withdrawHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawals'**
+  String get withdrawHistoryTitle;
+
+  /// No description provided for @withdrawNone.
+  ///
+  /// In en, this message translates to:
+  /// **'You have not withdrawn anything yet.'**
+  String get withdrawNone;
+
+  /// No description provided for @withdrawStatusQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'Queued'**
+  String get withdrawStatusQueued;
+
+  /// No description provided for @withdrawStatusProcessing.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending'**
+  String get withdrawStatusProcessing;
+
+  /// No description provided for @withdrawStatusSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get withdrawStatusSuccess;
+
+  /// No description provided for @withdrawStatusFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get withdrawStatusFailed;
+
+  /// No description provided for @withdrawStatusReversed.
+  ///
+  /// In en, this message translates to:
+  /// **'Returned'**
+  String get withdrawStatusReversed;
+
+  /// No description provided for @withdrawUtr.
+  ///
+  /// In en, this message translates to:
+  /// **'Reference {utr}'**
+  String withdrawUtr(String utr);
+
   /// No description provided for @payoutsNotLive.
   ///
   /// In en, this message translates to:

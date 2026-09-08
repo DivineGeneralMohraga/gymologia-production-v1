@@ -223,6 +223,69 @@ class AppLocalizationsTe extends AppLocalizations {
   String get payoutTitle => 'మీ డబ్బు ఎక్కడికి వెళ్తుంది';
 
   @override
+  String get withdrawTitle => 'డబ్బు తీసుకోండి';
+
+  @override
+  String get withdrawAvailable => 'తీసుకోవడానికి సిద్ధం';
+
+  @override
+  String get withdrawFee => 'ఒకసారి UPI తనిఖీ';
+
+  @override
+  String get withdrawArrives => 'మీకు అందేది';
+
+  @override
+  String withdrawButton(String amount) {
+    return '$amount తీసుకోండి';
+  }
+
+  @override
+  String withdrawConfirm(String amount, String upi) {
+    return '$upiకి $amount పంపాలా?';
+  }
+
+  @override
+  String get withdrawConfirmBody =>
+      'దీన్ని వెనక్కి తీసుకోలేరు. పంపే ముందు చిరునామా సరిగ్గా ఉందో చూడండి.';
+
+  @override
+  String get withdrawRequested => 'అభ్యర్థించారు. డబ్బు దారిలో ఉంది.';
+
+  @override
+  String withdrawFeeWhy(String amount) {
+    return 'చిరునామా నిజంగా మీదేనా అని తనిఖీ చేయడానికి ఒకసారి $amount తీసుకుంటాము. ఆ తర్వాత ఏమీ తీసుకోము.';
+  }
+
+  @override
+  String get withdrawNoTax => 'ఈ మొత్తాలపై ఎలాంటి పన్ను మినహాయించబడదు.';
+
+  @override
+  String get withdrawHistoryTitle => 'ఉపసంహరణలు';
+
+  @override
+  String get withdrawNone => 'మీరు ఇంకా ఏమీ తీసుకోలేదు.';
+
+  @override
+  String get withdrawStatusQueued => 'వరుసలో';
+
+  @override
+  String get withdrawStatusProcessing => 'పంపుతోంది';
+
+  @override
+  String get withdrawStatusSuccess => 'పంపారు';
+
+  @override
+  String get withdrawStatusFailed => 'విఫలం';
+
+  @override
+  String get withdrawStatusReversed => 'తిరిగి వచ్చింది';
+
+  @override
+  String withdrawUtr(String utr) {
+    return 'సూచిక $utr';
+  }
+
+  @override
   String get payoutsNotLive =>
       'చెల్లింపులు ఇంకా ప్రారంభం కాలేదు. అప్పటివరకు ఆదాయం లెక్కించి నిలిపి ఉంచుతున్నాము.';
 
