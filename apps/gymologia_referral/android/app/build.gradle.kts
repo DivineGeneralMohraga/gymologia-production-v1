@@ -71,6 +71,15 @@ android {
 
     buildTypes {
         release {
+            // R8 needs the rules in proguard-rules.pro to get past Tink's
+            // compile-time-only annotations. Without this line the file
+            // exists and is never read, which looks exactly like the file
+            // not working.
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+
             // Flutter's generated default here is
             // `signingConfigs.getByName("debug")`, which is the worst kind of
             // wrong: the build succeeds, produces an .aab that installs and

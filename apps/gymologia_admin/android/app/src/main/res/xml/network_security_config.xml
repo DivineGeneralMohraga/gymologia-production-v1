@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Cleartext is off by default and permitted for exactly one host: the API
+  box, which has no TLS certificate yet.
+
+  THIS IS THE LAST THING THAT SHOULD BE TRUE BEFORE LAUNCH. Everything this
+  app sends to that host travels in the clear on whatever network the phone
+  is on — OTP codes, session tokens, names, phone numbers, the lot. No
+  amount of encryption at rest behind the API compensates for handing the
+  same data to the coffee shop wifi on the way in. Anyone on the path reads
+  it; anyone on the path can change it.
+
+  When the server gets a certificate:
+    1. delete the domain-config block below, leaving only base-config;
+    2. change the API_BASE_URL default in lib/core/config/app_config.dart
+       from http:// to https://.
+  Nothing else has to change, and the release build then physically cannot
+  speak cleartext to anything.
+
+  The development hosts — the emulator alias, localhost, private LAN
+  ranges — used to be listed here too, which meant every release build
+  carried permission to talk cleartext to them for no reason at all. They
+  now live in src/debug/res/xml/network_security_config.xml, which replaces
+  this file for debug builds only.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- AWS host (ap-south-1), until it has a certificate. -->
+        <domain includeSubdomains="false">65.0.75.45</domain>
+    </domain-config>
+</network-security-config>
