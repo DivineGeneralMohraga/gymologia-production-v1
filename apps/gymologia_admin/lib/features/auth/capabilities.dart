@@ -53,6 +53,11 @@ bool canReach(String section, String role, Map<String, dynamic>? flags) {
       return _isAtLeast(role, 'ADMIN');
     case 'tickets':
       return flag('canHandleSupport');
+    case 'reports':
+      // The same flag as the support queue, because it is the same desk
+      // and the server admits the same three roles. Restricting this to
+      // senior staff is how a harassment report sits unread for a week.
+      return flag('canHandleSupport');
     case 'broadcast':
       return flag('canBroadcast');
     case 'staff':

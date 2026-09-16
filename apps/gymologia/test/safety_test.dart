@@ -1,0 +1,213 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import 'package:gymologia/features/safety/safety_actions.dart';
+import 'package:gymologia/l10n/app_localizations.dart';
+import 'package:gymologia/l10n/app_localizations_en.dart';
+
+final AppLocalizations t = AppLocalizationsEn();
+
+/// Every locale the app ships, so the checks below can be run against all
+/// of them rather than only the one the assertions were written in.
+const _locales = [
+  'en', 'hi', 'bn', 'ta', 'te', 'mr', 'ml', 'kn', 'gu', 'pa',
+];
+
+Widget _wrap(Widget child) => MaterialApp(
+      locale: const Locale('en'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: child,
+    );
+
+void main() {
+  group('report categories', () {
+    test('match the server enum exactly', () {
+      // The app sends these strings straight into a Prisma enum. A typo
+      // survives every build and every review, and surfaces as a 400 to
+      // somebody halfway through reporting harassment.
+      final schema = File('../../backend/prisma/schema.prisma');
+
+      // Asserted rather than skipped. A test that quietly passes when it
+      // cannot find what it is checking is the most dangerous kind: it
+      // reports green forever while checking nothing.
+      expect(
+        schema.existsSync(),
+        isTrue,
+        reason: 'schema.prisma not found at ${schema.absolute.path} — this '
+            'test cannot verify anything without it',
+      );
+
+      final source = schema.readAsStringSync();
+      final block = RegExp(r'enum ReportCategory \{([^}]*)\}').firstMatch(source);
+      expect(block, isNotNull, reason: 'no ReportCategory enum in schema.prisma');
+
+      final serverValues = block!
+          .group(1)!
+          .split('\n')
+          .map((line) => line.trim())
+          .where((line) => line.isNotEmpty && !line.startsWith('//'))
+          .toSet();
+
+      expect(
+        reportCategoryValues.toSet(),
+        equals(serverValues),
+        reason: 'the picker and the server disagree about the categories',
+      );
+    });
+
+    test('are offered without duplicates', () {
+      expect(reportCategoryValues.toSet().length, reportCategoryValues.length);
+    });
+
+    test('lead with harassment', () {
+      // Not decoration: it is what most reports are, and a first item that
+      // is usually right is what makes the form quick to finish.
+      expect(reportCategoryValues.first, 'HARASSMENT');
+    });
+
+    test('every value has wording in every language', () {
+      for (final locale in _locales) {
+        final strings = lookupAppLocalizations(Locale(locale));
+        for (final value in reportCategoryValues) {
+          final label = reportCategoryLabel(strings, value);
+          expect(label.trim(), isNotEmpty,
+              reason: '$value has no label in $locale');
+          // A label equal to the enum name means the switch fell through
+          // to a raw value being shown to somebody.
+          expect(label, isNot(value), reason: '$value is unlabelled in $locale');
+        }
+      }
+    });
+
+    test('OTHER is the fallback, not a gap', () {
+      // The switch ends in `_ =>`, so an unknown value must land somewhere
+      // readable rather than throwing inside a build.
+      expect(reportCategoryLabel(t, 'NOT_A_REAL_CATEGORY'),
+          t.reportCategoryOther);
+    });
+  });
+
+  group('the block confirmation', () {
+    testWidgets('says it is silent and reversible before anything happens',
+        (tester) async {
+      // The three things somebody weighs in the moment: they cannot reach
+      // me, they will not know, and I can undo it. Losing any one of them
+      // in a copy edit changes whether a person blocks at all.
+      final copy = t.blockConfirmBody.toLowerCase();
+      expect(copy, contains('not be able to message you'));
+      expect(copy, contains('not told'));
+      expect(copy, contains('settings'));
+
+      await tester.pumpWidget(_wrap(
+        Builder(
+          builder: (context) => TextButton(
+            onPressed: () => showDialog<bool>(
+              context: context,
+              builder: (_) => AlertDialog(content: Text(t.blockConfirmBody)),
+            ),
+            child: const Text('open'),
+          ),
+        ),
+      ));
+
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+      expect(find.text(t.blockConfirmBody), findsOneWidget);
+    });
+  });
+
+  group('the report copy', () {
+    test('explains why the reporter must describe the content', () {
+      // Messages are AES-GCM ciphertext and the server holds no key, so
+      // "see the message" is not a report anybody can act on. Said before
+      // they type, not as an error afterwards.
+      final hint = t.reportDetailsHint.toLowerCase();
+      expect(hint, contains('encrypted'));
+      expect(hint, contains('cannot read'));
+    });
+
+    test('does not let a report be mistaken for a block', () {
+      final copy = t.alsoBlockThemExplainer.toLowerCase();
+      expect(copy, contains('time'));
+      expect(copy, contains('straight away'));
+    });
+  });
+
+  group('translations', () {
+    test('every safety string is present in every language', () {
+      // Missing keys fall back to English, which is fine for a settings
+      // label and wrong here: somebody trying to get away from a person
+      // who frightens them should not be the one reading a language they
+      // may not know.
+      String Function(AppLocalizations) pick(String which) => switch (which) {
+            'block' => (s) => s.block,
+            'unblock' => (s) => s.unblock,
+            'report' => (s) => s.report,
+            'blocked' => (s) => s.blocked,
+            'blockedAccounts' => (s) => s.blockedAccounts,
+            'noBlockedAccounts' => (s) => s.noBlockedAccounts,
+            'safetyAndPrivacy' => (s) => s.safetyAndPrivacy,
+            'blockConfirmBody' => (s) => s.blockConfirmBody,
+            'unblockExplainer' => (s) => s.unblockExplainer,
+            'whyReporting' => (s) => s.whyReporting,
+            'reportDetails' => (s) => s.reportDetails,
+            'reportDetailsHint' => (s) => s.reportDetailsHint,
+            'alsoBlockThem' => (s) => s.alsoBlockThem,
+            'alsoBlockThemExplainer' => (s) => s.alsoBlockThemExplainer,
+            'sendReport' => (s) => s.sendReport,
+            'reportSent' => (s) => s.reportSent,
+            'myReports' => (s) => s.myReports,
+            'noReportsSent' => (s) => s.noReportsSent,
+            'reportStatusOpen' => (s) => s.reportStatusOpen,
+            'reportStatusReviewing' => (s) => s.reportStatusReviewing,
+            'reportStatusActioned' => (s) => s.reportStatusActioned,
+            _ => (s) => s.reportStatusDismissed,
+          };
+
+      const keys = [
+        'block', 'unblock', 'report', 'blocked', 'blockedAccounts',
+        'noBlockedAccounts', 'safetyAndPrivacy', 'blockConfirmBody',
+        'unblockExplainer', 'whyReporting', 'reportDetails',
+        'reportDetailsHint', 'alsoBlockThem', 'alsoBlockThemExplainer',
+        'sendReport', 'reportSent', 'myReports', 'noReportsSent',
+        'reportStatusOpen', 'reportStatusReviewing', 'reportStatusActioned',
+        'reportStatusDismissed',
+      ];
+
+      final english = AppLocalizationsEn();
+      for (final locale in _locales.where((l) => l != 'en')) {
+        final strings = lookupAppLocalizations(Locale(locale));
+        for (final key in keys) {
+          final translated = pick(key)(strings);
+          expect(translated.trim(), isNotEmpty,
+              reason: '$key is empty in $locale');
+          expect(
+            translated,
+            isNot(pick(key)(english)),
+            reason: '$key is untranslated in $locale — it fell back to '
+                'English, which is the one screen that must not',
+          );
+        }
+      }
+    });
+
+    test('the name placeholder survives translation', () {
+      // A translation that drops {name} leaves "Block " with nothing after
+      // it, and one that mangles the braces shows them to the person.
+      for (final locale in _locales) {
+        final strings = lookupAppLocalizations(Locale(locale));
+        for (final produced in [
+          strings.blockPerson('Ravi'),
+          strings.reportPerson('Ravi'),
+          strings.unblockQuestion('Ravi'),
+        ]) {
+          expect(produced, contains('Ravi'), reason: 'name lost in $locale');
+          expect(produced, isNot(contains('{')), reason: 'braces in $locale');
+        }
+      }
+    });
+  });
+}

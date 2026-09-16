@@ -101,6 +101,34 @@ class AdminApi {
   Future<Map<String, dynamic>> resolveTicket(String id, String note) =>
       _client.post('/admin/tickets/$id/resolve', body: {'note': note});
 
+  // ── Reports ────────────────────────────────────────────────────────
+
+  Future<({List<dynamic> items, int total})> reports({
+    String? status,
+    int page = 1,
+  }) async {
+    final res = await _client.get('/admin/reports', query: {
+      'status': ?status,
+      'page': page,
+    });
+    return (items: _list(res), total: (res['total'] as num?)?.toInt() ?? 0);
+  }
+
+  /// One report with the history behind it: how many others have reported
+  /// or blocked the same account. That count is what separates a single
+  /// argument from a pattern, and it is the whole reason this screen is
+  /// not just the list row expanded.
+  Future<Map<String, dynamic>> reportDetail(String id) =>
+      _client.get('/admin/reports/$id');
+
+  Future<Map<String, dynamic>> resolveReport(
+    String id, {
+    required String status,
+    required String actionTaken,
+  }) =>
+      _client.post('/admin/reports/$id/resolve',
+          body: {'status': status, 'actionTaken': actionTaken});
+
   // ── Announcements ──────────────────────────────────────────────────
 
   /// How many people an audience reaches, asked BEFORE the send. The server

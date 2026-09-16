@@ -113,11 +113,11 @@ export class ChatController {
     // Push to everyone else who is connected. Delivery is best-effort:
     // the REST history is the source of truth, so a dropped socket costs
     // immediacy rather than the message.
-    const recipients = await this.chat.recipientsOf(conversationId);
-    this.gateway.broadcast(
-      recipients.filter((id) => id !== user.userId),
-      { ...message, fromMe: false },
-    );
+    //
+    // The sender is passed in because the recipient list is where blocks
+    // are applied for the socket -- it excludes them and the sender both.
+    const recipients = await this.chat.recipientsOf(conversationId, user.userId);
+    this.gateway.broadcast(recipients, { ...message, fromMe: false });
 
     return message;
   }

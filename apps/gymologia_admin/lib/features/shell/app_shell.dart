@@ -7,6 +7,7 @@ import '../broadcast/broadcast_page.dart';
 import '../dashboard/dashboard_page.dart';
 import '../kyc/kyc_page.dart';
 import '../payouts/payouts_page.dart';
+import '../reports/reports_page.dart';
 import '../logs/logs_page.dart';
 import '../staff/staff_page.dart';
 import '../tickets/tickets_page.dart';
@@ -44,6 +45,9 @@ class _AppShellState extends State<AppShell> {
       if (auth.can('tickets'))
         const _Section('tickets', 'Support', Icons.support_agent_outlined,
             Icons.support_agent, TicketsPage()),
+      if (auth.can('reports'))
+        const _Section('reports', 'Reports', Icons.flag_outlined, Icons.flag,
+            ReportsPage()),
       if (auth.can('broadcast'))
         const _Section('broadcast', 'Announce', Icons.campaign_outlined,
             Icons.campaign, BroadcastPage()),

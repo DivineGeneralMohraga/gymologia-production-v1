@@ -6,6 +6,7 @@ import '../diagnostics/diagnostics_screen.dart';
 import '../shell/app_mode.dart';
 import 'edit_profile_page.dart';
 import 'support_page.dart';
+import '../safety/blocked_accounts_page.dart';
 import 'legal_page.dart';
 import 'language_page.dart';
 import 'locale_controller.dart';
@@ -157,6 +158,20 @@ class SettingsPage extends StatelessWidget {
           trailing: const Icon(Icons.chevron_right),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(builder: (_) => const EditProfilePage()),
+          ),
+        ),
+
+        _SectionLabel(t.safetyAndPrivacy),
+        // Reachable from Settings because a block is made silently, in the
+        // middle of something, and never announced -- so there is no other
+        // screen it can be found on afterwards, and without this one it
+        // would be permanent in practice.
+        ListTile(
+          leading: const Icon(Icons.shield_outlined),
+          title: Text(t.blockedAccounts),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const BlockedAccountsPage()),
           ),
         ),
 

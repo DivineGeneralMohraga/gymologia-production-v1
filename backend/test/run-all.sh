@@ -58,6 +58,7 @@ referrals-e2e
 events-notifications-e2e
 maintenance-e2e
 chat-e2e
+safety-e2e
 analytics-trainers-e2e
 roles-e2e
 admin-e2e

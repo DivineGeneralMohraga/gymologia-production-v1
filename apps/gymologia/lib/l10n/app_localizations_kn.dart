@@ -1856,4 +1856,112 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get needsReview => 'ಅನುವಾದ ಪರಿಶೀಲನೆ ಬಾಕಿ';
+
+  @override
+  String get block => 'ನಿರ್ಬಂಧಿಸಿ';
+
+  @override
+  String get unblock => 'ನಿರ್ಬಂಧ ತೆಗೆಯಿರಿ';
+
+  @override
+  String get report => 'ವರದಿ ಮಾಡಿ';
+
+  @override
+  String blockPerson(String name) {
+    return '$name ಅವರನ್ನು ನಿರ್ಬಂಧಿಸಿ';
+  }
+
+  @override
+  String reportPerson(String name) {
+    return '$name ಬಗ್ಗೆ ವರದಿ ಮಾಡಿ';
+  }
+
+  @override
+  String get blockConfirmBody =>
+      'ಅವರು ನಿಮಗೆ ಸಂದೇಶ ಕಳುಹಿಸಲಾಗುವುದಿಲ್ಲ, ಅವರ ಸಂದೇಶಗಳು ನಿಮಗೆ ಕಾಣಿಸುವುದಿಲ್ಲ. ನೀವು ನಿರ್ಬಂಧಿಸಿದ್ದನ್ನು ಅವರಿಗೆ ತಿಳಿಸಲಾಗುವುದಿಲ್ಲ. ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಇದನ್ನು ಬದಲಾಯಿಸಬಹುದು.';
+
+  @override
+  String get blocked => 'ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ';
+
+  @override
+  String get blockedAccounts => 'ನಿರ್ಬಂಧಿಸಿದ ಖಾತೆಗಳು';
+
+  @override
+  String get noBlockedAccounts => 'ನೀವು ಯಾರನ್ನೂ ನಿರ್ಬಂಧಿಸಿಲ್ಲ.';
+
+  @override
+  String get safetyAndPrivacy => 'ಸುರಕ್ಷತೆ';
+
+  @override
+  String unblockQuestion(String name) {
+    return '$name ಅವರ ನಿರ್ಬಂಧ ತೆಗೆಯಬೇಕೆ?';
+  }
+
+  @override
+  String get unblockExplainer => 'ಅವರು ಮತ್ತೆ ನಿಮಗೆ ಸಂದೇಶ ಕಳುಹಿಸಬಹುದು.';
+
+  @override
+  String get whyReporting => 'ಸಮಸ್ಯೆ ಏನು?';
+
+  @override
+  String get reportDetails => 'ಏನಾಯಿತು?';
+
+  @override
+  String get reportDetailsHint =>
+      'ಸಂದೇಶಗಳು ಎನ್‌ಕ್ರಿಪ್ಟ್ ಆಗಿವೆ, ಆದ್ದರಿಂದ ನಾವು ಅವನ್ನು ಓದಲಾಗುವುದಿಲ್ಲ. ಏನು ಹೇಳಲಾಯಿತು ಎಂಬುದನ್ನು ನಿಮ್ಮ ಮಾತುಗಳಲ್ಲಿ ತಿಳಿಸಿ.';
+
+  @override
+  String get alsoBlockThem => 'ಅವರನ್ನು ನಿರ್ಬಂಧಿಸಿ ಕೂಡ';
+
+  @override
+  String get alsoBlockThemExplainer =>
+      'ವರದಿಯನ್ನು ಒಬ್ಬ ವ್ಯಕ್ತಿ ಓದುತ್ತಾರೆ, ಅದಕ್ಕೆ ಸಮಯ ಬೇಕು. ನಿರ್ಬಂಧಿಸುವುದು ತಕ್ಷಣ ಕೆಲಸ ಮಾಡುತ್ತದೆ.';
+
+  @override
+  String get sendReport => 'ವರದಿ ಕಳುಹಿಸಿ';
+
+  @override
+  String get reportCategorySpam => 'ಸ್ಪ್ಯಾಮ್ ಅಥವಾ ಬೇಡದ ಮಾರಾಟ';
+
+  @override
+  String get reportCategoryHarassment => 'ಕಿರುಕುಳ ಅಥವಾ ಬೆದರಿಕೆ';
+
+  @override
+  String get reportCategorySexual => 'ಲೈಂಗಿಕ ಅಥವಾ ಅಶ್ಲೀಲ ವಿಷಯ';
+
+  @override
+  String get reportCategoryHate => 'ದ್ವೇಷ ಭಾಷಣ';
+
+  @override
+  String get reportCategoryViolence => 'ಹಿಂಸೆ ಅಥವಾ ಬೆದರಿಕೆ';
+
+  @override
+  String get reportCategoryScam => 'ವಂಚನೆ ಅಥವಾ ಮೋಸ';
+
+  @override
+  String get reportCategoryImpersonation => 'ಬೇರೊಬ್ಬರಂತೆ ನಟಿಸುವುದು';
+
+  @override
+  String get reportCategoryOther => 'ಬೇರೆ ಏನೋ';
+
+  @override
+  String get reportSent => 'ಧನ್ಯವಾದಗಳು. ಯಾರಾದರೂ ಇದನ್ನು ಪರಿಶೀಲಿಸುತ್ತಾರೆ.';
+
+  @override
+  String get myReports => 'ನಾನು ಕಳುಹಿಸಿದ ವರದಿಗಳು';
+
+  @override
+  String get reportStatusOpen => 'ಪರಿಶೀಲನೆಗೆ ಕಾಯುತ್ತಿದೆ';
+
+  @override
+  String get reportStatusReviewing => 'ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ';
+
+  @override
+  String get reportStatusActioned => 'ಕ್ರಮ ಕೈಗೊಳ್ಳಲಾಗಿದೆ';
+
+  @override
+  String get reportStatusDismissed => 'ಪರಿಶೀಲಿಸಲಾಗಿದೆ, ಕ್ರಮವಿಲ್ಲ';
+
+  @override
+  String get noReportsSent => 'ನೀವು ಯಾರ ಬಗ್ಗೆಯೂ ವರದಿ ಮಾಡಿಲ್ಲ.';
 }

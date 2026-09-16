@@ -3167,6 +3167,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Translation pending review'**
   String get needsReview;
+
+  /// No description provided for @block.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get block;
+
+  /// No description provided for @unblock.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock'**
+  String get unblock;
+
+  /// No description provided for @report.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
+  String get report;
+
+  /// {name} is the person being blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Block {name}'**
+  String blockPerson(String name);
+
+  /// {name} is the person being reported.
+  ///
+  /// In en, this message translates to:
+  /// **'Report {name}'**
+  String reportPerson(String name);
+
+  /// Shown before confirming a block. Says plainly that it is silent and reversible.
+  ///
+  /// In en, this message translates to:
+  /// **'They will not be able to message you, and you will not see their messages. They are not told that you blocked them. You can undo this in Settings.'**
+  String get blockConfirmBody;
+
+  /// No description provided for @blocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked'**
+  String get blocked;
+
+  /// No description provided for @blockedAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked accounts'**
+  String get blockedAccounts;
+
+  /// No description provided for @noBlockedAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'You have not blocked anyone.'**
+  String get noBlockedAccounts;
+
+  /// No description provided for @safetyAndPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Safety'**
+  String get safetyAndPrivacy;
+
+  /// {name} is the person being unblocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock {name}?'**
+  String unblockQuestion(String name);
+
+  /// No description provided for @unblockExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'They will be able to message you again.'**
+  String get unblockExplainer;
+
+  /// No description provided for @whyReporting.
+  ///
+  /// In en, this message translates to:
+  /// **'What is wrong?'**
+  String get whyReporting;
+
+  /// No description provided for @reportDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'What happened?'**
+  String get reportDetails;
+
+  /// Explains why the reporter has to describe the content themselves.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages are encrypted, so we cannot read them. Tell us what was said in your own words.'**
+  String get reportDetailsHint;
+
+  /// No description provided for @alsoBlockThem.
+  ///
+  /// In en, this message translates to:
+  /// **'Block them as well'**
+  String get alsoBlockThem;
+
+  /// Why the report sheet also offers a block.
+  ///
+  /// In en, this message translates to:
+  /// **'A report is read by a person and takes time. Blocking works straight away.'**
+  String get alsoBlockThemExplainer;
+
+  /// No description provided for @sendReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Send report'**
+  String get sendReport;
+
+  /// No description provided for @reportCategorySpam.
+  ///
+  /// In en, this message translates to:
+  /// **'Spam or unwanted selling'**
+  String get reportCategorySpam;
+
+  /// No description provided for @reportCategoryHarassment.
+  ///
+  /// In en, this message translates to:
+  /// **'Harassment or bullying'**
+  String get reportCategoryHarassment;
+
+  /// No description provided for @reportCategorySexual.
+  ///
+  /// In en, this message translates to:
+  /// **'Sexual or explicit content'**
+  String get reportCategorySexual;
+
+  /// No description provided for @reportCategoryHate.
+  ///
+  /// In en, this message translates to:
+  /// **'Hate speech'**
+  String get reportCategoryHate;
+
+  /// No description provided for @reportCategoryViolence.
+  ///
+  /// In en, this message translates to:
+  /// **'Violence or a threat'**
+  String get reportCategoryViolence;
+
+  /// No description provided for @reportCategoryScam.
+  ///
+  /// In en, this message translates to:
+  /// **'Scam or fraud'**
+  String get reportCategoryScam;
+
+  /// No description provided for @reportCategoryImpersonation.
+  ///
+  /// In en, this message translates to:
+  /// **'Pretending to be someone else'**
+  String get reportCategoryImpersonation;
+
+  /// No description provided for @reportCategoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Something else'**
+  String get reportCategoryOther;
+
+  /// No description provided for @reportSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you. Someone will review this.'**
+  String get reportSent;
+
+  /// No description provided for @myReports.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports I have sent'**
+  String get myReports;
+
+  /// No description provided for @reportStatusOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for review'**
+  String get reportStatusOpen;
+
+  /// No description provided for @reportStatusReviewing.
+  ///
+  /// In en, this message translates to:
+  /// **'Being looked at'**
+  String get reportStatusReviewing;
+
+  /// No description provided for @reportStatusActioned.
+  ///
+  /// In en, this message translates to:
+  /// **'Action taken'**
+  String get reportStatusActioned;
+
+  /// No description provided for @reportStatusDismissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed, no action'**
+  String get reportStatusDismissed;
+
+  /// No description provided for @noReportsSent.
+  ///
+  /// In en, this message translates to:
+  /// **'You have not reported anyone.'**
+  String get noReportsSent;
 }
 
 class _AppLocalizationsDelegate

@@ -1881,4 +1881,113 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get needsReview => 'மொழிபெயர்ப்பு மதிப்பாய்வு நிலுவையில்';
+
+  @override
+  String get block => 'தடு';
+
+  @override
+  String get unblock => 'தடையை நீக்கு';
+
+  @override
+  String get report => 'புகாரளி';
+
+  @override
+  String blockPerson(String name) {
+    return '$name ஐத் தடு';
+  }
+
+  @override
+  String reportPerson(String name) {
+    return '$name மீது புகாரளி';
+  }
+
+  @override
+  String get blockConfirmBody =>
+      'அவர்களால் உங்களுக்குச் செய்தி அனுப்ப முடியாது, அவர்களின் செய்திகளும் உங்களுக்குத் தெரியாது. நீங்கள் தடுத்ததை அவர்களிடம் சொல்லப்படாது. அமைப்புகளில் இதை மாற்றலாம்.';
+
+  @override
+  String get blocked => 'தடுக்கப்பட்டது';
+
+  @override
+  String get blockedAccounts => 'தடுக்கப்பட்ட கணக்குகள்';
+
+  @override
+  String get noBlockedAccounts => 'நீங்கள் யாரையும் தடுக்கவில்லை.';
+
+  @override
+  String get safetyAndPrivacy => 'பாதுகாப்பு';
+
+  @override
+  String unblockQuestion(String name) {
+    return '$name மீதான தடையை நீக்கவா?';
+  }
+
+  @override
+  String get unblockExplainer =>
+      'அவர்கள் மீண்டும் உங்களுக்குச் செய்தி அனுப்ப முடியும்.';
+
+  @override
+  String get whyReporting => 'என்ன பிரச்சினை?';
+
+  @override
+  String get reportDetails => 'என்ன நடந்தது?';
+
+  @override
+  String get reportDetailsHint =>
+      'செய்திகள் மறையாக்கம் செய்யப்பட்டவை, அதனால் எங்களால் படிக்க முடியாது. என்ன சொல்லப்பட்டது என்பதை உங்கள் சொற்களில் கூறுங்கள்.';
+
+  @override
+  String get alsoBlockThem => 'அவர்களைத் தடுக்கவும் செய்';
+
+  @override
+  String get alsoBlockThemExplainer =>
+      'புகாரை ஒருவர் படிப்பார், அதற்கு நேரம் ஆகும். தடுப்பது உடனடியாகச் செயல்படும்.';
+
+  @override
+  String get sendReport => 'புகாரை அனுப்பு';
+
+  @override
+  String get reportCategorySpam => 'ஸ்பேம் அல்லது தேவையற்ற விற்பனை';
+
+  @override
+  String get reportCategoryHarassment => 'தொந்தரவு அல்லது மிரட்டல்';
+
+  @override
+  String get reportCategorySexual => 'பாலியல் அல்லது ஆபாச உள்ளடக்கம்';
+
+  @override
+  String get reportCategoryHate => 'வெறுப்புப் பேச்சு';
+
+  @override
+  String get reportCategoryViolence => 'வன்முறை அல்லது அச்சுறுத்தல்';
+
+  @override
+  String get reportCategoryScam => 'மோசடி அல்லது ஏமாற்று';
+
+  @override
+  String get reportCategoryImpersonation => 'வேறு ஒருவராக நடிப்பது';
+
+  @override
+  String get reportCategoryOther => 'வேறு ஏதாவது';
+
+  @override
+  String get reportSent => 'நன்றி. யாராவது இதைப் பரிசீலிப்பார்கள்.';
+
+  @override
+  String get myReports => 'நான் அனுப்பிய புகார்கள்';
+
+  @override
+  String get reportStatusOpen => 'பரிசீலனைக்குக் காத்திருக்கிறது';
+
+  @override
+  String get reportStatusReviewing => 'பார்க்கப்படுகிறது';
+
+  @override
+  String get reportStatusActioned => 'நடவடிக்கை எடுக்கப்பட்டது';
+
+  @override
+  String get reportStatusDismissed => 'பரிசீலிக்கப்பட்டது, நடவடிக்கை இல்லை';
+
+  @override
+  String get noReportsSent => 'நீங்கள் யார் மீதும் புகார் அளிக்கவில்லை.';
 }

@@ -14,6 +14,7 @@ import {
 } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CryptoService } from '../common/crypto/crypto.service';
+import { SafetyService } from '../safety/safety.service';
 import { ROLE_LEVEL } from '../rbac/rbac.constants';
 import { CreateGroupDto, SendMessageDto } from './dto/chat.dto';
 
@@ -34,6 +35,16 @@ import { CreateGroupDto, SendMessageDto } from './dto/chat.dto';
  * migration can tell server-encrypted messages from end-to-end ones.
  * Shipping a half-built crypto layer would be worse than this, because it
  * would claim a guarantee it does not provide.
+ *
+ * ── On blocking ────────────────────────────────────────────────────
+ * Every read and write path below consults SafetyService. A block hides
+ * both people from each other -- in the conversation list, in history, in
+ * the directory, and over the socket -- and stops either of them opening a
+ * new direct conversation with the other. It is never announced.
+ *
+ * The socket is the one to watch when changing any of this: it does not
+ * pass through the REST reads, so a filter added there and not in
+ * `recipientsOf` would deliver in realtime exactly what the history hides.
  */
 const SERVER_SCHEME = 'v1-server';
 
@@ -44,6 +55,7 @@ export class ChatService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly crypto: CryptoService,
+    private readonly safety: SafetyService,
   ) {}
 
   // ── Conversations ──────────────────────────────────────────────────
@@ -58,6 +70,13 @@ export class ChatService {
    */
   async conversations(userId: string, gymId: string) {
     const standing = await this.ensureStandingGroups(userId, gymId);
+
+    // Everyone this person should not see, in either direction. Fetched
+    // once and used three times below: to drop direct conversations, to
+    // pick a last-message preview they are allowed to read, and to keep
+    // unread badges from counting messages that are not shown.
+    const invisible = await this.safety.invisibleTo(userId);
+    const hidden = [...invisible];
 
     const rows = await this.prisma.conversationMember.findMany({
       where: {
@@ -75,7 +94,11 @@ export class ChatService {
             messages: {
               orderBy: { createdAt: 'desc' },
               take: 1,
-              where: { deletedAt: null },
+              // The newest message this person may READ, which is not
+              // always the newest message. A preview is the one part of a
+              // blocked person's writing that would otherwise reach the
+              // blocker without them opening anything.
+              where: { deletedAt: null, senderId: { notIn: hidden } },
             },
             _count: { select: { members: { where: { leftAt: null } } } },
           },
@@ -107,6 +130,7 @@ export class ChatService {
              AND cm."userId" = ${userId}::uuid
             WHERE m."deletedAt" IS NULL
               AND m."senderId" <> ${userId}::uuid
+              AND NOT (m."senderId" = ANY(${hidden}::uuid[]))
               AND (cm."lastReadAt" IS NULL OR m."createdAt" > cm."lastReadAt")
               AND m."conversationId" = ANY(${conversationIds}::uuid[])
             GROUP BY m."conversationId"
@@ -115,7 +139,22 @@ export class ChatService {
       unreadRows.map((u) => [u.conversationId, Number(u.count)]),
     );
 
-    const shaped = rows.map((row) => {
+    const visibleRows =
+      invisible.size === 0
+        ? rows
+        : rows.filter((row) => {
+            const c = row.conversation;
+            if (c.type !== ConversationType.DIRECT) return true;
+            // A direct conversation with someone blocked disappears
+            // entirely. Leaving it in the list as an empty thread would
+            // advertise the block every time either of them scrolled past
+            // it, and it is the thread they wanted gone.
+            return !c.members.some(
+              (m) => m.userId !== userId && invisible.has(m.userId),
+            );
+          });
+
+    const shaped = visibleRows.map((row) => {
       const c = row.conversation;
       const last = c.messages[0];
       // Absent from the result means none unread, not missing data: the
@@ -169,6 +208,7 @@ export class ChatService {
 
     await this.assertAtGym(userId, gymId);
     await this.assertAtGym(otherUserId, gymId);
+    await this.assertNotBlocked(userId, otherUserId);
 
     const existing = await this.findDirect(gymId, userId, otherUserId);
     if (existing) return this.describe(existing.id, userId);
@@ -210,6 +250,15 @@ export class ChatService {
       await this.assertAtGym(id, gymId);
     }
 
+    // Making a group is the obvious way around a block: the two of them
+    // are in a room together again and nobody had to unblock anyone.
+    const invisible = await this.safety.invisibleTo(userId);
+    if (participants.some((id) => invisible.has(id))) {
+      throw new ForbiddenException(
+        'Somebody you selected cannot be added to a group with you.',
+      );
+    }
+
     const conversation = await this.prisma.conversation.create({
       data: {
         gymId,
@@ -233,10 +282,16 @@ export class ChatService {
   async messages(userId: string, conversationId: string, before?: string) {
     await this.assertMember(userId, conversationId);
 
+    // Filtered in the query rather than after it, so a page of fifty does
+    // not quietly become a page of three that the client reads as "no
+    // more history" and stops paging.
+    const hidden = [...(await this.safety.invisibleTo(userId))];
+
     const rows = await this.prisma.message.findMany({
       where: {
         conversationId,
         deletedAt: null,
+        ...(hidden.length > 0 ? { senderId: { notIn: hidden } } : {}),
         ...(before ? { createdAt: { lt: new Date(before) } } : {}),
       },
       include: { sender: { select: { id: true, name: true } } },
@@ -270,6 +325,18 @@ export class ChatService {
       select: { id: true, type: true, gymId: true },
     });
     if (!conversation) throw new NotFoundException('Conversation not found');
+
+    // A direct conversation that predates the block still exists on both
+    // sides of the database, so the send is where it has to be stopped.
+    // Groups are not checked: blocking one person does not remove you from
+    // a room the whole gym is in, it just means you do not see them.
+    if (conversation.type === ConversationType.DIRECT) {
+      const other = await this.prisma.conversationMember.findFirst({
+        where: { conversationId, userId: { not: userId }, leftAt: null },
+        select: { userId: true },
+      });
+      if (other) await this.assertNotBlocked(userId, other.userId);
+    }
 
     // The members-only group is exactly that: staff are not in it, and a
     // staff member who also holds a membership should not be posting there
@@ -330,17 +397,24 @@ export class ChatService {
   async participants(userId: string, conversationId: string) {
     await this.assertMember(userId, conversationId);
 
-    const rows = await this.prisma.conversationMember.findMany({
-      where: { conversationId, leftAt: null },
-      include: { user: { select: { id: true, name: true, phone: true } } },
-      orderBy: { joinedAt: 'asc' },
-    });
+    const [rows, blockedByMe] = await Promise.all([
+      this.prisma.conversationMember.findMany({
+        where: { conversationId, leftAt: null },
+        include: { user: { select: { id: true, name: true, phone: true } } },
+        orderBy: { joinedAt: 'asc' },
+      }),
+      this.safety.blockedByMe(userId),
+    ]);
 
     return rows.map((r) => ({
       userId: r.user.id,
       name: r.user.name,
       isAdmin: r.isAdmin,
       isMe: r.user.id === userId,
+      // Only the blocks THIS person made. Someone who blocked them is an
+      // ordinary name in the list, because the alternative is telling the
+      // blocked party who blocked them.
+      isBlocked: blockedByMe.has(r.user.id),
     }));
   }
 
@@ -348,7 +422,7 @@ export class ChatService {
   async directory(userId: string, gymId: string) {
     await this.assertAtGym(userId, gymId);
 
-    const [gym, staff, members, myLevel] = await Promise.all([
+    const [gym, staff, members, myLevel, invisible] = await Promise.all([
       this.prisma.gym.findUnique({
         where: { id: gymId },
         select: { ownerId: true },
@@ -368,6 +442,7 @@ export class ChatService {
         include: { user: { select: { id: true, name: true } } },
       }),
       this.roleLevelOf(userId, gymId),
+      this.safety.invisibleTo(userId),
     ]);
 
     const canMessageOwner = myLevel !== null && myLevel <= ROLE_LEVEL.MANAGER;
@@ -380,8 +455,13 @@ export class ChatService {
       reason: string | null;
     }> = [];
 
+    // Blocked people are absent rather than greyed out, and absent in
+    // BOTH directions. That symmetry is the point: the list looks the same
+    // whichever way the block went, so nobody can work out from it that
+    // they have been blocked. Whom you blocked is in your own settings.
     for (const s of staff) {
       if (s.userId === userId || seen.has(s.userId)) continue;
+      if (invisible.has(s.userId)) continue;
       seen.add(s.userId);
 
       const isOwner = s.userId === gym?.ownerId;
@@ -400,6 +480,7 @@ export class ChatService {
 
     for (const m of members) {
       if (m.userId === userId || seen.has(m.userId)) continue;
+      if (invisible.has(m.userId)) continue;
       seen.add(m.userId);
       people.push({
         userId: m.userId,
@@ -662,12 +743,55 @@ export class ChatService {
     return staff?.role.level ?? null;
   }
 
-  /** Who should receive a realtime push for a message. */
-  async recipientsOf(conversationId: string): Promise<string[]> {
-    const rows = await this.prisma.conversationMember.findMany({
-      where: { conversationId, leftAt: null },
-      select: { userId: true },
-    });
-    return rows.map((r) => r.userId);
+  /**
+   * Who should receive a realtime push for a message.
+   *
+   * Takes the sender, because this is the one delivery path that does not
+   * go through a REST read: whatever is pushed here lands on a screen
+   * without any of the filtering in `messages()` running. Anyone who has
+   * blocked the sender, or whom the sender has blocked, is dropped, and so
+   * is the sender themselves -- they already have the message as their own
+   * response.
+   */
+  async recipientsOf(
+    conversationId: string,
+    senderId: string,
+  ): Promise<string[]> {
+    const [rows, invisible] = await Promise.all([
+      this.prisma.conversationMember.findMany({
+        where: { conversationId, leftAt: null },
+        select: { userId: true },
+      }),
+      this.safety.invisibleTo(senderId),
+    ]);
+
+    return rows
+      .map((r) => r.userId)
+      .filter((id) => id !== senderId && !invisible.has(id));
+  }
+
+  /**
+   * Refuses when either of two people has blocked the other.
+   *
+   * The wording depends on which way it went, and that is deliberate. The
+   * blocker is told plainly, because they need to know to undo it. The
+   * blocked party gets a sentence that does not say a block exists -- a
+   * silent block that announces itself on the first attempt to message is
+   * not silent, and the retaliation it invites happens somewhere this app
+   * cannot see.
+   */
+  private async assertNotBlocked(userId: string, otherUserId: string) {
+    const blockedByMe = await this.safety.blockedByMe(userId);
+    if (blockedByMe.has(otherUserId)) {
+      throw new ForbiddenException(
+        'You have blocked this person. Unblock them from Settings to message them again.',
+      );
+    }
+
+    if (await this.safety.isBlockedBetween(userId, otherUserId)) {
+      throw new ForbiddenException(
+        'You cannot start a conversation with this person.',
+      );
+    }
   }
 }

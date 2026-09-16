@@ -1,13 +1,10 @@
 {
   "@@locale": "en",
-
   "appName": "Gymologia",
-
   "languageName": "English",
   "@languageName": {
     "description": "This language's own name, shown in the language picker. Always written in the language itself, because someone looking for their language cannot read the list in a language they do not have."
   },
-
   "settings": "Settings",
   "language": "Language",
   "languageSubtitle": "Choose the language you read most comfortably",
@@ -15,7 +12,6 @@
   "cancel": "Cancel",
   "tryAgain": "Try again",
   "somethingWentWrong": "Something went wrong",
-
   "phoneNumber": "Phone number",
   "enterPhoneNumber": "Enter your mobile number",
   "sendCode": "Send code",
@@ -26,7 +22,6 @@
   "age": "Age",
   "whyAgeNotBirthday": "We ask for your age, not your date of birth. A date of birth is tied to your bank and government records — an age is all a gym app needs.",
   "termsAgreement": "Creating an account means you accept the Terms of Use and Privacy Policy.",
-
   "signInWithMobile": "Sign in with your mobile number",
   "mobileNumber": "Mobile number",
   "couldNotSendCode": "Could not send the code.",
@@ -35,15 +30,22 @@
   "couldNotCreateAccount": "Could not create your account.",
   "weSentCodeTo": "We sent a code to {phone}",
   "@weSentCodeTo": {
-    "placeholders": { "phone": { "type": "String" } }
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
   },
   "resendInSeconds": "Resend in {seconds}s",
   "@resendInSeconds": {
-    "placeholders": { "seconds": { "type": "int" } }
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
   },
   "verified": "Verified",
   "createAccountAction": "Create account",
-
   "supportSent": "Sent. Someone will reply on the number you gave.",
   "supportSubject": "What is this about?",
   "supportSubjectHint": "My membership days look wrong",
@@ -53,11 +55,19 @@
   "supportUrgentNote": "Raises the priority.",
   "copiedToClipboard": "{value} copied",
   "@copiedToClipboard": {
-    "placeholders": { "value": { "type": "String" } }
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
   },
   "orEmailUs": "Or email {email}",
   "@orEmailUs": {
-    "placeholders": { "email": { "type": "String" } }
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
   },
   "whatYouHaveAsked": "WHAT YOU HAVE ASKED",
   "aFewWordsIsEnough": "A few words is enough",
@@ -75,19 +85,26 @@
   "yourProfile": "Your profile",
   "emailClearToRemove": "Optional. Clear it to remove.",
   "phoneIsYourLogin": "This is how you sign in, so it cannot be changed here yet. Contact support if you need it moved.",
-
   "trialStarted": "Trial started. Your gym is now listed in search.",
   "invalidCode": "Invalid code.",
   "paymentNotCompletedYet": "Payment has not completed yet. Pull to refresh in a moment.",
   "planIsActive": "{plan} plan is active.",
   "@planIsActive": {
-    "placeholders": { "plan": { "type": "String" } }
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
   },
   "paymentNotCompleted": "Payment was not completed.",
   "couldNotOpenPayment": "Could not open the payment screen.",
   "daysFree": "{days} days free",
   "@daysFree": {
-    "placeholders": { "days": { "type": "int" } }
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
   },
   "trialBlurb": "Full Pro, including your listing in member search. No card needed, and it does not renew into a paid plan on its own.",
   "startFreeTrial": "Start free trial",
@@ -97,13 +114,21 @@
   "gstNote": "Prices include GST. A gym is only listed in member search on the Pro plan.",
   "planNamed": "{plan} plan",
   "@planNamed": {
-    "placeholders": { "plan": { "type": "String" } }
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
   },
   "trialBadge": "TRIAL",
   "expired": "Expired",
   "daysRemainingPlan": "{count, plural, =1{1 day remaining} other{{count} days remaining}}",
   "@daysRemainingPlan": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "listedInSearch": "Listed in member search",
   "notListedUpgrade": "Not listed in search — upgrade to Pro to appear",
@@ -112,13 +137,20 @@
   "perMonth": "/month",
   "choosePlanNamed": "Choose {plan}",
   "@choosePlanNamed": {
-    "placeholders": { "plan": { "type": "String" } }
+    "placeholders": {
+      "plan": {
+        "type": "String"
+      }
+    }
   },
-
   "deleteRoleWarning": "The role and its permissions go. Nobody is in it, so nobody loses access.",
   "deletedNamed": "{name} deleted",
   "@deletedNamed": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "needTwoCustomRoles": "You need two custom roles you can edit before reordering.",
   "hierarchySaved": "Hierarchy saved",
@@ -129,12 +161,20 @@
   "everyPermission": "Every permission, including any added later",
   "permissionCount": "{count, plural, =1{1 permission} other{{count} permissions}}",
   "@permissionCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "nobodyInThisRole": "Nobody in this role",
   "peopleCount": "{count, plural, =1{1 person} other{{count} people}}",
   "@peopleCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "deleteDefaultRolesStay": "Delete (default roles stay)",
   "deleteMovePeopleFirst": "Delete (move people out first)",
@@ -151,17 +191,24 @@
   "orderTheHierarchy": "Order the hierarchy",
   "hierarchyNote": "Most senior at the top. Default roles keep their place and are not listed.",
   "saveOrder": "Save order",
-
   "membershipExtendedBy": "{count, plural, =1{Membership extended by 1 month.} other{Membership extended by {count} months.}}",
   "@membershipExtendedBy": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "goalUpdated": "Goal updated.",
   "thisMember": "this member",
   "removeMemberQuestion": "Remove member?",
   "removeMemberWarning": "{name} loses access to this gym. Their attendance history and measurements are kept.",
   "@removeMemberWarning": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "member": "Member",
   "removeMember": "Remove member",
@@ -176,7 +223,11 @@
   "viewAndCorrectRecords": "View and correct records",
   "sessionsSoFar": "{count, plural, =1{1 session so far} other{{count} sessions so far}}",
   "@sessionsSoFar": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "progressIsPrivate": "Progress is private",
   "monitoringOffNote": "This member has turned off progress monitoring. That is their choice and no role can override it.",
@@ -184,28 +235,47 @@
   "noMeasurementsYet": "No measurements recorded yet. The member is prompted for these in their own app once a month.",
   "holdingAtKg": "Holding at {kg} kg",
   "@holdingAtKg": {
-    "placeholders": { "kg": { "type": "String" } }
+    "placeholders": {
+      "kg": {
+        "type": "String"
+      }
+    }
   },
   "weightChangeSince": "{delta} kg since their first measurement",
   "@weightChangeSince": {
-    "placeholders": { "delta": { "type": "String" } }
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      }
+    }
   },
   "extendMembership": "Extend membership",
   "extendFromTodayNote": "An expired membership extends from today, not from the date it lapsed.",
   "monthsCount": "{count, plural, =1{1 month} other{{count} months}}",
   "@monthsCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "extendByMonths": "{count, plural, =1{Extend by 1 month} other{Extend by {count} months}}",
   "@extendByMonths": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "whatAreTheyWorkingTowards": "What are they working towards?",
   "goalDialogHint": "Bulk up to 80kg, lose weight, rehab…",
-
   "signedUpCount": "{count, plural, =1{1 signed up} other{{count} signed up}}",
   "@signedUpCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "nobodyYet": "Nobody yet.",
   "hostAnEvent": "Host an event",
@@ -236,23 +306,41 @@
   "pickWhoIsInTheGroup": "Pick who is in the group",
   "createGroupWith": "Create group with {count}",
   "@createGroupWith": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "termsOfUse": "Terms of Use",
   "privacy": "Privacy",
   "versionUpdated": "Version {version} · updated {date}",
   "@versionUpdated": {
-    "placeholders": { "version": { "type": "String" }, "date": { "type": "String" } }
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
   },
-
   "sessionsAttendedAllTime": "{count, plural, =1{session attended, all time} other{sessions attended, all time}}",
   "@sessionsAttendedAllTime": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "nothingInLast60Days": "Nothing recorded in the last 60 days.",
   "correctedReason": "Corrected: {reason}",
   "@correctedReason": {
-    "placeholders": { "reason": { "type": "String" } }
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
   },
   "noReasonGiven": "no reason given",
   "keptWithRecordAuditNote": "This is kept with the record and shows in the audit log.",
@@ -260,26 +348,49 @@
   "draftCrmNote": "Your gym is a draft. The CRM works, but members cannot find you in search until a plan is active.",
   "roleHiddenNote": "You are {role} here. Anything your role cannot do is hidden rather than shown and refused.",
   "@roleHiddenNote": {
-    "placeholders": { "role": { "type": "String" } }
+    "placeholders": {
+      "role": {
+        "type": "String"
+      }
+    }
   },
   "engagedOfActive": "{engaged} of {total} members trained at least once.",
   "@engagedOfActive": {
-    "placeholders": { "engaged": { "type": "int" }, "total": { "type": "int" } }
+    "placeholders": {
+      "engaged": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
   },
   "announceGoesTo": "It goes to {audience} right now, and cannot be unsent.",
   "@announceGoesTo": {
-    "placeholders": { "audience": { "type": "String" } }
+    "placeholders": {
+      "audience": {
+        "type": "String"
+      }
+    }
   },
   "audienceEveryMember": "every member",
   "audienceEveryStaff": "every staff member",
   "audienceEveryone": "everyone at this gym",
   "sentToPeople": "{count, plural, =1{Sent to 1 person.} other{Sent to {count} people.}}",
   "@sentToPeople": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "recipientCount": "{count, plural, =1{1 recipient} other{{count} recipients}}",
   "@recipientCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "weTextACodeFirst": "We text a code to their number first, so you know it is really theirs.",
   "memberCanUpdateMetrics": "They can see and update their weight and height in the member app. Their progress is visible to staff unless they turn that off themselves.",
@@ -287,21 +398,46 @@
   "noRolesYouCanAssignToThem": "There are no roles you can assign to them.",
   "heightCm": "Height {cm} cm",
   "@heightCm": {
-    "placeholders": { "cm": { "type": "String" } }
+    "placeholders": {
+      "cm": {
+        "type": "String"
+      }
+    }
   },
   "weightOverCheckIns": "{delta} kg over {count} check-ins",
   "@weightOverCheckIns": {
-    "placeholders": { "delta": { "type": "String" }, "count": { "type": "int" } }
+    "placeholders": {
+      "delta": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "useDeviceLanguage": "Use device language",
   "untranslatedFallbackNote": "Anything not yet translated is shown in English rather than left blank, so a partly translated language is still usable.",
   "deleteGymWarning": "All {members} members and {staff} staff lose access. This cannot be undone from the app.",
   "@deleteGymWarning": {
-    "placeholders": { "members": { "type": "int" }, "staff": { "type": "int" } }
+    "placeholders": {
+      "members": {
+        "type": "int"
+      },
+      "staff": {
+        "type": "int"
+      }
+    }
   },
   "shownAsInSearch": "Shown as “{name} - {district}” in search.",
   "@shownAsInSearch": {
-    "placeholders": { "name": { "type": "String" }, "district": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "district": {
+        "type": "String"
+      }
+    }
   },
   "nothingWaitingLeave": "Nothing waiting. Requests inside your limits are approved automatically and never appear here.",
   "quietPeriodsNote": "Quiet periods are shown as empty bars rather than left out, so a gap in the bars is a real gap.",
@@ -314,17 +450,24 @@
   "notListedUntilPlan": "Not listed publicly until a plan is active.",
   "gymsListedCount": "{count, plural, =1{1 gym listed} other{{count} gyms listed}}",
   "@gymsListedCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "checkInGoalNote": "Your gym uses this to track progress towards your goal.",
   "enterYourGymName": "Enter your gym name",
-
   "sessionExpiredSignIn": "Your session expired. Please sign in again.",
   "somethingWentWrongTryAgain": "Something went wrong. Please try again.",
   "serverTookTooLong": "The server took too long to respond. Check your connection and try again.",
   "couldNotReachServer": "Could not reach the server at {host}. Check your internet connection.",
   "@couldNotReachServer": {
-    "placeholders": { "host": { "type": "String" } }
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
   },
   "certificateNotVerified": "The server certificate could not be verified.",
   "networkErrorTryAgain": "Network error. Please try again.",
@@ -347,41 +490,76 @@
   "justNow": "just now",
   "minutesAgo": "{count}m ago",
   "@minutesAgo": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "hoursAgo": "{count}h ago",
   "@hoursAgo": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "daysAgo": "{count}d ago",
   "@daysAgo": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "monthsAgo": "{count}mo ago",
   "@monthsAgo": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "nowShort": "now",
   "minutesShort": "{count}m",
   "@minutesShort": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "hoursShort": "{count}h",
   "@hoursShort": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "daysShort": "{count}d",
   "@daysShort": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "weeksShort": "{count}w",
   "@weeksShort": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
-
   "addedNamed": "{name} added",
   "@addedNamed": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "saved": "Saved",
   "trainerCategoriesIntro": "Trainers are put in one of these when they are added. A category holding trainers cannot be deleted until they are moved.",
@@ -391,7 +569,11 @@
   "noTrainers": "No trainers",
   "trainerCount": "{count, plural, =1{1 trainer} other{{count} trainers}}",
   "@trainerCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "deleteMoveTrainersFirst": "Delete (move trainers first)",
   "giveCategoryAName": "Give the category a name",
@@ -411,11 +593,19 @@
   "pickTheDates": "Pick the dates.",
   "startsAtWhen": "Starts {when}",
   "@startsAtWhen": {
-    "placeholders": { "when": { "type": "String" } }
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
   },
   "registerByWhen": "Register by {when}",
   "@registerByWhen": {
-    "placeholders": { "when": { "type": "String" } }
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
   },
   "selectYourLeaveDates": "Select your leave dates",
   "chooseYourDatesFirst": "Choose your dates first.",
@@ -424,11 +614,19 @@
   "chooseDates": "Choose dates",
   "leaveDaysLeftCount": "{count, plural, =1{You have 1 leave day left.} other{You have {count} leave days left.}}",
   "@leaveDaysLeftCount": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "moreThanRemainingDays": "{count, plural, =1{That is more than your 1 remaining day, so a manager will need to approve it.} other{That is more than your {count} remaining days, so a manager will need to approve it.}}",
   "@moreThanRemainingDays": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "withinYourAllowance": "Within your allowance — this will be approved straight away.",
   "sendForApproval": "Send for approval",
@@ -446,19 +644,33 @@
   "openingAGymNote": "Opening a gym, or working at one? Switch to run your gym's CRM — members, staff, attendance and leave.",
   "numberIsHowYouSignIn": "Your number is how you sign in, so it cannot be changed here yet.",
   "followingYourDevice": "Following your device",
-
   "yourGym": "Your gym",
   "weeksRunning": "{count, plural, =1{Week running} other{Weeks running}}",
   "@weeksRunning": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "noVisitsInLastDays": "No visits recorded in the last {days} days.",
   "@noVisitsInLastDays": {
-    "placeholders": { "days": { "type": "int" } }
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
   },
   "visitsInLastDays": "{count, plural, =1{1 visit in the last {days} days.} other{{count} visits in the last {days} days.}}",
   "@visitsInLastDays": {
-    "placeholders": { "count": { "type": "int" }, "days": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
   },
   "couldNotLoadEvents": "Could not load events",
   "noEventsOnRightNow": "No events on right now",
@@ -466,7 +678,11 @@
   "atYourGym": "At your gym",
   "trainerStaffMembersAt": "Your trainer, staff and members at {gym}",
   "@trainerStaffMembersAt": {
-    "placeholders": { "gym": { "type": "String" } }
+    "placeholders": {
+      "gym": {
+        "type": "String"
+      }
+    }
   },
   "trainerStaffOtherMembers": "Your trainer, the staff, and other members",
   "comingNext": "Coming next",
@@ -474,7 +690,11 @@
   "leaveLeft": "Leave left",
   "approvedMembershipPauses": "{name} approved. Their membership pauses for those days.",
   "@approvedMembershipPauses": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "approveInstead": "Approve instead",
   "declineInstead": "Decline instead",
@@ -486,7 +706,11 @@
   "maximumPerMembership": "Maximum per membership",
   "removeStaffWithAssigned": "{count, plural, =1{They lose access to this gym, and the 1 member assigned to them will have no trainer until you reassign someone.} other{They lose access to this gym, and the {count} members assigned to them will have no trainer until you reassign someone.}}",
   "@removeStaffWithAssigned": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "removeStaffPlain": "They lose access to this gym. Their attendance history is kept.",
   "couldNotLoadGyms": "Could not load gyms",
@@ -494,24 +718,40 @@
   "gymsAppearOnPro": "Gyms appear here once they are on the Pro plan and have chosen to be listed.",
   "nothingMatchedTry": "Nothing matched “{query}”. Try a different city or district.",
   "@nothingMatchedTry": {
-    "placeholders": { "query": { "type": "String" } }
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
   },
   "noRatings": "No ratings",
   "fromRatings": "{count, plural, =1{from 1 rating} other{from {count} ratings}}",
   "@fromRatings": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "onlyProGymHere": "The only Pro gym here",
   "ofProGyms": "of {count} Pro gyms",
   "@ofProGyms": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "couldNotLoadYourGyms": "Could not load your gyms",
   "noGymsYet": "No gyms yet",
   "createYourGymBlurb": "Create your gym to set up members, staff, attendance and leave. If you work at a gym, ask the owner to add you and it will appear here.",
   "newGroupSelected": "New group ({count} selected)",
   "@newGroupSelected": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "newMessage": "New message",
   "oneToOne": "One to one",
@@ -522,14 +762,12 @@
   "officialGroupEmpty": "Everyone at this gym. Nothing said yet.",
   "unofficialGroupEmpty": "Members only. Nothing said yet.",
   "noMessagesYet": "No messages yet",
-
   "approved": "Approved",
   "declined": "Declined",
   "cancelled": "Cancelled",
   "flexibility": "Flexibility",
   "rehab": "Rehab",
   "youPrefix": "You: ",
-
   "active": "Active",
   "joined": "Joined",
   "leftCount": "Left",
@@ -543,9 +781,7 @@
   "contact": "Contact",
   "owner": "Owner",
   "support": "Support",
-
   "machineTranslatedExercise": "These instructions were translated by machine and have not been checked by a coach. If a cue reads oddly, switch to English and compare before you lift.",
-
   "home": "Home",
   "myGym": "My gym",
   "discover": "Discover",
@@ -561,26 +797,36 @@
   "gyms": "Gyms",
   "events": "Events",
   "chat": "Chat",
-
   "findAGym": "Find a gym",
   "searchGyms": "Search by name or locality",
   "perks": "Perks",
   "rating": "Rating",
-
   "onLeavePaused": "On leave — your membership is paused",
   "monthlyCheckIn": "Monthly check-in",
   "notNow": "Not now",
   "trainerNamed": "Trainer: {name}",
   "@trainerNamed": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "goalAtGym": "YOUR GOAL AT {gym}",
   "@goalAtGym": {
-    "placeholders": { "gym": { "type": "String" } }
+    "placeholders": {
+      "gym": {
+        "type": "String"
+      }
+    }
   },
   "daysRemaining": "{count, plural, =0{Ends today} =1{1 day left} other{{count} days left}}",
   "@daysRemaining": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "yourGoal": "Your goal",
   "trainer": "Trainer",
@@ -599,7 +845,6 @@
   "thisMonth": "This month",
   "perWeek": "Per week",
   "lastEightWeeks": "Last 8 weeks",
-
   "exerciseDirectory": "Exercise directory",
   "exercises": "Exercises",
   "searchExercises": "Search exercises",
@@ -614,23 +859,34 @@
   "participate": "Participate",
   "takenOffList": "You will be taken off the list for {event}.",
   "@takenOffList": {
-    "placeholders": { "event": { "type": "String" } }
+    "placeholders": {
+      "event": {
+        "type": "String"
+      }
+    }
   },
   "contactWithPhone": "Contact {phone}",
   "@contactWithPhone": {
-    "placeholders": { "phone": { "type": "String" } }
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
   },
   "reasonOptional": "Reason (optional)",
   "searchByGymCityDistrict": "Search by gym, city or district",
   "exerciseDirectorySubtitle": "Strength, cardio and yoga, with step-by-step form cues",
-
   "attendance": "Attendance",
   "manage": "Manage",
   "choosePlan": "Choose a plan",
   "seeGrowthOverTime": "See growth over time",
   "lastNDays": "Last {days} days",
   "@lastNDays": {
-    "placeholders": { "days": { "type": "int" } }
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
   },
   "addMember": "Add member",
   "addStaff": "Add staff",
@@ -638,7 +894,11 @@
   "tapCircleToMarkPresent": "Tap the circle to mark present, the row for details",
   "markedPresent": "{name} marked present",
   "@markedPresent": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "approve": "Approve",
   "role": "Role",
@@ -652,13 +912,21 @@
   "remove": "Remove",
   "removePerson": "Remove {name}?",
   "@removePerson": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "onLeave": "On leave",
   "tapDayToCorrect": "Tap a day to correct it",
   "correctDate": "Correct {date}",
   "@correctDate": {
-    "placeholders": { "date": { "type": "String" } }
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "whyIsThisChanging": "Why is this changing?",
   "correctionReasonHint": "Marked by mistake, machine was down…",
@@ -674,12 +942,20 @@
   "keepIt": "Keep it",
   "deleteNamed": "Delete {name}?",
   "@deleteNamed": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "decline": "Decline",
   "decidedBy": "Decided by {name}",
   "@decidedBy": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "createAGym": "Create a gym",
   "createYourGym": "Create your gym",
@@ -722,7 +998,11 @@
   "nothingToChartYet": "Nothing to chart yet.",
   "peakValue": "peak {value}",
   "@peakValue": {
-    "placeholders": { "value": { "type": "int" } }
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
   },
   "searchRanking": "Search ranking",
   "notInSearch": "Not in search",
@@ -735,24 +1015,85 @@
   "ranking": "Ranking",
   "plan": "Plan",
   "announce": "Announce",
-  "gymProfile": "Gym profile",
   "trainers": "Trainers",
-
   "present": "Present",
   "absent": "Absent",
   "markAttendance": "Mark attendance",
-
   "getHelp": "Get help",
   "getHelpSubtitle": "Send us a message and we will get back to you",
   "termsAndPrivacy": "Terms & Privacy Policy",
   "signOut": "Sign out",
   "switchToStaff": "Switch to owner/staff mode",
   "switchToMember": "Switch to member mode",
-
   "notifications": "Notifications",
-
   "needsReview": "Translation pending review",
   "@needsReview": {
     "description": "Shown beside a language that has been machine-translated and not yet checked by a native speaker."
-  }
+  },
+  "block": "Block",
+  "unblock": "Unblock",
+  "report": "Report",
+  "blockPerson": "Block {name}",
+  "@blockPerson": {
+    "description": "{name} is the person being blocked.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reportPerson": "Report {name}",
+  "@reportPerson": {
+    "description": "{name} is the person being reported.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "blockConfirmBody": "They will not be able to message you, and you will not see their messages. They are not told that you blocked them. You can undo this in Settings.",
+  "@blockConfirmBody": {
+    "description": "Shown before confirming a block. Says plainly that it is silent and reversible."
+  },
+  "blocked": "Blocked",
+  "blockedAccounts": "Blocked accounts",
+  "noBlockedAccounts": "You have not blocked anyone.",
+  "safetyAndPrivacy": "Safety",
+  "unblockQuestion": "Unblock {name}?",
+  "@unblockQuestion": {
+    "description": "{name} is the person being unblocked.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "unblockExplainer": "They will be able to message you again.",
+  "whyReporting": "What is wrong?",
+  "reportDetails": "What happened?",
+  "reportDetailsHint": "Messages are encrypted, so we cannot read them. Tell us what was said in your own words.",
+  "@reportDetailsHint": {
+    "description": "Explains why the reporter has to describe the content themselves."
+  },
+  "alsoBlockThem": "Block them as well",
+  "alsoBlockThemExplainer": "A report is read by a person and takes time. Blocking works straight away.",
+  "@alsoBlockThemExplainer": {
+    "description": "Why the report sheet also offers a block."
+  },
+  "sendReport": "Send report",
+  "reportCategorySpam": "Spam or unwanted selling",
+  "reportCategoryHarassment": "Harassment or bullying",
+  "reportCategorySexual": "Sexual or explicit content",
+  "reportCategoryHate": "Hate speech",
+  "reportCategoryViolence": "Violence or a threat",
+  "reportCategoryScam": "Scam or fraud",
+  "reportCategoryImpersonation": "Pretending to be someone else",
+  "reportCategoryOther": "Something else",
+  "reportSent": "Thank you. Someone will review this.",
+  "myReports": "Reports I have sent",
+  "reportStatusOpen": "Waiting for review",
+  "reportStatusReviewing": "Being looked at",
+  "reportStatusActioned": "Action taken",
+  "reportStatusDismissed": "Reviewed, no action",
+  "noReportsSent": "You have not reported anyone."
 }

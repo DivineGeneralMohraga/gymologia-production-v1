@@ -68,6 +68,12 @@ model User {
   ratings           GymRating[]
 
   @@index([status])
+  /// Chat safety, both directions.
+  blocksMade     UserBlock[]     @relation("BlocksMade")
+  blocksReceived UserBlock[]     @relation("BlocksReceived")
+  reportsMade    ContentReport[] @relation("ReportsMade")
+  reportsAgainst ContentReport[] @relation("ReportsAgainst")
+
   @@map("users")
 }
 
@@ -231,6 +237,8 @@ model Gym {
 
   @@index([state, district, status])
   @@index([status, publicListing])
+  reports ContentReport[]
+
   @@map("gyms")
 }
 
@@ -880,6 +888,8 @@ model Conversation {
   messages Message[]
 
   @@index([gymId, type])
+  reports ContentReport[]
+
   @@map("conversations")
 }
 
@@ -924,6 +934,8 @@ model Message {
   deletedAt DateTime?
 
   @@index([conversationId, createdAt])
+  reports ContentReport[]
+
   @@map("messages")
 }
 
@@ -1238,6 +1250,8 @@ model AdminStaff {
 
   assignedTickets SupportTicket[]
 
+  reportsReviewed ContentReport[]
+
   @@map("admin_staff")
 }
 
@@ -1378,4 +1392,84 @@ model AppInstallStat {
 
   @@unique([appClient, platform, day])
   @@map("app_install_stats")
+}
+
+/// Somebody you no longer wish to hear from.
+///
+/// One-directional as a record, enforced in both directions in the chat: a
+/// block that only hides one side leaves the blocker still receiving abuse.
+/// The blocked person is never told, because announcing it invites
+/// retaliation through some other channel.
+model UserBlock {
+  id        String @id @default(uuid()) @db.Uuid
+  blockerId String @db.Uuid
+  blocker   User   @relation("BlocksMade", fields: [blockerId], references: [id], onDelete: Cascade)
+  blockedId String @db.Uuid
+  blocked   User   @relation("BlocksReceived", fields: [blockedId], references: [id], onDelete: Cascade)
+
+  /// Optional, and only ever shown to the person who wrote it.
+  reason String? @db.VarChar(200)
+
+  createdAt DateTime @default(now())
+
+  @@unique([blockerId, blockedId])
+  @@index([blockedId])
+  @@map("user_blocks")
+}
+
+/// A complaint about somebody's conduct, for a human to read.
+///
+/// `details` carries what the reporter saw. That is not laziness: messages
+/// are AES-GCM ciphertext and the server holds no key, so a reviewer given
+/// only `messageId` would have a row they cannot read. The id is kept as
+/// well, because who sent it, where, and when are all verifiable even when
+/// the words are not.
+model ContentReport {
+  id             String @id @default(uuid()) @db.Uuid
+  reporterId     String @db.Uuid
+  reporter       User   @relation("ReportsMade", fields: [reporterId], references: [id], onDelete: Cascade)
+  reportedUserId String @db.Uuid
+  reportedUser   User   @relation("ReportsAgainst", fields: [reportedUserId], references: [id], onDelete: Cascade)
+
+  /// SetNull rather than Cascade: a sender deleting their message must not
+  /// delete the complaint about it.
+  messageId      String?       @db.Uuid
+  message        Message?      @relation(fields: [messageId], references: [id], onDelete: SetNull)
+  conversationId String?       @db.Uuid
+  conversation   Conversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
+  gymId          String?       @db.Uuid
+  gym            Gym?          @relation(fields: [gymId], references: [id], onDelete: SetNull)
+
+  category ReportCategory
+  details  String         @db.VarChar(2000)
+
+  status       ReportStatus @default(OPEN)
+  reviewedById String?      @db.Uuid
+  reviewedBy   AdminStaff?  @relation(fields: [reviewedById], references: [id], onDelete: SetNull)
+  reviewedAt   DateTime?
+  actionTaken  String?      @db.VarChar(500)
+
+  createdAt DateTime @default(now())
+
+  @@index([status, createdAt])
+  @@index([reportedUserId])
+  @@map("content_reports")
+}
+
+enum ReportCategory {
+  SPAM
+  HARASSMENT
+  SEXUAL_CONTENT
+  HATE_SPEECH
+  VIOLENCE_OR_THREAT
+  SCAM_OR_FRAUD
+  IMPERSONATION
+  OTHER
+}
+
+enum ReportStatus {
+  OPEN
+  REVIEWING
+  ACTIONED
+  DISMISSED
 }

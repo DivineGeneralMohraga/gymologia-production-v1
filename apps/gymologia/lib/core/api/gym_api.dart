@@ -490,6 +490,17 @@ class GymApi {
     return _list(raw);
   }
 
+  /// Who is in a conversation. Each carries `isBlocked`, which is only
+  /// ever the blocks YOU made -- the server does not disclose the others.
+  Future<List<Map<String, dynamic>>> chatParticipants(
+    String gymId,
+    String conversationId,
+  ) async {
+    final raw = await _client
+        .get('/gyms/$gymId/chat/conversations/$conversationId/participants');
+    return _list(raw);
+  }
+
   Future<Map<String, dynamic>> sendMessage(
     String gymId,
     String conversationId,
@@ -497,6 +508,54 @@ class GymApi {
   ) =>
       _client.post('/gyms/$gymId/chat/conversations/$conversationId/messages',
           body: {'body': body});
+
+  // ── Blocking and reporting ─────────────────────────────────────────
+  //
+  // Not under /gyms/, deliberately: a block belongs to the person, not to a
+  // membership, so leaving a gym does not hand somebody back their reach.
+
+  Future<Map<String, dynamic>> blockUser(String userId, {String? reason}) =>
+      _client.post('/me/blocks', body: {
+        'userId': userId,
+        if (reason != null && reason.isNotEmpty) 'reason': reason,
+      });
+
+  Future<Map<String, dynamic>> unblockUser(String userId) =>
+      _client.delete('/me/blocks/$userId');
+
+  Future<List<Map<String, dynamic>>> myBlocks() async {
+    final raw = await _client.get('/me/blocks');
+    final items = raw['items'];
+    return items is List ? items.cast<Map<String, dynamic>>() : const [];
+  }
+
+  /// What this person has reported, and where each one got to. Worth
+  /// showing: a report that disappears without trace reads as ignored.
+  Future<List<Map<String, dynamic>>> myReports() async {
+    final raw = await _client.get('/me/reports');
+    final items = raw['items'];
+    return items is List ? items.cast<Map<String, dynamic>>() : const [];
+  }
+
+  /// [details] is required by the server and is not a formality: message
+  /// bodies are encrypted and it cannot read them, so what the reporter
+  /// writes here is the only account of the content a reviewer will have.
+  Future<Map<String, dynamic>> reportUser({
+    required String reportedUserId,
+    required String category,
+    required String details,
+    String? messageId,
+    String? conversationId,
+    String? gymId,
+  }) =>
+      _client.post('/me/reports', body: {
+        'reportedUserId': reportedUserId,
+        'category': category,
+        'details': details,
+        if (messageId != null) 'messageId': messageId,
+        if (conversationId != null) 'conversationId': conversationId,
+        if (gymId != null) 'gymId': gymId,
+      });
 
   // ── Profile and support ────────────────────────────────────────────
 

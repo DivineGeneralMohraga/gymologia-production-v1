@@ -1850,4 +1850,112 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get needsReview => 'भाषांतर पुनरावलोकनाच्या प्रतीक्षेत';
+
+  @override
+  String get block => 'ब्लॉक करा';
+
+  @override
+  String get unblock => 'अनब्लॉक करा';
+
+  @override
+  String get report => 'तक्रार करा';
+
+  @override
+  String blockPerson(String name) {
+    return '$name ला ब्लॉक करा';
+  }
+
+  @override
+  String reportPerson(String name) {
+    return '$name बद्दल तक्रार करा';
+  }
+
+  @override
+  String get blockConfirmBody =>
+      'ते तुम्हाला संदेश पाठवू शकणार नाहीत, आणि तुम्हाला त्यांचे संदेश दिसणार नाहीत. तुम्ही ब्लॉक केल्याचे त्यांना सांगितले जाणार नाही. तुम्ही हे सेटिंग्जमध्ये बदलू शकता.';
+
+  @override
+  String get blocked => 'ब्लॉक केले';
+
+  @override
+  String get blockedAccounts => 'ब्लॉक केलेली खाती';
+
+  @override
+  String get noBlockedAccounts => 'तुम्ही कोणालाही ब्लॉक केलेले नाही.';
+
+  @override
+  String get safetyAndPrivacy => 'सुरक्षा';
+
+  @override
+  String unblockQuestion(String name) {
+    return '$name ला अनब्लॉक करायचे?';
+  }
+
+  @override
+  String get unblockExplainer => 'ते तुम्हाला पुन्हा संदेश पाठवू शकतील.';
+
+  @override
+  String get whyReporting => 'काय अडचण आहे?';
+
+  @override
+  String get reportDetails => 'काय घडले?';
+
+  @override
+  String get reportDetailsHint =>
+      'संदेश एन्क्रिप्टेड आहेत, त्यामुळे आम्ही ते वाचू शकत नाही. काय बोलले गेले ते तुमच्या शब्दांत सांगा.';
+
+  @override
+  String get alsoBlockThem => 'त्यांना ब्लॉकही करा';
+
+  @override
+  String get alsoBlockThemExplainer =>
+      'तक्रार एक व्यक्ती वाचते आणि त्याला वेळ लागतो. ब्लॉक करणे लगेच लागू होते.';
+
+  @override
+  String get sendReport => 'तक्रार पाठवा';
+
+  @override
+  String get reportCategorySpam => 'स्पॅम किंवा नको असलेली विक्री';
+
+  @override
+  String get reportCategoryHarassment => 'छळ किंवा दादागिरी';
+
+  @override
+  String get reportCategorySexual => 'लैंगिक किंवा अश्लील मजकूर';
+
+  @override
+  String get reportCategoryHate => 'द्वेषपूर्ण भाषण';
+
+  @override
+  String get reportCategoryViolence => 'हिंसा किंवा धमकी';
+
+  @override
+  String get reportCategoryScam => 'फसवणूक किंवा ठगबाजी';
+
+  @override
+  String get reportCategoryImpersonation => 'दुसऱ्याचे सोंग घेणे';
+
+  @override
+  String get reportCategoryOther => 'इतर काही';
+
+  @override
+  String get reportSent => 'धन्यवाद. कोणीतरी याचे पुनरावलोकन करेल.';
+
+  @override
+  String get myReports => 'मी पाठवलेल्या तक्रारी';
+
+  @override
+  String get reportStatusOpen => 'पुनरावलोकनाच्या प्रतीक्षेत';
+
+  @override
+  String get reportStatusReviewing => 'पाहिले जात आहे';
+
+  @override
+  String get reportStatusActioned => 'कारवाई केली';
+
+  @override
+  String get reportStatusDismissed => 'पुनरावलोकन झाले, कारवाई नाही';
+
+  @override
+  String get noReportsSent => 'तुम्ही कोणाबद्दलही तक्रार केलेली नाही.';
 }

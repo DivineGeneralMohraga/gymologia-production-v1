@@ -1855,4 +1855,112 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get needsReview => 'అనువాద సమీక్ష పెండింగ్‌లో';
+
+  @override
+  String get block => 'బ్లాక్ చేయండి';
+
+  @override
+  String get unblock => 'అన్‌బ్లాక్ చేయండి';
+
+  @override
+  String get report => 'నివేదించండి';
+
+  @override
+  String blockPerson(String name) {
+    return '$nameని బ్లాక్ చేయండి';
+  }
+
+  @override
+  String reportPerson(String name) {
+    return '$nameపై నివేదించండి';
+  }
+
+  @override
+  String get blockConfirmBody =>
+      'వారు మీకు సందేశం పంపలేరు, వారి సందేశాలు మీకు కనిపించవు. మీరు బ్లాక్ చేసినట్టు వారికి చెప్పబడదు. సెట్టింగ్‌లలో దీన్ని మార్చుకోవచ్చు.';
+
+  @override
+  String get blocked => 'బ్లాక్ చేయబడింది';
+
+  @override
+  String get blockedAccounts => 'బ్లాక్ చేసిన ఖాతాలు';
+
+  @override
+  String get noBlockedAccounts => 'మీరు ఎవరినీ బ్లాక్ చేయలేదు.';
+
+  @override
+  String get safetyAndPrivacy => 'భద్రత';
+
+  @override
+  String unblockQuestion(String name) {
+    return '$nameని అన్‌బ్లాక్ చేయాలా?';
+  }
+
+  @override
+  String get unblockExplainer => 'వారు మళ్లీ మీకు సందేశం పంపగలరు.';
+
+  @override
+  String get whyReporting => 'సమస్య ఏమిటి?';
+
+  @override
+  String get reportDetails => 'ఏమి జరిగింది?';
+
+  @override
+  String get reportDetailsHint =>
+      'సందేశాలు ఎన్‌క్రిప్ట్ చేయబడ్డాయి, కాబట్టి మేము వాటిని చదవలేము. ఏమి చెప్పారో మీ మాటల్లో తెలియజేయండి.';
+
+  @override
+  String get alsoBlockThem => 'వారిని బ్లాక్ కూడా చేయండి';
+
+  @override
+  String get alsoBlockThemExplainer =>
+      'నివేదికను ఒక వ్యక్తి చదువుతారు, దానికి సమయం పడుతుంది. బ్లాక్ చేయడం వెంటనే పనిచేస్తుంది.';
+
+  @override
+  String get sendReport => 'నివేదిక పంపండి';
+
+  @override
+  String get reportCategorySpam => 'స్పామ్ లేదా అవాంఛిత అమ్మకం';
+
+  @override
+  String get reportCategoryHarassment => 'వేధింపు లేదా బెదిరింపు';
+
+  @override
+  String get reportCategorySexual => 'లైంగిక లేదా అసభ్య విషయం';
+
+  @override
+  String get reportCategoryHate => 'ద్వేషపూరిత ప్రసంగం';
+
+  @override
+  String get reportCategoryViolence => 'హింస లేదా బెదిరింపు';
+
+  @override
+  String get reportCategoryScam => 'మోసం లేదా దగా';
+
+  @override
+  String get reportCategoryImpersonation => 'వేరొకరిలా నటించడం';
+
+  @override
+  String get reportCategoryOther => 'మరేదైనా';
+
+  @override
+  String get reportSent => 'ధన్యవాదాలు. ఎవరైనా దీన్ని సమీక్షిస్తారు.';
+
+  @override
+  String get myReports => 'నేను పంపిన నివేదికలు';
+
+  @override
+  String get reportStatusOpen => 'సమీక్ష కోసం వేచి ఉంది';
+
+  @override
+  String get reportStatusReviewing => 'పరిశీలిస్తున్నారు';
+
+  @override
+  String get reportStatusActioned => 'చర్య తీసుకోబడింది';
+
+  @override
+  String get reportStatusDismissed => 'సమీక్షించారు, చర్య లేదు';
+
+  @override
+  String get noReportsSent => 'మీరు ఎవరిపైనా నివేదించలేదు.';
 }

@@ -1871,4 +1871,112 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get needsReview => 'Translation pending review';
+
+  @override
+  String get block => 'Block';
+
+  @override
+  String get unblock => 'Unblock';
+
+  @override
+  String get report => 'Report';
+
+  @override
+  String blockPerson(String name) {
+    return 'Block $name';
+  }
+
+  @override
+  String reportPerson(String name) {
+    return 'Report $name';
+  }
+
+  @override
+  String get blockConfirmBody =>
+      'They will not be able to message you, and you will not see their messages. They are not told that you blocked them. You can undo this in Settings.';
+
+  @override
+  String get blocked => 'Blocked';
+
+  @override
+  String get blockedAccounts => 'Blocked accounts';
+
+  @override
+  String get noBlockedAccounts => 'You have not blocked anyone.';
+
+  @override
+  String get safetyAndPrivacy => 'Safety';
+
+  @override
+  String unblockQuestion(String name) {
+    return 'Unblock $name?';
+  }
+
+  @override
+  String get unblockExplainer => 'They will be able to message you again.';
+
+  @override
+  String get whyReporting => 'What is wrong?';
+
+  @override
+  String get reportDetails => 'What happened?';
+
+  @override
+  String get reportDetailsHint =>
+      'Messages are encrypted, so we cannot read them. Tell us what was said in your own words.';
+
+  @override
+  String get alsoBlockThem => 'Block them as well';
+
+  @override
+  String get alsoBlockThemExplainer =>
+      'A report is read by a person and takes time. Blocking works straight away.';
+
+  @override
+  String get sendReport => 'Send report';
+
+  @override
+  String get reportCategorySpam => 'Spam or unwanted selling';
+
+  @override
+  String get reportCategoryHarassment => 'Harassment or bullying';
+
+  @override
+  String get reportCategorySexual => 'Sexual or explicit content';
+
+  @override
+  String get reportCategoryHate => 'Hate speech';
+
+  @override
+  String get reportCategoryViolence => 'Violence or a threat';
+
+  @override
+  String get reportCategoryScam => 'Scam or fraud';
+
+  @override
+  String get reportCategoryImpersonation => 'Pretending to be someone else';
+
+  @override
+  String get reportCategoryOther => 'Something else';
+
+  @override
+  String get reportSent => 'Thank you. Someone will review this.';
+
+  @override
+  String get myReports => 'Reports I have sent';
+
+  @override
+  String get reportStatusOpen => 'Waiting for review';
+
+  @override
+  String get reportStatusReviewing => 'Being looked at';
+
+  @override
+  String get reportStatusActioned => 'Action taken';
+
+  @override
+  String get reportStatusDismissed => 'Reviewed, no action';
+
+  @override
+  String get noReportsSent => 'You have not reported anyone.';
 }

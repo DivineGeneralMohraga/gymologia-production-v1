@@ -51,6 +51,35 @@ void main() {
     });
   });
 
+  group('the report queue', () {
+    test('is open to whoever works support', () {
+      // Same desk, same flag, and the server admits the same three roles.
+      // If these two ever disagree, a report queue appears for somebody
+      // the API then refuses -- or, worse, does not appear for the person
+      // whose job it is.
+      expect(canReach('reports', 'CUSTOMER_SUPPORT', support), isTrue);
+      expect(canReach('reports', 'OWNER', owner), isTrue);
+    });
+
+    test('is not drawn for a role that cannot work it', () {
+      expect(canReach('reports', 'KYC_AGENT', kycAgent), isFalse);
+      expect(canReach('reports', 'ADMIN', flags()), isFalse,
+          reason: 'the flag decides, not the seniority');
+    });
+
+    test('tracks support exactly', () {
+      // Written as an equality rather than two separate assertions,
+      // because the point is that they are the same rule -- one of them
+      // being changed alone is the failure this catches.
+      for (final role in adminRoles) {
+        for (final f in [owner, support, kycAgent, flags(support: true)]) {
+          expect(canReach('reports', role, f), canReach('tickets', role, f),
+              reason: 'reports and tickets diverged for $role');
+        }
+      }
+    });
+  });
+
   group('verification desk', () {
     test('is open to the agents who exist to do it', () {
       // The bug: KYC_AGENT was not in the role list at all, so the person

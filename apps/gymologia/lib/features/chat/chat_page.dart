@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 import '../auth/auth_controller.dart';
+import '../safety/safety_actions.dart';
 
 /// One conversation.
 ///
@@ -32,6 +33,9 @@ class _ChatPageState extends State<ChatPage> {
   final _controller = TextEditingController();
   final _scroll = ScrollController();
   List<Map<String, dynamic>>? _messages;
+  /// The other person, in a one-to-one conversation. Null in a group,
+  /// where "block this conversation" is not a coherent action.
+  Map<String, dynamic>? _other;
   String? _error;
   bool _sending = false;
   bool _disposed = false;
@@ -42,6 +46,7 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     super.initState();
     _load(scrollToEnd: true);
+    _loadOther();
     _poll();
   }
 
@@ -60,6 +65,43 @@ class _ChatPageState extends State<ChatPage> {
       if (_disposed || !mounted) return;
       await _load();
     }
+  }
+
+  /// Fails quietly. It only feeds a menu item, and a chat screen that
+  /// refuses to open because it could not decide whether to show one
+  /// would be a poor trade.
+  Future<void> _loadOther() async {
+    try {
+      final people =
+          await _api.chatParticipants(widget.gymId, widget.conversationId);
+      final others = people.where((p) => p['isMe'] != true).toList();
+      if (mounted && others.length == 1) setState(() => _other = others.first);
+    } on ApiException {
+      // Leave the menu off.
+    }
+  }
+
+  /// Held down on a message. Only offered for other people's messages --
+  /// there is no sense in reporting yourself, and the server refuses it.
+  Future<void> _safetyForMessage(Map<String, dynamic> message) async {
+    if (message['fromMe'] == true) return;
+    final sender = message['sender'] as Map<String, dynamic>?;
+    final senderId = sender?['id'] as String?;
+    if (senderId == null) return;
+
+    final changed = await showPersonSafetySheet(
+      context,
+      api: _api,
+      userId: senderId,
+      name: sender?['name'] as String? ?? '',
+      messageId: message['id'] as String?,
+      conversationId: widget.conversationId,
+      gymId: widget.gymId,
+    );
+    // The blocked person's messages are gone from the server's answer now.
+    // Without this the screen keeps showing them until the next poll, which
+    // reads as the block having failed.
+    if (changed && mounted) await _load();
   }
 
   Future<void> _load({bool scrollToEnd = false}) async {
@@ -124,7 +166,44 @@ class _ChatPageState extends State<ChatPage> {
     final messages = _messages;
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: [
+          if (_other != null)
+            PopupMenuButton<String>(
+              onSelected: (choice) async {
+                final other = _other;
+                if (other == null) return;
+                final name = other['name'] as String? ?? '';
+                final id = other['userId'] as String;
+                final changed = choice == 'block'
+                    ? await confirmAndBlock(context,
+                        api: _api, userId: id, name: name)
+                    : await showReportSheet(context,
+                        api: _api,
+                        userId: id,
+                        name: name,
+                        conversationId: widget.conversationId,
+                        gymId: widget.gymId);
+                // `context.mounted`, not the State's `mounted`: the
+                // context captured here is the one `build` was given, and
+                // that is the one about to be used.
+                if (changed && context.mounted) {
+                  // A block ends this conversation. Staying on a screen
+                  // that can no longer send or receive would be a dead end.
+                  Navigator.of(context).pop();
+                }
+              },
+              itemBuilder: (menuContext) {
+                final t = AppLocalizations.of(menuContext);
+                return [
+                  PopupMenuItem(value: 'report', child: Text(t.report)),
+                  PopupMenuItem(value: 'block', child: Text(t.block)),
+                ];
+              },
+            ),
+        ],
+      ),
       body: Column(
         children: [
           Expanded(
@@ -166,7 +245,11 @@ class _ChatPageState extends State<ChatPage> {
                                               as Map<String, dynamic>?)?['id'] !=
                                           (m['sender']
                                               as Map<String, dynamic>?)?['id']);
-                              return _Bubble(message: m, showSender: showSender);
+                              return _Bubble(
+                                message: m,
+                                showSender: showSender,
+                                onHold: () => _safetyForMessage(m),
+                              );
                             },
                           ),
           ),
@@ -214,10 +297,18 @@ class _ChatPageState extends State<ChatPage> {
 }
 
 class _Bubble extends StatelessWidget {
-  const _Bubble({required this.message, required this.showSender});
+  const _Bubble({
+    required this.message,
+    required this.showSender,
+    required this.onHold,
+  });
 
   final Map<String, dynamic> message;
   final bool showSender;
+
+  /// Long-press. The gesture people already try on a message they want
+  /// something done about.
+  final VoidCallback onHold;
 
   @override
   Widget build(BuildContext context) {
@@ -227,63 +318,66 @@ class _Bubble extends StatelessWidget {
 
     return Align(
       alignment: mine ? Alignment.centerRight : Alignment.centerLeft,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.78,
-        ),
-        child: Column(
-          crossAxisAlignment:
-              mine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-          children: [
-            if (showSender)
-              Padding(
-                padding: const EdgeInsets.only(left: 12, bottom: 2, top: 6),
-                child: Text(
-                  sender?['name'] as String? ?? '',
-                  style: theme.textTheme.labelSmall?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 6),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-              decoration: BoxDecoration(
-                color: mine
-                    ? theme.colorScheme.primary
-                    : theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(16),
-                  topRight: const Radius.circular(16),
-                  bottomLeft: Radius.circular(mine ? 16 : 4),
-                  bottomRight: Radius.circular(mine ? 4 : 16),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    message['body'] as String? ?? '',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: mine ? theme.colorScheme.onPrimary : null,
-                      height: 1.35,
-                    ),
-                  ),
-                  const SizedBox(height: 3),
-                  Text(
-                    _time(message['createdAt']),
+      child: GestureDetector(
+        onLongPress: mine ? null : onHold,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width * 0.78,
+          ),
+          child: Column(
+            crossAxisAlignment:
+                mine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            children: [
+              if (showSender)
+                Padding(
+                  padding: const EdgeInsets.only(left: 12, bottom: 2, top: 6),
+                  child: Text(
+                    sender?['name'] as String? ?? '',
                     style: theme.textTheme.labelSmall?.copyWith(
-                      fontSize: 10,
-                      color: mine
-                          ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
-                          : theme.colorScheme.onSurfaceVariant,
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                ],
+                ),
+              Container(
+                margin: const EdgeInsets.only(bottom: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                decoration: BoxDecoration(
+                  color: mine
+                      ? theme.colorScheme.primary
+                      : theme.colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.only(
+                    topLeft: const Radius.circular(16),
+                    topRight: const Radius.circular(16),
+                    bottomLeft: Radius.circular(mine ? 16 : 4),
+                    bottomRight: Radius.circular(mine ? 4 : 16),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      message['body'] as String? ?? '',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: mine ? theme.colorScheme.onPrimary : null,
+                        height: 1.35,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      _time(message['createdAt']),
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        fontSize: 10,
+                        color: mine
+                            ? theme.colorScheme.onPrimary.withValues(alpha: 0.7)
+                            : theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

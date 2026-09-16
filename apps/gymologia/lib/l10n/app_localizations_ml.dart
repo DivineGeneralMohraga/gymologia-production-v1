@@ -1865,4 +1865,114 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get needsReview => 'വിവർത്തനം പരിശോധിക്കാനുണ്ട്';
+
+  @override
+  String get block => 'ബ്ലോക്ക് ചെയ്യുക';
+
+  @override
+  String get unblock => 'അൺബ്ലോക്ക് ചെയ്യുക';
+
+  @override
+  String get report => 'റിപ്പോർട്ട് ചെയ്യുക';
+
+  @override
+  String blockPerson(String name) {
+    return '$name നെ ബ്ലോക്ക് ചെയ്യുക';
+  }
+
+  @override
+  String reportPerson(String name) {
+    return '$name നെക്കുറിച്ച് റിപ്പോർട്ട് ചെയ്യുക';
+  }
+
+  @override
+  String get blockConfirmBody =>
+      'അവർക്ക് നിങ്ങൾക്ക് സന്ദേശം അയയ്ക്കാനാവില്ല, അവരുടെ സന്ദേശങ്ങൾ നിങ്ങൾ കാണുകയുമില്ല. നിങ്ങൾ ബ്ലോക്ക് ചെയ്തതായി അവരോട് പറയില്ല. ക്രമീകരണങ്ങളിൽ ഇത് മാറ്റാം.';
+
+  @override
+  String get blocked => 'ബ്ലോക്ക് ചെയ്തു';
+
+  @override
+  String get blockedAccounts => 'ബ്ലോക്ക് ചെയ്ത അക്കൗണ്ടുകൾ';
+
+  @override
+  String get noBlockedAccounts => 'നിങ്ങൾ ആരെയും ബ്ലോക്ക് ചെയ്തിട്ടില്ല.';
+
+  @override
+  String get safetyAndPrivacy => 'സുരക്ഷ';
+
+  @override
+  String unblockQuestion(String name) {
+    return '$name നെ അൺബ്ലോക്ക് ചെയ്യണോ?';
+  }
+
+  @override
+  String get unblockExplainer =>
+      'അവർക്ക് വീണ്ടും നിങ്ങൾക്ക് സന്ദേശം അയയ്ക്കാനാകും.';
+
+  @override
+  String get whyReporting => 'എന്താണ് പ്രശ്നം?';
+
+  @override
+  String get reportDetails => 'എന്താണ് സംഭവിച്ചത്?';
+
+  @override
+  String get reportDetailsHint =>
+      'സന്ദേശങ്ങൾ എൻക്രിപ്റ്റ് ചെയ്തവയാണ്, അതിനാൽ ഞങ്ങൾക്ക് വായിക്കാനാവില്ല. എന്താണ് പറഞ്ഞതെന്ന് നിങ്ങളുടെ വാക്കുകളിൽ പറയുക.';
+
+  @override
+  String get alsoBlockThem => 'അവരെ ബ്ലോക്ക് കൂടി ചെയ്യുക';
+
+  @override
+  String get alsoBlockThemExplainer =>
+      'റിപ്പോർട്ട് ഒരാൾ വായിക്കും, അതിന് സമയമെടുക്കും. ബ്ലോക്ക് ചെയ്യുന്നത് ഉടനടി പ്രവർത്തിക്കും.';
+
+  @override
+  String get sendReport => 'റിപ്പോർട്ട് അയയ്ക്കുക';
+
+  @override
+  String get reportCategorySpam => 'സ്പാം അല്ലെങ്കിൽ അനാവശ്യ വിൽപ്പന';
+
+  @override
+  String get reportCategoryHarassment => 'ഉപദ്രവം അല്ലെങ്കിൽ ഭീഷണിപ്പെടുത്തൽ';
+
+  @override
+  String get reportCategorySexual => 'ലൈംഗികമോ അശ്ലീലമോ ആയ ഉള്ളടക്കം';
+
+  @override
+  String get reportCategoryHate => 'വിദ്വേഷ പ്രസംഗം';
+
+  @override
+  String get reportCategoryViolence => 'അക്രമം അല്ലെങ്കിൽ ഭീഷണി';
+
+  @override
+  String get reportCategoryScam => 'തട്ടിപ്പ് അല്ലെങ്കിൽ വഞ്ചന';
+
+  @override
+  String get reportCategoryImpersonation => 'മറ്റൊരാളായി ഭാവിക്കൽ';
+
+  @override
+  String get reportCategoryOther => 'മറ്റെന്തെങ്കിലും';
+
+  @override
+  String get reportSent => 'നന്ദി. ആരെങ്കിലും ഇത് പരിശോധിക്കും.';
+
+  @override
+  String get myReports => 'ഞാൻ അയച്ച റിപ്പോർട്ടുകൾ';
+
+  @override
+  String get reportStatusOpen => 'പരിശോധനയ്ക്കായി കാത്തിരിക്കുന്നു';
+
+  @override
+  String get reportStatusReviewing => 'പരിശോധിക്കുന്നു';
+
+  @override
+  String get reportStatusActioned => 'നടപടി സ്വീകരിച്ചു';
+
+  @override
+  String get reportStatusDismissed => 'പരിശോധിച്ചു, നടപടിയില്ല';
+
+  @override
+  String get noReportsSent =>
+      'നിങ്ങൾ ആരെക്കുറിച്ചും റിപ്പോർട്ട് ചെയ്തിട്ടില്ല.';
 }
