@@ -125,8 +125,26 @@ export function validateEnv(
         'TEST_ACCOUNT_PHONE and TEST_ACCOUNT_OTP must be set together, or neither',
       );
     }
-    if (testPhone !== '' && !/^\+[1-9]\d{7,14}$/.test(testPhone)) {
-      problems.push('TEST_ACCOUNT_PHONE must be E.164, e.g. +919999900000');
+    // One number or several, comma-separated. Every entry is checked, and
+    // every entry must be a complete E.164 number: a prefix would hand the
+    // standing code to a whole numbering range rather than to one handset.
+    //
+    // Checking only the whole string is what broke a deploy -- the list was
+    // read correctly by the config layer and rejected here, and the gate
+    // refused to boot. It was right to; this is what it was missing.
+    const testPhones = testPhone
+      .split(',')
+      .map((v) => v.trim())
+      .filter((v) => v.length > 0);
+
+    const badPhones = testPhones.filter((v) => !/^\+[1-9]\d{7,14}$/.test(v));
+    if (badPhones.length > 0) {
+      problems.push(
+        `TEST_ACCOUNT_PHONE must be E.164, e.g. +919999900000 (bad: ${badPhones.join(', ')})`,
+      );
+    }
+    if (new Set(testPhones).size !== testPhones.length) {
+      problems.push('TEST_ACCOUNT_PHONE lists the same number more than once');
     }
     const otpLength = Number(raw.MSG91_OTP_LENGTH ?? 6);
     if (testOtp !== '' && !new RegExp(`^\\d{${otpLength}}$`).test(testOtp)) {

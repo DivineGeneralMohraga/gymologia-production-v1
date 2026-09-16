@@ -52,7 +52,12 @@ export interface Msg91Config {
    * verification path is bypassed. Empty by default, so a deployment that
    * does not configure it has no test account at all.
    */
-  testAccountPhone: string;
+  /**
+   * Every number that may use the standing code. One entry in the
+   * ordinary case; several while an app is in review, because
+   * checking that two members can chat needs two members.
+   */
+  testAccountPhones: string[];
   testAccountOtp: string;
 }
 
@@ -129,7 +134,13 @@ export default () => {
       widgetToken: process.env.MSG91_WIDGET_TOKEN ?? '',
       otpTtlSeconds: int(process.env.MSG91_OTP_TTL_SECONDS, 300),
       otpLength: int(process.env.MSG91_OTP_LENGTH, 6),
-      testAccountPhone: process.env.TEST_ACCOUNT_PHONE ?? '',
+      // Comma-separated, and a single value still works unchanged.
+      // Blank entries are dropped rather than becoming an empty
+      // string that would match a caller who sent no phone at all.
+      testAccountPhones: (process.env.TEST_ACCOUNT_PHONE ?? '')
+        .split(',')
+        .map((p) => p.trim())
+        .filter((p) => p.length > 0),
       testAccountOtp: process.env.TEST_ACCOUNT_OTP ?? '',
     } satisfies Msg91Config,
 

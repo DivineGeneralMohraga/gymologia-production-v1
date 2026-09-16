@@ -83,13 +83,17 @@ export class OtpService {
     // worth having: there is no branch anywhere that accepts a code
     // without checking it.
     //
-    // It is exact-equality on one number, both values must be set, and
-    // both are empty by default -- so a deployment that has not configured
-    // it has no test account rather than a weaker one.
+    // Exact equality against each configured number -- never a prefix.
+    // A prefix match would hand the bypass to an entire numbering range,
+    // and "+9199999" covers ten million real handsets.
+    //
+    // Both values must be set and both are empty by default, so a
+    // deployment that has not configured this has no test account rather
+    // than a weaker one.
     const isTestAccount =
-      this.cfg.testAccountPhone !== '' &&
+      this.cfg.testAccountPhones.length > 0 &&
       this.cfg.testAccountOtp !== '' &&
-      phone === this.cfg.testAccountPhone;
+      this.cfg.testAccountPhones.includes(phone);
 
     // Forced onto the DIRECT path even where the widget is configured,
     // because in WIDGET mode MSG91 owns the code and would have to be the
