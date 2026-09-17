@@ -18,12 +18,14 @@ interface RequestMeta {
  * asks a person being harassed to describe what happened and then does
  * nothing with it. This is the other half of the feature, not an extra.
  *
- * What a reviewer can see is bounded by the encryption: the message body is
- * AES-GCM ciphertext with no key on the server, so the reporter's own
- * account is the evidence. Everything around it — who sent it, in which
- * conversation, when, and how many other people have reported the same
- * account — is verifiable, and that context is what turns one person's word
- * against another into a decision that can be defended.
+ * What a reviewer sees is bounded by policy rather than by arithmetic. The
+ * server holds the key to message bodies and `ChatService` decrypts them
+ * routinely; this desk does not, so working the queue never means reading
+ * private conversations. The reporter's own account is therefore the
+ * evidence. Everything around it — who sent it, in which conversation,
+ * when, and how many other people have reported or blocked the same
+ * account — is independently verifiable, and that context is what turns one
+ * person's word against another into a decision that can be defended.
  */
 @Injectable()
 export class SafetyReviewService {
@@ -148,10 +150,12 @@ export class SafetyReviewService {
             sentAt: report.message.createdAt,
             deleted: report.message.deletedAt !== null,
             // Said explicitly so nobody spends time looking for a way to
-            // read it. There is none, by design.
+            // open it on this screen. Deliberately does not claim the
+            // message is unreadable anywhere -- it is not, and a reviewer
+            // told otherwise would repeat it to somebody who relied on it.
             body: null,
             bodyNote:
-              'Message bodies are encrypted and cannot be read here. The reporter’s description above is the account of what was said.',
+              'Message contents are not shown on this desk, so that working the queue does not mean reading private conversations. The reporter’s description above is the account of what was said.',
           }
         : null,
       context: {

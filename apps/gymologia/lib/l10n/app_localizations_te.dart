@@ -1907,7 +1907,7 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get reportDetailsHint =>
-      'సందేశాలు ఎన్‌క్రిప్ట్ చేయబడ్డాయి, కాబట్టి మేము వాటిని చదవలేము. ఏమి చెప్పారో మీ మాటల్లో తెలియజేయండి.';
+      'సమీక్షకులు సందేశాన్ని చూడరు. వారు మీ వివరణనే చదువుతారు, కాబట్టి ఏమి చెప్పారో మీ మాటల్లో తెలియజేయండి.';
 
   @override
   String get alsoBlockThem => 'వారిని బ్లాక్ కూడా చేయండి';

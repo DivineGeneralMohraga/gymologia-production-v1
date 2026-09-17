@@ -1902,7 +1902,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get reportDetailsHint =>
-      'संदेश एन्क्रिप्टेड आहेत, त्यामुळे आम्ही ते वाचू शकत नाही. काय बोलले गेले ते तुमच्या शब्दांत सांगा.';
+      'पुनरावलोकन करणारे संदेश स्वतः पाहत नाहीत. ते तुमचे वर्णनच वाचतात, म्हणून काय बोलले गेले ते तुमच्या शब्दांत सांगा.';
 
   @override
   String get alsoBlockThem => 'त्यांना ब्लॉकही करा';

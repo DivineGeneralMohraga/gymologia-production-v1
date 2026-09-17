@@ -1904,7 +1904,7 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get reportDetailsHint =>
-      'বার্তাগুলি এনক্রিপ্ট করা, তাই আমরা সেগুলি পড়তে পারি না। নিজের ভাষায় বলুন কী বলা হয়েছিল।';
+      'পর্যালোচকরা বার্তাটি নিজে দেখেন না। তাঁরা আপনার বর্ণনাই পড়েন, তাই নিজের ভাষায় বলুন কী বলা হয়েছিল।';
 
   @override
   String get alsoBlockThem => 'তাদের ব্লকও করুন';

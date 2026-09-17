@@ -1893,7 +1893,7 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get reportDetailsHint =>
-      'સંદેશા એન્ક્રિપ્ટેડ છે, તેથી અમે તે વાંચી શકતા નથી. શું કહેવાયું તે તમારા શબ્દોમાં જણાવો.';
+      'સમીક્ષકો સંદેશ જાતે જોતા નથી. તેઓ તમારું વર્ણન જ વાંચે છે, તેથી શું કહેવાયું તે તમારા શબ્દોમાં જણાવો.';
 
   @override
   String get alsoBlockThem => 'તેમને બ્લોક પણ કરો';

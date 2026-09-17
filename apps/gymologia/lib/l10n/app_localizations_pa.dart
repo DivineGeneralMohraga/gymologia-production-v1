@@ -1903,7 +1903,7 @@ class AppLocalizationsPa extends AppLocalizations {
 
   @override
   String get reportDetailsHint =>
-      'ਸੁਨੇਹੇ ਇਨਕ੍ਰਿਪਟਿਡ ਹਨ, ਇਸ ਲਈ ਅਸੀਂ ਉਨ੍ਹਾਂ ਨੂੰ ਪੜ੍ਹ ਨਹੀਂ ਸਕਦੇ। ਕੀ ਕਿਹਾ ਗਿਆ ਸੀ ਉਹ ਆਪਣੇ ਸ਼ਬਦਾਂ ਵਿੱਚ ਦੱਸੋ।';
+      'ਸਮੀਖਿਅਕ ਸੁਨੇਹਾ ਖੁਦ ਨਹੀਂ ਦੇਖਦੇ। ਉਹ ਤੁਹਾਡਾ ਵੇਰਵਾ ਹੀ ਪੜ੍ਹਦੇ ਹਨ, ਇਸ ਲਈ ਕੀ ਕਿਹਾ ਗਿਆ ਸੀ ਉਹ ਆਪਣੇ ਸ਼ਬਦਾਂ ਵਿੱਚ ਦੱਸੋ।';
 
   @override
   String get alsoBlockThem => 'ਉਨ੍ਹਾਂ ਨੂੰ ਬਲਾਕ ਵੀ ਕਰੋ';

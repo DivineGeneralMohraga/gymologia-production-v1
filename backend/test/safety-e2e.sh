@@ -297,16 +297,22 @@ print(json.load(sys.stdin)['context']['peopleWhoHaveBlockedThisAccount'])" 2>/de
   && ok "the detail carries how many people blocked him ($BLOCKS)" \
   || bad "context" "expected at least Alice's block, got ${BLOCKS:-none}"
 
-# The body is ciphertext and there is no key here. The reviewer must be
-# told that outright -- one who thinks it failed to load goes looking for a
-# way to read it, and there is none.
+# The body is withheld from this desk, and the reviewer is told so --
+# one who thinks it failed to load goes looking for a way to open it.
+#
+# The note must NOT say the message is unreadable by the service. It is
+# not: the server holds the key and ChatService decrypts bodies on every
+# read. A reviewer told otherwise repeats it to somebody who relies on it,
+# which is how a comfortable falsehood ends up in a privacy policy.
 NOTE=$(echo "$DETAIL" | python -c "
 import sys, json
 m = json.load(sys.stdin).get('message') or {}
-said = m.get('body') is None and 'cannot be read' in (m.get('bodyNote') or '')
-print('said' if said else 'no')" 2>/dev/null)
+note = (m.get('bodyNote') or '').lower()
+withheld = m.get('body') is None and 'not shown' in note
+overclaims = 'cannot be read' in note or 'no key' in note
+print('said' if withheld and not overclaims else 'over' if overclaims else 'no')" 2>/dev/null)
 [ "$NOTE" = "said" ] \
-  && ok "and says plainly that the message body cannot be read" \
+  && ok "and says the body is withheld here, without overclaiming" \
   || bad "encryption note" "got: $NOTE"
 
 # A decision with no note is not a decision anybody can act on later.

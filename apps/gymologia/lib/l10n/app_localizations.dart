@@ -3252,10 +3252,10 @@ abstract class AppLocalizations {
   /// **'What happened?'**
   String get reportDetails;
 
-  /// Explains why the reporter has to describe the content themselves.
+  /// Explains why the reporter has to describe the content themselves. Must NOT claim the messages are unreadable by the service -- the server holds the key and ChatService decrypts them; it is the review desk that does not show them.
   ///
   /// In en, this message translates to:
-  /// **'Messages are encrypted, so we cannot read them. Tell us what was said in your own words.'**
+  /// **'Reviewers do not see the message itself. Your description is what they read, so tell us what was said in your own words.'**
   String get reportDetailsHint;
 
   /// No description provided for @alsoBlockThem.

@@ -1071,9 +1071,9 @@
   "unblockExplainer": "They will be able to message you again.",
   "whyReporting": "What is wrong?",
   "reportDetails": "What happened?",
-  "reportDetailsHint": "Messages are encrypted, so we cannot read them. Tell us what was said in your own words.",
+  "reportDetailsHint": "Reviewers do not see the message itself. Your description is what they read, so tell us what was said in your own words.",
   "@reportDetailsHint": {
-    "description": "Explains why the reporter has to describe the content themselves."
+    "description": "Explains why the reporter has to describe the content themselves. Must NOT claim the messages are unreadable by the service -- the server holds the key and ChatService decrypts them; it is the review desk that does not show them."
   },
   "alsoBlockThem": "Block them as well",
   "alsoBlockThemExplainer": "A report is read by a person and takes time. Blocking works straight away.",

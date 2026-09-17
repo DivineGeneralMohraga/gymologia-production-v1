@@ -1923,7 +1923,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportDetailsHint =>
-      'Messages are encrypted, so we cannot read them. Tell us what was said in your own words.';
+      'Reviewers do not see the message itself. Your description is what they read, so tell us what was said in your own words.';
 
   @override
   String get alsoBlockThem => 'Block them as well';

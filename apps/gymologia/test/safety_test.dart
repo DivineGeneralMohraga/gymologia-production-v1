@@ -121,12 +121,31 @@ void main() {
 
   group('the report copy', () {
     test('explains why the reporter must describe the content', () {
-      // Messages are AES-GCM ciphertext and the server holds no key, so
-      // "see the message" is not a report anybody can act on. Said before
-      // they type, not as an error afterwards.
+      // "See the message" is not a report anybody can act on, because the
+      // review desk does not surface bodies. Said before they type, not as
+      // an error afterwards.
       final hint = t.reportDetailsHint.toLowerCase();
-      expect(hint, contains('encrypted'));
-      expect(hint, contains('cannot read'));
+      expect(hint, contains('reviewers'));
+      expect(hint, contains('your own words'));
+    });
+
+    test('does not claim the service cannot read messages', () {
+      // It can. Message bodies are encrypted at rest with a key the server
+      // holds, and ChatService decrypts them on every read of a
+      // conversation; what is true is that this desk does not show them.
+      //
+      // The first version of this copy said "we cannot read them" in all
+      // ten languages, and the test above REQUIRED it to -- so the false
+      // claim was pinned in place by the thing meant to catch it. Hence
+      // this, which fails if it ever comes back.
+      for (final locale in _locales) {
+        final hint =
+            lookupAppLocalizations(Locale(locale)).reportDetailsHint;
+        for (final claim in ['cannot read', "can't read", 'unable to read']) {
+          expect(hint.toLowerCase(), isNot(contains(claim)),
+              reason: 'the unreadability claim is back in $locale');
+        }
+      }
     });
 
     test('does not let a report be mistaken for a block', () {

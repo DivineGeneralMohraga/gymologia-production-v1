@@ -1419,11 +1419,16 @@ model UserBlock {
 
 /// A complaint about somebody's conduct, for a human to read.
 ///
-/// `details` carries what the reporter saw. That is not laziness: messages
-/// are AES-GCM ciphertext and the server holds no key, so a reviewer given
-/// only `messageId` would have a row they cannot read. The id is kept as
-/// well, because who sent it, where, and when are all verifiable even when
-/// the words are not.
+/// `details` carries what the reporter saw. That is not laziness: the
+/// review desk deliberately does not surface message bodies, so a reviewer
+/// given only `messageId` would have a row with nothing readable in it. The
+/// id is kept as well, because who sent it, where, and when are all
+/// verifiable independently of the words.
+///
+/// The migration that created this table says the server holds no key. That
+/// is wrong -- it does, and ChatService decrypts bodies on every read -- but
+/// applied migrations are checksummed by Prisma and editing one breaks the
+/// next deploy, so the correction lives here.
 model ContentReport {
   id             String @id @default(uuid()) @db.Uuid
   reporterId     String @db.Uuid

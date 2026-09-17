@@ -278,9 +278,11 @@ class _ReportDialogState extends State<_ReportDialog> {
               if (message != null) ...[
                 Text('The message', style: theme.textTheme.labelLarge),
                 const SizedBox(height: 4),
-                // Said outright rather than shown as an empty box. A
-                // reviewer who thinks the body failed to load will go
-                // looking for a way to see it, and there is none.
+                // Said outright rather than shown as an empty box, so a
+                // reviewer does not think it failed to load. The server's
+                // note explains that this desk does not surface bodies --
+                // it does not claim they are unreadable anywhere, because
+                // they are not.
                 Text(
                   '${message['bodyNote'] ?? ''}',
                   style: theme.textTheme.bodySmall?.copyWith(

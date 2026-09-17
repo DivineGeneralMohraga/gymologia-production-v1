@@ -31,13 +31,23 @@ interface RequestMeta {
  * receiving what they blocked to escape; telling B would invite retaliation
  * somewhere this app cannot see.
  *
- * ## A report carries text because the server cannot read the message
+ * ## A report carries text because the review desk does not show the message
  *
- * Messages are AES-GCM ciphertext and no key is held here. A report naming
- * only a message id would hand a reviewer a row they cannot open. So the
- * reporter's own account of what they saw is the evidence, and the message
- * id travels with it for everything that IS verifiable: who sent it, in
- * which conversation, at what time.
+ * Note the wording. The server CAN read message bodies: they are encrypted
+ * at rest with a key this process holds, and `ChatService` decrypts them on
+ * every read. An earlier version of this comment said no key was held here,
+ * which was simply untrue -- the same mistake AuditService documents at
+ * length, and the reason that block exists.
+ *
+ * What is true is a choice: the review desk does not surface bodies, so
+ * working the report queue does not mean reading private conversations. A
+ * report therefore carries the reporter's own account of what they saw, and
+ * the message id travels with it for everything independently verifiable --
+ * who sent it, in which conversation, at what time.
+ *
+ * If that trade is ever revisited, the shape to reach for is revealing the
+ * one reported message and writing the reveal to the audit log, not handing
+ * support the whole thread.
  */
 @Injectable()
 export class SafetyService {

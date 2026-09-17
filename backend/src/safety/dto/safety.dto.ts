@@ -43,7 +43,7 @@ export class CreateReportDto {
 
   @ApiProperty({
     description:
-      'What happened, in the reporter’s own words. Required, and not optional padding: message bodies are encrypted and the server cannot read them, so this is the only account of the content a reviewer will have.',
+      'What happened, in the reporter’s own words. Required, and not optional padding: the review desk does not surface message bodies, so this is the only account of the content a reviewer sees.',
     minLength: 10,
     maxLength: 2000,
   })
