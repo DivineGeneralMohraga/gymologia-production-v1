@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
+import { Logger, RequestMethod, ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
@@ -25,7 +25,13 @@ async function bootstrap(): Promise<void> {
   const prefix = config.get<string>('app.apiPrefix', 'api/v1');
   const isProduction = config.get<boolean>('app.isProduction', false);
 
-  app.setGlobalPrefix(prefix);
+  // The account-deletion page is excluded so it answers at /delete-account
+  // rather than /api/v1/delete-account. That URL goes into Play's Data
+  // safety form and gets opened by people who have already uninstalled the
+  // app; it should not look like an internal endpoint.
+  app.setGlobalPrefix(prefix, {
+    exclude: [{ path: 'delete-account', method: RequestMethod.GET }],
+  });
 
   // ── Transport hardening ──────────────────────────────────────────
   app.use(

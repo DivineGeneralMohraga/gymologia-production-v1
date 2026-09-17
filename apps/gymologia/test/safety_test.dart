@@ -155,6 +155,75 @@ void main() {
     });
   });
 
+  group('deleting your account', () {
+    test('says plainly that the account survives the grace period', () {
+      // The thirty days is the only thing between a decision made in a bad
+      // moment and a permanent loss. If a copy edit drops it, the screen
+      // still reads fine and the safety net is gone.
+      final intro = t.deleteAccountIntro.toLowerCase();
+      expect(intro, contains('30 days'));
+      expect(intro, contains('cannot be brought back'));
+    });
+
+    test('is honest that payment records are kept', () {
+      // Play requires deletion; the law requires books of account. Both are
+      // true at once, and a screen that promises everything vanishes is
+      // making a promise the server does not keep.
+      final kept = t.whatIsKeptList.toLowerCase();
+      expect(kept, contains('books of account'));
+      expect(t.whatIsKept.toLowerCase(), contains('removed from it'));
+    });
+
+    test('names what actually goes', () {
+      final gone = t.whatIsDeletedList.toLowerCase();
+      for (final item in ['name', 'email', 'weight', 'chat', 'upi']) {
+        expect(gone, contains(item), reason: '$item is not listed as deleted');
+      }
+    });
+
+    test('the amount and date placeholders survive translation', () {
+      // A translation that drops {amount} leaves somebody agreeing to lose
+      // an unnamed sum, which is the one number on the screen that matters.
+      for (final locale in _locales) {
+        final strings = lookupAppLocalizations(Locale(locale));
+        final money = strings.unwithdrawnWarning('₹150.00');
+        expect(money, contains('₹150.00'), reason: 'amount lost in $locale');
+        expect(money, isNot(contains('{')), reason: 'braces in $locale');
+
+        final when = strings.deletionScheduled('17/10/2026');
+        expect(when, contains('17/10/2026'), reason: 'date lost in $locale');
+        expect(when, isNot(contains('{')), reason: 'braces in $locale');
+      }
+    });
+
+    test('every deletion string is translated in every language', () {
+      final english = AppLocalizationsEn();
+      final pick = <String, String Function(AppLocalizations)>{
+        'deleteAccount': (s) => s.deleteAccount,
+        'deleteAccountIntro': (s) => s.deleteAccountIntro,
+        'whatIsDeleted': (s) => s.whatIsDeleted,
+        'whatIsDeletedList': (s) => s.whatIsDeletedList,
+        'whatIsKept': (s) => s.whatIsKept,
+        'whatIsKeptList': (s) => s.whatIsKeptList,
+        'deleteGymsFirst': (s) => s.deleteGymsFirst,
+        'iUnderstandLoseEarnings': (s) => s.iUnderstandLoseEarnings,
+        'keepMyAccount': (s) => s.keepMyAccount,
+        'deletionCancelled': (s) => s.deletionCancelled,
+        'deleteAccountConfirm': (s) => s.deleteAccountConfirm,
+      };
+
+      for (final locale in _locales.where((l) => l != 'en')) {
+        final strings = lookupAppLocalizations(Locale(locale));
+        pick.forEach((key, get) {
+          expect(get(strings).trim(), isNotEmpty,
+              reason: '$key is empty in $locale');
+          expect(get(strings), isNot(get(english)),
+              reason: '$key fell back to English in $locale');
+        });
+      }
+    });
+  });
+
   group('translations', () {
     test('every safety string is present in every language', () {
       // Missing keys fall back to English, which is fine for a settings

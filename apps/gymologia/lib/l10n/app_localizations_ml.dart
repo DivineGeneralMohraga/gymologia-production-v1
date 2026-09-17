@@ -1975,4 +1975,52 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get noReportsSent =>
       'നിങ്ങൾ ആരെക്കുറിച്ചും റിപ്പോർട്ട് ചെയ്തിട്ടില്ല.';
+
+  @override
+  String get deleteAccount => 'അക്കൗണ്ട് ഇല്ലാതാക്കുക';
+
+  @override
+  String get deleteAccountIntro =>
+      'നിങ്ങളുടെ അക്കൗണ്ട് 30 ദിവസം ഉപയോഗിക്കാം. അതിനുശേഷം അത് ഇല്ലാതാക്കും, തിരികെ ലഭിക്കില്ല.';
+
+  @override
+  String get whatIsDeleted => 'എന്തൊക്കെ ഇല്ലാതാകും';
+
+  @override
+  String get whatIsDeletedList =>
+      'നിങ്ങളുടെ പേര്, നമ്പർ, ഇമെയിൽ, പ്രായം. ഉയരം, ഭാരം, പുരോഗതി. നിങ്ങളുടെ ചാറ്റ് സന്ദേശങ്ങൾ. തിരിച്ചറിയൽ രേഖകളും UPI വിവരങ്ങളും.';
+
+  @override
+  String get whatIsKept => 'എന്തൊക്കെ സൂക്ഷിക്കും, നിങ്ങളെ ഒഴിവാക്കി';
+
+  @override
+  String get whatIsKeptList =>
+      'പേയ്‌മെന്റ്, ഇൻവോയ്‌സ് രേഖകൾ, കണക്കുപുസ്തകം സൂക്ഷിക്കാൻ നിയമം ആവശ്യപ്പെടുന്നതിനാൽ. ജിമ്മിൽ നടന്ന നടപടികളുടെ രേഖ, തർക്കങ്ങൾ തീർക്കാൻ.';
+
+  @override
+  String get deleteGymsFirst =>
+      'നിങ്ങൾക്ക് ഇപ്പോഴും ഒരു ജിം ഉണ്ട്. ആദ്യം അത് ഇല്ലാതാക്കുക അല്ലെങ്കിൽ മറ്റൊരു ഉടമയ്ക്ക് കൈമാറുക — നിങ്ങളുടെ അക്കൗണ്ട് ഇല്ലാതാക്കിയാൽ അതിലെ എല്ലാ അംഗങ്ങൾക്കും ജീവനക്കാർക്കും പ്രവേശനം നഷ്ടമാകും.';
+
+  @override
+  String unwithdrawnWarning(String amount) {
+    return 'നിങ്ങൾ പിൻവലിക്കാത്ത $amount റഫറൽ വരുമാനം ഉണ്ട്. ആദ്യം Gymologia Referral ആപ്പിൽ പിൻവലിക്കുക, അല്ലെങ്കിൽ അത് നഷ്ടപ്പെടും.';
+  }
+
+  @override
+  String get iUnderstandLoseEarnings =>
+      'ഈ പണം നഷ്ടപ്പെടുമെന്ന് ഞാൻ മനസ്സിലാക്കുന്നു';
+
+  @override
+  String deletionScheduled(String date) {
+    return 'നിങ്ങളുടെ അക്കൗണ്ട് $date-ന് ഇല്ലാതാക്കും.';
+  }
+
+  @override
+  String get keepMyAccount => 'എന്റെ അക്കൗണ്ട് നിലനിർത്തുക';
+
+  @override
+  String get deletionCancelled => 'നിങ്ങളുടെ അക്കൗണ്ട് ഇല്ലാതാക്കില്ല.';
+
+  @override
+  String get deleteAccountConfirm => 'എന്റെ അക്കൗണ്ട് ഇല്ലാതാക്കുക';
 }

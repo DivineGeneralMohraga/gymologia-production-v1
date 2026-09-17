@@ -3365,6 +3365,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You have not reported anyone.'**
   String get noReportsSent;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get deleteAccount;
+
+  /// Shown above the delete button. The 30 days is what makes a decision made in a bad moment recoverable.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account stays usable for 30 days. After that it is deleted and cannot be brought back.'**
+  String get deleteAccountIntro;
+
+  /// No description provided for @whatIsDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'What is deleted'**
+  String get whatIsDeleted;
+
+  /// No description provided for @whatIsDeletedList.
+  ///
+  /// In en, this message translates to:
+  /// **'Your name, number, email and age. Your height, weight and progress. Your chat messages. Any ID documents and UPI details.'**
+  String get whatIsDeletedList;
+
+  /// No description provided for @whatIsKept.
+  ///
+  /// In en, this message translates to:
+  /// **'What is kept, with you removed from it'**
+  String get whatIsKept;
+
+  /// Must stay honest: payment rows really are retained, so this cannot promise that everything vanishes.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment and invoice records, because the law requires us to keep books of account. The record of actions taken in a gym, so disputes can still be settled.'**
+  String get whatIsKeptList;
+
+  /// No description provided for @deleteGymsFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'You still own a gym. Delete it or hand it to another owner first — deleting your account would cut off every member and staff member in it.'**
+  String get deleteGymsFirst;
+
+  /// {amount} is a formatted rupee figure, e.g. ₹150.00.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {amount} in referral earnings you have not withdrawn. Withdraw it in the Gymologia Referral app first, or it will be lost.'**
+  String unwithdrawnWarning(String amount);
+
+  /// No description provided for @iUnderstandLoseEarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'I understand I will lose this money'**
+  String get iUnderstandLoseEarnings;
+
+  /// {date} is a formatted calendar date.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account will be deleted on {date}.'**
+  String deletionScheduled(String date);
+
+  /// No description provided for @keepMyAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep my account'**
+  String get keepMyAccount;
+
+  /// No description provided for @deletionCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account will not be deleted.'**
+  String get deletionCancelled;
+
+  /// No description provided for @deleteAccountConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete my account'**
+  String get deleteAccountConfirm;
 }
 
 class _AppLocalizationsDelegate

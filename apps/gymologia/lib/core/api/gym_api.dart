@@ -509,6 +509,23 @@ class GymApi {
       _client.post('/gyms/$gymId/chat/conversations/$conversationId/messages',
           body: {'body': body});
 
+  // ── Deleting your account ──────────────────────────────────────────
+  //
+  // Required by Play, and the reason it is a preview-then-request pair
+  // rather than one call: somebody who owns a gym needs to find that out
+  // before they tap the button, not as a refusal afterwards.
+
+  Future<Map<String, dynamic>> deletionStatus() => _client.get('/me/deletion');
+
+  Future<Map<String, dynamic>> deletionPreview() =>
+      _client.get('/me/deletion/preview');
+
+  Future<Map<String, dynamic>> requestDeletion() =>
+      _client.post('/me/deletion', body: {'via': 'APP'});
+
+  Future<Map<String, dynamic>> cancelDeletion() =>
+      _client.delete('/me/deletion');
+
   // ── Blocking and reporting ─────────────────────────────────────────
   //
   // Not under /gyms/, deliberately: a block belongs to the person, not to a

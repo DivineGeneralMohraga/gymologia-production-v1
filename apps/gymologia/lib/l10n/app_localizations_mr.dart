@@ -1958,4 +1958,51 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get noReportsSent => 'तुम्ही कोणाबद्दलही तक्रार केलेली नाही.';
+
+  @override
+  String get deleteAccount => 'खाते हटवा';
+
+  @override
+  String get deleteAccountIntro =>
+      'तुमचे खाते ३० दिवस वापरता येईल. त्यानंतर ते हटवले जाईल आणि परत मिळवता येणार नाही.';
+
+  @override
+  String get whatIsDeleted => 'काय हटवले जाईल';
+
+  @override
+  String get whatIsDeletedList =>
+      'तुमचे नाव, नंबर, ईमेल आणि वय. तुमची उंची, वजन आणि प्रगती. तुमचे चॅट संदेश. कोणतीही ओळखपत्रे आणि UPI तपशील.';
+
+  @override
+  String get whatIsKept => 'काय ठेवले जाईल, तुमची ओळख काढून';
+
+  @override
+  String get whatIsKeptList =>
+      'देयक आणि पावती नोंदी, कारण कायद्याने हिशेबाच्या वह्या ठेवाव्या लागतात. जिममधील कृतींची नोंद, जेणेकरून वाद सोडवता येतील.';
+
+  @override
+  String get deleteGymsFirst =>
+      'तुमच्याकडे अजूनही एक जिम आहे. आधी ते हटवा किंवा दुसऱ्या मालकाकडे द्या — तुमचे खाते हटवल्यास त्यातील प्रत्येक सदस्य आणि कर्मचाऱ्याचा प्रवेश बंद होईल.';
+
+  @override
+  String unwithdrawnWarning(String amount) {
+    return 'तुमची $amount रेफरल कमाई अजून काढलेली नाही. आधी Gymologia Referral अॅपमधून काढून घ्या, अन्यथा ती जाईल.';
+  }
+
+  @override
+  String get iUnderstandLoseEarnings => 'मला समजते की हे पैसे जातील';
+
+  @override
+  String deletionScheduled(String date) {
+    return 'तुमचे खाते $date रोजी हटवले जाईल.';
+  }
+
+  @override
+  String get keepMyAccount => 'माझे खाते ठेवा';
+
+  @override
+  String get deletionCancelled => 'तुमचे खाते हटवले जाणार नाही.';
+
+  @override
+  String get deleteAccountConfirm => 'माझे खाते हटवा';
 }

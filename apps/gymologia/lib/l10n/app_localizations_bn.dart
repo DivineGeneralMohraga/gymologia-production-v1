@@ -1960,4 +1960,51 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get noReportsSent => 'আপনি কারও বিরুদ্ধে রিপোর্ট করেননি।';
+
+  @override
+  String get deleteAccount => 'অ্যাকাউন্ট মুছুন';
+
+  @override
+  String get deleteAccountIntro =>
+      'আপনার অ্যাকাউন্ট ৩০ দিন পর্যন্ত ব্যবহারযোগ্য থাকবে। তারপর এটি মুছে যাবে এবং ফেরানো যাবে না।';
+
+  @override
+  String get whatIsDeleted => 'কী মুছে যাবে';
+
+  @override
+  String get whatIsDeletedList =>
+      'আপনার নাম, নম্বর, ইমেল ও বয়স। আপনার উচ্চতা, ওজন ও অগ্রগতি। আপনার চ্যাট বার্তা। যেকোনো পরিচয়পত্র ও UPI তথ্য।';
+
+  @override
+  String get whatIsKept => 'কী রাখা হবে, আপনার পরিচয় সরিয়ে';
+
+  @override
+  String get whatIsKeptList =>
+      'পেমেন্ট ও চালানের রেকর্ড, কারণ আইন অনুযায়ী হিসাবের বই রাখতে হয়। জিমে নেওয়া পদক্ষেপের রেকর্ড, যাতে বিরোধ মেটানো যায়।';
+
+  @override
+  String get deleteGymsFirst =>
+      'আপনার এখনও একটি জিম আছে। আগে সেটি মুছুন বা অন্য মালিকের হাতে দিন — আপনার অ্যাকাউন্ট মুছলে এর প্রতিটি সদস্য ও কর্মীর প্রবেশ বন্ধ হয়ে যাবে।';
+
+  @override
+  String unwithdrawnWarning(String amount) {
+    return 'আপনার $amount রেফারেল আয় এখনও তোলা হয়নি। আগে Gymologia Referral অ্যাপে তুলে নিন, নাহলে তা হারিয়ে যাবে।';
+  }
+
+  @override
+  String get iUnderstandLoseEarnings => 'আমি বুঝেছি এই টাকা হারাব';
+
+  @override
+  String deletionScheduled(String date) {
+    return 'আপনার অ্যাকাউন্ট $date তারিখে মুছে যাবে।';
+  }
+
+  @override
+  String get keepMyAccount => 'আমার অ্যাকাউন্ট রাখুন';
+
+  @override
+  String get deletionCancelled => 'আপনার অ্যাকাউন্ট মোছা হবে না।';
+
+  @override
+  String get deleteAccountConfirm => 'আমার অ্যাকাউন্ট মুছুন';
 }

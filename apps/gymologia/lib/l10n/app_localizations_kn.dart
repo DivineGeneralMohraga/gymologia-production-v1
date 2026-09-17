@@ -1964,4 +1964,52 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get noReportsSent => 'ನೀವು ಯಾರ ಬಗ್ಗೆಯೂ ವರದಿ ಮಾಡಿಲ್ಲ.';
+
+  @override
+  String get deleteAccount => 'ಖಾತೆ ಅಳಿಸಿ';
+
+  @override
+  String get deleteAccountIntro =>
+      'ನಿಮ್ಮ ಖಾತೆ 30 ದಿನಗಳವರೆಗೆ ಬಳಸಬಹುದು. ನಂತರ ಅದು ಅಳಿಸಲ್ಪಡುತ್ತದೆ, ಮರಳಿ ಪಡೆಯಲಾಗುವುದಿಲ್ಲ.';
+
+  @override
+  String get whatIsDeleted => 'ಏನು ಅಳಿಸಲಾಗುತ್ತದೆ';
+
+  @override
+  String get whatIsDeletedList =>
+      'ನಿಮ್ಮ ಹೆಸರು, ಸಂಖ್ಯೆ, ಇಮೇಲ್, ವಯಸ್ಸು. ನಿಮ್ಮ ಎತ್ತರ, ತೂಕ, ಪ್ರಗತಿ. ನಿಮ್ಮ ಚಾಟ್ ಸಂದೇಶಗಳು. ಗುರುತಿನ ದಾಖಲೆಗಳು ಮತ್ತು UPI ವಿವರಗಳು.';
+
+  @override
+  String get whatIsKept => 'ಏನು ಉಳಿಸಲಾಗುತ್ತದೆ, ನಿಮ್ಮ ಗುರುತು ತೆಗೆದು';
+
+  @override
+  String get whatIsKeptList =>
+      'ಪಾವತಿ ಮತ್ತು ಸರಕುಪಟ್ಟಿ ದಾಖಲೆಗಳು, ಏಕೆಂದರೆ ಲೆಕ್ಕಪುಸ್ತಕ ಇಡುವುದು ಕಾನೂನು ಅಗತ್ಯ. ಜಿಮ್‌ನಲ್ಲಿ ನಡೆದ ಕ್ರಮಗಳ ದಾಖಲೆ, ವಿವಾದ ಬಗೆಹರಿಸಲು.';
+
+  @override
+  String get deleteGymsFirst =>
+      'ನಿಮ್ಮ ಬಳಿ ಇನ್ನೂ ಒಂದು ಜಿಮ್ ಇದೆ. ಮೊದಲು ಅದನ್ನು ಅಳಿಸಿ ಅಥವಾ ಬೇರೆ ಮಾಲೀಕರಿಗೆ ಹಸ್ತಾಂತರಿಸಿ — ನಿಮ್ಮ ಖಾತೆ ಅಳಿಸಿದರೆ ಅದರ ಪ್ರತಿ ಸದಸ್ಯ ಮತ್ತು ಸಿಬ್ಬಂದಿ ಪ್ರವೇಶ ಕಳೆದುಕೊಳ್ಳುತ್ತಾರೆ.';
+
+  @override
+  String unwithdrawnWarning(String amount) {
+    return 'ನೀವು ಹಿಂಪಡೆಯದ $amount ರೆಫರಲ್ ಗಳಿಕೆ ಇದೆ. ಮೊದಲು Gymologia Referral ಆ್ಯಪ್‌ನಲ್ಲಿ ಹಿಂಪಡೆಯಿರಿ, ಇಲ್ಲದಿದ್ದರೆ ಅದು ಕಳೆದುಹೋಗುತ್ತದೆ.';
+  }
+
+  @override
+  String get iUnderstandLoseEarnings =>
+      'ಈ ಹಣ ಕಳೆದುಹೋಗುತ್ತದೆ ಎಂದು ನಾನು ಅರ್ಥಮಾಡಿಕೊಂಡಿದ್ದೇನೆ';
+
+  @override
+  String deletionScheduled(String date) {
+    return 'ನಿಮ್ಮ ಖಾತೆಯನ್ನು $date ರಂದು ಅಳಿಸಲಾಗುತ್ತದೆ.';
+  }
+
+  @override
+  String get keepMyAccount => 'ನನ್ನ ಖಾತೆ ಉಳಿಸಿ';
+
+  @override
+  String get deletionCancelled => 'ನಿಮ್ಮ ಖಾತೆ ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.';
+
+  @override
+  String get deleteAccountConfirm => 'ನನ್ನ ಖಾತೆ ಅಳಿಸಿ';
 }

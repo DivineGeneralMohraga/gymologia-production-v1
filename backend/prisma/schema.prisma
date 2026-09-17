@@ -46,6 +46,15 @@ model User {
   termsVersion    String?   @db.VarChar(32)
   termsAcceptedAt DateTime?
 
+  /// Account deletion. Anonymised rather than removed: payment rows and the
+  /// audit trail point here, and an audit log with dangling actors is not an
+  /// audit log. `anonymisedAt` non-null means this row no longer describes a
+  /// person -- phone is a sentinel, name is a placeholder, the rest is gone.
+  deletionRequestedAt  DateTime?
+  deletionScheduledFor DateTime?
+  anonymisedAt         DateTime?
+  deletionRecords      AccountDeletion[]
+
   sessions          Session[]
   devices           Device[]
   ownedGyms         Gym[]                   @relation("GymOwner")
@@ -1477,4 +1486,37 @@ enum ReportStatus {
   REVIEWING
   ACTIONED
   DISMISSED
+}
+
+/// One row per deletion request, kept after the account itself is emptied.
+///
+/// Support has to be able to answer "what happened to my account" when the
+/// phone number it was made with no longer appears on any row. The hash is
+/// the only trace of the real number: enough to confirm a deletion when
+/// somebody asks, useless for assembling a list of who left.
+model AccountDeletion {
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// SHA-256 of the E.164 number, peppered. Never the number itself.
+  phoneHash String @db.VarChar(64)
+
+  requestedAt  DateTime  @default(now())
+  scheduledFor DateTime
+  completedAt  DateTime?
+  cancelledAt  DateTime?
+
+  /// APP or WEB. Play requires the web route to exist, and knowing which one
+  /// people actually use decides which is worth improving.
+  requestedVia String @default("APP") @db.VarChar(20)
+
+  /// Unwithdrawn referral earnings at the moment of asking. Recorded because
+  /// somebody who deletes with money owed may come back for it, and "we have
+  /// no record" would be a poor answer to a question we caused.
+  balancePaise Int @default(0)
+
+  @@index([userId])
+  @@index([phoneHash])
+  @@map("account_deletions")
 }

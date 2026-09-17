@@ -1095,5 +1095,40 @@
   "reportStatusReviewing": "Being looked at",
   "reportStatusActioned": "Action taken",
   "reportStatusDismissed": "Reviewed, no action",
-  "noReportsSent": "You have not reported anyone."
+  "noReportsSent": "You have not reported anyone.",
+  "deleteAccount": "Delete account",
+  "deleteAccountIntro": "Your account stays usable for 30 days. After that it is deleted and cannot be brought back.",
+  "@deleteAccountIntro": {
+    "description": "Shown above the delete button. The 30 days is what makes a decision made in a bad moment recoverable."
+  },
+  "whatIsDeleted": "What is deleted",
+  "whatIsDeletedList": "Your name, number, email and age. Your height, weight and progress. Your chat messages. Any ID documents and UPI details.",
+  "whatIsKept": "What is kept, with you removed from it",
+  "whatIsKeptList": "Payment and invoice records, because the law requires us to keep books of account. The record of actions taken in a gym, so disputes can still be settled.",
+  "@whatIsKeptList": {
+    "description": "Must stay honest: payment rows really are retained, so this cannot promise that everything vanishes."
+  },
+  "deleteGymsFirst": "You still own a gym. Delete it or hand it to another owner first — deleting your account would cut off every member and staff member in it.",
+  "unwithdrawnWarning": "You have {amount} in referral earnings you have not withdrawn. Withdraw it in the Gymologia Referral app first, or it will be lost.",
+  "@unwithdrawnWarning": {
+    "description": "{amount} is a formatted rupee figure, e.g. ₹150.00.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "iUnderstandLoseEarnings": "I understand I will lose this money",
+  "deletionScheduled": "Your account will be deleted on {date}.",
+  "@deletionScheduled": {
+    "description": "{date} is a formatted calendar date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "keepMyAccount": "Keep my account",
+  "deletionCancelled": "Your account will not be deleted.",
+  "deleteAccountConfirm": "Delete my account"
 }

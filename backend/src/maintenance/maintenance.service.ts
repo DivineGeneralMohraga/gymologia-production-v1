@@ -8,6 +8,7 @@ import {
 } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { OtpService } from '../auth/otp.service';
+import { AccountDeletionService } from '../account/account-deletion.service';
 
 /**
  * The jobs that make time pass.
@@ -29,6 +30,7 @@ export class MaintenanceService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly otp: OtpService,
+    private readonly accountDeletion: AccountDeletionService,
   ) {}
 
   @Cron(CronExpression.EVERY_HOUR)
@@ -46,8 +48,14 @@ export class MaintenanceService {
   async daily(): Promise<void> {
     const purged = await this.otp.purgeExpired();
     const eligible = await this.releaseReferralRewards();
+    // Accounts whose thirty days are up. Here rather than on its own
+    // schedule because every cron in the product lives in this class, and
+    // two schedulers in two modules is how the same work ends up running
+    // twice at different hours.
+    const deleted = await this.accountDeletion.runDue();
     this.logger.log(
-      `Purged ${purged} OTP challenge(s), released ${eligible} referral reward(s)`,
+      `Purged ${purged} OTP challenge(s), released ${eligible} referral reward(s), ` +
+        `anonymised ${deleted} account(s)`,
     );
   }
 

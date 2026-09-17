@@ -7,6 +7,7 @@ import '../shell/app_mode.dart';
 import 'edit_profile_page.dart';
 import 'support_page.dart';
 import '../safety/blocked_accounts_page.dart';
+import 'delete_account_page.dart';
 import 'legal_page.dart';
 import 'language_page.dart';
 import 'locale_controller.dart';
@@ -222,6 +223,20 @@ class SettingsPage extends StatelessWidget {
           title: Text(t.signOut,
               style: TextStyle(color: theme.colorScheme.error)),
           onTap: () => _confirmSignOut(context, auth),
+        ),
+        // Below sign-out, because it is the rarer and heavier of the two and
+        // nobody should reach for it by mistake -- but present, and findable,
+        // because Play requires deletion to be available in the app and a
+        // person who wants out should not have to email anybody.
+        ListTile(
+          leading: Icon(Icons.person_remove_outlined,
+              color: theme.colorScheme.error),
+          title: Text(t.deleteAccount,
+              style: TextStyle(color: theme.colorScheme.error)),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const DeleteAccountPage()),
+          ),
         ),
 
         const SizedBox(height: 24),

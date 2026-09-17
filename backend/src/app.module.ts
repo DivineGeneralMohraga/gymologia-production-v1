@@ -31,6 +31,7 @@ import { RolesModule } from './roles/roles.module';
 import { AdminModule } from './admin/admin.module';
 import { ChatModule } from './chat/chat.module';
 import { SafetyModule } from './safety/safety.module';
+import { AccountModule } from './account/account.module';
 import { PeopleModule } from './people/people.module';
 import { PermissionsGuard } from './rbac/permissions.guard';
 import { HealthController } from './health/health.controller';
@@ -79,6 +80,7 @@ import { InputSanitizerInterceptor } from './common/interceptors/input-sanitizer
     AdminModule,
     ChatModule,
     SafetyModule,
+    AccountModule,
   ],
   controllers: [HealthController],
   providers: [

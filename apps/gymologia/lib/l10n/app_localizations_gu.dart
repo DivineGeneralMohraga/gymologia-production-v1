@@ -1949,4 +1949,51 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get noReportsSent => 'તમે કોઈની રિપોર્ટ કરી નથી.';
+
+  @override
+  String get deleteAccount => 'ખાતું કાઢી નાખો';
+
+  @override
+  String get deleteAccountIntro =>
+      'તમારું ખાતું ૩૦ દિવસ સુધી વાપરી શકાશે. ત્યાર બાદ તે કાઢી નખાશે અને પાછું મળશે નહીં.';
+
+  @override
+  String get whatIsDeleted => 'શું કાઢી નખાશે';
+
+  @override
+  String get whatIsDeletedList =>
+      'તમારું નામ, નંબર, ઇમેલ અને ઉંમર. તમારી ઊંચાઈ, વજન અને પ્રગતિ. તમારા ચેટ સંદેશા. કોઈપણ ઓળખ દસ્તાવેજો અને UPI વિગતો.';
+
+  @override
+  String get whatIsKept => 'શું રાખવામાં આવશે, તમારી ઓળખ કાઢીને';
+
+  @override
+  String get whatIsKeptList =>
+      'ચુકવણી અને બિલના રેકોર્ડ, કારણ કે કાયદો હિસાબી ચોપડા રાખવાનું કહે છે. જિમમાં લેવાયેલાં પગલાંનો રેકોર્ડ, જેથી વિવાદ ઉકેલી શકાય.';
+
+  @override
+  String get deleteGymsFirst =>
+      'તમારી પાસે હજુ એક જિમ છે. પહેલાં તે કાઢી નાખો અથવા બીજા માલિકને સોંપો — તમારું ખાતું કાઢવાથી તેના દરેક સભ્ય અને સ્ટાફની પહોંચ બંધ થઈ જશે.';
+
+  @override
+  String unwithdrawnWarning(String amount) {
+    return 'તમારી $amount રેફરલ કમાણી હજુ ઉપાડી નથી. પહેલાં Gymologia Referral એપમાં ઉપાડી લો, નહીં તો તે ગુમાવશો.';
+  }
+
+  @override
+  String get iUnderstandLoseEarnings => 'હું સમજું છું કે આ પૈસા ગુમાવીશ';
+
+  @override
+  String deletionScheduled(String date) {
+    return 'તમારું ખાતું $date ના રોજ કાઢી નખાશે.';
+  }
+
+  @override
+  String get keepMyAccount => 'મારું ખાતું રાખો';
+
+  @override
+  String get deletionCancelled => 'તમારું ખાતું કાઢવામાં આવશે નહીં.';
+
+  @override
+  String get deleteAccountConfirm => 'મારું ખાતું કાઢી નાખો';
 }
