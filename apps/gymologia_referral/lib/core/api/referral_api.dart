@@ -137,6 +137,22 @@ class ReferralApi {
   Future<Map<String, dynamic>> legalDocument(String slug) =>
       _client.get('/legal/$slug', auth: false);
 
+  // ── Deleting your account ──────────────────────────────────────────
+  //
+  // The same endpoints the member app uses. One account underlies both --
+  // ReferralAccount hangs off the user row -- so two deletion flows with two
+  // ideas of what deletion means would be two ways to leave a half-deleted
+  // person behind.
+
+  Future<Map<String, dynamic>> deletionPreview() =>
+      _client.get('/me/deletion/preview');
+
+  Future<Map<String, dynamic>> requestDeletion() =>
+      _client.post('/me/deletion', body: {'via': 'APP'});
+
+  Future<Map<String, dynamic>> cancelDeletion() =>
+      _client.delete('/me/deletion');
+
   Future<Map<String, dynamic>> legalStatus() => _client.get('/me/legal');
 
   Future<Map<String, dynamic>> acceptLegal() =>

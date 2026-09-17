@@ -457,4 +457,48 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get footerSupport => 'support@gymologia.com';
+
+  @override
+  String get deleteAccount => 'खाता हटाएं';
+
+  @override
+  String get deleteAccountIntro =>
+      'आपका खाता 30 दिन तक चलता रहेगा। उसके बाद यह हटा दिया जाएगा और वापस नहीं लाया जा सकता।';
+
+  @override
+  String get whatIsDeleted => 'क्या हटाया जाएगा';
+
+  @override
+  String get whatIsDeletedList =>
+      'आपका नाम, नंबर और ईमेल। आपके UPI विवरण और PAN। आपका रेफरल कोड और कमाई का इतिहास। यह एक ही Gymologia खाता है — अगर आप Gymologia ऐप भी इस्तेमाल करते हैं, वहां का सब कुछ भी चला जाएगा।';
+
+  @override
+  String get whatIsKept => 'क्या रखा जाएगा, आपकी पहचान हटाकर';
+
+  @override
+  String get whatIsKeptList =>
+      'भुगतान और चालान रिकॉर्ड, क्योंकि कानून हमें लेखा-बही रखने को कहता है। जिम में की गई कार्रवाइयों का रिकॉर्ड, ताकि विवाद सुलझाए जा सकें।';
+
+  @override
+  String unwithdrawnWarning(String amount) {
+    return 'आपकी $amount की रेफरल कमाई अभी निकाली नहीं गई है। पहले Gymologia Referral ऐप से निकाल लें, वरना वह चली जाएगी।';
+  }
+
+  @override
+  String get iUnderstandLoseEarnings =>
+      'मैं समझता/समझती हूं कि यह पैसा चला जाएगा';
+
+  @override
+  String deletionScheduled(String date) {
+    return 'आपका खाता $date को हटा दिया जाएगा।';
+  }
+
+  @override
+  String get keepMyAccount => 'मेरा खाता रहने दें';
+
+  @override
+  String get deletionCancelled => 'आपका खाता नहीं हटाया जाएगा।';
+
+  @override
+  String get deleteAccountConfirm => 'मेरा खाता हटाएं';
 }

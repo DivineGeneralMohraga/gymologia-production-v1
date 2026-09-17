@@ -911,6 +911,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'support@gymologia.com'**
   String get footerSupport;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get deleteAccount;
+
+  /// No description provided for @deleteAccountIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account stays usable for 30 days. After that it is deleted and cannot be brought back.'**
+  String get deleteAccountIntro;
+
+  /// No description provided for @whatIsDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'What is deleted'**
+  String get whatIsDeleted;
+
+  /// No description provided for @whatIsDeletedList.
+  ///
+  /// In en, this message translates to:
+  /// **'Your name, number and email. Your UPI details and PAN. Your referral code and earnings history. This is one Gymologia account — if you also use the Gymologia app, everything there goes too.'**
+  String get whatIsDeletedList;
+
+  /// No description provided for @whatIsKept.
+  ///
+  /// In en, this message translates to:
+  /// **'What is kept, with you removed from it'**
+  String get whatIsKept;
+
+  /// No description provided for @whatIsKeptList.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment and invoice records, because the law requires us to keep books of account. The record of actions taken in a gym, so disputes can still be settled.'**
+  String get whatIsKeptList;
+
+  /// No description provided for @unwithdrawnWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {amount} in referral earnings you have not withdrawn. Withdraw it in the Gymologia Referral app first, or it will be lost.'**
+  String unwithdrawnWarning(String amount);
+
+  /// No description provided for @iUnderstandLoseEarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'I understand I will lose this money'**
+  String get iUnderstandLoseEarnings;
+
+  /// No description provided for @deletionScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account will be deleted on {date}.'**
+  String deletionScheduled(String date);
+
+  /// No description provided for @keepMyAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep my account'**
+  String get keepMyAccount;
+
+  /// No description provided for @deletionCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account will not be deleted.'**
+  String get deletionCancelled;
+
+  /// No description provided for @deleteAccountConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete my account'**
+  String get deleteAccountConfirm;
 }
 
 class _AppLocalizationsDelegate

@@ -1,6 +1,5 @@
 {
   "@@locale": "pa",
-
   "appTitle": "Gymologia Referral",
   "tryAgain": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
   "cancel": "ਰੱਦ ਕਰੋ",
@@ -8,7 +7,6 @@
   "add": "ਜੋੜੋ",
   "change": "ਬਦਲੋ",
   "genericError": "ਕੁਝ ਗਲਤ ਹੋ ਗਿਆ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
-
   "cleartextWarning": "{host} ਨਾਲ ਬਿਨਾਂ ਸੁਰੱਖਿਆ ਦੇ (plain http) ਜੁੜਿਆ ਹੋਇਆ ਹੈ",
   "signInSubtitle": "ਕੋਡ ਸਾਂਝਾ ਕਰੋ। ਜਦੋਂ ਕੋਈ ਜਿਮ ਸਬਸਕ੍ਰਿਪਸ਼ਨ ਲਵੇਗਾ, ਤੁਹਾਡੀ ਕਮਾਈ ਹੋਵੇਗੀ।",
   "phoneLabel": "ਮੋਬਾਈਲ ਨੰਬਰ",
@@ -22,7 +20,6 @@
   "enterTenDigits": "ਆਪਣਾ 10 ਅੰਕਾਂ ਦਾ ਮੋਬਾਈਲ ਨੰਬਰ ਪਾਓ।",
   "enterTheCode": "ਅਸੀਂ ਜੋ ਕੋਡ ਭੇਜਿਆ ਹੈ ਉਹ ਪਾਓ।",
   "ownersCannotJoin": "ਜਿਮ ਮਾਲਕ ਰੈਫਰਲ ਐਪ ਨਹੀਂ ਵਰਤ ਸਕਦੇ। ਜਿਮ ਸਟਾਫ਼ ਅਤੇ ਬਾਕੀ ਸਾਰੇ ਵਰਤ ਸਕਦੇ ਹਨ।",
-
   "createAccountTitle": "ਆਪਣਾ ਖਾਤਾ ਬਣਾਓ",
   "nameLabel": "ਨਾਮ",
   "emailLabel": "ਈਮੇਲ (ਵਿਕਲਪਿਕ)",
@@ -31,25 +28,21 @@
   "ageRange": "13 ਤੋਂ 100 ਵਿਚਕਾਰ ਉਮਰ ਪਾਓ।",
   "nameRequired": "ਕਿਰਪਾ ਕਰਕੇ ਆਪਣਾ ਨਾਮ ਪਾਓ।",
   "createAccount": "ਖਾਤਾ ਬਣਾਓ",
-
   "tabCode": "ਤੁਹਾਡਾ ਕੋਡ",
   "tabEarnings": "ਕਮਾਈ",
   "tabPayout": "ਭੁਗਤਾਨ",
   "tabSettings": "ਸੈਟਿੰਗਾਂ",
-
   "yourCodeTitle": "ਤੁਹਾਡਾ ਰੈਫਰਲ ਕੋਡ",
   "shareCode": "ਸਾਂਝਾ ਕਰੋ",
   "copyCode": "ਕਾਪੀ ਕਰੋ",
   "copied": "ਕਾਪੀ ਹੋ ਗਿਆ।",
   "shareUnavailable": "ਇੱਥੇ ਸਾਂਝਾ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ। ਸੁਨੇਹਾ ਕਾਪੀ ਕਰ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
-
   "howItWorksTitle": "ਇਹ ਕਿਵੇਂ ਕੰਮ ਕਰਦਾ ਹੈ",
   "howItWorksStep1": "ਜਿਮ ਚਲਾਉਣ ਵਾਲੇ ਕਿਸੇ ਨੂੰ ਆਪਣਾ ਕੋਡ ਭੇਜੋ।",
   "howItWorksStep2": "ਸਬਸਕ੍ਰਿਪਸ਼ਨ ਲੈਂਦੇ ਸਮੇਂ ਉਹਨਾਂ ਨੂੰ ਕਿਸੇ ਵੀ Gymologia ਪਲਾਨ ਉੱਤੇ {percent}% ਛੋਟ ਮਿਲੇਗੀ।",
   "howItWorksStep3": "ਇਸ ਕੋਡ ਨਾਲ ਸਬਸਕ੍ਰਿਪਸ਼ਨ ਲੈਣ ਵਾਲੇ ਹਰ ਜਿਮ ਲਈ ਤੁਹਾਨੂੰ {amount} ਮਿਲਣਗੇ।",
   "howItWorksStep4": "ਤੁਹਾਡੀ UPI ID ਸੱਚਮੁੱਚ ਤੁਹਾਡੀ ਹੀ ਹੈ, ਇਹ ਜਾਂਚਣ ਲਈ ਪਹਿਲੇ ਭੁਗਤਾਨ ਵਿੱਚੋਂ ਇੱਕ ਵਾਰ {amount} ਕੱਟੇ ਜਾਂਦੇ ਹਨ।",
   "notForOwners": "ਆਪਣੇ ਹੀ ਜਿਮ ਤੋਂ ਤੁਸੀਂ ਕਮਾਈ ਨਹੀਂ ਕਰ ਸਕਦੇ।",
-
   "earnedTotal": "ਹੁਣ ਤੱਕ ਕਮਾਏ",
   "heldPending": "ਰੋਕੇ ਹੋਏ",
   "paidOut": "ਅਦਾ ਕੀਤੇ",
@@ -58,7 +51,6 @@
   "timesUsed": "{count} ਵਾਰ ਵਰਤਿਆ ਗਿਆ।",
   "usedOnce": "ਇੱਕ ਵਾਰ ਵਰਤਿਆ ਗਿਆ।",
   "awaitingClearance": "{count} ਹਾਲੇ ਕਲੀਅਰ ਹੋ ਰਹੇ ਹਨ।",
-
   "earningsTitle": "ਤੁਹਾਡੇ ਕੋਡ ਨੇ ਕੀ ਕਮਾਇਆ",
   "earningsEmpty": "ਹਾਲੇ ਕੁਝ ਨਹੀਂ। ਜਿਮ ਚਲਾਉਣ ਵਾਲੇ ਕਿਸੇ ਨਾਲ ਆਪਣਾ ਕੋਡ ਸਾਂਝਾ ਕਰੋ।",
   "earningsCapped": "ਸਭ ਤੋਂ ਨਵੇਂ {count} ਦਿਖਾਏ ਜਾ ਰਹੇ ਹਨ।",
@@ -70,7 +62,6 @@
   "statusEligibleWhy": "ਕਲੀਅਰ ਹੋ ਗਿਆ। ਭੁਗਤਾਨ ਸ਼ੁਰੂ ਹੋਣ ਦੀ ਉਡੀਕ ਹੈ।",
   "statusPaidWhy": "ਤੁਹਾਡੀ UPI ID ਉੱਤੇ ਭੇਜ ਦਿੱਤਾ ਗਿਆ।",
   "statusReversedWhy": "ਜਿਮ ਦਾ ਭੁਗਤਾਨ ਵਾਪਸ ਹੋ ਗਿਆ, ਇਸ ਲਈ ਇਹ ਇਨਾਮ ਵੀ ਵਾਪਸ ਲੈ ਲਿਆ ਗਿਆ।",
-
   "payoutTitle": "ਤੁਹਾਡਾ ਪੈਸਾ ਕਿੱਥੇ ਜਾਂਦਾ ਹੈ",
   "withdrawTitle": "ਪੈਸੇ ਕਢਵਾਓ",
   "withdrawAvailable": "ਕਢਵਾਉਣ ਲਈ ਤਿਆਰ",
@@ -93,7 +84,6 @@
   "payoutsNotLive": "ਭੁਗਤਾਨ ਹਾਲੇ ਸ਼ੁਰੂ ਨਹੀਂ ਹੋਏ। ਉਦੋਂ ਤੱਕ ਕਮਾਈ ਗਿਣੀ ਅਤੇ ਰੋਕੀ ਜਾ ਰਹੀ ਹੈ।",
   "stillNeededTitle": "ਹਾਲੇ ਲੋੜੀਂਦਾ",
   "payoutInFlight": "ਇੱਕ ਭੁਗਤਾਨ ਰਾਹ ਵਿੱਚ ਹੈ। ਉਹ ਪੂਰਾ ਹੋਣ ਤੋਂ ਬਾਅਦ ਇਹ ਬਦਲੇ ਜਾ ਸਕਦੇ ਹਨ।",
-
   "upiSectionTitle": "UPI ID",
   "upiIdLabel": "UPI ID",
   "upiIdHint": "name@bank",
@@ -107,7 +97,6 @@
   "saved": "ਸੇਵ ਹੋ ਗਿਆ।",
   "invalidUpi": "ਇਹ UPI ID ਵਰਗਾ ਨਹੀਂ ਲੱਗਦਾ। ਇਹ name@bank ਵਰਗਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।",
   "holderNameRequired": "ਬੈਂਕ ਖਾਤੇ ਉੱਤੇ ਲਿਖਿਆ ਨਾਮ ਪਾਓ।",
-
   "panSectionTitle": "PAN",
   "panLabel": "PAN",
   "panHint": "ABCDE1234F",
@@ -117,7 +106,6 @@
   "panStatusVerified": "ਤਸਦੀਕਸ਼ੁਦਾ",
   "panStatusRejected": "ਸਵੀਕਾਰ ਨਹੀਂ ਹੋਇਆ। ਨੰਬਰ ਜਾਂਚ ਕੇ ਦੁਬਾਰਾ ਭੇਜੋ।",
   "invalidPan": "ਇਹ PAN ਵਰਗਾ ਨਹੀਂ ਲੱਗਦਾ। ਇਹ ABCDE1234F ਵਰਗਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।",
-
   "settingsTitle": "ਸੈਟਿੰਗਾਂ",
   "profileTitle": "ਤੁਹਾਡੀ ਪ੍ਰੋਫਾਈਲ",
   "languageTitle": "ਭਾਸ਼ਾ",
@@ -138,13 +126,23 @@
   "signOut": "ਸਾਈਨ ਆਊਟ",
   "signOutConfirm": "ਇਸ ਡਿਵਾਈਸ ਉੱਤੇ ਸਾਈਨ ਆਊਟ ਕਰਨਾ ਹੈ?",
   "aboutTitle": "ਬਾਰੇ",
-
   "sessionExpiredSignIn": "ਤੁਹਾਡਾ ਸੈਸ਼ਨ ਖ਼ਤਮ ਹੋ ਗਿਆ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਸਾਈਨ ਇਨ ਕਰੋ।",
   "serverTookTooLong": "ਸਰਵਰ ਨੇ ਜਵਾਬ ਦੇਣ ਵਿੱਚ ਬਹੁਤ ਸਮਾਂ ਲਿਆ। ਆਪਣਾ ਕੁਨੈਕਸ਼ਨ ਜਾਂਚ ਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
   "couldNotReachServer": "{host} ਤੱਕ ਨਹੀਂ ਪਹੁੰਚ ਸਕੇ। ਆਪਣਾ ਇੰਟਰਨੈੱਟ ਕੁਨੈਕਸ਼ਨ ਜਾਂਚੋ।",
   "certificateNotVerified": "ਸਰਵਰ ਦਾ ਸਰਟੀਫਿਕੇਟ ਤਸਦੀਕ ਨਹੀਂ ਹੋ ਸਕਿਆ।",
   "networkErrorTryAgain": "ਨੈੱਟਵਰਕ ਗਲਤੀ। ਕਿਰਪਾ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
-
   "footerLine": "Gymologia Referral",
-  "footerSupport": "support@gymologia.com"
+  "footerSupport": "support@gymologia.com",
+  "deleteAccount": "ਖਾਤਾ ਮਿਟਾਓ",
+  "deleteAccountIntro": "ਤੁਹਾਡਾ ਖਾਤਾ 30 ਦਿਨ ਤੱਕ ਵਰਤਿਆ ਜਾ ਸਕਦਾ ਹੈ। ਉਸ ਤੋਂ ਬਾਅਦ ਇਹ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ ਅਤੇ ਵਾਪਸ ਨਹੀਂ ਆਵੇਗਾ।",
+  "whatIsDeleted": "ਕੀ ਮਿਟਾਇਆ ਜਾਵੇਗਾ",
+  "whatIsDeletedList": "ਤੁਹਾਡਾ ਨਾਮ, ਨੰਬਰ ਅਤੇ ਈਮੇਲ। ਤੁਹਾਡੇ UPI ਵੇਰਵੇ ਅਤੇ PAN। ਤੁਹਾਡਾ ਰੈਫਰਲ ਕੋਡ ਅਤੇ ਕਮਾਈ ਦਾ ਇਤਿਹਾਸ। ਇਹ ਇੱਕੋ Gymologia ਖਾਤਾ ਹੈ — ਜੇ ਤੁਸੀਂ Gymologia ਐਪ ਵੀ ਵਰਤਦੇ ਹੋ, ਉੱਥੇ ਦਾ ਸਭ ਕੁਝ ਵੀ ਚਲਾ ਜਾਵੇਗਾ।",
+  "whatIsKept": "ਕੀ ਰੱਖਿਆ ਜਾਵੇਗਾ, ਤੁਹਾਡੀ ਪਛਾਣ ਹਟਾ ਕੇ",
+  "whatIsKeptList": "ਭੁਗਤਾਨ ਅਤੇ ਬਿੱਲ ਦੇ ਰਿਕਾਰਡ, ਕਿਉਂਕਿ ਕਾਨੂੰਨ ਹਿਸਾਬ ਦੀਆਂ ਕਿਤਾਬਾਂ ਰੱਖਣ ਲਈ ਕਹਿੰਦਾ ਹੈ। ਜਿਮ ਵਿੱਚ ਕੀਤੀਆਂ ਕਾਰਵਾਈਆਂ ਦਾ ਰਿਕਾਰਡ, ਤਾਂ ਜੋ ਝਗੜੇ ਨਿਬੇੜੇ ਜਾ ਸਕਣ।",
+  "unwithdrawnWarning": "ਤੁਹਾਡੀ {amount} ਰੈਫਰਲ ਕਮਾਈ ਹਾਲੇ ਕਢਵਾਈ ਨਹੀਂ ਗਈ। ਪਹਿਲਾਂ Gymologia Referral ਐਪ ਵਿੱਚੋਂ ਕਢਵਾ ਲਵੋ, ਨਹੀਂ ਤਾਂ ਇਹ ਚਲੀ ਜਾਵੇਗੀ।",
+  "iUnderstandLoseEarnings": "ਮੈਂ ਸਮਝਦਾ/ਸਮਝਦੀ ਹਾਂ ਕਿ ਇਹ ਪੈਸੇ ਚਲੇ ਜਾਣਗੇ",
+  "deletionScheduled": "ਤੁਹਾਡਾ ਖਾਤਾ {date} ਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
+  "keepMyAccount": "ਮੇਰਾ ਖਾਤਾ ਰੱਖੋ",
+  "deletionCancelled": "ਤੁਹਾਡਾ ਖਾਤਾ ਨਹੀਂ ਮਿਟਾਇਆ ਜਾਵੇਗਾ।",
+  "deleteAccountConfirm": "ਮੇਰਾ ਖਾਤਾ ਮਿਟਾਓ"
 }

@@ -1,7 +1,7 @@
 name: gymologia
 description: Gymologia — gym members, owners and staff in one app.
 publish_to: 'none'
-version: 0.1.2+3
+version: 0.1.3+4
 
 environment:
   sdk: ^3.12.0

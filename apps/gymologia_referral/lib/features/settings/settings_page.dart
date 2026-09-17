@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../auth/auth_controller.dart';
 import 'language_page.dart';
 import 'legal_page.dart';
+import 'delete_account_page.dart';
 import 'support_page.dart';
 
 /// Profile, language, the legal documents, support, and the way out.
@@ -67,6 +68,20 @@ class SettingsPage extends StatelessWidget {
           leading: Icon(Icons.logout, color: theme.colorScheme.error),
           title: Text(t.signOut, style: TextStyle(color: theme.colorScheme.error)),
           onTap: () => _signOut(context),
+        ),
+        // Play requires deletion to be reachable in the app, and anyone in
+        // the world can sign up here, so it applies to this app as squarely
+        // as to the member one. Below sign-out: the heavier of the two, and
+        // nobody should reach it by mistake.
+        ListTile(
+          leading: Icon(Icons.person_remove_outlined,
+              color: theme.colorScheme.error),
+          title: Text(t.deleteAccount,
+              style: TextStyle(color: theme.colorScheme.error)),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const DeleteAccountPage()),
+          ),
         ),
         const SizedBox(height: 20),
         Padding(

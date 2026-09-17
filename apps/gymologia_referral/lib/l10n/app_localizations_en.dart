@@ -459,4 +459,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get footerSupport => 'support@gymologia.com';
+
+  @override
+  String get deleteAccount => 'Delete account';
+
+  @override
+  String get deleteAccountIntro =>
+      'Your account stays usable for 30 days. After that it is deleted and cannot be brought back.';
+
+  @override
+  String get whatIsDeleted => 'What is deleted';
+
+  @override
+  String get whatIsDeletedList =>
+      'Your name, number and email. Your UPI details and PAN. Your referral code and earnings history. This is one Gymologia account — if you also use the Gymologia app, everything there goes too.';
+
+  @override
+  String get whatIsKept => 'What is kept, with you removed from it';
+
+  @override
+  String get whatIsKeptList =>
+      'Payment and invoice records, because the law requires us to keep books of account. The record of actions taken in a gym, so disputes can still be settled.';
+
+  @override
+  String unwithdrawnWarning(String amount) {
+    return 'You have $amount in referral earnings you have not withdrawn. Withdraw it in the Gymologia Referral app first, or it will be lost.';
+  }
+
+  @override
+  String get iUnderstandLoseEarnings => 'I understand I will lose this money';
+
+  @override
+  String deletionScheduled(String date) {
+    return 'Your account will be deleted on $date.';
+  }
+
+  @override
+  String get keepMyAccount => 'Keep my account';
+
+  @override
+  String get deletionCancelled => 'Your account will not be deleted.';
+
+  @override
+  String get deleteAccountConfirm => 'Delete my account';
 }

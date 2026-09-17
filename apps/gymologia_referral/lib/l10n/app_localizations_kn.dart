@@ -460,4 +460,48 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get footerSupport => 'support@gymologia.com';
+
+  @override
+  String get deleteAccount => 'ಖಾತೆ ಅಳಿಸಿ';
+
+  @override
+  String get deleteAccountIntro =>
+      'ನಿಮ್ಮ ಖಾತೆ 30 ದಿನಗಳವರೆಗೆ ಬಳಸಬಹುದು. ನಂತರ ಅದು ಅಳಿಸಲ್ಪಡುತ್ತದೆ, ಮರಳಿ ಪಡೆಯಲಾಗುವುದಿಲ್ಲ.';
+
+  @override
+  String get whatIsDeleted => 'ಏನು ಅಳಿಸಲಾಗುತ್ತದೆ';
+
+  @override
+  String get whatIsDeletedList =>
+      'ನಿಮ್ಮ ಹೆಸರು, ಸಂಖ್ಯೆ ಮತ್ತು ಇಮೇಲ್. ನಿಮ್ಮ UPI ವಿವರಗಳು ಮತ್ತು PAN. ನಿಮ್ಮ ರೆಫರಲ್ ಕೋಡ್ ಮತ್ತು ಗಳಿಕೆಯ ಇತಿಹಾಸ. ಇದು ಒಂದೇ Gymologia ಖಾತೆ — ನೀವು Gymologia ಆ್ಯಪ್ ಕೂಡ ಬಳಸಿದರೆ, ಅಲ್ಲಿನ ಎಲ್ಲವೂ ಹೋಗುತ್ತದೆ.';
+
+  @override
+  String get whatIsKept => 'ಏನು ಉಳಿಸಲಾಗುತ್ತದೆ, ನಿಮ್ಮ ಗುರುತು ತೆಗೆದು';
+
+  @override
+  String get whatIsKeptList =>
+      'ಪಾವತಿ ಮತ್ತು ಸರಕುಪಟ್ಟಿ ದಾಖಲೆಗಳು, ಏಕೆಂದರೆ ಲೆಕ್ಕಪುಸ್ತಕ ಇಡುವುದು ಕಾನೂನು ಅಗತ್ಯ. ಜಿಮ್‌ನಲ್ಲಿ ನಡೆದ ಕ್ರಮಗಳ ದಾಖಲೆ, ವಿವಾದ ಬಗೆಹರಿಸಲು.';
+
+  @override
+  String unwithdrawnWarning(String amount) {
+    return 'ನೀವು ಹಿಂಪಡೆಯದ $amount ರೆಫರಲ್ ಗಳಿಕೆ ಇದೆ. ಮೊದಲು Gymologia Referral ಆ್ಯಪ್‌ನಲ್ಲಿ ಹಿಂಪಡೆಯಿರಿ, ಇಲ್ಲದಿದ್ದರೆ ಅದು ಕಳೆದುಹೋಗುತ್ತದೆ.';
+  }
+
+  @override
+  String get iUnderstandLoseEarnings =>
+      'ಈ ಹಣ ಕಳೆದುಹೋಗುತ್ತದೆ ಎಂದು ನಾನು ಅರ್ಥಮಾಡಿಕೊಂಡಿದ್ದೇನೆ';
+
+  @override
+  String deletionScheduled(String date) {
+    return 'ನಿಮ್ಮ ಖಾತೆಯನ್ನು $date ರಂದು ಅಳಿಸಲಾಗುತ್ತದೆ.';
+  }
+
+  @override
+  String get keepMyAccount => 'ನನ್ನ ಖಾತೆ ಉಳಿಸಿ';
+
+  @override
+  String get deletionCancelled => 'ನಿಮ್ಮ ಖಾತೆ ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.';
+
+  @override
+  String get deleteAccountConfirm => 'ನನ್ನ ಖಾತೆ ಅಳಿಸಿ';
 }

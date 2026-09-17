@@ -1,6 +1,5 @@
 {
   "@@locale": "te",
-
   "appTitle": "Gymologia Referral",
   "tryAgain": "మళ్లీ ప్రయత్నించండి",
   "cancel": "రద్దు",
@@ -8,7 +7,6 @@
   "add": "జోడించు",
   "change": "మార్చు",
   "genericError": "ఏదో తప్పు జరిగింది. మళ్లీ ప్రయత్నించండి.",
-
   "cleartextWarning": "{host}తో రక్షణ లేకుండా (plain http) కనెక్ట్ అయ్యింది",
   "signInSubtitle": "కోడ్ షేర్ చేయండి. ఏదైనా జిమ్ సబ్‌స్క్రిప్షన్ తీసుకుంటే మీకు ఆదాయం.",
   "phoneLabel": "మొబైల్ నంబర్",
@@ -22,7 +20,6 @@
   "enterTenDigits": "మీ 10 అంకెల మొబైల్ నంబర్ నమోదు చేయండి.",
   "enterTheCode": "మేము పంపిన కోడ్‌ను నమోదు చేయండి.",
   "ownersCannotJoin": "జిమ్ యజమానులు రిఫరల్ యాప్‌ను వాడలేరు. జిమ్ సిబ్బంది, మిగిలిన అందరూ వాడవచ్చు.",
-
   "createAccountTitle": "మీ ఖాతా సృష్టించండి",
   "nameLabel": "పేరు",
   "emailLabel": "ఇమెయిల్ (ఐచ్ఛికం)",
@@ -31,25 +28,21 @@
   "ageRange": "13 నుండి 100 మధ్య వయస్సు నమోదు చేయండి.",
   "nameRequired": "దయచేసి మీ పేరు నమోదు చేయండి.",
   "createAccount": "ఖాతా సృష్టించు",
-
   "tabCode": "మీ కోడ్",
   "tabEarnings": "ఆదాయం",
   "tabPayout": "చెల్లింపు",
   "tabSettings": "సెట్టింగ్‌లు",
-
   "yourCodeTitle": "మీ రిఫరల్ కోడ్",
   "shareCode": "షేర్ చేయి",
   "copyCode": "కాపీ చేయి",
   "copied": "కాపీ అయ్యింది.",
   "shareUnavailable": "ఇక్కడ షేర్ చేయడం అందుబాటులో లేదు. సందేశం కాపీ చేయబడింది.",
-
   "howItWorksTitle": "ఇది ఎలా పనిచేస్తుంది",
   "howItWorksStep1": "జిమ్ నడిపే వారికి మీ కోడ్ పంపండి.",
   "howItWorksStep2": "సబ్‌స్క్రిప్షన్ తీసుకునేటప్పుడు వారికి ఏ Gymologia ప్లాన్‌పైనైనా {percent}% తగ్గింపు లభిస్తుంది.",
   "howItWorksStep3": "ఈ కోడ్‌తో సబ్‌స్క్రిప్షన్ తీసుకున్న ప్రతి జిమ్‌కు మీకు {amount} లభిస్తుంది.",
   "howItWorksStep4": "మీ UPI ID నిజంగా మీదేనా అని తనిఖీ చేయడానికి మొదటి చెల్లింపు నుండి ఒకసారి {amount} తీసుకుంటాము.",
   "notForOwners": "మీ సొంత జిమ్ నుండి మీరు సంపాదించలేరు.",
-
   "earnedTotal": "ఇప్పటివరకు సంపాదించినది",
   "heldPending": "నిలిపి ఉంచినది",
   "paidOut": "చెల్లించినది",
@@ -58,7 +51,6 @@
   "timesUsed": "{count} సార్లు వాడారు.",
   "usedOnce": "ఒకసారి వాడారు.",
   "awaitingClearance": "{count} ఇంకా క్లియర్ అవుతున్నాయి.",
-
   "earningsTitle": "మీ కోడ్ సంపాదించినది",
   "earningsEmpty": "ఇంకా ఏమీ లేదు. జిమ్ నడిపే వారితో మీ కోడ్ షేర్ చేయండి.",
   "earningsCapped": "అత్యంత ఇటీవలి {count} చూపుతున్నాము.",
@@ -70,7 +62,6 @@
   "statusEligibleWhy": "క్లియర్ అయ్యింది. చెల్లింపులు ప్రారంభమయ్యే వరకు వేచి ఉంది.",
   "statusPaidWhy": "మీ UPI IDకి పంపాము.",
   "statusReversedWhy": "జిమ్ చెల్లింపు వాపసు అయ్యింది, కాబట్టి ఈ బహుమతి కూడా వెనక్కి తీసుకున్నాము.",
-
   "payoutTitle": "మీ డబ్బు ఎక్కడికి వెళ్తుంది",
   "withdrawTitle": "డబ్బు తీసుకోండి",
   "withdrawAvailable": "తీసుకోవడానికి సిద్ధం",
@@ -93,7 +84,6 @@
   "payoutsNotLive": "చెల్లింపులు ఇంకా ప్రారంభం కాలేదు. అప్పటివరకు ఆదాయం లెక్కించి నిలిపి ఉంచుతున్నాము.",
   "stillNeededTitle": "ఇంకా అవసరం",
   "payoutInFlight": "ఒక చెల్లింపు మార్గంలో ఉంది. అది పూర్తయ్యాక వీటిని మార్చవచ్చు.",
-
   "upiSectionTitle": "UPI ID",
   "upiIdLabel": "UPI ID",
   "upiIdHint": "name@bank",
@@ -107,7 +97,6 @@
   "saved": "సేవ్ అయ్యింది.",
   "invalidUpi": "ఇది UPI IDలా కనిపించడం లేదు. ఇది name@bank లా ఉండాలి.",
   "holderNameRequired": "బ్యాంక్ ఖాతాపై ఉన్న పేరు నమోదు చేయండి.",
-
   "panSectionTitle": "PAN",
   "panLabel": "PAN",
   "panHint": "ABCDE1234F",
@@ -117,7 +106,6 @@
   "panStatusVerified": "ధృవీకరించారు",
   "panStatusRejected": "ఆమోదించలేదు. నంబర్ చూసి మళ్లీ పంపండి.",
   "invalidPan": "ఇది PANలా కనిపించడం లేదు. ఇది ABCDE1234F లా ఉండాలి.",
-
   "settingsTitle": "సెట్టింగ్‌లు",
   "profileTitle": "మీ ప్రొఫైల్",
   "languageTitle": "భాష",
@@ -138,13 +126,23 @@
   "signOut": "సైన్ అవుట్",
   "signOutConfirm": "ఈ పరికరంలో సైన్ అవుట్ చేయాలా?",
   "aboutTitle": "గురించి",
-
   "sessionExpiredSignIn": "మీ సెషన్ ముగిసింది. దయచేసి మళ్లీ సైన్ ఇన్ చేయండి.",
   "serverTookTooLong": "సర్వర్ సమాధానం ఇవ్వడానికి చాలా సమయం తీసుకుంది. కనెక్షన్ చూసి మళ్లీ ప్రయత్నించండి.",
   "couldNotReachServer": "{host}ని చేరుకోలేకపోయాము. మీ ఇంటర్నెట్ కనెక్షన్ చూడండి.",
   "certificateNotVerified": "సర్వర్ సర్టిఫికెట్‌ను ధృవీకరించలేకపోయాము.",
   "networkErrorTryAgain": "నెట్‌వర్క్ లోపం. మళ్లీ ప్రయత్నించండి.",
-
   "footerLine": "Gymologia Referral",
-  "footerSupport": "support@gymologia.com"
+  "footerSupport": "support@gymologia.com",
+  "deleteAccount": "ఖాతాను తొలగించండి",
+  "deleteAccountIntro": "మీ ఖాతా 30 రోజుల పాటు వాడుకోవచ్చు. ఆ తర్వాత అది తొలగించబడుతుంది, తిరిగి పొందలేరు.",
+  "whatIsDeleted": "ఏమి తొలగించబడుతుంది",
+  "whatIsDeletedList": "మీ పేరు, నంబర్, ఇమెయిల్. మీ UPI వివరాలు, PAN. మీ రెఫరల్ కోడ్, ఆదాయ చరిత్ర. ఇది ఒకే Gymologia ఖాతా — మీరు Gymologia యాప్ కూడా వాడితే, అక్కడి అన్నీ కూడా పోతాయి.",
+  "whatIsKept": "ఏమి ఉంచబడుతుంది, మీ గుర్తింపు తీసేసి",
+  "whatIsKeptList": "చెల్లింపు, ఇన్‌వాయిస్ రికార్డులు, ఎందుకంటే ఖాతా పుస్తకాలు ఉంచడం చట్టపరమైన అవసరం. జిమ్‌లో తీసుకున్న చర్యల రికార్డు, వివాదాలు పరిష్కరించడానికి.",
+  "unwithdrawnWarning": "మీరు తీసుకోని {amount} రెఫరల్ ఆదాయం ఉంది. ముందుగా Gymologia Referral యాప్‌లో తీసుకోండి, లేకుంటే అది పోతుంది.",
+  "iUnderstandLoseEarnings": "ఈ డబ్బు పోతుందని నేను అర్థం చేసుకున్నాను",
+  "deletionScheduled": "మీ ఖాతా {date}న తొలగించబడుతుంది.",
+  "keepMyAccount": "నా ఖాతాను ఉంచండి",
+  "deletionCancelled": "మీ ఖాతా తొలగించబడదు.",
+  "deleteAccountConfirm": "నా ఖాతాను తొలగించండి"
 }

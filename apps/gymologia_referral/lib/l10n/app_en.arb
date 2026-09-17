@@ -1,36 +1,50 @@
 {
   "@@locale": "en",
-
   "appTitle": "Gymologia Referral",
-  "@appTitle": { "description": "The app's own name. Not translated -- it is a product name." },
-
+  "@appTitle": {
+    "description": "The app's own name. Not translated -- it is a product name."
+  },
   "tryAgain": "Try again",
   "cancel": "Cancel",
   "save": "Save",
   "add": "Add",
   "change": "Change",
   "genericError": "Something went wrong. Please try again.",
-
   "cleartextWarning": "Connected to {host} over plain http",
   "@cleartextWarning": {
     "description": "Shown in the header while the API has no certificate. Deliberately hard to miss.",
-    "placeholders": { "host": { "type": "String" } }
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
   },
   "signInSubtitle": "Share a code. Earn when a gym subscribes.",
   "phoneLabel": "Phone number",
   "phoneHint": "10-digit mobile number",
   "sendCode": "Send code",
   "codeSentTo": "Code sent to {phone}",
-  "@codeSentTo": { "placeholders": { "phone": { "type": "String" } } },
+  "@codeSentTo": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
   "verify": "Verify",
   "resendIn": "You can ask for another in {seconds}s",
-  "@resendIn": { "placeholders": { "seconds": { "type": "int" } } },
+  "@resendIn": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "resend": "Send another code",
   "changeNumber": "Use a different number",
   "enterTenDigits": "Enter your 10-digit mobile number.",
   "enterTheCode": "Enter the code we sent you.",
   "ownersCannotJoin": "Gym owners cannot use the referral app. Gym staff and everyone else can.",
-
   "createAccountTitle": "Create your account",
   "nameLabel": "Name",
   "emailLabel": "Email (optional)",
@@ -39,43 +53,74 @@
   "ageRange": "Enter an age between 13 and 100.",
   "nameRequired": "Please enter your name.",
   "createAccount": "Create account",
-
   "tabCode": "Your code",
   "tabEarnings": "Earnings",
   "tabPayout": "Payout",
   "tabSettings": "Settings",
-
   "yourCodeTitle": "Your referral code",
   "shareCode": "Share",
   "copyCode": "Copy",
   "copied": "Copied.",
   "shareUnavailable": "Sharing is not available here. The message has been copied instead.",
-
   "howItWorksTitle": "How it works",
   "howItWorksStep1": "Send your code to someone who runs a gym.",
   "howItWorksStep2": "They get {percent}% off any Gymologia plan when they subscribe.",
-  "@howItWorksStep2": { "placeholders": { "percent": { "type": "int" } } },
+  "@howItWorksStep2": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "howItWorksStep3": "You earn {amount} for every gym that subscribes with it.",
-  "@howItWorksStep3": { "placeholders": { "amount": { "type": "String" } } },
+  "@howItWorksStep3": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "howItWorksStep4": "{amount} is taken once, out of your first payout, to check that the UPI ID is really yours.",
-  "@howItWorksStep4": { "placeholders": { "amount": { "type": "String" } } },
+  "@howItWorksStep4": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "notForOwners": "You cannot earn from a gym you own yourself.",
-
   "earnedTotal": "Earned so far",
   "heldPending": "Held",
   "paidOut": "Paid out",
   "taxWithheld": "Tax withheld",
   "neverUsed": "Nobody has used your code yet.",
   "timesUsed": "Used {count} times.",
-  "@timesUsed": { "placeholders": { "count": { "type": "int" } } },
+  "@timesUsed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "usedOnce": "Used once.",
   "awaitingClearance": "{count} still clearing.",
-  "@awaitingClearance": { "placeholders": { "count": { "type": "int" } } },
-
+  "@awaitingClearance": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "earningsTitle": "What your code has earned",
   "earningsEmpty": "Nothing yet. Share your code with someone who runs a gym.",
   "earningsCapped": "Showing the most recent {count}.",
-  "@earningsCapped": { "placeholders": { "count": { "type": "int" } } },
+  "@earningsCapped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "statusPending": "Clearing",
   "statusEligible": "Ready to pay",
   "statusPaid": "Paid",
@@ -84,20 +129,40 @@
   "statusEligibleWhy": "Cleared. Waiting on payouts being switched on.",
   "statusPaidWhy": "Sent to your UPI ID.",
   "statusReversedWhy": "The gym's payment was refunded, so this reward was taken back.",
-
   "payoutTitle": "Where your money goes",
   "withdrawTitle": "Withdraw",
   "withdrawAvailable": "Ready to withdraw",
   "withdrawFee": "One-time UPI check",
   "withdrawArrives": "You receive",
   "withdrawButton": "Withdraw {amount}",
-  "@withdrawButton": { "placeholders": { "amount": { "type": "String" } } },
+  "@withdrawButton": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "withdrawConfirm": "Send {amount} to {upi}?",
-  "@withdrawConfirm": { "placeholders": { "amount": { "type": "String" }, "upi": { "type": "String" } } },
+  "@withdrawConfirm": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "upi": {
+        "type": "String"
+      }
+    }
+  },
   "withdrawConfirmBody": "This cannot be undone. Check the address is right before you send.",
   "withdrawRequested": "Requested. It is on its way.",
   "withdrawFeeWhy": "{amount} is deducted once, to check the address is really yours. After that, nothing is deducted.",
-  "@withdrawFeeWhy": { "placeholders": { "amount": { "type": "String" } } },
+  "@withdrawFeeWhy": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "withdrawNoTax": "No tax is withheld at these amounts.",
   "withdrawHistoryTitle": "Withdrawals",
   "withdrawNone": "You have not withdrawn anything yet.",
@@ -107,11 +172,16 @@
   "withdrawStatusFailed": "Failed",
   "withdrawStatusReversed": "Returned",
   "withdrawUtr": "Reference {utr}",
-  "@withdrawUtr": { "placeholders": { "utr": { "type": "String" } } },
+  "@withdrawUtr": {
+    "placeholders": {
+      "utr": {
+        "type": "String"
+      }
+    }
+  },
   "payoutsNotLive": "Payouts are not switched on yet. Rewards are counted and held until they are.",
   "stillNeededTitle": "Still needed",
   "payoutInFlight": "A payout is on its way. These can be changed once it settles.",
-
   "upiSectionTitle": "UPI ID",
   "upiIdLabel": "UPI ID",
   "upiIdHint": "name@bank",
@@ -125,7 +195,6 @@
   "saved": "Saved.",
   "invalidUpi": "That does not look like a UPI ID. It should look like name@bank.",
   "holderNameRequired": "Enter the name on the bank account.",
-
   "panSectionTitle": "PAN",
   "panLabel": "PAN",
   "panHint": "ABCDE1234F",
@@ -135,7 +204,6 @@
   "panStatusVerified": "Verified",
   "panStatusRejected": "Not accepted. Check the number and send it again.",
   "invalidPan": "That does not look like a PAN. It should look like ABCDE1234F.",
-
   "settingsTitle": "Settings",
   "profileTitle": "Your profile",
   "languageTitle": "Language",
@@ -152,19 +220,55 @@
   "supportSend": "Send",
   "supportSent": "Sent. We will get back to you.",
   "supportEmailLine": "Or write to {email}.",
-  "@supportEmailLine": { "placeholders": { "email": { "type": "String" } } },
+  "@supportEmailLine": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
   "supportTooShort": "A sentence or two, so we know what to look at.",
   "signOut": "Sign out",
   "signOutConfirm": "Sign out on this device?",
   "aboutTitle": "About",
-
   "sessionExpiredSignIn": "Your session has ended. Please sign in again.",
   "serverTookTooLong": "The server took too long to answer. Check your connection and try again.",
   "couldNotReachServer": "Could not reach {host}. Check your internet connection.",
-  "@couldNotReachServer": { "placeholders": { "host": { "type": "String" } } },
+  "@couldNotReachServer": {
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
   "certificateNotVerified": "The server certificate could not be verified.",
   "networkErrorTryAgain": "Network error. Please try again.",
-
   "footerLine": "Gymologia Referral",
-  "footerSupport": "support@gymologia.com"
+  "footerSupport": "support@gymologia.com",
+  "deleteAccount": "Delete account",
+  "deleteAccountIntro": "Your account stays usable for 30 days. After that it is deleted and cannot be brought back.",
+  "whatIsDeleted": "What is deleted",
+  "whatIsDeletedList": "Your name, number and email. Your UPI details and PAN. Your referral code and earnings history. This is one Gymologia account — if you also use the Gymologia app, everything there goes too.",
+  "whatIsKept": "What is kept, with you removed from it",
+  "whatIsKeptList": "Payment and invoice records, because the law requires us to keep books of account. The record of actions taken in a gym, so disputes can still be settled.",
+  "unwithdrawnWarning": "You have {amount} in referral earnings you have not withdrawn. Withdraw it in the Gymologia Referral app first, or it will be lost.",
+  "@unwithdrawnWarning": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "iUnderstandLoseEarnings": "I understand I will lose this money",
+  "deletionScheduled": "Your account will be deleted on {date}.",
+  "@deletionScheduled": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "keepMyAccount": "Keep my account",
+  "deletionCancelled": "Your account will not be deleted.",
+  "deleteAccountConfirm": "Delete my account"
 }
