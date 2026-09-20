@@ -4,7 +4,7 @@
 /// builds against the EC2 box, a laptop on the LAN, or an emulator
 /// loopback.
 ///
-///   flutter run --dart-define=API_BASE_URL=http://65.0.75.45:3000/api/v1
+///   flutter run --dart-define=API_BASE_URL=https://api.gymologia.com/api/v1
 ///   flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000/api/v1
 ///
 /// 10.0.2.2 is how the Android emulator reaches the host machine's
@@ -14,7 +14,7 @@ class AppConfig {
 
   static const String apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://65.0.75.45:3000/api/v1',
+    defaultValue: 'https://api.gymologia.com/api/v1',
   );
 
   static String get displayHost => Uri.parse(apiBaseUrl).host;

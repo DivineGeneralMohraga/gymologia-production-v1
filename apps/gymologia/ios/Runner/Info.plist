@@ -66,24 +66,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<!-- ATS blocks cleartext HTTP. Allowed for the AWS host only,
-		     while it has no TLS certificate. Remove this whole block once
-		     the API is served over HTTPS. -->
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>65.0.75.45</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-			<key>localhost</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-		</dict>
-	</dict>
 </dict>
 </plist>
