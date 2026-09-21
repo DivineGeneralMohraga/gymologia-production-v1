@@ -14,7 +14,7 @@
  * Bump `LEGAL_VERSION` whenever the wording changes materially. Users are
  * re-prompted when the version they accepted is older than this one.
  */
-export const LEGAL_VERSION = '2026-09-21.1';
+export const LEGAL_VERSION = '2026-09-21.2';
 
 export const SUPPORT_EMAIL = 'support@gymologia.com';
 
@@ -203,10 +203,14 @@ HOW LONG WE KEEP IT
 Account and profile data: kept while your account is open, anonymised 30
 days after you request deletion. Health metrics (weight/height): deleted
 immediately when your account is anonymised. Attendance and membership
-records: kept for 7 years after the gym relationship ends. Payment and tax
-records: kept for the period Indian tax law requires (currently 8 years
-from the year of assessment). Security and audit logs: kept for 3 years,
-then deleted. OTP codes: deleted within 24 hours of expiry.
+records: kept for 7 years after the gym relationship ends. Identity
+documents (Aadhaar, PAN, GSTIN, address proof) for a gym: kept while the
+gym is active, and for up to one year after it is suspended with no
+subscription covering it; after that the documents are cleared and a
+resubscribing gym is verified again from scratch. Payment and tax records:
+kept for the period Indian tax law requires (currently 8 years from the
+year of assessment). Security and audit logs: kept for 3 years, then
+deleted. OTP codes: deleted within 24 hours of expiry.
 
 YOUR RIGHTS
 You can ask us to show you the personal data we hold about you. An in-app

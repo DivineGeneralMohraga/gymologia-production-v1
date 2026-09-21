@@ -10,6 +10,9 @@ import { PrismaService } from '../prisma/prisma.service';
 import { OtpService } from '../auth/otp.service';
 import { AccountDeletionService } from '../account/account-deletion.service';
 
+/** How long a suspended gym's KYC documents survive with nothing covering it. */
+const KYC_RETENTION_DAYS = 365;
+
 /**
  * The jobs that make time pass.
  *
@@ -69,6 +72,84 @@ export class MaintenanceService {
       where: { expiresAt: { lt: cutoff } },
     });
     if (count > 0) this.logger.log(`Pruned ${count} expired session(s)`);
+  }
+
+  @Cron('0 4 * * 0') // 04:00 every Sunday, alongside session cleanup
+  async weeklyKycRetention(): Promise<void> {
+    const purged = await this.purgeStaleGymKyc();
+    if (purged > 0) this.logger.log(`Purged KYC documents for ${purged} long-suspended gym(s)`);
+  }
+
+  /**
+   * DPDP Act retention for gym KYC — Aadhaar, PAN, GSTIN and the uploaded
+   * proof documents are kept only as long as the business relationship is
+   * live or recently ended. A gym suspended for over a year, with nothing
+   * since covering it, has no live use for that data: it is not being
+   * verified, and it is not being billed.
+   *
+   * Clears the encrypted numbers and document URLs; keeps the last-4
+   * digits, verification status and rejection reason, the same way account
+   * deletion keeps money and audit rows rather than deleting the dispute
+   * history along with the identity. A gym that resubscribes goes through
+   * KYC again rather than the old documents quietly reappearing.
+   *
+   * NOTE: this clears the database references only. The uploaded files
+   * still exist in storage until a delete path is added there -- a known,
+   * disclosed gap, not a silent one.
+   */
+  async purgeStaleGymKyc(): Promise<number> {
+    const cutoff = new Date(Date.now() - KYC_RETENTION_DAYS * 24 * 60 * 60 * 1000);
+
+    const candidates = await this.prisma.gymKyc.findMany({
+      where: {
+        gym: { status: GymStatus.SUSPENDED },
+        OR: [
+          { aadhaarEnc: { not: null } },
+          { panEnc: { not: null } },
+          { gstinEnc: { not: null } },
+          { nocUrl: { not: null } },
+          { altProofUrl: { not: null } },
+        ],
+      },
+      select: {
+        id: true,
+        gym: {
+          select: {
+            subscriptions: {
+              orderBy: { endsAt: 'desc' },
+              take: 1,
+              select: { endsAt: true },
+            },
+          },
+        },
+      },
+    });
+
+    // Only a gym with subscription history and nothing covering it since
+    // the cutoff qualifies -- a suspended gym with no subscription record
+    // at all is an unusual state this job deliberately leaves alone rather
+    // than guessing how long it has been dormant.
+    const staleIds = candidates
+      .filter((k) => {
+        const lastEnd = k.gym.subscriptions[0]?.endsAt;
+        return lastEnd != null && lastEnd < cutoff;
+      })
+      .map((k) => k.id);
+
+    if (staleIds.length === 0) return 0;
+
+    await this.prisma.gymKyc.updateMany({
+      where: { id: { in: staleIds } },
+      data: {
+        aadhaarEnc: null,
+        panEnc: null,
+        gstinEnc: null,
+        nocUrl: null,
+        altProofUrl: null,
+      },
+    });
+
+    return staleIds.length;
   }
 
   /**
