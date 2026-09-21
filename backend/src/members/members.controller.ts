@@ -151,7 +151,13 @@ export class MyMembershipController {
     @CurrentUser() user: AuthUser,
     @Param('membershipId', ParseUUIDPipe) membershipId: string,
     @Body() body: { allow: boolean },
+    @Req() req: Request,
   ) {
-    return this.members.setMonitoringConsent(user.userId, membershipId, body.allow);
+    return this.members.setMonitoringConsent(
+      user.userId,
+      membershipId,
+      body.allow,
+      meta(req),
+    );
   }
 }

@@ -7,11 +7,12 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { AppClient, OtpPurpose, User } from '@prisma/client';
+import { AppClient, ConsentPurpose, OtpPurpose, User } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CryptoService } from '../common/crypto/crypto.service';
 import { SecurityEventService } from '../common/security/security-event.service';
 import { AuditService } from '../common/audit/audit.service';
+import { ConsentService } from '../common/consent/consent.service';
 import { NotificationsService } from '../notifications/notifications.service';
 import { OtpService } from './otp.service';
 import { Msg91Service } from './msg91.service';
@@ -75,6 +76,7 @@ export class AuthService {
     private readonly securityEvents: SecurityEventService,
     private readonly notifications: NotificationsService,
     private readonly audit: AuditService,
+    private readonly consent: ConsentService,
     config: ConfigService,
   ) {
     this.jwtCfg = config.getOrThrow<JwtConfig>('jwt');
@@ -358,6 +360,17 @@ export class AuthService {
         entityId: user.id,
         after: {
           minor: true,
+          age: dto.age,
+          guardianPhoneMasked: this.crypto.maskPhone(guardianPhone),
+        },
+        ip: meta.ip,
+        userAgent: meta.userAgent,
+      });
+      await this.consent.record({
+        userId: user.id,
+        purpose: ConsentPurpose.GUARDIAN_CONSENT,
+        granted: true,
+        metadata: {
           age: dto.age,
           guardianPhoneMasked: this.crypto.maskPhone(guardianPhone),
         },

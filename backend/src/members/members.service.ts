@@ -7,6 +7,7 @@ import {
 } from "@nestjs/common";
 import {
   AttendanceStatus,
+  ConsentPurpose,
   ExtensionReason,
   MembershipStatus,
   OtpPurpose,
@@ -16,6 +17,7 @@ import {
 } from "@prisma/client";
 import { PrismaService } from "../prisma/prisma.service";
 import { AuditService } from "../common/audit/audit.service";
+import { ConsentService } from "../common/consent/consent.service";
 import { PermissionService, ActorContext } from "../rbac/permission.service";
 import { PersonLookupService } from "../people/person-lookup.service";
 import type { RequestMeta } from "../gyms/gyms.service";
@@ -35,6 +37,7 @@ export class MembersService {
     private readonly permissions: PermissionService,
     private readonly lookup: PersonLookupService,
     private readonly audit: AuditService,
+    private readonly consent: ConsentService,
   ) {}
 
   // ── Staff-facing ───────────────────────────────────────────────────
@@ -167,6 +170,8 @@ export class MembersService {
       },
     });
 
+    const isMinor = person.age != null && person.age < 18;
+
     await this.audit.record({
       actorId: actor.userId,
       gymId: actor.gymId,
@@ -178,13 +183,29 @@ export class MembersService {
         endsAt,
         maxLeaveDays: dto.maxLeaveDays,
         newAccount: person.created,
-        ...(person.age != null && person.age < 18
-          ? { minor: true, guardianConsentConfirmed: true }
-          : {}),
+        ...(isMinor ? { minor: true, guardianConsentConfirmed: true } : {}),
       },
       ip: meta.ip,
       userAgent: meta.userAgent,
     });
+
+    if (isMinor) {
+      // The consent belongs to the member (the data subject), not the
+      // staff member who confirmed it was collected — recorded against
+      // person.userId, with the confirming staffer kept in metadata.
+      await this.consent.record({
+        userId: person.userId,
+        purpose: ConsentPurpose.GUARDIAN_CONSENT,
+        granted: true,
+        metadata: {
+          age: person.age,
+          gymId: actor.gymId,
+          confirmedByStaffId: actor.userId,
+        },
+        ip: meta.ip,
+        userAgent: meta.userAgent,
+      });
+    }
 
     return this.findOne(actor, membership.id);
   }
@@ -614,10 +635,11 @@ export class MembersService {
     userId: string,
     membershipId: string,
     allow: boolean,
+    meta: RequestMeta = {},
   ) {
     const membership = await this.prisma.membership.findFirst({
       where: { id: membershipId, userId },
-      select: { id: true },
+      select: { id: true, gymId: true },
     });
     if (!membership) {
       throw new NotFoundException("Membership not found");
@@ -626,6 +648,17 @@ export class MembersService {
     await this.prisma.membership.update({
       where: { id: membershipId },
       data: { allowProgressMonitoring: allow },
+    });
+
+    // DPDP Act 2023 s.6 — this is the actual consent event: the member's
+    // own action, not staff setting the field at enrolment.
+    await this.consent.record({
+      userId,
+      purpose: ConsentPurpose.PROGRESS_MONITORING,
+      granted: allow,
+      metadata: { membershipId, gymId: membership.gymId },
+      ip: meta.ip,
+      userAgent: meta.userAgent,
     });
 
     return { allowProgressMonitoring: allow };

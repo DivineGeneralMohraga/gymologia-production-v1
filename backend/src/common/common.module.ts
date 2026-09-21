@@ -3,6 +3,7 @@ import { CryptoService } from './crypto/crypto.service';
 import { SecurityEventService } from './security/security-event.service';
 import { IpBlockService } from './security/ip-block.service';
 import { AuditService } from './audit/audit.service';
+import { ConsentService } from './consent/consent.service';
 
 /**
  * Cross-cutting services every feature module leans on. Global so they do
@@ -10,7 +11,19 @@ import { AuditService } from './audit/audit.service';
  */
 @Global()
 @Module({
-  providers: [CryptoService, SecurityEventService, AuditService, IpBlockService],
-  exports: [CryptoService, SecurityEventService, AuditService, IpBlockService],
+  providers: [
+    CryptoService,
+    SecurityEventService,
+    AuditService,
+    IpBlockService,
+    ConsentService,
+  ],
+  exports: [
+    CryptoService,
+    SecurityEventService,
+    AuditService,
+    IpBlockService,
+    ConsentService,
+  ],
 })
 export class CommonModule {}

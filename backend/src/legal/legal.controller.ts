@@ -4,9 +4,13 @@ import {
   NotFoundException,
   Param,
   Post,
+  Req,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ConsentPurpose } from "@prisma/client";
+import type { Request } from "express";
 import { PrismaService } from "../prisma/prisma.service";
+import { ConsentService } from "../common/consent/consent.service";
 import { CurrentUser, Public, AuthUser } from "../rbac/rbac.decorators";
 import { LEGAL_DOCUMENTS, LEGAL_VERSION, SUPPORT_EMAIL } from "./legal.content";
 
@@ -53,7 +57,10 @@ export class LegalController {
 @ApiBearerAuth()
 @Controller("me/legal")
 export class LegalAcceptanceController {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly consent: ConsentService,
+  ) {}
 
   @Get()
   @ApiOperation({
@@ -77,10 +84,28 @@ export class LegalAcceptanceController {
 
   @Post("accept")
   @ApiOperation({ summary: "Accept the current Terms and Privacy Policy" })
-  async accept(@CurrentUser() user: AuthUser) {
+  async accept(@CurrentUser() user: AuthUser, @Req() req: Request) {
     // The version is taken from the server, never from the client: a client
     // that could name the version could claim to have accepted one it never
     // showed.
+    const meta = { ip: req.ip ?? null, userAgent: req.get("user-agent") ?? null };
+    await Promise.all([
+      this.consent.record({
+        userId: user.userId,
+        purpose: ConsentPurpose.TERMS_OF_USE,
+        granted: true,
+        version: LEGAL_VERSION,
+        ...meta,
+      }),
+      this.consent.record({
+        userId: user.userId,
+        purpose: ConsentPurpose.PRIVACY_POLICY,
+        granted: true,
+        version: LEGAL_VERSION,
+        ...meta,
+      }),
+    ]);
+
     await this.prisma.user.update({
       where: { id: user.userId },
       data: {

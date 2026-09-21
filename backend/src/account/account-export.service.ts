@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { SubjectType } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { ConsentService } from '../common/consent/consent.service';
 
 /**
  * Data portability — DPDP Act 2023 Section 12(a).
@@ -13,7 +14,10 @@ import { PrismaService } from '../prisma/prisma.service';
  */
 @Injectable()
 export class AccountExportService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly consent: ConsentService,
+  ) {}
 
   async export(userId: string) {
     const user = await this.prisma.user.findUnique({
@@ -88,6 +92,8 @@ export class AccountExportService {
       },
     });
 
+    const consentHistory = await this.consent.history(userId);
+
     return {
       exportedAt: new Date().toISOString(),
       notice:
@@ -100,6 +106,7 @@ export class AccountExportService {
       attendance,
       leaveRequests,
       supportTickets,
+      consentHistory,
     };
   }
 }

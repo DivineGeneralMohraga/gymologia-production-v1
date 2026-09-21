@@ -30,19 +30,20 @@ staged as files. See "Verified live" for how.
 | A11b | PII in security logs | `input-sanitizer.interceptor.ts` SKIP_FIELDS extended to `name`, `goal`, `description`, `message`, `contactPhone`, `contactEmail` |
 | D25b | Session retention | Weekly cron in `maintenance.service.ts` purges sessions expired > 90 days |
 | B19/D25 | Privacy policy text | Retention schedule made concrete per data type; children section corrected from "under 13" to the actual DPDP 13–17 guardian-consent rule; rights section now mentions the download feature |
+| B17b | Per-purpose consent register | New `ConsentRecord` table (migration `20260921_consent_records`, deployed) and `ConsentService`. Every consent-relevant action now writes an append-only row: terms/privacy acceptance (`TERMS_OF_USE`, `PRIVACY_POLICY`), the member's own progress-monitoring toggle (`PROGRESS_MONITORING`), and guardian consent on both the self-registration and staff-enrolment paths (`GUARDIAN_CONSENT`). Surfaced to the user as `consentHistory` in `/me/export` |
 
 ### Verified live (2026-09-21)
 
 Ran against the actual production Supabase DB and the local backend pointed at it:
 - `allowProgressMonitoring` column default is `false`; all 413 existing membership rows confirmed `false`
 - `/legal/privacy` returns the updated Grievance Officer, children, and retention sections
-- `/me/export` returns real data for an authenticated test account
+- `/me/export` returns real data for an authenticated test account, including `consentHistory`
 - Self-registration guardian flow: `register` returns 400 for age 15 with no `guardianConsentToken`, then succeeds once `/auth/guardian-consent/request` → `/auth/guardian-consent/verify` produced one; `audit_logs` row confirmed with `action: 'account.guardian_consent'` and a masked guardian phone
-- Test account cleaned up afterward
+- Terms acceptance writes two `ConsentRecord` rows (`TERMS_OF_USE`, `PRIVACY_POLICY`); confirmed via `/me/export` and a direct table count
+- Test/throwaway accounts cleaned up afterward; the reviewer test account's real consent rows were left in place
 
 ### Still open — needs a human decision, not just code
 
-- **B17b** — no dedicated per-purpose `ConsentRecord` table; guardian consent is recorded in the audit log's JSON `after` field, which is enough for a trail but not a queryable consent register.
 - **A3b** — phone, email, and body-metric fields are still plaintext at rest. Not touched — field-level encryption of a unique login column is a larger, riskier migration than this pass should take on unreviewed.
 - **A9** — the audit log is still not enforced append-only at the database level (needs a restricted Postgres role, not application code).
 - **A13, G30** — backup runbook/restore drill and vendor DPAs (MSG91, Cashfree, Supabase) are operational/legal actions, not code.
@@ -53,7 +54,8 @@ Ran against the actual production Supabase DB and the local backend pointed at i
 
 1. Get the vendor DPAs and backup runbook signed off outside of code.
 2. Decide whether field-level encryption of phone/email/body metrics (A3b) is worth the migration risk before launch, or accepted as a documented residual risk.
-3. Consider a dedicated `ConsentRecord` table (B17b) if a queryable consent register becomes a compliance requirement, rather than relying on audit-log JSON.
+3. Decide whether to invest in a restricted Postgres role for DB-level append-only audit/consent logs (A9) — this touches how the application connects to the database and was deliberately not attempted without your sign-off given the risk of locking the app out of its own tables.
+4. Sign up for an external monitoring service (Sentry or similar) if real-time visibility beyond the new email alert matters before launch (F28b).
 
 ---
 

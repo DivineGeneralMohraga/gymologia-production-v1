@@ -75,6 +75,7 @@ model User {
   supportTickets    SupportTicket[]
   auditLogs         AuditLog[]
   ratings           GymRating[]
+  consentRecords    ConsentRecord[]
 
   @@index([status])
   /// Chat safety, both directions.
@@ -1348,6 +1349,47 @@ model AuditLog {
   @@index([actorId, createdAt])
   @@index([action, createdAt])
   @@map("audit_logs")
+}
+
+/// A queryable, per-purpose consent register (DPDP Act 2023 s.6 — consent
+/// must be specific per purpose, not one blanket "terms accepted" flag).
+///
+/// Append-only in the same sense AuditLog is: every change of mind is a
+/// new row, `granted: false` included, so the history of what someone
+/// consented to and when they withdrew it is never overwritten. The
+/// current state for a purpose is just the latest row for that
+/// (userId, purpose) pair.
+model ConsentRecord {
+  id     String  @id @default(uuid()) @db.Uuid
+  userId String  @db.Uuid
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  purpose ConsentPurpose
+  granted Boolean
+
+  /// Policy version this consent was given against, where one applies
+  /// (TERMS_OF_USE / PRIVACY_POLICY). Null for purposes with no versioned
+  /// document, like PROGRESS_MONITORING.
+  version String? @db.VarChar(32)
+
+  /// Free-form context that does not deserve its own column: which
+  /// membership a monitoring toggle belongs to, a masked guardian phone.
+  /// Never raw PII beyond what is already masked elsewhere.
+  metadata Json?
+
+  ip        String?  @db.VarChar(64)
+  userAgent String?  @db.VarChar(300)
+  createdAt DateTime @default(now())
+
+  @@index([userId, purpose, createdAt])
+  @@map("consent_records")
+}
+
+enum ConsentPurpose {
+  TERMS_OF_USE
+  PRIVACY_POLICY
+  PROGRESS_MONITORING
+  GUARDIAN_CONSENT
 }
 
 /// Anything the defensive layer flags: credential stuffing, OTP farming,
