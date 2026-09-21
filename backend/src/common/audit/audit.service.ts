@@ -25,29 +25,27 @@ export interface AuditInput {
  * subscription changes, payouts. There is no update or delete path in this
  * service, and nothing else in the codebase writes to the table.
  *
- * APPEND-ONLY IS A PROPERTY OF THIS CODE, NOT OF THE DATABASE. This
- * comment used to claim "the runtime DB role is granted INSERT and SELECT
- * on audit_logs only", and that was simply untrue. Checked against the
- * live database rather than assumed:
+ * APPEND-ONLY IS NOW ALSO A PROPERTY OF THE DATABASE, WITH ONE HONEST
+ * CAVEAT. Migration `20260921_append_only_triggers` added BEFORE
+ * UPDATE/DELETE/TRUNCATE triggers on audit_logs that raise an exception
+ * for any role, including the table owner. Verified live, not assumed:
+ * a direct UPDATE and DELETE against a real row both failed with
+ * Postgres error 42501, and TRUNCATE failed the same way, while ordinary
+ * `.create()` inserts through this service kept working.
  *
- *   current_user                                    -> postgres
- *   tableowner of audit_logs                        -> postgres
- *   has_table_privilege(..., 'UPDATE' / 'DELETE')   -> true, true
- *
- * The application connects as the owner of the table and can rewrite or
- * empty it at will. Nothing does, but "nobody can" and "nothing does" are
- * different promises, and only the second one is being kept. That matters
- * before anyone repeats the stronger version in a compliance
- * conversation, where an append-only trail is taken to mean tamper
- * evidence rather than good manners.
- *
- * Making it true is not a one-line change, and the reason is worth
- * recording. Row level security is enabled on every table with no
- * policies, which the application survives only because `postgres` has
- * rolbypassrls. A restricted role with INSERT and SELECT on audit_logs
- * would need BYPASSRLS as well, or every query in the product stops
- * working the moment the connection string changes. That is a deliberate
- * piece of infrastructure work, not a tidy-up.
+ * The app's runtime role (`postgres`) is not a Postgres superuser --
+ * rolsuper is false, it only carries rolbypassrls -- so it cannot use
+ * `SET session_replication_role = replica` to silently disable triggers;
+ * that command itself needs superuser here. What it CAN still do, because
+ * it owns the table, is run `ALTER TABLE audit_logs DISABLE TRIGGER ...`
+ * or `DROP TRIGGER`. That remains true and is the honest limit of this
+ * approach: it stops every ordinary write path -- a bug, a careless
+ * migration, a credential riding the existing connection -- but not a
+ * deliberate, privileged actor willing to issue that specific ALTER
+ * statement first. Removing that last gap needs a second, genuinely
+ * restricted role (INSERT + SELECT only, no ownership, no ALTER) that the
+ * app would have to connect through for this table specifically -- a
+ * separate piece of infrastructure work, not a trigger.
  */
 @Injectable()
 export class AuditService {

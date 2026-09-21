@@ -1322,8 +1322,14 @@ enum TicketPriority {
 // ══════════════════════════════════════════════════════════════════════
 //  AUDIT & SECURITY
 //
-//  AuditLog is append-only: no update or delete path is exposed, and the
-//  DB role used by the API is granted INSERT and SELECT on it only.
+//  AuditLog, ConsentRecord and SecurityEvent are append-only: no update or
+//  delete path is exposed in application code, and UPDATE/DELETE/TRUNCATE
+//  against these three tables are rejected at the database level for
+//  every role, including the table owner -- see migration
+//  20260921_append_only_triggers. The API's runtime role still owns these
+//  tables and could remove that trigger with an explicit ALTER TABLE; it
+//  is not a genuinely separate, lower-privileged role. See that
+//  migration's comment for exactly what this does and does not guarantee.
 // ══════════════════════════════════════════════════════════════════════
 
 model AuditLog {
@@ -1359,6 +1365,9 @@ model AuditLog {
 /// consented to and when they withdrew it is never overwritten. The
 /// current state for a purpose is just the latest row for that
 /// (userId, purpose) pair.
+///
+/// Enforced at the database level, not just in application code: see
+/// migration 20260921_append_only_triggers.
 model ConsentRecord {
   id     String  @id @default(uuid()) @db.Uuid
   userId String  @db.Uuid
@@ -1395,6 +1404,11 @@ enum ConsentPurpose {
 /// Anything the defensive layer flags: credential stuffing, OTP farming,
 /// SQL-injection signatures in input, payout velocity spikes, webhook
 /// signature mismatches. Feeds alerting and automatic throttling.
+///
+/// Append-only, enforced at the database level: see migration
+/// 20260921_append_only_triggers. Nothing in the codebase ever updates or
+/// deletes a row here; the trigger makes that true for every role, not
+/// just this one.
 model SecurityEvent {
   id       String        @id @default(uuid()) @db.Uuid
   type     SecurityEventType

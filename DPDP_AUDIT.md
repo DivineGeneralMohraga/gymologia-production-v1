@@ -31,6 +31,8 @@ staged as files. See "Verified live" for how.
 | D25b | Session retention | Weekly cron in `maintenance.service.ts` purges sessions expired > 90 days |
 | B19/D25 | Privacy policy text | Retention schedule made concrete per data type; children section corrected from "under 13" to the actual DPDP 13–17 guardian-consent rule; rights section now mentions the download feature |
 | B17b | Per-purpose consent register | New `ConsentRecord` table (migration `20260921_consent_records`, deployed) and `ConsentService`. Every consent-relevant action now writes an append-only row: terms/privacy acceptance (`TERMS_OF_USE`, `PRIVACY_POLICY`), the member's own progress-monitoring toggle (`PROGRESS_MONITORING`), and guardian consent on both the self-registration and staff-enrolment paths (`GUARDIAN_CONSENT`). Surfaced to the user as `consentHistory` in `/me/export` |
+| D25b | KYC document retention | New weekly job (`MaintenanceService.purgeStaleGymKyc`) clears a suspended gym's encrypted Aadhaar/PAN/GSTIN and document URLs once nothing has covered it for over a year, keeping only last-4/status/rejection reason for dispute history. Privacy policy's retention section states this concretely; `LEGAL_VERSION` bumped since the wording changed after the reviewer test account had already accepted the prior version. **Known gap, disclosed, not silent:** this clears database references only — the uploaded files still exist in Supabase Storage, since `StorageService` has no delete method yet |
+| A9 | DB-level append-only audit log | Migration `20260921_append_only_triggers` adds `BEFORE UPDATE/DELETE/TRUNCATE` triggers to `audit_logs`, `consent_records`, and `security_events` that reject the operation for every role, including the table owner. This is genuinely enforced at the database level now, not just by application code — see "Verified live" below for the exact test. **Honest limit, not overclaimed:** the app's DB role (`postgres`) still owns these tables and could remove the trigger with an explicit `ALTER TABLE ... DISABLE TRIGGER` before writing. It is confirmed *not* a Postgres superuser (`rolsuper: false`), so it cannot use the quieter `session_replication_role = replica` bypass, which needs superuser on this database — so defeating this protection requires a distinct, conspicuous ALTER statement, not an ordinary write. A fully tamper-proof version needs a second, genuinely restricted role (INSERT + SELECT only, no ownership) that the app connects through specifically for these three tables — separate infrastructure work, not attempted here |
 
 ### Verified live (2026-09-21)
 
@@ -40,22 +42,25 @@ Ran against the actual production Supabase DB and the local backend pointed at i
 - `/me/export` returns real data for an authenticated test account, including `consentHistory`
 - Self-registration guardian flow: `register` returns 400 for age 15 with no `guardianConsentToken`, then succeeds once `/auth/guardian-consent/request` → `/auth/guardian-consent/verify` produced one; `audit_logs` row confirmed with `action: 'account.guardian_consent'` and a masked guardian phone
 - Terms acceptance writes two `ConsentRecord` rows (`TERMS_OF_USE`, `PRIVACY_POLICY`); confirmed via `/me/export` and a direct table count
-- Test/throwaway accounts cleaned up afterward; the reviewer test account's real consent rows were left in place
+- `purgeStaleGymKyc()` run directly against the live database: returned 0, as expected (no gym has been suspended long enough yet to qualify)
+- Append-only triggers: direct `UPDATE`, `DELETE`, and `TRUNCATE` against real rows in all three tables each failed with Postgres error `42501` ("append-only" message from the trigger); a normal `.create()` insert and a follow-up `SELECT` both succeeded immediately after, through both a raw script and the live HTTP API (`/me/legal/accept`); full backend test suite re-run and passed
+- Test/throwaway accounts cleaned up afterward; the reviewer test account's real consent rows, and one harmless `trigger-verification-test` audit row from this testing, were left in place (by design — they can no longer be deleted, which is the point)
 
 ### Still open — needs a human decision, not just code
 
 - **A3b** — phone, email, and body-metric fields are still plaintext at rest. Not touched — field-level encryption of a unique login column is a larger, riskier migration than this pass should take on unreviewed.
-- **A9** — the audit log is still not enforced append-only at the database level (needs a restricted Postgres role, not application code).
+- **A9 (residual)** — see above: the current triggers stop every ordinary write path but not a privileged actor deliberately disabling the trigger first. A genuinely separate restricted DB role would close that; not attempted without your sign-off given it changes how the app connects to the database.
 - **A13, G30** — backup runbook/restore drill and vendor DPAs (MSG91, Cashfree, Supabase) are operational/legal actions, not code.
 - **F28b** — no external monitoring SDK (Sentry etc.) wired up; the new email alert is the only real-time signal.
-- **D25b KYC retention** — no scheduled deletion of KYC data after a gym is suspended long-term; only the cascade-on-delete path exists.
+- **KYC storage cleanup** — the retention job (D25b, above) clears database references but not the uploaded files themselves; `StorageService` needs a delete method first.
 
 ### Action needed from you
 
 1. Get the vendor DPAs and backup runbook signed off outside of code.
 2. Decide whether field-level encryption of phone/email/body metrics (A3b) is worth the migration risk before launch, or accepted as a documented residual risk.
-3. Decide whether to invest in a restricted Postgres role for DB-level append-only audit/consent logs (A9) — this touches how the application connects to the database and was deliberately not attempted without your sign-off given the risk of locking the app out of its own tables.
+3. Decide whether to invest in a second, genuinely restricted Postgres role (A9 residual) to close the last gap in append-only enforcement — this touches how the application connects to the database and was deliberately not attempted without your sign-off.
 4. Sign up for an external monitoring service (Sentry or similar) if real-time visibility beyond the new email alert matters before launch (F28b).
+5. Add a delete method to `StorageService` if purging the actual KYC document files (not just DB references) matters before the one-year retention window starts mattering in practice.
 
 ---
 
