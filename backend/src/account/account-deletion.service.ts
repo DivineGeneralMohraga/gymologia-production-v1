@@ -122,7 +122,7 @@ export class AccountDeletionService {
         gymId: g.id,
         name: g.name,
         message:
-          'Delete this gym or hand it to another owner first. Members and staff would lose access to it.',
+          'Delete this gym first. Members and staff would lose access to it, and they will be told it has closed.',
       })),
       willLose: {
         memberships,
@@ -170,7 +170,7 @@ export class AccountDeletionService {
     });
     if (ownedGyms > 0) {
       throw new ConflictException(
-        'Delete or hand over your gyms first. Deleting your account would cut off every member and staff member in them.',
+        'Delete your gyms first. Deleting your account would cut off every member and staff member in them.',
       );
     }
 

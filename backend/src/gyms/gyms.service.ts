@@ -7,6 +7,7 @@ import {
 import { GymStatus, Permission, Plan, Prisma } from "@prisma/client";
 import { PrismaService } from "../prisma/prisma.service";
 import { AuditService } from "../common/audit/audit.service";
+import { NotificationsService } from "../notifications/notifications.service";
 import { PermissionService, ActorContext } from "../rbac/permission.service";
 import {
   ALL_PERMISSIONS,
@@ -31,6 +32,7 @@ export class GymsService {
     private readonly prisma: PrismaService,
     private readonly permissions: PermissionService,
     private readonly audit: AuditService,
+    private readonly notifications: NotificationsService,
   ) {}
 
   // ── Creation ───────────────────────────────────────────────────────
@@ -466,11 +468,22 @@ export class GymsService {
   /**
    * Soft delete. Only the person the gym is registered to — checked
    * against ownership, not a role, because DELETE_GYM is ungrantable.
+   *
+   * Every active member and staff member is told the gym is closing
+   * before the row flips to DELETED — resolved from who is active right
+   * now, since after this call the gym no longer shows up as one to
+   * belong to.
    */
   async remove(actor: ActorContext, meta: RequestMeta) {
     if (!actor.isGymOwner) {
       throw new ForbiddenException("Only the gym owner can delete this gym");
     }
+
+    const gym = await this.prisma.gym.findUnique({
+      where: { id: actor.gymId },
+      select: { name: true },
+    });
+    if (!gym) throw new NotFoundException("Gym not found");
 
     await this.prisma.gym.update({
       where: { id: actor.gymId },
@@ -486,6 +499,8 @@ export class GymsService {
       ip: meta.ip,
       userAgent: meta.userAgent,
     });
+
+    void this.notifications.notifyGymClosing(actor.gymId, gym.name, "CLOSED");
 
     return { deleted: true };
   }

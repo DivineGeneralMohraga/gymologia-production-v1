@@ -1136,7 +1136,7 @@
   "@whatIsKeptList": {
     "description": "Must stay honest: payment rows really are retained, so this cannot promise that everything vanishes."
   },
-  "deleteGymsFirst": "You still own a gym. Delete it or hand it to another owner first — deleting your account would cut off every member and staff member in it.",
+  "deleteGymsFirst": "You still own a gym. Delete it first — deleting your account would cut off every member and staff member in it, and they will be told it has closed.",
   "unwithdrawnWarning": "You have {amount} in referral earnings you have not withdrawn. Withdraw it in the Gymologia Referral app first, or it will be lost.",
   "@unwithdrawnWarning": {
     "description": "{amount} is a formatted rupee figure, e.g. ₹150.00.",

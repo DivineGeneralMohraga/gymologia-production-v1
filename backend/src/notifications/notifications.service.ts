@@ -113,6 +113,64 @@ export class NotificationsService {
   }
 
   /**
+   * Told to everyone in the gym when the owner closes it on Gymologia
+   * (GymsService.remove) or hands it to a new owner once that exists.
+   *
+   * Source is GYMOLOGIA, not GYM: the gym itself is the thing disappearing,
+   * so this cannot read as an announcement from it. Fire-and-forget from
+   * the caller's point of view, same as onboarding -- a closure a member
+   * never learns about is worse than one whose notification failed to
+   * send, but the failure must never block the gym actually closing.
+   */
+  async notifyGymClosing(
+    gymId: string,
+    gymName: string,
+    reason: 'CLOSED' | 'TRANSFERRED',
+  ): Promise<void> {
+    try {
+      const recipients = await this.resolveGymAudience(
+        gymId,
+        NotificationAudience.GYM_EVERYONE,
+      );
+      if (recipients.length === 0) return;
+
+      const notification = await this.prisma.notification.create({
+        data: {
+          gymId,
+          source: NotificationSource.GYMOLOGIA,
+          audience: NotificationAudience.GYM_EVERYONE,
+          title:
+            reason === 'CLOSED'
+              ? `${gymName} has closed on Gymologia`
+              : `${gymName} has a new owner on Gymologia`,
+          body:
+            reason === 'CLOSED'
+              ? "The owner has closed this gym's Gymologia listing. Your attendance and progress history is kept, and the gym itself — talk to them directly about your membership."
+              : 'Ownership of this gym has been transferred. Nothing about your membership, attendance or progress history has changed.',
+        },
+      });
+
+      for (let i = 0; i < recipients.length; i += FANOUT_CHUNK) {
+        await this.prisma.notificationRecipient.createMany({
+          data: recipients.slice(i, i + FANOUT_CHUNK).map((userId) => ({
+            notificationId: notification.id,
+            userId,
+          })),
+          skipDuplicates: true,
+        });
+      }
+
+      this.logger.log(
+        `Gym ${gymId} ${reason.toLowerCase()}: notified ${recipients.length} people`,
+      );
+    } catch (error) {
+      this.logger.error(
+        `Failed to notify gym ${gymId} ${reason.toLowerCase()}: ${(error as Error).message}`,
+      );
+    }
+  }
+
+  /**
    * The two messages the spec asks every new user to be sent.
    *
    * They existed as cards on the settings screen, which is not the same
