@@ -569,7 +569,7 @@
   "whatIsDeletedList": "ನಿಮ್ಮ ಹೆಸರು, ಸಂಖ್ಯೆ, ಇಮೇಲ್, ವಯಸ್ಸು. ನಿಮ್ಮ ಎತ್ತರ, ತೂಕ, ಪ್ರಗತಿ. ನಿಮ್ಮ ಚಾಟ್ ಸಂದೇಶಗಳು. ಗುರುತಿನ ದಾಖಲೆಗಳು ಮತ್ತು UPI ವಿವರಗಳು.",
   "whatIsKept": "ಏನು ಉಳಿಸಲಾಗುತ್ತದೆ, ನಿಮ್ಮ ಗುರುತು ತೆಗೆದು",
   "whatIsKeptList": "ಪಾವತಿ ಮತ್ತು ಸರಕುಪಟ್ಟಿ ದಾಖಲೆಗಳು, ಏಕೆಂದರೆ ಲೆಕ್ಕಪುಸ್ತಕ ಇಡುವುದು ಕಾನೂನು ಅಗತ್ಯ. ಜಿಮ್‌ನಲ್ಲಿ ನಡೆದ ಕ್ರಮಗಳ ದಾಖಲೆ, ವಿವಾದ ಬಗೆಹರಿಸಲು.",
-  "deleteGymsFirst": "You still own a gym. Delete it first — deleting your account would cut off every member and staff member in it, and they will be told it has closed.",
+  "deleteGymsFirst": "ನಿಮ್ಮ ಬಳಿ ಇನ್ನೂ ಒಂದು ಜಿಮ್ ಇದೆ. ಮೊದಲು ಅದನ್ನು ಅಳಿಸಿ — ನಿಮ್ಮ ಖಾತೆ ಅಳಿಸಿದರೆ ಅದರ ಪ್ರತಿ ಸದಸ್ಯ ಮತ್ತು ಸಿಬ್ಬಂದಿ ಪ್ರವೇಶ ಕಳೆದುಕೊಳ್ಳುತ್ತಾರೆ, ಮತ್ತು ಅದು ಮುಚ್ಚಲ್ಪಟ್ಟಿದೆ ಎಂದು ಅವರಿಗೆ ತಿಳಿಸಲಾಗುತ್ತದೆ.",
   "unwithdrawnWarning": "ನೀವು ಹಿಂಪಡೆಯದ {amount} ರೆಫರಲ್ ಗಳಿಕೆ ಇದೆ. ಮೊದಲು Gymologia Referral ಆ್ಯಪ್‌ನಲ್ಲಿ ಹಿಂಪಡೆಯಿರಿ, ಇಲ್ಲದಿದ್ದರೆ ಅದು ಕಳೆದುಹೋಗುತ್ತದೆ.",
   "iUnderstandLoseEarnings": "ಈ ಹಣ ಕಳೆದುಹೋಗುತ್ತದೆ ಎಂದು ನಾನು ಅರ್ಥಮಾಡಿಕೊಂಡಿದ್ದೇನೆ",
   "deletionScheduled": "ನಿಮ್ಮ ಖಾತೆಯನ್ನು {date} ರಂದು ಅಳಿಸಲಾಗುತ್ತದೆ.",

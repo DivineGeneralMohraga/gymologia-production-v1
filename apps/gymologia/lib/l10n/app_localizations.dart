@@ -228,25 +228,25 @@ abstract class AppLocalizations {
   /// **'Creating an account means you accept the Terms of Use and Privacy Policy.'**
   String get termsAgreement;
 
-  /// Explicit consent checkbox label (DPDP Act s.6 affirmative action).
+  /// No description provided for @consentCheckboxLabel.
   ///
   /// In en, this message translates to:
   /// **'I have read and agree to the Terms of Use and Privacy Policy.'**
   String get consentCheckboxLabel;
 
-  /// Validation message shown when the consent checkbox is not ticked.
+  /// No description provided for @consentRequired.
   ///
   /// In en, this message translates to:
   /// **'You must agree to the Terms and Privacy Policy to continue.'**
   String get consentRequired;
 
-  /// Notice shown when a user under 18 registers (DPDP Act s.9).
+  /// No description provided for @under18GuardianNotice.
   ///
   /// In en, this message translates to:
   /// **'You are under 18. A parent or guardian must verify their consent by OTP before your account can be fully activated. Our support team will contact you after sign-up.'**
   String get under18GuardianNotice;
 
-  /// Label for the member's own progress-monitoring opt-in toggle.
+  /// No description provided for @shareProgressWithGym.
   ///
   /// In en, this message translates to:
   /// **'Share my measurements with {gym} staff'**
@@ -315,7 +315,7 @@ abstract class AppLocalizations {
   /// No description provided for @guardianConsentRequired.
   ///
   /// In en, this message translates to:
-  /// **'A parent or guardian's consent is required before this person can be added.'**
+  /// **'A parent or guardian\'s consent is required before this person can be added.'**
   String get guardianConsentRequired;
 
   /// No description provided for @guardianConsentExplainer.
@@ -333,13 +333,13 @@ abstract class AppLocalizations {
   /// No description provided for @guardianPhoneLabel.
   ///
   /// In en, this message translates to:
-  /// **'Parent/guardian's mobile number'**
+  /// **'Parent/guardian\'s mobile number'**
   String get guardianPhoneLabel;
 
   /// No description provided for @guardianCodeLabel.
   ///
   /// In en, this message translates to:
-  /// **'Code from guardian's phone'**
+  /// **'Code from guardian\'s phone'**
   String get guardianCodeLabel;
 
   /// No description provided for @guardianVerifiedConfirmation.
@@ -351,7 +351,7 @@ abstract class AppLocalizations {
   /// No description provided for @guardianConsentBlocksSubmit.
   ///
   /// In en, this message translates to:
-  /// **'Verify your guardian's consent above before creating the account.'**
+  /// **'Verify your guardian\'s consent above before creating the account.'**
   String get guardianConsentBlocksSubmit;
 
   /// No description provided for @signInWithMobile.
@@ -3531,7 +3531,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteGymsFirst.
   ///
   /// In en, this message translates to:
-  /// **'You still own a gym. Delete it or hand it to another owner first — deleting your account would cut off every member and staff member in it.'**
+  /// **'You still own a gym. Delete it first — deleting your account would cut off every member and staff member in it, and they will be told it has closed.'**
   String get deleteGymsFirst;
 
   /// {amount} is a formatted rupee figure, e.g. ₹150.00.

@@ -569,7 +569,7 @@
   "whatIsDeletedList": "ਤੁਹਾਡਾ ਨਾਮ, ਨੰਬਰ, ਈਮੇਲ ਅਤੇ ਉਮਰ। ਤੁਹਾਡੀ ਉਚਾਈ, ਭਾਰ ਅਤੇ ਤਰੱਕੀ। ਤੁਹਾਡੇ ਚੈਟ ਸੁਨੇਹੇ। ਕੋਈ ਵੀ ਪਛਾਣ ਦਸਤਾਵੇਜ਼ ਅਤੇ UPI ਵੇਰਵੇ।",
   "whatIsKept": "ਕੀ ਰੱਖਿਆ ਜਾਵੇਗਾ, ਤੁਹਾਡੀ ਪਛਾਣ ਹਟਾ ਕੇ",
   "whatIsKeptList": "ਭੁਗਤਾਨ ਅਤੇ ਬਿੱਲ ਦੇ ਰਿਕਾਰਡ, ਕਿਉਂਕਿ ਕਾਨੂੰਨ ਹਿਸਾਬ ਦੀਆਂ ਕਿਤਾਬਾਂ ਰੱਖਣ ਲਈ ਕਹਿੰਦਾ ਹੈ। ਜਿਮ ਵਿੱਚ ਕੀਤੀਆਂ ਕਾਰਵਾਈਆਂ ਦਾ ਰਿਕਾਰਡ, ਤਾਂ ਜੋ ਝਗੜੇ ਨਿਬੇੜੇ ਜਾ ਸਕਣ।",
-  "deleteGymsFirst": "You still own a gym. Delete it first — deleting your account would cut off every member and staff member in it, and they will be told it has closed.",
+  "deleteGymsFirst": "ਤੁਹਾਡੇ ਕੋਲ ਹਾਲੇ ਵੀ ਇੱਕ ਜਿਮ ਹੈ। ਪਹਿਲਾਂ ਇਸਨੂੰ ਮਿਟਾਓ — ਤੁਹਾਡਾ ਖਾਤਾ ਮਿਟਾਉਣ ਨਾਲ ਇਸਦੇ ਹਰ ਮੈਂਬਰ ਅਤੇ ਸਟਾਫ ਦੀ ਪਹੁੰਚ ਬੰਦ ਹੋ ਜਾਵੇਗੀ, ਅਤੇ ਉਨ੍ਹਾਂ ਨੂੰ ਦੱਸਿਆ ਜਾਵੇਗਾ ਕਿ ਇਹ ਬੰਦ ਹੋ ਗਿਆ ਹੈ।",
   "unwithdrawnWarning": "ਤੁਹਾਡੀ {amount} ਰੈਫਰਲ ਕਮਾਈ ਹਾਲੇ ਕਢਵਾਈ ਨਹੀਂ ਗਈ। ਪਹਿਲਾਂ Gymologia Referral ਐਪ ਵਿੱਚੋਂ ਕਢਵਾ ਲਵੋ, ਨਹੀਂ ਤਾਂ ਇਹ ਚਲੀ ਜਾਵੇਗੀ।",
   "iUnderstandLoseEarnings": "ਮੈਂ ਸਮਝਦਾ/ਸਮਝਦੀ ਹਾਂ ਕਿ ਇਹ ਪੈਸੇ ਚਲੇ ਜਾਣਗੇ",
   "deletionScheduled": "ਤੁਹਾਡਾ ਖਾਤਾ {date} ਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।",

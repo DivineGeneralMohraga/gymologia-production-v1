@@ -2058,7 +2058,7 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get deleteGymsFirst =>
-      'You still own a gym. Delete it first — deleting your account would cut off every member and staff member in it, and they will be told it has closed.';
+      'আপনার এখনও একটি জিম আছে। আগে সেটি মুছুন — আপনার অ্যাকাউন্ট মুছলে এর প্রতিটি সদস্য ও কর্মীর প্রবেশ বন্ধ হয়ে যাবে, এবং তাদের জানানো হবে যে এটি বন্ধ হয়ে গেছে।';
 
   @override
   String unwithdrawnWarning(String amount) {
