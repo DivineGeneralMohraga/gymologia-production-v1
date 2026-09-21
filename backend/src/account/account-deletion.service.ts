@@ -291,6 +291,19 @@ export class AccountDeletionService {
     let done = 0;
     for (const { id } of due) {
       try {
+        // The gym check in request() ran thirty days ago, and the account
+        // kept working since -- so they may own a gym now. Anonymising them
+        // would leave a live gym with a "Deleted account" owner and cut off
+        // every member and staff member in it, which is exactly what that
+        // check exists to prevent.
+        const gyms = await this.prisma.gym.count({
+          where: { ownerId: id, status: { not: GymStatus.DELETED } },
+        });
+        if (gyms > 0) {
+          await this.cancelBecauseOwnsGym(id, gyms);
+          continue;
+        }
+
         await this.anonymise(id);
         done += 1;
       } catch (error) {
@@ -304,6 +317,36 @@ export class AccountDeletionService {
 
     if (done > 0) this.logger.warn(`Anonymised ${done} account(s)`);
     return done;
+  }
+
+  /**
+   * Called instead of the wipe when a due account now owns a gym. The
+   * request is cancelled rather than left due, so it is not retried and
+   * skipped every night; they can ask again once the gym is deleted.
+   */
+  private async cancelBecauseOwnsGym(userId: string, gyms: number) {
+    await this.prisma.$transaction([
+      this.prisma.user.update({
+        where: { id: userId },
+        data: { deletionRequestedAt: null, deletionScheduledFor: null },
+      }),
+      this.prisma.accountDeletion.updateMany({
+        where: { userId, completedAt: null, cancelledAt: null },
+        data: { cancelledAt: new Date() },
+      }),
+    ]);
+
+    await this.audit.record({
+      actorId: userId,
+      action: 'account.delete.blocked',
+      entityType: 'User',
+      entityId: userId,
+      after: { reason: 'OWNS_GYM', gyms },
+    });
+
+    this.logger.warn(
+      `Deletion for ${userId} not carried out: they now own ${gyms} gym(s)`,
+    );
   }
 
   /**

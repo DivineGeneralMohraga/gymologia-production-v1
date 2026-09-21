@@ -19,7 +19,10 @@ import { PrismaService } from "../prisma/prisma.service";
 import { AuditService } from "../common/audit/audit.service";
 import { ConsentService } from "../common/consent/consent.service";
 import { PermissionService, ActorContext } from "../rbac/permission.service";
-import { PersonLookupService } from "../people/person-lookup.service";
+import {
+  MINOR_NEEDS_GUARDIAN_MESSAGE,
+  PersonLookupService,
+} from "../people/person-lookup.service";
 import type { RequestMeta } from "../gyms/gyms.service";
 import { istDay, istWeekStart } from "../common/utils/day";
 import {
@@ -121,6 +124,10 @@ export class MembersService {
       },
       OtpPurpose.ADD_MEMBER,
       meta.ip,
+      {
+        requireAgeForNewAccount: true,
+        guardianConsentConfirmed: dto.guardianConsentConfirmed === true,
+      },
     );
 
     // DPDP Act 2023 s.9 — processing a minor's data needs verified guardian
@@ -128,10 +135,7 @@ export class MembersService {
     // gym staff's own say-so; `guardianConsentConfirmed` must be set by the
     // client only after it has actually collected that consent.
     if (person.age != null && person.age < 18 && !dto.guardianConsentConfirmed) {
-      throw new BadRequestException(
-        "This person is under 18. A parent or guardian's verified consent is required " +
-          "before they can be added as a member (DPDP Act 2023 s.9).",
-      );
+      throw new BadRequestException(MINOR_NEEDS_GUARDIAN_MESSAGE);
     }
 
     const active = await this.prisma.membership.findFirst({

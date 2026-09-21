@@ -1,9 +1,18 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { OtpPurpose } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { OtpService } from '../auth/otp.service';
 import { CryptoService } from '../common/crypto/crypto.service';
 import { normalizePhone } from '../common/utils/phone.util';
+
+/**
+ * Shared by the new-account check here and the existing-account check in
+ * MembersService.add. The Flutter add-person sheet recognises this text
+ * ("parent or guardian") to reveal its guardian-consent checkbox.
+ */
+export const MINOR_NEEDS_GUARDIAN_MESSAGE =
+  "This person is under 18. A parent or guardian's verified consent is required " +
+  'before they can be added as a member (DPDP Act 2023 s.9).';
 
 export interface LookupResult {
   phone: string;
@@ -92,6 +101,10 @@ export class PersonLookupService {
     },
     purpose: OtpPurpose,
     ip?: string | null,
+    opts: {
+      requireAgeForNewAccount?: boolean;
+      guardianConsentConfirmed?: boolean;
+    } = {},
   ): Promise<VerifiedPerson> {
     const phone = normalizePhone(input.phone);
 
@@ -116,6 +129,28 @@ export class PersonLookupService {
       throw new NotFoundException(
         'This number has no Gymologia account yet — a name is required to create one.',
       );
+    }
+
+    // DPDP Act 2023 s.9: the under-18 guardian-consent gate keys off age, so
+    // a new member account with no age on record would slip past it. The app
+    // always sends one; this stops a direct API call from omitting it.
+    if (opts.requireAgeForNewAccount && input.age == null) {
+      throw new BadRequestException(
+        'An age is required to create a new member account.',
+      );
+    }
+
+    // ...and the consent check has to happen HERE, before the account
+    // exists. Checked only afterwards (in MembersService.add), a rejected
+    // enrolment would still have stored a minor's name, phone and age with
+    // no consent behind them.
+    if (
+      opts.requireAgeForNewAccount &&
+      input.age != null &&
+      input.age < 18 &&
+      !opts.guardianConsentConfirmed
+    ) {
+      throw new BadRequestException(MINOR_NEEDS_GUARDIAN_MESSAGE);
     }
 
     const created = await this.prisma.user.create({

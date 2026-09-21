@@ -6,6 +6,39 @@
 
 ---
 
+## Phase 3 — Debug & verification pass (2026-09-21)
+
+A full test-and-debug pass over everything above. It found and fixed four
+real defects, added permanent regression tests, and surfaced caveats that
+matter for launch.
+
+### Defects found and fixed
+
+| # | Defect | Fix |
+|---|--------|-----|
+| 1 | **Under-18 gate bypass (staff enrolment):** the server treated `age` as optional when creating a *new* member account, so a direct API call that omitted it skipped the guardian-consent gate entirely | `PersonLookupService.verifyAndResolve` now requires an age for new member accounts (server-side) |
+| 2 | **Minor's data stored before consent was checked:** the new account was created *first* and `MembersService` rejected the missing guardian confirmation *afterwards* — a rejected enrolment still left a minor's name/phone/age in the database | The consent check now runs before the account is created; a live test confirms a refused minor leaves no account behind |
+| 3 | **Deletion job could anonymise a live gym owner:** the "you own a gym" check ran when deletion was *requested*; the account keeps working for 30 days, so someone could create a gym in that window and be anonymised on day 30, leaving a gym with a "Deleted account" owner and its members cut off | `AccountDeletionService.runDue` re-checks ownership at execution time, cancels the request instead, and writes an `account.delete.blocked` audit row |
+| 4 | **Translation regression:** rewording the owner-deletion blocker put English text into 8 locales; the project's own safety test (every deletion string is translated) failed | Real translations restored in all 8 locales |
+
+### Tests added (all run and passing)
+
+- `backend/test/dpdp-live.js` (`npm run test:dpdp`) — 50 live checks against the running API and real database: legal content, guardian-OTP sign-up (incl. token binding and no-account-on-refusal), consent register + export, staff enrolment of new and existing minors, gym-owner deletion blocker, gym-closing notification, erasure requests, append-only triggers
+- `backend/test/dpdp-deletion-job.js` (`npm run test:dpdp:job`) — 5 checks that the deletion job spares a gym owner (scoped to the year 2000 so it can never touch a real account)
+- `apps/gymologia/test/register_consent_test.dart` — 5 widget tests: consent checkbox starts unticked and blocks sign-up, minors see the guardian block and cannot submit until verified, adults skip it
+
+Full results: backend `tsc` clean, all 8 backend unit-spec files pass, `flutter analyze` clean on all three apps, and the whole Flutter suite passes (110 checks across 3 apps). The 30-minute API e2e suite (`run-all.sh`) was **not** run.
+
+### Caveats that matter for launch — not fixed by this pass
+
+1. **725 of 2,178 accounts have no age on record.** The under-18 gate keys off age, so it cannot apply to them. Needs a decision (e.g. an "add your age" prompt for existing users) — not something to guess at in code.
+2. **Breach-alert emails are inert until SMTP is configured.** `SMTP_HOST/USER/PASS` are empty in the local `.env`; with no host the mailer is never created and alerts are silently skipped. The code path exists; it just needs the environment variables (check the production `.env`).
+3. **Only English and Hindi have translations for the new consent/guardian/export/monitoring strings.** The other 8 languages fall back to English for: the sign-up consent checkbox, the under-18 notice and guardian flow, "Download my data", and the progress-monitoring toggle. A consent notice a person cannot read is weak consent.
+4. **Production has not been redeployed.** The database migrations are live (the database is shared), but the new endpoints (`/auth/guardian-consent/*`, `/me/export`) exist only in this repo's code. An app build that calls them against `api.gymologia.com` will get 404s until the backend is deployed (and `npm install` run for the new `nodemailer` dependency).
+5. Still as listed below: A3b (field encryption), A9 residual (separate restricted DB role), A13/G30 (backup drill, vendor DPAs — legal/ops), F28b (external monitoring), KYC file deletion from storage.
+
+---
+
 ## Phase 2 — Remediation status (2026-09-21)
 
 Code changes were made after this report was first written. This section
