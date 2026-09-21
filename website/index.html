@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Gymologia — Gym Platform for India</title>
+  <meta name="description" content="The complete gym management platform for gym owners, staff, and members across India. CRM, attendance, progress tracking, and more in 10 Indian languages.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #E8452C;
+      --red-dark: #C93820;
+      --ink: #0F0D0C;
+      --ink-soft: #5C514B;
+      --ink-faint: #9A8D85;
+      --ground: #F7F4F1;
+      --white: #FFFFFF;
+      --border: #E2D9D3;
+      --dark-surface: #1A1614;
+      --dark-card: #241E1B;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--ground);
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky;
+      top: env(safe-area-inset-top, 0px);
+      z-index: 100;
+      background: var(--ink);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 0.02em;
+    }
+    .nav-logo span { color: var(--red); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--red);
+      color: var(--white) !important;
+      padding: 7px 18px;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      font-size: 0.875rem !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--red-dark) !important; }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--ink);
+      padding: 80px 24px 72px;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red);
+      background: rgba(232,69,44,0.12);
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(3rem, 10vw, 6rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+      max-width: 800px;
+      margin: 0 auto 24px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--red);
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: rgba(255,255,255,0.6);
+      max-width: 520px;
+      margin: 0 auto 40px;
+      font-weight: 400;
+    }
+    .hero-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+    }
+    .btn-store {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--white);
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .btn-store:hover { background: rgba(255,255,255,0.13); }
+    .btn-store svg { flex-shrink: 0; }
+    .btn-store-label { text-align: left; }
+    .btn-store-label small { display: block; font-size: 0.7rem; opacity: 0.6; font-weight: 400; }
+    .btn-store-label strong { font-size: 1rem; font-weight: 600; }
+
+    /* ── STATS ── */
+    .stats {
+      background: var(--red);
+      padding: 28px 24px;
+    }
+    .stats-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px 48px;
+    }
+    .stat {
+      text-align: center;
+      color: var(--white);
+    }
+    .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      opacity: 0.8;
+      margin-top: 3px;
+    }
+
+    /* ── SECTIONS ── */
+    .section { padding: 80px 24px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      color: var(--ink-soft);
+      font-size: 1rem;
+      max-width: 520px;
+      margin-bottom: 48px;
+    }
+
+    /* ── DARK SECTION ── */
+    .section-dark {
+      background: var(--dark-surface);
+      color: var(--white);
+    }
+    .section-dark .section-desc { color: rgba(255,255,255,0.55); }
+    .section-dark .section-title { color: var(--white); }
+
+    /* ── FEATURE GRID ── */
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .feat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 28px 24px;
+    }
+    .section-dark .feat-card {
+      background: var(--dark-card);
+      border-color: rgba(255,255,255,0.07);
+    }
+    .feat-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(232,69,44,0.1);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .feat-icon svg { color: var(--red); }
+    .feat-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: inherit;
+    }
+    .feat-desc {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      line-height: 1.55;
+    }
+    .section-dark .feat-desc { color: rgba(255,255,255,0.5); }
+
+    /* ── REFERRAL STRIP ── */
+    .referral {
+      background: var(--red);
+      padding: 64px 24px;
+      text-align: center;
+      color: var(--white);
+    }
+    .referral h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 14px;
+    }
+    .referral p {
+      font-size: 1rem;
+      opacity: 0.85;
+      max-width: 480px;
+      margin: 0 auto 32px;
+    }
+    .btn-white {
+      display: inline-block;
+      background: var(--white);
+      color: var(--red);
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 12px 28px;
+      border-radius: 8px;
+      transition: opacity 0.2s;
+    }
+    .btn-white:hover { opacity: 0.9; }
+
+    /* ── LANGUAGES ── */
+    .lang-section { background: var(--ground); }
+    .lang-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 32px;
+    }
+    .lang-pill {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* ── DOWNLOAD CTA ── */
+    .download-cta {
+      background: var(--ink);
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .download-cta h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .download-cta p {
+      color: rgba(255,255,255,0.5);
+      font-size: 1rem;
+      margin-bottom: 36px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0A0807;
+      padding: 40px 24px;
+      color: rgba(255,255,255,0.45);
+      font-size: 0.875rem;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+    .footer-logo span { color: var(--red); }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 20px;
+      list-style: none;
+    }
+    .footer-links a {
+      color: rgba(255,255,255,0.45);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 24px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+      font-size: 0.8rem;
+    }
+    .footer-powered {
+      color: rgba(255,255,255,0.3);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">GYMOLOGIA<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="#for-gyms">For Gyms</a></li>
+        <li><a href="#for-members">For Members</a></li>
+        <li><a href="#referral">Referral</a></li>
+        <li><a href="terms.html">Terms</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="mailto:support@gymologia.com" class="nav-cta">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">Made for India's Fitness Community</div>
+    <h1>The <em>Smart</em> Platform for Every Gym</h1>
+    <p class="hero-sub">One app for gym owners, staff, and members. Manage CRM, attendance, progress, events, and more — in 10 Indian languages.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-store">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.28c.36.2.76.22 1.14.06l11.5-6.6-2.36-2.36-10.28 8.9zM.5 1.56C.19 1.93 0 2.46 0 3.15v17.7c0 .69.19 1.22.5 1.59l.08.08 9.9-9.9v-.24L.58 1.48.5 1.56zM20.46 10.38l-2.68-1.54-2.64 2.64 2.64 2.64 2.7-1.56c.77-.44.77-1.74-.02-2.18zM4.32.66L15.82 7.26l-2.36 2.36L3.18.72c.38-.17.79-.14 1.14-.06z"/></svg>
+        <div class="btn-store-label">
+          <small>Get it on</small>
+          <strong>Google Play</strong>
+        </div>
+      </a>
+      <a href="#" class="btn-store">
+        <svg width="22" height="24" viewBox="0 0 22 24" fill="currentColor"><path d="M14.94 5.19A4.38 4.38 0 0 0 16 2a4.38 4.38 0 0 0-3 1.52 4.09 4.09 0 0 0-1 3.09 3.64 3.64 0 0 0 2.94-1.42zm2.52 7.44a4.51 4.51 0 0 1 2.16-3.81 4.66 4.66 0 0 0-3.66-2c-1.56-.16-3 .91-3.83.91s-2-.89-3.3-.87a4.92 4.92 0 0 0-4.14 2.53C2.93 12.45 4.24 17 6 19.47c.8 1.21 1.8 2.58 3.12 2.53s1.75-.82 3.28-.82 2 .82 3.3.79 2.22-1.24 3.06-2.45a11 11 0 0 0 1.38-2.85 4.41 4.41 0 0 1-2.68-4.04z"/></svg>
+        <div class="btn-store-label">
+          <small>Download on the</small>
+          <strong>App Store</strong>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stats-inner">
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Dedicated Apps</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">10</div>
+        <div class="stat-label">Indian Languages</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">₹599</div>
+        <div class="stat-label">Starting Price / Month</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">India-Made & Hosted</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOR GYMS -->
+  <section class="section section-dark" id="for-gyms">
+    <div class="section-inner">
+      <div class="section-tag">For Gym Owners & Staff</div>
+      <h2 class="section-title">A Full CRM, Built Around How Gyms Actually Work</h2>
+      <p class="section-desc">From adding your first member to managing 500 — Gymologia handles the operations so you handle the fitness.</p>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="feat-title">Member Management</div>
+          <p class="feat-desc">Add, update, and manage members with OTP-verified onboarding. Assign trainers, track goals, and monitor progress.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="feat-title">Attendance & Leave</div>
+          <p class="feat-desc">Mark and edit attendance for members and staff. Members can request leaves — auto-approved within set limits.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="feat-title">Analytics & Rankings</div>
+          <p class="feat-desc">Track daily joins, departures, engagement rates, and your gym's position in Gymologia's regional search ranking.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          </div>
+          <div class="feat-title">Roles & Permissions</div>
+          <p class="feat-desc">Owner, Manager, Trainer, Sales Staff — define who can do what with granular per-action permissions.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.32h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16z"/></svg>
+          </div>
+          <div class="feat-title">Notifications & Chat</div>
+          <p class="feat-desc">Send announcements to all members or specific groups. Built-in encrypted chat between staff and members.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+          </div>
+          <div class="feat-title">Events Management</div>
+          <p class="feat-desc">Host competitions and events. Members register in-app. List publicly on Gymologia's national event feed (Pro plan).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR MEMBERS -->
+  <section class="section" id="for-members" style="background: var(--white);">
+    <div class="section-inner">
+      <div class="section-tag">For Members</div>
+      <h2 class="section-title">Everything You Need on Your Fitness Journey</h2>
+      <p class="section-desc">From finding the right gym to tracking every rep — Gymologia keeps your fitness life organized.</p>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="feat-title">Gym Browser</div>
+          <p class="feat-desc">Find verified gyms near you, sorted by rating and perks. View photos, facilities, and contact — all in one place.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div class="feat-title">Progress Tracking</div>
+          <p class="feat-desc">Log your weight and height monthly. See your fitness journey visualized — alongside attendance records.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/></svg>
+          </div>
+          <div class="feat-title">Exercise Directory</div>
+          <p class="feat-desc">Hundreds of exercises with step-by-step instructions, muscle targets, and yoga — available in all 10 languages.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="feat-title">Leave Requests</div>
+          <p class="feat-desc">Pause your membership when needed. Request a leave of up to 30 days — membership clock stops automatically.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LANGUAGES -->
+  <section class="section lang-section" id="languages">
+    <div class="section-inner">
+      <div class="section-tag">10 Indian Languages</div>
+      <h2 class="section-title">Your Language, Your Gym</h2>
+      <p class="section-desc">Gymologia is fully available in the languages your members actually speak — not just English.</p>
+      <div class="lang-pills">
+        <div class="lang-pill">English</div>
+        <div class="lang-pill">हिंदी</div>
+        <div class="lang-pill">বাংলা</div>
+        <div class="lang-pill">ગુજરાતી</div>
+        <div class="lang-pill">ಕನ್ನಡ</div>
+        <div class="lang-pill">മലയാളം</div>
+        <div class="lang-pill">मराठी</div>
+        <div class="lang-pill">ਪੰਜਾਬੀ</div>
+        <div class="lang-pill">தமிழ்</div>
+        <div class="lang-pill">తెలుగు</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REFERRAL -->
+  <section class="referral" id="referral">
+    <h2>Refer a Gym. Earn ₹50.</h2>
+    <p>Share your referral code with gym owners. They get 10% off their first subscription — you earn ₹50 instantly to your UPI. Download Gymologia Referral to get started.</p>
+    <a href="#" class="btn-white">Download Gymologia Referral</a>
+  </section>
+
+  <!-- DOWNLOAD CTA -->
+  <section class="download-cta">
+    <h2>Ready to Transform Your Gym?</h2>
+    <p>Free 7-day trial for new gyms. No credit card required.</p>
+    <div class="hero-btns" style="justify-content:center;">
+      <a href="#" class="btn-store">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.28c.36.2.76.22 1.14.06l11.5-6.6-2.36-2.36-10.28 8.9zM.5 1.56C.19 1.93 0 2.46 0 3.15v17.7c0 .69.19 1.22.5 1.59l.08.08 9.9-9.9v-.24L.58 1.48.5 1.56zM20.46 10.38l-2.68-1.54-2.64 2.64 2.64 2.64 2.7-1.56c.77-.44.77-1.74-.02-2.18zM4.32.66L15.82 7.26l-2.36 2.36L3.18.72c.38-.17.79-.14 1.14-.06z"/></svg>
+        <div class="btn-store-label"><small>Get it on</small><strong>Google Play</strong></div>
+      </a>
+      <a href="#" class="btn-store">
+        <svg width="22" height="24" viewBox="0 0 22 24" fill="currentColor"><path d="M14.94 5.19A4.38 4.38 0 0 0 16 2a4.38 4.38 0 0 0-3 1.52 4.09 4.09 0 0 0-1 3.09 3.64 3.64 0 0 0 2.94-1.42zm2.52 7.44a4.51 4.51 0 0 1 2.16-3.81 4.66 4.66 0 0 0-3.66-2c-1.56-.16-3 .91-3.83.91s-2-.89-3.3-.87a4.92 4.92 0 0 0-4.14 2.53C2.93 12.45 4.24 17 6 19.47c.8 1.21 1.8 2.58 3.12 2.53s1.75-.82 3.28-.82 2 .82 3.3.79 2.22-1.24 3.06-2.45a11 11 0 0 0 1.38-2.85 4.41 4.41 0 0 1-2.68-4.04z"/></svg>
+        <div class="btn-store-label"><small>Download on the</small><strong>App Store</strong></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">GYMOLOGIA<span>.</span></div>
+      <ul class="footer-links">
+        <li><a href="mailto:support@gymologia.com">support@gymologia.com</a></li>
+        <li><a href="terms.html">Terms &amp; Conditions</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+      </ul>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Gymologia. All rights reserved.</span>
+      <span class="footer-powered">Powered by GGT (Ganda Group Technologies)</span>
+    </div>
+  </footer>
+
+</body>
+</html>
