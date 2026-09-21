@@ -616,8 +616,8 @@ model Membership {
   goal String? @db.VarChar(300)
 
   /// Member consent for staff/trainer to see their weight-height history.
-  /// Checked by default at signup; the member can revoke it any time.
-  allowProgressMonitoring Boolean @default(true)
+  /// OFF by default; the member must affirmatively opt in (DPDP Act s.6).
+  allowProgressMonitoring Boolean @default(false)
 
   addressProofApproved Boolean @default(false)
 
@@ -874,10 +874,13 @@ enum ParticipationStatus {
 // ══════════════════════════════════════════════════════════════════════
 //  CHAT
 //
-//  Messages are stored as ciphertext produced on the sending device. The
-//  server routes and persists opaque blobs and holds no message keys, so
-//  neither gym staff nor Gymologia admins can read message bodies. Only
-//  metadata (who, when, which conversation) is queryable.
+//  Messages are stored encrypted at rest using a server-held AES-256-GCM
+//  key (see chat.service.ts — SERVER_SCHEME). This is at-rest encryption,
+//  NOT end-to-end encryption: the server can decrypt message content when
+//  required for abuse investigation, support, or a lawful order. The
+//  DeviceKey table below is infrastructure prepared for a future E2E
+//  upgrade; the E2E scheme is not yet active. Metadata (who, when, which
+//  conversation) is always queryable in plaintext.
 // ══════════════════════════════════════════════════════════════════════
 
 model Conversation {

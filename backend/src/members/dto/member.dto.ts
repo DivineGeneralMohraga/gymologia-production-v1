@@ -92,9 +92,10 @@ export class AddMemberDto {
   goal?: string;
 
   @ApiPropertyOptional({
-    default: true,
+    default: false,
     description:
-      'Whether staff and the assigned trainer may see this member’s weight and height history. Checked by default; the member can revoke it themselves later.',
+      'Whether staff and the assigned trainer may see this member’s weight and height history. ' +
+      'Unchecked by default — DPDP Act s.6 requires the member’s own affirmative consent, not staff setting it on their behalf.',
   })
   @IsOptional()
   @IsBoolean()
@@ -104,6 +105,16 @@ export class AddMemberDto {
   @IsOptional()
   @IsBoolean()
   addressProofApproved?: boolean;
+
+  @ApiPropertyOptional({
+    default: false,
+    description:
+      'Required (must be true) when the member being added is under 18: confirms a parent or ' +
+      'guardian has verified consent (DPDP Act 2023 s.9). Ignored for adult members.',
+  })
+  @IsOptional()
+  @IsBoolean()
+  guardianConsentConfirmed?: boolean;
 }
 
 export class UpdateMemberDto {

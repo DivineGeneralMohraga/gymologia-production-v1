@@ -8,6 +8,7 @@ import 'edit_profile_page.dart';
 import 'support_page.dart';
 import '../safety/blocked_accounts_page.dart';
 import 'delete_account_page.dart';
+import 'data_export_page.dart';
 import 'legal_page.dart';
 import 'language_page.dart';
 import 'locale_controller.dart';
@@ -214,6 +215,15 @@ class SettingsPage extends StatelessWidget {
           trailing: const Icon(Icons.chevron_right),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute(builder: (_) => const LegalPage()),
+          ),
+        ),
+
+        ListTile(
+          leading: const Icon(Icons.download_outlined),
+          title: Text(t.downloadMyData),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const DataExportPage()),
           ),
         ),
 

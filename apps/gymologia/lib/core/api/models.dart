@@ -205,7 +205,7 @@ class MyMembership {
       trainerName: j['trainerName'] as String?,
       maxLeaveDays: _int(j['maxLeaveDays']),
       leaveDaysUsed: _int(j['leaveDaysUsed']),
-      allowProgressMonitoring: j['allowProgressMonitoring'] != false,
+      allowProgressMonitoring: j['allowProgressMonitoring'] == true,
     );
   }
 

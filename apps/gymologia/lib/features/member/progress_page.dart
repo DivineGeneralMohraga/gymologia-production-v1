@@ -25,13 +25,39 @@ class _ProgressPageState extends State<ProgressPage> {
   MetricsSnapshot? _metrics;
   List<Map<String, dynamic>>? _attendance;
   String? _error;
+  late Map<String, bool> _monitoring;
 
   GymApi get _api => GymApi(context.read<AuthController>().client);
 
   @override
   void initState() {
     super.initState();
+    _monitoring = {
+      for (final m in widget.memberships) m.membershipId: m.allowProgressMonitoring,
+    };
     _load();
+  }
+
+  Future<void> _setMonitoring(String membershipId, bool allow) async {
+    final previous = _monitoring[membershipId] ?? false;
+    setState(() => _monitoring[membershipId] = allow);
+    try {
+      await _api.setMonitoring(membershipId, allow);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(allow
+              ? AppLocalizations.of(context).monitoringTurnedOn
+              : AppLocalizations.of(context).monitoringTurnedOff),
+        ),
+      );
+    } on ApiException {
+      if (!mounted) return;
+      setState(() => _monitoring[membershipId] = previous);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context).couldNotUpdateSetting)),
+      );
+    }
   }
 
   Future<void> _load() async {
@@ -81,8 +107,16 @@ class _ProgressPageState extends State<ProgressPage> {
                   child: ListView(
                     padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
                     children: [
-                      for (final membership in widget.memberships)
+                      for (final membership in widget.memberships) ...[
                         _GoalCard(membership: membership),
+                        _MonitoringToggleCard(
+                          gymName: membership.gymName,
+                          value: _monitoring[membership.membershipId] ??
+                              membership.allowProgressMonitoring,
+                          onChanged: (v) =>
+                              _setMonitoring(membership.membershipId, v),
+                        ),
+                      ],
                       const SizedBox(height: 4),
                       _WeightCard(metrics: metrics),
                       const SizedBox(height: 16),
@@ -134,6 +168,58 @@ class _GoalCard extends StatelessWidget {
                 )),
             const SizedBox(height: 6),
             Text(goal, style: theme.textTheme.titleMedium),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// DPDP Act s.6 — progress monitoring is opt-in and the member's own choice.
+/// Off by default; this is the only place that turns it on.
+class _MonitoringToggleCard extends StatelessWidget {
+  const _MonitoringToggleCard({
+    required this.gymName,
+    required this.value,
+    required this.onChanged,
+  });
+
+  final String gymName;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      child: Padding(
+        padding: const EdgeInsets.all(18),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context).shareProgressWithGym(gymName),
+                    style: theme.textTheme.titleSmall
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    AppLocalizations.of(context).shareProgressWithGymHint,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            Switch(value: value, onChanged: onChanged),
           ],
         ),
       ),

@@ -228,6 +228,108 @@ abstract class AppLocalizations {
   /// **'Creating an account means you accept the Terms of Use and Privacy Policy.'**
   String get termsAgreement;
 
+  /// Explicit consent checkbox label (DPDP Act s.6 affirmative action).
+  ///
+  /// In en, this message translates to:
+  /// **'I have read and agree to the Terms of Use and Privacy Policy.'**
+  String get consentCheckboxLabel;
+
+  /// Validation message shown when the consent checkbox is not ticked.
+  ///
+  /// In en, this message translates to:
+  /// **'You must agree to the Terms and Privacy Policy to continue.'**
+  String get consentRequired;
+
+  /// Notice shown when a user under 18 registers (DPDP Act s.9).
+  ///
+  /// In en, this message translates to:
+  /// **'You are under 18. A parent or guardian must verify their consent by OTP before your account can be fully activated. Our support team will contact you after sign-up.'**
+  String get under18GuardianNotice;
+
+  /// Label for the member's own progress-monitoring opt-in toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share my measurements with {gym} staff'**
+  String shareProgressWithGym(String gym);
+
+  /// No description provided for @shareProgressWithGymHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your trainer can see your weight and height only while this is on. Off by default — you choose to turn it on.'**
+  String get shareProgressWithGymHint;
+
+  /// No description provided for @monitoringTurnedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff can now see your progress.'**
+  String get monitoringTurnedOn;
+
+  /// No description provided for @monitoringTurnedOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff can no longer see your progress.'**
+  String get monitoringTurnedOff;
+
+  /// No description provided for @couldNotUpdateSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update this setting.'**
+  String get couldNotUpdateSetting;
+
+  /// No description provided for @downloadMyData.
+  ///
+  /// In en, this message translates to:
+  /// **'Download my data'**
+  String get downloadMyData;
+
+  /// No description provided for @downloadMyDataHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything Gymologia holds about your account, as JSON. Encrypted fields such as identity documents are not included in readable form.'**
+  String get downloadMyDataHint;
+
+  /// No description provided for @copyToClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy to clipboard'**
+  String get copyToClipboard;
+
+  /// No description provided for @yourData.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data'**
+  String get yourData;
+
+  /// No description provided for @theirAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Their age'**
+  String get theirAge;
+
+  /// No description provided for @enterAValidAge.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid age.'**
+  String get enterAValidAge;
+
+  /// No description provided for @guardianConsentRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'A parent or guardian's consent is required before this person can be added.'**
+  String get guardianConsentRequired;
+
+  /// No description provided for @guardianConsentExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'This person is under 18. Before adding them, confirm a parent or guardian has verified their consent (by phone, in person, or in writing).'**
+  String get guardianConsentExplainer;
+
+  /// No description provided for @guardianConsentCheckboxLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'I confirm a parent or guardian has given verified consent.'**
+  String get guardianConsentCheckboxLabel;
+
   /// No description provided for @signInWithMobile.
   ///
   /// In en, this message translates to:

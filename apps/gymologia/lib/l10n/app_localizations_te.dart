@@ -68,6 +68,67 @@ class AppLocalizationsTe extends AppLocalizations {
       'ఖాతా సృష్టించడం అంటే మీరు వినియోగ నిబంధనలు మరియు గోప్యతా విధానాన్ని అంగీకరిస్తున్నారు.';
 
   @override
+  String get consentCheckboxLabel =>
+      'I have read and agree to the Terms of Use and Privacy Policy.';
+
+  @override
+  String get consentRequired =>
+      'You must agree to the Terms and Privacy Policy to continue.';
+
+  @override
+  String get under18GuardianNotice =>
+      'You are under 18. A parent or guardian must verify their consent by OTP before your account can be fully activated. Our support team will contact you after sign-up.';
+
+  @override
+  String shareProgressWithGym(String gym) {
+    return 'Share my measurements with $gym staff';
+  }
+
+  @override
+  String get shareProgressWithGymHint =>
+      'Your trainer can see your weight and height only while this is on. Off by default — you choose to turn it on.';
+
+  @override
+  String get monitoringTurnedOn => 'Staff can now see your progress.';
+
+  @override
+  String get monitoringTurnedOff => 'Staff can no longer see your progress.';
+
+  @override
+  String get couldNotUpdateSetting => 'Could not update this setting.';
+
+  @override
+  String get downloadMyData => 'Download my data';
+
+  @override
+  String get downloadMyDataHint =>
+      'Everything Gymologia holds about your account, as JSON. Encrypted fields such as identity documents are not included in readable form.';
+
+  @override
+  String get copyToClipboard => 'Copy to clipboard';
+
+  @override
+  String get yourData => 'Your data';
+
+  @override
+  String get theirAge => 'Their age';
+
+  @override
+  String get enterAValidAge => 'Enter a valid age.';
+
+  @override
+  String get guardianConsentRequired =>
+      'A parent or guardian\'s consent is required before this person can be added.';
+
+  @override
+  String get guardianConsentExplainer =>
+      'This person is under 18. Before adding them, confirm a parent or guardian has verified their consent (by phone, in person, or in writing).';
+
+  @override
+  String get guardianConsentCheckboxLabel =>
+      'I confirm a parent or guardian has given verified consent.';
+
+  @override
   String get signInWithMobile => 'మీ మొబైల్ నంబర్‌తో సైన్ ఇన్ చేయండి';
 
   @override

@@ -59,6 +59,18 @@ export class MaintenanceService {
     );
   }
 
+  // DPDP Act retention: expired/revoked sessions accumulate forever without
+  // this. 90 days covers any plausible dispute window while keeping the table
+  // from growing without bound.
+  @Cron('0 4 * * 0') // 04:00 every Sunday
+  async weeklySessions(): Promise<void> {
+    const cutoff = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
+    const { count } = await this.prisma.session.deleteMany({
+      where: { expiresAt: { lt: cutoff } },
+    });
+    if (count > 0) this.logger.log(`Pruned ${count} expired session(s)`);
+  }
+
   /**
    * Close out subscriptions whose term has ended, and drop the gym out of
    * ACTIVE when nothing is left covering it.

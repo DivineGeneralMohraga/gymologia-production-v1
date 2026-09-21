@@ -27,6 +27,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _name = TextEditingController();
   final _email = TextEditingController();
   final _age = TextEditingController();
+  bool _consentGiven = false;
+  bool _consentTouched = false;
 
   @override
   void dispose() {
@@ -36,8 +38,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  bool get _isMinor {
+    final age = int.tryParse(_age.text.trim());
+    return age != null && age < 18;
+  }
+
   Future<void> _submit() async {
+    setState(() => _consentTouched = true);
     if (!_formKey.currentState!.validate()) return;
+    if (!_consentGiven) return;
     FocusScope.of(context).unfocus();
 
     final auth = context.read<AuthController>();
@@ -128,8 +137,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           labelText: AppLocalizations.of(context).age),
                       validator: (v) =>
                           validateAge(AppLocalizations.of(context), v),
+                      onChanged: (_) => setState(() {}),
                     ),
                     const SizedBox(height: 12),
+                    // DPDP Act s.9 — a minor's account needs a verified
+                    // guardian before it is fully active. Shown as soon as
+                    // the age field says so; support follows up post sign-up.
+                    if (_isMinor) ...[
+                      Container(
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.errorContainer
+                              .withValues(alpha: 0.4),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.family_restroom,
+                                size: 18,
+                                color: theme.colorScheme.onErrorContainer),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                AppLocalizations.of(context)
+                                    .under18GuardianNotice,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.colorScheme.onErrorContainer,
+                                  height: 1.4,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                    ],
                     // The spec asks for this to be said out loud, and it is
                     // the reason the field is age and not date of birth.
                     Container(
@@ -181,7 +224,54 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
+                    // DPDP Act s.6(1): consent needs a clear affirmative
+                    // action, not an implied "by signing up you agree".
+                    // Unchecked by default; the button below is inert until
+                    // this is ticked.
+                    InkWell(
+                      onTap: () => setState(() {
+                        _consentTouched = true;
+                        _consentGiven = !_consentGiven;
+                      }),
+                      borderRadius: BorderRadius.circular(8),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Checkbox(
+                              value: _consentGiven,
+                              onChanged: (v) => setState(() {
+                                _consentTouched = true;
+                                _consentGiven = v ?? false;
+                              }),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 12),
+                                child: Text(
+                                  AppLocalizations.of(context)
+                                      .consentCheckboxLabel,
+                                  style: theme.textTheme.bodySmall
+                                      ?.copyWith(height: 1.4),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (_consentTouched && !_consentGiven)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12, top: 2),
+                        child: Text(
+                          AppLocalizations.of(context).consentRequired,
+                          style: theme.textTheme.bodySmall
+                              ?.copyWith(color: theme.colorScheme.error),
+                        ),
+                      ),
+                    const SizedBox(height: 12),
                     FilledButton(
                       onPressed: auth.busy ? null : _submit,
                       child: auth.busy

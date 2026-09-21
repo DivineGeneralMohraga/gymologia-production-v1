@@ -457,6 +457,9 @@ class GymApi {
   Future<Map<String, dynamic>> serverConfig() =>
       _client.get('/auth/config', auth: false);
 
+  /// DPDP Act 2023 s.12(a) — everything personal data held for this account.
+  Future<Map<String, dynamic>> exportMyData() => _client.get('/me/export');
+
   // ── Chat ───────────────────────────────────────────────────────────
 
   Future<List<Map<String, dynamic>>> conversations(String gymId) async {

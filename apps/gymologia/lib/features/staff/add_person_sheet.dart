@@ -30,15 +30,26 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
   final _phone = TextEditingController();
   final _code = TextEditingController();
   final _name = TextEditingController();
+  final _age = TextEditingController();
 
   PersonLookup? _lookup;
   bool _busy = false;
   String? _error;
+  bool _guardianConsentConfirmed = false;
+  // Set once the server reveals an *existing* account belongs to a minor —
+  // the lookup step never discloses age, so this is the earliest point the
+  // client can know to ask for guardian consent on that path.
+  bool _existingAccountIsMinor = false;
 
   // Member fields
   int _planMonths = 3;
   int _maxLeaveDays = 4;
   final _goal = TextEditingController();
+
+  bool get _isMinor {
+    final age = int.tryParse(_age.text.trim());
+    return age != null && age < 18;
+  }
 
   // Staff fields
   List<Map<String, dynamic>> _roles = const [];
@@ -49,7 +60,7 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
 
   @override
   void dispose() {
-    for (final c in [_phone, _code, _name, _goal]) {
+    for (final c in [_phone, _code, _name, _age, _goal]) {
       c.dispose();
     }
     super.dispose();
@@ -104,6 +115,23 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
           _error = AppLocalizations.of(context).numberIsNewNameNeeded);
       return;
     }
+    // New members need an age on record — otherwise the system can never
+    // tell whether DPDP Act s.9 guardian consent applies to them.
+    if (_isMember && !lookup.exists) {
+      final age = int.tryParse(_age.text.trim());
+      if (age == null || age < 13 || age > 100) {
+        setState(() =>
+            _error = AppLocalizations.of(context).enterAValidAge);
+        return;
+      }
+    }
+    final needsGuardianConsent =
+        _isMember && (_isMinor || _existingAccountIsMinor);
+    if (needsGuardianConsent && !_guardianConsentConfirmed) {
+      setState(() =>
+          _error = AppLocalizations.of(context).guardianConsentRequired);
+      return;
+    }
     if (!_isMember && _roleId == null) {
       setState(() => _error = AppLocalizations.of(context).chooseARole);
       return;
@@ -126,6 +154,9 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
         'planMonths': _planMonths,
         'maxLeaveDays': _maxLeaveDays,
         if (_goal.text.trim().isNotEmpty) 'goal': _goal.text.trim(),
+        if (!lookup.exists && _age.text.trim().isNotEmpty)
+          'age': int.parse(_age.text.trim()),
+        if (_guardianConsentConfirmed) 'guardianConsentConfirmed': true,
       });
     } else {
       body['roleId'] = _roleId;
@@ -143,6 +174,16 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
         setState(() {
           _error = e.message;
           _busy = false;
+          // The existing-account case: the server is the first to learn the
+          // person's age (the lookup step deliberately never reveals it),
+          // so this is also the first point staff can be asked to confirm
+          // consent. Matched against the specific message members.service.ts
+          // throws for this case (see MembersService.add, DPDP Act s.9).
+          if (_isMember &&
+              lookup.exists &&
+              e.message.contains('parent or guardian')) {
+            _existingAccountIsMinor = true;
+          }
         });
       }
     }
@@ -254,6 +295,70 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                   controller: _name,
                   textCapitalization: TextCapitalization.words,
                   decoration: InputDecoration(labelText: AppLocalizations.of(context).theirName),
+                ),
+                if (_isMember) ...[
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _age,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(3),
+                    ],
+                    decoration: InputDecoration(
+                        labelText: AppLocalizations.of(context).theirAge),
+                    onChanged: (_) => setState(() {}),
+                  ),
+                ],
+              ],
+
+              if (_isMember && (_isMinor || _existingAccountIsMinor)) ...[
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.errorContainer
+                        .withValues(alpha: 0.4),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(Icons.family_restroom,
+                              size: 18,
+                              color: theme.colorScheme.onErrorContainer),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              AppLocalizations.of(context)
+                                  .guardianConsentExplainer,
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.onErrorContainer,
+                                height: 1.4,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      CheckboxListTile(
+                        contentPadding: EdgeInsets.zero,
+                        controlAffinity: ListTileControlAffinity.leading,
+                        value: _guardianConsentConfirmed,
+                        onChanged: (v) => setState(
+                            () => _guardianConsentConfirmed = v ?? false),
+                        title: Text(
+                          AppLocalizations.of(context)
+                              .guardianConsentCheckboxLabel,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onErrorContainer,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
 

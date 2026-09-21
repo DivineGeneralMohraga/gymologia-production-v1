@@ -1,5 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Prisma, SecurityEventType, Severity } from '@prisma/client';
+import * as nodemailer from 'nodemailer';
 import { PrismaService } from '../../prisma/prisma.service';
 import { IpBlockService } from './ip-block.service';
 import { decide, isExempt, ruleFor } from './ip-block.policy';
@@ -42,11 +44,32 @@ export interface SecurityEventInput {
 @Injectable()
 export class SecurityEventService {
   private readonly logger = new Logger(SecurityEventService.name);
+  private readonly mailer: nodemailer.Transporter | null;
+  private readonly alertTo: string;
+  // One email per event type per window, so the exact moment an attack
+  // produces the most HIGH/CRITICAL events is not also the moment the
+  // alert inbox becomes useless.
+  private readonly alertedRecently = new Map<string, number>();
+  private static readonly ALERT_COOLDOWN_MS = 15 * 60_000;
 
   constructor(
     private readonly prisma: PrismaService,
     private readonly blocks: IpBlockService,
-  ) {}
+    config: ConfigService,
+  ) {
+    const host = config.get<string>('support.smtpHost', '');
+    this.alertTo = config.get<string>('support.email', 'support@gymologia.com');
+    this.mailer = host
+      ? nodemailer.createTransport({
+          host,
+          port: config.get<number>('support.smtpPort', 587),
+          auth: {
+            user: config.get<string>('support.smtpUser', ''),
+            pass: config.get<string>('support.smtpPass', ''),
+          },
+        })
+      : null;
+  }
 
   async record(input: SecurityEventInput): Promise<void> {
     try {
@@ -67,6 +90,8 @@ export class SecurityEventService {
         this.logger.warn(
           `security:${input.type} severity=${input.severity} ip=${input.ip ?? '-'} user=${input.userId ?? '-'}`,
         );
+        // DPDP Act s.8(6): potential breach events must reach a human.
+        void this.sendAlert(input.type, input.severity, input.ip, input.userId);
       }
     } catch (error) {
       // Never let telemetry break the request it is observing.
@@ -160,6 +185,36 @@ export class SecurityEventService {
         ...(where.userId ? { userId: where.userId } : {}),
       },
     });
+  }
+
+  private async sendAlert(
+    type: string,
+    severity: string,
+    ip: string | null | undefined,
+    userId: string | null | undefined,
+  ): Promise<void> {
+    if (!this.mailer) return;
+
+    const now = Date.now();
+    const last = this.alertedRecently.get(type);
+    if (last && now - last < SecurityEventService.ALERT_COOLDOWN_MS) return;
+    this.alertedRecently.set(type, now);
+
+    try {
+      await this.mailer.sendMail({
+        from: this.alertTo,
+        to: this.alertTo,
+        subject: `[Gymologia] ${severity} security event: ${type}`,
+        text:
+          `A ${severity} security event was recorded.\n\n` +
+          `Type: ${type}\nIP: ${ip ?? '—'}\nUser: ${userId ?? '—'}\n` +
+          `Time: ${new Date().toISOString()}\n\n` +
+          `Review in the admin app. If this is a personal data breach, ` +
+          `notify DPBI within 72 hours (DPDP Act 2023 s.8(6)).`,
+      });
+    } catch {
+      // Never let a broken mailer surface as a request failure.
+    }
   }
 
   private truncate(value: string | null | undefined, max: number): string | null {

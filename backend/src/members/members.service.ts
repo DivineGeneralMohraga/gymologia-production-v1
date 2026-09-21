@@ -120,6 +120,17 @@ export class MembersService {
       meta.ip,
     );
 
+    // DPDP Act 2023 s.9 — processing a minor's data needs verified guardian
+    // consent. This gate is not optional and cannot be satisfied by the
+    // gym staff's own say-so; `guardianConsentConfirmed` must be set by the
+    // client only after it has actually collected that consent.
+    if (person.age != null && person.age < 18 && !dto.guardianConsentConfirmed) {
+      throw new BadRequestException(
+        "This person is under 18. A parent or guardian's verified consent is required " +
+          "before they can be added as a member (DPDP Act 2023 s.9).",
+      );
+    }
+
     const active = await this.prisma.membership.findFirst({
       where: {
         gymId: actor.gymId,
@@ -147,9 +158,10 @@ export class MembersService {
         maxLeaveDays: dto.maxLeaveDays,
         assignedTrainerId: dto.assignedTrainerId ?? null,
         goal: dto.goal ?? null,
-        // Default on, per the spec — and the member can turn it off from
-        // their own app at any time.
-        allowProgressMonitoring: dto.allowProgressMonitoring ?? true,
+        // Default OFF (DPDP Act s.6 — member must opt in, not opt out).
+        // Staff may only flip this to true with the member's affirmative
+        // consent recorded at the time of enrolment.
+        allowProgressMonitoring: dto.allowProgressMonitoring ?? false,
         addressProofApproved: dto.addressProofApproved ?? false,
         addedById: actor.userId,
       },
@@ -166,6 +178,9 @@ export class MembersService {
         endsAt,
         maxLeaveDays: dto.maxLeaveDays,
         newAccount: person.created,
+        ...(person.age != null && person.age < 18
+          ? { minor: true, guardianConsentConfirmed: true }
+          : {}),
       },
       ip: meta.ip,
       userAgent: meta.userAgent,

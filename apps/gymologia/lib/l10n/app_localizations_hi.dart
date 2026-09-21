@@ -69,6 +69,67 @@ class AppLocalizationsHi extends AppLocalizations {
       'खाता बनाने का मतलब है कि आप उपयोग की शर्तें और गोपनीयता नीति स्वीकार करते हैं।';
 
   @override
+  String get consentCheckboxLabel =>
+      'मैंने उपयोग की शर्तें और गोपनीयता नीति पढ़ी हैं और उनसे सहमत हूँ।';
+
+  @override
+  String get consentRequired =>
+      'आगे बढ़ने के लिए आपको शर्तें और गोपनीयता नीति से सहमत होना होगा।';
+
+  @override
+  String get under18GuardianNotice =>
+      'आपकी उम्र 18 वर्ष से कम है। आपका खाता पूरी तरह से सक्रिय होने से पहले आपके माता-पिता या अभिभावक को OTP के ज़रिए अपनी सहमति देनी होगी।';
+
+  @override
+  String shareProgressWithGym(String gym) {
+    return '$gym स्टाफ के साथ अपने माप साझा करें';
+  }
+
+  @override
+  String get shareProgressWithGymHint =>
+      'जब यह चालू हो, तभी आपका ट्रेनर आपका वज़न और ऊंचाई देख सकता है। यह डिफ़ॉल्ट रूप से बंद है — आप इसे चालू करना चुनते हैं।';
+
+  @override
+  String get monitoringTurnedOn => 'अब स्टाफ आपकी प्रगति देख सकता है।';
+
+  @override
+  String get monitoringTurnedOff => 'अब स्टाफ आपकी प्रगति नहीं देख सकता।';
+
+  @override
+  String get couldNotUpdateSetting => 'यह सेटिंग अपडेट नहीं हो सकी।';
+
+  @override
+  String get downloadMyData => 'मेरा डेटा डाउनलोड करें';
+
+  @override
+  String get downloadMyDataHint =>
+      'Gymologia के पास आपके खाते के बारे में जो कुछ भी है, वह JSON के रूप में। पहचान दस्तावेज़ जैसे एन्क्रिप्टेड फ़ील्ड पठनीय रूप में शामिल नहीं हैं।';
+
+  @override
+  String get copyToClipboard => 'क्लिपबोर्ड पर कॉपी करें';
+
+  @override
+  String get yourData => 'आपका डेटा';
+
+  @override
+  String get theirAge => 'उनकी उम्र';
+
+  @override
+  String get enterAValidAge => 'एक मान्य उम्र दर्ज करें।';
+
+  @override
+  String get guardianConsentRequired =>
+      'इस व्यक्ति को जोड़ने से पहले माता-पिता या अभिभावक की सहमति आवश्यक है।';
+
+  @override
+  String get guardianConsentExplainer =>
+      'यह व्यक्ति 18 वर्ष से कम उम्र का है। इसे जोड़ने से पहले, पुष्टि करें कि किसी माता-पिता या अभिभावक ने उनकी सहमति सत्यापित की है (फोन, व्यक्तिगत रूप से, या लिखित रूप में)।';
+
+  @override
+  String get guardianConsentCheckboxLabel =>
+      'मैं पुष्टि करता/करती हूं कि माता-पिता या अभिभावक ने सत्यापित सहमति दी है।';
+
+  @override
   String get signInWithMobile => 'अपने मोबाइल नंबर से साइन इन करें';
 
   @override

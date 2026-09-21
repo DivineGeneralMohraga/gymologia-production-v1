@@ -14,7 +14,7 @@
  * Bump `LEGAL_VERSION` whenever the wording changes materially. Users are
  * re-prompted when the version they accepted is older than this one.
  */
-export const LEGAL_VERSION = '2026-08-30.1';
+export const LEGAL_VERSION = '2026-09-21.1';
 
 export const SUPPORT_EMAIL = 'support@gymologia.com';
 
@@ -31,16 +31,17 @@ const TERMS: LegalDocument = {
   slug: 'terms',
   title: 'Terms of Use',
   version: LEGAL_VERSION,
-  updatedAt: '2026-08-30',
+  updatedAt: '2026-09-21',
   body: `
 Gymologia is operated in India. By creating an account you agree to these
 terms. If you do not agree, do not use the app.
 
 WHO CAN USE GYMOLOGIA
-You must be at least 13 years old to hold an account. If you are under 18,
-a parent or guardian must agree to these terms on your behalf. You must give
-a phone number you control, because it is how you sign in and how we reach
-you about your account.
+You must be at least 18 years old to hold an account independently. If you
+are under 18, a parent or guardian must verify their consent through an OTP
+step before you can use the app or be enrolled as a gym member. You must
+give a phone number you control, because it is how you sign in and how we
+reach you about your account.
 
 THE TWO SIDES OF THE APP
 Gymologia has a member side and a gym owner/staff side. Switching modes in
@@ -134,7 +135,7 @@ const PRIVACY: LegalDocument = {
   slug: 'privacy',
   title: 'Privacy Policy',
   version: LEGAL_VERSION,
-  updatedAt: '2026-08-30',
+  updatedAt: '2026-09-21',
   body: `
 This policy explains what Gymologia collects, why, and what you can do about
 it. It is written to match what the software actually does.
@@ -173,10 +174,9 @@ you can search by locality name instead — the app works either way.
 
 WHO CAN SEE WHAT
 Your gym's staff can see your membership, attendance and leave. Your weight
-and height history is visible to gym staff and your trainer only while you
-leave progress monitoring switched on. It is on by default when a gym adds
-you, you are told at that moment, and you can switch it off yourself at any
-time in the app.
+and height history is visible to gym staff and your trainer only if you
+choose to switch on progress monitoring. It is off by default; you must
+turn it on yourself in the app, and you can turn it off again at any time.
 
 Other members see only what you send in a chat you are part of.
 
@@ -200,22 +200,26 @@ We disclose data to a public authority only where a valid legal demand
 requires it.
 
 HOW LONG WE KEEP IT
-Your account data stays while your account is open. Attendance and
-membership records are kept by the gym that created them for as long as
-their own obligations require. Payment and tax records are kept for the
-period Indian tax law requires, which is longer than your account may last.
-Security and audit logs are kept for a limited period and then deleted.
-One-time codes are deleted shortly after they expire.
+Account and profile data: kept while your account is open, anonymised 30
+days after you request deletion. Health metrics (weight/height): deleted
+immediately when your account is anonymised. Attendance and membership
+records: kept for 7 years after the gym relationship ends. Payment and tax
+records: kept for the period Indian tax law requires (currently 8 years
+from the year of assessment). Security and audit logs: kept for 3 years,
+then deleted. OTP codes: deleted within 24 hours of expiry.
 
 YOUR RIGHTS
-You can ask us to show you the personal data we hold about you, correct
-anything wrong, or delete your account. Write to ${SUPPORT_EMAIL} from the
-number or email on the account and we will verify it is you before acting.
-Where deletion conflicts with a record we are legally required to keep, we
-will tell you which record and why.
+You can ask us to show you the personal data we hold about you. An in-app
+download is available in Settings under "Download my data". You can also
+correct anything wrong, or delete your account — both available in Settings.
+Write to ${SUPPORT_EMAIL} from the number or email on the account if you
+need help and we will verify it is you before acting. Where deletion
+conflicts with a record we are legally required to keep, we will tell you
+which record and why.
 
 You can withdraw consent for progress monitoring yourself, in the app, at
-any time.
+any time. Withdrawing it does not delete historical measurements already
+recorded; to delete those, use the account deletion flow.
 
 SECURITY
 Sensitive fields, including identity documents and message bodies, are
@@ -228,8 +232,29 @@ No system is perfectly secure. If a breach affects you, we will tell you and
 the relevant authority as the law requires.
 
 CHILDREN
-Gymologia is not for children under 13. If you believe a child under 13 has
-an account, write to ${SUPPORT_EMAIL} and we will remove it.
+The app is intended for users aged 18 and above. Users aged 13 to 17 may
+use the app only with verifiable parental or guardian consent, collected
+through an OTP verification of the guardian's phone number at the time of
+registration or enrolment. We do not knowingly collect data from anyone
+under 13. If you believe a child under 13 has an account, or that guardian
+consent was not properly obtained, write to ${SUPPORT_EMAIL} and we will
+investigate and remove the account promptly.
+
+GRIEVANCE OFFICER
+Under the Digital Personal Data Protection Act 2023, we have designated a
+Grievance Officer for data-related complaints:
+
+Name: Sarthak Ganda, Ganda Group Technologies
+Email: ${SUPPORT_EMAIL}
+
+We will acknowledge complaints within 48 hours and resolve them within 30
+days. If you are not satisfied with our response, you may approach the Data
+Protection Board of India.
+
+BREACH NOTIFICATION
+If we become aware of a personal data breach that is likely to cause harm,
+we will notify the Data Protection Board of India and inform affected users
+as required under DPDP Act 2023 Section 8(6).
 
 CHANGES
 If we change this policy materially we will tell you in the app.

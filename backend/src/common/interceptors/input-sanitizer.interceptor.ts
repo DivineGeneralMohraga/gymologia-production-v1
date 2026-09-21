@@ -42,6 +42,14 @@ const SKIP_FIELDS = new Set([
   'ciphertext',
   'publicKey',
   'signedPreKey',
+  // Personal/health data — a coincidental regex hit in a member's goal or
+  // name must not write plaintext health data into the security events table.
+  'goal',
+  'name',
+  'description',
+  'message',
+  'contactPhone',
+  'contactEmail',
 ]);
 
 const MAX_DEPTH = 8;
