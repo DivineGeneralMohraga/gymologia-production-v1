@@ -460,6 +460,32 @@ class GymApi {
   /// DPDP Act 2023 s.12(a) — everything personal data held for this account.
   Future<Map<String, dynamic>> exportMyData() => _client.get('/me/export');
 
+  // ── Guardian consent (DPDP Act 2023 s.9) ─────────────────────────────
+  // Called during sign-up, before a session exists, so auth is off — the
+  // registrationToken proves the caller just verified their own number.
+
+  Future<Map<String, dynamic>> requestGuardianConsent({
+    required String registrationToken,
+    required String guardianPhone,
+  }) =>
+      _client.post('/auth/guardian-consent/request', auth: false, body: {
+        'registrationToken': registrationToken,
+        'guardianPhone': guardianPhone,
+      });
+
+  Future<Map<String, dynamic>> verifyGuardianConsent({
+    required String registrationToken,
+    required String challengeId,
+    required String guardianPhone,
+    required String code,
+  }) =>
+      _client.post('/auth/guardian-consent/verify', auth: false, body: {
+        'registrationToken': registrationToken,
+        'challengeId': challengeId,
+        'guardianPhone': guardianPhone,
+        'code': code,
+      });
+
   // ── Chat ───────────────────────────────────────────────────────────
 
   Future<List<Map<String, dynamic>>> conversations(String gymId) async {

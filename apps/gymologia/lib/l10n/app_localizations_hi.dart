@@ -130,6 +130,19 @@ class AppLocalizationsHi extends AppLocalizations {
       'मैं पुष्टि करता/करती हूं कि माता-पिता या अभिभावक ने सत्यापित सहमति दी है।';
 
   @override
+  String get guardianPhoneLabel => 'माता-पिता/अभिभावक का मोबाइल नंबर';
+
+  @override
+  String get guardianCodeLabel => 'अभिभावक के फोन से कोड';
+
+  @override
+  String get guardianVerifiedConfirmation => 'अभिभावक की सहमति सत्यापित हो गई।';
+
+  @override
+  String get guardianConsentBlocksSubmit =>
+      'खाता बनाने से पहले ऊपर अपने अभिभावक की सहमति सत्यापित करें।';
+
+  @override
   String get signInWithMobile => 'अपने मोबाइल नंबर से साइन इन करें';
 
   @override

@@ -15,6 +15,8 @@ import { Msg91Service } from './msg91.service';
 import { CashfreeService } from '../payments/cashfree.service';
 import { CurrentUser, Public, AuthUser } from '../rbac/rbac.decorators';
 import {
+  GuardianConsentRequestDto,
+  GuardianConsentVerifyDto,
   RefreshDto,
   RegisterDto,
   RequestOtpDto,
@@ -88,6 +90,38 @@ export class AuthController {
   @ApiOperation({ summary: 'Create an account after OTP verification' })
   register(@Body() dto: RegisterDto, @Req() req: Request) {
     return this.auth.register(dto, this.meta(req));
+  }
+
+  @Public()
+  @Post('guardian-consent/request')
+  @HttpCode(HttpStatus.OK)
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
+  @ApiOperation({
+    summary: "Send a verification code to a parent/guardian's number",
+    description:
+      'Required before /auth/register for anyone under 18 (DPDP Act 2023 s.9).',
+  })
+  requestGuardianConsent(
+    @Body() dto: GuardianConsentRequestDto,
+    @Req() req: Request,
+  ) {
+    return this.auth.requestGuardianConsent(dto, this.meta(req));
+  }
+
+  @Public()
+  @Post('guardian-consent/verify')
+  @HttpCode(HttpStatus.OK)
+  @Throttle({ default: { limit: 10, ttl: 60_000 } })
+  @ApiOperation({
+    summary: 'Verify the guardian’s code',
+    description:
+      'Returns a guardianConsentToken to pass to /auth/register alongside age < 18.',
+  })
+  verifyGuardianConsent(
+    @Body() dto: GuardianConsentVerifyDto,
+    @Req() req: Request,
+  ) {
+    return this.auth.verifyGuardianConsent(dto, this.meta(req));
   }
 
   @Public()

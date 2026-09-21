@@ -330,6 +330,30 @@ abstract class AppLocalizations {
   /// **'I confirm a parent or guardian has given verified consent.'**
   String get guardianConsentCheckboxLabel;
 
+  /// No description provided for @guardianPhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent/guardian's mobile number'**
+  String get guardianPhoneLabel;
+
+  /// No description provided for @guardianCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Code from guardian's phone'**
+  String get guardianCodeLabel;
+
+  /// No description provided for @guardianVerifiedConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Guardian consent verified.'**
+  String get guardianVerifiedConfirmation;
+
+  /// No description provided for @guardianConsentBlocksSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your guardian's consent above before creating the account.'**
+  String get guardianConsentBlocksSubmit;
+
   /// No description provided for @signInWithMobile.
   ///
   /// In en, this message translates to:

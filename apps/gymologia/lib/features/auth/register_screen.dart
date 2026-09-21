@@ -30,11 +30,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _consentGiven = false;
   bool _consentTouched = false;
 
+  // Guardian consent (DPDP Act 2023 s.9) — required before an under-18
+  // account can be created. The token that unblocks submission comes only
+  // from a real OTP round-trip against the guardian's own number; there is
+  // no client-side way to set it.
+  final _guardianPhone = TextEditingController();
+  final _guardianCode = TextEditingController();
+  String? _guardianChallengeId;
+  String? _guardianConsentToken;
+  bool _guardianRequestBusy = false;
+  bool _guardianVerifyBusy = false;
+  String? _guardianError;
+
   @override
   void dispose() {
     _name.dispose();
     _email.dispose();
     _age.dispose();
+    _guardianPhone.dispose();
+    _guardianCode.dispose();
     super.dispose();
   }
 
@@ -43,10 +57,75 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return age != null && age < 18;
   }
 
+  GymApi get _api => GymApi(context.read<AuthController>().client);
+
+  Future<void> _requestGuardianCode() async {
+    final problem = validateIndianMobile(
+        AppLocalizations.of(context), _guardianPhone.text.trim());
+    if (problem != null) {
+      setState(() => _guardianError = problem);
+      return;
+    }
+    setState(() {
+      _guardianRequestBusy = true;
+      _guardianError = null;
+    });
+    try {
+      final result = await _api.requestGuardianConsent(
+        registrationToken: widget.registrationToken,
+        guardianPhone: '+91${_guardianPhone.text.trim()}',
+      );
+      if (!mounted) return;
+      setState(() {
+        _guardianChallengeId = result['challengeId'] as String;
+        // Outside production the server returns the code, same as the
+        // staff add-person flow, so testing needs only one handset.
+        final devCode = result['devCode'] as String?;
+        if (devCode != null) _guardianCode.text = devCode;
+      });
+    } on ApiException catch (e) {
+      if (mounted) setState(() => _guardianError = e.message);
+    } finally {
+      if (mounted) setState(() => _guardianRequestBusy = false);
+    }
+  }
+
+  Future<void> _verifyGuardianCode() async {
+    if (_guardianCode.text.trim().length < 4) {
+      setState(() =>
+          _guardianError = AppLocalizations.of(context).enterCodeSentToTheirPhone);
+      return;
+    }
+    setState(() {
+      _guardianVerifyBusy = true;
+      _guardianError = null;
+    });
+    try {
+      final result = await _api.verifyGuardianConsent(
+        registrationToken: widget.registrationToken,
+        challengeId: _guardianChallengeId!,
+        guardianPhone: '+91${_guardianPhone.text.trim()}',
+        code: _guardianCode.text.trim(),
+      );
+      if (!mounted) return;
+      setState(() =>
+          _guardianConsentToken = result['guardianConsentToken'] as String);
+    } on ApiException catch (e) {
+      if (mounted) setState(() => _guardianError = e.message);
+    } finally {
+      if (mounted) setState(() => _guardianVerifyBusy = false);
+    }
+  }
+
   Future<void> _submit() async {
     setState(() => _consentTouched = true);
     if (!_formKey.currentState!.validate()) return;
     if (!_consentGiven) return;
+    if (_isMinor && _guardianConsentToken == null) {
+      setState(() => _guardianError =
+          AppLocalizations.of(context).guardianConsentBlocksSubmit);
+      return;
+    }
     FocusScope.of(context).unfocus();
 
     final auth = context.read<AuthController>();
@@ -55,6 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       name: _name.text.trim(),
       age: int.parse(_age.text.trim()),
       email: _email.text.trim().isEmpty ? null : _email.text.trim(),
+      guardianConsentToken: _isMinor ? _guardianConsentToken : null,
     );
 
     if (!mounted) return;
@@ -141,38 +221,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     const SizedBox(height: 12),
                     // DPDP Act s.9 — a minor's account needs a verified
-                    // guardian before it is fully active. Shown as soon as
-                    // the age field says so; support follows up post sign-up.
-                    if (_isMinor) ...[
-                      Container(
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.errorContainer
-                              .withValues(alpha: 0.4),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(Icons.family_restroom,
-                                size: 18,
-                                color: theme.colorScheme.onErrorContainer),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                AppLocalizations.of(context)
-                                    .under18GuardianNotice,
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: theme.colorScheme.onErrorContainer,
-                                  height: 1.4,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                    ],
+                    // guardian before it can be created at all. Shown as
+                    // soon as the age field says so, and it is the only
+                    // path to a non-null guardianConsentToken.
+                    if (_isMinor) _GuardianConsentBlock(
+                      guardianPhone: _guardianPhone,
+                      guardianCode: _guardianCode,
+                      hasChallenge: _guardianChallengeId != null,
+                      verified: _guardianConsentToken != null,
+                      requestBusy: _guardianRequestBusy,
+                      verifyBusy: _guardianVerifyBusy,
+                      error: _guardianError,
+                      onSendCode: _requestGuardianCode,
+                      onVerify: _verifyGuardianCode,
+                    ),
                     // The spec asks for this to be said out loud, and it is
                     // the reason the field is age and not date of birth.
                     Container(
@@ -288,6 +350,133 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// The actual DPDP Act s.9 gate: a real OTP round-trip against the
+/// guardian's own number, not a checkbox. Nothing here can produce a
+/// verified state except the server confirming the code.
+class _GuardianConsentBlock extends StatelessWidget {
+  const _GuardianConsentBlock({
+    required this.guardianPhone,
+    required this.guardianCode,
+    required this.hasChallenge,
+    required this.verified,
+    required this.requestBusy,
+    required this.verifyBusy,
+    required this.error,
+    required this.onSendCode,
+    required this.onVerify,
+  });
+
+  final TextEditingController guardianPhone;
+  final TextEditingController guardianCode;
+  final bool hasChallenge;
+  final bool verified;
+  final bool requestBusy;
+  final bool verifyBusy;
+  final String? error;
+  final VoidCallback onSendCode;
+  final VoidCallback onVerify;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: (verified ? Colors.green : theme.colorScheme.error)
+            .withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: (verified ? Colors.green : theme.colorScheme.error)
+              .withValues(alpha: 0.3),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                verified ? Icons.check_circle_outline : Icons.family_restroom,
+                size: 18,
+                color: verified ? Colors.green.shade700 : theme.colorScheme.error,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  verified ? t.guardianVerifiedConfirmation : t.under18GuardianNotice,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: verified ? Colors.green.shade700 : theme.colorScheme.error,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if (!verified) ...[
+            const SizedBox(height: 12),
+            TextField(
+              controller: guardianPhone,
+              enabled: !hasChallenge,
+              keyboardType: TextInputType.phone,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(10),
+              ],
+              decoration: InputDecoration(
+                labelText: t.guardianPhoneLabel,
+                prefixText: '+91  ',
+              ),
+            ),
+            if (!hasChallenge) ...[
+              const SizedBox(height: 10),
+              FilledButton.tonal(
+                onPressed: requestBusy ? null : onSendCode,
+                child: requestBusy
+                    ? const SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2.2))
+                    : Text(t.sendCode),
+              ),
+            ] else ...[
+              const SizedBox(height: 10),
+              TextField(
+                controller: guardianCode,
+                keyboardType: TextInputType.number,
+                maxLength: 6,
+                decoration: InputDecoration(
+                  labelText: t.guardianCodeLabel,
+                  counterText: '',
+                ),
+              ),
+              const SizedBox(height: 10),
+              FilledButton.tonal(
+                onPressed: verifyBusy ? null : onVerify,
+                child: verifyBusy
+                    ? const SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2.2))
+                    : Text(t.verifyCode),
+              ),
+            ],
+            if (error != null) ...[
+              const SizedBox(height: 8),
+              Text(error!,
+                  style: theme.textTheme.bodySmall
+                      ?.copyWith(color: theme.colorScheme.error)),
+            ],
+          ],
+        ],
       ),
     );
   }

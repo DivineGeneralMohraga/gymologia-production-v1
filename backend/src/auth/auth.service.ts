@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ForbiddenException,
   Injectable,
   Logger,
@@ -10,12 +11,15 @@ import { AppClient, OtpPurpose, User } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CryptoService } from '../common/crypto/crypto.service';
 import { SecurityEventService } from '../common/security/security-event.service';
+import { AuditService } from '../common/audit/audit.service';
 import { NotificationsService } from '../notifications/notifications.service';
 import { OtpService } from './otp.service';
 import { Msg91Service } from './msg91.service';
 import { TokenService, TokenPair, SessionMeta } from './token.service';
 import { normalizePhone } from '../common/utils/phone.util';
 import {
+  GuardianConsentRequestDto,
+  GuardianConsentVerifyDto,
   RegisterDto,
   RequestOtpDto,
   VerifyOtpDto,
@@ -28,6 +32,17 @@ interface RegistrationTokenPayload {
   phone: string;
   purpose: 'register';
   client: AppClient;
+}
+
+/**
+ * Short-lived proof that a parent/guardian's number was OTP-verified for a
+ * specific pending registration. DPDP Act 2023 s.9 — a minor's account
+ * cannot be created without this.
+ */
+interface GuardianConsentTokenPayload {
+  phone: string; // the minor's phone, tying this token to one registration
+  guardianPhone: string;
+  purpose: 'guardian_consent';
 }
 
 export type VerifyResult =
@@ -59,6 +74,7 @@ export class AuthService {
     private readonly jwt: JwtService,
     private readonly securityEvents: SecurityEventService,
     private readonly notifications: NotificationsService,
+    private readonly audit: AuditService,
     config: ConfigService,
   ) {
     this.jwtCfg = config.getOrThrow<JwtConfig>('jwt');
@@ -178,23 +194,95 @@ export class AuthService {
 
   // ── Step 3: create the account ─────────────────────────────────────
 
-  async register(dto: RegisterDto, meta: SessionMeta) {
+  private async decodeRegistrationToken(
+    token: string,
+  ): Promise<RegistrationTokenPayload> {
     let payload: RegistrationTokenPayload;
     try {
-      payload = await this.jwt.verifyAsync<RegistrationTokenPayload>(
-        dto.registrationToken,
-        { secret: this.jwtCfg.accessSecret },
-      );
+      payload = await this.jwt.verifyAsync<RegistrationTokenPayload>(token, {
+        secret: this.jwtCfg.accessSecret,
+      });
     } catch {
       throw new UnauthorizedException(
         'Verification expired. Please verify your number again.',
       );
     }
-
     if (payload.purpose !== 'register') {
       throw new UnauthorizedException('Invalid registration token');
     }
+    return payload;
+  }
 
+  /**
+   * Step 1 of guardian consent: send a code to the phone the guardian
+   * holds. Kept as its own OTP purpose so this challenge can never be
+   * redeemed anywhere except /auth/guardian-consent/verify.
+   */
+  async requestGuardianConsent(
+    dto: GuardianConsentRequestDto,
+    meta: SessionMeta,
+  ) {
+    const registration = await this.decodeRegistrationToken(dto.registrationToken);
+    const guardianPhone = normalizePhone(dto.guardianPhone);
+    const minorPhone = normalizePhone(registration.phone);
+
+    if (guardianPhone === minorPhone) {
+      throw new BadRequestException(
+        "The guardian's number must be different from your own.",
+      );
+    }
+
+    const challenge = await this.otp.issue(
+      guardianPhone,
+      OtpPurpose.GUARDIAN_CONSENT,
+      { ip: meta.ip },
+    );
+
+    return {
+      challengeId: challenge.challengeId,
+      expiresAt: challenge.expiresAt,
+      resendAfterSeconds: challenge.resendAfterSeconds,
+      guardianPhoneMasked: this.crypto.maskPhone(guardianPhone),
+      delivered: challenge.delivered,
+      devCode: challenge.devCode,
+    };
+  }
+
+  /**
+   * Step 2: the guardian's code is checked, and a short-lived token is
+   * minted binding that verified guardian number to this one pending
+   * registration. /auth/register refuses to create an under-18 account
+   * without it.
+   */
+  async verifyGuardianConsent(
+    dto: GuardianConsentVerifyDto,
+    meta: SessionMeta,
+  ) {
+    const registration = await this.decodeRegistrationToken(dto.registrationToken);
+    const guardianPhone = normalizePhone(dto.guardianPhone);
+
+    await this.otp.verify(
+      dto.challengeId,
+      guardianPhone,
+      dto.code,
+      OtpPurpose.GUARDIAN_CONSENT,
+      { ip: meta.ip },
+    );
+
+    const guardianConsentToken = await this.jwt.signAsync(
+      {
+        phone: normalizePhone(registration.phone),
+        guardianPhone,
+        purpose: 'guardian_consent',
+      } satisfies GuardianConsentTokenPayload,
+      { secret: this.jwtCfg.accessSecret, expiresIn: '15m' },
+    );
+
+    return { guardianConsentToken };
+  }
+
+  async register(dto: RegisterDto, meta: SessionMeta) {
+    const payload = await this.decodeRegistrationToken(dto.registrationToken);
     const phone = normalizePhone(payload.phone);
 
     // Someone could have registered this number in the window between
@@ -220,6 +308,33 @@ export class AuthService {
       return { tokens, user: this.toPublicUser(existing), alreadyRegistered: true };
     }
 
+    // DPDP Act 2023 s.9 — a minor's account cannot be created on their own
+    // say-so. This is the actual gate; the app's guardian notice is only a
+    // prompt to go through the flow that produces this token.
+    let guardianPhone: string | null = null;
+    if (dto.age < 18) {
+      if (!dto.guardianConsentToken) {
+        throw new BadRequestException(
+          "You're under 18 — a parent or guardian needs to verify their number first.",
+        );
+      }
+      let guardianPayload: GuardianConsentTokenPayload;
+      try {
+        guardianPayload = await this.jwt.verifyAsync<GuardianConsentTokenPayload>(
+          dto.guardianConsentToken,
+          { secret: this.jwtCfg.accessSecret },
+        );
+      } catch {
+        throw new UnauthorizedException(
+          'Guardian verification expired. Please verify again.',
+        );
+      }
+      if (guardianPayload.purpose !== 'guardian_consent' || guardianPayload.phone !== phone) {
+        throw new UnauthorizedException('Invalid guardian consent');
+      }
+      guardianPhone = guardianPayload.guardianPhone;
+    }
+
     const user = await this.prisma.user.create({
       data: {
         phone,
@@ -233,6 +348,23 @@ export class AuthService {
     });
 
     await this.assertClientAllowed(user.id, payload.client);
+
+    if (guardianPhone) {
+      await this.audit.record({
+        actorId: user.id,
+        gymId: null,
+        action: 'account.guardian_consent',
+        entityType: 'User',
+        entityId: user.id,
+        after: {
+          minor: true,
+          age: dto.age,
+          guardianPhoneMasked: this.crypto.maskPhone(guardianPhone),
+        },
+        ip: meta.ip,
+        userAgent: meta.userAgent,
+      });
+    }
 
     const tokens = await this.tokens.issuePair(
       user.id,

@@ -79,6 +79,7 @@ class AuthController extends ChangeNotifier {
     required String name,
     required int age,
     String? email,
+    String? guardianConsentToken,
   }) async {
     final result = await _guard(() async {
       final deviceId = await _store.deviceId();
@@ -88,6 +89,7 @@ class AuthController extends ChangeNotifier {
         age: age,
         email: email,
         deviceId: deviceId,
+        guardianConsentToken: guardianConsentToken,
       );
     });
     if (result == null) return false;

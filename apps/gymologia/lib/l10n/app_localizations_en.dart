@@ -130,6 +130,19 @@ class AppLocalizationsEn extends AppLocalizations {
       'I confirm a parent or guardian has given verified consent.';
 
   @override
+  String get guardianPhoneLabel => 'Parent/guardian\'s mobile number';
+
+  @override
+  String get guardianCodeLabel => 'Code from guardian\'s phone';
+
+  @override
+  String get guardianVerifiedConfirmation => 'Guardian consent verified.';
+
+  @override
+  String get guardianConsentBlocksSubmit =>
+      'Verify your guardian\'s consent above before creating the account.';
+
+  @override
   String get signInWithMobile => 'Sign in with your mobile number';
 
   @override

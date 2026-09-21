@@ -10,29 +10,39 @@
 
 Code changes were made after this report was first written. This section
 records what actually changed, honestly separated from what is still open.
-Nothing below was applied to the live database — the schema/migration
-changes are staged as files only; see "Action needed" at the end.
+The migrations listed below **were deployed** to the live Supabase database
+with `npm run prisma:deploy` and verified against it directly — not just
+staged as files. See "Verified live" for how.
 
-### Fixed in code
+### Fixed in code (deployed and verified live)
 
 | # | Item | What changed |
 |---|------|--------------|
 | B16 | Consent checkbox at sign-up | `register_screen.dart` now has an unchecked checkbox gating the Create Account button; l10n added for all 10 locales |
-| B18b | Progress monitoring default | `schema.prisma` + `members.service.ts` default flipped `true` → `false`; migration `20260921_dpdp_consent_fixes` also resets existing rows |
+| B18b | Progress monitoring default | `schema.prisma` + `members.service.ts` default flipped `true` → `false`; migration `20260921_dpdp_consent_fixes` deployed and reset all 413 existing rows to `false` (confirmed by direct query) |
 | — | Progress-monitoring toggle had no UI | Discovered while fixing B18b: `GymApi.setMonitoring()` existed but no screen called it. Added a toggle card to `progress_page.dart` so members can actually opt in themselves |
-| E26/E27 | Under-18 handling | Self-registration shows a guardian notice for age < 18 (support follow-up, not yet a verified guardian-OTP flow — see "Still open"). Staff enrolment (`add_person_sheet.dart`) now collects age for new members and requires a "guardian consent confirmed" checkbox before submitting a minor; backend (`members.service.ts`) rejects the request server-side if that flag is missing, for both new and existing accounts |
+| E26/E27 | Under-18 self-registration | **Real guardian-OTP verification**, not a notice. New `OtpPurpose.GUARDIAN_CONSENT` (migration `20260921_guardian_consent_otp`, deployed), two new endpoints (`/auth/guardian-consent/request`, `/auth/guardian-consent/verify`), and a `register_screen.dart` flow that sends a code to the guardian's number and only unlocks submission once it's verified. `auth.service.ts.register()` hard-rejects any age < 18 registration without a valid `guardianConsentToken` — tested live: rejected without it, succeeded with it, audit row confirmed with masked guardian phone |
+| E26/E27 | Under-18 staff enrolment | `add_person_sheet.dart` collects age for new members and requires a "guardian consent confirmed" checkbox before submitting a minor; backend (`members.service.ts`) rejects the request server-side if that flag is missing, for both new and existing accounts |
 | G32 | Chat E2E mislabeling | `schema.prisma` comment corrected to describe server-side AES-256-GCM, not end-to-end encryption |
-| C20 | Data export | New `/me/export` endpoint + `DataExportPage` in Settings ("Download my data") |
-| C23b | Grievance Officer | Named in `legal.content.ts` privacy policy (Sarthak Ganda / support@gymologia.com) with response-time commitment |
+| C20 | Data export | New `/me/export` endpoint + `DataExportPage` in Settings ("Download my data") — tested live against a real account |
+| C23b | Grievance Officer | Named in `legal.content.ts` privacy policy (Sarthak Ganda / support@gymologia.com) with response-time commitment — confirmed live via `/legal/privacy` |
 | F29 | Breach alerting | `SecurityEventService` now emails `support.email` on HIGH/CRITICAL security events (rate-limited to one per event type per 15 min); privacy policy states the DPBI notification commitment |
 | A11b | PII in security logs | `input-sanitizer.interceptor.ts` SKIP_FIELDS extended to `name`, `goal`, `description`, `message`, `contactPhone`, `contactEmail` |
 | D25b | Session retention | Weekly cron in `maintenance.service.ts` purges sessions expired > 90 days |
 | B19/D25 | Privacy policy text | Retention schedule made concrete per data type; children section corrected from "under 13" to the actual DPDP 13–17 guardian-consent rule; rights section now mentions the download feature |
 
+### Verified live (2026-09-21)
+
+Ran against the actual production Supabase DB and the local backend pointed at it:
+- `allowProgressMonitoring` column default is `false`; all 413 existing membership rows confirmed `false`
+- `/legal/privacy` returns the updated Grievance Officer, children, and retention sections
+- `/me/export` returns real data for an authenticated test account
+- Self-registration guardian flow: `register` returns 400 for age 15 with no `guardianConsentToken`, then succeeds once `/auth/guardian-consent/request` → `/auth/guardian-consent/verify` produced one; `audit_logs` row confirmed with `action: 'account.guardian_consent'` and a masked guardian phone
+- Test account cleaned up afterward
+
 ### Still open — needs a human decision, not just code
 
-- **E26 self-registration guardian verification is a stopgap, not the full fix.** The app shows a notice and expects support to follow up manually; there is no automated guardian-OTP verification for a minor who signs themselves up (only for the staff-enrolment path, which does have a hard server-side gate). Closing this fully means building a guardian-OTP flow for self-registration too.
-- **B17b** — no dedicated per-purpose `ConsentRecord` table; guardian consent is currently recorded only inside the existing audit log's JSON `details`, which is enough for a trail but not a queryable consent register.
+- **B17b** — no dedicated per-purpose `ConsentRecord` table; guardian consent is recorded in the audit log's JSON `after` field, which is enough for a trail but not a queryable consent register.
 - **A3b** — phone, email, and body-metric fields are still plaintext at rest. Not touched — field-level encryption of a unique login column is a larger, riskier migration than this pass should take on unreviewed.
 - **A9** — the audit log is still not enforced append-only at the database level (needs a restricted Postgres role, not application code).
 - **A13, G30** — backup runbook/restore drill and vendor DPAs (MSG91, Cashfree, Supabase) are operational/legal actions, not code.
@@ -41,9 +51,9 @@ changes are staged as files only; see "Action needed" at the end.
 
 ### Action needed from you
 
-1. **Review `backend/prisma/migrations/20260921_dpdp_consent_fixes/migration.sql`** — it resets `allowProgressMonitoring` to `false` for every existing membership row, not just new ones, because nothing in the data distinguishes real consent from the old default. Run `npm run prisma:deploy` (not `migrate dev`) when ready — this was **not** run against the live database automatically.
-2. Decide on the self-registration guardian-OTP flow (see above) before relying on the current notice-only version for real under-18 users.
-3. Get the vendor DPAs and backup runbook signed off outside of code.
+1. Get the vendor DPAs and backup runbook signed off outside of code.
+2. Decide whether field-level encryption of phone/email/body metrics (A3b) is worth the migration risk before launch, or accepted as a documented residual risk.
+3. Consider a dedicated `ConsentRecord` table (B17b) if a queryable consent register becomes a compliance requirement, rather than relying on audit-log JSON.
 
 ---
 

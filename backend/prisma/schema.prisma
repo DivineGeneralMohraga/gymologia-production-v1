@@ -141,6 +141,8 @@ enum OtpPurpose {
                   // challenge can never be redeemed for platform access
   PHONE_CHANGE
   PAYOUT_UPI_VERIFY
+  GUARDIAN_CONSENT // DPDP Act 2023 s.9 — verifying a parent/guardian's
+                   // phone before a self-registered under-18 account activates
 }
 
 /// Refresh-token sessions. Access tokens are stateless JWTs; revocation

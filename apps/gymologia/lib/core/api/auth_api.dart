@@ -114,6 +114,7 @@ class AuthApi {
     required int age,
     String? email,
     required String deviceId,
+    String? guardianConsentToken,
   }) async {
     final json = await _client.post(
       '/auth/register',
@@ -124,6 +125,8 @@ class AuthApi {
         'age': age,
         if (email != null && email.isNotEmpty) 'email': email,
         'deviceId': deviceId,
+        if (guardianConsentToken != null)
+          'guardianConsentToken': guardianConsentToken,
       },
     );
 

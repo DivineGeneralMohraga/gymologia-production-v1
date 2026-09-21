@@ -102,6 +102,52 @@ export class RegisterDto {
   @IsString()
   @MaxLength(10)
   locale?: string;
+
+  @ApiPropertyOptional({
+    description:
+      'Required when age is under 18: the token returned by /auth/guardian-consent/verify. ' +
+      'DPDP Act 2023 s.9.',
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(2000)
+  guardianConsentToken?: string;
+}
+
+export class GuardianConsentRequestDto {
+  @ApiProperty({ description: 'The same token /auth/register will need' })
+  @IsString()
+  @MaxLength(2000)
+  registrationToken!: string;
+
+  @ApiProperty({ example: '+918178848820', description: "The guardian's own number" })
+  @IsString()
+  @trim()
+  @MaxLength(20)
+  guardianPhone!: string;
+}
+
+export class GuardianConsentVerifyDto {
+  @ApiProperty()
+  @IsString()
+  @MaxLength(2000)
+  registrationToken!: string;
+
+  @ApiProperty({ format: 'uuid' })
+  @IsString()
+  @Length(36, 36)
+  challengeId!: string;
+
+  @ApiProperty()
+  @IsString()
+  @trim()
+  @MaxLength(20)
+  guardianPhone!: string;
+
+  @ApiProperty({ example: '482913' })
+  @IsString()
+  @Matches(/^\d{4,8}$/, { message: 'Verification code must be 4-8 digits' })
+  code!: string;
 }
 
 export class RefreshDto {
