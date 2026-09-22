@@ -25,12 +25,17 @@ async function bootstrap(): Promise<void> {
   const prefix = config.get<string>('app.apiPrefix', 'api/v1');
   const isProduction = config.get<boolean>('app.isProduction', false);
 
-  // The account-deletion page is excluded so it answers at /delete-account
-  // rather than /api/v1/delete-account. That URL goes into Play's Data
-  // safety form and gets opened by people who have already uninstalled the
-  // app; it should not look like an internal endpoint.
+  // These three public web pages are excluded so they answer at
+  // /delete-account, /terms and /privacy rather than under /api/v1. All
+  // three URLs go into an app store listing form and get opened by people
+  // who may not have the app installed; none of them should look like an
+  // internal endpoint.
   app.setGlobalPrefix(prefix, {
-    exclude: [{ path: 'delete-account', method: RequestMethod.GET }],
+    exclude: [
+      { path: 'delete-account', method: RequestMethod.GET },
+      { path: 'terms', method: RequestMethod.GET },
+      { path: 'privacy', method: RequestMethod.GET },
+    ],
   });
 
   // ── Transport hardening ──────────────────────────────────────────

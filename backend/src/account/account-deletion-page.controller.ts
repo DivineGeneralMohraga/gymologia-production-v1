@@ -4,6 +4,7 @@ import { randomBytes } from 'node:crypto';
 import type { Response } from 'express';
 
 import { Public } from '../rbac/rbac.decorators';
+import { brandFooter, brandPage } from '../common/web/brand-page';
 
 /**
  * The web page Play requires.
@@ -59,63 +60,9 @@ export class AccountDeletionPageController {
   }
 }
 
-const html = (nonce: string): string => `<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<title>Delete your Gymologia account</title>
-<style>
-  :root { color-scheme: light dark; }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; padding: 24px 16px 64px;
-    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    background: #fff; color: #16181d;
-  }
-  main { max-width: 34rem; margin: 0 auto; }
-  h1 { font-size: 1.5rem; margin: 0 0 .25rem; }
-  h2 { font-size: 1rem; margin: 1.75rem 0 .5rem; }
-  p { margin: .6rem 0; }
-  .sub { color: #5c6270; margin-top: 0; }
-  label { display: block; font-weight: 600; margin: 1rem 0 .3rem; font-size: .9rem; }
-  input {
-    width: 100%; padding: .7rem .8rem; font-size: 1rem;
-    border: 1px solid #c3c8d2; border-radius: 8px;
-    background: #fff; color: inherit;
-  }
-  button {
-    width: 100%; margin-top: 1rem; padding: .8rem;
-    font-size: 1rem; font-weight: 600; border: 0; border-radius: 8px;
-    background: #1f6feb; color: #fff; cursor: pointer;
-  }
-  button.danger { background: #c4341c; }
-  button[disabled] { opacity: .55; cursor: default; }
-  ul { padding-left: 1.2rem; }
-  li { margin: .3rem 0; }
-  .card {
-    border: 1px solid #e0e3ea; border-radius: 10px;
-    padding: 1rem 1.1rem; margin-top: 1rem; background: #f8f9fb;
-  }
-  .warn { border-color: #e8bfb6; background: #fdf4f2; }
-  .msg { margin-top: 1rem; font-weight: 600; }
-  .err { color: #b3301a; }
-  .ok { color: #1a7a42; }
-  .hidden { display: none; }
-  footer { margin-top: 2.5rem; font-size: .85rem; color: #5c6270; }
-  a { color: #1f6feb; }
-  @media (prefers-color-scheme: dark) {
-    body { background: #14161a; color: #e7e9ee; }
-    input { background: #1c1f25; border-color: #333944; }
-    .card { background: #1a1d23; border-color: #2a2f38; }
-    .warn { background: #2a1c19; border-color: #5c3128; }
-    .sub, footer { color: #9aa2b1; }
-  }
-</style>
-</head>
-<body>
-<main>
+const html = (nonce: string): string => brandPage({
+  title: 'Delete your Gymologia account',
+  bodyHtml: `
   <h1>Delete your Gymologia account</h1>
   <p class="sub">You can also do this in the app, under Settings.</p>
 
@@ -161,12 +108,7 @@ const html = (nonce: string): string => `<!doctype html>
 
   <p id="msg" class="msg"></p>
 
-  <footer>
-    Need help, or want to cancel a deletion?
-    Email <a href="mailto:support@gymologia.com">support@gymologia.com</a>
-    from the address on your account, or sign in to the app and cancel it there.
-  </footer>
-</main>
+  ${brandFooter('/delete-account')}
 
 <script nonce="${nonce}">
 (function () {
@@ -276,6 +218,5 @@ const html = (nonce: string): string => `<!doctype html>
       .catch(function (e) { say(e.message, 'err'); busy('confirm', false); });
   });
 })();
-</script>
-</body>
-</html>`;
+</script>`,
+});
