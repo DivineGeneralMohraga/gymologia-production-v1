@@ -41,18 +41,21 @@ export class RankingService {
           select: { plan: true },
           take: 1,
         },
+        kyc: { select: { verifiedAt: true } },
       },
     });
     if (!gym) throw new NotFoundException('Gym not found');
 
     const plan = gym.subscriptions[0]?.plan ?? null;
+    const kycVerified = gym.kyc?.verifiedAt != null;
     const listed =
       plan === Plan.PRO &&
       gym.status === GymStatus.ACTIVE &&
-      gym.publicListing;
+      gym.publicListing &&
+      kycVerified;
 
     if (!listed) {
-      // Say which of the three reasons it is. "You are not ranked" without
+      // Say which of the four reasons it is. "You are not ranked" without
       // a reason leaves an owner unable to act on it.
       return {
         listed: false,
@@ -62,7 +65,9 @@ export class RankingService {
             ? 'Only Pro gyms appear in Gymologia search. Upgrade to be ranked.'
             : gym.status !== GymStatus.ACTIVE
               ? 'Your gym is not active, so it is not being shown in search.'
-              : 'Public listing is switched off in your gym profile.',
+              : !kycVerified
+                ? 'Your KYC verification is not complete yet, so you are not being shown in search.'
+                : 'Public listing is switched off in your gym profile.',
         rating: Number(gym.ratingAverage),
         ratingCount: gym.ratingCount,
         scopes: [],
@@ -120,12 +125,16 @@ export class RankingService {
             : Prisma.empty;
 
     // The eligibility half is the search endpoint's WHERE clause: active,
-    // publicly listed, and holding a live PRO subscription.
+    // publicly listed, KYC-verified, and holding a live PRO subscription.
     const eligible = Prisma.sql`
       FROM gyms g
       WHERE g."deletedAt" IS NULL
         AND g.status::text = 'ACTIVE'
         AND g."publicListing" = true
+        AND EXISTS (
+          SELECT 1 FROM gym_kyc k
+          WHERE k."gymId" = g.id AND k."verifiedAt" IS NOT NULL
+        )
         AND EXISTS (
           SELECT 1 FROM gym_subscriptions s
           WHERE s."gymId" = g.id

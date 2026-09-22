@@ -283,6 +283,10 @@ export class GymsService {
       deletedAt: null,
       status: GymStatus.ACTIVE,
       publicListing: true,
+      // The spec is explicit: the public browser only lists a gym once it
+      // "has already done kyc and using pro plan" -- paying for Pro alone
+      // was letting an unverified gym straight into search.
+      kyc: { verifiedAt: { not: null } },
       subscriptions: {
         some: {
           status: "ACTIVE",
