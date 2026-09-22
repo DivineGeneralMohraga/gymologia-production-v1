@@ -1135,6 +1135,15 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get chooseARole => 'Choose a role.';
 
+
+  @override
+  String get isATrainer => 'Is a trainer?';
+
+  @override
+  String get chooseATrainerCategory => 'Choose a trainer category.';
+
+  @override
+  String get trainerCategory => 'Trainer category';
   @override
   String get addAMember => 'Add a member';
 

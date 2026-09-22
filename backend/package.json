@@ -20,7 +20,8 @@
     "prisma:studio": "prisma studio",
     "seed": "ts-node prisma/seed.ts",
     "test:dpdp": "node test/dpdp-live.js",
-    "test:dpdp:job": "node test/dpdp-deletion-job.js"
+    "test:dpdp:job": "node test/dpdp-deletion-job.js",
+    "test:bugfix-staff-events": "node test/bugfix-staff-events-live.js"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.6",

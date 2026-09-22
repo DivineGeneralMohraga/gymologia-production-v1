@@ -1117,6 +1117,15 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get chooseARole => 'एक भूमिका निवडा.';
 
+
+  @override
+  String get isATrainer => 'Is a trainer?';
+
+  @override
+  String get chooseATrainerCategory => 'Choose a trainer category.';
+
+  @override
+  String get trainerCategory => 'Trainer category';
   @override
   String get addAMember => 'एक सदस्य जोडा';
 

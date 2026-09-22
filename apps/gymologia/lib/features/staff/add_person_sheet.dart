@@ -54,6 +54,9 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
   // Staff fields
   List<Map<String, dynamic>> _roles = const [];
   String? _roleId;
+  bool _isTrainer = false;
+  List<Map<String, dynamic>> _trainerCategories = const [];
+  String? _trainerCategoryId;
 
   bool get _isMember => widget.mode == AddMode.member;
   GymApi get _api => GymApi(context.read<AuthController>().client);
@@ -68,7 +71,9 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
 
   Future<void> _sendCode() async {
     final problem = validateIndianMobile(
-        AppLocalizations.of(context), _phone.text.trim());
+      AppLocalizations.of(context),
+      _phone.text.trim(),
+    );
     if (problem != null) {
       setState(() => _error = problem);
       return;
@@ -106,13 +111,15 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
   Future<void> _submit() async {
     final lookup = _lookup!;
     if (_code.text.trim().length < 4) {
-      setState(() =>
-          _error = AppLocalizations.of(context).enterCodeSentToTheirPhone);
+      setState(
+        () => _error = AppLocalizations.of(context).enterCodeSentToTheirPhone,
+      );
       return;
     }
     if (!lookup.exists && _name.text.trim().length < 2) {
-      setState(() =>
-          _error = AppLocalizations.of(context).numberIsNewNameNeeded);
+      setState(
+        () => _error = AppLocalizations.of(context).numberIsNewNameNeeded,
+      );
       return;
     }
     // New members need an age on record — otherwise the system can never
@@ -120,20 +127,26 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
     if (_isMember && !lookup.exists) {
       final age = int.tryParse(_age.text.trim());
       if (age == null || age < 13 || age > 100) {
-        setState(() =>
-            _error = AppLocalizations.of(context).enterAValidAge);
+        setState(() => _error = AppLocalizations.of(context).enterAValidAge);
         return;
       }
     }
     final needsGuardianConsent =
         _isMember && (_isMinor || _existingAccountIsMinor);
     if (needsGuardianConsent && !_guardianConsentConfirmed) {
-      setState(() =>
-          _error = AppLocalizations.of(context).guardianConsentRequired);
+      setState(
+        () => _error = AppLocalizations.of(context).guardianConsentRequired,
+      );
       return;
     }
     if (!_isMember && _roleId == null) {
       setState(() => _error = AppLocalizations.of(context).chooseARole);
+      return;
+    }
+    if (!_isMember && _isTrainer && _trainerCategoryId == null) {
+      setState(
+        () => _error = AppLocalizations.of(context).chooseATrainerCategory,
+      );
       return;
     }
 
@@ -160,6 +173,8 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
       });
     } else {
       body['roleId'] = _roleId;
+      body['isTrainer'] = _isTrainer;
+      if (_isTrainer) body['trainerCategoryId'] = _trainerCategoryId;
     }
 
     try {
@@ -196,7 +211,10 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        24, 20, 24, MediaQuery.of(context).viewInsets.bottom + 28,
+        24,
+        20,
+        24,
+        MediaQuery.of(context).viewInsets.bottom + 28,
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -215,16 +233,19 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
             ),
             const SizedBox(height: 20),
             Text(
-                _isMember
-                    ? AppLocalizations.of(context).addAMember
-                    : AppLocalizations.of(context).addStaff,
-                style: theme.textTheme.headlineSmall
-                    ?.copyWith(fontWeight: FontWeight.bold)),
+              _isMember
+                  ? AppLocalizations.of(context).addAMember
+                  : AppLocalizations.of(context).addStaff,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 6),
             Text(
               AppLocalizations.of(context).weTextACodeFirst,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
             const SizedBox(height: 20),
 
@@ -251,7 +272,8 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                     ? const SizedBox(
                         height: 22,
                         width: 22,
-                        child: CircularProgressIndicator(strokeWidth: 2.5))
+                        child: CircularProgressIndicator(strokeWidth: 2.5),
+                      )
                     : Text(AppLocalizations.of(context).sendCode),
               ),
             ] else ...[
@@ -259,8 +281,9 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.secondaryContainer
-                      .withValues(alpha: 0.45),
+                  color: theme.colorScheme.secondaryContainer.withValues(
+                    alpha: 0.45,
+                  ),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
@@ -270,8 +293,9 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                     Expanded(
                       child: Text(
                         lookup.exists
-                            ? AppLocalizations.of(context)
-                                .codeSentExistingAccount
+                            ? AppLocalizations.of(
+                                context,
+                              ).codeSentExistingAccount
                             : AppLocalizations.of(context).codeSentNewAccount,
                         style: theme.textTheme.bodySmall,
                       ),
@@ -294,7 +318,9 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                 TextField(
                   controller: _name,
                   textCapitalization: TextCapitalization.words,
-                  decoration: InputDecoration(labelText: AppLocalizations.of(context).theirName),
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context).theirName,
+                  ),
                 ),
                 if (_isMember) ...[
                   const SizedBox(height: 10),
@@ -306,7 +332,8 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                       LengthLimitingTextInputFormatter(3),
                     ],
                     decoration: InputDecoration(
-                        labelText: AppLocalizations.of(context).theirAge),
+                      labelText: AppLocalizations.of(context).theirAge,
+                    ),
                     onChanged: (_) => setState(() {}),
                   ),
                 ],
@@ -317,8 +344,9 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                 Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.errorContainer
-                        .withValues(alpha: 0.4),
+                    color: theme.colorScheme.errorContainer.withValues(
+                      alpha: 0.4,
+                    ),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
@@ -327,14 +355,17 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.family_restroom,
-                              size: 18,
-                              color: theme.colorScheme.onErrorContainer),
+                          Icon(
+                            Icons.family_restroom,
+                            size: 18,
+                            color: theme.colorScheme.onErrorContainer,
+                          ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
-                              AppLocalizations.of(context)
-                                  .guardianConsentExplainer,
+                              AppLocalizations.of(
+                                context,
+                              ).guardianConsentExplainer,
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: theme.colorScheme.onErrorContainer,
                                 height: 1.4,
@@ -348,10 +379,12 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                         controlAffinity: ListTileControlAffinity.leading,
                         value: _guardianConsentConfirmed,
                         onChanged: (v) => setState(
-                            () => _guardianConsentConfirmed = v ?? false),
+                          () => _guardianConsentConfirmed = v ?? false,
+                        ),
                         title: Text(
-                          AppLocalizations.of(context)
-                              .guardianConsentCheckboxLabel,
+                          AppLocalizations.of(
+                            context,
+                          ).guardianConsentCheckboxLabel,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onErrorContainer,
                           ),
@@ -391,8 +424,9 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                 const SizedBox(height: 10),
                 Text(
                   AppLocalizations.of(context).memberCanUpdateMetrics,
-                  style: theme.textTheme.bodySmall
-                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ] else ...[
                 const SizedBox(height: 16),
@@ -404,13 +438,39 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                   roles: _roles,
                   onChanged: (id) => setState(() => _roleId = id),
                 ),
+                const SizedBox(height: 14),
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: _isTrainer,
+                  title: Text(AppLocalizations.of(context).isATrainer),
+                  onChanged: (v) => setState(() {
+                    _isTrainer = v ?? false;
+                    if (!_isTrainer) _trainerCategoryId = null;
+                  }),
+                ),
+                if (_isTrainer) ...[
+                  const SizedBox(height: 4),
+                  _TrainerCategoryPicker(
+                    gymId: widget.gym.id,
+                    api: _api,
+                    categoryId: _trainerCategoryId,
+                    categories: _trainerCategories,
+                    onLoaded: (cats) =>
+                        setState(() => _trainerCategories = cats),
+                    onChanged: (id) => setState(() => _trainerCategoryId = id),
+                  ),
+                ],
               ],
 
               if (_error != null) ...[
                 const SizedBox(height: 12),
-                Text(_error!,
-                    style: theme.textTheme.bodySmall
-                        ?.copyWith(color: theme.colorScheme.error)),
+                Text(
+                  _error!,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.error,
+                  ),
+                ),
               ],
 
               const SizedBox(height: 18),
@@ -420,18 +480,24 @@ class _AddPersonSheetState extends State<AddPersonSheet> {
                     ? const SizedBox(
                         height: 22,
                         width: 22,
-                        child: CircularProgressIndicator(strokeWidth: 2.5))
-                    : Text(_isMember
-                        ? AppLocalizations.of(context).addMember
-                        : AppLocalizations.of(context).addStaff),
+                        child: CircularProgressIndicator(strokeWidth: 2.5),
+                      )
+                    : Text(
+                        _isMember
+                            ? AppLocalizations.of(context).addMember
+                            : AppLocalizations.of(context).addStaff,
+                      ),
               ),
             ],
 
             if (_error != null && lookup == null) ...[
               const SizedBox(height: 12),
-              Text(_error!,
-                  style: theme.textTheme.bodySmall
-                      ?.copyWith(color: theme.colorScheme.error)),
+              Text(
+                _error!,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.error,
+                ),
+              ),
             ],
           ],
         ),
@@ -468,9 +534,11 @@ class _Counter extends StatelessWidget {
         ),
         SizedBox(
           width: 74,
-          child: Text('$value $suffix',
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.w700)),
+          child: Text(
+            '$value $suffix',
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontWeight: FontWeight.w700),
+          ),
         ),
         IconButton(
           onPressed: value < max ? () => onChanged(value + 1) : null,
@@ -523,8 +591,7 @@ class _RolePickerState extends State<_RolePicker> {
   Future<void> _load() async {
     try {
       final all = await widget.api.roles(widget.gymId);
-      final assignable =
-          all.where((r) => r['assignable'] == true).toList();
+      final assignable = all.where((r) => r['assignable'] == true).toList();
       if (mounted) {
         widget.onLoaded(assignable);
         setState(() => _loading = false);
@@ -543,7 +610,8 @@ class _RolePickerState extends State<_RolePicker> {
         padding: EdgeInsets.symmetric(vertical: 12),
         child: Center(
           child: SizedBox(
-            height: 20, width: 20,
+            height: 20,
+            width: 20,
             child: CircularProgressIndicator(strokeWidth: 2.2),
           ),
         ),
@@ -553,19 +621,22 @@ class _RolePickerState extends State<_RolePicker> {
     if (widget.roles.isEmpty) {
       return Text(
         AppLocalizations.of(context).noRolesYouCanAssign,
-        style: theme.textTheme.bodySmall
-            ?.copyWith(color: theme.colorScheme.error),
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: theme.colorScheme.error,
+        ),
       );
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(AppLocalizations.of(context).role.toUpperCase(),
-            style: theme.textTheme.labelSmall?.copyWith(
-              letterSpacing: 0.8,
-              color: theme.colorScheme.onSurfaceVariant,
-            )),
+        Text(
+          AppLocalizations.of(context).role.toUpperCase(),
+          style: theme.textTheme.labelSmall?.copyWith(
+            letterSpacing: 0.8,
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
@@ -576,6 +647,109 @@ class _RolePickerState extends State<_RolePicker> {
                 label: Text(role['name'] as String? ?? ''),
                 selected: widget.roleId == role['id'],
                 onSelected: (_) => widget.onChanged(role['id'] as String?),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+/// Trainer categories this gym's management has set up — General, Personal,
+/// or whatever else they created. Picking one is required once "Is a
+/// trainer?" is ticked; the backend rejects isTrainer:true with no category.
+class _TrainerCategoryPicker extends StatefulWidget {
+  const _TrainerCategoryPicker({
+    required this.gymId,
+    required this.api,
+    required this.categories,
+    required this.categoryId,
+    required this.onLoaded,
+    required this.onChanged,
+  });
+
+  final String gymId;
+  final GymApi api;
+  final List<Map<String, dynamic>> categories;
+  final String? categoryId;
+  final ValueChanged<List<Map<String, dynamic>>> onLoaded;
+  final ValueChanged<String?> onChanged;
+
+  @override
+  State<_TrainerCategoryPicker> createState() => _TrainerCategoryPickerState();
+}
+
+class _TrainerCategoryPickerState extends State<_TrainerCategoryPicker> {
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.categories.isEmpty) {
+      _load();
+    } else {
+      _loading = false;
+    }
+  }
+
+  Future<void> _load() async {
+    try {
+      final all = await widget.api.trainerCategories(widget.gymId);
+      if (mounted) {
+        widget.onLoaded(all);
+        setState(() => _loading = false);
+      }
+    } on ApiException {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    if (_loading) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 12),
+        child: Center(
+          child: SizedBox(
+            height: 20,
+            width: 20,
+            child: CircularProgressIndicator(strokeWidth: 2.2),
+          ),
+        ),
+      );
+    }
+
+    if (widget.categories.isEmpty) {
+      return Text(
+        AppLocalizations.of(context).noTrainerCategoriesYet,
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: theme.colorScheme.error,
+        ),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppLocalizations.of(context).trainerCategory.toUpperCase(),
+          style: theme.textTheme.labelSmall?.copyWith(
+            letterSpacing: 0.8,
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final cat in widget.categories)
+              ChoiceChip(
+                label: Text(cat['name'] as String? ?? ''),
+                selected: widget.categoryId == cat['id'],
+                onSelected: (_) => widget.onChanged(cat['id'] as String?),
               ),
           ],
         ),

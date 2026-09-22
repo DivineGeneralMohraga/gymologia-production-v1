@@ -1121,6 +1121,15 @@ class AppLocalizationsKn extends AppLocalizations {
   @override
   String get chooseARole => 'ಒಂದು ಪಾತ್ರ ಆಯ್ಕೆಮಾಡಿ.';
 
+
+  @override
+  String get isATrainer => 'Is a trainer?';
+
+  @override
+  String get chooseATrainerCategory => 'Choose a trainer category.';
+
+  @override
+  String get trainerCategory => 'Trainer category';
   @override
   String get addAMember => 'ಒಬ್ಬ ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ';
 

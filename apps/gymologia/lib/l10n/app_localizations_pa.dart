@@ -1121,6 +1121,15 @@ class AppLocalizationsPa extends AppLocalizations {
   @override
   String get chooseARole => 'ਇੱਕ ਭੂਮਿਕਾ ਚੁਣੋ।';
 
+
+  @override
+  String get isATrainer => 'Is a trainer?';
+
+  @override
+  String get chooseATrainerCategory => 'Choose a trainer category.';
+
+  @override
+  String get trainerCategory => 'Trainer category';
   @override
   String get addAMember => 'ਇੱਕ ਮੈਂਬਰ ਜੋੜੋ';
 

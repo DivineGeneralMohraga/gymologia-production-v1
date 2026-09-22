@@ -1872,6 +1872,24 @@ abstract class AppLocalizations {
   /// **'Choose a role.'**
   String get chooseARole;
 
+  /// No description provided for @isATrainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Is a trainer?'**
+  String get isATrainer;
+
+  /// No description provided for @chooseATrainerCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a trainer category.'**
+  String get chooseATrainerCategory;
+
+  /// No description provided for @trainerCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainer category'**
+  String get trainerCategory;
+
   /// No description provided for @addAMember.
   ///
   /// In en, this message translates to:

@@ -1125,6 +1125,15 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get chooseARole => 'ഒരു റോൾ തിരഞ്ഞെടുക്കുക.';
 
+
+  @override
+  String get isATrainer => 'Is a trainer?';
+
+  @override
+  String get chooseATrainerCategory => 'Choose a trainer category.';
+
+  @override
+  String get trainerCategory => 'Trainer category';
   @override
   String get addAMember => 'ഒരു അംഗത്തെ ചേർക്കുക';
 

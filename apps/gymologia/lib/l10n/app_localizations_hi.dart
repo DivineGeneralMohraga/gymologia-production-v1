@@ -1121,6 +1121,15 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get chooseARole => 'एक भूमिका चुनें।';
 
+
+  @override
+  String get isATrainer => 'क्या यह ट्रेनर है?';
+
+  @override
+  String get chooseATrainerCategory => 'एक ट्रेनर श्रेणी चुनें।';
+
+  @override
+  String get trainerCategory => 'ट्रेनर श्रेणी';
   @override
   String get addAMember => 'एक सदस्य जोड़ें';
 

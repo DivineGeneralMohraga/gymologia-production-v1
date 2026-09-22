@@ -1122,6 +1122,15 @@ class AppLocalizationsTe extends AppLocalizations {
   @override
   String get chooseARole => 'ఒక పాత్రను ఎంచుకోండి.';
 
+
+  @override
+  String get isATrainer => 'Is a trainer?';
+
+  @override
+  String get chooseATrainerCategory => 'Choose a trainer category.';
+
+  @override
+  String get trainerCategory => 'Trainer category';
   @override
   String get addAMember => 'ఒక సభ్యుడిని చేర్చు';
 

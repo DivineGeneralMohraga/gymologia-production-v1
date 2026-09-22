@@ -11,6 +11,7 @@ import {
   Permission,
   Plan,
   Prisma,
+  StaffStatus,
   SubscriptionStatus,
 } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
@@ -223,14 +224,32 @@ export class EventsService {
   async feed(userId: string, dto: ListEventsDto) {
     const now = new Date();
 
-    const memberships = await this.prisma.membership.findMany({
-      where: {
-        userId,
-        status: { in: [MembershipStatus.ACTIVE, MembershipStatus.ON_LEAVE] },
-      },
-      select: { gymId: true },
-    });
-    const myGymIds = memberships.map((m) => m.gymId);
+    // "My gyms" is every gym this person has a real stake in — as a member
+    // OR as staff. Staff are frequently not also a paying member of the
+    // gym they work at, and a Basic-plan gym's events never reach the
+    // national feed below (publicListing is Pro-only) — without the staff
+    // half of this, someone working the front desk of a Basic gym would
+    // see none of their own management's events, including ones they
+    // themselves might be expected to help run.
+    const [memberships, staffRoles] = await Promise.all([
+      this.prisma.membership.findMany({
+        where: {
+          userId,
+          status: { in: [MembershipStatus.ACTIVE, MembershipStatus.ON_LEAVE] },
+        },
+        select: { gymId: true },
+      }),
+      this.prisma.staffMember.findMany({
+        where: { userId, status: StaffStatus.ACTIVE },
+        select: { gymId: true },
+      }),
+    ]);
+    const myGymIds = [
+      ...new Set([
+        ...memberships.map((m) => m.gymId),
+        ...staffRoles.map((s) => s.gymId),
+      ]),
+    ];
 
     const upcoming: Prisma.EventWhereInput = {
       status: EventStatus.PUBLISHED,

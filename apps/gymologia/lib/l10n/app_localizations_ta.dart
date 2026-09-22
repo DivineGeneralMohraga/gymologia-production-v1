@@ -1139,6 +1139,15 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get chooseARole => 'ஒரு பங்கைத் தேர்வு செய்யுங்கள்.';
 
+
+  @override
+  String get isATrainer => 'Is a trainer?';
+
+  @override
+  String get chooseATrainerCategory => 'Choose a trainer category.';
+
+  @override
+  String get trainerCategory => 'Trainer category';
   @override
   String get addAMember => 'ஒரு உறுப்பினரைச் சேர்';
 
