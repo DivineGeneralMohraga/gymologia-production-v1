@@ -62,8 +62,6 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Column(
       children: [
         Padding(
@@ -91,49 +89,39 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
           child: _loading
               ? const Center(child: CircularProgressIndicator())
               : _error != null
-                  ? _Message(
-                      icon: Icons.cloud_off,
-                      title: AppLocalizations.of(context).couldNotLoadGyms,
-                      body: _error!,
-                      action: FilledButton.tonal(
-                        onPressed: _load,
-                        child: Text(AppLocalizations.of(context).tryAgain),
+              ? _Message(
+                  icon: Icons.cloud_off,
+                  title: AppLocalizations.of(context).couldNotLoadGyms,
+                  body: _error!,
+                  action: FilledButton.tonal(
+                    onPressed: _load,
+                    child: Text(AppLocalizations.of(context).tryAgain),
+                  ),
+                )
+              : _results.isEmpty
+              ? _Message(
+                  icon: Icons.storefront_outlined,
+                  title: AppLocalizations.of(context).noGymsListedYet,
+                  body: _search.text.isEmpty
+                      ? AppLocalizations.of(context).gymsAppearOnPro
+                      : AppLocalizations.of(
+                          context,
+                        ).nothingMatchedTry(_search.text.trim()),
+                )
+              : ListView.separated(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+                  itemCount: _results.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (_, i) => _GymCard(
+                    listing: _results[i],
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => GymProfilePage(gymId: _results[i].id),
                       ),
-                    )
-                  : _results.isEmpty
-                      ? _Message(
-                          icon: Icons.storefront_outlined,
-                          title:
-                              AppLocalizations.of(context).noGymsListedYet,
-                          body: _search.text.isEmpty
-                              ? AppLocalizations.of(context).gymsAppearOnPro
-                              : AppLocalizations.of(context)
-                                  .nothingMatchedTry(_search.text.trim()),
-                        )
-                      : ListView.separated(
-                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
-                          itemCount: _results.length,
-                          separatorBuilder: (_, __) => const SizedBox(height: 12),
-                          itemBuilder: (_, i) => _GymCard(
-                            listing: _results[i],
-                            onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    GymProfilePage(gymId: _results[i].id),
-                              ),
-                            ),
-                          ),
-                        ),
+                    ),
+                  ),
+                ),
         ),
-        if (!_loading && _results.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Text(
-              AppLocalizations.of(context).gymsListedCount(_results.length),
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-            ),
-          ),
       ],
     );
   }
@@ -161,16 +149,20 @@ class _GymCard extends StatelessWidget {
               child: listing.imageUrl == null
                   ? Container(
                       color: theme.colorScheme.surfaceContainerHighest,
-                      child: Icon(Icons.fitness_center,
-                          color: theme.colorScheme.outline),
+                      child: Icon(
+                        Icons.fitness_center,
+                        color: theme.colorScheme.outline,
+                      ),
                     )
                   : Image.network(
                       listing.imageUrl!,
                       fit: BoxFit.cover,
                       errorBuilder: (_, __, ___) => Container(
                         color: theme.colorScheme.surfaceContainerHighest,
-                        child: Icon(Icons.fitness_center,
-                            color: theme.colorScheme.outline),
+                        child: Icon(
+                          Icons.fitness_center,
+                          color: theme.colorScheme.outline,
+                        ),
                       ),
                     ),
             ),
@@ -183,8 +175,9 @@ class _GymCard extends StatelessWidget {
                   children: [
                     Text(
                       listing.displayName,
-                      style: theme.textTheme.titleMedium
-                          ?.copyWith(fontWeight: FontWeight.w600),
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -201,8 +194,9 @@ class _GymCard extends StatelessWidget {
                           )
                         else
                           _Chip(
-                              icon: Icons.star_border_rounded,
-                              label: AppLocalizations.of(context).noRatings),
+                            icon: Icons.star_border_rounded,
+                            label: AppLocalizations.of(context).noRatings,
+                          ),
                         _Chip(
                           icon: Icons.card_giftcard_outlined,
                           label:
@@ -239,9 +233,12 @@ class _Chip extends StatelessWidget {
       children: [
         Icon(icon, size: 14, color: theme.colorScheme.onSurfaceVariant),
         const SizedBox(width: 4),
-        Text(label,
-            style: theme.textTheme.bodySmall
-                ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+        Text(
+          label,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
       ],
     );
   }
@@ -271,15 +268,21 @@ class _Message extends StatelessWidget {
           children: [
             Icon(icon, size: 44, color: theme.colorScheme.outline),
             const SizedBox(height: 16),
-            Text(title,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w600)),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
             const SizedBox(height: 8),
-            Text(body,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.bodyMedium
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+            Text(
+              body,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
             if (action != null) ...[const SizedBox(height: 20), action!],
           ],
         ),

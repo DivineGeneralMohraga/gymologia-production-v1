@@ -189,6 +189,11 @@ export class NotificationsService {
    * failing must never fail the registration it is welcoming.
    */
   async sendOnboarding(userId: string): Promise<void> {
+    // The referral-app nudge that used to be the second message here was
+    // removed 2026-09-22, along with its card in Settings and this pitch
+    // no longer being sent to new members. ONBOARDING_LINKS.referral and
+    // the deep-link renderer on the client are left in place so any
+    // message already sitting in an inbox still displays correctly.
     const messages = [
       {
         deepLink: ONBOARDING_LINKS.becomeOwnerOrStaff,
@@ -196,13 +201,6 @@ export class NotificationsService {
         body:
           'Open Settings and switch to owner and staff mode. You can create a ' +
           'gym there, or appear in one you already work at.',
-      },
-      {
-        deepLink: ONBOARDING_LINKS.referral,
-        title: 'Earn by referring',
-        body:
-          'Share a referral code and earn when a gym owner subscribes. ' +
-          'They get 10% off, you get paid.',
       },
     ];
 

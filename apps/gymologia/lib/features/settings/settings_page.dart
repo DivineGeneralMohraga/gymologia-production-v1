@@ -53,18 +53,25 @@ class SettingsPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(user?.name ?? '—',
-                        style: theme.textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w600)),
-                    Text(user?.phone ?? '',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        )),
+                    Text(
+                      user?.name ?? '—',
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      user?.phone ?? '',
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
                     if (user?.email != null)
-                      Text(user!.email!,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          )),
+                      Text(
+                        user!.email!,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -86,51 +93,32 @@ class SettingsPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(isStaff ? Icons.badge_outlined : Icons.person_outline,
-                          size: 20),
+                      Icon(
+                        isStaff ? Icons.badge_outlined : Icons.person_outline,
+                        size: 20,
+                      ),
                       const SizedBox(width: 10),
                       Text(
                         isStaff ? t.ownerStaffMode : t.memberMode,
-                        style: theme.textTheme.titleSmall
-                            ?.copyWith(fontWeight: FontWeight.w700),
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    isStaff
-                        ? t.managingGymsNote
-                        : t.openingAGymNote,
+                    isStaff ? t.managingGymsNote : t.openingAGymNote,
                     style: theme.textTheme.bodyMedium?.copyWith(height: 1.45),
                   ),
                   const SizedBox(height: 14),
                   FilledButton.icon(
                     onPressed: () => modeController.toggle(),
                     icon: const Icon(Icons.swap_horiz, size: 18),
-                    label: Text(
-                      isStaff ? t.switchToMember : t.switchToStaff,
-                    ),
+                    label: Text(isStaff ? t.switchToMember : t.switchToStaff),
                   ),
                 ],
               ),
-            ),
-          ),
-        ),
-
-        const SizedBox(height: 8),
-
-        // ── Referral nudge ───────────────────────────────────────
-        // The second of the two default messages the spec asks for.
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Card(
-            elevation: 0,
-            color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
-            child: ListTile(
-              leading: const Icon(Icons.card_giftcard_outlined),
-              title: Text(t.earnByReferring),
-              subtitle: Text(t.referralPitch),
-              isThreeLine: true,
             ),
           ),
         ),
@@ -149,18 +137,18 @@ class SettingsPage extends StatelessWidget {
           title: Text(t.name),
           subtitle: Text(user?.name ?? '—'),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const EditProfilePage()),
-          ),
+          onTap: () => Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const EditProfilePage())),
         ),
         ListTile(
           leading: const Icon(Icons.mail_outline),
           title: Text(t.email),
           subtitle: Text(user?.email ?? t.notSet),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const EditProfilePage()),
-          ),
+          onTap: () => Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const EditProfilePage())),
         ),
 
         _SectionLabel(t.safetyAndPrivacy),
@@ -183,17 +171,17 @@ class SettingsPage extends StatelessWidget {
           title: Text(t.getHelp),
           subtitle: Text(t.getHelpSubtitle),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const SupportPage()),
-          ),
+          onTap: () => Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const SupportPage())),
         ),
         ListTile(
           leading: const Icon(Icons.dns_outlined),
           title: Text(t.connection),
           subtitle: Text(AppConfig.displayHost),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const DiagnosticsScreen()),
-          ),
+          onTap: () => Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const DiagnosticsScreen())),
         ),
         ListTile(
           leading: const Icon(Icons.translate),
@@ -202,36 +190,39 @@ class SettingsPage extends StatelessWidget {
             context.watch<LocaleController>().locale == null
                 ? t.followingYourDevice
                 : LanguagePage.nameFor(
-                    context.watch<LocaleController>().locale!.languageCode),
+                    context.watch<LocaleController>().locale!.languageCode,
+                  ),
           ),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const LanguagePage()),
-          ),
+          onTap: () => Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const LanguagePage())),
         ),
         ListTile(
           leading: const Icon(Icons.description_outlined),
           title: Text(t.termsAndPrivacy),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const LegalPage()),
-          ),
+          onTap: () => Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const LegalPage())),
         ),
 
         ListTile(
           leading: const Icon(Icons.download_outlined),
           title: Text(t.downloadMyData),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const DataExportPage()),
-          ),
+          onTap: () => Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const DataExportPage())),
         ),
 
         _SectionLabel(t.session),
         ListTile(
           leading: Icon(Icons.logout, color: theme.colorScheme.error),
-          title: Text(t.signOut,
-              style: TextStyle(color: theme.colorScheme.error)),
+          title: Text(
+            t.signOut,
+            style: TextStyle(color: theme.colorScheme.error),
+          ),
           onTap: () => _confirmSignOut(context, auth),
         ),
         // Below sign-out, because it is the rarer and heavier of the two and
@@ -239,32 +230,43 @@ class SettingsPage extends StatelessWidget {
         // because Play requires deletion to be available in the app and a
         // person who wants out should not have to email anybody.
         ListTile(
-          leading: Icon(Icons.person_remove_outlined,
-              color: theme.colorScheme.error),
-          title: Text(t.deleteAccount,
-              style: TextStyle(color: theme.colorScheme.error)),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () => Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const DeleteAccountPage()),
+          leading: Icon(
+            Icons.person_remove_outlined,
+            color: theme.colorScheme.error,
           ),
+          title: Text(
+            t.deleteAccount,
+            style: TextStyle(color: theme.colorScheme.error),
+          ),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => Navigator.of(
+            context,
+          ).push(MaterialPageRoute(builder: (_) => const DeleteAccountPage())),
         ),
 
         const SizedBox(height: 24),
         Center(
-          child: Text(t.appTagline,
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.outline)),
+          child: Text(
+            t.appTagline,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.outline,
+            ),
+          ),
         ),
       ],
     );
   }
 
   void _toast(BuildContext context, String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
-  Future<void> _confirmSignOut(BuildContext context, AuthController auth) async {
+  Future<void> _confirmSignOut(
+    BuildContext context,
+    AuthController auth,
+  ) async {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
