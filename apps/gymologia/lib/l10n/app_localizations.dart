@@ -2694,6 +2694,24 @@ abstract class AppLocalizations {
   /// **'Search by gym, city or district'**
   String get searchByGymCityDistrict;
 
+  /// No description provided for @useMyLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my location to find nearby gyms'**
+  String get useMyLocation;
+
+  /// No description provided for @findingNearbyGyms.
+  ///
+  /// In en, this message translates to:
+  /// **'Finding gyms near you…'**
+  String get findingNearbyGyms;
+
+  /// No description provided for @locationUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t get your location — showing all gyms instead'**
+  String get locationUnavailable;
+
   /// No description provided for @exerciseDirectorySubtitle.
   ///
   /// In en, this message translates to:

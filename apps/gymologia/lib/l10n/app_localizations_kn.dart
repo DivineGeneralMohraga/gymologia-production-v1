@@ -1121,7 +1121,6 @@ class AppLocalizationsKn extends AppLocalizations {
   @override
   String get chooseARole => 'ಒಂದು ಪಾತ್ರ ಆಯ್ಕೆಮಾಡಿ.';
 
-
   @override
   String get isATrainer => 'Is a trainer?';
 
@@ -1130,6 +1129,7 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get trainerCategory => 'Trainer category';
+
   @override
   String get addAMember => 'ಒಬ್ಬ ಸದಸ್ಯರನ್ನು ಸೇರಿಸಿ';
 
@@ -1607,6 +1607,16 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get searchByGymCityDistrict => 'ಜಿಮ್, ನಗರ ಅಥವಾ ಜಿಲ್ಲೆಯಿಂದ ಹುಡುಕಿ';
+
+  @override
+  String get useMyLocation => 'ಹತ್ತಿರದ ಜಿಮ್‌ಗಳನ್ನು ಹುಡುಕಲು ನನ್ನ ಸ್ಥಳವನ್ನು ಬಳಸಿ';
+
+  @override
+  String get findingNearbyGyms => 'ನಿಮ್ಮ ಹತ್ತಿರದ ಜಿಮ್‌ಗಳನ್ನು ಹುಡುಕಲಾಗುತ್ತಿದೆ…';
+
+  @override
+  String get locationUnavailable =>
+      'ನಿಮ್ಮ ಸ್ಥಳ ಪಡೆಯಲಾಗಲಿಲ್ಲ — ಎಲ್ಲಾ ಜಿಮ್‌ಗಳನ್ನು ತೋರಿಸಲಾಗುತ್ತಿದೆ';
 
   @override
   String get exerciseDirectorySubtitle =>

@@ -1139,7 +1139,6 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get chooseARole => 'ஒரு பங்கைத் தேர்வு செய்யுங்கள்.';
 
-
   @override
   String get isATrainer => 'Is a trainer?';
 
@@ -1148,6 +1147,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get trainerCategory => 'Trainer category';
+
   @override
   String get addAMember => 'ஒரு உறுப்பினரைச் சேர்';
 
@@ -1631,6 +1631,18 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get searchByGymCityDistrict =>
       'கூடம், நகரம் அல்லது மாவட்டம் மூலம் தேடு';
+
+  @override
+  String get useMyLocation =>
+      'அருகிலுள்ள ஜிம்களைக் கண்டறிய எனது இருப்பிடத்தைப் பயன்படுத்து';
+
+  @override
+  String get findingNearbyGyms =>
+      'உங்களுக்கு அருகிலுள்ள ஜிம்கள் தேடப்படுகின்றன…';
+
+  @override
+  String get locationUnavailable =>
+      'உங்கள் இருப்பிடத்தைப் பெற முடியவில்லை — அனைத்து ஜிம்களும் காட்டப்படுகின்றன';
 
   @override
   String get exerciseDirectorySubtitle =>

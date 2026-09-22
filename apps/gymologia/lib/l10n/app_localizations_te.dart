@@ -1122,7 +1122,6 @@ class AppLocalizationsTe extends AppLocalizations {
   @override
   String get chooseARole => 'ఒక పాత్రను ఎంచుకోండి.';
 
-
   @override
   String get isATrainer => 'Is a trainer?';
 
@@ -1131,6 +1130,7 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get trainerCategory => 'Trainer category';
+
   @override
   String get addAMember => 'ఒక సభ్యుడిని చేర్చు';
 
@@ -1607,6 +1607,17 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get searchByGymCityDistrict => 'జిమ్, నగరం లేదా జిల్లా ద్వారా వెతకండి';
+
+  @override
+  String get useMyLocation =>
+      'సమీపంలోని జిమ్‌లను కనుగొనడానికి నా లొకేషన్‌ను ఉపయోగించండి';
+
+  @override
+  String get findingNearbyGyms => 'మీ సమీపంలోని జిమ్‌లు కనుగొనబడుతున్నాయి…';
+
+  @override
+  String get locationUnavailable =>
+      'మీ లొకేషన్ పొందడం సాధ్యపడలేదు — అన్ని జిమ్‌లు చూపబడుతున్నాయి';
 
   @override
   String get exerciseDirectorySubtitle =>

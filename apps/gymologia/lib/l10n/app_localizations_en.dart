@@ -1135,7 +1135,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get chooseARole => 'Choose a role.';
 
-
   @override
   String get isATrainer => 'Is a trainer?';
 
@@ -1144,6 +1143,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trainerCategory => 'Trainer category';
+
   @override
   String get addAMember => 'Add a member';
 
@@ -1624,6 +1624,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchByGymCityDistrict => 'Search by gym, city or district';
+
+  @override
+  String get useMyLocation => 'Use my location to find nearby gyms';
+
+  @override
+  String get findingNearbyGyms => 'Finding gyms near you…';
+
+  @override
+  String get locationUnavailable =>
+      'Couldn\'t get your location — showing all gyms instead';
 
   @override
   String get exerciseDirectorySubtitle =>

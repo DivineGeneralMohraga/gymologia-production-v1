@@ -1125,7 +1125,6 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get chooseARole => 'ഒരു റോൾ തിരഞ്ഞെടുക്കുക.';
 
-
   @override
   String get isATrainer => 'Is a trainer?';
 
@@ -1134,6 +1133,7 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get trainerCategory => 'Trainer category';
+
   @override
   String get addAMember => 'ഒരു അംഗത്തെ ചേർക്കുക';
 
@@ -1616,6 +1616,18 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get searchByGymCityDistrict =>
       'ജിം, നഗരം അല്ലെങ്കിൽ ജില്ല ഉപയോഗിച്ച് തിരയുക';
+
+  @override
+  String get useMyLocation =>
+      'അടുത്തുള്ള ജിമ്മുകൾ കണ്ടെത്താൻ എന്റെ ലൊക്കേഷൻ ഉപയോഗിക്കുക';
+
+  @override
+  String get findingNearbyGyms =>
+      'നിങ്ങളുടെ അടുത്തുള്ള ജിമ്മുകൾ കണ്ടെത്തുന്നു…';
+
+  @override
+  String get locationUnavailable =>
+      'നിങ്ങളുടെ ലൊക്കേഷൻ ലഭിച്ചില്ല — എല്ലാ ജിമ്മുകളും കാണിക്കുന്നു';
 
   @override
   String get exerciseDirectorySubtitle =>

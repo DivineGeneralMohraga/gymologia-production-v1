@@ -1111,7 +1111,6 @@ class AppLocalizationsGu extends AppLocalizations {
   @override
   String get chooseARole => 'એક ભૂમિકા પસંદ કરો.';
 
-
   @override
   String get isATrainer => 'Is a trainer?';
 
@@ -1120,6 +1119,7 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get trainerCategory => 'Trainer category';
+
   @override
   String get addAMember => 'એક સભ્ય ઉમેરો';
 
@@ -1594,6 +1594,16 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get searchByGymCityDistrict => 'જિમ, શહેર કે જિલ્લાથી શોધો';
+
+  @override
+  String get useMyLocation => 'નજીકના જિમ શોધવા માટે મારું લોકેશન વાપરો';
+
+  @override
+  String get findingNearbyGyms => 'તમારી નજીકના જિમ શોધાઈ રહ્યા છે…';
+
+  @override
+  String get locationUnavailable =>
+      'તમારું લોકેશન મળી શક્યું નહીં — બધા જિમ બતાવવામાં આવી રહ્યા છે';
 
   @override
   String get exerciseDirectorySubtitle =>

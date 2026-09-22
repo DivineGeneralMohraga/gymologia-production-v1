@@ -1120,7 +1120,6 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get chooseARole => 'একটি ভূমিকা বেছে নিন।';
 
-
   @override
   String get isATrainer => 'Is a trainer?';
 
@@ -1129,6 +1128,7 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get trainerCategory => 'Trainer category';
+
   @override
   String get addAMember => 'একজন সদস্য যোগ করুন';
 
@@ -1605,6 +1605,16 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get searchByGymCityDistrict => 'জিম, শহর বা জেলা দিয়ে খুঁজুন';
+
+  @override
+  String get useMyLocation => 'কাছের জিম খুঁজতে আমার লোকেশন ব্যবহার করুন';
+
+  @override
+  String get findingNearbyGyms => 'আপনার কাছের জিম খোঁজা হচ্ছে…';
+
+  @override
+  String get locationUnavailable =>
+      'আপনার লোকেশন পাওয়া যায়নি — সব জিম দেখানো হচ্ছে';
 
   @override
   String get exerciseDirectorySubtitle =>

@@ -4,15 +4,17 @@ import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 import '../../core/api/models.dart';
+import '../../core/location/location_service.dart';
 import '../auth/auth_controller.dart';
 import 'gym_profile_page.dart';
 
 /// The gym browser.
 ///
-/// Location is not requested here. The spec allows for someone declining
-/// it, and the honest version of that is a locality search that works just
-/// as well — so until the location plugin is wired up, everyone gets the
-/// text path rather than a permission prompt that leads nowhere.
+/// Location is optional at every step. Someone who has already granted it
+/// gets nearby gyms with no prompt at all; someone who has not sees a
+/// button rather than a surprise permission dialog; and anyone who denies
+/// it, or whose device has location off, gets exactly the same name/
+/// district search everyone had before this existed.
 class GymBrowserPage extends StatefulWidget {
   const GymBrowserPage({super.key});
 
@@ -22,20 +24,73 @@ class GymBrowserPage extends StatefulWidget {
 
 class _GymBrowserPageState extends State<GymBrowserPage> {
   final _search = TextEditingController();
+  final _location = LocationService();
   List<GymListing> _results = const [];
   bool _loading = true;
+  bool _locating = false;
   String? _error;
+  String? _locationNotice;
+
+  /// Only shown once permission is neither granted nor unavailable --
+  /// asking again after a denial would just be the OS dialog re-appearing
+  /// unprompted, which reads as nagging rather than a feature.
+  bool _showLocationPrompt = false;
+
+  double? _latitude;
+  double? _longitude;
 
   @override
   void initState() {
     super.initState();
-    _load();
+    _init();
   }
 
   @override
   void dispose() {
     _search.dispose();
     super.dispose();
+  }
+
+  Future<void> _init() async {
+    final readiness = await _location.readiness();
+    if (!mounted) return;
+    switch (readiness) {
+      case LocationReadiness.granted:
+        _locating = true;
+        final position = await _location.fetchSilently();
+        if (!mounted) return;
+        if (position != null) {
+          _latitude = position.latitude;
+          _longitude = position.longitude;
+        }
+        _locating = false;
+        break;
+      case LocationReadiness.undetermined:
+        _showLocationPrompt = true;
+        break;
+      case LocationReadiness.unavailable:
+        break;
+    }
+    await _load();
+  }
+
+  Future<void> _useMyLocation() async {
+    setState(() {
+      _showLocationPrompt = false;
+      _locating = true;
+    });
+    final position = await _location.requestAndFetch();
+    if (!mounted) return;
+    setState(() {
+      _locating = false;
+      if (position != null) {
+        _latitude = position.latitude;
+        _longitude = position.longitude;
+      } else {
+        _locationNotice = AppLocalizations.of(context).locationUnavailable;
+      }
+    });
+    await _load();
   }
 
   Future<void> _load() async {
@@ -45,7 +100,11 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
     });
     try {
       final api = GymApi(context.read<AuthController>().client);
-      final results = await api.searchGyms(query: _search.text.trim());
+      final results = await api.searchGyms(
+        query: _search.text.trim(),
+        latitude: _latitude,
+        longitude: _longitude,
+      );
       if (!mounted) return;
       setState(() {
         _results = results;
@@ -85,6 +144,34 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
             ),
           ),
         ),
+        if (_showLocationPrompt || _locating || _locationNotice != null)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: _locating
+                ? Row(
+                    children: [
+                      const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                      const SizedBox(width: 10),
+                      Text(AppLocalizations.of(context).findingNearbyGyms),
+                    ],
+                  )
+                : _showLocationPrompt
+                ? OutlinedButton.icon(
+                    onPressed: _useMyLocation,
+                    icon: const Icon(Icons.near_me_outlined, size: 18),
+                    label: Text(AppLocalizations.of(context).useMyLocation),
+                  )
+                : Text(
+                    _locationNotice!,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+          ),
         Expanded(
           child: _loading
               ? const Center(child: CircularProgressIndicator())
