@@ -1,7 +1,7 @@
 name: gymologia
 description: Gymologia — gym members, owners and staff in one app.
 publish_to: 'none'
-version: 0.1.7+8
+version: 0.1.8+9
 
 environment:
   sdk: ^3.12.0
@@ -46,14 +46,15 @@ flutter:
     - assets/icon/
 
 # Run: dart run flutter_launcher_icons
-# The dumbbell mark on the brand colour -- assets/icon/icon.png is the
-# full-bleed square (also the source for iOS, which rounds it itself);
-# icon_foreground.png is the same mark alone, pre-shrunk to sit inside
-# Android's adaptive-icon safe zone under any OEM mask shape.
+# assets/icon/icon.png is the full-bleed square (also the source for
+# iOS, which rounds it itself); icon_foreground.png is the same dumbbell
+# alone, pre-shrunk to sit inside Android's adaptive-icon safe zone
+# under any OEM mask shape. #F8D8C9 is this artwork's own cream
+# background -- not the app's theme.dart seed colour.
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/icon/icon.png"
-  adaptive_icon_background: "#E8452C"
+  adaptive_icon_background: "#F8D8C9"
   adaptive_icon_foreground: "assets/icon/icon_foreground.png"
   remove_alpha_ios: true
