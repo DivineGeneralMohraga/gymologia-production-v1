@@ -35,6 +35,7 @@ async function bootstrap(): Promise<void> {
       { path: 'delete-account', method: RequestMethod.GET },
       { path: 'terms', method: RequestMethod.GET },
       { path: 'privacy', method: RequestMethod.GET },
+      { path: 'debug/gyms', method: RequestMethod.GET },
     ],
   });
 

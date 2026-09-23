@@ -116,6 +116,16 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
         _error = e.message;
         _loading = false;
       });
+    } catch (e) {
+      // Anything that isn't an ApiException was previously left
+      // uncaught here -- silently stranding _loading at true forever,
+      // with nothing on screen to say why. Surfacing it, even as a raw
+      // exception string, beats a permanently blank page.
+      if (!mounted) return;
+      setState(() {
+        _error = 'Unexpected error: $e';
+        _loading = false;
+      });
     }
   }
 
