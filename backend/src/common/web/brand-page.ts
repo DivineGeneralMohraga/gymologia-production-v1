@@ -84,10 +84,19 @@ const SHARED_STYLE = `
   }
 `;
 
-/** The wordmark used at the top of every one of these pages. */
+/**
+ * The wordmark used at the top of every one of these pages -- the same
+ * dumbbell mark as the app icon, so the badge that greets someone in the
+ * app is the one they see again on the web pages backing it.
+ */
 export function brandHeader(): string {
-  return `<header class="brand"><span class="mark">G</span><span class="name">Gymologia</span></header>`;
+  return `<header class="brand"><span class="mark">${DUMBBELL_SVG}</span><span class="name">Gymologia</span></header>`;
 }
+
+const DUMBBELL_SVG = `<svg viewBox="0 0 160 160" width="20" height="20" aria-hidden="true"><g transform="translate(80,80) rotate(-45)"><rect x="-30" y="-4" width="60" height="8" rx="4" fill="#fff"/><rect x="32" y="-14" width="6" height="28" rx="3" fill="#fff"/><rect x="40" y="-19" width="6" height="38" rx="3" fill="#fff"/><rect x="48" y="-23" width="6" height="46" rx="3" fill="#fff"/><rect x="-38" y="-14" width="6" height="28" rx="3" fill="#fff"/><rect x="-46" y="-19" width="6" height="38" rx="3" fill="#fff"/><rect x="-54" y="-23" width="6" height="46" rx="3" fill="#fff"/></g></svg>`;
+// Note: the rects above already carry rx equal to half their short side,
+// which SVG renders as fully rounded caps -- the same capsule look the
+// PNG app icons use, so this markup needed no change when the icon did.
 
 /**
  * The footer every one of these pages shares -- a way back to the other
