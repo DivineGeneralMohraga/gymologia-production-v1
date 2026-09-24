@@ -756,6 +756,7 @@
     }
   },
   "noRatings": "No ratings",
+  "noPerksYet": "No perks listed yet",
   "fromRatings": "{count, plural, =1{from 1 rating} other{from {count} ratings}}",
   "@fromRatings": {
     "placeholders": {

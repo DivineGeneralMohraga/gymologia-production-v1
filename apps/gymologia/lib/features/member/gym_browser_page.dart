@@ -230,84 +230,136 @@ class _GymCard extends StatelessWidget {
   final GymListing listing;
   final VoidCallback onTap;
 
+  /// The backend joins name and district as one string ("Gym Name -
+  /// District"). Splitting it back apart buys a proper two-line
+  /// hierarchy -- bold name, muted location with a pin -- instead of
+  /// one long run-on title.
+  (String, String?) get _nameAndLocation {
+    final parts = listing.displayName.split(' - ');
+    if (parts.length < 2) return (listing.displayName, null);
+    return (parts.first, parts.sublist(1).join(' - '));
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final (name, location) = _nameAndLocation;
+    final hasRating = listing.ratingCount > 0;
 
     return Card(
       clipBehavior: Clip.antiAlias,
+      elevation: 2,
+      shadowColor: scheme.shadow.withValues(alpha: 0.25),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: InkWell(
         onTap: onTap,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-              width: 96,
-              child: listing.imageUrl == null
-                  ? Container(
-                      color: theme.colorScheme.surfaceContainerHighest,
-                      child: Icon(
-                        Icons.fitness_center,
-                        color: theme.colorScheme.outline,
-                      ),
-                    )
-                  : Image.network(
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  if (listing.imageUrl != null)
+                    Image.network(
                       listing.imageUrl!,
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(
-                        color: theme.colorScheme.surfaceContainerHighest,
-                        child: Icon(
-                          Icons.fitness_center,
-                          color: theme.colorScheme.outline,
-                        ),
+                      errorBuilder: (_, __, ___) =>
+                          _GymHeroPlaceholder(scheme: scheme),
+                    )
+                  else
+                    _GymHeroPlaceholder(scheme: scheme),
+                  Positioned(
+                    top: 12,
+                    right: 12,
+                    child: _FloatingPill(
+                      icon: hasRating
+                          ? Icons.star_rounded
+                          : Icons.star_border_rounded,
+                      iconColor: hasRating
+                          ? const Color(0xFFFFC107)
+                          : scheme.outline,
+                      label: hasRating
+                          ? '${listing.rating.toStringAsFixed(1)} (${listing.ratingCount})'
+                          : AppLocalizations.of(context).noRatings,
+                    ),
+                  ),
+                  if (listing.distanceKm != null)
+                    Positioned(
+                      bottom: 12,
+                      left: 12,
+                      child: _FloatingPill(
+                        icon: Icons.near_me_rounded,
+                        iconColor: scheme.primary,
+                        label: '${listing.distanceKm} km',
                       ),
                     ),
+                ],
+              ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      listing.displayName,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    name,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: -0.3,
+                      height: 1.15,
                     ),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 14,
-                      runSpacing: 4,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (location != null) ...[
+                    const SizedBox(height: 4),
+                    Row(
                       children: [
-                        if (listing.ratingCount > 0)
-                          _Chip(
-                            icon: Icons.star_rounded,
-                            label:
-                                '${listing.rating.toStringAsFixed(1)} (${listing.ratingCount})',
-                          )
-                        else
-                          _Chip(
-                            icon: Icons.star_border_rounded,
-                            label: AppLocalizations.of(context).noRatings,
-                          ),
-                        _Chip(
-                          icon: Icons.card_giftcard_outlined,
-                          label:
-                              '${listing.perkCount} perk${listing.perkCount == 1 ? '' : 's'}',
+                        Icon(
+                          Icons.location_on_rounded,
+                          size: 15,
+                          color: scheme.outline,
                         ),
-                        if (listing.distanceKm != null)
-                          _Chip(
-                            icon: Icons.near_me_outlined,
-                            label: '${listing.distanceKm} km',
+                        const SizedBox(width: 3),
+                        Expanded(
+                          child: Text(
+                            location,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              color: scheme.onSurfaceVariant,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
+                        ),
                       ],
                     ),
                   ],
-                ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.card_giftcard_rounded,
+                        size: 16,
+                        color: scheme.primary,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        listing.perkCount == 0
+                            ? AppLocalizations.of(context).noPerksYet
+                            : '${listing.perkCount} perk${listing.perkCount == 1 ? '' : 's'}',
+                        style: theme.textTheme.labelLarge?.copyWith(
+                          color: scheme.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
@@ -317,26 +369,81 @@ class _GymCard extends StatelessWidget {
   }
 }
 
-class _Chip extends StatelessWidget {
-  const _Chip({required this.icon, required this.label});
+/// The gym's own brand mark, softly watermarked, standing in for a photo
+/// nobody has uploaded yet -- a gradient in the app's own colour family
+/// reads as "this gym" far better than a flat grey box ever did.
+class _GymHeroPlaceholder extends StatelessWidget {
+  const _GymHeroPlaceholder({required this.scheme});
+
+  final ColorScheme scheme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [scheme.primary, scheme.primaryContainer],
+        ),
+      ),
+      child: Center(
+        child: Transform.rotate(
+          angle: -0.35,
+          child: Icon(
+            Icons.fitness_center_rounded,
+            size: 64,
+            color: scheme.onPrimary.withValues(alpha: 0.28),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// A small frosted-looking pill overlaid on the hero image -- rating,
+/// distance, whatever needs to read clearly over a photo of any colour.
+class _FloatingPill extends StatelessWidget {
+  const _FloatingPill({
+    required this.icon,
+    required this.iconColor,
+    required this.label,
+  });
+
   final IconData icon;
+  final Color iconColor;
   final String label;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, size: 14, color: theme.colorScheme.onSurfaceVariant),
-        const SizedBox(width: 4),
-        Text(
-          label,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surface.withValues(alpha: 0.92),
+        borderRadius: BorderRadius.circular(999),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.15),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
           ),
-        ),
-      ],
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 15, color: iconColor),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: theme.textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: theme.colorScheme.onSurface,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

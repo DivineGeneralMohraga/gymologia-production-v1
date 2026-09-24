@@ -337,6 +337,7 @@
   "gymsAppearOnPro": "जिम यहाँ तब दिखते हैं जब वे प्रो प्लान पर हों और सूचीबद्ध होना चुनें।",
   "nothingMatchedTry": "“{query}” से कुछ नहीं मिला। कोई दूसरा शहर या ज़िला आज़माएँ।",
   "noRatings": "कोई रेटिंग नहीं",
+  "noPerksYet": "अभी कोई सुविधा सूचीबद्ध नहीं है",
   "fromRatings": "{count, plural, other{{count} रेटिंग से}}",
   "onlyProGymHere": "यहाँ का इकलौता प्रो जिम",
   "ofProGyms": "{count} प्रो जिम में से",

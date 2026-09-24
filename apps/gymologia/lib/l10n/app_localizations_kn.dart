@@ -1292,6 +1292,9 @@ class AppLocalizationsKn extends AppLocalizations {
   String get noRatings => 'ರೇಟಿಂಗ್‌ಗಳಿಲ್ಲ';
 
   @override
+  String get noPerksYet => 'ಇನ್ನೂ ಯಾವುದೇ ಸೌಲಭ್ಯಗಳನ್ನು ಪಟ್ಟಿ ಮಾಡಿಲ್ಲ';
+
+  @override
   String fromRatings(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

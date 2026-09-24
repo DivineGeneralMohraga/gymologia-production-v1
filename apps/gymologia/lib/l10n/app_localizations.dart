@@ -2130,6 +2130,12 @@ abstract class AppLocalizations {
   /// **'No ratings'**
   String get noRatings;
 
+  /// No description provided for @noPerksYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No perks listed yet'**
+  String get noPerksYet;
+
   /// No description provided for @fromRatings.
   ///
   /// In en, this message translates to:

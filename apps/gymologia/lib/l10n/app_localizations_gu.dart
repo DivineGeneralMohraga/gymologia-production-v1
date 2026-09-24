@@ -1280,6 +1280,9 @@ class AppLocalizationsGu extends AppLocalizations {
   String get noRatings => 'કોઈ રેટિંગ નથી';
 
   @override
+  String get noPerksYet => 'હજુ સુધી કોઈ સુવિધા સૂચિબદ્ધ નથી';
+
+  @override
   String fromRatings(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

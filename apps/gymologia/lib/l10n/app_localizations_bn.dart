@@ -1291,6 +1291,9 @@ class AppLocalizationsBn extends AppLocalizations {
   String get noRatings => 'কোনো রেটিং নেই';
 
   @override
+  String get noPerksYet => 'এখনো কোনো সুবিধা তালিকাভুক্ত নেই';
+
+  @override
   String fromRatings(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

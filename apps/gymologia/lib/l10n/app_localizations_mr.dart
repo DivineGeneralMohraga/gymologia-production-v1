@@ -1288,6 +1288,9 @@ class AppLocalizationsMr extends AppLocalizations {
   String get noRatings => 'रेटिंग नाही';
 
   @override
+  String get noPerksYet => 'अजून कोणतेही फायदे सूचीबद्ध नाहीत';
+
+  @override
   String fromRatings(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

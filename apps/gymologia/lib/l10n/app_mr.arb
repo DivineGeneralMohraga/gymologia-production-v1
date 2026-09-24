@@ -337,6 +337,7 @@
   "gymsAppearOnPro": "जिम प्रो प्लॅनवर असल्यास आणि नोंदवले जाणे निवडल्यास इथे दिसतात.",
   "nothingMatchedTry": "“{query}” शी काहीही जुळले नाही. दुसरे शहर किंवा जिल्हा वापरून पहा.",
   "noRatings": "रेटिंग नाही",
+  "noPerksYet": "अजून कोणतेही फायदे सूचीबद्ध नाहीत",
   "fromRatings": "{count, plural, other{{count} रेटिंगमधून}}",
   "onlyProGymHere": "इथले एकमेव प्रो जिम",
   "ofProGyms": "{count} प्रो जिमपैकी",

@@ -337,6 +337,7 @@
   "gymsAppearOnPro": "ਜਿਮ ਪ੍ਰੋ ਪਲਾਨ ਉੱਤੇ ਹੋਣ ਅਤੇ ਸੂਚੀਬੱਧ ਹੋਣਾ ਚੁਣਨ ਉੱਤੇ ਇੱਥੇ ਦਿਖਦੇ ਹਨ।",
   "nothingMatchedTry": "“{query}” ਨਾਲ ਕੁਝ ਨਹੀਂ ਮਿਲਿਆ। ਕੋਈ ਹੋਰ ਸ਼ਹਿਰ ਜਾਂ ਜ਼ਿਲ੍ਹਾ ਅਜ਼ਮਾਓ।",
   "noRatings": "ਕੋਈ ਰੇਟਿੰਗ ਨਹੀਂ",
+  "noPerksYet": "ਅਜੇ ਤੱਕ ਕੋਈ ਲਾਭ ਸੂਚੀਬੱਧ ਨਹੀਂ",
   "fromRatings": "{count, plural, other{{count} ਰੇਟਿੰਗਾਂ ਤੋਂ}}",
   "onlyProGymHere": "ਇੱਥੋਂ ਦਾ ਇਕੱਲਾ ਪ੍ਰੋ ਜਿਮ",
   "ofProGyms": "{count} ਪ੍ਰੋ ਜਿਮਾਂ ਵਿੱਚੋਂ",

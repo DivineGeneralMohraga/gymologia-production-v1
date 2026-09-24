@@ -337,6 +337,7 @@
   "gymsAppearOnPro": "জিম এখানে তখনই দেখা যায় যখন তারা প্রো প্ল্যানে থাকে এবং তালিকাভুক্ত হতে চায়।",
   "nothingMatchedTry": "“{query}” এর সঙ্গে কিছু মেলেনি। অন্য শহর বা জেলা দেখুন।",
   "noRatings": "কোনো রেটিং নেই",
+  "noPerksYet": "এখনো কোনো সুবিধা তালিকাভুক্ত নেই",
   "fromRatings": "{count, plural, other{{count} রেটিং থেকে}}",
   "onlyProGymHere": "এখানে একমাত্র প্রো জিম",
   "ofProGyms": "{count} প্রো জিমের মধ্যে",
