@@ -610,19 +610,16 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get cancelEventConfirmBody =>
-      'இது உறுப்பினர்களின் நிகழ்வு பட்டியலில் இருந்து மறைந்துவிடும். ஏற்கனவே பதிவு செய்தவர்களின் பதிவு நிலைத்திருக்கும், இதை இங்கிருந்து திரும்பப் பெற முடியாது.';
+      'இது நிகழ்வை நிரந்தரமாக நீக்கும், பதிவு செய்தவர்களின் பட்டியல் உட்பட. இதை மீட்டெடுக்க முடியாது.';
 
   @override
   String get keepEvent => 'நிகழ்வை வைத்திரு';
 
   @override
-  String get eventCancelledBadge => 'ரத்து செய்யப்பட்டது';
-
-  @override
   String get eventUpdated => 'நிகழ்வு புதுப்பிக்கப்பட்டது';
 
   @override
-  String get eventCancelledSnackbar => 'நிகழ்வு ரத்து செய்யப்பட்டது';
+  String get eventCancelledSnackbar => 'நிகழ்வு நீக்கப்பட்டது';
 
   @override
   String get eventTitleHint => 'கோடை டெட்லிஃப்ட் சந்திப்பு';

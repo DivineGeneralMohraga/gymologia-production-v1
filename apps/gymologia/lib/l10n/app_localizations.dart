@@ -1083,7 +1083,7 @@ abstract class AppLocalizations {
   /// No description provided for @cancelEventConfirmBody.
   ///
   /// In en, this message translates to:
-  /// **'It will disappear from members\' event feed. Anyone already signed up stays on record, and this cannot be undone from here.'**
+  /// **'This permanently deletes the event, including the list of who signed up. This cannot be undone.'**
   String get cancelEventConfirmBody;
 
   /// No description provided for @keepEvent.
@@ -1091,12 +1091,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Keep event'**
   String get keepEvent;
-
-  /// No description provided for @eventCancelledBadge.
-  ///
-  /// In en, this message translates to:
-  /// **'CANCELLED'**
-  String get eventCancelledBadge;
 
   /// No description provided for @eventUpdated.
   ///
@@ -1107,7 +1101,7 @@ abstract class AppLocalizations {
   /// No description provided for @eventCancelledSnackbar.
   ///
   /// In en, this message translates to:
-  /// **'Event cancelled'**
+  /// **'Event deleted'**
   String get eventCancelledSnackbar;
 
   /// No description provided for @eventTitleHint.

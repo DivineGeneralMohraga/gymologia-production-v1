@@ -87,9 +87,7 @@ class _EventsManagePageState extends State<EventsManagePage> {
     if (confirmed != true) return;
 
     try {
-      await _api.updateEvent(widget.gym.id, event['id'] as String, {
-        'status': 'CANCELLED',
-      });
+      await _api.deleteEvent(widget.gym.id, event['id'] as String);
       await _load();
       if (mounted) {
         ScaffoldMessenger.of(
@@ -212,48 +210,13 @@ class _EventsManagePageState extends State<EventsManagePage> {
                 itemBuilder: (_, i) {
                   final e = events[i];
                   final open = e['registrationOpen'] == true;
-                  final cancelled = e['status'] == 'CANCELLED';
                   final canManage = widget.gym.can(P.manageEvents);
                   return Card(
                     child: ListTile(
                       contentPadding: const EdgeInsets.all(16),
-                      title: Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                              e['title'] as String? ?? '',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                decoration: cancelled
-                                    ? TextDecoration.lineThrough
-                                    : null,
-                                color: cancelled
-                                    ? theme.colorScheme.onSurfaceVariant
-                                    : null,
-                              ),
-                            ),
-                          ),
-                          if (cancelled) ...[
-                            const SizedBox(width: 8),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                color: theme.colorScheme.errorContainer,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Text(
-                                t.eventCancelledBadge,
-                                style: theme.textTheme.labelSmall?.copyWith(
-                                  color: theme.colorScheme.onErrorContainer,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ],
+                      title: Text(
+                        e['title'] as String? ?? '',
+                        style: const TextStyle(fontWeight: FontWeight.w700),
                       ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -288,7 +251,7 @@ class _EventsManagePageState extends State<EventsManagePage> {
                           ),
                         ],
                       ),
-                      trailing: canManage && !cancelled
+                      trailing: canManage
                           ? PopupMenuButton<String>(
                               onSelected: (value) => switch (value) {
                                 'edit' => _edit(e),

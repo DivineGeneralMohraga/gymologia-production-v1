@@ -605,19 +605,16 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get cancelEventConfirmBody =>
-      'ಇದು ಸದಸ್ಯರ ಈವೆಂಟ್ ಫೀಡ್‌ನಿಂದ ಕಣ್ಮರೆಯಾಗುತ್ತದೆ. ಈಗಾಗಲೇ ನೋಂದಾಯಿಸಿದವರ ದಾಖಲೆ ಉಳಿಯುತ್ತದೆ, ಮತ್ತು ಇದನ್ನು ಇಲ್ಲಿಂದ ಹಿಂಪಡೆಯಲಾಗುವುದಿಲ್ಲ.';
+      'ಇದು ಈವೆಂಟ್ ಅನ್ನು ಶಾಶ್ವತವಾಗಿ ಅಳಿಸುತ್ತದೆ, ನೋಂದಾಯಿಸಿದವರ ಪಟ್ಟಿ ಸಹಿತ. ಇದನ್ನು ರದ್ದುಗೊಳಿಸಲಾಗುವುದಿಲ್ಲ.';
 
   @override
   String get keepEvent => 'ಈವೆಂಟ್ ಇರಿಸಿ';
 
   @override
-  String get eventCancelledBadge => 'ರದ್ದಾಗಿದೆ';
-
-  @override
   String get eventUpdated => 'ಈವೆಂಟ್ ನವೀಕರಿಸಲಾಗಿದೆ';
 
   @override
-  String get eventCancelledSnackbar => 'ಈವೆಂಟ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ';
+  String get eventCancelledSnackbar => 'ಈವೆಂಟ್ ಅಳಿಸಲಾಗಿದೆ';
 
   @override
   String get eventTitleHint => 'ಸಮ್ಮರ್ ಡೆಡ್‌ಲಿಫ್ಟ್ ಮೀಟ್';

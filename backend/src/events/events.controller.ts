@@ -81,6 +81,21 @@ export class GymEventsController {
   ) {
     return this.events.update(actor, eventId, dto, meta(req));
   }
+
+  @Delete(':eventId')
+  @RequirePermissions(Permission.MANAGE_EVENTS)
+  @ApiOperation({
+    summary: 'Delete an event',
+    description:
+      'Hard delete -- the event and everyone\'s sign-up record for it are gone. Written to the audit log first.',
+  })
+  remove(
+    @Actor() actor: ActorContext,
+    @Param('eventId', ParseUUIDPipe) eventId: string,
+    @Req() req: Request,
+  ) {
+    return this.events.remove(actor, eventId, meta(req));
+  }
 }
 
 /** The member-facing feed. */

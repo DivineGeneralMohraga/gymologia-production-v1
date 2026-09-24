@@ -606,19 +606,16 @@ class AppLocalizationsPa extends AppLocalizations {
 
   @override
   String get cancelEventConfirmBody =>
-      'ਇਹ ਮੈਂਬਰਾਂ ਦੀ ਇਵੈਂਟ ਫੀਡ ਤੋਂ ਗਾਇਬ ਹੋ ਜਾਵੇਗਾ। ਜਿਨ੍ਹਾਂ ਨੇ ਪਹਿਲਾਂ ਹੀ ਰਜਿਸਟਰ ਕੀਤਾ ਹੈ ਉਹਨਾਂ ਦਾ ਰਿਕਾਰਡ ਰਹੇਗਾ, ਅਤੇ ਇਹ ਇੱਥੋਂ ਵਾਪਸ ਨਹੀਂ ਲਿਆ ਜਾ ਸਕਦਾ।';
+      'ਇਹ ਇਵੈਂਟ ਨੂੰ ਸਥਾਈ ਤੌਰ \'ਤੇ ਮਿਟਾ ਦੇਵੇਗਾ, ਰਜਿਸਟਰਡ ਲੋਕਾਂ ਦੀ ਸੂਚੀ ਸਮੇਤ। ਇਹ ਵਾਪਸ ਨਹੀਂ ਲਿਆ ਜਾ ਸਕਦਾ।';
 
   @override
   String get keepEvent => 'ਇਵੈਂਟ ਰੱਖੋ';
 
   @override
-  String get eventCancelledBadge => 'ਰੱਦ';
-
-  @override
   String get eventUpdated => 'ਇਵੈਂਟ ਅੱਪਡੇਟ ਹੋਇਆ';
 
   @override
-  String get eventCancelledSnackbar => 'ਇਵੈਂਟ ਰੱਦ ਕਰ ਦਿੱਤਾ ਗਿਆ';
+  String get eventCancelledSnackbar => 'ਇਵੈਂਟ ਮਿਟਾ ਦਿੱਤਾ ਗਿਆ';
 
   @override
   String get eventTitleHint => 'ਸਮਰ ਡੈੱਡਲਿਫਟ ਮੀਟ';

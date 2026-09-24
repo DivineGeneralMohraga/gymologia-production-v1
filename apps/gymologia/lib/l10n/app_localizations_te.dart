@@ -606,19 +606,16 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get cancelEventConfirmBody =>
-      'ఇది సభ్యుల ఈవెంట్ ఫీడ్ నుండి కనిపించకుండా పోతుంది. ఇప్పటికే నమోదు చేసుకున్నవారి రికార్డు ఉంటుంది, మరియు దీన్ని ఇక్కడ నుండి వెనక్కి తీసుకోలేరు.';
+      'ఇది ఈవెంట్‌ను శాశ్వతంగా తొలగిస్తుంది, నమోదు చేసుకున్నవారి జాబితాతో సహా. దీన్ని వెనక్కి తీసుకోలేరు.';
 
   @override
   String get keepEvent => 'ఈవెంట్ ఉంచండి';
 
   @override
-  String get eventCancelledBadge => 'రద్దు చేయబడింది';
-
-  @override
   String get eventUpdated => 'ఈవెంట్ నవీకరించబడింది';
 
   @override
-  String get eventCancelledSnackbar => 'ఈవెంట్ రద్దు చేయబడింది';
+  String get eventCancelledSnackbar => 'ఈవెంట్ తొలగించబడింది';
 
   @override
   String get eventTitleHint => 'సమ్మర్ డెడ్‌లిఫ్ట్ మీట్';

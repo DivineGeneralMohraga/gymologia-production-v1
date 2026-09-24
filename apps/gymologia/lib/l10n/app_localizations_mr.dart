@@ -602,19 +602,16 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get cancelEventConfirmBody =>
-      'हा सदस्यांच्या इव्हेंट फीडमधून नाहीसा होईल. आधीच नोंदणी केलेल्यांचा रेकॉर्ड राहील, आणि हे येथून परत घेता येणार नाही.';
+      'हे इव्हेंट कायमचे हटवेल, नोंदणी केलेल्यांच्या यादीसह. हे परत घेता येणार नाही.';
 
   @override
   String get keepEvent => 'इव्हेंट ठेवा';
 
   @override
-  String get eventCancelledBadge => 'रद्द';
-
-  @override
   String get eventUpdated => 'इव्हेंट अपडेट झाला';
 
   @override
-  String get eventCancelledSnackbar => 'इव्हेंट रद्द केला';
+  String get eventCancelledSnackbar => 'इव्हेंट हटवला';
 
   @override
   String get eventTitleHint => 'समर डेडलिफ्ट मीट';

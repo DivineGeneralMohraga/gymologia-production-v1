@@ -612,19 +612,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancelEventConfirmBody =>
-      'It will disappear from members\' event feed. Anyone already signed up stays on record, and this cannot be undone from here.';
+      'This permanently deletes the event, including the list of who signed up. This cannot be undone.';
 
   @override
   String get keepEvent => 'Keep event';
 
   @override
-  String get eventCancelledBadge => 'CANCELLED';
-
-  @override
   String get eventUpdated => 'Event updated';
 
   @override
-  String get eventCancelledSnackbar => 'Event cancelled';
+  String get eventCancelledSnackbar => 'Event deleted';
 
   @override
   String get eventTitleHint => 'Summer Deadlift Meet';

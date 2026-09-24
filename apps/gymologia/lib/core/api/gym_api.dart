@@ -493,14 +493,15 @@ class GymApi {
     Map<String, dynamic> body,
   ) => _client.post('/gyms/$gymId/events', body: body);
 
-  /// Also how an event is cancelled: {'status': 'CANCELLED'}. There is no
-  /// hard-delete endpoint -- anyone already signed up keeps their record,
-  /// and a cancelled event simply drops out of the member-facing feed.
   Future<Map<String, dynamic>> updateEvent(
     String gymId,
     String eventId,
     Map<String, dynamic> body,
   ) => _client.patch('/gyms/$gymId/events/$eventId', body: body);
+
+  /// A hard delete -- the event and every sign-up record for it are gone.
+  Future<void> deleteEvent(String gymId, String eventId) =>
+      _client.delete('/gyms/$gymId/events/$eventId');
 
   Future<Map<String, dynamic>> eventParticipants(
     String gymId,

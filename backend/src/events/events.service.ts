@@ -157,6 +157,43 @@ export class EventsService {
     return this.shape(updated);
   }
 
+  /**
+   * A hard delete, by product decision -- a cancelled event does not
+   * stay around as a hidden record. EventParticipation cascades with
+   * it (schema.prisma), so whoever signed up loses that record too;
+   * the audit log entry, written before the row goes, is what is left
+   * to show an event with this title and this many sign-ups existed.
+   */
+  async remove(actor: ActorContext, eventId: string, meta: RequestMeta) {
+    this.permissions.assert(actor, Permission.MANAGE_EVENTS);
+
+    const event = await this.prisma.event.findFirst({
+      where: { id: eventId, gymId: actor.gymId },
+      include: { _count: { select: { participations: true } } },
+    });
+    if (!event) throw new NotFoundException('Event not found at this gym');
+
+    await this.prisma.event.delete({ where: { id: eventId } });
+
+    await this.audit.record({
+      actorId: actor.userId,
+      gymId: actor.gymId,
+      action: 'event.delete',
+      entityType: 'Event',
+      entityId: eventId,
+      before: {
+        title: event.title,
+        startsAt: event.startsAt,
+        participantCount: event._count.participations,
+      },
+      after: null,
+      ip: meta.ip,
+      userAgent: meta.userAgent,
+    });
+
+    return { deleted: true };
+  }
+
   /** Events this gym hosts, for the staff side. */
   async listForGym(actor: ActorContext) {
     this.permissions.assertAny(actor, [
