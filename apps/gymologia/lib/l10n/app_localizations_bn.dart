@@ -21,8 +21,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get language => 'ভাষা';
 
   @override
-  String get languageSubtitle =>
-      'যে ভাষায় আপনি সবচেয়ে স্বচ্ছন্দে পড়েন সেটি বেছে নিন';
+  String get languageSubtitle => 'যে ভাষায় আপনি সবচেয়ে স্বচ্ছন্দে পড়েন সেটি বেছে নিন';
 
   @override
   String get save => 'সংরক্ষণ';
@@ -61,24 +60,19 @@ class AppLocalizationsBn extends AppLocalizations {
   String get age => 'বয়স';
 
   @override
-  String get whyAgeNotBirthday =>
-      'আমরা আপনার বয়স জানতে চাই, জন্মতারিখ নয়। জন্মতারিখ আপনার ব্যাংক ও সরকারি নথির সঙ্গে যুক্ত — জিম অ্যাপের জন্য বয়সই যথেষ্ট।';
+  String get whyAgeNotBirthday => 'আমরা আপনার বয়স জানতে চাই, জন্মতারিখ নয়। জন্মতারিখ আপনার ব্যাংক ও সরকারি নথির সঙ্গে যুক্ত — জিম অ্যাপের জন্য বয়সই যথেষ্ট।';
 
   @override
-  String get termsAgreement =>
-      'অ্যাকাউন্ট তৈরি করার অর্থ আপনি ব্যবহারের শর্তাবলী ও গোপনীয়তা নীতি মেনে নিচ্ছেন।';
+  String get termsAgreement => 'অ্যাকাউন্ট তৈরি করার অর্থ আপনি ব্যবহারের শর্তাবলী ও গোপনীয়তা নীতি মেনে নিচ্ছেন।';
 
   @override
-  String get consentCheckboxLabel =>
-      'I have read and agree to the Terms of Use and Privacy Policy.';
+  String get consentCheckboxLabel => 'I have read and agree to the Terms of Use and Privacy Policy.';
 
   @override
-  String get consentRequired =>
-      'You must agree to the Terms and Privacy Policy to continue.';
+  String get consentRequired => 'You must agree to the Terms and Privacy Policy to continue.';
 
   @override
-  String get under18GuardianNotice =>
-      'You are under 18. A parent or guardian must verify their consent by OTP before your account can be fully activated. Our support team will contact you after sign-up.';
+  String get under18GuardianNotice => 'You are under 18. A parent or guardian must verify their consent by OTP before your account can be fully activated. Our support team will contact you after sign-up.';
 
   @override
   String shareProgressWithGym(String gym) {
@@ -86,8 +80,7 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get shareProgressWithGymHint =>
-      'Your trainer can see your weight and height only while this is on. Off by default — you choose to turn it on.';
+  String get shareProgressWithGymHint => 'Your trainer can see your weight and height only while this is on. Off by default — you choose to turn it on.';
 
   @override
   String get monitoringTurnedOn => 'Staff can now see your progress.';
@@ -102,8 +95,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get downloadMyData => 'Download my data';
 
   @override
-  String get downloadMyDataHint =>
-      'Everything Gymologia holds about your account, as JSON. Encrypted fields such as identity documents are not included in readable form.';
+  String get downloadMyDataHint => 'Everything Gymologia holds about your account, as JSON. Encrypted fields such as identity documents are not included in readable form.';
 
   @override
   String get copyToClipboard => 'Copy to clipboard';
@@ -118,16 +110,13 @@ class AppLocalizationsBn extends AppLocalizations {
   String get enterAValidAge => 'Enter a valid age.';
 
   @override
-  String get guardianConsentRequired =>
-      'A parent or guardian\'s consent is required before this person can be added.';
+  String get guardianConsentRequired => 'A parent or guardian\'s consent is required before this person can be added.';
 
   @override
-  String get guardianConsentExplainer =>
-      'This person is under 18. Before adding them, confirm a parent or guardian has verified their consent (by phone, in person, or in writing).';
+  String get guardianConsentExplainer => 'This person is under 18. Before adding them, confirm a parent or guardian has verified their consent (by phone, in person, or in writing).';
 
   @override
-  String get guardianConsentCheckboxLabel =>
-      'I confirm a parent or guardian has given verified consent.';
+  String get guardianConsentCheckboxLabel => 'I confirm a parent or guardian has given verified consent.';
 
   @override
   String get guardianPhoneLabel => 'Parent/guardian\'s mobile number';
@@ -139,8 +128,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get guardianVerifiedConfirmation => 'Guardian consent verified.';
 
   @override
-  String get guardianConsentBlocksSubmit =>
-      'Verify your guardian\'s consent above before creating the account.';
+  String get guardianConsentBlocksSubmit => 'Verify your guardian\'s consent above before creating the account.';
 
   @override
   String get signInWithMobile => 'আপনার মোবাইল নম্বর দিয়ে সাইন ইন করুন';
@@ -232,8 +220,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get ticketClosed => 'বন্ধ';
 
   @override
-  String get referralPitch =>
-      'কোড শেয়ার করুন, আর কোনো জিম মালিক সাবস্ক্রিপশন নিলে আয় করুন। রেফারেল অ্যাপ এখনও আসেনি।';
+  String get referralPitch => 'কোড শেয়ার করুন, আর কোনো জিম মালিক সাবস্ক্রিপশন নিলে আয় করুন। রেফারেল অ্যাপ এখনও আসেনি।';
 
   @override
   String get appTagline => 'জিমোলজিয়া · সদস্য ও স্টাফ';
@@ -254,19 +241,16 @@ class AppLocalizationsBn extends AppLocalizations {
   String get emailClearToRemove => 'ঐচ্ছিক। মুছতে খালি করে দিন।';
 
   @override
-  String get phoneIsYourLogin =>
-      'এটি দিয়েই আপনি সাইন ইন করেন, তাই এখানে এখনই বদলানো যায় না। বদলাতে হলে সহায়তায় যোগাযোগ করুন।';
+  String get phoneIsYourLogin => 'এটি দিয়েই আপনি সাইন ইন করেন, তাই এখানে এখনই বদলানো যায় না। বদলাতে হলে সহায়তায় যোগাযোগ করুন।';
 
   @override
-  String get trialStarted =>
-      'ট্রায়াল শুরু হয়েছে। আপনার জিম এখন সার্চে দেখা যাচ্ছে।';
+  String get trialStarted => 'ট্রায়াল শুরু হয়েছে। আপনার জিম এখন সার্চে দেখা যাচ্ছে।';
 
   @override
   String get invalidCode => 'কোডটি সঠিক নয়।';
 
   @override
-  String get paymentNotCompletedYet =>
-      'পেমেন্ট এখনও সম্পূর্ণ হয়নি। একটু পরে টেনে রিফ্রেশ করুন।';
+  String get paymentNotCompletedYet => 'পেমেন্ট এখনও সম্পূর্ণ হয়নি। একটু পরে টেনে রিফ্রেশ করুন।';
 
   @override
   String planIsActive(String plan) {
@@ -285,8 +269,7 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get trialBlurb =>
-      'সম্পূর্ণ প্রো, সদস্য সার্চে আপনার তালিকাভুক্তি সহ। কার্ড লাগবে না, আর এটি নিজে থেকে কোনো পেইড প্ল্যানে বদলায় না।';
+  String get trialBlurb => 'সম্পূর্ণ প্রো, সদস্য সার্চে আপনার তালিকাভুক্তি সহ। কার্ড লাগবে না, আর এটি নিজে থেকে কোনো পেইড প্ল্যানে বদলায় না।';
 
   @override
   String get startFreeTrial => 'বিনামূল্যে ট্রায়াল শুরু করুন';
@@ -301,8 +284,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get apply => 'প্রয়োগ করুন';
 
   @override
-  String get gstNote =>
-      'দামে জিএসটি ধরা আছে। জিম কেবল প্রো প্ল্যানেই সদস্য সার্চে দেখা যায়।';
+  String get gstNote => 'দামে জিএসটি ধরা আছে। জিম কেবল প্রো প্ল্যানেই সদস্য সার্চে দেখা যায়।';
 
   @override
   String planNamed(String plan) {
@@ -332,8 +314,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get notListedUpgrade => 'সার্চে নেই — দেখাতে হলে প্রো-তে আপগ্রেড করুন';
 
   @override
-  String get trialEndsNote =>
-      'ট্রায়াল শেষ হলে আপনি প্ল্যান না নেওয়া পর্যন্ত জিম সার্চ থেকে সরে যায়। নিজে থেকে কিছু কাটা হয় না।';
+  String get trialEndsNote => 'ট্রায়াল শেষ হলে আপনি প্ল্যান না নেওয়া পর্যন্ত জিম সার্চ থেকে সরে যায়। নিজে থেকে কিছু কাটা হয় না।';
 
   @override
   String get getsYouListed => 'সার্চে জায়গা দেয়';
@@ -347,8 +328,7 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get deleteRoleWarning =>
-      'ভূমিকা ও তার অনুমতিগুলি চলে যাবে। এতে কেউ নেই, তাই কারও অ্যাক্সেস যাবে না।';
+  String get deleteRoleWarning => 'ভূমিকা ও তার অনুমতিগুলি চলে যাবে। এতে কেউ নেই, তাই কারও অ্যাক্সেস যাবে না।';
 
   @override
   String deletedNamed(String name) {
@@ -356,8 +336,7 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get needTwoCustomRoles =>
-      'ক্রম বদলানোর আগে আপনার এমন দুটি কাস্টম ভূমিকা লাগবে যা আপনি সম্পাদনা করতে পারেন।';
+  String get needTwoCustomRoles => 'ক্রম বদলানোর আগে আপনার এমন দুটি কাস্টম ভূমিকা লাগবে যা আপনি সম্পাদনা করতে পারেন।';
 
   @override
   String get hierarchySaved => 'ক্রম সংরক্ষিত হয়েছে';
@@ -369,8 +348,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get newRole => 'নতুন ভূমিকা';
 
   @override
-  String get rolesIntro =>
-      'সবচেয়ে জ্যেষ্ঠ প্রথমে। আপনি কেবল নিজের নিচের ভূমিকাগুলি সম্পাদনা করতে পারেন, আর কেবল নিজের কাছে থাকা অনুমতিই দিতে পারেন।';
+  String get rolesIntro => 'সবচেয়ে জ্যেষ্ঠ প্রথমে। আপনি কেবল নিজের নিচের ভূমিকাগুলি সম্পাদনা করতে পারেন, আর কেবল নিজের কাছে থাকা অনুমতিই দিতে পারেন।';
 
   @override
   String get defaultBadge => 'ডিফল্ট';
@@ -423,15 +401,13 @@ class AppLocalizationsBn extends AppLocalizations {
   String get roleNameHint => 'রিসেপশন, ফিজিও, নাইট শিফট';
 
   @override
-  String get superRoleNote =>
-      'এই ভূমিকার কাছে সব অনুমতি আছে, ভবিষ্যতে যোগ হওয়া সহ। এটি সীমিত করা যায় না — এ কারণেই এটি সব সময় সমস্যা মেটাতে পারে।';
+  String get superRoleNote => 'এই ভূমিকার কাছে সব অনুমতি আছে, ভবিষ্যতে যোগ হওয়া সহ। এটি সীমিত করা যায় না — এ কারণেই এটি সব সময় সমস্যা মেটাতে পারে।';
 
   @override
   String get whatThisRoleCanDo => 'এই ভূমিকা কী করতে পারে';
 
   @override
-  String get greyedOutNote =>
-      'যা ধূসর দেখাচ্ছে তা আপনার নিজের কাছে নেই, তাই সেটি আপনি দিতে পারবেন না।';
+  String get greyedOutNote => 'যা ধূসর দেখাচ্ছে তা আপনার নিজের কাছে নেই, তাই সেটি আপনি দিতে পারবেন না।';
 
   @override
   String get ownerOnlyPermission => 'এটি কেবল জিম মালিকের';
@@ -443,8 +419,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get orderTheHierarchy => 'ক্রম ঠিক করুন';
 
   @override
-  String get hierarchyNote =>
-      'সবচেয়ে জ্যেষ্ঠ উপরে। ডিফল্ট ভূমিকাগুলি নিজের জায়গায় থাকে এবং এখানে দেখা যায় না।';
+  String get hierarchyNote => 'সবচেয়ে জ্যেষ্ঠ উপরে। ডিফল্ট ভূমিকাগুলি নিজের জায়গায় থাকে এবং এখানে দেখা যায় না।';
 
   @override
   String get saveOrder => 'ক্রম সংরক্ষণ করুন';
@@ -520,15 +495,13 @@ class AppLocalizationsBn extends AppLocalizations {
   String get progressIsPrivate => 'অগ্রগতি ব্যক্তিগত';
 
   @override
-  String get monitoringOffNote =>
-      'এই সদস্য অগ্রগতি পর্যবেক্ষণ বন্ধ করেছেন। এটি তাঁর সিদ্ধান্ত এবং কোনো ভূমিকা তা বদলাতে পারে না।';
+  String get monitoringOffNote => 'এই সদস্য অগ্রগতি পর্যবেক্ষণ বন্ধ করেছেন। এটি তাঁর সিদ্ধান্ত এবং কোনো ভূমিকা তা বদলাতে পারে না।';
 
   @override
   String get progress => 'অগ্রগতি';
 
   @override
-  String get noMeasurementsYet =>
-      'এখনও কোনো মাপ নথিভুক্ত হয়নি। সদস্যকে তাঁর নিজের অ্যাপে মাসে একবার এটি জিজ্ঞাসা করা হয়।';
+  String get noMeasurementsYet => 'এখনও কোনো মাপ নথিভুক্ত হয়নি। সদস্যকে তাঁর নিজের অ্যাপে মাসে একবার এটি জিজ্ঞাসা করা হয়।';
 
   @override
   String holdingAtKg(String kg) {
@@ -544,8 +517,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get extendMembership => 'সদস্যপদ বাড়ান';
 
   @override
-  String get extendFromTodayNote =>
-      'মেয়াদ শেষ হওয়া সদস্যপদ আজ থেকে বাড়ে, যেদিন শেষ হয়েছিল সেদিন থেকে নয়।';
+  String get extendFromTodayNote => 'মেয়াদ শেষ হওয়া সদস্যপদ আজ থেকে বাড়ে, যেদিন শেষ হয়েছিল সেদিন থেকে নয়।';
 
   @override
   String monthsCount(int count) {
@@ -590,8 +562,31 @@ class AppLocalizationsBn extends AppLocalizations {
   String get hostAnEvent => 'একটি ইভেন্ট আয়োজন করুন';
 
   @override
-  String get noEventsYet =>
-      'এখনও কোনো ইভেন্ট নেই। একটি আয়োজন করুন, সেটি আপনার সদস্যদের সঙ্গে সঙ্গে দেখা যাবে।';
+  String get noEventsYet => 'এখনও কোনো ইভেন্ট নেই। একটি আয়োজন করুন, সেটি আপনার সদস্যদের সঙ্গে সঙ্গে দেখা যাবে।';
+
+  @override
+  String get editEvent => 'ইভেন্ট সম্পাদনা করুন';
+
+  @override
+  String get cancelEvent => 'ইভেন্ট বাতিল করুন';
+
+  @override
+  String get cancelEventConfirmTitle => 'এই ইভেন্টটি বাতিল করবেন?';
+
+  @override
+  String get cancelEventConfirmBody => 'এটি সদস্যদের ইভেন্ট ফিডে আর দেখা যাবে না। যারা ইতিমধ্যে নিবন্ধন করেছেন তাদের রেকর্ড থাকবে, এবং এটি এখান থেকে ফিরিয়ে আনা যাবে না।';
+
+  @override
+  String get keepEvent => 'ইভেন্ট রাখুন';
+
+  @override
+  String get eventCancelledBadge => 'বাতিল';
+
+  @override
+  String get eventUpdated => 'ইভেন্ট আপডেট হয়েছে';
+
+  @override
+  String get eventCancelledSnackbar => 'ইভেন্ট বাতিল করা হয়েছে';
 
   @override
   String get eventTitleHint => 'সামার ডেডলিফট মিট';
@@ -612,8 +607,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get membersCanSignUp => 'সদস্যরা অ্যাপে নাম লেখাতে পারেন';
 
   @override
-  String get membersCanSignUpNote =>
-      'বন্ধ করলে তাঁরা বোতামের বদলে আপনার শর্তগুলি দেখবেন।';
+  String get membersCanSignUpNote => 'বন্ধ করলে তাঁরা বোতামের বদলে আপনার শর্তগুলি দেখবেন।';
 
   @override
   String get listPublicly => 'সর্বসাধারণে দেখান';
@@ -622,8 +616,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get listPubliclyNote => 'সারা দেশের ইভেন্ট ফিডে দেখা যায়।';
 
   @override
-  String get listPubliclyProOnly =>
-      'কেবল প্রো প্ল্যানে। আপনার সদস্যরা তবুও দেখতে পাবেন।';
+  String get listPubliclyProOnly => 'কেবল প্রো প্ল্যানে। আপনার সদস্যরা তবুও দেখতে পাবেন।';
 
   @override
   String get openToOutsiders => 'আপনার জিমের বাইরের মানুষদের জন্যও খোলা';
@@ -647,8 +640,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get nothingYet => 'এখনও কিছু নেই';
 
   @override
-  String get announcementsAppearHere =>
-      'আপনার জিম ও জিমোলজিয়ার ঘোষণা এখানে দেখা যাবে।';
+  String get announcementsAppearHere => 'আপনার জিম ও জিমোলজিয়ার ঘোষণা এখানে দেখা যাবে।';
 
   @override
   String get searchPeople => 'মানুষ খুঁজুন';
@@ -706,15 +698,13 @@ class AppLocalizationsBn extends AppLocalizations {
   String get noReasonGiven => 'কোনো কারণ দেওয়া হয়নি';
 
   @override
-  String get keptWithRecordAuditNote =>
-      'এটি রেকর্ডের সঙ্গে রাখা হয় এবং অডিট লগে দেখা যায়।';
+  String get keptWithRecordAuditNote => 'এটি রেকর্ডের সঙ্গে রাখা হয় এবং অডিট লগে দেখা যায়।';
 
   @override
   String get staffBadge => 'স্টাফ';
 
   @override
-  String get draftCrmNote =>
-      'আপনার জিম খসড়া। সিআরএম চলে, তবে প্ল্যান চালু না হওয়া পর্যন্ত সদস্যরা আপনাকে সার্চে পাবেন না।';
+  String get draftCrmNote => 'আপনার জিম খসড়া। সিআরএম চলে, তবে প্ল্যান চালু না হওয়া পর্যন্ত সদস্যরা আপনাকে সার্চে পাবেন না।';
 
   @override
   String roleHiddenNote(String role) {
@@ -761,20 +751,16 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get weTextACodeFirst =>
-      'আমরা প্রথমে তাঁর নম্বরে একটি কোড পাঠাই, যাতে বোঝা যায় নম্বরটি সত্যিই তাঁর।';
+  String get weTextACodeFirst => 'আমরা প্রথমে তাঁর নম্বরে একটি কোড পাঠাই, যাতে বোঝা যায় নম্বরটি সত্যিই তাঁর।';
 
   @override
-  String get memberCanUpdateMetrics =>
-      'তাঁরা সদস্য অ্যাপে নিজের ওজন ও উচ্চতা দেখতে ও বদলাতে পারেন। নিজে বন্ধ না করলে তাঁদের অগ্রগতি স্টাফ দেখতে পান।';
+  String get memberCanUpdateMetrics => 'তাঁরা সদস্য অ্যাপে নিজের ওজন ও উচ্চতা দেখতে ও বদলাতে পারেন। নিজে বন্ধ না করলে তাঁদের অগ্রগতি স্টাফ দেখতে পান।';
 
   @override
-  String get noRolesYouCanAssign =>
-      'আপনি কোনো ভূমিকা দিতে পারবেন না। কেবল নিজের নিচের ভূমিকাগুলিই দেওয়া যায়।';
+  String get noRolesYouCanAssign => 'আপনি কোনো ভূমিকা দিতে পারবেন না। কেবল নিজের নিচের ভূমিকাগুলিই দেওয়া যায়।';
 
   @override
-  String get noRolesYouCanAssignToThem =>
-      'আপনি তাঁকে কোনো ভূমিকা দিতে পারবেন না।';
+  String get noRolesYouCanAssignToThem => 'আপনি তাঁকে কোনো ভূমিকা দিতে পারবেন না।';
 
   @override
   String heightCm(String cm) {
@@ -790,8 +776,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get useDeviceLanguage => 'ডিভাইসের ভাষা ব্যবহার করুন';
 
   @override
-  String get untranslatedFallbackNote =>
-      'যা এখনও অনূদিত হয়নি তা খালি না রেখে ইংরেজিতে দেখানো হয়, যাতে আংশিক অনূদিত ভাষাও ব্যবহারযোগ্য থাকে।';
+  String get untranslatedFallbackNote => 'যা এখনও অনূদিত হয়নি তা খালি না রেখে ইংরেজিতে দেখানো হয়, যাতে আংশিক অনূদিত ভাষাও ব্যবহারযোগ্য থাকে।';
 
   @override
   String deleteGymWarning(int members, int staff) {
@@ -804,20 +789,16 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get nothingWaitingLeave =>
-      'কিছু অপেক্ষায় নেই। আপনার সীমার মধ্যের অনুরোধ স্বয়ংক্রিয়ভাবে অনুমোদিত হয় এবং এখানে আসে না।';
+  String get nothingWaitingLeave => 'কিছু অপেক্ষায় নেই। আপনার সীমার মধ্যের অনুরোধ স্বয়ংক্রিয়ভাবে অনুমোদিত হয় এবং এখানে আসে না।';
 
   @override
-  String get quietPeriodsNote =>
-      'শান্ত সময়গুলি বাদ না দিয়ে খালি বার হিসেবে দেখানো হয়, তাই বারে ফাঁক মানে সত্যিকারের ফাঁক।';
+  String get quietPeriodsNote => 'শান্ত সময়গুলি বাদ না দিয়ে খালি বার হিসেবে দেখানো হয়, তাই বারে ফাঁক মানে সত্যিকারের ফাঁক।';
 
   @override
-  String get rankingExplainer =>
-      'অবস্থান সেই একই নিয়মে বার করা হয় যেভাবে সার্চ ফল সাজায়: আগে রেটিং, তারপর কতগুলি রেটিং তাকে সমর্থন করে। এখানে যা দেখছেন, সদস্যও তাই দেখবেন।';
+  String get rankingExplainer => 'অবস্থান সেই একই নিয়মে বার করা হয় যেভাবে সার্চ ফল সাজায়: আগে রেটিং, তারপর কতগুলি রেটিং তাকে সমর্থন করে। এখানে যা দেখছেন, সদস্যও তাই দেখবেন।';
 
   @override
-  String get deleteTrainerCategoryWarning =>
-      'এই বিভাগে আর প্রশিক্ষক রাখা যাবে না। যাঁরা আগে থেকে আছেন, তাঁদের দায়িত্ব থাকবে।';
+  String get deleteTrainerCategoryWarning => 'এই বিভাগে আর প্রশিক্ষক রাখা যাবে না। যাঁরা আগে থেকে আছেন, তাঁদের দায়িত্ব থাকবে।';
 
   @override
   String get youLabel => 'আপনি';
@@ -829,12 +810,10 @@ class AppLocalizationsBn extends AppLocalizations {
   String get nothingHereYetSaySomething => 'এখানে এখনও কিছু নেই। কিছু বলুন।';
 
   @override
-  String get leavePausesMembership =>
-      'আপনি না থাকলে সদস্যপদ থেমে থাকে, তাই যে দিনগুলির জন্য টাকা দিয়েছেন সেগুলি থাকে।';
+  String get leavePausesMembership => 'আপনি না থাকলে সদস্যপদ থেমে থাকে, তাই যে দিনগুলির জন্য টাকা দিয়েছেন সেগুলি থাকে।';
 
   @override
-  String get notListedUntilPlan =>
-      'প্ল্যান চালু না হওয়া পর্যন্ত সর্বসাধারণে দেখা যাবে না।';
+  String get notListedUntilPlan => 'প্ল্যান চালু না হওয়া পর্যন্ত সর্বসাধারণে দেখা যাবে না।';
 
   @override
   String gymsListedCount(int count) {
@@ -847,23 +826,19 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get checkInGoalNote =>
-      'আপনার জিম এটি দিয়ে আপনার লক্ষ্যের দিকে অগ্রগতি দেখে।';
+  String get checkInGoalNote => 'আপনার জিম এটি দিয়ে আপনার লক্ষ্যের দিকে অগ্রগতি দেখে।';
 
   @override
   String get enterYourGymName => 'আপনার জিমের নাম লিখুন';
 
   @override
-  String get sessionExpiredSignIn =>
-      'আপনার সেশন শেষ হয়েছে। আবার সাইন ইন করুন।';
+  String get sessionExpiredSignIn => 'আপনার সেশন শেষ হয়েছে। আবার সাইন ইন করুন।';
 
   @override
-  String get somethingWentWrongTryAgain =>
-      'কিছু একটা ভুল হয়েছে। আবার চেষ্টা করুন।';
+  String get somethingWentWrongTryAgain => 'কিছু একটা ভুল হয়েছে। আবার চেষ্টা করুন।';
 
   @override
-  String get serverTookTooLong =>
-      'সার্ভার উত্তর দিতে অনেক সময় নিয়েছে। সংযোগ দেখে আবার চেষ্টা করুন।';
+  String get serverTookTooLong => 'সার্ভার উত্তর দিতে অনেক সময় নিয়েছে। সংযোগ দেখে আবার চেষ্টা করুন।';
 
   @override
   String couldNotReachServer(String host) {
@@ -871,8 +846,7 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get certificateNotVerified =>
-      'সার্ভারের সার্টিফিকেট যাচাই করা যায়নি।';
+  String get certificateNotVerified => 'সার্ভারের সার্টিফিকেট যাচাই করা যায়নি।';
 
   @override
   String get networkErrorTryAgain => 'নেটওয়ার্ক সমস্যা। আবার চেষ্টা করুন।';
@@ -917,8 +891,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get sayWhyThisIsChanging => 'কেন এটি বদলানো হচ্ছে লিখুন।';
 
   @override
-  String get noMembersYetAddFirst =>
-      'এখনও কোনো সদস্য নেই। প্রথম জনকে যোগ করুন।';
+  String get noMembersYetAddFirst => 'এখনও কোনো সদস্য নেই। প্রথম জনকে যোগ করুন।';
 
   @override
   String get nobodyMatchedSearch => 'সেই সার্চে কাউকে পাওয়া যায়নি।';
@@ -981,12 +954,10 @@ class AppLocalizationsBn extends AppLocalizations {
   String get saved => 'সংরক্ষিত';
 
   @override
-  String get trainerCategoriesIntro =>
-      'প্রশিক্ষক যোগ করার সময় তাঁকে এর একটিতে রাখা হয়। যে বিভাগে প্রশিক্ষক আছেন, তাঁদের সরানোর আগে সেটি মোছা যায় না।';
+  String get trainerCategoriesIntro => 'প্রশিক্ষক যোগ করার সময় তাঁকে এর একটিতে রাখা হয়। যে বিভাগে প্রশিক্ষক আছেন, তাঁদের সরানোর আগে সেটি মোছা যায় না।';
 
   @override
-  String get trainerCategoriesReadOnly =>
-      'আপনি এই জিমের বিভাগগুলি দেখতে পারেন। বদলাতে হলে প্রশিক্ষক-ব্যবস্থাপনার অনুমতি লাগে।';
+  String get trainerCategoriesReadOnly => 'আপনি এই জিমের বিভাগগুলি দেখতে পারেন। বদলাতে হলে প্রশিক্ষক-ব্যবস্থাপনার অনুমতি লাগে।';
 
   @override
   String get oneTrainerManyMembersShort => 'একজন প্রশিক্ষক, অনেক সদস্য';
@@ -1020,12 +991,10 @@ class AppLocalizationsBn extends AppLocalizations {
   String get newTrainerCategory => 'নতুন প্রশিক্ষক বিভাগ';
 
   @override
-  String get generalTrainingNote =>
-      'সাধারণ প্রশিক্ষণের জন্য এটিই স্বাভাবিক সেটিং।';
+  String get generalTrainingNote => 'সাধারণ প্রশিক্ষণের জন্য এটিই স্বাভাবিক সেটিং।';
 
   @override
-  String get personalTrainingNote =>
-      'ব্যক্তিগত প্রশিক্ষণ: এখানে একজন প্রশিক্ষক একবারে একজন সদস্য নেন।';
+  String get personalTrainingNote => 'ব্যক্তিগত প্রশিক্ষণ: এখানে একজন প্রশিক্ষক একবারে একজন সদস্য নেন।';
 
   @override
   String get addCategory => 'বিভাগ যোগ করুন';
@@ -1077,8 +1046,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get sentForApproval => 'অনুমোদনের জন্য পাঠানো হয়েছে।';
 
   @override
-  String get leaveApprovedPaused =>
-      'ছুটি অনুমোদিত। ওই দিনগুলিতে আপনার সদস্যপদ থেমে থাকবে।';
+  String get leaveApprovedPaused => 'ছুটি অনুমোদিত। ওই দিনগুলিতে আপনার সদস্যপদ থেমে থাকবে।';
 
   @override
   String get chooseDates => 'তারিখ বেছে নিন';
@@ -1098,15 +1066,13 @@ class AppLocalizationsBn extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'এটি আপনার বাকি $count দিনের চেয়ে বেশি, তাই একজন ম্যানেজারকে অনুমোদন করতে হবে।',
+      other: 'এটি আপনার বাকি $count দিনের চেয়ে বেশি, তাই একজন ম্যানেজারকে অনুমোদন করতে হবে।',
     );
     return '$_temp0';
   }
 
   @override
-  String get withinYourAllowance =>
-      'আপনার সীমার মধ্যে — এটি সঙ্গে সঙ্গে অনুমোদিত হবে।';
+  String get withinYourAllowance => 'আপনার সীমার মধ্যে — এটি সঙ্গে সঙ্গে অনুমোদিত হবে।';
 
   @override
   String get sendForApproval => 'অনুমোদনের জন্য পাঠান';
@@ -1133,12 +1099,10 @@ class AppLocalizationsBn extends AppLocalizations {
   String get addAMember => 'একজন সদস্য যোগ করুন';
 
   @override
-  String get codeSentExistingAccount =>
-      'কোড পাঠানো হয়েছে। এই নম্বরে আগে থেকেই জিমোলজিয়া অ্যাকাউন্ট আছে।';
+  String get codeSentExistingAccount => 'কোড পাঠানো হয়েছে। এই নম্বরে আগে থেকেই জিমোলজিয়া অ্যাকাউন্ট আছে।';
 
   @override
-  String get codeSentNewAccount =>
-      'কোড পাঠানো হয়েছে। এই নম্বরটি নতুন, তাই আমরা একটি অ্যাকাউন্ট তৈরি করব।';
+  String get codeSentNewAccount => 'কোড পাঠানো হয়েছে। এই নম্বরটি নতুন, তাই আমরা একটি অ্যাকাউন্ট তৈরি করব।';
 
   @override
   String get membershipLength => 'সদস্যপদের মেয়াদ';
@@ -1153,16 +1117,13 @@ class AppLocalizationsBn extends AppLocalizations {
   String get memberMode => 'সদস্য মোড';
 
   @override
-  String get managingGymsNote =>
-      'আপনি জিম পরিচালনা করছেন। সদস্য হিসেবে জিমোলজিয়া ব্যবহার করতে ফিরে যান।';
+  String get managingGymsNote => 'আপনি জিম পরিচালনা করছেন। সদস্য হিসেবে জিমোলজিয়া ব্যবহার করতে ফিরে যান।';
 
   @override
-  String get openingAGymNote =>
-      'জিম খুলছেন, নাকি কোনোটিতে কাজ করেন? আপনার জিমের সিআরএম চালাতে সুইচ করুন — সদস্য, স্টাফ, উপস্থিতি ও ছুটি।';
+  String get openingAGymNote => 'জিম খুলছেন, নাকি কোনোটিতে কাজ করেন? আপনার জিমের সিআরএম চালাতে সুইচ করুন — সদস্য, স্টাফ, উপস্থিতি ও ছুটি।';
 
   @override
-  String get numberIsHowYouSignIn =>
-      'আপনি নম্বর দিয়েই সাইন ইন করেন, তাই এটি এখানে এখনই বদলানো যায় না।';
+  String get numberIsHowYouSignIn => 'আপনি নম্বর দিয়েই সাইন ইন করেন, তাই এটি এখানে এখনই বদলানো যায় না।';
 
   @override
   String get followingYourDevice => 'আপনার ডিভাইস অনুসরণ করছে';
@@ -1203,8 +1164,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get noEventsOnRightNow => 'এখন কোনো ইভেন্ট নেই';
 
   @override
-  String get eventsAppearHere =>
-      'আপনার জিমের ইভেন্ট এখানে দেখা যায়, সঙ্গে আশেপাশের সবার জন্য খোলা ইভেন্টও।';
+  String get eventsAppearHere => 'আপনার জিমের ইভেন্ট এখানে দেখা যায়, সঙ্গে আশেপাশের সবার জন্য খোলা ইভেন্টও।';
 
   @override
   String get atYourGym => 'আপনার জিমে';
@@ -1215,15 +1175,13 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get trainerStaffOtherMembers =>
-      'আপনার প্রশিক্ষক, স্টাফ ও অন্য সদস্যরা';
+  String get trainerStaffOtherMembers => 'আপনার প্রশিক্ষক, স্টাফ ও অন্য সদস্যরা';
 
   @override
   String get comingNext => 'পরে আসছে';
 
   @override
-  String get progressChartsAgainstGoal =>
-      'আপনার লক্ষ্যের বিপরীতে অগ্রগতির চার্ট';
+  String get progressChartsAgainstGoal => 'আপনার লক্ষ্যের বিপরীতে অগ্রগতির চার্ট';
 
   @override
   String get leaveLeft => 'বাকি ছুটি';
@@ -1262,15 +1220,13 @@ class AppLocalizationsBn extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other:
-          'তিনি এই জিমে আর ঢুকতে পারবেন না, আর তাঁকে দেওয়া $count জন সদস্যের কোনো প্রশিক্ষক থাকবে না যতক্ষণ না আপনি অন্য কাউকে দেন।',
+      other: 'তিনি এই জিমে আর ঢুকতে পারবেন না, আর তাঁকে দেওয়া $count জন সদস্যের কোনো প্রশিক্ষক থাকবে না যতক্ষণ না আপনি অন্য কাউকে দেন।',
     );
     return '$_temp0';
   }
 
   @override
-  String get removeStaffPlain =>
-      'তিনি এই জিমে আর ঢুকতে পারবেন না। তাঁর উপস্থিতির রেকর্ড রাখা হয়।';
+  String get removeStaffPlain => 'তিনি এই জিমে আর ঢুকতে পারবেন না। তাঁর উপস্থিতির রেকর্ড রাখা হয়।';
 
   @override
   String get couldNotLoadGyms => 'জিম লোড করা যায়নি';
@@ -1279,8 +1235,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get noGymsListedYet => 'এখনও কোনো জিম তালিকাভুক্ত নয়';
 
   @override
-  String get gymsAppearOnPro =>
-      'জিম এখানে তখনই দেখা যায় যখন তারা প্রো প্ল্যানে থাকে এবং তালিকাভুক্ত হতে চায়।';
+  String get gymsAppearOnPro => 'জিম এখানে তখনই দেখা যায় যখন তারা প্রো প্ল্যানে থাকে এবং তালিকাভুক্ত হতে চায়।';
 
   @override
   String nothingMatchedTry(String query) {
@@ -1318,8 +1273,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get noGymsYet => 'এখনও কোনো জিম নেই';
 
   @override
-  String get createYourGymBlurb =>
-      'সদস্য, স্টাফ, উপস্থিতি ও ছুটি সেট করতে আপনার জিম তৈরি করুন। কোনো জিমে কাজ করলে মালিককে যোগ করতে বলুন, সেটি এখানে দেখা যাবে।';
+  String get createYourGymBlurb => 'সদস্য, স্টাফ, উপস্থিতি ও ছুটি সেট করতে আপনার জিম তৈরি করুন। কোনো জিমে কাজ করলে মালিককে যোগ করতে বলুন, সেটি এখানে দেখা যাবে।';
 
   @override
   String newGroupSelected(int count) {
@@ -1411,8 +1365,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get support => 'সহায়তা';
 
   @override
-  String get machineTranslatedExercise =>
-      'এই নির্দেশগুলি যন্ত্রে অনূদিত এবং কোনো কোচ যাচাই করেননি। কিছু অদ্ভুত মনে হলে ওজন তোলার আগে ইংরেজিতে বদলে মিলিয়ে নিন।';
+  String get machineTranslatedExercise => 'এই নির্দেশগুলি যন্ত্রে অনূদিত এবং কোনো কোচ যাচাই করেননি। কিছু অদ্ভুত মনে হলে ওজন তোলার আগে ইংরেজিতে বদলে মিলিয়ে নিন।';
 
   @override
   String get home => 'হোম';
@@ -1515,26 +1468,22 @@ class AppLocalizationsBn extends AppLocalizations {
   String get yourProgress => 'আপনার অগ্রগতি';
 
   @override
-  String get addMeasurementsPrompt =>
-      'আপনার ওজন ও উচ্চতা দিন যাতে জিম আপনার সঙ্গে অগ্রগতি দেখতে পারে।';
+  String get addMeasurementsPrompt => 'আপনার ওজন ও উচ্চতা দিন যাতে জিম আপনার সঙ্গে অগ্রগতি দেখতে পারে।';
 
   @override
   String get progressSubtitle => 'সময়ের সাথে ওজন, এবং আপনি কতবার এসেছেন।';
 
   @override
-  String get attendanceAppearsHere =>
-      'আপনি কোনো জিমের সদস্য হলে এবং কর্মীরা উপস্থিতি চিহ্নিত করা শুরু করলে এটি এখানে দেখা যাবে।';
+  String get attendanceAppearsHere => 'আপনি কোনো জিমের সদস্য হলে এবং কর্মীরা উপস্থিতি চিহ্নিত করা শুরু করলে এটি এখানে দেখা যাবে।';
 
   @override
-  String get twoCheckInsDrawALine =>
-      'দুটি রেকর্ড থেকে রেখা তৈরি হয়। প্রতি মাসে ওজন দিন, এটি ভরে উঠবে।';
+  String get twoCheckInsDrawALine => 'দুটি রেকর্ড থেকে রেখা তৈরি হয়। প্রতি মাসে ওজন দিন, এটি ভরে উঠবে।';
 
   @override
   String get nothingMatchesFilters => 'এই ফিল্টারের সঙ্গে কিছু মেলে না।';
 
   @override
-  String get howToJoinGym =>
-      'যোগ দিতে সরাসরি জিমে যোগাযোগ করুন। তাঁরা আপনাকে সদস্য হিসেবে যুক্ত করবেন।';
+  String get howToJoinGym => 'যোগ দিতে সরাসরি জিমে যোগাযোগ করুন। তাঁরা আপনাকে সদস্য হিসেবে যুক্ত করবেন।';
 
   @override
   String get weight => 'ওজন';
@@ -1616,12 +1565,10 @@ class AppLocalizationsBn extends AppLocalizations {
   String get findingNearbyGyms => 'আপনার কাছের জিম খোঁজা হচ্ছে…';
 
   @override
-  String get locationUnavailable =>
-      'আপনার লোকেশন পাওয়া যায়নি — সব জিম দেখানো হচ্ছে';
+  String get locationUnavailable => 'আপনার লোকেশন পাওয়া যায়নি — সব জিম দেখানো হচ্ছে';
 
   @override
-  String get exerciseDirectorySubtitle =>
-      'শক্তি, কার্ডিও ও যোগ, ধাপে ধাপে নির্দেশনা সহ';
+  String get exerciseDirectorySubtitle => 'শক্তি, কার্ডিও ও যোগ, ধাপে ধাপে নির্দেশনা সহ';
 
   @override
   String get attendance => 'উপস্থিতি';
@@ -1650,8 +1597,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get searchByNameOrNumber => 'নাম বা নম্বর দিয়ে খুঁজুন';
 
   @override
-  String get tapCircleToMarkPresent =>
-      'উপস্থিতির জন্য বৃত্তে ট্যাপ করুন, বিস্তারিত জন্য সারিতে';
+  String get tapCircleToMarkPresent => 'উপস্থিতির জন্য বৃত্তে ট্যাপ করুন, বিস্তারিত জন্য সারিতে';
 
   @override
   String markedPresent(String name) {
@@ -1781,8 +1727,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get district => 'জেলা';
 
   @override
-  String get districtNote =>
-      'সার্চে আপনার জিমের নামের পাশে জেলা দেখা যায়, যাতে সদস্যরা চিনতে পারেন।';
+  String get districtNote => 'সার্চে আপনার জিমের নামের পাশে জেলা দেখা যায়, যাতে সদস্যরা চিনতে পারেন।';
 
   @override
   String get state => 'রাজ্য';
@@ -1794,8 +1739,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get contactNumber => 'যোগাযোগ নম্বর';
 
   @override
-  String get leavePolicyNote =>
-      'সদস্যরা মাসে কয়েক দিন সদস্যপদ থামাতে পারেন। এর বেশি হলে অনুমোদন লাগে।';
+  String get leavePolicyNote => 'সদস্যরা মাসে কয়েক দিন সদস্যপদ থামাতে পারেন। এর বেশি হলে অনুমোদন লাগে।';
 
   @override
   String get perksLabel => 'সুবিধা, কমা দিয়ে আলাদা';
@@ -1825,12 +1769,10 @@ class AppLocalizationsBn extends AppLocalizations {
   String get deleteThisGym => 'এই জিম মুছুন';
 
   @override
-  String get leaveLimitNote =>
-      'এই সীমার মধ্যে সদস্যদের অনুরোধ স্বয়ংক্রিয়ভাবে অনুমোদিত হয়। তার বেশি হলে কারও অনুমোদন লাগে।';
+  String get leaveLimitNote => 'এই সীমার মধ্যে সদস্যদের অনুরোধ স্বয়ংক্রিয়ভাবে অনুমোদিত হয়। তার বেশি হলে কারও অনুমোদন লাগে।';
 
   @override
-  String get draftNote =>
-      'আপনার জিম খসড়া হিসেবে শুরু হয়। যাচাই সম্পূর্ণ করে প্ল্যান না নেওয়া পর্যন্ত এটি সার্চে দেখা যাবে না।';
+  String get draftNote => 'আপনার জিম খসড়া হিসেবে শুরু হয়। যাচাই সম্পূর্ণ করে প্ল্যান না নেওয়া পর্যন্ত এটি সার্চে দেখা যাবে না।';
 
   @override
   String get sendThis => 'এটি পাঠাবেন?';
@@ -1851,8 +1793,7 @@ class AppLocalizationsBn extends AppLocalizations {
   String get message => 'বার্তা';
 
   @override
-  String get announceBodyHint =>
-      'আমরা সোমবার সকাল ৬টায় আবার খুলব। স্বল্প নোটিশের জন্য দুঃখিত।';
+  String get announceBodyHint => 'আমরা সোমবার সকাল ৬টায় আবার খুলব। স্বল্প নোটিশের জন্য দুঃখিত।';
 
   @override
   String get whoSeesIt => 'কে দেখবে';
@@ -1969,8 +1910,7 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
-  String get blockConfirmBody =>
-      'তারা আপনাকে বার্তা পাঠাতে পারবে না, এবং আপনি তাদের বার্তা দেখতে পাবেন না। আপনি তাদের ব্লক করেছেন তা তাদের জানানো হবে না। আপনি সেটিংসে এটি ফিরিয়ে নিতে পারেন।';
+  String get blockConfirmBody => 'তারা আপনাকে বার্তা পাঠাতে পারবে না, এবং আপনি তাদের বার্তা দেখতে পাবেন না। আপনি তাদের ব্লক করেছেন তা তাদের জানানো হবে না। আপনি সেটিংসে এটি ফিরিয়ে নিতে পারেন।';
 
   @override
   String get blocked => 'ব্লক করা হয়েছে';
@@ -1999,15 +1939,13 @@ class AppLocalizationsBn extends AppLocalizations {
   String get reportDetails => 'কী ঘটেছে?';
 
   @override
-  String get reportDetailsHint =>
-      'পর্যালোচকরা বার্তাটি নিজে দেখেন না। তাঁরা আপনার বর্ণনাই পড়েন, তাই নিজের ভাষায় বলুন কী বলা হয়েছিল।';
+  String get reportDetailsHint => 'পর্যালোচকরা বার্তাটি নিজে দেখেন না। তাঁরা আপনার বর্ণনাই পড়েন, তাই নিজের ভাষায় বলুন কী বলা হয়েছিল।';
 
   @override
   String get alsoBlockThem => 'তাদের ব্লকও করুন';
 
   @override
-  String get alsoBlockThemExplainer =>
-      'রিপোর্ট একজন মানুষ পড়েন এবং সময় লাগে। ব্লক করা সঙ্গে সঙ্গে কাজ করে।';
+  String get alsoBlockThemExplainer => 'রিপোর্ট একজন মানুষ পড়েন এবং সময় লাগে। ব্লক করা সঙ্গে সঙ্গে কাজ করে।';
 
   @override
   String get sendReport => 'রিপোর্ট পাঠান';
@@ -2061,26 +1999,22 @@ class AppLocalizationsBn extends AppLocalizations {
   String get deleteAccount => 'অ্যাকাউন্ট মুছুন';
 
   @override
-  String get deleteAccountIntro =>
-      'আপনার অ্যাকাউন্ট ৩০ দিন পর্যন্ত ব্যবহারযোগ্য থাকবে। তারপর এটি মুছে যাবে এবং ফেরানো যাবে না।';
+  String get deleteAccountIntro => 'আপনার অ্যাকাউন্ট ৩০ দিন পর্যন্ত ব্যবহারযোগ্য থাকবে। তারপর এটি মুছে যাবে এবং ফেরানো যাবে না।';
 
   @override
   String get whatIsDeleted => 'কী মুছে যাবে';
 
   @override
-  String get whatIsDeletedList =>
-      'আপনার নাম, নম্বর, ইমেল ও বয়স। আপনার উচ্চতা, ওজন ও অগ্রগতি। আপনার চ্যাট বার্তা। যেকোনো পরিচয়পত্র ও UPI তথ্য।';
+  String get whatIsDeletedList => 'আপনার নাম, নম্বর, ইমেল ও বয়স। আপনার উচ্চতা, ওজন ও অগ্রগতি। আপনার চ্যাট বার্তা। যেকোনো পরিচয়পত্র ও UPI তথ্য।';
 
   @override
   String get whatIsKept => 'কী রাখা হবে, আপনার পরিচয় সরিয়ে';
 
   @override
-  String get whatIsKeptList =>
-      'পেমেন্ট ও চালানের রেকর্ড, কারণ আইন অনুযায়ী হিসাবের বই রাখতে হয়। জিমে নেওয়া পদক্ষেপের রেকর্ড, যাতে বিরোধ মেটানো যায়।';
+  String get whatIsKeptList => 'পেমেন্ট ও চালানের রেকর্ড, কারণ আইন অনুযায়ী হিসাবের বই রাখতে হয়। জিমে নেওয়া পদক্ষেপের রেকর্ড, যাতে বিরোধ মেটানো যায়।';
 
   @override
-  String get deleteGymsFirst =>
-      'আপনার এখনও একটি জিম আছে। আগে সেটি মুছুন — আপনার অ্যাকাউন্ট মুছলে এর প্রতিটি সদস্য ও কর্মীর প্রবেশ বন্ধ হয়ে যাবে, এবং তাদের জানানো হবে যে এটি বন্ধ হয়ে গেছে।';
+  String get deleteGymsFirst => 'আপনার এখনও একটি জিম আছে। আগে সেটি মুছুন — আপনার অ্যাকাউন্ট মুছলে এর প্রতিটি সদস্য ও কর্মীর প্রবেশ বন্ধ হয়ে যাবে, এবং তাদের জানানো হবে যে এটি বন্ধ হয়ে গেছে।';
 
   @override
   String unwithdrawnWarning(String amount) {

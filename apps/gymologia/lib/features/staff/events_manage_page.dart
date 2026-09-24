@@ -48,12 +48,71 @@ class _EventsManagePageState extends State<EventsManagePage> {
     if (created == true) await _load();
   }
 
+  Future<void> _edit(Map<String, dynamic> event) async {
+    final saved = await showModalBottomSheet<bool>(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) =>
+          _HostEventSheet(gym: widget.gym, api: _api, existing: event),
+    );
+    if (saved == true) {
+      await _load();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context).eventUpdated)),
+        );
+      }
+    }
+  }
+
+  Future<void> _cancelEvent(Map<String, dynamic> event) async {
+    final t = AppLocalizations.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(t.cancelEventConfirmTitle),
+        content: Text(t.cancelEventConfirmBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text(t.keepEvent),
+          ),
+          FilledButton.tonal(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: Text(t.cancelEvent),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+
+    try {
+      await _api.updateEvent(widget.gym.id, event['id'] as String, {
+        'status': 'CANCELLED',
+      });
+      await _load();
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(t.eventCancelledSnackbar)));
+      }
+    } on ApiException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
+      }
+    }
+  }
+
   Future<void> _showParticipants(Map<String, dynamic> event) async {
     try {
-      final data =
-          await _api.eventParticipants(widget.gym.id, event['id'] as String);
-      final people =
-          ((data['participants'] as List?) ?? const []).cast<Map<String, dynamic>>();
+      final data = await _api.eventParticipants(
+        widget.gym.id,
+        event['id'] as String,
+      );
+      final people = ((data['participants'] as List?) ?? const [])
+          .cast<Map<String, dynamic>>();
 
       if (!mounted) return;
       await showModalBottomSheet<void>(
@@ -66,26 +125,29 @@ class _EventsManagePageState extends State<EventsManagePage> {
             controller: controller,
             padding: const EdgeInsets.all(20),
             children: [
-              Text(AppLocalizations.of(ctx).signedUpCount(people.length),
-                  style: Theme.of(ctx)
-                      .textTheme
-                      .titleLarge
-                      ?.copyWith(fontWeight: FontWeight.bold)),
+              Text(
+                AppLocalizations.of(ctx).signedUpCount(people.length),
+                style: Theme.of(
+                  ctx,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 12),
               if (people.isEmpty)
-                Text(AppLocalizations.of(ctx).nobodyYet,
-                    style: Theme.of(ctx).textTheme.bodyMedium?.copyWith(
-                          color: Theme.of(ctx).colorScheme.onSurfaceVariant,
-                        ))
+                Text(
+                  AppLocalizations.of(ctx).nobodyYet,
+                  style: Theme.of(ctx).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(ctx).colorScheme.onSurfaceVariant,
+                  ),
+                )
               else
                 for (final p in people)
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     leading: CircleAvatar(
-                      child: Text((p['name'] as String? ?? '?')
-                          .characters
-                          .first
-                          .toUpperCase()),
+                      child: Text(
+                        (p['name'] as String? ?? '?').characters.first
+                            .toUpperCase(),
+                      ),
                     ),
                     title: Text(p['name'] as String? ?? ''),
                     subtitle: Text(p['phone'] as String? ?? ''),
@@ -96,8 +158,9 @@ class _EventsManagePageState extends State<EventsManagePage> {
       );
     } on ApiException catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(e.message)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.message)));
       }
     }
   }
@@ -125,86 +188,160 @@ class _EventsManagePageState extends State<EventsManagePage> {
               ),
             )
           : events == null
-              ? const Center(child: CircularProgressIndicator())
-              : events.isEmpty
-                  ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(32),
-                        child: Text(
-                          t.noEventsYet,
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                            height: 1.5,
-                          ),
-                        ),
-                      ),
-                    )
-                  : RefreshIndicator(
-                      onRefresh: _load,
-                      child: ListView.separated(
-                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
-                        itemCount: events.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 12),
-                        itemBuilder: (_, i) {
-                          final e = events[i];
-                          final open = e['registrationOpen'] == true;
-                          return Card(
-                            child: ListTile(
-                              contentPadding: const EdgeInsets.all(16),
-                              title: Text(e['title'] as String? ?? '',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700)),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    '${t.signedUpCount((e['participantCount'] as int?) ?? 0)}'
-                                    '  ·  '
-                                    '${open ? t.registrationOpen : t.registrationClosed}',
-                                    style: theme.textTheme.bodySmall,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        e['publicListing'] == true
-                                            ? Icons.public
-                                            : Icons.lock_outline,
-                                        size: 13,
-                                        color: theme.colorScheme.onSurfaceVariant,
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text(
-                                        e['publicListing'] == true
-                                            ? t.listedPublicly
-                                            : t.yourMembersOnly,
-                                        style: theme.textTheme.bodySmall?.copyWith(
-                                          color:
-                                              theme.colorScheme.onSurfaceVariant,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+          ? const Center(child: CircularProgressIndicator())
+          : events.isEmpty
+          ? Center(
+              child: Padding(
+                padding: const EdgeInsets.all(32),
+                child: Text(
+                  t.noEventsYet,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                    height: 1.5,
+                  ),
+                ),
+              ),
+            )
+          : RefreshIndicator(
+              onRefresh: _load,
+              child: ListView.separated(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+                itemCount: events.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                itemBuilder: (_, i) {
+                  final e = events[i];
+                  final open = e['registrationOpen'] == true;
+                  final cancelled = e['status'] == 'CANCELLED';
+                  final canManage = widget.gym.can(P.manageEvents);
+                  return Card(
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.all(16),
+                      title: Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              e['title'] as String? ?? '',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                decoration: cancelled
+                                    ? TextDecoration.lineThrough
+                                    : null,
+                                color: cancelled
+                                    ? theme.colorScheme.onSurfaceVariant
+                                    : null,
                               ),
-                              trailing: const Icon(Icons.chevron_right),
-                              onTap: () => _showParticipants(e),
                             ),
-                          );
-                        },
+                          ),
+                          if (cancelled) ...[
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.errorContainer,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                t.eventCancelledBadge,
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: theme.colorScheme.onErrorContainer,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 6),
+                          Text(
+                            '${t.signedUpCount((e['participantCount'] as int?) ?? 0)}'
+                            '  ·  '
+                            '${open ? t.registrationOpen : t.registrationClosed}',
+                            style: theme.textTheme.bodySmall,
+                          ),
+                          const SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Icon(
+                                e['publicListing'] == true
+                                    ? Icons.public
+                                    : Icons.lock_outline,
+                                size: 13,
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                e['publicListing'] == true
+                                    ? t.listedPublicly
+                                    : t.yourMembersOnly,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      trailing: canManage && !cancelled
+                          ? PopupMenuButton<String>(
+                              onSelected: (value) => switch (value) {
+                                'edit' => _edit(e),
+                                'cancel' => _cancelEvent(e),
+                                _ => null,
+                              },
+                              itemBuilder: (ctx) => [
+                                PopupMenuItem(
+                                  value: 'edit',
+                                  child: ListTile(
+                                    leading: const Icon(Icons.edit_outlined),
+                                    title: Text(t.editEvent),
+                                    contentPadding: EdgeInsets.zero,
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: 'cancel',
+                                  child: ListTile(
+                                    leading: Icon(
+                                      Icons.cancel_outlined,
+                                      color: theme.colorScheme.error,
+                                    ),
+                                    title: Text(
+                                      t.cancelEvent,
+                                      style: TextStyle(
+                                        color: theme.colorScheme.error,
+                                      ),
+                                    ),
+                                    contentPadding: EdgeInsets.zero,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : const Icon(Icons.chevron_right),
+                      onTap: () => _showParticipants(e),
                     ),
+                  );
+                },
+              ),
+            ),
     );
   }
 }
 
 class _HostEventSheet extends StatefulWidget {
-  const _HostEventSheet({required this.gym, required this.api});
+  const _HostEventSheet({required this.gym, required this.api, this.existing});
 
   final GymDetail gym;
   final GymApi api;
+
+  /// Non-null when this sheet is editing an event rather than creating
+  /// one -- the raw map returned by the list endpoint.
+  final Map<String, dynamic>? existing;
 
   @override
   State<_HostEventSheet> createState() => _HostEventSheetState();
@@ -225,6 +362,26 @@ class _HostEventSheetState extends State<_HostEventSheet> {
   String? _error;
 
   bool get _isPro => widget.gym.plan == 'PRO';
+  bool get _isEditing => widget.existing != null;
+
+  @override
+  void initState() {
+    super.initState();
+    final e = widget.existing;
+    if (e != null) {
+      _title.text = e['title'] as String? ?? '';
+      _description.text = e['description'] as String? ?? '';
+      _howTo.text = e['howToParticipate'] as String? ?? '';
+      _prize.text = e['prize'] as String? ?? '';
+      _startsAt = DateTime.tryParse(e['startsAt'] as String? ?? '');
+      _registrationLastDate = DateTime.tryParse(
+        e['registrationLastDate'] as String? ?? '',
+      );
+      _membersCanParticipate = e['membersCanParticipate'] as bool? ?? true;
+      _publicListing = e['publicListing'] as bool? ?? true;
+      _allowNonMembers = e['allowNonMembers'] as bool? ?? false;
+    }
+  }
 
   @override
   void dispose() {
@@ -254,8 +411,11 @@ class _HostEventSheetState extends State<_HostEventSheet> {
 
     setState(() {
       _startsAt = DateTime(
-        date.year, date.month, date.day,
-        time?.hour ?? 9, time?.minute ?? 0,
+        date.year,
+        date.month,
+        date.day,
+        time?.hour ?? 9,
+        time?.minute ?? 0,
       );
       // Registration closing the day before is the sane default, and the
       // server refuses anything after the start anyway.
@@ -266,15 +426,17 @@ class _HostEventSheetState extends State<_HostEventSheet> {
   Future<void> _pickRegistrationClose() async {
     final start = _startsAt;
     if (start == null) {
-      setState(() =>
-          _error = AppLocalizations.of(context).chooseStartDateFirst);
+      setState(
+        () => _error = AppLocalizations.of(context).chooseStartDateFirst,
+      );
       return;
     }
     final date = await showDatePicker(
       context: context,
       firstDate: DateTime.now(),
       lastDate: start,
-      initialDate: _registrationLastDate ?? start.subtract(const Duration(days: 1)),
+      initialDate:
+          _registrationLastDate ?? start.subtract(const Duration(days: 1)),
       helpText: AppLocalizations.of(context).lastDayToRegister,
     );
     if (date != null) setState(() => _registrationLastDate = date);
@@ -282,18 +444,15 @@ class _HostEventSheetState extends State<_HostEventSheet> {
 
   Future<void> _submit() async {
     if (_title.text.trim().length < 3) {
-      setState(() =>
-          _error = AppLocalizations.of(context).giveTheEventATitle);
+      setState(() => _error = AppLocalizations.of(context).giveTheEventATitle);
       return;
     }
     if (_description.text.trim().length < 10) {
-      setState(() =>
-          _error = AppLocalizations.of(context).addADescription);
+      setState(() => _error = AppLocalizations.of(context).addADescription);
       return;
     }
     if (_howTo.text.trim().length < 5) {
-      setState(() =>
-          _error = AppLocalizations.of(context).sayHowToTakePart);
+      setState(() => _error = AppLocalizations.of(context).sayHowToTakePart);
       return;
     }
     if (_startsAt == null || _registrationLastDate == null) {
@@ -307,6 +466,24 @@ class _HostEventSheetState extends State<_HostEventSheet> {
     });
 
     try {
+      if (_isEditing) {
+        // The start time is fixed once an event is created (people plan
+        // around it), so only the fields UpdateEventDto actually accepts
+        // are sent here -- membersCanParticipate/publicListing/
+        // allowNonMembers are create-time-only decisions server-side.
+        await widget.api
+            .updateEvent(widget.gym.id, widget.existing!['id'] as String, {
+              'title': _title.text.trim(),
+              'description': _description.text.trim(),
+              'howToParticipate': _howTo.text.trim(),
+              'prize': _prize.text.trim().isEmpty ? null : _prize.text.trim(),
+              'registrationLastDate': _ymd(_registrationLastDate!),
+            });
+        if (!mounted) return;
+        Navigator.of(context).pop(true);
+        return;
+      }
+
       final result = await widget.api.hostEvent(widget.gym.id, {
         'title': _title.text.trim(),
         'description': _description.text.trim(),
@@ -328,8 +505,9 @@ class _HostEventSheetState extends State<_HostEventSheet> {
       final note = result['listingNote'] as String?;
       Navigator.of(context).pop(true);
       if (note != null) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(note), duration: const Duration(seconds: 6)));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(note), duration: const Duration(seconds: 6)),
+        );
       }
     } on ApiException catch (e) {
       if (mounted) {
@@ -348,7 +526,10 @@ class _HostEventSheetState extends State<_HostEventSheet> {
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
-        24, 20, 24, MediaQuery.of(context).viewInsets.bottom + 28,
+        24,
+        20,
+        24,
+        MediaQuery.of(context).viewInsets.bottom + 28,
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -366,9 +547,12 @@ class _HostEventSheetState extends State<_HostEventSheet> {
               ),
             ),
             const SizedBox(height: 20),
-            Text(t.hostAnEvent,
-                style: theme.textTheme.headlineSmall
-                    ?.copyWith(fontWeight: FontWeight.bold)),
+            Text(
+              _isEditing ? t.editEvent : t.hostAnEvent,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 18),
 
             TextField(
@@ -407,58 +591,103 @@ class _HostEventSheetState extends State<_HostEventSheet> {
             ),
 
             const SizedBox(height: 18),
-            OutlinedButton.icon(
-              onPressed: _pickStart,
-              icon: const Icon(Icons.calendar_today_outlined, size: 18),
-              label: Text(_startsAt == null
-                  ? t.whenDoesItStart
-                  : t.startsAtWhen(
-                      _pretty(_startsAt!, Dates.localeOf(context)))),
-            ),
+            // The start time can't change once an event exists (people
+            // plan around it) -- shown read-only in edit mode rather
+            // than as a button that would fail on submit.
+            if (_isEditing)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.calendar_today_outlined,
+                      size: 18,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      t.startsAtWhen(
+                        _pretty(_startsAt!, Dates.localeOf(context)),
+                      ),
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              OutlinedButton.icon(
+                onPressed: _pickStart,
+                icon: const Icon(Icons.calendar_today_outlined, size: 18),
+                label: Text(
+                  _startsAt == null
+                      ? t.whenDoesItStart
+                      : t.startsAtWhen(
+                          _pretty(_startsAt!, Dates.localeOf(context)),
+                        ),
+                ),
+              ),
             const SizedBox(height: 8),
             OutlinedButton.icon(
               onPressed: _pickRegistrationClose,
               icon: const Icon(Icons.how_to_reg_outlined, size: 18),
-              label: Text(_registrationLastDate == null
-                  ? t.lastDayToRegister
-                  : t.registerByWhen(_pretty(_registrationLastDate!,
-                      Dates.localeOf(context), time: false))),
+              label: Text(
+                _registrationLastDate == null
+                    ? t.lastDayToRegister
+                    : t.registerByWhen(
+                        _pretty(
+                          _registrationLastDate!,
+                          Dates.localeOf(context),
+                          time: false,
+                        ),
+                      ),
+              ),
             ),
 
-            const SizedBox(height: 12),
-            SwitchListTile(
-              contentPadding: EdgeInsets.zero,
-              value: _membersCanParticipate,
-              onChanged: (v) => setState(() => _membersCanParticipate = v),
-              title: Text(t.membersCanSignUp),
-              subtitle: Text(t.membersCanSignUpNote),
-            ),
-            SwitchListTile(
-              contentPadding: EdgeInsets.zero,
-              value: _publicListing && _isPro,
-              onChanged: _isPro
-                  ? (v) => setState(() {
+            // Who can participate, and public listing, are decided once
+            // at creation -- UpdateEventDto doesn't accept them, so
+            // editing them here would silently do nothing server-side.
+            if (!_isEditing) ...[
+              const SizedBox(height: 12),
+              SwitchListTile(
+                contentPadding: EdgeInsets.zero,
+                value: _membersCanParticipate,
+                onChanged: (v) => setState(() => _membersCanParticipate = v),
+                title: Text(t.membersCanSignUp),
+                subtitle: Text(t.membersCanSignUpNote),
+              ),
+              SwitchListTile(
+                contentPadding: EdgeInsets.zero,
+                value: _publicListing && _isPro,
+                onChanged: _isPro
+                    ? (v) => setState(() {
                         _publicListing = v;
                         if (!v) _allowNonMembers = false;
                       })
-                  : null,
-              title: Text(t.listPublicly),
-              subtitle: Text(
-                  _isPro ? t.listPubliclyNote : t.listPubliclyProOnly),
-            ),
-            if (_publicListing && _isPro)
-              SwitchListTile(
-                contentPadding: EdgeInsets.zero,
-                value: _allowNonMembers,
-                onChanged: (v) => setState(() => _allowNonMembers = v),
-                title: Text(t.openToOutsiders),
+                    : null,
+                title: Text(t.listPublicly),
+                subtitle: Text(
+                  _isPro ? t.listPubliclyNote : t.listPubliclyProOnly,
+                ),
               ),
+              if (_publicListing && _isPro)
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  value: _allowNonMembers,
+                  onChanged: (v) => setState(() => _allowNonMembers = v),
+                  title: Text(t.openToOutsiders),
+                ),
+            ],
 
             if (_error != null) ...[
               const SizedBox(height: 12),
-              Text(_error!,
-                  style: theme.textTheme.bodySmall
-                      ?.copyWith(color: theme.colorScheme.error)),
+              Text(
+                _error!,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.error,
+                ),
+              ),
             ],
 
             const SizedBox(height: 18),
@@ -468,8 +697,9 @@ class _HostEventSheetState extends State<_HostEventSheet> {
                   ? const SizedBox(
                       height: 22,
                       width: 22,
-                      child: CircularProgressIndicator(strokeWidth: 2.5))
-                  : Text(t.publishEvent),
+                      child: CircularProgressIndicator(strokeWidth: 2.5),
+                    )
+                  : Text(_isEditing ? t.saveChanges : t.publishEvent),
             ),
           ],
         ),

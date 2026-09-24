@@ -596,6 +596,31 @@ class AppLocalizationsPa extends AppLocalizations {
       'ਅਜੇ ਕੋਈ ਸਮਾਗਮ ਨਹੀਂ। ਇੱਕ ਕਰਵਾਓ, ਉਹ ਤੁਹਾਡੇ ਮੈਂਬਰਾਂ ਨੂੰ ਤੁਰੰਤ ਦਿਖੇਗਾ।';
 
   @override
+  String get editEvent => 'ਇਵੈਂਟ ਸੰਪਾਦਿਤ ਕਰੋ';
+
+  @override
+  String get cancelEvent => 'ਇਵੈਂਟ ਰੱਦ ਕਰੋ';
+
+  @override
+  String get cancelEventConfirmTitle => 'ਕੀ ਇਸ ਇਵੈਂਟ ਨੂੰ ਰੱਦ ਕਰਨਾ ਹੈ?';
+
+  @override
+  String get cancelEventConfirmBody =>
+      'ਇਹ ਮੈਂਬਰਾਂ ਦੀ ਇਵੈਂਟ ਫੀਡ ਤੋਂ ਗਾਇਬ ਹੋ ਜਾਵੇਗਾ। ਜਿਨ੍ਹਾਂ ਨੇ ਪਹਿਲਾਂ ਹੀ ਰਜਿਸਟਰ ਕੀਤਾ ਹੈ ਉਹਨਾਂ ਦਾ ਰਿਕਾਰਡ ਰਹੇਗਾ, ਅਤੇ ਇਹ ਇੱਥੋਂ ਵਾਪਸ ਨਹੀਂ ਲਿਆ ਜਾ ਸਕਦਾ।';
+
+  @override
+  String get keepEvent => 'ਇਵੈਂਟ ਰੱਖੋ';
+
+  @override
+  String get eventCancelledBadge => 'ਰੱਦ';
+
+  @override
+  String get eventUpdated => 'ਇਵੈਂਟ ਅੱਪਡੇਟ ਹੋਇਆ';
+
+  @override
+  String get eventCancelledSnackbar => 'ਇਵੈਂਟ ਰੱਦ ਕਰ ਦਿੱਤਾ ਗਿਆ';
+
+  @override
   String get eventTitleHint => 'ਸਮਰ ਡੈੱਡਲਿਫਟ ਮੀਟ';
 
   @override

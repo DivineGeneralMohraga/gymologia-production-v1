@@ -33,20 +33,20 @@ class GymSummary {
   });
 
   factory GymSummary.fromJson(Map<String, dynamic> j) => GymSummary(
-        id: j['id'] as String,
-        name: j['name'] as String? ?? '',
-        displayName: j['displayName'] as String? ?? j['name'] as String? ?? '',
-        district: j['district'] as String? ?? '',
-        status: j['status'] as String? ?? 'DRAFT',
-        memberCount: _int(j['memberCount']),
-        staffCount: _int(j['staffCount']),
-        rating: _double(j['rating']),
-        ratingCount: _int(j['ratingCount']),
-        isOwner: j['isOwner'] == true,
-        imageUrl: j['imageUrl'] as String?,
-        plan: j['plan'] as String?,
-        myRoleName: (j['myRole'] as Map<String, dynamic>?)?['name'] as String?,
-      );
+    id: j['id'] as String,
+    name: j['name'] as String? ?? '',
+    displayName: j['displayName'] as String? ?? j['name'] as String? ?? '',
+    district: j['district'] as String? ?? '',
+    status: j['status'] as String? ?? 'DRAFT',
+    memberCount: _int(j['memberCount']),
+    staffCount: _int(j['staffCount']),
+    rating: _double(j['rating']),
+    ratingCount: _int(j['ratingCount']),
+    isOwner: j['isOwner'] == true,
+    imageUrl: j['imageUrl'] as String?,
+    plan: j['plan'] as String?,
+    myRoleName: (j['myRole'] as Map<String, dynamic>?)?['name'] as String?,
+  );
 
   final String id;
   final String name;
@@ -104,12 +104,15 @@ class GymDetail {
       perks: ((j['perks'] as List?) ?? const []).map((e) => '$e').toList(),
       images: ((j['images'] as List?) ?? const []).map((e) => '$e').toList(),
       plan: plan?['plan'] as String?,
-      permissions:
-          ((access['permissions'] as List?) ?? const []).map((e) => '$e').toSet(),
-      visibleScreens:
-          ((access['visibleScreens'] as List?) ?? const []).map((e) => '$e').toSet(),
+      permissions: ((access['permissions'] as List?) ?? const [])
+          .map((e) => '$e')
+          .toSet(),
+      visibleScreens: ((access['visibleScreens'] as List?) ?? const [])
+          .map((e) => '$e')
+          .toSet(),
       isGymOwner: access['isGymOwner'] == true,
-      roleName: (access['role'] as Map<String, dynamic>?)?['name'] as String? ?? '',
+      roleName:
+          (access['role'] as Map<String, dynamic>?)?['name'] as String? ?? '',
     );
   }
 
@@ -152,15 +155,15 @@ class GymListing {
   });
 
   factory GymListing.fromJson(Map<String, dynamic> j) => GymListing(
-        id: j['id'] as String,
-        displayName: j['displayName'] as String? ?? '',
-        district: j['district'] as String? ?? '',
-        rating: _double(j['rating']),
-        ratingCount: _int(j['ratingCount']),
-        perkCount: _int(j['perkCount']),
-        imageUrl: j['imageUrl'] as String?,
-        distanceKm: j['distanceKm'] == null ? null : _double(j['distanceKm']),
-      );
+    id: j['id'] as String,
+    displayName: j['displayName'] as String? ?? '',
+    district: j['district'] as String? ?? '',
+    rating: _double(j['rating']),
+    ratingCount: _int(j['ratingCount']),
+    perkCount: _int(j['perkCount']),
+    imageUrl: j['imageUrl'] as String?,
+    distanceKm: j['distanceKm'] == null ? null : _double(j['distanceKm']),
+  );
 
   final String id;
   final String displayName;
@@ -224,7 +227,8 @@ class MyMembership {
   final bool allowProgressMonitoring;
 
   bool get onLeave => status == 'ON_LEAVE';
-  int get leaveDaysLeft => (maxLeaveDays - leaveDaysUsed).clamp(0, maxLeaveDays);
+  int get leaveDaysLeft =>
+      (maxLeaveDays - leaveDaysUsed).clamp(0, maxLeaveDays);
 }
 
 /// One weight/height entry.
@@ -232,10 +236,10 @@ class BodyMetric {
   BodyMetric({required this.recordedAt, this.weightKg, this.heightCm});
 
   factory BodyMetric.fromJson(Map<String, dynamic> j) => BodyMetric(
-        recordedAt: _date(j['recordedAt']) ?? DateTime.now(),
-        weightKg: j['weightKg'] == null ? null : _double(j['weightKg']),
-        heightCm: j['heightCm'] == null ? null : _double(j['heightCm']),
-      );
+    recordedAt: _date(j['recordedAt']) ?? DateTime.now(),
+    weightKg: j['weightKg'] == null ? null : _double(j['weightKg']),
+    heightCm: j['heightCm'] == null ? null : _double(j['heightCm']),
+  );
 
   final DateTime recordedAt;
   final double? weightKg;
@@ -250,14 +254,14 @@ class MetricsSnapshot {
   });
 
   factory MetricsSnapshot.fromJson(Map<String, dynamic> j) => MetricsSnapshot(
-        checkInDue: j['checkInDue'] == true,
-        latest: j['latest'] == null
-            ? null
-            : BodyMetric.fromJson(j['latest'] as Map<String, dynamic>),
-        history: ((j['history'] as List?) ?? const [])
-            .map((e) => BodyMetric.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+    checkInDue: j['checkInDue'] == true,
+    latest: j['latest'] == null
+        ? null
+        : BodyMetric.fromJson(j['latest'] as Map<String, dynamic>),
+    history: ((j['history'] as List?) ?? const [])
+        .map((e) => BodyMetric.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 
   final bool checkInDue;
   final BodyMetric? latest;
@@ -407,12 +411,12 @@ class PersonLookup {
   });
 
   factory PersonLookup.fromJson(Map<String, dynamic> j) => PersonLookup(
-        challengeId: j['challengeId'] as String,
-        phone: j['phone'] as String? ?? '',
-        phoneMasked: j['phoneMasked'] as String? ?? '',
-        exists: j['exists'] == true,
-        devCode: j['devCode'] as String?,
-      );
+    challengeId: j['challengeId'] as String,
+    phone: j['phone'] as String? ?? '',
+    phoneMasked: j['phoneMasked'] as String? ?? '',
+    exists: j['exists'] == true,
+    devCode: j['devCode'] as String?,
+  );
 
   final String challengeId;
   final String phone;
@@ -439,15 +443,15 @@ class GymAnalytics {
   });
 
   factory GymAnalytics.fromJson(Map<String, dynamic> j) => GymAnalytics(
-        activeMembers: _int(j['activeMembers']),
-        joinedInWindow: _int(j['joinedInWindow']),
-        engagedMembers: _int(j['engagedMembers']),
-        engagementRate: _int(j['engagementRate']),
-        windowDays: _int(j['windowDays'], 30),
-        dailyPresent: ((j['dailyPresent'] as List?) ?? const [])
-            .map((e) => DailyCount.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      );
+    activeMembers: _int(j['activeMembers']),
+    joinedInWindow: _int(j['joinedInWindow']),
+    engagedMembers: _int(j['engagedMembers']),
+    engagementRate: _int(j['engagementRate']),
+    windowDays: _int(j['windowDays'], 30),
+    dailyPresent: ((j['dailyPresent'] as List?) ?? const [])
+        .map((e) => DailyCount.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
 
   final int activeMembers;
   final int joinedInWindow;
@@ -461,9 +465,9 @@ class DailyCount {
   DailyCount({required this.date, required this.count});
 
   factory DailyCount.fromJson(Map<String, dynamic> j) => DailyCount(
-        date: _date(j['date']) ?? DateTime.now(),
-        count: _int(j['count']),
-      );
+    date: _date(j['date']) ?? DateTime.now(),
+    count: _int(j['count']),
+  );
 
   final DateTime date;
   final int count;
@@ -495,6 +499,7 @@ class P {
   static const editRoleHierarchy = 'EDIT_ROLE_HIERARCHY';
   static const manageTrainers = 'MANAGE_TRAINERS';
   static const hostEvents = 'HOST_EVENTS';
+  static const manageEvents = 'MANAGE_EVENTS';
   static const viewProgress = 'VIEW_PROGRESS';
   static const viewAnalytics = 'VIEW_ANALYTICS';
   static const viewRanking = 'VIEW_RANKING';

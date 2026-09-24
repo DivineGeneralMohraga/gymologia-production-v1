@@ -600,6 +600,31 @@ class AppLocalizationsTa extends AppLocalizations {
       'இன்னும் நிகழ்வுகள் இல்லை. ஒன்றை நடத்துங்கள், அது உங்கள் உறுப்பினர்களுக்கு உடனே தெரியும்.';
 
   @override
+  String get editEvent => 'நிகழ்வைத் திருத்து';
+
+  @override
+  String get cancelEvent => 'நிகழ்வை ரத்து செய்';
+
+  @override
+  String get cancelEventConfirmTitle => 'இந்த நிகழ்வை ரத்து செய்யவா?';
+
+  @override
+  String get cancelEventConfirmBody =>
+      'இது உறுப்பினர்களின் நிகழ்வு பட்டியலில் இருந்து மறைந்துவிடும். ஏற்கனவே பதிவு செய்தவர்களின் பதிவு நிலைத்திருக்கும், இதை இங்கிருந்து திரும்பப் பெற முடியாது.';
+
+  @override
+  String get keepEvent => 'நிகழ்வை வைத்திரு';
+
+  @override
+  String get eventCancelledBadge => 'ரத்து செய்யப்பட்டது';
+
+  @override
+  String get eventUpdated => 'நிகழ்வு புதுப்பிக்கப்பட்டது';
+
+  @override
+  String get eventCancelledSnackbar => 'நிகழ்வு ரத்து செய்யப்பட்டது';
+
+  @override
   String get eventTitleHint => 'கோடை டெட்லிஃப்ட் சந்திப்பு';
 
   @override

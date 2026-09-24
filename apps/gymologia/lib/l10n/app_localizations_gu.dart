@@ -592,6 +592,31 @@ class AppLocalizationsGu extends AppLocalizations {
       'હજી કોઈ ઇવેન્ટ નથી. એક યોજો, તે તમારા સભ્યોને તરત દેખાશે.';
 
   @override
+  String get editEvent => 'ઇવેન્ટ સંપાદિત કરો';
+
+  @override
+  String get cancelEvent => 'ઇવેન્ટ રદ કરો';
+
+  @override
+  String get cancelEventConfirmTitle => 'શું આ ઇવેન્ટ રદ કરવી છે?';
+
+  @override
+  String get cancelEventConfirmBody =>
+      'તે સભ્યોના ઇવેન્ટ ફીડમાંથી અદૃશ્ય થઈ જશે. જેમણે પહેલેથી નોંધણી કરી છે તેમનો રેકોર્ડ રહેશે, અને આ અહીંથી પાછું લઈ શકાશે નહીં.';
+
+  @override
+  String get keepEvent => 'ઇવેન્ટ રાખો';
+
+  @override
+  String get eventCancelledBadge => 'રદ';
+
+  @override
+  String get eventUpdated => 'ઇવેન્ટ અપડેટ થઈ';
+
+  @override
+  String get eventCancelledSnackbar => 'ઇવેન્ટ રદ કરવામાં આવી';
+
+  @override
   String get eventTitleHint => 'સમર ડેડલિફ્ટ મીટ';
 
   @override

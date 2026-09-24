@@ -602,6 +602,31 @@ class AppLocalizationsEn extends AppLocalizations {
       'No events yet. Host one and it will show up for your members straight away.';
 
   @override
+  String get editEvent => 'Edit event';
+
+  @override
+  String get cancelEvent => 'Cancel event';
+
+  @override
+  String get cancelEventConfirmTitle => 'Cancel this event?';
+
+  @override
+  String get cancelEventConfirmBody =>
+      'It will disappear from members\' event feed. Anyone already signed up stays on record, and this cannot be undone from here.';
+
+  @override
+  String get keepEvent => 'Keep event';
+
+  @override
+  String get eventCancelledBadge => 'CANCELLED';
+
+  @override
+  String get eventUpdated => 'Event updated';
+
+  @override
+  String get eventCancelledSnackbar => 'Event cancelled';
+
+  @override
   String get eventTitleHint => 'Summer Deadlift Meet';
 
   @override

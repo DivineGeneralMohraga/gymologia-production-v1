@@ -25,13 +25,17 @@ class GymApi {
     double? latitude,
     double? longitude,
   }) async {
-    final raw = await _client.get('/gyms/search', auth: false, query: {
-      if (query != null && query.isNotEmpty) 'query': query,
-      if (state != null && state.isNotEmpty) 'state': state,
-      if (district != null && district.isNotEmpty) 'district': district,
-      if (latitude != null) 'latitude': latitude,
-      if (longitude != null) 'longitude': longitude,
-    });
+    final raw = await _client.get(
+      '/gyms/search',
+      auth: false,
+      query: {
+        if (query != null && query.isNotEmpty) 'query': query,
+        if (state != null && state.isNotEmpty) 'state': state,
+        if (district != null && district.isNotEmpty) 'district': district,
+        if (latitude != null) 'latitude': latitude,
+        if (longitude != null) 'longitude': longitude,
+      },
+    );
     return _list(raw).map(GymListing.fromJson).toList();
   }
 
@@ -46,27 +50,38 @@ class GymApi {
   Future<MetricsSnapshot> myMetrics() async =>
       MetricsSnapshot.fromJson(await _client.get('/me/metrics'));
 
-  Future<MetricsSnapshot> recordMetric({double? weightKg, double? heightCm}) async =>
-      MetricsSnapshot.fromJson(await _client.post('/me/metrics', body: {
+  Future<MetricsSnapshot> recordMetric({
+    double? weightKg,
+    double? heightCm,
+  }) async => MetricsSnapshot.fromJson(
+    await _client.post(
+      '/me/metrics',
+      body: {
         if (weightKg != null) 'weightKg': weightKg,
         if (heightCm != null) 'heightCm': heightCm,
-      }));
+      },
+    ),
+  );
 
-  Future<void> setMonitoring(String membershipId, bool allow) =>
-      _client.patch('/me/memberships/$membershipId/monitoring', body: {'allow': allow});
+  Future<void> setMonitoring(String membershipId, bool allow) => _client.patch(
+    '/me/memberships/$membershipId/monitoring',
+    body: {'allow': allow},
+  );
 
   Future<void> requestLeave({
     required String gymId,
     required DateTime from,
     required DateTime to,
     String? reason,
-  }) =>
-      _client.post('/gyms/$gymId/leave/request', body: {
-        'subjectType': 'MEMBER',
-        'fromDate': _ymd(from),
-        'toDate': _ymd(to),
-        if (reason != null && reason.isNotEmpty) 'reason': reason,
-      });
+  }) => _client.post(
+    '/gyms/$gymId/leave/request',
+    body: {
+      'subjectType': 'MEMBER',
+      'fromDate': _ymd(from),
+      'toDate': _ymd(to),
+      if (reason != null && reason.isNotEmpty) 'reason': reason,
+    },
+  );
 
   // ── Staff side ─────────────────────────────────────────────────────
 
@@ -95,10 +110,13 @@ class GymApi {
     String? query,
     String? status,
   }) async {
-    final raw = await _client.get('/gyms/$gymId/members', query: {
-      if (query != null && query.isNotEmpty) 'query': query,
-      if (status != null) 'status': status,
-    });
+    final raw = await _client.get(
+      '/gyms/$gymId/members',
+      query: {
+        if (query != null && query.isNotEmpty) 'query': query,
+        if (status != null) 'status': status,
+      },
+    );
     final items = ((raw['items'] as List?) ?? const [])
         .cast<Map<String, dynamic>>()
         .map(MemberRow.fromJson)
@@ -108,24 +126,30 @@ class GymApi {
 
   Future<PersonLookup> lookupMember(String gymId, String phone) async =>
       PersonLookup.fromJson(
-        await _client.post('/gyms/$gymId/members/lookup', body: {'phone': phone}),
+        await _client.post(
+          '/gyms/$gymId/members/lookup',
+          body: {'phone': phone},
+        ),
       );
 
-  Future<Map<String, dynamic>> addMember(String gymId, Map<String, dynamic> body) =>
-      _client.post('/gyms/$gymId/members', body: body);
+  Future<Map<String, dynamic>> addMember(
+    String gymId,
+    Map<String, dynamic> body,
+  ) => _client.post('/gyms/$gymId/members', body: body);
 
   Future<Map<String, dynamic>> member(String gymId, String membershipId) =>
       _client.get('/gyms/$gymId/members/$membershipId');
 
-  Future<Map<String, dynamic>> memberProgress(String gymId, String membershipId) =>
-      _client.get('/gyms/$gymId/members/$membershipId/progress');
+  Future<Map<String, dynamic>> memberProgress(
+    String gymId,
+    String membershipId,
+  ) => _client.get('/gyms/$gymId/members/$membershipId/progress');
 
   Future<Map<String, dynamic>> updateMember(
     String gymId,
     String membershipId,
     Map<String, dynamic> body,
-  ) =>
-      _client.patch('/gyms/$gymId/members/$membershipId', body: body);
+  ) => _client.patch('/gyms/$gymId/members/$membershipId', body: body);
 
   Future<void> removeMember(String gymId, String membershipId) =>
       _client.delete('/gyms/$gymId/members/$membershipId');
@@ -134,9 +158,10 @@ class GymApi {
     String gymId,
     String membershipId,
     int months,
-  ) =>
-      _client.post('/gyms/$gymId/members/$membershipId/extend',
-          body: {'months': months});
+  ) => _client.post(
+    '/gyms/$gymId/members/$membershipId/extend',
+    body: {'months': months},
+  );
 
   // Staff
   Future<List<StaffRow>> staff(String gymId) async {
@@ -149,23 +174,28 @@ class GymApi {
         await _client.post('/gyms/$gymId/staff/lookup', body: {'phone': phone}),
       );
 
-  Future<Map<String, dynamic>> addStaff(String gymId, Map<String, dynamic> body) =>
-      _client.post('/gyms/$gymId/staff', body: body);
+  Future<Map<String, dynamic>> addStaff(
+    String gymId,
+    Map<String, dynamic> body,
+  ) => _client.post('/gyms/$gymId/staff', body: body);
 
   Future<Map<String, dynamic>> updateStaff(
     String gymId,
     String staffMemberId,
     Map<String, dynamic> body,
-  ) =>
-      _client.patch('/gyms/$gymId/staff/$staffMemberId', body: body);
+  ) => _client.patch('/gyms/$gymId/staff/$staffMemberId', body: body);
 
   Future<void> removeStaff(String gymId, String staffMemberId) =>
       _client.delete('/gyms/$gymId/staff/$staffMemberId');
 
-  Future<List<Map<String, dynamic>>> trainers(String gymId, {String? categoryId}) async {
-    final raw = await _client.get('/gyms/$gymId/staff/trainers', query: {
-      if (categoryId != null) 'categoryId': categoryId,
-    });
+  Future<List<Map<String, dynamic>>> trainers(
+    String gymId, {
+    String? categoryId,
+  }) async {
+    final raw = await _client.get(
+      '/gyms/$gymId/staff/trainers',
+      query: {if (categoryId != null) 'categoryId': categoryId},
+    );
     return _list(raw);
   }
 
@@ -175,12 +205,14 @@ class GymApi {
     required String subjectType,
     required String subjectId,
     String? status,
-  }) =>
-      _client.post('/gyms/$gymId/attendance', body: {
-        'subjectType': subjectType,
-        'subjectId': subjectId,
-        if (status != null) 'status': status,
-      });
+  }) => _client.post(
+    '/gyms/$gymId/attendance',
+    body: {
+      'subjectType': subjectType,
+      'subjectId': subjectId,
+      if (status != null) 'status': status,
+    },
+  );
 
   Future<List<Map<String, dynamic>>> attendance(
     String gymId, {
@@ -188,11 +220,14 @@ class GymApi {
     DateTime? from,
     DateTime? to,
   }) async {
-    final raw = await _client.get('/gyms/$gymId/attendance', query: {
-      'subjectType': subjectType,
-      if (from != null) 'from': _ymd(from),
-      if (to != null) 'to': _ymd(to),
-    });
+    final raw = await _client.get(
+      '/gyms/$gymId/attendance',
+      query: {
+        'subjectType': subjectType,
+        if (from != null) 'from': _ymd(from),
+        if (to != null) 'to': _ymd(to),
+      },
+    );
     return _list(raw);
   }
 
@@ -202,9 +237,10 @@ class GymApi {
     required String subjectType,
     required String userId,
     int days = 60,
-  }) =>
-      _client.get('/gyms/$gymId/attendance/subject/$subjectType/$userId',
-          query: {'days': days});
+  }) => _client.get(
+    '/gyms/$gymId/attendance/subject/$subjectType/$userId',
+    query: {'days': days},
+  );
 
   /// Correcting a record. The reason is mandatory server-side.
   Future<Map<String, dynamic>> editAttendance(
@@ -212,14 +248,17 @@ class GymApi {
     String recordId, {
     required String status,
     required String reason,
-  }) =>
-      _client.patch('/gyms/$gymId/attendance/$recordId',
-          body: {'status': status, 'reason': reason});
+  }) => _client.patch(
+    '/gyms/$gymId/attendance/$recordId',
+    body: {'status': status, 'reason': reason},
+  );
 
   Future<GymAnalytics> analytics(String gymId, {int days = 30}) async =>
       GymAnalytics.fromJson(
-        await _client.get('/gyms/$gymId/attendance/analytics',
-            query: {'days': days}),
+        await _client.get(
+          '/gyms/$gymId/attendance/analytics',
+          query: {'days': days},
+        ),
       );
 
   /// Joins and departures bucketed by day, month or year. Buckets are cut on
@@ -228,9 +267,10 @@ class GymApi {
     String gymId, {
     String unit = 'month',
     int periods = 12,
-  }) =>
-      _client.get('/gyms/$gymId/attendance/analytics/growth',
-          query: {'unit': unit, 'periods': periods});
+  }) => _client.get(
+    '/gyms/$gymId/attendance/analytics/growth',
+    query: {'unit': unit, 'periods': periods},
+  );
 
   /// The member's own attendance. Needs no gym scope and no permission —
   /// every other attendance route is staff-facing.
@@ -256,23 +296,27 @@ class GymApi {
     required String name,
     required List<String> permissions,
     int? level,
-  }) =>
-      _client.post('/gyms/$gymId/roles', body: {
-        'name': name,
-        'permissions': permissions,
-        if (level != null) 'level': level,
-      });
+  }) => _client.post(
+    '/gyms/$gymId/roles',
+    body: {
+      'name': name,
+      'permissions': permissions,
+      if (level != null) 'level': level,
+    },
+  );
 
   Future<Map<String, dynamic>> updateRole(
     String gymId,
     String roleId, {
     String? name,
     List<String>? permissions,
-  }) =>
-      _client.patch('/gyms/$gymId/roles/$roleId', body: {
-        if (name != null) 'name': name,
-        if (permissions != null) 'permissions': permissions,
-      });
+  }) => _client.patch(
+    '/gyms/$gymId/roles/$roleId',
+    body: {
+      if (name != null) 'name': name,
+      if (permissions != null) 'permissions': permissions,
+    },
+  );
 
   Future<void> deleteRole(String gymId, String roleId) =>
       _client.delete('/gyms/$gymId/roles/$roleId');
@@ -282,8 +326,10 @@ class GymApi {
     String gymId,
     List<String> roleIds,
   ) async {
-    final raw = await _client
-        .put('/gyms/$gymId/roles/hierarchy', body: {'roleIds': roleIds});
+    final raw = await _client.put(
+      '/gyms/$gymId/roles/hierarchy',
+      body: {'roleIds': roleIds},
+    );
     final rows = raw['roles'];
     return rows is List
         ? rows.cast<Map<String, dynamic>>()
@@ -301,17 +347,17 @@ class GymApi {
     required String name,
     required bool allowsMultipleMembers,
   }) async {
-    final raw = await _client.post('/gyms/$gymId/trainer-categories', body: {
-      'name': name,
-      'allowsMultipleMembers': allowsMultipleMembers,
-    });
+    final raw = await _client.post(
+      '/gyms/$gymId/trainer-categories',
+      body: {'name': name, 'allowsMultipleMembers': allowsMultipleMembers},
+    );
     return _list(raw);
   }
 
   /// Returns the fresh list plus a note when narrowing a category leaves
   /// trainers holding more members than the new rule allows.
   Future<({List<Map<String, dynamic>> categories, String? note})>
-      updateTrainerCategory(
+  updateTrainerCategory(
     String gymId,
     String categoryId, {
     String? name,
@@ -340,8 +386,9 @@ class GymApi {
     String gymId,
     String categoryId,
   ) async {
-    final raw =
-        await _client.delete('/gyms/$gymId/trainer-categories/$categoryId');
+    final raw = await _client.delete(
+      '/gyms/$gymId/trainer-categories/$categoryId',
+    );
     return _list(raw);
   }
 
@@ -349,8 +396,10 @@ class GymApi {
     String gymId,
     List<String> categoryIds,
   ) async {
-    final raw = await _client.put('/gyms/$gymId/trainer-categories/order',
-        body: {'categoryIds': categoryIds});
+    final raw = await _client.put(
+      '/gyms/$gymId/trainer-categories/order',
+      body: {'categoryIds': categoryIds},
+    );
     return _list(raw);
   }
 
@@ -360,10 +409,10 @@ class GymApi {
     String subjectType = 'MEMBER',
     String? status,
   }) async {
-    final raw = await _client.get('/gyms/$gymId/leave', query: {
-      'subjectType': subjectType,
-      if (status != null) 'status': status,
-    });
+    final raw = await _client.get(
+      '/gyms/$gymId/leave',
+      query: {'subjectType': subjectType, if (status != null) 'status': status},
+    );
     return _list(raw).map(LeaveRow.fromJson).toList();
   }
 
@@ -377,11 +426,13 @@ class GymApi {
   Future<Map<String, dynamic>> subscriptionQuote(
     String gymId, {
     String? referralCode,
-  }) =>
-      _client.get('/gyms/$gymId/subscription/quote', query: {
-        if (referralCode != null && referralCode.isNotEmpty)
-          'referralCode': referralCode,
-      });
+  }) => _client.get(
+    '/gyms/$gymId/subscription/quote',
+    query: {
+      if (referralCode != null && referralCode.isNotEmpty)
+        'referralCode': referralCode,
+    },
+  );
 
   Future<Map<String, dynamic>> startTrial(String gymId) =>
       _client.post('/gyms/$gymId/subscription/trial');
@@ -390,34 +441,39 @@ class GymApi {
     String gymId, {
     required String plan,
     String? referralCode,
-  }) =>
-      _client.post('/gyms/$gymId/subscription/checkout', body: {
-        'plan': plan,
-        if (referralCode != null && referralCode.isNotEmpty)
-          'referralCode': referralCode,
-      });
+  }) => _client.post(
+    '/gyms/$gymId/subscription/checkout',
+    body: {
+      'plan': plan,
+      if (referralCode != null && referralCode.isNotEmpty)
+        'referralCode': referralCode,
+    },
+  );
 
   /// Confirms with the server, which asks Cashfree directly rather than
   /// trusting whatever the payment sheet reported.
   Future<Map<String, dynamic>> verifySubscription(
     String gymId,
     String subscriptionId,
-  ) =>
-      _client.post('/gyms/$gymId/subscription/$subscriptionId/verify');
+  ) => _client.post('/gyms/$gymId/subscription/$subscriptionId/verify');
 
   // ── Events ─────────────────────────────────────────────────────────
 
   /// The member feed, split into events from gyms you belong to and
   /// everything listed nationally.
   Future<({List<Map<String, dynamic>> mine, List<Map<String, dynamic>> global})>
-      eventsFeed({String? state, String? district}) async {
-    final raw = await _client.get('/events', query: {
-      if (state != null && state.isNotEmpty) 'state': state,
-      if (district != null && district.isNotEmpty) 'district': district,
-    });
+  eventsFeed({String? state, String? district}) async {
+    final raw = await _client.get(
+      '/events',
+      query: {
+        if (state != null && state.isNotEmpty) 'state': state,
+        if (district != null && district.isNotEmpty) 'district': district,
+      },
+    );
     return (
       mine: ((raw['myGyms'] as List?) ?? const []).cast<Map<String, dynamic>>(),
-      global: ((raw['global'] as List?) ?? const []).cast<Map<String, dynamic>>(),
+      global: ((raw['global'] as List?) ?? const [])
+          .cast<Map<String, dynamic>>(),
     );
   }
 
@@ -435,11 +491,21 @@ class GymApi {
   Future<Map<String, dynamic>> hostEvent(
     String gymId,
     Map<String, dynamic> body,
-  ) =>
-      _client.post('/gyms/$gymId/events', body: body);
+  ) => _client.post('/gyms/$gymId/events', body: body);
 
-  Future<Map<String, dynamic>> eventParticipants(String gymId, String eventId) =>
-      _client.get('/gyms/$gymId/events/$eventId/participants');
+  /// Also how an event is cancelled: {'status': 'CANCELLED'}. There is no
+  /// hard-delete endpoint -- anyone already signed up keeps their record,
+  /// and a cancelled event simply drops out of the member-facing feed.
+  Future<Map<String, dynamic>> updateEvent(
+    String gymId,
+    String eventId,
+    Map<String, dynamic> body,
+  ) => _client.patch('/gyms/$gymId/events/$eventId', body: body);
+
+  Future<Map<String, dynamic>> eventParticipants(
+    String gymId,
+    String eventId,
+  ) => _client.get('/gyms/$gymId/events/$eventId/participants');
 
   /// Public server configuration, including which Cashfree environment
   /// this backend is pointed at.
@@ -467,24 +533,30 @@ class GymApi {
   Future<Map<String, dynamic>> requestGuardianConsent({
     required String registrationToken,
     required String guardianPhone,
-  }) =>
-      _client.post('/auth/guardian-consent/request', auth: false, body: {
-        'registrationToken': registrationToken,
-        'guardianPhone': guardianPhone,
-      });
+  }) => _client.post(
+    '/auth/guardian-consent/request',
+    auth: false,
+    body: {
+      'registrationToken': registrationToken,
+      'guardianPhone': guardianPhone,
+    },
+  );
 
   Future<Map<String, dynamic>> verifyGuardianConsent({
     required String registrationToken,
     required String challengeId,
     required String guardianPhone,
     required String code,
-  }) =>
-      _client.post('/auth/guardian-consent/verify', auth: false, body: {
-        'registrationToken': registrationToken,
-        'challengeId': challengeId,
-        'guardianPhone': guardianPhone,
-        'code': code,
-      });
+  }) => _client.post(
+    '/auth/guardian-consent/verify',
+    auth: false,
+    body: {
+      'registrationToken': registrationToken,
+      'challengeId': challengeId,
+      'guardianPhone': guardianPhone,
+      'code': code,
+    },
+  );
 
   // ── Chat ───────────────────────────────────────────────────────────
 
@@ -506,16 +578,18 @@ class GymApi {
     String gymId, {
     required String name,
     required List<String> userIds,
-  }) =>
-      _client.post('/gyms/$gymId/chat/groups',
-          body: {'name': name, 'userIds': userIds});
+  }) => _client.post(
+    '/gyms/$gymId/chat/groups',
+    body: {'name': name, 'userIds': userIds},
+  );
 
   Future<List<Map<String, dynamic>>> messages(
     String gymId,
     String conversationId,
   ) async {
-    final raw = await _client
-        .get('/gyms/$gymId/chat/conversations/$conversationId/messages');
+    final raw = await _client.get(
+      '/gyms/$gymId/chat/conversations/$conversationId/messages',
+    );
     return _list(raw);
   }
 
@@ -525,8 +599,9 @@ class GymApi {
     String gymId,
     String conversationId,
   ) async {
-    final raw = await _client
-        .get('/gyms/$gymId/chat/conversations/$conversationId/participants');
+    final raw = await _client.get(
+      '/gyms/$gymId/chat/conversations/$conversationId/participants',
+    );
     return _list(raw);
   }
 
@@ -534,9 +609,10 @@ class GymApi {
     String gymId,
     String conversationId,
     String body,
-  ) =>
-      _client.post('/gyms/$gymId/chat/conversations/$conversationId/messages',
-          body: {'body': body});
+  ) => _client.post(
+    '/gyms/$gymId/chat/conversations/$conversationId/messages',
+    body: {'body': body},
+  );
 
   // ── Deleting your account ──────────────────────────────────────────
   //
@@ -561,10 +637,13 @@ class GymApi {
   // membership, so leaving a gym does not hand somebody back their reach.
 
   Future<Map<String, dynamic>> blockUser(String userId, {String? reason}) =>
-      _client.post('/me/blocks', body: {
-        'userId': userId,
-        if (reason != null && reason.isNotEmpty) 'reason': reason,
-      });
+      _client.post(
+        '/me/blocks',
+        body: {
+          'userId': userId,
+          if (reason != null && reason.isNotEmpty) 'reason': reason,
+        },
+      );
 
   Future<Map<String, dynamic>> unblockUser(String userId) =>
       _client.delete('/me/blocks/$userId');
@@ -593,15 +672,17 @@ class GymApi {
     String? messageId,
     String? conversationId,
     String? gymId,
-  }) =>
-      _client.post('/me/reports', body: {
-        'reportedUserId': reportedUserId,
-        'category': category,
-        'details': details,
-        if (messageId != null) 'messageId': messageId,
-        if (conversationId != null) 'conversationId': conversationId,
-        if (gymId != null) 'gymId': gymId,
-      });
+  }) => _client.post(
+    '/me/reports',
+    body: {
+      'reportedUserId': reportedUserId,
+      'category': category,
+      'details': details,
+      if (messageId != null) 'messageId': messageId,
+      if (conversationId != null) 'conversationId': conversationId,
+      if (gymId != null) 'gymId': gymId,
+    },
+  );
 
   // ── Profile and support ────────────────────────────────────────────
 
@@ -609,26 +690,30 @@ class GymApi {
     String? name,
     String? email,
     int? age,
-  }) =>
-      _client.patch('/me/profile', body: {
-        if (name != null) 'name': name,
-        // Sent even when empty: that is how the server is told to clear it.
-        if (email != null) 'email': email,
-        if (age != null) 'age': age,
-      });
+  }) => _client.patch(
+    '/me/profile',
+    body: {
+      if (name != null) 'name': name,
+      // Sent even when empty: that is how the server is told to clear it.
+      if (email != null) 'email': email,
+      if (age != null) 'age': age,
+    },
+  );
 
   Future<Map<String, dynamic>> createTicket({
     required String subject,
     required String message,
     required String contactPhone,
     bool urgent = false,
-  }) =>
-      _client.post('/me/support', body: {
-        'subject': subject,
-        'message': message,
-        'contactPhone': contactPhone,
-        'urgent': urgent,
-      });
+  }) => _client.post(
+    '/me/support',
+    body: {
+      'subject': subject,
+      'message': message,
+      'contactPhone': contactPhone,
+      'urgent': urgent,
+    },
+  );
 
   Future<List<Map<String, dynamic>>> myTickets() async {
     final raw = await _client.get('/me/support');
@@ -644,12 +729,16 @@ class GymApi {
     String? discipline,
     String? query,
   }) async {
-    final raw = await _client.get('/exercises', auth: false, query: {
-      if (goal != null) 'goal': goal,
-      if (muscle != null) 'muscle': muscle,
-      if (discipline != null) 'discipline': discipline,
-      if (query != null && query.isNotEmpty) 'query': query,
-    });
+    final raw = await _client.get(
+      '/exercises',
+      auth: false,
+      query: {
+        if (goal != null) 'goal': goal,
+        if (muscle != null) 'muscle': muscle,
+        if (discipline != null) 'discipline': discipline,
+        if (query != null && query.isNotEmpty) 'query': query,
+      },
+    );
     return _list(raw);
   }
 
@@ -685,23 +774,23 @@ class GymApi {
     required String title,
     required String body,
     String audience = 'GYM_EVERYONE',
-  }) =>
-      _client.post('/gyms/$gymId/notifications', body: {
-        'title': title,
-        'body': body,
-        'audience': audience,
-      });
+  }) => _client.post(
+    '/gyms/$gymId/notifications',
+    body: {'title': title, 'body': body, 'audience': audience},
+  );
 
   Future<void> decideLeave(
     String gymId,
     String leaveId, {
     required bool approve,
     String? note,
-  }) =>
-      _client.post('/gyms/$gymId/leave/$leaveId/decision', body: {
-        'status': approve ? 'APPROVED' : 'DECLINED',
-        if (note != null && note.isNotEmpty) 'note': note,
-      });
+  }) => _client.post(
+    '/gyms/$gymId/leave/$leaveId/decision',
+    body: {
+      'status': approve ? 'APPROVED' : 'DECLINED',
+      if (note != null && note.isNotEmpty) 'note': note,
+    },
+  );
 }
 
 String _ymd(DateTime d) =>

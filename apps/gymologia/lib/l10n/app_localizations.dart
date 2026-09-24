@@ -1062,6 +1062,54 @@ abstract class AppLocalizations {
   /// **'No events yet. Host one and it will show up for your members straight away.'**
   String get noEventsYet;
 
+  /// No description provided for @editEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit event'**
+  String get editEvent;
+
+  /// No description provided for @cancelEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel event'**
+  String get cancelEvent;
+
+  /// No description provided for @cancelEventConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel this event?'**
+  String get cancelEventConfirmTitle;
+
+  /// No description provided for @cancelEventConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It will disappear from members\' event feed. Anyone already signed up stays on record, and this cannot be undone from here.'**
+  String get cancelEventConfirmBody;
+
+  /// No description provided for @keepEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep event'**
+  String get keepEvent;
+
+  /// No description provided for @eventCancelledBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'CANCELLED'**
+  String get eventCancelledBadge;
+
+  /// No description provided for @eventUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Event updated'**
+  String get eventUpdated;
+
+  /// No description provided for @eventCancelledSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Event cancelled'**
+  String get eventCancelledSnackbar;
+
   /// No description provided for @eventTitleHint.
   ///
   /// In en, this message translates to:
