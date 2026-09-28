@@ -9,12 +9,16 @@
 
 generator client {
   provider = "prisma-client-js"
+  // Loads an `include` as one joined query instead of one query per
+  // relation. The database is a pooler round trip away, so each extra
+  // query is ~60 ms: this took GET /gyms/:id from 11 statements to a few.
+  previewFeatures = ["relationJoins"]
 }
 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL")   // pgbouncer pooler, runtime
-  directUrl = env("DIRECT_URL")     // direct 5432, migrations
+  url       = env("DATABASE_URL")   // session pooler (5432), runtime
+  directUrl = env("DIRECT_URL")     // session pooler (5432), migrations
 }
 
 // ══════════════════════════════════════════════════════════════════════

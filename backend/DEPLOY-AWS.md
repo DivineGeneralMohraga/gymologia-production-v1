@@ -250,9 +250,13 @@ Undoing a migration needs a new forward migration that reverses it.
 
 ## Operational notes
 
-- **Connection pooling** — `DATABASE_URL` uses Supabase's transaction
-  pooler with `connection_limit=1`. `DIRECT_URL` is for migrations only and
-  must never be used at runtime.
+- **Connection pooling** — `DATABASE_URL` uses Supabase's **session**
+  pooler (port 5432 on the pooler host) with `connection_limit=10` and no
+  `pgbouncer=true`. The transaction pooler (6543) forces Prisma's pgbouncer
+  mode, which wraps every query in BEGIN / DEALLOCATE ALL / COMMIT: four
+  extra round trips per query, ~60 ms each from Mumbai. Session-mode
+  clients count against the pooler's Pool Size in the Supabase dashboard,
+  so keep this plus any dev server on the same project under it.
 - **Region** — the box is in Mumbai, the Supabase project in Singapore.
   That costs roughly 40–60 ms per query. Moving one to match the other is
   the single biggest latency win available.
