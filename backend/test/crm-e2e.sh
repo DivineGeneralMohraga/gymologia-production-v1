@@ -106,7 +106,7 @@ MEM=$(curl -s -X POST "$API/gyms/$GID/members" -H "Authorization: Bearer $OWNER"
       \"challengeId\":\"$(echo "$MLK" | field challengeId)\",\"phone\":\"$P_MEMBER\",
       \"code\":\"$(echo "$MLK" | field devCode)\",\"name\":\"Member Vikram\",
       \"age\":30,\"planMonths\":3,\"maxLeaveDays\":8,\"assignedTrainerId\":\"$SID\",
-      \"goal\":\"Bulk up to 80kg\"}")
+      \"goal\":\"Bulk up to 80kg\",\"allowProgressMonitoring\":true}")
 MID=$(echo "$MEM" | field membershipId)
 [ -n "$MID" ] && ok "member added with trainer and goal" || bad "add member" "$MEM"
 

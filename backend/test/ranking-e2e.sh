@@ -110,6 +110,10 @@ db "
   const ratings = { [ids[0]]: '4.2', [ids[1]]: '4.8', [ids[2]]: '4.5' };
   for (const id of ids) {
     await p.gymSubscription.updateMany({ where: { gymId: id }, data: { plan: 'PRO' } });
+    // Search also requires verified KYC.
+    await p.gymKyc.upsert({ where: { gymId: id },
+      create: { gymId: id, aadhaarStatus: 'VERIFIED', panStatus: 'VERIFIED', verifiedAt: new Date() },
+      update: { aadhaarStatus: 'VERIFIED', panStatus: 'VERIFIED', verifiedAt: new Date() } });
     await p.gym.update({ where: { id },
       data: { ratingAverage: ratings[id], ratingCount: 10, publicListing: true } });
   }

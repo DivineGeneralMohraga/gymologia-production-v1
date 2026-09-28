@@ -206,9 +206,10 @@ NEW_INBOX=$(curl -s "$API/me/notifications" -H "Authorization: Bearer $STRANGER"
 echo "$NEW_INBOX" | grep -q 'gymologia://settings/mode' \
   && ok "a new account is told about owner/staff mode" \
   || bad "onboarding staff msg" "$NEW_INBOX"
+# The referral-app nudge was removed on purpose (06c0a46, 2026-09-23).
 echo "$NEW_INBOX" | grep -q 'gymologia://referral' \
-  && ok "and about earning by referring" \
-  || bad "onboarding referral msg" "$NEW_INBOX"
+  && bad "onboarding referral msg" "the removed referral nudge is back: $NEW_INBOX" \
+  || ok "and is no longer pitched the referral app"
 # The deep link is the identifier the app localises against, so it matters
 # more than the stored English text and is what these assert on.
 echo "$NEW_INBOX" | grep -q '"from": *"Gymologia"' \

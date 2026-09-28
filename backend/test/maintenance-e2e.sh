@@ -62,6 +62,13 @@ GID=$(curl -s -X POST "$API/gyms" -H "Authorization: Bearer $OWNER" -H 'Content-
 [ -n "$GID" ] && ok "gym created" || { bad "setup" "no gym"; exit 1; }
 
 curl -s -X POST "$API/gyms/$GID/subscription/trial" -H "Authorization: Bearer $OWNER" > /dev/null
+# Search lists a gym only once its KYC is verified.
+db "
+  const id = process.argv[1];
+  await p.gymKyc.upsert({ where: { gymId: id },
+    create: { gymId: id, aadhaarStatus: 'VERIFIED', panStatus: 'VERIFIED', verifiedAt: new Date() },
+    update: { aadhaarStatus: 'VERIFIED', panStatus: 'VERIFIED', verifiedAt: new Date() } });
+" "$GID" > /dev/null
 STATUS=$(curl -s "$API/gyms/$GID" -H "Authorization: Bearer $OWNER" | field status)
 [ "$STATUS" = "ACTIVE" ] && ok "trial started, gym ACTIVE" || bad "trial" "status $STATUS"
 
