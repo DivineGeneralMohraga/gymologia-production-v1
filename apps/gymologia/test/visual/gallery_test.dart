@@ -8,7 +8,6 @@
 // screens fall back to their no-photo placeholders.
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:dio/dio.dart';
@@ -30,7 +29,6 @@ import 'package:gymologia/features/settings/theme_controller.dart';
 import 'package:gymologia/features/shell/app_mode.dart';
 import 'package:gymologia/features/shell/app_shell.dart';
 import 'package:gymologia/features/staff/crm_dashboard_page.dart';
-import 'package:gymologia/features/staff/gym_list_page.dart';
 import 'package:gymologia/l10n/app_localizations.dart';
 import 'package:gymologia/theme.dart';
 

@@ -78,6 +78,15 @@ G3=$(make_gym "$O3" "Gamma Fitness" "$P3")
 [ -n "$G1" ] && [ -n "$G2" ] && [ -n "$G3" ] && ok "three gyms created in one district" \
   || { bad "setup" "gyms $G1 $G2 $G3"; exit 1; }
 
+# These suites run against the live database, and below these gyms become
+# verified Pro gyms -- i.e. listed in the real app's gym browser. Take them
+# back out of public search on the way out, however the suite ends.
+unlist() {
+  db "await p.gym.updateMany({ where: { id: { in: process.argv.slice(1).filter(Boolean) } },
+        data: { publicListing: false } });" "$G1" "$G2" "$G3" > /dev/null 2>&1
+}
+trap unlist EXIT
+
 for T in "$O1:$G1" "$O2:$G2" "$O3:$G3"; do
   curl -s -X POST "$API/gyms/${T#*:}/subscription/trial" \
     -H "Authorization: Bearer ${T%%:*}" > /dev/null

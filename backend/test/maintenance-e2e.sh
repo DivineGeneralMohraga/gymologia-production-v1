@@ -61,6 +61,14 @@ GID=$(curl -s -X POST "$API/gyms" -H "Authorization: Bearer $OWNER" -H 'Content-
            \"contactPhone\":\"$P_OWNER\"}" | field id)
 [ -n "$GID" ] && ok "gym created" || { bad "setup" "no gym"; exit 1; }
 
+# Live database: this gym is made searchable below. Unlist it on the way
+# out, however the suite ends, so it never shows in the real app.
+unlist() {
+  db "await p.gym.updateMany({ where: { id: process.argv[1] },
+        data: { publicListing: false } });" "$GID" > /dev/null 2>&1
+}
+trap unlist EXIT
+
 curl -s -X POST "$API/gyms/$GID/subscription/trial" -H "Authorization: Bearer $OWNER" > /dev/null
 # Search lists a gym only once its KYC is verified.
 db "
