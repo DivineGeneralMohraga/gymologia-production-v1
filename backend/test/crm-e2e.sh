@@ -105,7 +105,7 @@ MEM=$(curl -s -X POST "$API/gyms/$GID/members" -H "Authorization: Bearer $OWNER"
       -H 'Content-Type: application/json' -d "{
       \"challengeId\":\"$(echo "$MLK" | field challengeId)\",\"phone\":\"$P_MEMBER\",
       \"code\":\"$(echo "$MLK" | field devCode)\",\"name\":\"Member Vikram\",
-      \"planMonths\":3,\"maxLeaveDays\":8,\"assignedTrainerId\":\"$SID\",
+      \"age\":30,\"planMonths\":3,\"maxLeaveDays\":8,\"assignedTrainerId\":\"$SID\",
       \"goal\":\"Bulk up to 80kg\"}")
 MID=$(echo "$MEM" | field membershipId)
 [ -n "$MID" ] && ok "member added with trainer and goal" || bad "add member" "$MEM"
@@ -116,7 +116,7 @@ CEIL=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/gyms/$GID/members" \
        -H "Authorization: Bearer $OWNER" -H 'Content-Type: application/json' -d "{
        \"challengeId\":\"$(echo "$MLK2" | field challengeId)\",\"phone\":\"+919810099999\",
        \"code\":\"$(echo "$MLK2" | field devCode)\",\"name\":\"Ceiling Test\",
-       \"planMonths\":1,\"maxLeaveDays\":99}")
+       \"age\":30,\"planMonths\":1,\"maxLeaveDays\":99}")
 [ "$CEIL" = "400" ] && ok "leave allowance above the gym ceiling refused" \
   || bad "membership ceiling" "expected 400, got $CEIL"
 

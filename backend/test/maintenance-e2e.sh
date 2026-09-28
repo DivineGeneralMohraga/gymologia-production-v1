@@ -71,7 +71,7 @@ MID=$(curl -s -X POST "$API/gyms/$GID/members" -H "Authorization: Bearer $OWNER"
       -H 'Content-Type: application/json' -d "{
       \"challengeId\":\"$(echo "$MLK" | field challengeId)\",\"phone\":\"$P_MEMBER\",
       \"code\":\"$(echo "$MLK" | field devCode)\",\"name\":\"Expiring Member\",
-      \"planMonths\":1,\"maxLeaveDays\":2}" | field membershipId)
+      \"age\":30,\"planMonths\":1,\"maxLeaveDays\":2}" | field membershipId)
 [ -n "$MID" ] && ok "member added" || bad "member" "no id"
 
 hdr "Before the jobs run"

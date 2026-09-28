@@ -66,7 +66,7 @@ add_member() {
     -H 'Content-Type: application/json' -d "{
     \"challengeId\":\"$(echo "$lk" | field challengeId)\",\"phone\":\"$phone\",
     \"code\":\"$(echo "$lk" | field devCode)\",\"name\":\"$name\",
-    \"planMonths\":6,\"maxLeaveDays\":4}" > /dev/null
+    \"age\":30,\"planMonths\":6,\"maxLeaveDays\":4}" > /dev/null
 }
 
 # Same collision guard as the other suites: two runs starting in the same

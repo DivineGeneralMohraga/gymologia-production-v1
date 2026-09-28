@@ -46,7 +46,7 @@ add_member() {
     -H 'Content-Type: application/json' -d "{
     \"challengeId\":\"$(echo "$lk" | field challengeId)\",\"phone\":\"$phone\",
     \"code\":\"$(echo "$lk" | field devCode)\",\"name\":\"$name\",
-    \"planMonths\":6,\"maxLeaveDays\":4}" > /dev/null
+    \"age\":30,\"planMonths\":6,\"maxLeaveDays\":4}" > /dev/null
 }
 
 add_staff() {

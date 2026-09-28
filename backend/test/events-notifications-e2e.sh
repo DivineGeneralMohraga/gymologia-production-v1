@@ -41,7 +41,7 @@ add_member() {
     -H 'Content-Type: application/json' -d "{
     \"challengeId\":\"$(echo "$lk" | field challengeId)\",\"phone\":\"$phone\",
     \"code\":\"$(echo "$lk" | field devCode)\",\"name\":\"$name\",
-    \"planMonths\":6,\"maxLeaveDays\":4}" | field membershipId
+    \"age\":30,\"planMonths\":6,\"maxLeaveDays\":4}" | field membershipId
 }
 
 # Four digits from the clock mixed with this shell's pid, so two runs

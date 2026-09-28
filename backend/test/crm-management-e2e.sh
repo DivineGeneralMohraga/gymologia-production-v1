@@ -93,7 +93,7 @@ MID=$(curl -s -X POST "$API/gyms/$GID/members" -H "Authorization: Bearer $OWNER"
       -H 'Content-Type: application/json' -d "{
       \"challengeId\":\"$(echo "$MLK" | field challengeId)\",\"phone\":\"$P_MEMBER\",
       \"code\":\"$(echo "$MLK" | field devCode)\",\"name\":\"Member Dev\",
-      \"planMonths\":1,\"maxLeaveDays\":5,\"goal\":\"Get stronger\"}" | field membershipId)
+      \"age\":30,\"planMonths\":1,\"maxLeaveDays\":5,\"goal\":\"Get stronger\"}" | field membershipId)
 [ -n "$MID" ] && ok "member added" || bad "add member" "no id"
 
 BEFORE=$(curl -s "$API/gyms/$GID/members/$MID" -H "Authorization: Bearer $OWNER" | field daysRemaining)

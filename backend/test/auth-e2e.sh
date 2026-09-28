@@ -40,7 +40,9 @@ hdr "Configuration"
 # Read from .env rather than hardcoded: the whole point is that this is
 # configuration, and a copy of the code in the test would pass while the
 # deployment had a different one.
-PHONE=$(grep "^TEST_ACCOUNT_PHONE=" .env 2>/dev/null | cut -d= -f2 | tr -d '\r')
+# The variable may list several numbers, comma-separated; the first is
+# enough to exercise the bypass.
+PHONE=$(grep "^TEST_ACCOUNT_PHONE=" .env 2>/dev/null | cut -d= -f2 | tr -d '\r' | cut -d, -f1)
 OTP=$(grep "^TEST_ACCOUNT_OTP=" .env 2>/dev/null | cut -d= -f2 | tr -d '\r')
 
 # Deliberately a failure rather than a skip. A skip here is a check that

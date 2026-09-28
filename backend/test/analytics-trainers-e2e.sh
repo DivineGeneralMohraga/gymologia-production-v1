@@ -42,7 +42,7 @@ add_member() {
     -H 'Content-Type: application/json' -d "{
       \"challengeId\":\"$(echo "$lk" | field challengeId)\",\"phone\":\"$phone\",
       \"code\":\"$(echo "$lk" | field devCode)\",\"name\":\"$name\",
-      \"planMonths\":1,\"maxLeaveDays\":2}"
+      \"age\":30,\"planMonths\":1,\"maxLeaveDays\":2}"
 }
 
 db() { node -e "
@@ -216,7 +216,7 @@ BMID=$(curl -s -X POST "$API/gyms/$GID/members" -H "Authorization: Bearer $OWNER
        -H 'Content-Type: application/json' -d "{
        \"challengeId\":\"$(echo "$BLK" | field challengeId)\",\"phone\":\"$BOUNDARY_PHONE\",
        \"code\":\"$(echo "$BLK" | field devCode)\",\"name\":\"Boundary Member\",
-       \"planMonths\":1,\"maxLeaveDays\":2}" | field membershipId)
+       \"age\":30,\"planMonths\":1,\"maxLeaveDays\":2}" | field membershipId)
 
 # 02:00 UTC on the 1st of this month == 07:30 IST the same morning.
 FIRST_UTC=$(date -u +%Y-%m-01)
