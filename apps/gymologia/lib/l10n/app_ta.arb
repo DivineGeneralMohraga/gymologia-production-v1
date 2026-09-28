@@ -589,5 +589,13 @@
   "deletionScheduled": "உங்கள் கணக்கு {date} அன்று நீக்கப்படும்.",
   "keepMyAccount": "என் கணக்கை வைத்திருங்கள்",
   "deletionCancelled": "உங்கள் கணக்கு நீக்கப்படாது.",
-  "deleteAccountConfirm": "என் கணக்கை நீக்கு"
+  "deleteAccountConfirm": "என் கணக்கை நீக்கு",
+  "about": "அறிமுகம்",
+  "participated": "நீங்கள் இணைந்தீர்கள்",
+  "letsGoName": "வாங்க, {name}",
+  "yourTraining": "உங்கள் பயிற்சி",
+  "tagline": "பயிற்சி. கண்காணிப்பு. மாற்றம்.",
+  "appearance": "தோற்றம்",
+  "themeDark": "டார்க்",
+  "themeLight": "லைட்"
 }

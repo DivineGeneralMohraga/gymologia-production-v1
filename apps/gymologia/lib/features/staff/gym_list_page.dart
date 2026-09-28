@@ -7,6 +7,8 @@ import '../../core/api/models.dart';
 import '../auth/auth_controller.dart';
 import 'create_gym_page.dart';
 import 'crm_dashboard_page.dart';
+import '../../theme.dart';
+import '../../ui/kit.dart';
 
 /// The staff app's first screen: gyms you own or work at.
 ///
@@ -49,17 +51,20 @@ class _GymListPageState extends State<GymListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final gyms = _gyms;
 
     if (_error != null) {
       return _Center(
-        icon: Icons.cloud_off,
-        title: AppLocalizations.of(context).couldNotLoadYourGyms,
+        icon: Icons.cloud_off_rounded,
+        title: t.couldNotLoadYourGyms,
         body: _error!,
-        action: FilledButton.tonal(
-          onPressed: _load,
-          child: Text(AppLocalizations.of(context).tryAgain),
+        action: SizedBox(
+          width: 200,
+          child: FilledButton(
+            onPressed: _load,
+            child: Text(t.tryAgain.toUpperCase()),
+          ),
         ),
       );
     }
@@ -70,28 +75,33 @@ class _GymListPageState extends State<GymListPage> {
 
     if (gyms.isEmpty) {
       return _Center(
-        icon: Icons.add_business_outlined,
-        title: AppLocalizations.of(context).noGymsYet,
-        body: AppLocalizations.of(context).createYourGymBlurb,
+        icon: Icons.add_business_rounded,
+        title: t.noGymsYet,
+        body: t.createYourGymBlurb,
         action: FilledButton.icon(
           onPressed: _create,
-          icon: const Icon(Icons.add),
-          label: Text(AppLocalizations.of(context).createAGym),
+          icon: const Icon(Icons.add_rounded),
+          label: Text(t.createAGym.toUpperCase()),
         ),
       );
     }
 
     return Stack(
       children: [
-        ListView.separated(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
-          itemCount: gyms.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 12),
-          itemBuilder: (_, i) {
-            final gym = gyms[i];
-            return Card(
-              clipBehavior: Clip.antiAlias,
-              child: InkWell(
+        ListView(
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 110),
+          children: [
+            Text(
+              t.gyms.toUpperCase(),
+              style: Theme.of(context)
+                  .textTheme
+                  .displaySmall
+                  ?.copyWith(fontStyle: FontStyle.italic),
+            ),
+            const SizedBox(height: 16),
+            for (final gym in gyms) ...[
+              _GymTile(
+                gym: gym,
                 onTap: () async {
                   await Navigator.of(context).push(
                     MaterialPageRoute(
@@ -100,92 +110,168 @@ class _GymListPageState extends State<GymListPage> {
                   );
                   await _load();
                 },
-                child: Padding(
-                  padding: const EdgeInsets.all(18),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              gym.displayName,
-                              style: theme.textTheme.titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.w700),
-                            ),
-                          ),
-                          if (gym.isDraft)
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 3),
-                              decoration: BoxDecoration(
-                                color: theme.colorScheme.tertiaryContainer,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Text(AppLocalizations.of(context).draft.toUpperCase(),
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 0.6,
-                                    color:
-                                        theme.colorScheme.onTertiaryContainer,
-                                  )),
-                            ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '${gym.isOwner ? AppLocalizations.of(context).owner : gym.myRoleName ?? AppLocalizations.of(context).staff}'
-                        '${gym.plan == null ? '' : ' · ${gym.plan} plan'}',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      Row(
-                        children: [
-                          _Stat(
-                              label: AppLocalizations.of(context).members,
-                              value: '${gym.memberCount}'),
-                          const SizedBox(width: 26),
-                          _Stat(
-                              label: AppLocalizations.of(context).staff,
-                              value: '${gym.staffCount}'),
-                          const SizedBox(width: 26),
-                          _Stat(
-                            label: AppLocalizations.of(context).rating,
-                            value: gym.ratingCount == 0
-                                ? '—'
-                                : gym.rating.toStringAsFixed(1),
-                          ),
-                        ],
-                      ),
-                      if (gym.isDraft) ...[
-                        const SizedBox(height: 12),
-                        Text(
-                          AppLocalizations.of(context).notListedUntilPlan,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
               ),
-            );
-          },
+              const SizedBox(height: 14),
+            ],
+          ],
         ),
         Positioned(
           right: 16,
           bottom: 16,
           child: FloatingActionButton.extended(
             onPressed: _create,
-            icon: const Icon(Icons.add),
-            label: Text(AppLocalizations.of(context).newGym),
+            icon: const Icon(Icons.add_rounded),
+            label: Text(t.newGym.toUpperCase()),
           ),
         ),
       ],
+    );
+  }
+}
+
+/// One gym: photo strip with the name, then members / staff / rating.
+class _GymTile extends StatelessWidget {
+  const _GymTile({required this.gym, required this.onTap});
+  final GymSummary gym;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final scheme = Theme.of(context).colorScheme;
+    final plan = gym.plan?.toUpperCase();
+    final role = gym.isOwner ? t.owner : gym.myRoleName ?? t.staff;
+
+    final Widget planPill = gym.isDraft
+        ? Pill(t.draft, background: context.gym.flame, foreground: ink)
+        : plan == 'PRO'
+            ? Pill.volt('PRO', icon: Icons.bolt_rounded)
+            : Pill(plan ?? '—',
+                background: Colors.white.withValues(alpha: 0.16),
+                foreground: const Color(0xFFF5F5F2));
+
+    return Card(
+      margin: EdgeInsets.zero,
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(
+              height: 118,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  if (gym.imageUrl != null)
+                    Image.network(
+                      gym.imageUrl!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) =>
+                          const ColoredBox(color: Color(0xFF1E1E23)),
+                    )
+                  else
+                    const DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xFF26262C), ink],
+                        ),
+                      ),
+                    ),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withValues(alpha: 0.15),
+                          Colors.black.withValues(alpha: 0.88),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(top: 12, right: 12, child: planPill),
+                  Positioned(
+                    left: 16,
+                    right: 16,
+                    bottom: 12,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          gym.displayName.toUpperCase(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: displayFont,
+                            fontSize: 27,
+                            fontWeight: FontWeight.w900,
+                            fontStyle: FontStyle.italic,
+                            height: 1.0,
+                            color: Color(0xFFF5F5F2),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(
+                              gym.isOwner
+                                  ? Icons.workspace_premium_rounded
+                                  : Icons.badge_rounded,
+                              size: 14,
+                              color: volt,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              role,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: const Color(0xFFF5F5F2)
+                                    .withValues(alpha: 0.85),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              child: IntrinsicHeight(
+                child: Row(
+                  children: [
+                    _Stat(label: t.members, value: '${gym.memberCount}'),
+                    VerticalDivider(color: scheme.outlineVariant, width: 1),
+                    _Stat(label: t.staff, value: '${gym.staffCount}'),
+                    VerticalDivider(color: scheme.outlineVariant, width: 1),
+                    _Stat(
+                      label: t.rating,
+                      value: gym.ratingCount == 0
+                          ? '—'
+                          : gym.rating.toStringAsFixed(1),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            if (gym.isDraft)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+                child: Text(
+                  t.notListedUntilPlan,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -197,19 +283,14 @@ class _Stat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(value,
-            style: theme.textTheme.titleLarge
-                ?.copyWith(fontWeight: FontWeight.bold)),
-        Text(label.toUpperCase(),
-            style: theme.textTheme.labelSmall?.copyWith(
-              letterSpacing: 0.7,
-              color: theme.colorScheme.onSurfaceVariant,
-            )),
-      ],
+    return Expanded(
+      child: Column(
+        children: [
+          BigNumber(value: value, size: 30),
+          const SizedBox(height: 2),
+          Eyebrow(label),
+        ],
+      ),
     );
   }
 }
@@ -229,28 +310,13 @@ class _Center extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Center(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 46, color: theme.colorScheme.outline),
-            const SizedBox(height: 18),
-            Text(title,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w600)),
-            const SizedBox(height: 10),
-            Text(body,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                  height: 1.5,
-                )),
-            if (action != null) ...[const SizedBox(height: 24), action!],
-          ],
+        child: EmptyState(
+          icon: icon,
+          title: title,
+          message: body,
+          action: action,
         ),
       ),
     );

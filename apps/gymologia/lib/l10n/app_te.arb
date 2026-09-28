@@ -589,5 +589,13 @@
   "deletionScheduled": "మీ ఖాతా {date}న తొలగించబడుతుంది.",
   "keepMyAccount": "నా ఖాతాను ఉంచండి",
   "deletionCancelled": "మీ ఖాతా తొలగించబడదు.",
-  "deleteAccountConfirm": "నా ఖాతాను తొలగించండి"
+  "deleteAccountConfirm": "నా ఖాతాను తొలగించండి",
+  "about": "పరిచయం",
+  "participated": "మీరు చేరారు",
+  "letsGoName": "రండి, {name}",
+  "yourTraining": "మీ శిక్షణ",
+  "tagline": "శిక్షణ. ట్రాక్. మార్పు.",
+  "appearance": "రూపం",
+  "themeDark": "డార్క్",
+  "themeLight": "లైట్"
 }

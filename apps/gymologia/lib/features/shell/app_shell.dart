@@ -11,6 +11,8 @@ import '../settings/settings_page.dart';
 import '../staff/gym_list_page.dart';
 import '../notifications/notifications_page.dart';
 import 'app_mode.dart';
+import '../../theme.dart';
+import '../../ui/kit.dart';
 
 /// The frame both modes live in: a header with the mark and the
 /// notification and settings actions, and a footer whose tabs change with
@@ -77,21 +79,21 @@ class _AppShellState extends State<AppShell> {
   List<_Tab> _tabsFor(AppMode mode, AppLocalizations t) {
     if (mode == AppMode.staff) {
       return [
-        _Tab(t.gyms, Icons.fitness_center_outlined, Icons.fitness_center),
-        _Tab(t.events, Icons.event_outlined, Icons.event),
-        _Tab(t.settings, Icons.settings_outlined, Icons.settings),
+        _Tab(t.gyms, Icons.fitness_center_rounded, Icons.fitness_center_rounded),
+        _Tab(t.events, Icons.local_fire_department_outlined, Icons.local_fire_department_rounded),
+        _Tab(t.settings, Icons.person_outline_rounded, Icons.person_rounded),
       ];
     }
     // Member mode. The first tab differs depending on whether they belong
     // to a gym.
     return [
       _hasMembership
-          ? _Tab(t.myGym, Icons.home_outlined, Icons.home)
-          : _Tab(t.findAGym, Icons.search_outlined, Icons.search),
+          ? _Tab(t.myGym, Icons.bolt_outlined, Icons.bolt_rounded)
+          : _Tab(t.findAGym, Icons.explore_outlined, Icons.explore_rounded),
       if (_hasMembership)
-        _Tab(t.discover, Icons.search_outlined, Icons.search),
-      _Tab(t.events, Icons.event_outlined, Icons.event),
-      _Tab(t.settings, Icons.settings_outlined, Icons.settings),
+        _Tab(t.discover, Icons.explore_outlined, Icons.explore_rounded),
+      _Tab(t.events, Icons.local_fire_department_outlined, Icons.local_fire_department_rounded),
+      _Tab(t.settings, Icons.person_outline_rounded, Icons.person_rounded),
     ];
   }
 
@@ -128,7 +130,7 @@ class _AppShellState extends State<AppShell> {
     final index = _index.clamp(0, tabs.length - 1);
 
     if (_loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(body: Center(child: BrandMark(size: 64)));
     }
 
     return Scaffold(
@@ -136,24 +138,13 @@ class _AppShellState extends State<AppShell> {
         titleSpacing: 16,
         title: Row(
           children: [
-            const _Wordmark(),
+            Wordmark(name: AppLocalizations.of(context).appName),
             if (mode == AppMode.staff) ...[
               const SizedBox(width: 10),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  AppLocalizations.of(context).staffBadge.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.8,
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                  ),
-                ),
+              Pill(
+                AppLocalizations.of(context).staffBadge,
+                background: Theme.of(context).colorScheme.tertiary,
+                foreground: Theme.of(context).colorScheme.onTertiary,
               ),
             ],
           ],
@@ -164,7 +155,7 @@ class _AppShellState extends State<AppShell> {
             icon: Badge(
               isLabelVisible: _unread > 0,
               label: Text(_unread > 99 ? '99+' : '$_unread'),
-              child: const Icon(Icons.notifications_none),
+              child: const Icon(Icons.notifications_none_rounded, size: 26),
             ),
             onPressed: () async {
               await Navigator.of(context).push(
@@ -175,7 +166,7 @@ class _AppShellState extends State<AppShell> {
           ),
           IconButton(
             tooltip: AppLocalizations.of(context).settings,
-            icon: const Icon(Icons.settings_outlined),
+            icon: const Icon(Icons.tune_rounded, size: 25),
             onPressed: () => setState(() => _index = tabs.length - 1),
           ),
         ],
@@ -186,17 +177,22 @@ class _AppShellState extends State<AppShell> {
               onRefresh: _load,
               child: _bodyFor(mode, index),
             ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: index,
-        onDestinationSelected: (i) => setState(() => _index = i),
-        destinations: [
-          for (final tab in tabs)
-            NavigationDestination(
-              icon: Icon(tab.icon),
-              selectedIcon: Icon(tab.selectedIcon),
-              label: tab.label,
-            ),
-        ],
+      bottomNavigationBar: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border(top: BorderSide(color: context.gym.cardBorder)),
+        ),
+        child: NavigationBar(
+          selectedIndex: index,
+          onDestinationSelected: (i) => setState(() => _index = i),
+          destinations: [
+            for (final tab in tabs)
+              NavigationDestination(
+                icon: Icon(tab.icon),
+                selectedIcon: Icon(tab.selectedIcon),
+                label: tab.label.toUpperCase(),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -209,38 +205,6 @@ class _Tab {
   final IconData selectedIcon;
 }
 
-/// The mark: a barbell plate silhouette beside the name. Drawn rather than
-/// shipped as an asset so it takes the theme's colours in both brightnesses.
-class _Wordmark extends StatelessWidget {
-  const _Wordmark();
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 26,
-          height: 26,
-          decoration: BoxDecoration(
-            color: scheme.primary,
-            borderRadius: BorderRadius.circular(7),
-          ),
-          alignment: Alignment.center,
-          child: Icon(Icons.fitness_center, size: 15, color: scheme.onPrimary),
-        ),
-        const SizedBox(width: 9),
-        Text(
-          AppLocalizations.of(context).appName,
-          style: const TextStyle(
-              fontWeight: FontWeight.w700, letterSpacing: -0.3),
-        ),
-      ],
-    );
-  }
-}
-
 class _ErrorState extends StatelessWidget {
   const _ErrorState({required this.message, required this.onRetry});
   final String message;
@@ -249,18 +213,18 @@ class _ErrorState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(28),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.cloud_off,
-                size: 40, color: Theme.of(context).colorScheme.outline),
-            const SizedBox(height: 14),
-            Text(message, textAlign: TextAlign.center),
-            const SizedBox(height: 18),
-            FilledButton.tonal(onPressed: onRetry, child: Text(AppLocalizations.of(context).tryAgain)),
-          ],
+      child: SingleChildScrollView(
+        child: EmptyState(
+          icon: Icons.cloud_off_rounded,
+          title: AppLocalizations.of(context).somethingWentWrongTryAgain,
+          message: message,
+          action: SizedBox(
+            width: 200,
+            child: FilledButton(
+              onPressed: onRetry,
+              child: Text(AppLocalizations.of(context).tryAgain.toUpperCase()),
+            ),
+          ),
         ),
       ),
     );

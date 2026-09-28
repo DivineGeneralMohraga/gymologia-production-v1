@@ -2158,4 +2158,30 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get deleteAccountConfirm => 'என் கணக்கை நீக்கு';
+
+  @override
+  String get about => 'அறிமுகம்';
+
+  @override
+  String get participated => 'நீங்கள் இணைந்தீர்கள்';
+
+  @override
+  String letsGoName(String name) {
+    return 'வாங்க, $name';
+  }
+
+  @override
+  String get yourTraining => 'உங்கள் பயிற்சி';
+
+  @override
+  String get tagline => 'பயிற்சி. கண்காணிப்பு. மாற்றம்.';
+
+  @override
+  String get appearance => 'தோற்றம்';
+
+  @override
+  String get themeDark => 'டார்க்';
+
+  @override
+  String get themeLight => 'லைட்';
 }

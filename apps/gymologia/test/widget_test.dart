@@ -110,15 +110,16 @@ void main() {
     testWidgets('shows the phone field and the +91 prefix', (tester) async {
       await tester.pumpWidget(_wrap(const PhoneScreen()));
 
-      expect(find.text(t.appName), findsOneWidget);
-      expect(find.text(t.sendOtp), findsOneWidget);
-      expect(find.text('+91  '), findsOneWidget);
+      // The redesign sets the name and the button in capitals.
+      expect(find.text(t.appName.toUpperCase()), findsOneWidget);
+      expect(find.text(t.sendOtp.toUpperCase()), findsOneWidget);
+      expect(find.text('+91'), findsOneWidget);
     });
 
     testWidgets('blocks submission of an empty number', (tester) async {
       await tester.pumpWidget(_wrap(const PhoneScreen()));
 
-      await tester.tap(find.text(t.sendOtp));
+      await tester.tap(find.text(t.sendOtp.toUpperCase()));
       await tester.pump();
 
       expect(find.text(t.enterPhoneNumber), findsOneWidget);
@@ -128,7 +129,7 @@ void main() {
       await tester.pumpWidget(_wrap(const PhoneScreen()));
 
       await tester.enterText(find.byType(TextFormField), '1234567890');
-      await tester.tap(find.text(t.sendOtp));
+      await tester.tap(find.text(t.sendOtp.toUpperCase()));
       await tester.pump();
 
       expect(find.text(t.enterValidMobile), findsOneWidget);

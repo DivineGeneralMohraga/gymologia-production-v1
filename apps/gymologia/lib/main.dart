@@ -6,11 +6,13 @@ import 'core/api/api_client.dart';
 import 'core/config/app_config.dart';
 import 'l10n/app_localizations.dart';
 import 'features/settings/locale_controller.dart';
+import 'features/settings/theme_controller.dart';
 import 'features/auth/auth_controller.dart';
 import 'features/auth/phone_screen.dart';
 import 'features/shell/app_mode.dart';
 import 'features/shell/app_shell.dart';
 import 'theme.dart';
+import 'ui/kit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,16 +32,18 @@ class GymologiaApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthController()..restoreSession()),
         ChangeNotifierProvider(create: (_) => AppModeController()..restore()),
         ChangeNotifierProvider(create: (_) => LocaleController()..restore()),
+        ChangeNotifierProvider(create: (_) => ThemeController()..restore()),
       ],
       // Watching the controller here rebuilds the whole app on a language
       // change, which is what makes the picker take effect immediately
       // instead of on next launch.
-      child: Consumer<LocaleController>(
-        builder: (context, locales, _) => MaterialApp(
+      child: Consumer2<LocaleController, ThemeController>(
+        builder: (context, locales, themes, _) => MaterialApp(
           title: 'Gymologia',
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           darkTheme: darkTheme,
+          themeMode: themes.mode,
           locale: locales.locale,
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: const [
@@ -86,11 +90,21 @@ class _Root extends StatelessWidget {
     final status = context.watch<AuthController>().status;
 
     return switch (status) {
-      AuthStatus.unknown => const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        ),
+      AuthStatus.unknown => const _Splash(),
       AuthStatus.signedOut => const PhoneScreen(),
       AuthStatus.signedIn => const AppShell(),
     };
+  }
+}
+
+/// While the saved session is read back. Same mark as the header, larger.
+class _Splash extends StatelessWidget {
+  const _Splash();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(child: BrandMark(size: 64)),
+    );
   }
 }

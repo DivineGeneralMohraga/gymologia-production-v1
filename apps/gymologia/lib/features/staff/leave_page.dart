@@ -6,6 +6,7 @@ import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 import '../../core/api/models.dart';
 import '../auth/auth_controller.dart';
+import '../../theme.dart';
 
 /// Leave requests.
 ///
@@ -255,8 +256,8 @@ class _StatusChip extends StatelessWidget {
     final t = AppLocalizations.of(context);
     final (label, color) = switch (status) {
       'PENDING' => (t.needsYou, theme.colorScheme.tertiary),
-      'APPROVED' => (t.approved, Colors.green),
-      'AUTO_APPROVED' => (t.autoApproved, Colors.green),
+      'APPROVED' => (t.approved, context.gym.success),
+      'AUTO_APPROVED' => (t.autoApproved, context.gym.success),
       'DECLINED' => (t.declined, theme.colorScheme.error),
       'CLOSED_EARLY' => (t.returnedEarly, theme.colorScheme.onSurfaceVariant),
       'CANCELLED' => (t.cancelled, theme.colorScheme.onSurfaceVariant),

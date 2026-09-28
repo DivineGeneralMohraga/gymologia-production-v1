@@ -17,6 +17,8 @@ import 'roles_page.dart';
 import 'growth_page.dart';
 import 'ranking_page.dart';
 import '../chat/conversations_page.dart';
+import '../../theme.dart';
+import '../../ui/kit.dart';
 
 /// The CRM home for one gym.
 ///
@@ -103,12 +105,12 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(gym.name, style: const TextStyle(fontSize: 17)),
+            Text(gym.name.toUpperCase()),
             Text(
               '${gym.district} · ${gym.roleName}',
               style: TextStyle(
                 fontSize: 12,
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
@@ -144,7 +146,9 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                         const SizedBox(height: 12),
                         FilledButton(
                           onPressed: () => _open(PlanPage(gym: gym)),
-                          child: Text(AppLocalizations.of(context).choosePlan),
+                          child: Text(AppLocalizations.of(context)
+                              .choosePlan
+                              .toUpperCase()),
                         ),
                       ],
                     ],
@@ -161,13 +165,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
             ],
 
             const SizedBox(height: 16),
-            Text(AppLocalizations.of(context).manage.toUpperCase(),
-                style: theme.textTheme.labelSmall?.copyWith(
-                  letterSpacing: 0.9,
-                  fontWeight: FontWeight.w700,
-                  color: theme.colorScheme.primary,
-                )),
-            const SizedBox(height: 10),
+            SectionLabel(AppLocalizations.of(context).manage),
 
             GridView.count(
               crossAxisCount: 2,
@@ -175,13 +173,13 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
               physics: const NeverScrollableScrollPhysics(),
               mainAxisSpacing: 12,
               crossAxisSpacing: 12,
-              childAspectRatio: 1.35,
+              childAspectRatio: 1.45,
               children: [
                 if (gym.sees('addMember') ||
                     gym.sees('manageMembers') ||
                     gym.sees('attendanceMember'))
                   _Tile(
-                    icon: Icons.groups_outlined,
+                    icon: Icons.groups_rounded,
                     label: t.members,
                     detail: '${gym.memberCount}',
                     onTap: () => _open(MembersPage(gym: gym)),
@@ -190,62 +188,62 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                     gym.sees('manageStaff') ||
                     gym.sees('attendanceStaff'))
                   _Tile(
-                    icon: Icons.badge_outlined,
+                    icon: Icons.badge_rounded,
                     label: t.staff,
                     detail: '${gym.staffCount}',
                     onTap: () => _open(StaffPage(gym: gym)),
                   ),
                 if (gym.sees('leaveMember') || gym.sees('leaveStaff'))
                   _Tile(
-                    icon: Icons.beach_access_outlined,
+                    icon: Icons.beach_access_rounded,
                     label: t.leave,
                     onTap: () => _open(LeavePage(gym: gym)),
                   ),
                 if (gym.can(P.editGymProfile))
                   _Tile(
-                    icon: Icons.storefront_outlined,
+                    icon: Icons.storefront_rounded,
                     label: AppLocalizations.of(context).gymProfile,
                     onTap: () => _open(GymProfileEditPage(gym: gym)),
                   ),
                 if (gym.can(P.manageSubscription))
                   _Tile(
-                    icon: Icons.workspace_premium_outlined,
+                    icon: Icons.workspace_premium_rounded,
                     label: t.plan,
                     detail: gym.plan,
                     onTap: () => _open(PlanPage(gym: gym)),
                   ),
                 if (gym.sees('manageTrainers'))
                   _Tile(
-                    icon: Icons.fitness_center_outlined,
+                    icon: Icons.fitness_center_rounded,
                     label: t.trainers,
                     onTap: () => _open(TrainerCategoriesPage(gym: gym)),
                   ),
                 if (gym.can(P.viewAnalytics))
                   _Tile(
-                    icon: Icons.show_chart,
+                    icon: Icons.show_chart_rounded,
                     label: t.growth,
                     onTap: () => _open(GrowthPage(gym: gym)),
                   ),
                 if (gym.can(P.viewRanking))
                   _Tile(
-                    icon: Icons.leaderboard_outlined,
+                    icon: Icons.leaderboard_rounded,
                     label: t.ranking,
                     onTap: () => _open(RankingPage(gym: gym)),
                   ),
                 if (gym.sees('manageRoles'))
                   _Tile(
-                    icon: Icons.admin_panel_settings_outlined,
+                    icon: Icons.admin_panel_settings_rounded,
                     label: t.roles,
                     onTap: () => _open(RolesPage(gym: gym)),
                   ),
                 if (gym.sees('events'))
                   _Tile(
-                    icon: Icons.event_outlined,
+                    icon: Icons.local_fire_department_rounded,
                     label: t.events,
                     onTap: () => _open(EventsManagePage(gym: gym)),
                   ),
                 _Tile(
-                  icon: Icons.forum_outlined,
+                  icon: Icons.forum_rounded,
                   label: t.chat,
                   onTap: () => _open(ConversationsPage(
                     gymId: gym.id,
@@ -254,7 +252,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                 ),
                 if (gym.can(P.sendNotifications))
                   _Tile(
-                    icon: Icons.campaign_outlined,
+                    icon: Icons.campaign_rounded,
                     label: t.announce,
                     onTap: () => _open(AnnouncePage(gym: gym)),
                   ),
@@ -289,29 +287,51 @@ class _Tile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Card(
+    final scheme = Theme.of(context).colorScheme;
+    final isDark = scheme.brightness == Brightness.dark;
+    return Material(
+      color: scheme.surfaceContainerLow,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: BorderSide(color: context.gym.cardBorder),
+      ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(14),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(icon, color: theme.colorScheme.primary),
-              Column(
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: isDark ? volt : ink,
+                      borderRadius: BorderRadius.circular(13),
+                    ),
+                    child: Icon(icon, size: 22, color: isDark ? ink : volt),
+                  ),
+                  const Spacer(),
                   if (detail != null)
-                    Text(detail!,
-                        style: theme.textTheme.headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.bold)),
-                  Text(label,
-                      style: theme.textTheme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.w600)),
+                    BigNumber(value: detail!, size: 28),
                 ],
+              ),
+              Text(
+                label.toUpperCase(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontFamily: displayFont,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0.5,
+                  color: scheme.onSurface,
+                ),
               ),
             ],
           ),
@@ -328,93 +348,94 @@ class _AnalyticsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final t = AppLocalizations.of(context);
     final a = analytics;
+    // Below half the membership showing up is the number a gym owner
+    // most needs to notice.
+    final lowTurnout = a.engagementRate < 50 && a.activeMembers > 0;
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(18),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(AppLocalizations.of(context).lastNDays(a.windowDays),
-                style: theme.textTheme.labelSmall?.copyWith(
-                  letterSpacing: 0.8,
-                  color: theme.colorScheme.onSurfaceVariant,
-                )),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                _Figure(
-                    label: AppLocalizations.of(context).active,
-                    value: '${a.activeMembers}'),
-                const SizedBox(width: 24),
-                _Figure(
-                    label: AppLocalizations.of(context).joined,
-                    value: '${a.joinedInWindow}'),
-                const SizedBox(width: 24),
-                _Figure(
-                  label: AppLocalizations.of(context).turningUp,
-                  value: '${a.engagementRate}%',
-                  // Below half the membership showing up is the number a
-                  // gym owner most needs to notice.
-                  emphasis: a.engagementRate < 50 && a.activeMembers > 0,
-                ),
-              ],
-            ),
-            if (a.activeMembers > 0) ...[
-              const SizedBox(height: 10),
-              Text(
-                AppLocalizations.of(context)
-                    .engagedOfActive(a.engagedMembers, a.activeMembers),
-                style: theme.textTheme.bodySmall
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+    return HeroPanel(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.bolt_rounded, size: 16, color: volt),
+              const SizedBox(width: 6),
+              Eyebrow(t.lastNDays(a.windowDays), color: volt),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              _Figure(label: t.active, value: '${a.activeMembers}'),
+              _Figure(label: t.joined, value: '+${a.joinedInWindow}'),
+              _Figure(
+                label: t.turningUp,
+                value: '${a.engagementRate}%',
+                color: lowTurnout ? const Color(0xFFFF6B35) : volt,
               ),
             ],
-            const SizedBox(height: 4),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: TextButton(
-                onPressed: onSeeGrowth,
-                style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                child: Text(AppLocalizations.of(context).seeGrowthOverTime),
+          ),
+          if (a.activeMembers > 0) ...[
+            const SizedBox(height: 14),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: LinearProgressIndicator(
+                value: (a.engagementRate / 100).clamp(0.0, 1.0),
+                minHeight: 8,
+                color: lowTurnout ? const Color(0xFFFF6B35) : volt,
+                backgroundColor: Colors.white.withValues(alpha: 0.12),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              t.engagedOfActive(a.engagedMembers, a.activeMembers),
+              style: TextStyle(
+                fontSize: 13,
+                color: const Color(0xFFF5F5F2).withValues(alpha: 0.7),
               ),
             ),
           ],
-        ),
+          const SizedBox(height: 6),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton.icon(
+              onPressed: onSeeGrowth,
+              iconAlignment: IconAlignment.end,
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                foregroundColor: volt,
+              ),
+              icon: const Icon(Icons.arrow_forward_rounded, size: 18),
+              label: Text(t.seeGrowthOverTime.toUpperCase()),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
 class _Figure extends StatelessWidget {
-  const _Figure({
-    required this.label,
-    required this.value,
-    this.emphasis = false,
-  });
+  const _Figure({required this.label, required this.value, this.color});
 
   final String label;
   final String value;
-  final bool emphasis;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(value,
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: emphasis ? theme.colorScheme.error : null,
-            )),
-        Text(label.toUpperCase(),
-            style: theme.textTheme.labelSmall?.copyWith(
-              letterSpacing: 0.7,
-              color: theme.colorScheme.onSurfaceVariant,
-            )),
-      ],
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          BigNumber(value: value, size: 40, color: color),
+          const SizedBox(height: 2),
+          Eyebrow(label,
+              color: const Color(0xFFF5F5F2).withValues(alpha: 0.7)),
+        ],
+      ),
     );
   }
 }

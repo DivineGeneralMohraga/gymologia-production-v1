@@ -2130,4 +2130,30 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get deleteAccountConfirm => 'నా ఖాతాను తొలగించండి';
+
+  @override
+  String get about => 'పరిచయం';
+
+  @override
+  String get participated => 'మీరు చేరారు';
+
+  @override
+  String letsGoName(String name) {
+    return 'రండి, $name';
+  }
+
+  @override
+  String get yourTraining => 'మీ శిక్షణ';
+
+  @override
+  String get tagline => 'శిక్షణ. ట్రాక్. మార్పు.';
+
+  @override
+  String get appearance => 'రూపం';
+
+  @override
+  String get themeDark => 'డార్క్';
+
+  @override
+  String get themeLight => 'లైట్';
 }

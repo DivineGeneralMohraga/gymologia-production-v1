@@ -2123,4 +2123,30 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get deleteAccountConfirm => 'माझे खाते हटवा';
+
+  @override
+  String get about => 'माहिती';
+
+  @override
+  String get participated => 'तुम्ही सहभागी';
+
+  @override
+  String letsGoName(String name) {
+    return 'चला, $name';
+  }
+
+  @override
+  String get yourTraining => 'तुमचे प्रशिक्षण';
+
+  @override
+  String get tagline => 'ट्रेन करा. ट्रॅक करा. बदला.';
+
+  @override
+  String get appearance => 'स्वरूप';
+
+  @override
+  String get themeDark => 'डार्क';
+
+  @override
+  String get themeLight => 'लाइट';
 }

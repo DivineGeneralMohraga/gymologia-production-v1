@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/config/app_config.dart';
 import '../auth/auth_controller.dart';
+import '../../theme.dart';
 
 /// Connectivity check, reachable from the login screen.
 ///
@@ -81,7 +82,7 @@ class _DiagnosticsScreenState extends State<DiagnosticsScreen> {
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: (_ok ? Colors.green : theme.colorScheme.error)
+                  color: (_ok ? context.gym.success : theme.colorScheme.error)
                       .withValues(alpha: 0.10),
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -90,7 +91,7 @@ class _DiagnosticsScreenState extends State<DiagnosticsScreen> {
                   children: [
                     Icon(
                       _ok ? Icons.check_circle_outline : Icons.error_outline,
-                      color: _ok ? Colors.green : theme.colorScheme.error,
+                      color: _ok ? context.gym.success : theme.colorScheme.error,
                       size: 20,
                     ),
                     const SizedBox(width: 10),

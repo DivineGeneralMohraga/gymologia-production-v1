@@ -6,6 +6,7 @@ import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 import '../../core/api/models.dart';
 import '../auth/auth_controller.dart';
+import '../../theme.dart';
 
 /// One person's attendance, with the ability to correct a record.
 ///
@@ -240,7 +241,7 @@ String _label(AppLocalizations t, String status) => switch (status) {
     };
 
 Color _color(BuildContext context, String status) => switch (status) {
-      'PRESENT' => Colors.green,
+      'PRESENT' => context.gym.success,
       'ABSENT' => Theme.of(context).colorScheme.error,
       _ => Theme.of(context).colorScheme.onSurfaceVariant,
     };

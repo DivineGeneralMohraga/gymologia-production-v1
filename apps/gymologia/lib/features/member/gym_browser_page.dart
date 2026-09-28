@@ -7,6 +7,8 @@ import '../../core/api/models.dart';
 import '../../core/location/location_service.dart';
 import '../auth/auth_controller.dart';
 import 'gym_profile_page.dart';
+import '../../theme.dart';
+import '../../ui/kit.dart';
 
 /// The gym browser.
 ///
@@ -131,21 +133,40 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final scheme = Theme.of(context).colorScheme;
     return Column(
       children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Text(
+                  t.findAGym.toUpperCase(),
+                  style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                        fontStyle: FontStyle.italic,
+                      ),
+                ),
+              ),
+            ],
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
           child: TextField(
             controller: _search,
             textInputAction: TextInputAction.search,
             onSubmitted: (_) => _load(),
+            onChanged: (_) => setState(() {}),
             decoration: InputDecoration(
-              hintText: AppLocalizations.of(context).searchByGymCityDistrict,
-              prefixIcon: const Icon(Icons.search),
+              hintText: t.searchByGymCityDistrict,
+              prefixIcon: const Icon(Icons.search_rounded),
               suffixIcon: _search.text.isEmpty
                   ? null
                   : IconButton(
-                      icon: const Icon(Icons.close),
+                      icon: const Icon(Icons.close_rounded),
                       onPressed: () {
                         _search.clear();
                         _load();
@@ -166,19 +187,27 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
                         child: CircularProgressIndicator(strokeWidth: 2),
                       ),
                       const SizedBox(width: 10),
-                      Text(AppLocalizations.of(context).findingNearbyGyms),
+                      Text(t.findingNearbyGyms),
                     ],
                   )
                 : _showLocationPrompt
-                ? OutlinedButton.icon(
-                    onPressed: _useMyLocation,
-                    icon: const Icon(Icons.near_me_outlined, size: 18),
-                    label: Text(AppLocalizations.of(context).useMyLocation),
+                ? SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: _useMyLocation,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: context.gym.accentText,
+                        side: BorderSide(
+                            color: context.gym.accentText, width: 1.4),
+                      ),
+                      icon: const Icon(Icons.near_me_rounded, size: 18),
+                      label: Text(t.useMyLocation.toUpperCase()),
+                    ),
                   )
                 : Text(
                     _locationNotice!,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      color: scheme.onSurfaceVariant,
                     ),
                   ),
           ),
@@ -187,28 +216,29 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
               ? const Center(child: CircularProgressIndicator())
               : _error != null
               ? _Message(
-                  icon: Icons.cloud_off,
-                  title: AppLocalizations.of(context).couldNotLoadGyms,
+                  icon: Icons.cloud_off_rounded,
+                  title: t.couldNotLoadGyms,
                   body: _error!,
-                  action: FilledButton.tonal(
-                    onPressed: _load,
-                    child: Text(AppLocalizations.of(context).tryAgain),
+                  action: SizedBox(
+                    width: 200,
+                    child: FilledButton(
+                      onPressed: _load,
+                      child: Text(t.tryAgain.toUpperCase()),
+                    ),
                   ),
                 )
               : _results.isEmpty
               ? _Message(
-                  icon: Icons.storefront_outlined,
-                  title: AppLocalizations.of(context).noGymsListedYet,
+                  icon: Icons.storefront_rounded,
+                  title: t.noGymsListedYet,
                   body: _search.text.isEmpty
-                      ? AppLocalizations.of(context).gymsAppearOnPro
-                      : AppLocalizations.of(
-                          context,
-                        ).nothingMatchedTry(_search.text.trim()),
+                      ? t.gymsAppearOnPro
+                      : t.nothingMatchedTry(_search.text.trim()),
                 )
               : ListView.separated(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
                   itemCount: _results.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  separatorBuilder: (_, __) => const SizedBox(height: 14),
                   itemBuilder: (_, i) => _GymCard(
                     listing: _results[i],
                     onTap: () => Navigator.of(context).push(
@@ -224,6 +254,8 @@ class _GymBrowserPageState extends State<GymBrowserPage> {
   }
 }
 
+/// A gym as a poster: the photo edge to edge, the name in heavy condensed
+/// caps across the bottom of it, and the numbers that matter as pills.
 class _GymCard extends StatelessWidget {
   const _GymCard({required this.listing, required this.onTap});
 
@@ -231,9 +263,8 @@ class _GymCard extends StatelessWidget {
   final VoidCallback onTap;
 
   /// The backend joins name and district as one string ("Gym Name -
-  /// District"). Splitting it back apart buys a proper two-line
-  /// hierarchy -- bold name, muted location with a pin -- instead of
-  /// one long run-on title.
+  /// District"). Splitting it back apart gives the name the poster
+  /// headline and puts the place under it.
   (String, String?) get _nameAndLocation {
     final parts = listing.displayName.split(' - ');
     if (parts.length < 2) return (listing.displayName, null);
@@ -242,158 +273,126 @@ class _GymCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
+    final t = AppLocalizations.of(context);
     final (name, location) = _nameAndLocation;
     final hasRating = listing.ratingCount > 0;
+    const onPhoto = Color(0xFFF5F5F2);
 
-    return Card(
+    return Material(
+      color: ink,
+      borderRadius: BorderRadius.circular(24),
       clipBehavior: Clip.antiAlias,
-      elevation: 2,
-      shadowColor: scheme.shadow.withValues(alpha: 0.25),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: InkWell(
         onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  if (listing.imageUrl != null)
-                    Image.network(
-                      listing.imageUrl!,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) =>
-                          _GymHeroPlaceholder(scheme: scheme),
-                    )
-                  else
-                    _GymHeroPlaceholder(scheme: scheme),
-                  Positioned(
-                    top: 12,
-                    right: 12,
-                    child: _FloatingPill(
+        child: AspectRatio(
+          aspectRatio: 16 / 11,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              if (listing.imageUrl != null)
+                Image.network(
+                  listing.imageUrl!,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => const _GymHeroPlaceholder(),
+                )
+              else
+                const _GymHeroPlaceholder(),
+              // Scrim: clear at the top, near-black under the name, so
+              // white type reads over any photo.
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: const [0.0, 0.35, 1.0],
+                    colors: [
+                      Colors.black.withValues(alpha: 0.25),
+                      Colors.black.withValues(alpha: 0.0),
+                      Colors.black.withValues(alpha: 0.92),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 12,
+                left: 12,
+                right: 12,
+                child: Row(
+                  children: [
+                    _GlassPill(
+                      icon: Icons.card_giftcard_rounded,
+                      iconColor: volt,
+                      label: listing.perkCount == 0
+                          ? t.noPerksYet
+                          : '${listing.perkCount} perk${listing.perkCount == 1 ? '' : 's'}',
+                    ),
+                    const Spacer(),
+                    _GlassPill(
                       icon: hasRating
                           ? Icons.star_rounded
                           : Icons.star_border_rounded,
                       iconColor: hasRating
-                          ? const Color(0xFFFFC107)
-                          : scheme.outline,
+                          ? const Color(0xFFFFC53D)
+                          : onPhoto.withValues(alpha: 0.6),
                       label: hasRating
-                          ? '${listing.rating.toStringAsFixed(1)} (${listing.ratingCount})'
-                          : AppLocalizations.of(context).noRatings,
+                          ? '${listing.rating.toStringAsFixed(1)}  (${listing.ratingCount})'
+                          : t.noRatings,
                     ),
-                  ),
-                  if (listing.distanceKm != null)
-                    Positioned(
-                      bottom: 12,
-                      left: 12,
-                      child: _FloatingPill(
-                        icon: Icons.near_me_rounded,
-                        iconColor: scheme.primary,
-                        label: '${listing.distanceKm} km',
+                  ],
+                ),
+              ),
+              Positioned(
+                left: 16,
+                right: 16,
+                bottom: 14,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      name.toUpperCase(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontFamily: displayFont,
+                        fontSize: 32,
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.italic,
+                        height: 0.95,
+                        letterSpacing: 0.3,
+                        color: onPhoto,
                       ),
                     ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    name,
-                    style: theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -0.3,
-                      height: 1.15,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (location != null) ...[
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 8),
                     Row(
                       children: [
-                        Icon(
-                          Icons.location_on_rounded,
-                          size: 15,
-                          color: scheme.outline,
-                        ),
-                        const SizedBox(width: 3),
-                        Expanded(
-                          child: Text(
-                            location,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: scheme.onSurfaceVariant,
+                        if (location != null) ...[
+                          const Icon(Icons.location_on_rounded,
+                              size: 15, color: volt),
+                          const SizedBox(width: 4),
+                          Expanded(
+                            child: Text(
+                              location,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: onPhoto.withValues(alpha: 0.85),
+                              ),
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
+                        ] else
+                          const Spacer(),
+                        if (listing.distanceKm != null)
+                          Pill.volt('${listing.distanceKm} km',
+                              icon: Icons.near_me_rounded),
                       ],
                     ),
                   ],
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.card_giftcard_rounded,
-                        size: 16,
-                        color: scheme.primary,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        listing.perkCount == 0
-                            ? AppLocalizations.of(context).noPerksYet
-                            : '${listing.perkCount} perk${listing.perkCount == 1 ? '' : 's'}',
-                        style: theme.textTheme.labelLarge?.copyWith(
-                          color: scheme.primary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// The gym's own brand mark, softly watermarked, standing in for a photo
-/// nobody has uploaded yet -- a gradient in the app's own colour family
-/// reads as "this gym" far better than a flat grey box ever did.
-class _GymHeroPlaceholder extends StatelessWidget {
-  const _GymHeroPlaceholder({required this.scheme});
-
-  final ColorScheme scheme;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [scheme.primary, scheme.primaryContainer],
-        ),
-      ),
-      child: Center(
-        child: Transform.rotate(
-          angle: -0.35,
-          child: Icon(
-            Icons.fitness_center_rounded,
-            size: 64,
-            color: scheme.onPrimary.withValues(alpha: 0.28),
+            ],
           ),
         ),
       ),
@@ -401,10 +400,37 @@ class _GymHeroPlaceholder extends StatelessWidget {
   }
 }
 
-/// A small frosted-looking pill overlaid on the hero image -- rating,
-/// distance, whatever needs to read clearly over a photo of any colour.
-class _FloatingPill extends StatelessWidget {
-  const _FloatingPill({
+/// No photo yet: graphite with a volt dumbbell, so it still looks like it
+/// belongs in the same feed as the photos.
+class _GymHeroPlaceholder extends StatelessWidget {
+  const _GymHeroPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF26262C), Color(0xFF0B0B0C)],
+        ),
+      ),
+      alignment: const Alignment(0.55, -0.3),
+      child: Transform.rotate(
+        angle: -0.5,
+        child: Icon(
+          Icons.fitness_center_rounded,
+          size: 110,
+          color: volt.withValues(alpha: 0.16),
+        ),
+      ),
+    );
+  }
+}
+
+/// Dark translucent pill that reads over any photo.
+class _GlassPill extends StatelessWidget {
+  const _GlassPill({
     required this.icon,
     required this.iconColor,
     required this.label,
@@ -416,30 +442,24 @@ class _FloatingPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface.withValues(alpha: 0.92),
+        color: Colors.black.withValues(alpha: 0.55),
         borderRadius: BorderRadius.circular(999),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-          ),
-        ],
+        border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, size: 15, color: iconColor),
-          const SizedBox(width: 4),
+          const SizedBox(width: 5),
           Text(
             label,
-            style: theme.textTheme.labelMedium?.copyWith(
+            style: const TextStyle(
+              fontSize: 12.5,
               fontWeight: FontWeight.w700,
-              color: theme.colorScheme.onSurface,
+              color: Color(0xFFF5F5F2),
             ),
           ),
         ],
@@ -463,32 +483,13 @@ class _Message extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 44, color: theme.colorScheme.outline),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              body,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
-            if (action != null) ...[const SizedBox(height: 20), action!],
-          ],
+      child: SingleChildScrollView(
+        child: EmptyState(
+          icon: icon,
+          title: title,
+          message: body,
+          action: action,
         ),
       ),
     );

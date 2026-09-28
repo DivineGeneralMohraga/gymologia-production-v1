@@ -7,6 +7,7 @@ import '../../core/api/models.dart';
 import '../auth/auth_controller.dart';
 import 'add_person_sheet.dart';
 import 'member_detail_page.dart';
+import '../../theme.dart';
 
 /// The member list, with attendance marking inline.
 ///
@@ -249,7 +250,7 @@ class _MarkAvatar extends StatelessWidget {
       customBorder: const CircleBorder(),
       child: CircleAvatar(
         backgroundColor: marked
-            ? Colors.green.withValues(alpha: 0.18)
+            ? context.gym.success.withValues(alpha: 0.18)
             : theme.colorScheme.surfaceContainerHighest,
         child: busy
             ? const SizedBox(
@@ -258,7 +259,7 @@ class _MarkAvatar extends StatelessWidget {
                 child: CircularProgressIndicator(strokeWidth: 2.2),
               )
             : marked
-                ? const Icon(Icons.check, color: Colors.green, size: 20)
+                ? Icon(Icons.check_rounded, color: context.gym.success, size: 20)
                 : Text(name.isEmpty ? '?' : name.characters.first.toUpperCase()),
       ),
     );

@@ -12,6 +12,9 @@ import 'data_export_page.dart';
 import 'legal_page.dart';
 import 'language_page.dart';
 import 'locale_controller.dart';
+import 'theme_controller.dart';
+import '../../theme.dart';
+import '../../ui/kit.dart';
 import '../../l10n/app_localizations.dart';
 
 /// Settings, and the switch between member and owner/staff mode.
@@ -32,50 +35,73 @@ class SettingsPage extends StatelessWidget {
       children: [
         // ── Profile ──────────────────────────────────────────────
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 26,
-                backgroundColor: theme.colorScheme.primaryContainer,
-                child: Text(
-                  (user?.name.isNotEmpty ?? false)
-                      ? user!.name.characters.first.toUpperCase()
-                      : '?',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    color: theme.colorScheme.onPrimaryContainer,
-                    fontWeight: FontWeight.bold,
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+          child: HeroPanel(
+            child: Row(
+              children: [
+                Container(
+                  width: 62,
+                  height: 62,
+                  decoration: BoxDecoration(
+                    color: volt,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    (user?.name.isNotEmpty ?? false)
+                        ? user!.name.characters.first.toUpperCase()
+                        : '?',
+                    style: const TextStyle(
+                      fontFamily: displayFont,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w900,
+                      color: ink,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      user?.name ?? '—',
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      user?.phone ?? '',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                    if (user?.email != null)
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                        user!.email!,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
+                        (user?.name ?? '—').toUpperCase(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontFamily: displayFont,
+                          fontSize: 28,
+                          fontWeight: FontWeight.w900,
+                          fontStyle: FontStyle.italic,
+                          height: 1.0,
                         ),
                       ),
-                  ],
+                      const SizedBox(height: 4),
+                      Text(
+                        user?.phone ?? '',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFFF5F5F2)
+                              .withValues(alpha: 0.75),
+                        ),
+                      ),
+                      if (user?.email != null)
+                        Text(
+                          user!.email!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: const Color(0xFFF5F5F2)
+                                .withValues(alpha: 0.6),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
 
@@ -84,8 +110,6 @@ class SettingsPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Card(
-            color: theme.colorScheme.primaryContainer.withValues(alpha: 0.35),
-            elevation: 0,
             child: Padding(
               padding: const EdgeInsets.all(18),
               child: Column(
@@ -94,15 +118,15 @@ class SettingsPage extends StatelessWidget {
                   Row(
                     children: [
                       Icon(
-                        isStaff ? Icons.badge_outlined : Icons.person_outline,
+                        isStaff ? Icons.badge_rounded : Icons.person_rounded,
                         size: 20,
+                        color: context.gym.accentText,
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        isStaff ? t.ownerStaffMode : t.memberMode,
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                        ),
+                        (isStaff ? t.ownerStaffMode : t.memberMode)
+                            .toUpperCase(),
+                        style: theme.textTheme.titleLarge,
                       ),
                     ],
                   ),
@@ -114,8 +138,9 @@ class SettingsPage extends StatelessWidget {
                   const SizedBox(height: 14),
                   FilledButton.icon(
                     onPressed: () => modeController.toggle(),
-                    icon: const Icon(Icons.swap_horiz, size: 18),
-                    label: Text(isStaff ? t.switchToMember : t.switchToStaff),
+                    icon: const Icon(Icons.swap_horiz_rounded, size: 20),
+                    label: Text((isStaff ? t.switchToMember : t.switchToStaff)
+                        .toUpperCase()),
                   ),
                 ],
               ),
@@ -199,6 +224,19 @@ class SettingsPage extends StatelessWidget {
           ).push(MaterialPageRoute(builder: (_) => const LanguagePage())),
         ),
         ListTile(
+          leading: const Icon(Icons.contrast_rounded),
+          title: Text(t.appearance),
+          subtitle: Text(
+            switch (context.watch<ThemeController>().mode) {
+              ThemeMode.dark => t.themeDark,
+              ThemeMode.light => t.themeLight,
+              ThemeMode.system => t.followingYourDevice,
+            },
+          ),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => _pickAppearance(context),
+        ),
+        ListTile(
           leading: const Icon(Icons.description_outlined),
           title: Text(t.termsAndPrivacy),
           trailing: const Icon(Icons.chevron_right),
@@ -257,6 +295,49 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
+  Future<void> _pickAppearance(BuildContext context) async {
+    final t = AppLocalizations.of(context);
+    final themes = context.read<ThemeController>();
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      builder: (ctx) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SectionLabel(t.appearance),
+              for (final (mode, label, icon) in [
+                (ThemeMode.system, t.followingYourDevice,
+                    Icons.phone_android_rounded),
+                (ThemeMode.dark, t.themeDark, Icons.dark_mode_rounded),
+                (ThemeMode.light, t.themeLight, Icons.light_mode_rounded),
+              ])
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: ActionTile(
+                    icon: icon,
+                    title: label,
+                    accent: themes.mode == mode,
+                    trailing: themes.mode == mode
+                        ? Icon(Icons.check_circle_rounded,
+                            color: ctx.gym.accentText)
+                        : const SizedBox.shrink(),
+                    onTap: () {
+                      themes.set(mode);
+                      Navigator.of(ctx).pop();
+                    },
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   void _toast(BuildContext context, String message) {
     ScaffoldMessenger.of(
       context,
@@ -294,17 +375,9 @@ class _SectionLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 24, 20, 6),
-      child: Text(
-        label.toUpperCase(),
-        style: theme.textTheme.labelSmall?.copyWith(
-          letterSpacing: 0.9,
-          fontWeight: FontWeight.w700,
-          color: theme.colorScheme.primary,
-        ),
-      ),
+    return SectionLabel(
+      label,
+      padding: const EdgeInsets.fromLTRB(18, 26, 18, 6),
     );
   }
 }

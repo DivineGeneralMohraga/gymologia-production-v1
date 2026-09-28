@@ -13,6 +13,7 @@ import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 import '../../core/api/models.dart';
 import '../auth/auth_controller.dart';
+import '../../theme.dart';
 
 /// Choosing a plan.
 ///
@@ -332,7 +333,7 @@ class _PlanPageState extends State<PlanPage> {
                       labelText: t.referralCode,
                       hintText: t.optional,
                       suffixIcon: discountApplied
-                          ? const Icon(Icons.check_circle, color: Colors.green)
+                          ? Icon(Icons.check_circle_rounded, color: context.gym.success)
                           : null,
                     ),
                   ),
@@ -349,7 +350,7 @@ class _PlanPageState extends State<PlanPage> {
               Text(
                 referral['message'] as String? ?? '',
                 style: theme.textTheme.bodySmall
-                    ?.copyWith(color: Colors.green.shade700),
+                    ?.copyWith(color: context.gym.success),
               ),
             ],
 

@@ -589,5 +589,13 @@
   "deletionScheduled": "ਤੁਹਾਡਾ ਖਾਤਾ {date} ਨੂੰ ਮਿਟਾ ਦਿੱਤਾ ਜਾਵੇਗਾ।",
   "keepMyAccount": "ਮੇਰਾ ਖਾਤਾ ਰੱਖੋ",
   "deletionCancelled": "ਤੁਹਾਡਾ ਖਾਤਾ ਨਹੀਂ ਮਿਟਾਇਆ ਜਾਵੇਗਾ।",
-  "deleteAccountConfirm": "ਮੇਰਾ ਖਾਤਾ ਮਿਟਾਓ"
+  "deleteAccountConfirm": "ਮੇਰਾ ਖਾਤਾ ਮਿਟਾਓ",
+  "about": "ਜਾਣ-ਪਛਾਣ",
+  "participated": "ਤੁਸੀਂ ਸ਼ਾਮਲ ਹੋ",
+  "letsGoName": "ਚੱਲੋ, {name}",
+  "yourTraining": "ਤੁਹਾਡੀ ਟ੍ਰੇਨਿੰਗ",
+  "tagline": "ਟ੍ਰੇਨ ਕਰੋ। ਟ੍ਰੈਕ ਕਰੋ। ਬਦਲੋ।",
+  "appearance": "ਦਿੱਖ",
+  "themeDark": "ਡਾਰਕ",
+  "themeLight": "ਲਾਈਟ"
 }

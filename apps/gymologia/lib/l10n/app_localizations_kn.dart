@@ -2130,4 +2130,30 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get deleteAccountConfirm => 'ನನ್ನ ಖಾತೆ ಅಳಿಸಿ';
+
+  @override
+  String get about => 'ಪರಿಚಯ';
+
+  @override
+  String get participated => 'ನೀವು ಸೇರಿದ್ದೀರಿ';
+
+  @override
+  String letsGoName(String name) {
+    return 'ಬನ್ನಿ, $name';
+  }
+
+  @override
+  String get yourTraining => 'ನಿಮ್ಮ ತರಬೇತಿ';
+
+  @override
+  String get tagline => 'ತರಬೇತಿ. ಟ್ರ್ಯಾಕ್. ಪರಿವರ್ತನೆ.';
+
+  @override
+  String get appearance => 'ಗೋಚರತೆ';
+
+  @override
+  String get themeDark => 'ಡಾರ್ಕ್';
+
+  @override
+  String get themeLight => 'ಲೈಟ್';
 }

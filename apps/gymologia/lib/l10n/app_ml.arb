@@ -589,5 +589,13 @@
   "deletionScheduled": "നിങ്ങളുടെ അക്കൗണ്ട് {date}-ന് ഇല്ലാതാക്കും.",
   "keepMyAccount": "എന്റെ അക്കൗണ്ട് നിലനിർത്തുക",
   "deletionCancelled": "നിങ്ങളുടെ അക്കൗണ്ട് ഇല്ലാതാക്കില്ല.",
-  "deleteAccountConfirm": "എന്റെ അക്കൗണ്ട് ഇല്ലാതാക്കുക"
+  "deleteAccountConfirm": "എന്റെ അക്കൗണ്ട് ഇല്ലാതാക്കുക",
+  "about": "വിവരണം",
+  "participated": "നിങ്ങൾ ചേർന്നു",
+  "letsGoName": "വരൂ, {name}",
+  "yourTraining": "നിങ്ങളുടെ പരിശീലനം",
+  "tagline": "പരിശീലിക്കൂ. ട്രാക്ക് ചെയ്യൂ. മാറൂ.",
+  "appearance": "രൂപഭാവം",
+  "themeDark": "ഡാർക്ക്",
+  "themeLight": "ലൈറ്റ്"
 }

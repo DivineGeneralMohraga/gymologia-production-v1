@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../core/api/auth_api.dart';
 import 'auth_controller.dart';
 import 'register_screen.dart';
+import '../../theme.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key, required this.challenge, required this.phone});
@@ -113,7 +114,7 @@ class _OtpScreenState extends State<OtpScreen> {
     final canResend = _secondsLeft <= 0 && !auth.busy;
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context).verifyYourNumber)),
+      appBar: AppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -124,11 +125,19 @@ class _OtpScreenState extends State<OtpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
+                    AppLocalizations.of(context).verifyYourNumber.toUpperCase(),
+                    style: theme.textTheme.displaySmall
+                        ?.copyWith(fontStyle: FontStyle.italic),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
                     AppLocalizations.of(context).weSentCodeTo(
                         _challenge.phoneMasked.isEmpty
                             ? widget.phone
                             : _challenge.phoneMasked),
-                    style: theme.textTheme.bodyLarge,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   ),
                   const SizedBox(height: 28),
                   TextField(
@@ -137,10 +146,12 @@ class _OtpScreenState extends State<OtpScreen> {
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     maxLength: 6,
-                    style: const TextStyle(
-                      fontSize: 28,
-                      letterSpacing: 12,
-                      fontWeight: FontWeight.w600,
+                    style: TextStyle(
+                      fontFamily: displayFont,
+                      fontSize: 40,
+                      letterSpacing: 16,
+                      fontWeight: FontWeight.w900,
+                      color: context.gym.accentText,
                     ),
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     decoration: const InputDecoration(
@@ -160,7 +171,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             width: 22,
                             child: CircularProgressIndicator(strokeWidth: 2.5),
                           )
-                        : Text(AppLocalizations.of(context).verifyCode),
+                        : Text(AppLocalizations.of(context).verifyCode.toUpperCase()),
                   ),
                   const SizedBox(height: 12),
                   TextButton(

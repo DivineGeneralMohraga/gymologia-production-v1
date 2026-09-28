@@ -22,19 +22,25 @@ enum LocationReadiness {
 /// prompt should see the same gym browser as one who denied it.
 class LocationService {
   Future<LocationReadiness> readiness() async {
-    if (!await Geolocator.isLocationServiceEnabled()) {
-      return LocationReadiness.unavailable;
-    }
-    final permission = await Geolocator.checkPermission();
-    switch (permission) {
-      case LocationPermission.always:
-      case LocationPermission.whileInUse:
-        return LocationReadiness.granted;
-      case LocationPermission.denied:
-        return LocationReadiness.undetermined;
-      case LocationPermission.deniedForever:
-      case LocationPermission.unableToDetermine:
+    // A platform error here must not escape: the gym browser awaits this
+    // before its first load, and a throw would leave it spinning forever.
+    try {
+      if (!await Geolocator.isLocationServiceEnabled()) {
         return LocationReadiness.unavailable;
+      }
+      final permission = await Geolocator.checkPermission();
+      switch (permission) {
+        case LocationPermission.always:
+        case LocationPermission.whileInUse:
+          return LocationReadiness.granted;
+        case LocationPermission.denied:
+          return LocationReadiness.undetermined;
+        case LocationPermission.deniedForever:
+        case LocationPermission.unableToDetermine:
+          return LocationReadiness.unavailable;
+      }
+    } catch (_) {
+      return LocationReadiness.unavailable;
     }
   }
 

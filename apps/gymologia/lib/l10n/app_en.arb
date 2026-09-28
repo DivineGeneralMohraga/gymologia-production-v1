@@ -1172,5 +1172,20 @@
   },
   "keepMyAccount": "Keep my account",
   "deletionCancelled": "Your account will not be deleted.",
-  "deleteAccountConfirm": "Delete my account"
+  "deleteAccountConfirm": "Delete my account",
+  "about": "About",
+  "participated": "You're in",
+  "letsGoName": "Let's go, {name}",
+  "@letsGoName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "yourTraining": "Your training",
+  "tagline": "Train. Track. Transform.",
+  "appearance": "Appearance",
+  "themeDark": "Dark",
+  "themeLight": "Light"
 }

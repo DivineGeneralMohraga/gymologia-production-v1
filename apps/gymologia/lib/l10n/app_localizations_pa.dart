@@ -2125,4 +2125,30 @@ class AppLocalizationsPa extends AppLocalizations {
 
   @override
   String get deleteAccountConfirm => 'ਮੇਰਾ ਖਾਤਾ ਮਿਟਾਓ';
+
+  @override
+  String get about => 'ਜਾਣ-ਪਛਾਣ';
+
+  @override
+  String get participated => 'ਤੁਸੀਂ ਸ਼ਾਮਲ ਹੋ';
+
+  @override
+  String letsGoName(String name) {
+    return 'ਚੱਲੋ, $name';
+  }
+
+  @override
+  String get yourTraining => 'ਤੁਹਾਡੀ ਟ੍ਰੇਨਿੰਗ';
+
+  @override
+  String get tagline => 'ਟ੍ਰੇਨ ਕਰੋ। ਟ੍ਰੈਕ ਕਰੋ। ਬਦਲੋ।';
+
+  @override
+  String get appearance => 'ਦਿੱਖ';
+
+  @override
+  String get themeDark => 'ਡਾਰਕ';
+
+  @override
+  String get themeLight => 'ਲਾਈਟ';
 }

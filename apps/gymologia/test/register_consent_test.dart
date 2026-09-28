@@ -73,7 +73,7 @@ Future<void> _fill(WidgetTester tester, {required String age}) async {
 }
 
 Future<void> _tapCreate(WidgetTester tester) async {
-  await tester.tap(find.widgetWithText(FilledButton, t.createAccountAction));
+  await tester.tap(find.widgetWithText(FilledButton, t.createAccountAction.toUpperCase()));
   await tester.pump();
   await tester.pump(const Duration(milliseconds: 50));
 }

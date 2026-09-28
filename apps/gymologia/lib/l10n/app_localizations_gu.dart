@@ -2114,4 +2114,30 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get deleteAccountConfirm => 'મારું ખાતું કાઢી નાખો';
+
+  @override
+  String get about => 'પરિચય';
+
+  @override
+  String get participated => 'તમે જોડાયા';
+
+  @override
+  String letsGoName(String name) {
+    return 'ચાલો, $name';
+  }
+
+  @override
+  String get yourTraining => 'તમારી તાલીમ';
+
+  @override
+  String get tagline => 'ટ્રેન કરો. ટ્રેક કરો. બદલાઓ.';
+
+  @override
+  String get appearance => 'દેખાવ';
+
+  @override
+  String get themeDark => 'ડાર્ક';
+
+  @override
+  String get themeLight => 'લાઇટ';
 }

@@ -2125,4 +2125,30 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get deleteAccountConfirm => 'আমার অ্যাকাউন্ট মুছুন';
+
+  @override
+  String get about => 'পরিচিতি';
+
+  @override
+  String get participated => 'আপনি আছেন';
+
+  @override
+  String letsGoName(String name) {
+    return 'চলো, $name';
+  }
+
+  @override
+  String get yourTraining => 'আপনার ট্রেনিং';
+
+  @override
+  String get tagline => 'ট্রেন করুন। ট্র্যাক করুন। বদলে যান।';
+
+  @override
+  String get appearance => 'থিম';
+
+  @override
+  String get themeDark => 'ডার্ক';
+
+  @override
+  String get themeLight => 'লাইট';
 }

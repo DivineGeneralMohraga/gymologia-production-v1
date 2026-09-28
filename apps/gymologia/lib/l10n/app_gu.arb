@@ -589,5 +589,13 @@
   "deletionScheduled": "તમારું ખાતું {date} ના રોજ કાઢી નખાશે.",
   "keepMyAccount": "મારું ખાતું રાખો",
   "deletionCancelled": "તમારું ખાતું કાઢવામાં આવશે નહીં.",
-  "deleteAccountConfirm": "મારું ખાતું કાઢી નાખો"
+  "deleteAccountConfirm": "મારું ખાતું કાઢી નાખો",
+  "about": "પરિચય",
+  "participated": "તમે જોડાયા",
+  "letsGoName": "ચાલો, {name}",
+  "yourTraining": "તમારી તાલીમ",
+  "tagline": "ટ્રેન કરો. ટ્રેક કરો. બદલાઓ.",
+  "appearance": "દેખાવ",
+  "themeDark": "ડાર્ક",
+  "themeLight": "લાઇટ"
 }

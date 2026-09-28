@@ -2143,4 +2143,30 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get deleteAccountConfirm => 'എന്റെ അക്കൗണ്ട് ഇല്ലാതാക്കുക';
+
+  @override
+  String get about => 'വിവരണം';
+
+  @override
+  String get participated => 'നിങ്ങൾ ചേർന്നു';
+
+  @override
+  String letsGoName(String name) {
+    return 'വരൂ, $name';
+  }
+
+  @override
+  String get yourTraining => 'നിങ്ങളുടെ പരിശീലനം';
+
+  @override
+  String get tagline => 'പരിശീലിക്കൂ. ട്രാക്ക് ചെയ്യൂ. മാറൂ.';
+
+  @override
+  String get appearance => 'രൂപഭാവം';
+
+  @override
+  String get themeDark => 'ഡാർക്ക്';
+
+  @override
+  String get themeLight => 'ലൈറ്റ്';
 }

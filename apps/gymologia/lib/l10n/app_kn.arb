@@ -589,5 +589,13 @@
   "deletionScheduled": "ನಿಮ್ಮ ಖಾತೆಯನ್ನು {date} ರಂದು ಅಳಿಸಲಾಗುತ್ತದೆ.",
   "keepMyAccount": "ನನ್ನ ಖಾತೆ ಉಳಿಸಿ",
   "deletionCancelled": "ನಿಮ್ಮ ಖಾತೆ ಅಳಿಸಲಾಗುವುದಿಲ್ಲ.",
-  "deleteAccountConfirm": "ನನ್ನ ಖಾತೆ ಅಳಿಸಿ"
+  "deleteAccountConfirm": "ನನ್ನ ಖಾತೆ ಅಳಿಸಿ",
+  "about": "ಪರಿಚಯ",
+  "participated": "ನೀವು ಸೇರಿದ್ದೀರಿ",
+  "letsGoName": "ಬನ್ನಿ, {name}",
+  "yourTraining": "ನಿಮ್ಮ ತರಬೇತಿ",
+  "tagline": "ತರಬೇತಿ. ಟ್ರ್ಯಾಕ್. ಪರಿವರ್ತನೆ.",
+  "appearance": "ಗೋಚರತೆ",
+  "themeDark": "ಡಾರ್ಕ್",
+  "themeLight": "ಲೈಟ್"
 }

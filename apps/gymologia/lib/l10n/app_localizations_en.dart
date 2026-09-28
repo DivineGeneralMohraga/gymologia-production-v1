@@ -2144,4 +2144,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteAccountConfirm => 'Delete my account';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get participated => 'You\'re in';
+
+  @override
+  String letsGoName(String name) {
+    return 'Let\'s go, $name';
+  }
+
+  @override
+  String get yourTraining => 'Your training';
+
+  @override
+  String get tagline => 'Train. Track. Transform.';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get themeDark => 'Dark';
+
+  @override
+  String get themeLight => 'Light';
 }

@@ -589,5 +589,13 @@
   "deletionScheduled": "तुमचे खाते {date} रोजी हटवले जाईल.",
   "keepMyAccount": "माझे खाते ठेवा",
   "deletionCancelled": "तुमचे खाते हटवले जाणार नाही.",
-  "deleteAccountConfirm": "माझे खाते हटवा"
+  "deleteAccountConfirm": "माझे खाते हटवा",
+  "about": "माहिती",
+  "participated": "तुम्ही सहभागी",
+  "letsGoName": "चला, {name}",
+  "yourTraining": "तुमचे प्रशिक्षण",
+  "tagline": "ट्रेन करा. ट्रॅक करा. बदला.",
+  "appearance": "स्वरूप",
+  "themeDark": "डार्क",
+  "themeLight": "लाइट"
 }

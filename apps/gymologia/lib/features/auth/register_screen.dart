@@ -7,6 +7,8 @@ import '../../core/api/gym_api.dart';
 import '../settings/legal_page.dart';
 import '../../core/utils/validators.dart';
 import 'auth_controller.dart';
+import '../../theme.dart';
+import '../../ui/kit.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({
@@ -166,8 +168,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-          title: Text(AppLocalizations.of(context).createAccount)),
+      appBar: AppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -179,12 +180,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(widget.phone,
-                        style: theme.textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w600)),
-                    Text(AppLocalizations.of(context).verified,
-                        style: theme.textTheme.bodySmall
-                            ?.copyWith(color: Colors.green.shade600)),
+                    Text(
+                      AppLocalizations.of(context).createAccount.toUpperCase(),
+                      style: theme.textTheme.displaySmall
+                          ?.copyWith(fontStyle: FontStyle.italic),
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Text(widget.phone,
+                            style: theme.textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.w600)),
+                        const SizedBox(width: 10),
+                        Pill(
+                          AppLocalizations.of(context).verified,
+                          icon: Icons.verified_rounded,
+                          background: context.gym.success,
+                          foreground: ink,
+                        ),
+                      ],
+                    ),
                     const SizedBox(height: 24),
                     TextFormField(
                       controller: _name,
@@ -279,8 +294,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Text(
                         AppLocalizations.of(context).termsAndPrivacy,
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.primary,
-                          fontWeight: FontWeight.w600,
+                          color: context.gym.accentText,
+                          fontWeight: FontWeight.w700,
                           decoration: TextDecoration.underline,
                           height: 1.5,
                         ),
@@ -342,7 +357,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               width: 22,
                               child: CircularProgressIndicator(strokeWidth: 2.5),
                             )
-                          : Text(AppLocalizations.of(context).createAccountAction),
+                          : Text(AppLocalizations.of(context).createAccountAction.toUpperCase()),
                     ),
                   ],
                 ),
@@ -390,11 +405,11 @@ class _GuardianConsentBlock extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: (verified ? Colors.green : theme.colorScheme.error)
+        color: (verified ? context.gym.success : theme.colorScheme.error)
             .withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: (verified ? Colors.green : theme.colorScheme.error)
+          color: (verified ? context.gym.success : theme.colorScheme.error)
               .withValues(alpha: 0.3),
         ),
       ),
@@ -407,14 +422,14 @@ class _GuardianConsentBlock extends StatelessWidget {
               Icon(
                 verified ? Icons.check_circle_outline : Icons.family_restroom,
                 size: 18,
-                color: verified ? Colors.green.shade700 : theme.colorScheme.error,
+                color: verified ? context.gym.success : theme.colorScheme.error,
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
                   verified ? t.guardianVerifiedConfirmation : t.under18GuardianNotice,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: verified ? Colors.green.shade700 : theme.colorScheme.error,
+                    color: verified ? context.gym.success : theme.colorScheme.error,
                     height: 1.4,
                   ),
                 ),

@@ -3653,6 +3653,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete my account'**
   String get deleteAccountConfirm;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// No description provided for @participated.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re in'**
+  String get participated;
+
+  /// No description provided for @letsGoName.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s go, {name}'**
+  String letsGoName(String name);
+
+  /// No description provided for @yourTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'Your training'**
+  String get yourTraining;
+
+  /// No description provided for @tagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Train. Track. Transform.'**
+  String get tagline;
+
+  /// No description provided for @appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearance;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
 }
 
 class _AppLocalizationsDelegate
