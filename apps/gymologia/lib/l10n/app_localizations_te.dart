@@ -2156,4 +2156,166 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get themeLight => 'లైట్';
+
+  @override
+  String get takePhoto => 'ఫోటో తీయండి';
+
+  @override
+  String get chooseFromGallery => 'గ్యాలరీ నుండి ఎంచుకోండి';
+
+  @override
+  String get chooseFile => 'ఫైల్ ఎంచుకోండి';
+
+  @override
+  String get chooseFileHint => 'మీ వద్ద ఉన్న PDF లేదా చిత్రం';
+
+  @override
+  String get uploading => 'అప్‌లోడ్ అవుతోంది…';
+
+  @override
+  String fileTooLarge(int mb) {
+    return 'ఈ ఫైల్ చాలా పెద్దది. పరిమితి $mb MB.';
+  }
+
+  @override
+  String get gymPhotos => 'జిమ్ ఫోటోలు';
+
+  @override
+  String get gymPhotosHint =>
+      'మొదటి ఫోటో కవర్, సభ్యులు శోధనలో దీన్ని చూస్తారు. వేరే ఫోటోను కవర్ చేయడానికి దానిపై నొక్కండి.';
+
+  @override
+  String get addPhoto => 'ఫోటో జోడించండి';
+
+  @override
+  String get coverPhoto => 'కవర్';
+
+  @override
+  String get removePhoto => 'ఫోటో తీసివేయండి';
+
+  @override
+  String maxPhotos(int count) {
+    return 'గరిష్టంగా $count ఫోటోలు జోడించవచ్చు.';
+  }
+
+  @override
+  String get verification => 'ధృవీకరణ';
+
+  @override
+  String get kycIntro =>
+      'Gymologia జిమ్ బ్రౌజర్‌లో కనిపించడానికి మీ జిమ్‌ను ధృవీకరించండి. మా బృందం సాధారణంగా 2 పని దినాల్లో పత్రాలను తనిఖీ చేస్తుంది.';
+
+  @override
+  String get kycEncryptedNote =>
+      'ఆధార్, PAN, GST నంబర్లు ఎన్‌క్రిప్ట్ చేసి నిల్వ చేయబడతాయి. మీ పత్రాలు గోప్యమైనవి, మా ధృవీకరణ బృందం మాత్రమే తెరవగలదు.';
+
+  @override
+  String get identity => 'గుర్తింపు';
+
+  @override
+  String get business => 'వ్యాపారం';
+
+  @override
+  String get aadhaarNumber => 'ఆధార్ నంబర్';
+
+  @override
+  String get enterValidAadhaar => 'మీ 12 అంకెల ఆధార్ నంబర్ నమోదు చేయండి';
+
+  @override
+  String get panNumber => 'PAN';
+
+  @override
+  String get enterValidPan =>
+      'చెల్లుబాటు అయ్యే PAN నమోదు చేయండి, ఉదా. ABCDE1234F';
+
+  @override
+  String get hasGstRegistration => 'నా జిమ్ GST నమోదైంది';
+
+  @override
+  String get gstin => 'GSTIN';
+
+  @override
+  String get enterValidGstin => 'మీ 15 అక్షరాల GSTIN నమోదు చేయండి';
+
+  @override
+  String get businessProof => 'వ్యాపార రుజువు';
+
+  @override
+  String get businessProofHint => 'GST లేదా? వీటిలో ఒకటి అప్‌లోడ్ చేయండి.';
+
+  @override
+  String get proofUdyam => 'ఉద్యమ్';
+
+  @override
+  String get proofElectricityBill => 'కరెంట్ బిల్';
+
+  @override
+  String get proofOther => 'ఇతర';
+
+  @override
+  String get premisesQuestion => 'ప్రాంగణం';
+
+  @override
+  String get premisesOwned => 'సొంతం';
+
+  @override
+  String get premisesRented => 'అద్దె';
+
+  @override
+  String get landlordNoc => 'యజమాని NOC';
+
+  @override
+  String get landlordNocHint => 'ప్రాంగణ యజమాని నుండి నిరభ్యంతర పత్రం';
+
+  @override
+  String get uploadDocument => 'అప్‌లోడ్';
+
+  @override
+  String get documentUploaded => 'అప్‌లోడ్ అయింది';
+
+  @override
+  String get replaceDocument => 'మార్చండి';
+
+  @override
+  String get documentRequired => 'దయచేసి ఈ పత్రాన్ని అప్‌లోడ్ చేయండి.';
+
+  @override
+  String get submitForVerification => 'ధృవీకరణకు సమర్పించండి';
+
+  @override
+  String get kycSubmittedSnackbar => 'ధృవీకరణకు పంపబడింది';
+
+  @override
+  String get whatYouSent => 'మీరు పంపినవి';
+
+  @override
+  String get kycUnderReview => 'పరిశీలనలో ఉంది';
+
+  @override
+  String get kycUnderReviewBody =>
+      'మా బృందం మీ పత్రాలను తనిఖీ చేస్తోంది. పూర్తయిన వెంటనే మీకు తెలియజేస్తాం.';
+
+  @override
+  String kycVerifiedOn(String date) {
+    return '$dateన ధృవీకరించబడింది. మీ జిమ్ ఇప్పుడు శోధనలో కనిపించవచ్చు.';
+  }
+
+  @override
+  String get kycNeedsChanges => 'మార్పులు అవసరం';
+
+  @override
+  String get kycOnlyOwner =>
+      'జిమ్ నమోదిత యజమాని మాత్రమే ధృవీకరణ పత్రాలను సమర్పించగలరు.';
+
+  @override
+  String get statusPending => 'పెండింగ్';
+
+  @override
+  String get statusRejected => 'తిరస్కరించబడింది';
+
+  @override
+  String get statusNotSubmitted => 'పంపలేదు';
+
+  @override
+  String get getVerified => 'ధృవీకరణ పొందండి';
 }

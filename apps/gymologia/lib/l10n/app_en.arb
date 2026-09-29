@@ -1187,5 +1187,76 @@
   "tagline": "Train. Track. Transform.",
   "appearance": "Appearance",
   "themeDark": "Dark",
-  "themeLight": "Light"
+  "themeLight": "Light",
+  "takePhoto": "Take a photo",
+  "chooseFromGallery": "Choose from gallery",
+  "chooseFile": "Choose a file",
+  "chooseFileHint": "A PDF or an image you already have",
+  "uploading": "Uploading…",
+  "fileTooLarge": "That file is too large. The limit is {mb} MB.",
+  "@fileTooLarge": {
+    "placeholders": {
+      "mb": {
+        "type": "int"
+      }
+    }
+  },
+  "gymPhotos": "Gym photos",
+  "gymPhotosHint": "The first photo is the cover members see in search. Tap another photo to make it the cover.",
+  "addPhoto": "Add photo",
+  "coverPhoto": "Cover",
+  "removePhoto": "Remove photo",
+  "maxPhotos": "You can add up to {count} photos.",
+  "@maxPhotos": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "verification": "Verification",
+  "kycIntro": "Verify your gym to appear in the Gymologia gym browser. Our team checks your documents, usually within 2 working days.",
+  "kycEncryptedNote": "Aadhaar, PAN and GST numbers are stored encrypted. Your documents are private and only our verification team can open them.",
+  "identity": "Identity",
+  "business": "Business",
+  "aadhaarNumber": "Aadhaar number",
+  "enterValidAadhaar": "Enter your 12-digit Aadhaar number",
+  "panNumber": "PAN",
+  "enterValidPan": "Enter a valid PAN, like ABCDE1234F",
+  "hasGstRegistration": "My gym is GST registered",
+  "gstin": "GSTIN",
+  "enterValidGstin": "Enter your 15-character GSTIN",
+  "businessProof": "Business proof",
+  "businessProofHint": "No GST? Upload one of these instead.",
+  "proofUdyam": "Udyam",
+  "proofElectricityBill": "Electricity bill",
+  "proofOther": "Other",
+  "premisesQuestion": "Premises",
+  "premisesOwned": "Owned",
+  "premisesRented": "Rented",
+  "landlordNoc": "Landlord's NOC",
+  "landlordNocHint": "A no-objection letter from the owner of the premises",
+  "uploadDocument": "Upload",
+  "documentUploaded": "Uploaded",
+  "replaceDocument": "Replace",
+  "documentRequired": "Please upload this document.",
+  "submitForVerification": "Submit for verification",
+  "kycSubmittedSnackbar": "Sent for verification",
+  "whatYouSent": "What you sent",
+  "kycUnderReview": "Under review",
+  "kycUnderReviewBody": "Our team is checking your documents. You'll be notified once it's done.",
+  "kycVerifiedOn": "Verified on {date}. Your gym can now appear in search.",
+  "@kycVerifiedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "kycNeedsChanges": "Needs changes",
+  "kycOnlyOwner": "Only the gym's registered owner can submit verification documents.",
+  "statusPending": "Pending",
+  "statusRejected": "Rejected",
+  "statusNotSubmitted": "Not sent",
+  "getVerified": "Get verified"
 }

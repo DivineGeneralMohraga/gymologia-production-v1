@@ -2184,4 +2184,165 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get themeLight => 'லைட்';
+
+  @override
+  String get takePhoto => 'புகைப்படம் எடுக்கவும்';
+
+  @override
+  String get chooseFromGallery => 'கேலரியிலிருந்து தேர்வுசெய்';
+
+  @override
+  String get chooseFile => 'கோப்பைத் தேர்வுசெய்';
+
+  @override
+  String get chooseFileHint => 'உங்களிடம் உள்ள PDF அல்லது படம்';
+
+  @override
+  String get uploading => 'பதிவேற்றுகிறது…';
+
+  @override
+  String fileTooLarge(int mb) {
+    return 'இந்தக் கோப்பு மிகப் பெரியது. வரம்பு $mb MB.';
+  }
+
+  @override
+  String get gymPhotos => 'ஜிம் புகைப்படங்கள்';
+
+  @override
+  String get gymPhotosHint =>
+      'முதல் புகைப்படமே அட்டைப் படம், உறுப்பினர்கள் தேடலில் இதைக் காண்பார்கள். வேறொன்றை அட்டைப் படமாக்க அதைத் தட்டவும்.';
+
+  @override
+  String get addPhoto => 'புகைப்படம் சேர்';
+
+  @override
+  String get coverPhoto => 'அட்டை';
+
+  @override
+  String get removePhoto => 'புகைப்படத்தை நீக்கு';
+
+  @override
+  String maxPhotos(int count) {
+    return 'அதிகபட்சம் $count புகைப்படங்களைச் சேர்க்கலாம்.';
+  }
+
+  @override
+  String get verification => 'சரிபார்ப்பு';
+
+  @override
+  String get kycIntro =>
+      'Gymologia ஜிம் பிரவுசரில் தோன்ற உங்கள் ஜிம்மைச் சரிபார்க்கவும். எங்கள் குழு பொதுவாக 2 வேலை நாட்களில் ஆவணங்களைச் சரிபார்க்கும்.';
+
+  @override
+  String get kycEncryptedNote =>
+      'ஆதார், PAN, GST எண்கள் குறியாக்கம் செய்து சேமிக்கப்படுகின்றன. உங்கள் ஆவணங்கள் தனிப்பட்டவை, எங்கள் சரிபார்ப்புக் குழு மட்டுமே திறக்க முடியும்.';
+
+  @override
+  String get identity => 'அடையாளம்';
+
+  @override
+  String get business => 'வணிகம்';
+
+  @override
+  String get aadhaarNumber => 'ஆதார் எண்';
+
+  @override
+  String get enterValidAadhaar => 'உங்கள் 12 இலக்க ஆதார் எண்ணை உள்ளிடவும்';
+
+  @override
+  String get panNumber => 'PAN';
+
+  @override
+  String get enterValidPan => 'சரியான PAN-ஐ உள்ளிடவும், எ.கா. ABCDE1234F';
+
+  @override
+  String get hasGstRegistration => 'என் ஜிம் GST பதிவு பெற்றது';
+
+  @override
+  String get gstin => 'GSTIN';
+
+  @override
+  String get enterValidGstin => 'உங்கள் 15 எழுத்து GSTIN-ஐ உள்ளிடவும்';
+
+  @override
+  String get businessProof => 'வணிகச் சான்று';
+
+  @override
+  String get businessProofHint => 'GST இல்லையா? இவற்றில் ஒன்றைப் பதிவேற்றவும்.';
+
+  @override
+  String get proofUdyam => 'உத்யம்';
+
+  @override
+  String get proofElectricityBill => 'மின் கட்டணம்';
+
+  @override
+  String get proofOther => 'மற்றவை';
+
+  @override
+  String get premisesQuestion => 'வளாகம்';
+
+  @override
+  String get premisesOwned => 'சொந்தம்';
+
+  @override
+  String get premisesRented => 'வாடகை';
+
+  @override
+  String get landlordNoc => 'உரிமையாளரின் NOC';
+
+  @override
+  String get landlordNocHint => 'வளாக உரிமையாளரின் ஆட்சேபனையின்மைக் கடிதம்';
+
+  @override
+  String get uploadDocument => 'பதிவேற்று';
+
+  @override
+  String get documentUploaded => 'பதிவேற்றப்பட்டது';
+
+  @override
+  String get replaceDocument => 'மாற்று';
+
+  @override
+  String get documentRequired => 'இந்த ஆவணத்தைப் பதிவேற்றவும்.';
+
+  @override
+  String get submitForVerification => 'சரிபார்ப்புக்குச் சமர்ப்பி';
+
+  @override
+  String get kycSubmittedSnackbar => 'சரிபார்ப்புக்கு அனுப்பப்பட்டது';
+
+  @override
+  String get whatYouSent => 'நீங்கள் அனுப்பியவை';
+
+  @override
+  String get kycUnderReview => 'மதிப்பாய்வில்';
+
+  @override
+  String get kycUnderReviewBody =>
+      'எங்கள் குழு உங்கள் ஆவணங்களைச் சரிபார்க்கிறது. முடிந்ததும் தெரிவிக்கப்படும்.';
+
+  @override
+  String kycVerifiedOn(String date) {
+    return '$date அன்று சரிபார்க்கப்பட்டது. உங்கள் ஜிம் இப்போது தேடலில் தோன்றலாம்.';
+  }
+
+  @override
+  String get kycNeedsChanges => 'மாற்றங்கள் தேவை';
+
+  @override
+  String get kycOnlyOwner =>
+      'ஜிம்மின் பதிவுசெய்த உரிமையாளர் மட்டுமே சரிபார்ப்பு ஆவணங்களைச் சமர்ப்பிக்க முடியும்.';
+
+  @override
+  String get statusPending => 'நிலுவையில்';
+
+  @override
+  String get statusRejected => 'நிராகரிக்கப்பட்டது';
+
+  @override
+  String get statusNotSubmitted => 'அனுப்பவில்லை';
+
+  @override
+  String get getVerified => 'சரிபார்க்கச் செய்யுங்கள்';
 }

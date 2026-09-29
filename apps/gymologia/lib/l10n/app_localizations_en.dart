@@ -2170,4 +2170,166 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get themeLight => 'Light';
+
+  @override
+  String get takePhoto => 'Take a photo';
+
+  @override
+  String get chooseFromGallery => 'Choose from gallery';
+
+  @override
+  String get chooseFile => 'Choose a file';
+
+  @override
+  String get chooseFileHint => 'A PDF or an image you already have';
+
+  @override
+  String get uploading => 'Uploading…';
+
+  @override
+  String fileTooLarge(int mb) {
+    return 'That file is too large. The limit is $mb MB.';
+  }
+
+  @override
+  String get gymPhotos => 'Gym photos';
+
+  @override
+  String get gymPhotosHint =>
+      'The first photo is the cover members see in search. Tap another photo to make it the cover.';
+
+  @override
+  String get addPhoto => 'Add photo';
+
+  @override
+  String get coverPhoto => 'Cover';
+
+  @override
+  String get removePhoto => 'Remove photo';
+
+  @override
+  String maxPhotos(int count) {
+    return 'You can add up to $count photos.';
+  }
+
+  @override
+  String get verification => 'Verification';
+
+  @override
+  String get kycIntro =>
+      'Verify your gym to appear in the Gymologia gym browser. Our team checks your documents, usually within 2 working days.';
+
+  @override
+  String get kycEncryptedNote =>
+      'Aadhaar, PAN and GST numbers are stored encrypted. Your documents are private and only our verification team can open them.';
+
+  @override
+  String get identity => 'Identity';
+
+  @override
+  String get business => 'Business';
+
+  @override
+  String get aadhaarNumber => 'Aadhaar number';
+
+  @override
+  String get enterValidAadhaar => 'Enter your 12-digit Aadhaar number';
+
+  @override
+  String get panNumber => 'PAN';
+
+  @override
+  String get enterValidPan => 'Enter a valid PAN, like ABCDE1234F';
+
+  @override
+  String get hasGstRegistration => 'My gym is GST registered';
+
+  @override
+  String get gstin => 'GSTIN';
+
+  @override
+  String get enterValidGstin => 'Enter your 15-character GSTIN';
+
+  @override
+  String get businessProof => 'Business proof';
+
+  @override
+  String get businessProofHint => 'No GST? Upload one of these instead.';
+
+  @override
+  String get proofUdyam => 'Udyam';
+
+  @override
+  String get proofElectricityBill => 'Electricity bill';
+
+  @override
+  String get proofOther => 'Other';
+
+  @override
+  String get premisesQuestion => 'Premises';
+
+  @override
+  String get premisesOwned => 'Owned';
+
+  @override
+  String get premisesRented => 'Rented';
+
+  @override
+  String get landlordNoc => 'Landlord\'s NOC';
+
+  @override
+  String get landlordNocHint =>
+      'A no-objection letter from the owner of the premises';
+
+  @override
+  String get uploadDocument => 'Upload';
+
+  @override
+  String get documentUploaded => 'Uploaded';
+
+  @override
+  String get replaceDocument => 'Replace';
+
+  @override
+  String get documentRequired => 'Please upload this document.';
+
+  @override
+  String get submitForVerification => 'Submit for verification';
+
+  @override
+  String get kycSubmittedSnackbar => 'Sent for verification';
+
+  @override
+  String get whatYouSent => 'What you sent';
+
+  @override
+  String get kycUnderReview => 'Under review';
+
+  @override
+  String get kycUnderReviewBody =>
+      'Our team is checking your documents. You\'ll be notified once it\'s done.';
+
+  @override
+  String kycVerifiedOn(String date) {
+    return 'Verified on $date. Your gym can now appear in search.';
+  }
+
+  @override
+  String get kycNeedsChanges => 'Needs changes';
+
+  @override
+  String get kycOnlyOwner =>
+      'Only the gym\'s registered owner can submit verification documents.';
+
+  @override
+  String get statusPending => 'Pending';
+
+  @override
+  String get statusRejected => 'Rejected';
+
+  @override
+  String get statusNotSubmitted => 'Not sent';
+
+  @override
+  String get getVerified => 'Get verified';
 }

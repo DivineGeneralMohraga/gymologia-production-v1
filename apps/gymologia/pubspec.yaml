@@ -1,7 +1,7 @@
 name: gymologia
 description: Gymologia — gym members, owners and staff in one app.
 publish_to: 'none'
-version: 0.2.0+17
+version: 0.3.0+18
 
 environment:
   sdk: ^3.12.0
@@ -32,6 +32,12 @@ dependencies:
   # district text search rather than blocking anything.
   geolocator: ^13.0.2
 
+  # Gym photos (camera or gallery, resized on the phone before upload) and
+  # KYC documents, which may be PDFs -- hence the second picker. The
+  # official file_selector rather than file_picker: file_picker 11 does not
+  # build on this project's Kotlin setup, and 8.x pins an old compileSdk.
+  image_picker: ^1.2.3
+  file_selector: ^1.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

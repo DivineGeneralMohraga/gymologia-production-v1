@@ -28,7 +28,10 @@ import 'package:gymologia/features/settings/settings_page.dart';
 import 'package:gymologia/features/settings/theme_controller.dart';
 import 'package:gymologia/features/shell/app_mode.dart';
 import 'package:gymologia/features/shell/app_shell.dart';
+import 'package:gymologia/core/api/models.dart';
 import 'package:gymologia/features/staff/crm_dashboard_page.dart';
+import 'package:gymologia/features/staff/gym_profile_edit_page.dart';
+import 'package:gymologia/features/staff/kyc_page.dart';
 import 'package:gymologia/l10n/app_localizations.dart';
 import 'package:gymologia/theme.dart';
 
@@ -149,8 +152,32 @@ Map<String, dynamic> _routes(String path, {required bool member}) {
         'activeMembers': 214, 'joinedInWindow': 27, 'engagedMembers': 139,
         'engagementRate': 65, 'windowDays': 30, 'dailyPresent': [],
       },
+    '/gyms/g2/kyc' => {
+        'submitted': true, 'aadhaarLast4': '4821', 'panLast4': '234F', 'gstinLast4': null,
+        'aadhaarStatus': 'PENDING', 'panStatus': 'PENDING', 'gstStatus': 'PENDING',
+        'nocStatus': 'PENDING', 'premises': 'RENTED', 'altProofType': 'UDYAM',
+        'verifiedAt': null, 'rejectionReason': null,
+      },
+    '/gyms/g3/kyc' => {
+        'submitted': true, 'aadhaarLast4': '4821', 'panLast4': '234F', 'gstinLast4': '1Z5',
+        'aadhaarStatus': 'VERIFIED', 'panStatus': 'VERIFIED', 'gstStatus': 'REJECTED',
+        'nocStatus': 'NOT_SUBMITTED', 'premises': 'OWNED', 'altProofType': null,
+        'verifiedAt': null,
+        'rejectionReason': 'The GST certificate is for a different business name. Upload the one for this gym.',
+      },
     _ => {},
   };
+}
+
+/// The owner's view of a gym, for pages that take a GymDetail directly.
+GymDetail _gym(String id, {List<String> images = const []}) {
+  final j = Map<String, dynamic>.from(_routes('/gyms/g1', member: true));
+  j['id'] = id;
+  j['images'] = images;
+  j['perks'] = ['Free diet plan', 'Steam room', 'Parking'];
+  j['description'] = 'Two floors of free weights.';
+  j['contactPhone'] = '+919820012345';
+  return GymDetail.fromJson(j);
 }
 
 class _FakeAdapter implements HttpClientAdapter {
@@ -306,6 +333,16 @@ void main() {
         (t) => shoot(t, '06_settings', (_) => const Scaffold(body: SafeArea(child: SettingsPage())), height: 1250));
     testWidgets('staff gyms',
         (t) => shoot(t, '07_staff_gyms', (_) => const AppShell(), staff: true, height: 900));
+    testWidgets('kyc form',
+        (t) => shoot(t, '09_kyc_form', (_) => KycPage(gym: _gym('g1')), height: 1700));
+    testWidgets('kyc under review',
+        (t) => shoot(t, '10_kyc_review', (_) => KycPage(gym: _gym('g2')), height: 1000));
+    testWidgets('kyc needs changes',
+        (t) => shoot(t, '11_kyc_changes', (_) => KycPage(gym: _gym('g3')), height: 1900));
+    testWidgets('gym photos',
+        (t) => shoot(t, '12_gym_photos',
+            (_) => GymProfileEditPage(gym: _gym('g1', images: [_img(1), _img(2), _img(10)])),
+            height: 1000));
     testWidgets('crm dashboard',
         (t) => shoot(t, '08_crm', (_) => const CrmDashboardPage(gymId: 'g1'), height: 1250));
   });

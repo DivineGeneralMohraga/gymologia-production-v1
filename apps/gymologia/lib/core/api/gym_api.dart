@@ -99,6 +99,16 @@ class GymApi {
   Future<GymDetail> updateGym(String gymId, Map<String, dynamic> body) async =>
       GymDetail.fromJson(await _client.patch('/gyms/$gymId', body: body));
 
+  // ── Verification (KYC) ─────────────────────────────────────────────
+
+  /// Where this gym's verification stands. Numbers come back as their last
+  /// four digits only.
+  Future<KycStatus> kyc(String gymId) async =>
+      KycStatus.fromJson(await _client.get('/gyms/$gymId/kyc'));
+
+  Future<KycStatus> submitKyc(String gymId, Map<String, dynamic> body) async =>
+      KycStatus.fromJson(await _client.post('/gyms/$gymId/kyc', body: body));
+
   Future<List<Map<String, dynamic>>> roles(String gymId) async {
     final raw = await _client.get('/gyms/$gymId/roles');
     return _list(raw);

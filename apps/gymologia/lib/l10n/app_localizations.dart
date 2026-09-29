@@ -3701,6 +3701,306 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Light'**
   String get themeLight;
+
+  /// No description provided for @takePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get takePhoto;
+
+  /// No description provided for @chooseFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get chooseFromGallery;
+
+  /// No description provided for @chooseFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a file'**
+  String get chooseFile;
+
+  /// No description provided for @chooseFileHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A PDF or an image you already have'**
+  String get chooseFileHint;
+
+  /// No description provided for @uploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading…'**
+  String get uploading;
+
+  /// No description provided for @fileTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'That file is too large. The limit is {mb} MB.'**
+  String fileTooLarge(int mb);
+
+  /// No description provided for @gymPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Gym photos'**
+  String get gymPhotos;
+
+  /// No description provided for @gymPhotosHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The first photo is the cover members see in search. Tap another photo to make it the cover.'**
+  String get gymPhotosHint;
+
+  /// No description provided for @addPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add photo'**
+  String get addPhoto;
+
+  /// No description provided for @coverPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover'**
+  String get coverPhoto;
+
+  /// No description provided for @removePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get removePhoto;
+
+  /// No description provided for @maxPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'You can add up to {count} photos.'**
+  String maxPhotos(int count);
+
+  /// No description provided for @verification.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification'**
+  String get verification;
+
+  /// No description provided for @kycIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your gym to appear in the Gymologia gym browser. Our team checks your documents, usually within 2 working days.'**
+  String get kycIntro;
+
+  /// No description provided for @kycEncryptedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Aadhaar, PAN and GST numbers are stored encrypted. Your documents are private and only our verification team can open them.'**
+  String get kycEncryptedNote;
+
+  /// No description provided for @identity.
+  ///
+  /// In en, this message translates to:
+  /// **'Identity'**
+  String get identity;
+
+  /// No description provided for @business.
+  ///
+  /// In en, this message translates to:
+  /// **'Business'**
+  String get business;
+
+  /// No description provided for @aadhaarNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Aadhaar number'**
+  String get aadhaarNumber;
+
+  /// No description provided for @enterValidAadhaar.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your 12-digit Aadhaar number'**
+  String get enterValidAadhaar;
+
+  /// No description provided for @panNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'PAN'**
+  String get panNumber;
+
+  /// No description provided for @enterValidPan.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid PAN, like ABCDE1234F'**
+  String get enterValidPan;
+
+  /// No description provided for @hasGstRegistration.
+  ///
+  /// In en, this message translates to:
+  /// **'My gym is GST registered'**
+  String get hasGstRegistration;
+
+  /// No description provided for @gstin.
+  ///
+  /// In en, this message translates to:
+  /// **'GSTIN'**
+  String get gstin;
+
+  /// No description provided for @enterValidGstin.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your 15-character GSTIN'**
+  String get enterValidGstin;
+
+  /// No description provided for @businessProof.
+  ///
+  /// In en, this message translates to:
+  /// **'Business proof'**
+  String get businessProof;
+
+  /// No description provided for @businessProofHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No GST? Upload one of these instead.'**
+  String get businessProofHint;
+
+  /// No description provided for @proofUdyam.
+  ///
+  /// In en, this message translates to:
+  /// **'Udyam'**
+  String get proofUdyam;
+
+  /// No description provided for @proofElectricityBill.
+  ///
+  /// In en, this message translates to:
+  /// **'Electricity bill'**
+  String get proofElectricityBill;
+
+  /// No description provided for @proofOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get proofOther;
+
+  /// No description provided for @premisesQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Premises'**
+  String get premisesQuestion;
+
+  /// No description provided for @premisesOwned.
+  ///
+  /// In en, this message translates to:
+  /// **'Owned'**
+  String get premisesOwned;
+
+  /// No description provided for @premisesRented.
+  ///
+  /// In en, this message translates to:
+  /// **'Rented'**
+  String get premisesRented;
+
+  /// No description provided for @landlordNoc.
+  ///
+  /// In en, this message translates to:
+  /// **'Landlord\'s NOC'**
+  String get landlordNoc;
+
+  /// No description provided for @landlordNocHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A no-objection letter from the owner of the premises'**
+  String get landlordNocHint;
+
+  /// No description provided for @uploadDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload'**
+  String get uploadDocument;
+
+  /// No description provided for @documentUploaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploaded'**
+  String get documentUploaded;
+
+  /// No description provided for @replaceDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace'**
+  String get replaceDocument;
+
+  /// No description provided for @documentRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please upload this document.'**
+  String get documentRequired;
+
+  /// No description provided for @submitForVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit for verification'**
+  String get submitForVerification;
+
+  /// No description provided for @kycSubmittedSnackbar.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent for verification'**
+  String get kycSubmittedSnackbar;
+
+  /// No description provided for @whatYouSent.
+  ///
+  /// In en, this message translates to:
+  /// **'What you sent'**
+  String get whatYouSent;
+
+  /// No description provided for @kycUnderReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Under review'**
+  String get kycUnderReview;
+
+  /// No description provided for @kycUnderReviewBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Our team is checking your documents. You\'ll be notified once it\'s done.'**
+  String get kycUnderReviewBody;
+
+  /// No description provided for @kycVerifiedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified on {date}. Your gym can now appear in search.'**
+  String kycVerifiedOn(String date);
+
+  /// No description provided for @kycNeedsChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs changes'**
+  String get kycNeedsChanges;
+
+  /// No description provided for @kycOnlyOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the gym\'s registered owner can submit verification documents.'**
+  String get kycOnlyOwner;
+
+  /// No description provided for @statusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get statusPending;
+
+  /// No description provided for @statusRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get statusRejected;
+
+  /// No description provided for @statusNotSubmitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not sent'**
+  String get statusNotSubmitted;
+
+  /// No description provided for @getVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'Get verified'**
+  String get getVerified;
 }
 
 class _AppLocalizationsDelegate

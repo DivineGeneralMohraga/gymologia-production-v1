@@ -16,6 +16,7 @@ import 'trainer_categories_page.dart';
 import 'roles_page.dart';
 import 'growth_page.dart';
 import 'ranking_page.dart';
+import 'kyc_page.dart';
 import '../chat/conversations_page.dart';
 import '../../theme.dart';
 import '../../ui/kit.dart';
@@ -204,6 +205,14 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                     icon: Icons.storefront_rounded,
                     label: AppLocalizations.of(context).gymProfile,
                     onTap: () => _open(GymProfileEditPage(gym: gym)),
+                  ),
+                // Verification is what lets a gym into the public browser.
+                // The owner submits it; whoever runs the plan can see it.
+                if (gym.isGymOwner || gym.can(P.manageSubscription))
+                  _Tile(
+                    icon: Icons.verified_user_rounded,
+                    label: t.verification,
+                    onTap: () => _open(KycPage(gym: gym)),
                   ),
                 if (gym.can(P.manageSubscription))
                   _Tile(

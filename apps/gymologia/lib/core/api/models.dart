@@ -508,3 +508,61 @@ class P {
   static const deleteGym = 'DELETE_GYM';
   static const sendNotifications = 'SEND_NOTIFICATIONS';
 }
+
+/// Where a gym's verification stands. The server sends only the last four
+/// digits of any number, and never the documents themselves.
+class KycStatus {
+  KycStatus({
+    required this.submitted,
+    required this.aadhaarStatus,
+    required this.panStatus,
+    required this.gstStatus,
+    required this.nocStatus,
+    this.aadhaarLast4,
+    this.panLast4,
+    this.gstinLast4,
+    this.premises,
+    this.altProofType,
+    this.verifiedAt,
+    this.rejectionReason,
+  });
+
+  factory KycStatus.fromJson(Map<String, dynamic> j) => KycStatus(
+    submitted: j['submitted'] == true,
+    aadhaarLast4: j['aadhaarLast4'] as String?,
+    panLast4: j['panLast4'] as String?,
+    gstinLast4: j['gstinLast4'] as String?,
+    aadhaarStatus: j['aadhaarStatus'] as String? ?? 'NOT_SUBMITTED',
+    panStatus: j['panStatus'] as String? ?? 'NOT_SUBMITTED',
+    gstStatus: j['gstStatus'] as String? ?? 'NOT_SUBMITTED',
+    nocStatus: j['nocStatus'] as String? ?? 'NOT_SUBMITTED',
+    premises: j['premises'] as String?,
+    altProofType: j['altProofType'] as String?,
+    verifiedAt: _date(j['verifiedAt']),
+    rejectionReason: j['rejectionReason'] as String?,
+  );
+
+  final bool submitted;
+  final String? aadhaarLast4;
+  final String? panLast4;
+  final String? gstinLast4;
+  final String aadhaarStatus;
+  final String panStatus;
+  final String gstStatus;
+  final String nocStatus;
+  final String? premises;
+  final String? altProofType;
+  final DateTime? verifiedAt;
+  final String? rejectionReason;
+
+  bool get isVerified => verifiedAt != null;
+
+  /// Sent back by a reviewer. The owner fixes it and submits again.
+  bool get needsChanges => !isVerified && (rejectionReason?.isNotEmpty ?? false);
+
+  /// Waiting on a reviewer.
+  bool get isUnderReview => submitted && !isVerified && !needsChanges;
+
+  /// The form is shown when there is nothing yet, or something to fix.
+  bool get canSubmit => !isVerified && (!submitted || needsChanges);
+}

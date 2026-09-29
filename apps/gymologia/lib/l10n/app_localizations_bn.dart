@@ -2151,4 +2151,165 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get themeLight => 'লাইট';
+
+  @override
+  String get takePhoto => 'ছবি তুলুন';
+
+  @override
+  String get chooseFromGallery => 'গ্যালারি থেকে বেছে নিন';
+
+  @override
+  String get chooseFile => 'ফাইল বেছে নিন';
+
+  @override
+  String get chooseFileHint => 'আগে থেকে থাকা PDF বা ছবি';
+
+  @override
+  String get uploading => 'আপলোড হচ্ছে…';
+
+  @override
+  String fileTooLarge(int mb) {
+    return 'ফাইলটি খুব বড়। সীমা $mb MB।';
+  }
+
+  @override
+  String get gymPhotos => 'জিমের ছবি';
+
+  @override
+  String get gymPhotosHint =>
+      'প্রথম ছবিটি কভার, সদস্যরা সার্চে এটি দেখেন। অন্য ছবিকে কভার করতে সেটিতে ট্যাপ করুন।';
+
+  @override
+  String get addPhoto => 'ছবি যোগ করুন';
+
+  @override
+  String get coverPhoto => 'কভার';
+
+  @override
+  String get removePhoto => 'ছবি সরান';
+
+  @override
+  String maxPhotos(int count) {
+    return 'আপনি সর্বোচ্চ $countটি ছবি যোগ করতে পারেন।';
+  }
+
+  @override
+  String get verification => 'যাচাইকরণ';
+
+  @override
+  String get kycIntro =>
+      'Gymologia-র জিম ব্রাউজারে দেখাতে আপনার জিম যাচাই করুন। আমাদের টিম সাধারণত ২ কর্মদিবসের মধ্যে নথি যাচাই করে।';
+
+  @override
+  String get kycEncryptedNote =>
+      'আধার, PAN ও GST নম্বর এনক্রিপ্ট করে রাখা হয়। আপনার নথি ব্যক্তিগত, শুধু আমাদের যাচাই টিম খুলতে পারে।';
+
+  @override
+  String get identity => 'পরিচয়';
+
+  @override
+  String get business => 'ব্যবসা';
+
+  @override
+  String get aadhaarNumber => 'আধার নম্বর';
+
+  @override
+  String get enterValidAadhaar => 'আপনার ১২ সংখ্যার আধার নম্বর দিন';
+
+  @override
+  String get panNumber => 'PAN';
+
+  @override
+  String get enterValidPan => 'সঠিক PAN দিন, যেমন ABCDE1234F';
+
+  @override
+  String get hasGstRegistration => 'আমার জিম GST-তে নিবন্ধিত';
+
+  @override
+  String get gstin => 'GSTIN';
+
+  @override
+  String get enterValidGstin => 'আপনার ১৫ অক্ষরের GSTIN দিন';
+
+  @override
+  String get businessProof => 'ব্যবসার প্রমাণ';
+
+  @override
+  String get businessProofHint => 'GST নেই? এর যেকোনো একটি আপলোড করুন।';
+
+  @override
+  String get proofUdyam => 'উদ্যম';
+
+  @override
+  String get proofElectricityBill => 'বিদ্যুৎ বিল';
+
+  @override
+  String get proofOther => 'অন্য';
+
+  @override
+  String get premisesQuestion => 'প্রাঙ্গণ';
+
+  @override
+  String get premisesOwned => 'নিজস্ব';
+
+  @override
+  String get premisesRented => 'ভাড়া';
+
+  @override
+  String get landlordNoc => 'বাড়িওয়ালার NOC';
+
+  @override
+  String get landlordNocHint => 'প্রাঙ্গণের মালিকের অনাপত্তি পত্র';
+
+  @override
+  String get uploadDocument => 'আপলোড';
+
+  @override
+  String get documentUploaded => 'আপলোড হয়েছে';
+
+  @override
+  String get replaceDocument => 'বদলান';
+
+  @override
+  String get documentRequired => 'অনুগ্রহ করে এই নথিটি আপলোড করুন।';
+
+  @override
+  String get submitForVerification => 'যাচাইয়ের জন্য জমা দিন';
+
+  @override
+  String get kycSubmittedSnackbar => 'যাচাইয়ের জন্য পাঠানো হয়েছে';
+
+  @override
+  String get whatYouSent => 'আপনি যা পাঠিয়েছেন';
+
+  @override
+  String get kycUnderReview => 'পর্যালোচনা চলছে';
+
+  @override
+  String get kycUnderReviewBody =>
+      'আমাদের টিম আপনার নথি যাচাই করছে। শেষ হলেই জানানো হবে।';
+
+  @override
+  String kycVerifiedOn(String date) {
+    return '$date তারিখে যাচাই হয়েছে। আপনার জিম এখন সার্চে দেখাতে পারে।';
+  }
+
+  @override
+  String get kycNeedsChanges => 'পরিবর্তন দরকার';
+
+  @override
+  String get kycOnlyOwner =>
+      'শুধু জিমের নিবন্ধিত মালিকই যাচাইয়ের নথি জমা দিতে পারেন।';
+
+  @override
+  String get statusPending => 'অপেক্ষমাণ';
+
+  @override
+  String get statusRejected => 'প্রত্যাখ্যাত';
+
+  @override
+  String get statusNotSubmitted => 'পাঠানো হয়নি';
+
+  @override
+  String get getVerified => 'যাচাই করান';
 }

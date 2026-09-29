@@ -2151,4 +2151,165 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get themeLight => 'लाइट';
+
+  @override
+  String get takePhoto => 'फ़ोटो लें';
+
+  @override
+  String get chooseFromGallery => 'गैलरी से चुनें';
+
+  @override
+  String get chooseFile => 'फ़ाइल चुनें';
+
+  @override
+  String get chooseFileHint => 'पहले से मौजूद PDF या फ़ोटो';
+
+  @override
+  String get uploading => 'अपलोड हो रहा है…';
+
+  @override
+  String fileTooLarge(int mb) {
+    return 'यह फ़ाइल बहुत बड़ी है। सीमा $mb MB है।';
+  }
+
+  @override
+  String get gymPhotos => 'जिम की फ़ोटो';
+
+  @override
+  String get gymPhotosHint =>
+      'पहली फ़ोटो कवर है, जो सदस्य सर्च में देखते हैं। किसी और फ़ोटो को कवर बनाने के लिए उस पर टैप करें।';
+
+  @override
+  String get addPhoto => 'फ़ोटो जोड़ें';
+
+  @override
+  String get coverPhoto => 'कवर';
+
+  @override
+  String get removePhoto => 'फ़ोटो हटाएँ';
+
+  @override
+  String maxPhotos(int count) {
+    return 'आप अधिकतम $count फ़ोटो जोड़ सकते हैं।';
+  }
+
+  @override
+  String get verification => 'सत्यापन';
+
+  @override
+  String get kycIntro =>
+      'Gymologia के जिम ब्राउज़र में दिखने के लिए अपना जिम सत्यापित करें। हमारी टीम आम तौर पर 2 कामकाजी दिनों में आपके दस्तावेज़ जाँचती है।';
+
+  @override
+  String get kycEncryptedNote =>
+      'आधार, PAN और GST नंबर एन्क्रिप्ट करके रखे जाते हैं। आपके दस्तावेज़ निजी हैं, केवल हमारी सत्यापन टीम उन्हें खोल सकती है।';
+
+  @override
+  String get identity => 'पहचान';
+
+  @override
+  String get business => 'व्यवसाय';
+
+  @override
+  String get aadhaarNumber => 'आधार नंबर';
+
+  @override
+  String get enterValidAadhaar => 'अपना 12 अंकों का आधार नंबर डालें';
+
+  @override
+  String get panNumber => 'PAN';
+
+  @override
+  String get enterValidPan => 'सही PAN डालें, जैसे ABCDE1234F';
+
+  @override
+  String get hasGstRegistration => 'मेरा जिम GST में पंजीकृत है';
+
+  @override
+  String get gstin => 'GSTIN';
+
+  @override
+  String get enterValidGstin => 'अपना 15 अक्षरों का GSTIN डालें';
+
+  @override
+  String get businessProof => 'व्यवसाय का प्रमाण';
+
+  @override
+  String get businessProofHint => 'GST नहीं है? इनमें से कोई एक अपलोड करें।';
+
+  @override
+  String get proofUdyam => 'उद्यम';
+
+  @override
+  String get proofElectricityBill => 'बिजली बिल';
+
+  @override
+  String get proofOther => 'अन्य';
+
+  @override
+  String get premisesQuestion => 'परिसर';
+
+  @override
+  String get premisesOwned => 'अपना';
+
+  @override
+  String get premisesRented => 'किराये का';
+
+  @override
+  String get landlordNoc => 'मकान मालिक की NOC';
+
+  @override
+  String get landlordNocHint => 'परिसर के मालिक का अनापत्ति पत्र';
+
+  @override
+  String get uploadDocument => 'अपलोड';
+
+  @override
+  String get documentUploaded => 'अपलोड हो गया';
+
+  @override
+  String get replaceDocument => 'बदलें';
+
+  @override
+  String get documentRequired => 'कृपया यह दस्तावेज़ अपलोड करें।';
+
+  @override
+  String get submitForVerification => 'सत्यापन के लिए भेजें';
+
+  @override
+  String get kycSubmittedSnackbar => 'सत्यापन के लिए भेज दिया गया';
+
+  @override
+  String get whatYouSent => 'आपने क्या भेजा';
+
+  @override
+  String get kycUnderReview => 'जाँच जारी है';
+
+  @override
+  String get kycUnderReviewBody =>
+      'हमारी टीम आपके दस्तावेज़ जाँच रही है। पूरा होते ही आपको सूचना मिलेगी।';
+
+  @override
+  String kycVerifiedOn(String date) {
+    return '$date को सत्यापित। आपका जिम अब सर्च में दिख सकता है।';
+  }
+
+  @override
+  String get kycNeedsChanges => 'बदलाव ज़रूरी';
+
+  @override
+  String get kycOnlyOwner =>
+      'केवल जिम का पंजीकृत मालिक ही सत्यापन दस्तावेज़ भेज सकता है।';
+
+  @override
+  String get statusPending => 'लंबित';
+
+  @override
+  String get statusRejected => 'अस्वीकृत';
+
+  @override
+  String get statusNotSubmitted => 'नहीं भेजा';
+
+  @override
+  String get getVerified => 'सत्यापित करवाएँ';
 }
