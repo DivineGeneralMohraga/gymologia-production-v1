@@ -51,6 +51,17 @@ P_REVIEWER="+9195410${STAMP}1"
 P_SUPPORT="+9195410${STAMP}2"
 P_OWNER="+9198110${STAMP}3"
 
+# These suites run against the live database, and below some of these
+# accounts are made admin staff -- real-format phone numbers holding admin
+# roles on the real admin app. Revoke every admin role they were given on
+# the way out, however the suite ends.
+revoke_admins() {
+  db "await p.adminStaff.updateMany({
+        where: { user: { phone: { in: process.argv.slice(1).filter(Boolean) } } },
+        data: { status: 'REMOVED' } });" "$P_REVIEWER" "$P_SUPPORT" "$P_OWNER" > /dev/null 2>&1
+}
+trap revoke_admins EXIT
+
 AADHAAR="234567890124"
 PAN="ABCDE1234F"
 GSTIN="27ABCDE1234F1Z5"

@@ -53,6 +53,17 @@ P_ADMIN="+9195400${STAMP}1"
 P_SUPPORT="+9195400${STAMP}2"
 P_CIVILIAN="+9195400${STAMP}3"
 
+# These suites run against the live database, and below some of these
+# accounts are made admin staff -- real-format phone numbers holding admin
+# roles on the real admin app. Revoke every admin role they were given on
+# the way out, however the suite ends.
+revoke_admins() {
+  db "await p.adminStaff.updateMany({
+        where: { user: { phone: { in: process.argv.slice(1).filter(Boolean) } } },
+        data: { status: 'REMOVED' } });" "$P_ADMIN" "$P_SUPPORT" "$P_CIVILIAN" > /dev/null 2>&1
+}
+trap revoke_admins EXIT
+
 hdr "Setup"
 ADMIN=$(login "$P_ADMIN" "Platform Owner")
 CIVILIAN=$(login "$P_CIVILIAN" "Ordinary Person")

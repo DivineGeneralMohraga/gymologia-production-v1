@@ -77,6 +77,17 @@ P_ALICE="+9198611${STAMP}2"
 P_BOB="+9198611${STAMP}3"
 P_CAROL="+9198611${STAMP}4"
 
+# These suites run against the live database, and below some of these
+# accounts are made admin staff -- real-format phone numbers holding admin
+# roles on the real admin app. Revoke every admin role they were given on
+# the way out, however the suite ends.
+revoke_admins() {
+  db "await p.adminStaff.updateMany({
+        where: { user: { phone: { in: process.argv.slice(1).filter(Boolean) } } },
+        data: { status: 'REMOVED' } });" "$P_OWNER" "$P_ALICE" "$P_BOB" "$P_CAROL" > /dev/null 2>&1
+}
+trap revoke_admins EXIT
+
 hdr "Setup"
 OWNER=$(login "$P_OWNER" "Safety Owner")
 GID=$(curl -s -X POST "$API/gyms" -H "Authorization: Bearer $OWNER" -H 'Content-Type: application/json' \
