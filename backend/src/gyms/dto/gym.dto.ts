@@ -16,6 +16,7 @@ import {
   Min,
 } from 'class-validator';
 import { IsStorageUrl } from '../../common/validation/storage-url';
+import { IsCleanName } from '../../common/validation/clean-name';
 
 const trim = () =>
   Transform(({ value }) => (typeof value === 'string' ? value.trim() : value));
@@ -25,6 +26,7 @@ export class CreateGymDto {
   @IsString()
   @trim()
   @Length(2, 150)
+  @IsCleanName()
   name!: string;
 
   @ApiPropertyOptional()
@@ -124,6 +126,7 @@ export class UpdateGymDto {
   @IsString()
   @trim()
   @Length(2, 150)
+  @IsCleanName()
   name?: string;
 
   @ApiPropertyOptional()

@@ -13,6 +13,7 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
+import { IsCleanName } from '../../common/validation/clean-name';
 
 /**
  * Every field that reaches a controller passes through one of these.
@@ -73,6 +74,7 @@ export class RegisterDto {
   @IsString()
   @trim()
   @Length(2, 120)
+  @IsCleanName()
   name!: string;
 
   @ApiPropertyOptional({ example: 'sarthak@example.com' })

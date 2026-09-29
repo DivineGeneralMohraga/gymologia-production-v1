@@ -12,6 +12,7 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
+import { IsCleanName } from '../../common/validation/clean-name';
 
 const trim = () =>
   Transform(({ value }) => (typeof value === 'string' ? value.trim() : value));
@@ -61,6 +62,7 @@ export class UpdateProfileDto {
   @IsString()
   @trim()
   @Length(2, 120)
+  @IsCleanName()
   name?: string;
 
   @ApiPropertyOptional({ description: 'Send an empty string to remove it.' })
