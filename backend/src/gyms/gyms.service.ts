@@ -6,6 +6,7 @@ import {
 } from "@nestjs/common";
 import { GymStatus, Permission, Plan, Prisma } from "@prisma/client";
 import { PrismaService } from "../prisma/prisma.service";
+import { kycRequiredForListing } from "./listing-rules";
 import { AuditService } from "../common/audit/audit.service";
 import { NotificationsService } from "../notifications/notifications.service";
 import { PermissionService, ActorContext } from "../rbac/permission.service";
@@ -283,10 +284,10 @@ export class GymsService {
       deletedAt: null,
       status: GymStatus.ACTIVE,
       publicListing: true,
-      // The spec is explicit: the public browser only lists a gym once it
-      // "has already done kyc and using pro plan" -- paying for Pro alone
-      // was letting an unverified gym straight into search.
-      kyc: { verifiedAt: { not: null } },
+      // The spec lists a gym only once it "has already done kyc and using
+      // pro plan". KYC is paused for now (see listing-rules.ts), so the
+      // gate applies only when switched on.
+      ...(kycRequiredForListing() ? { kyc: { verifiedAt: { not: null } } } : {}),
       subscriptions: {
         some: {
           status: "ACTIVE",

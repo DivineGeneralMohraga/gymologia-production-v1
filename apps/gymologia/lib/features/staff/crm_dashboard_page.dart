@@ -36,6 +36,10 @@ class CrmDashboardPage extends StatefulWidget {
   State<CrmDashboardPage> createState() => _CrmDashboardPageState();
 }
 
+/// Whether gym verification (KYC) is offered in the app. Off while the
+/// server does not require it for listing.
+const _kycEnabled = false;
+
 class _CrmDashboardPageState extends State<CrmDashboardPage> {
   GymDetail? _gym;
   GymAnalytics? _analytics;
@@ -206,9 +210,11 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                     label: AppLocalizations.of(context).gymProfile,
                     onTap: () => _open(GymProfileEditPage(gym: gym)),
                   ),
-                // Verification is what lets a gym into the public browser.
-                // The owner submits it; whoever runs the plan can see it.
-                if (gym.isGymOwner || gym.can(P.manageSubscription))
+                // Verification (KYC) is paused by product decision as of
+                // 2026-10-01 -- the server lists Pro gyms without it (see
+                // backend listing-rules.ts). The page is kept; flip this
+                // and REQUIRE_KYC_FOR_LISTING together to bring it back.
+                if (_kycEnabled && (gym.isGymOwner || gym.can(P.manageSubscription)))
                   _Tile(
                     icon: Icons.verified_user_rounded,
                     label: t.verification,

@@ -54,6 +54,15 @@ async function login(phone) {
   return r2.j;
 }
 
+// The gate is switchable (src/gyms/listing-rules.ts) and off while KYC is
+// paused. This suite checks the gate itself, so it only means something
+// with the gate on -- against a server started with the same setting.
+require('dotenv').config();
+if ((process.env.REQUIRE_KYC_FOR_LISTING ?? '').trim().toLowerCase() !== 'true') {
+  console.log('SKIP: REQUIRE_KYC_FOR_LISTING is off, so there is no KYC gate to test.');
+  process.exit(0);
+}
+
 (async () => {
   let gymId = null;
   try {

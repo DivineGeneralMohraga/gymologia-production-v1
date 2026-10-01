@@ -1882,7 +1882,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get draftNote =>
-      'உங்கள் கூடம் வரைவாகத் தொடங்குகிறது. சரிபார்ப்பை முடித்து திட்டம் எடுக்கும் வரை தேடலில் தோன்றாது.';
+      'உங்கள் ஜிம் வரைவாகத் தொடங்குகிறது. பயன்படுத்தத் தொடங்க ஒரு திட்டத்தைத் தேர்வுசெய்யுங்கள். Pro திட்ட ஜிம்கள் Gymologia தேடலிலும் தோன்றும்.';
 
   @override
   String get sendThis => 'இதை அனுப்பவா?';

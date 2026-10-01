@@ -1851,7 +1851,7 @@ class AppLocalizationsPa extends AppLocalizations {
 
   @override
   String get draftNote =>
-      'ਤੁਹਾਡਾ ਜਿਮ ਖਰੜੇ ਵਜੋਂ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ। ਤਸਦੀਕ ਪੂਰੀ ਕਰਕੇ ਪਲਾਨ ਲੈਣ ਤੱਕ ਇਹ ਖੋਜ ਵਿੱਚ ਨਹੀਂ ਦਿਖੇਗਾ।';
+      'ਤੁਹਾਡਾ ਜਿਮ ਡ੍ਰਾਫ਼ਟ ਵਜੋਂ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ। ਵਰਤਣਾ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਇੱਕ ਪਲਾਨ ਚੁਣੋ। Pro ਪਲਾਨ ਵਾਲੇ ਜਿਮ Gymologia ਖੋਜ ਵਿੱਚ ਵੀ ਦਿਸਦੇ ਹਨ।';
 
   @override
   String get sendThis => 'ਇਹ ਭੇਜਣਾ?';

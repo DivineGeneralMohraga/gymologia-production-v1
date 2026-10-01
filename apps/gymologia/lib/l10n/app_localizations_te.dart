@@ -1856,7 +1856,7 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get draftNote =>
-      'మీ జిమ్ చిత్తుప్రతిగా మొదలవుతుంది. ధృవీకరణ పూర్తి చేసి ప్లాన్ తీసుకునే వరకు సెర్చ్‌లో కనిపించదు.';
+      'మీ జిమ్ డ్రాఫ్ట్‌గా ప్రారంభమవుతుంది. ఉపయోగించడం ప్రారంభించడానికి ఒక ప్లాన్ ఎంచుకోండి. Pro ప్లాన్ జిమ్‌లు Gymologia శోధనలో కూడా కనిపిస్తాయి.';
 
   @override
   String get sendThis => 'దీన్ని పంపాలా?';

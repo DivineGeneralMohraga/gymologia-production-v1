@@ -1023,7 +1023,7 @@
   "leaveDaysPerMonth": "Leave days per month",
   "deleteThisGym": "Delete this gym",
   "leaveLimitNote": "Member requests inside this limit are approved automatically. Anything beyond it needs someone to approve.",
-  "draftNote": "Your gym starts as a draft. It will not appear in search until you complete verification and choose a plan.",
+  "draftNote": "Your gym starts as a draft. Choose a plan to start using it. Gyms on the Pro plan also appear in Gymologia search.",
   "sendThis": "Send this?",
   "send": "Send",
   "announcements": "Announcements",

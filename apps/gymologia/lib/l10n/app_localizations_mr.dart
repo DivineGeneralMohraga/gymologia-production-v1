@@ -1850,7 +1850,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get draftNote =>
-      'तुमचे जिम मसुदा म्हणून सुरू होते. पडताळणी पूर्ण करून प्लॅन घेईपर्यंत ते शोधात दिसणार नाही.';
+      'तुमचे जिम ड्राफ्ट म्हणून सुरू होते. वापर सुरू करण्यासाठी प्लॅन निवडा. Pro प्लॅनवरील जिम Gymologia शोधातही दिसतात.';
 
   @override
   String get sendThis => 'हे पाठवायचे?';

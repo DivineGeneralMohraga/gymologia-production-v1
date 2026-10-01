@@ -1856,7 +1856,7 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get draftNote =>
-      'ನಿಮ್ಮ ಜಿಮ್ ಕರಡಾಗಿ ಆರಂಭವಾಗುತ್ತದೆ. ಪರಿಶೀಲನೆ ಪೂರ್ಣಗೊಳಿಸಿ ಯೋಜನೆ ತೆಗೆದುಕೊಳ್ಳುವವರೆಗೆ ಹುಡುಕಾಟದಲ್ಲಿ ಕಾಣಿಸದು.';
+      'ನಿಮ್ಮ ಜಿಮ್ ಡ್ರಾಫ್ಟ್ ಆಗಿ ಆರಂಭವಾಗುತ್ತದೆ. ಬಳಸಲು ಆರಂಭಿಸಲು ಒಂದು ಪ್ಲಾನ್ ಆರಿಸಿ. Pro ಪ್ಲಾನ್ ಜಿಮ್‌ಗಳು Gymologia ಹುಡುಕಾಟದಲ್ಲೂ ಕಾಣಿಸುತ್ತವೆ.';
 
   @override
   String get sendThis => 'ಇದನ್ನು ಕಳುಹಿಸುವುದೇ?';

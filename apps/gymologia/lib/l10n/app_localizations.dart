@@ -3147,7 +3147,7 @@ abstract class AppLocalizations {
   /// No description provided for @draftNote.
   ///
   /// In en, this message translates to:
-  /// **'Your gym starts as a draft. It will not appear in search until you complete verification and choose a plan.'**
+  /// **'Your gym starts as a draft. Choose a plan to start using it. Gyms on the Pro plan also appear in Gymologia search.'**
   String get draftNote;
 
   /// No description provided for @sendThis.

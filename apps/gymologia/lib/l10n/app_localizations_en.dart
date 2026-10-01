@@ -1871,7 +1871,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get draftNote =>
-      'Your gym starts as a draft. It will not appear in search until you complete verification and choose a plan.';
+      'Your gym starts as a draft. Choose a plan to start using it. Gyms on the Pro plan also appear in Gymologia search.';
 
   @override
   String get sendThis => 'Send this?';

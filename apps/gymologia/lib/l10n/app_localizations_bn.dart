@@ -1852,7 +1852,7 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get draftNote =>
-      'আপনার জিম খসড়া হিসেবে শুরু হয়। যাচাই সম্পূর্ণ করে প্ল্যান না নেওয়া পর্যন্ত এটি সার্চে দেখা যাবে না।';
+      'আপনার জিম খসড়া হিসেবে শুরু হয়। ব্যবহার শুরু করতে একটি প্ল্যান বেছে নিন। Pro প্ল্যানের জিম Gymologia সার্চেও দেখায়।';
 
   @override
   String get sendThis => 'এটি পাঠাবেন?';

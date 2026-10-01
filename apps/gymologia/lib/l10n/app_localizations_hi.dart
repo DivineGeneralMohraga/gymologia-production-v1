@@ -1851,7 +1851,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get draftNote =>
-      'आपका जिम ड्राफ्ट के रूप में शुरू होता है। सत्यापन पूरा करने और प्लान लेने तक यह खोज में नहीं दिखेगा।';
+      'आपका जिम ड्राफ़्ट के रूप में शुरू होता है। इसे इस्तेमाल करने के लिए एक प्लान चुनें। Pro प्लान वाले जिम Gymologia सर्च में भी दिखते हैं।';
 
   @override
   String get sendThis => 'यह भेजें?';

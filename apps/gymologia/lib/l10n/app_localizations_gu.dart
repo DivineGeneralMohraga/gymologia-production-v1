@@ -1841,7 +1841,7 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get draftNote =>
-      'તમારું જિમ ડ્રાફ્ટ તરીકે શરૂ થાય છે. ચકાસણી પૂરી કરીને પ્લાન ન લો ત્યાં સુધી શોધમાં નહીં દેખાય.';
+      'તમારું જીમ ડ્રાફ્ટ તરીકે શરૂ થાય છે. તેનો ઉપયોગ શરૂ કરવા પ્લાન પસંદ કરો. Pro પ્લાનવાળા જીમ Gymologia સર્ચમાં પણ દેખાય છે.';
 
   @override
   String get sendThis => 'આ મોકલવું?';

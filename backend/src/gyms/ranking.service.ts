@@ -2,6 +2,7 @@ import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/commo
 import { GymStatus, Permission, Plan, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { PermissionService, ActorContext } from '../rbac/permission.service';
+import { kycRequiredForListing } from './listing-rules';
 
 /**
  * Where a gym sits in Gymologia's search results.
@@ -47,7 +48,8 @@ export class RankingService {
     if (!gym) throw new NotFoundException('Gym not found');
 
     const plan = gym.subscriptions[0]?.plan ?? null;
-    const kycVerified = gym.kyc?.verifiedAt != null;
+    // Counts as verified while the KYC gate is off (listing-rules.ts).
+    const kycVerified = !kycRequiredForListing() || gym.kyc?.verifiedAt != null;
     const listed =
       plan === Plan.PRO &&
       gym.status === GymStatus.ACTIVE &&
@@ -125,16 +127,20 @@ export class RankingService {
             : Prisma.empty;
 
     // The eligibility half is the search endpoint's WHERE clause: active,
-    // publicly listed, KYC-verified, and holding a live PRO subscription.
+    // publicly listed, holding a live PRO subscription -- and KYC-verified
+    // when that gate is on.
+    const kycClause = kycRequiredForListing()
+      ? Prisma.sql`AND EXISTS (
+          SELECT 1 FROM gym_kyc k
+          WHERE k."gymId" = g.id AND k."verifiedAt" IS NOT NULL
+        )`
+      : Prisma.empty;
     const eligible = Prisma.sql`
       FROM gyms g
       WHERE g."deletedAt" IS NULL
         AND g.status::text = 'ACTIVE'
         AND g."publicListing" = true
-        AND EXISTS (
-          SELECT 1 FROM gym_kyc k
-          WHERE k."gymId" = g.id AND k."verifiedAt" IS NOT NULL
-        )
+        ${kycClause}
         AND EXISTS (
           SELECT 1 FROM gym_subscriptions s
           WHERE s."gymId" = g.id
