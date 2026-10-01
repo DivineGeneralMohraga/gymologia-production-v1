@@ -32,6 +32,7 @@ import 'package:gymologia/core/api/models.dart';
 import 'package:gymologia/features/staff/crm_dashboard_page.dart';
 import 'package:gymologia/features/staff/gym_profile_edit_page.dart';
 import 'package:gymologia/features/staff/kyc_page.dart';
+import 'package:gymologia/features/staff/create_gym_page.dart';
 import 'package:gymologia/l10n/app_localizations.dart';
 import 'package:gymologia/theme.dart';
 
@@ -165,6 +166,12 @@ Map<String, dynamic> _routes(String path, {required bool member}) {
         'verifiedAt': null,
         'rejectionReason': 'The GST certificate is for a different business name. Upload the one for this gym.',
       },
+    '/gyms' => {
+        'id': 'g9', 'name': 'Iron Temple', 'displayName': 'Iron Temple - Pune',
+        'district': 'Pune', 'status': 'DRAFT', 'memberCount': 0, 'staffCount': 1,
+        'access': {'permissions': _perms, 'visibleScreens': _screens, 'isGymOwner': true,
+          'role': {'name': 'Owner'}},
+      },
     _ => {},
   };
 }
@@ -282,6 +289,7 @@ void main() {
     bool member = true,
     bool staff = false,
     double height = 852,
+    Future<void> Function(WidgetTester tester)? act,
   }) async {
     for (final mode in [ThemeMode.dark, ThemeMode.light]) {
       FlutterSecureStorage.setMockInitialValues({'access_token': 't'});
@@ -304,6 +312,13 @@ void main() {
       for (var i = 0; i < 6; i++) {
         await tester.runAsync(() => Future.delayed(const Duration(milliseconds: 60)));
         await tester.pump(const Duration(milliseconds: 300));
+      }
+      if (act != null) {
+        await act(tester);
+        for (var i = 0; i < 4; i++) {
+          await tester.runAsync(() => Future.delayed(const Duration(milliseconds: 60)));
+          await tester.pump(const Duration(milliseconds: 300));
+        }
       }
 
       await tester.runAsync(() async {
@@ -343,6 +358,19 @@ void main() {
         (t) => shoot(t, '12_gym_photos',
             (_) => GymProfileEditPage(gym: _gym('g1', images: [_img(1), _img(2), _img(10)])),
             height: 1000));
+    testWidgets('create gym form',
+        (t) => shoot(t, '13_create_gym', (_) => const CreateGymPage(), height: 1900));
+    testWidgets('create gym photo step', (t) => shoot(t, '14_create_photos',
+        (_) => const CreateGymPage(), height: 1900, act: (tester) async {
+          final fields = find.byType(TextFormField);
+          for (final (i, v) in [(0, 'Iron Temple'), (2, '1 MG Road'), (3, 'Pune'),
+              (4, 'Pune'), (5, 'Maharashtra'), (6, '411001'), (7, '9820012345')]) {
+            await tester.enterText(fields.at(i), v);
+          }
+          final create = find.widgetWithText(FilledButton, 'Create gym');
+          await tester.ensureVisible(create);
+          await tester.tap(create);
+        }));
     testWidgets('crm dashboard',
         (t) => shoot(t, '08_crm', (_) => const CrmDashboardPage(gymId: 'g1'), height: 1250));
   });

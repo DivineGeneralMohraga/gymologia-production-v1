@@ -2318,4 +2318,38 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get getVerified => 'ಪರಿಶೀಲಿಸಿಕೊಳ್ಳಿ';
+
+  @override
+  String get gymLocation => 'ಜಿಮ್ ಸ್ಥಳ';
+
+  @override
+  String get gymLocationHint =>
+      'ನಿಮ್ಮ ಜಿಮ್ ಒಳಗೆ ನಿಂತು ಟ್ಯಾಪ್ ಮಾಡಿ, ಹತ್ತಿರದ ಸದಸ್ಯರು ನಿಮ್ಮನ್ನು ಹುಡುಕಲು.';
+
+  @override
+  String get setGymLocation => 'ಸ್ಥಳ ಪಡೆಯಿರಿ';
+
+  @override
+  String get updateGymLocation => 'ನವೀಕರಿಸಿ';
+
+  @override
+  String get gymLocationSet => 'ಸ್ಥಳ ಹೊಂದಿಸಲಾಗಿದೆ';
+
+  @override
+  String get gymLocationFailed =>
+      'ನಿಮ್ಮ ಸ್ಥಳ ಸಿಗಲಿಲ್ಲ. ಲೊಕೇಶನ್ ಆನ್ ಮಾಡಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.';
+
+  @override
+  String gymCreatedAddPhotos(String name) {
+    return '$name ರಚಿಸಲಾಗಿದೆ. ಫೋಟೋ ಇರುವ ಜಿಮ್‌ಗಳಿಗೆ ಹೆಚ್ಚು ಸದಸ್ಯರು ಸಿಗುತ್ತಾರೆ, ಈಗಲೇ ಕೆಲವು ಸೇರಿಸಿ. ನಂತರ ಜಿಮ್ ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ಬದಲಿಸಬಹುದು.';
+  }
+
+  @override
+  String get finish => 'ಮುಗಿದಿದೆ';
+
+  @override
+  String get skipForNow => 'ಈಗ ಬಿಟ್ಟುಬಿಡಿ';
+
+  @override
+  String get gymLocationNotSet => 'ಇನ್ನೂ ಹೊಂದಿಸಿಲ್ಲ';
 }

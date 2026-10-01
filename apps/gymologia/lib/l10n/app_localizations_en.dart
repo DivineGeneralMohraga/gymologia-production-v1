@@ -2332,4 +2332,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get getVerified => 'Get verified';
+
+  @override
+  String get gymLocation => 'Gym location';
+
+  @override
+  String get gymLocationHint =>
+      'Stand inside your gym and tap, so members nearby can find you.';
+
+  @override
+  String get setGymLocation => 'Locate';
+
+  @override
+  String get updateGymLocation => 'Update';
+
+  @override
+  String get gymLocationSet => 'Location set';
+
+  @override
+  String get gymLocationFailed =>
+      'Couldn\'t get your location. Turn on location and try again.';
+
+  @override
+  String gymCreatedAddPhotos(String name) {
+    return '$name is created. Gyms with photos get more members, so add a few now. You can change them later in Gym profile.';
+  }
+
+  @override
+  String get finish => 'Done';
+
+  @override
+  String get skipForNow => 'Skip for now';
+
+  @override
+  String get gymLocationNotSet => 'Not set yet';
 }

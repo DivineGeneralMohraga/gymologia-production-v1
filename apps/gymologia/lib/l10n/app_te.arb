@@ -647,5 +647,15 @@
   "statusPending": "పెండింగ్",
   "statusRejected": "తిరస్కరించబడింది",
   "statusNotSubmitted": "పంపలేదు",
-  "getVerified": "ధృవీకరణ పొందండి"
+  "getVerified": "ధృవీకరణ పొందండి",
+  "gymLocation": "జిమ్ స్థానం",
+  "gymLocationHint": "మీ జిమ్ లోపల నిలబడి నొక్కండి, సమీపంలోని సభ్యులు మిమ్మల్ని కనుగొనేలా.",
+  "setGymLocation": "స్థానం తీసుకోండి",
+  "updateGymLocation": "నవీకరించు",
+  "gymLocationSet": "స్థానం సెట్ అయింది",
+  "gymLocationFailed": "మీ స్థానం దొరకలేదు. లొకేషన్ ఆన్ చేసి మళ్లీ ప్రయత్నించండి.",
+  "gymCreatedAddPhotos": "{name} సృష్టించబడింది. ఫోటోలున్న జిమ్‌లకు ఎక్కువ సభ్యులు వస్తారు, ఇప్పుడే కొన్ని జోడించండి. తర్వాత జిమ్ ప్రొఫైల్‌లో మార్చవచ్చు.",
+  "finish": "పూర్తయింది",
+  "skipForNow": "ఇప్పటికి దాటవేయి",
+  "gymLocationNotSet": "ఇంకా సెట్ చేయలేదు"
 }

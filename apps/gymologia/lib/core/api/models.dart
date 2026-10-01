@@ -85,6 +85,8 @@ class GymDetail {
     this.contactPhone,
     this.perks = const [],
     this.images = const [],
+    this.latitude,
+    this.longitude,
   });
 
   factory GymDetail.fromJson(Map<String, dynamic> j) {
@@ -103,6 +105,8 @@ class GymDetail {
       maxLeaveDaysPerMonth: _int(j['maxLeaveDaysPerMonth'], 4),
       perks: ((j['perks'] as List?) ?? const []).map((e) => '$e').toList(),
       images: ((j['images'] as List?) ?? const []).map((e) => '$e').toList(),
+      latitude: j['latitude'] == null ? null : _double(j['latitude']),
+      longitude: j['longitude'] == null ? null : _double(j['longitude']),
       plan: plan?['plan'] as String?,
       permissions: ((access['permissions'] as List?) ?? const [])
           .map((e) => '$e')
@@ -128,6 +132,11 @@ class GymDetail {
   final int maxLeaveDaysPerMonth;
   final List<String> perks;
   final List<String> images;
+
+  /// Where the gym is, for "nearby" ranking in the gym browser. Null until
+  /// the owner sets it.
+  final double? latitude;
+  final double? longitude;
   final String? plan;
   final bool isGymOwner;
   final String roleName;

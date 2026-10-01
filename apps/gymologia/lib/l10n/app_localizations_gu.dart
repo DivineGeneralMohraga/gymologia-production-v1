@@ -2301,4 +2301,38 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get getVerified => 'ચકાસણી કરાવો';
+
+  @override
+  String get gymLocation => 'જીમનું સ્થાન';
+
+  @override
+  String get gymLocationHint =>
+      'તમારા જીમની અંદર ઊભા રહીને ટેપ કરો, જેથી નજીકના સભ્યો તમને શોધી શકે.';
+
+  @override
+  String get setGymLocation => 'સ્થાન લો';
+
+  @override
+  String get updateGymLocation => 'અપડેટ';
+
+  @override
+  String get gymLocationSet => 'સ્થાન સેટ છે';
+
+  @override
+  String get gymLocationFailed =>
+      'તમારું સ્થાન મળ્યું નહીં. લોકેશન ચાલુ કરીને ફરી પ્રયાસ કરો.';
+
+  @override
+  String gymCreatedAddPhotos(String name) {
+    return '$name બની ગયું. ફોટાવાળા જીમને વધુ સભ્યો મળે છે, તેથી હમણાં થોડા ઉમેરો. પછી જીમ પ્રોફાઇલમાં બદલી શકો છો.';
+  }
+
+  @override
+  String get finish => 'થઈ ગયું';
+
+  @override
+  String get skipForNow => 'હમણાં છોડો';
+
+  @override
+  String get gymLocationNotSet => 'હજી સેટ નથી';
 }

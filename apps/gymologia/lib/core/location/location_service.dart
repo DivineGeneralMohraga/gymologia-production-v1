@@ -47,7 +47,10 @@ class LocationService {
   /// Shows the OS permission dialog if needed, then returns a fix.
   /// Returns null on any denial, disabled service, or platform error --
   /// callers treat null exactly like "user never asked".
-  Future<Position?> requestAndFetch() async {
+  Future<Position?> requestAndFetch({
+    LocationAccuracy accuracy = LocationAccuracy.medium,
+    Duration timeLimit = const Duration(seconds: 8),
+  }) async {
     try {
       if (!await Geolocator.isLocationServiceEnabled()) return null;
 
@@ -61,9 +64,9 @@ class LocationService {
       }
 
       return await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(
-          accuracy: LocationAccuracy.medium,
-          timeLimit: Duration(seconds: 8),
+        locationSettings: LocationSettings(
+          accuracy: accuracy,
+          timeLimit: timeLimit,
         ),
       );
     } catch (_) {

@@ -6,10 +6,8 @@ import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 import '../../core/api/models.dart';
 import '../auth/auth_controller.dart';
-import '../../core/api/uploads.dart';
-import '../../core/media/media_picker.dart';
-import '../../theme.dart';
 import '../../ui/kit.dart';
+import 'gym_setup_widgets.dart';
 
 /// Editing the gym: what members see, and the leave policy.
 ///
@@ -36,12 +34,16 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
   late final _perks = TextEditingController(text: widget.gym.perks.join(', '));
   late int _leavePerMonth = widget.gym.maxLeaveDaysPerMonth;
 
-  /// Replace-in-full like perks; the first is the cover in search. Sent
-  /// only when changed, so saving a text edit never re-submits photos.
-  late final List<String> _images = [...widget.gym.images];
-  bool _imagesChanged = false;
-  int _uploading = 0;
-  static const _maxPhotos = 10;
+  /// Photos and location are sent only when changed, so saving a text
+  /// edit never re-submits either.
+  late final _photos =
+      GymPhotosController(gymId: widget.gym.id, initial: widget.gym.images)
+        ..addListener(_redraw);
+  late GymLocation? _location = widget.gym.latitude == null ||
+          widget.gym.longitude == null
+      ? null
+      : (latitude: widget.gym.latitude!, longitude: widget.gym.longitude!);
+  bool _locationChanged = false;
 
   bool _busy = false;
   String? _error;
@@ -53,43 +55,12 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
     for (final c in [_name, _description, _phone, _perks]) {
       c.dispose();
     }
+    _photos.dispose();
     super.dispose();
   }
 
-  Future<void> _addPhoto() async {
-    final t = AppLocalizations.of(context);
-    if (_images.length + _uploading >= _maxPhotos) {
-      _toast(t.maxPhotos(_maxPhotos));
-      return;
-    }
-    final picked = await pickPhoto(context);
-    if (picked == null || !mounted) return;
-    setState(() => _uploading++);
-    try {
-      final url = await Uploader(context.read<AuthController>().client).upload(
-        gymId: widget.gym.id,
-        kind: UploadKind.gymImage,
-        bytes: picked.bytes,
-        contentType: picked.contentType,
-      );
-      if (!mounted) return;
-      setState(() {
-        _images.add(url);
-        _imagesChanged = true;
-      });
-    } on UploadTooLarge catch (e) {
-      _toast(t.fileTooLarge(e.maxMb));
-    } on ApiException catch (e) {
-      _toast(e.message);
-    } finally {
-      if (mounted) setState(() => _uploading--);
-    }
-  }
-
-  void _toast(String message) {
-    if (!mounted) return;
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+  void _redraw() {
+    if (mounted) setState(() {});
   }
 
   Future<void> _save() async {
@@ -114,7 +85,11 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
         'contactPhone': '+91${_phone.text.trim()}',
         'maxLeaveDaysPerMonth': _leavePerMonth,
         'perks': perks,
-        if (_imagesChanged) 'imageUrls': _images,
+        if (_photos.changed) 'imageUrls': _photos.images,
+        if (_locationChanged && _location != null) ...{
+          'latitude': _location!.latitude,
+          'longitude': _location!.longitude,
+        },
       });
       if (mounted) Navigator.of(context).pop(true);
     } on ApiException catch (e) {
@@ -181,20 +156,7 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
           children: [
             SectionLabel(AppLocalizations.of(context).gymPhotos),
-            _PhotosEditor(
-              images: _images,
-              uploading: _uploading,
-              canAdd: _images.length + _uploading < _maxPhotos,
-              onAdd: _addPhoto,
-              onRemove: (i) => setState(() {
-                _images.removeAt(i);
-                _imagesChanged = true;
-              }),
-              onMakeCover: (i) => setState(() {
-                _images.insert(0, _images.removeAt(i));
-                _imagesChanged = true;
-              }),
-            ),
+            GymPhotosEditor(controller: _photos),
             const SizedBox(height: 6),
             Text(
               AppLocalizations.of(context).gymPhotosHint,
@@ -256,6 +218,16 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
               ),
             ),
 
+            const SizedBox(height: 22),
+            SectionLabel(AppLocalizations.of(context).gymLocation),
+            GymLocationField(
+              value: _location,
+              onChanged: (v) => setState(() {
+                _location = v;
+                _locationChanged = true;
+              }),
+            ),
+
             const SizedBox(height: 26),
             Text(AppLocalizations.of(context).leavePolicy.toUpperCase(),
                 style: theme.textTheme.labelSmall?.copyWith(
@@ -312,7 +284,7 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
 
             const SizedBox(height: 24),
             FilledButton(
-              onPressed: _busy || _uploading > 0 ? null : _save,
+              onPressed: _busy || _photos.busy ? null : _save,
               child: _busy
                   ? const SizedBox(
                       height: 22,
@@ -338,127 +310,6 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-/// The gym's photos as a grid: tap one to make it the cover, the cross to
-/// drop it, the last tile to add another.
-class _PhotosEditor extends StatelessWidget {
-  const _PhotosEditor({
-    required this.images,
-    required this.uploading,
-    required this.canAdd,
-    required this.onAdd,
-    required this.onRemove,
-    required this.onMakeCover,
-  });
-
-  final List<String> images;
-  final int uploading;
-  final bool canAdd;
-  final VoidCallback onAdd;
-  final ValueChanged<int> onRemove;
-  final ValueChanged<int> onMakeCover;
-
-  @override
-  Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context);
-    final scheme = Theme.of(context).colorScheme;
-
-    Widget tile(Widget child) => ClipRRect(
-          borderRadius: BorderRadius.circular(14),
-          child: AspectRatio(aspectRatio: 1, child: child),
-        );
-
-    return GridView.count(
-      crossAxisCount: 3,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 8,
-      crossAxisSpacing: 8,
-      children: [
-        for (var i = 0; i < images.length; i++)
-          tile(Stack(
-            fit: StackFit.expand,
-            children: [
-              GestureDetector(
-                onTap: i == 0 ? null : () => onMakeCover(i),
-                child: Image.network(
-                  images[i],
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => ColoredBox(
-                    color: scheme.surfaceContainerHighest,
-                    child: Icon(Icons.broken_image_rounded,
-                        color: scheme.onSurfaceVariant),
-                  ),
-                ),
-              ),
-              if (i == 0)
-                Positioned(
-                  left: 6,
-                  bottom: 6,
-                  child: Pill.volt(t.coverPhoto),
-                ),
-              Positioned(
-                right: 4,
-                top: 4,
-                child: Material(
-                  color: Colors.black.withValues(alpha: 0.6),
-                  shape: const CircleBorder(),
-                  child: InkWell(
-                    customBorder: const CircleBorder(),
-                    onTap: () => onRemove(i),
-                    child: Tooltip(
-                      message: t.removePhoto,
-                      child: const Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Icon(Icons.close_rounded,
-                            size: 16, color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          )),
-        for (var i = 0; i < uploading; i++)
-          tile(ColoredBox(
-            color: scheme.surfaceContainerHigh,
-            child: const Center(
-              child: SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(strokeWidth: 2.6),
-              ),
-            ),
-          )),
-        if (canAdd)
-          tile(Material(
-            color: scheme.surfaceContainerHigh,
-            child: InkWell(
-              onTap: onAdd,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.add_a_photo_rounded,
-                      size: 28, color: context.gym.accentText),
-                  const SizedBox(height: 6),
-                  Text(
-                    t.addPhoto.toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: displayFont,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 14,
-                      color: context.gym.accentText,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )),
-      ],
     );
   }
 }

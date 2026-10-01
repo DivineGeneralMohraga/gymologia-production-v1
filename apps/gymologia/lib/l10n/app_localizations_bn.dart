@@ -2312,4 +2312,38 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get getVerified => 'যাচাই করান';
+
+  @override
+  String get gymLocation => 'জিমের অবস্থান';
+
+  @override
+  String get gymLocationHint =>
+      'জিমের ভেতরে দাঁড়িয়ে ট্যাপ করুন, যাতে কাছের সদস্যরা আপনাকে খুঁজে পান।';
+
+  @override
+  String get setGymLocation => 'অবস্থান নিন';
+
+  @override
+  String get updateGymLocation => 'আপডেট';
+
+  @override
+  String get gymLocationSet => 'অবস্থান সেট হয়েছে';
+
+  @override
+  String get gymLocationFailed =>
+      'আপনার অবস্থান পাওয়া যায়নি। লোকেশন চালু করে আবার চেষ্টা করুন।';
+
+  @override
+  String gymCreatedAddPhotos(String name) {
+    return '$name তৈরি হয়েছে। ছবিসহ জিম বেশি সদস্য পায়, তাই এখনই কয়েকটি যোগ করুন। পরে জিম প্রোফাইলে বদলাতে পারবেন।';
+  }
+
+  @override
+  String get finish => 'সম্পন্ন';
+
+  @override
+  String get skipForNow => 'এখন এড়িয়ে যান';
+
+  @override
+  String get gymLocationNotSet => 'এখনও সেট হয়নি';
 }

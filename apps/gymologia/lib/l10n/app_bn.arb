@@ -647,5 +647,15 @@
   "statusPending": "অপেক্ষমাণ",
   "statusRejected": "প্রত্যাখ্যাত",
   "statusNotSubmitted": "পাঠানো হয়নি",
-  "getVerified": "যাচাই করান"
+  "getVerified": "যাচাই করান",
+  "gymLocation": "জিমের অবস্থান",
+  "gymLocationHint": "জিমের ভেতরে দাঁড়িয়ে ট্যাপ করুন, যাতে কাছের সদস্যরা আপনাকে খুঁজে পান।",
+  "setGymLocation": "অবস্থান নিন",
+  "updateGymLocation": "আপডেট",
+  "gymLocationSet": "অবস্থান সেট হয়েছে",
+  "gymLocationFailed": "আপনার অবস্থান পাওয়া যায়নি। লোকেশন চালু করে আবার চেষ্টা করুন।",
+  "gymCreatedAddPhotos": "{name} তৈরি হয়েছে। ছবিসহ জিম বেশি সদস্য পায়, তাই এখনই কয়েকটি যোগ করুন। পরে জিম প্রোফাইলে বদলাতে পারবেন।",
+  "finish": "সম্পন্ন",
+  "skipForNow": "এখন এড়িয়ে যান",
+  "gymLocationNotSet": "এখনও সেট হয়নি"
 }

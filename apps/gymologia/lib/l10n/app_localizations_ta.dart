@@ -2345,4 +2345,38 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get getVerified => 'சரிபார்க்கச் செய்யுங்கள்';
+
+  @override
+  String get gymLocation => 'ஜிம் இருப்பிடம்';
+
+  @override
+  String get gymLocationHint =>
+      'உங்கள் ஜிம்மிற்குள் நின்று தட்டவும், அருகிலுள்ள உறுப்பினர்கள் உங்களைக் கண்டறிய.';
+
+  @override
+  String get setGymLocation => 'இருப்பிடம் பெறு';
+
+  @override
+  String get updateGymLocation => 'புதுப்பி';
+
+  @override
+  String get gymLocationSet => 'இருப்பிடம் அமைக்கப்பட்டது';
+
+  @override
+  String get gymLocationFailed =>
+      'உங்கள் இருப்பிடம் கிடைக்கவில்லை. இருப்பிடத்தை இயக்கி மீண்டும் முயலவும்.';
+
+  @override
+  String gymCreatedAddPhotos(String name) {
+    return '$name உருவாக்கப்பட்டது. புகைப்படங்கள் உள்ள ஜிம்களுக்கு அதிக உறுப்பினர்கள் கிடைப்பார்கள், இப்போதே சில சேர்க்கவும். பின்னர் ஜிம் சுயவிவரத்தில் மாற்றலாம்.';
+  }
+
+  @override
+  String get finish => 'முடிந்தது';
+
+  @override
+  String get skipForNow => 'இப்போது தவிர்';
+
+  @override
+  String get gymLocationNotSet => 'இன்னும் அமைக்கவில்லை';
 }

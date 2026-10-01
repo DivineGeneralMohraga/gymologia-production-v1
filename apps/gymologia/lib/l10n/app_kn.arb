@@ -647,5 +647,15 @@
   "statusPending": "ಬಾಕಿ",
   "statusRejected": "ತಿರಸ್ಕೃತ",
   "statusNotSubmitted": "ಕಳುಹಿಸಿಲ್ಲ",
-  "getVerified": "ಪರಿಶೀಲಿಸಿಕೊಳ್ಳಿ"
+  "getVerified": "ಪರಿಶೀಲಿಸಿಕೊಳ್ಳಿ",
+  "gymLocation": "ಜಿಮ್ ಸ್ಥಳ",
+  "gymLocationHint": "ನಿಮ್ಮ ಜಿಮ್ ಒಳಗೆ ನಿಂತು ಟ್ಯಾಪ್ ಮಾಡಿ, ಹತ್ತಿರದ ಸದಸ್ಯರು ನಿಮ್ಮನ್ನು ಹುಡುಕಲು.",
+  "setGymLocation": "ಸ್ಥಳ ಪಡೆಯಿರಿ",
+  "updateGymLocation": "ನವೀಕರಿಸಿ",
+  "gymLocationSet": "ಸ್ಥಳ ಹೊಂದಿಸಲಾಗಿದೆ",
+  "gymLocationFailed": "ನಿಮ್ಮ ಸ್ಥಳ ಸಿಗಲಿಲ್ಲ. ಲೊಕೇಶನ್ ಆನ್ ಮಾಡಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
+  "gymCreatedAddPhotos": "{name} ರಚಿಸಲಾಗಿದೆ. ಫೋಟೋ ಇರುವ ಜಿಮ್‌ಗಳಿಗೆ ಹೆಚ್ಚು ಸದಸ್ಯರು ಸಿಗುತ್ತಾರೆ, ಈಗಲೇ ಕೆಲವು ಸೇರಿಸಿ. ನಂತರ ಜಿಮ್ ಪ್ರೊಫೈಲ್‌ನಲ್ಲಿ ಬದಲಿಸಬಹುದು.",
+  "finish": "ಮುಗಿದಿದೆ",
+  "skipForNow": "ಈಗ ಬಿಟ್ಟುಬಿಡಿ",
+  "gymLocationNotSet": "ಇನ್ನೂ ಹೊಂದಿಸಿಲ್ಲ"
 }

@@ -2330,4 +2330,38 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get getVerified => 'പരിശോധിപ്പിക്കൂ';
+
+  @override
+  String get gymLocation => 'ജിമ്മിന്റെ സ്ഥാനം';
+
+  @override
+  String get gymLocationHint =>
+      'ജിമ്മിനുള്ളിൽ നിന്ന് ടാപ്പ് ചെയ്യുക, അടുത്തുള്ള അംഗങ്ങൾക്ക് നിങ്ങളെ കണ്ടെത്താൻ.';
+
+  @override
+  String get setGymLocation => 'സ്ഥാനം എടുക്കുക';
+
+  @override
+  String get updateGymLocation => 'പുതുക്കുക';
+
+  @override
+  String get gymLocationSet => 'സ്ഥാനം സജ്ജമാക്കി';
+
+  @override
+  String get gymLocationFailed =>
+      'നിങ്ങളുടെ സ്ഥാനം ലഭിച്ചില്ല. ലൊക്കേഷൻ ഓണാക്കി വീണ്ടും ശ്രമിക്കുക.';
+
+  @override
+  String gymCreatedAddPhotos(String name) {
+    return '$name സൃഷ്ടിച്ചു. ഫോട്ടോകളുള്ള ജിമ്മുകൾക്ക് കൂടുതൽ അംഗങ്ങളെ ലഭിക്കും, ഇപ്പോൾ കുറച്ച് ചേർക്കൂ. പിന്നീട് ജിം പ്രൊഫൈലിൽ മാറ്റാം.';
+  }
+
+  @override
+  String get finish => 'പൂർത്തിയായി';
+
+  @override
+  String get skipForNow => 'ഇപ്പോൾ ഒഴിവാക്കുക';
+
+  @override
+  String get gymLocationNotSet => 'ഇതുവരെ സജ്ജമാക്കിയിട്ടില്ല';
 }

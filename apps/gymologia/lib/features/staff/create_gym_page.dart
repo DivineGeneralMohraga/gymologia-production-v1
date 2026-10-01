@@ -4,15 +4,20 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
+import '../../core/api/models.dart';
 import '../../core/utils/validators.dart';
+import '../../theme.dart';
+import '../../ui/kit.dart';
 import '../auth/auth_controller.dart';
+import 'gym_setup_widgets.dart';
 
 /// Creating a gym.
 ///
-/// Deliberately short. KYC, plan selection and photos all come later in
-/// their own flows — asking for eleven documents before someone can see
-/// their own CRM is how a signup gets abandoned. What is here is only what
-/// the gym cannot function without.
+/// Deliberately short: what the gym cannot function without, plus its
+/// location so members nearby can find it. Then a second step on the same
+/// screen offers photos -- optional, skippable, and easier to act on right
+/// after creating the gym than to discover later in Gym profile. Plan
+/// selection comes after, on the gym itself.
 class CreateGymPage extends StatefulWidget {
   const CreateGymPage({super.key});
 
@@ -34,8 +39,14 @@ class _CreateGymPageState extends State<CreateGymPage> {
 
   int _leavePerMonth = 4;
   int _leavePerMembership = 30;
+  GymLocation? _location;
   bool _busy = false;
   String? _error;
+
+  /// Set once the gym exists; the screen then becomes the photo step.
+  GymDetail? _created;
+  GymPhotosController? _photos;
+  bool _savingPhotos = false;
 
   @override
   void initState() {
@@ -53,7 +64,12 @@ class _CreateGymPageState extends State<CreateGymPage> {
     ]) {
       c.dispose();
     }
+    _photos?.dispose();
     super.dispose();
+  }
+
+  void _redraw() {
+    if (mounted) setState(() {});
   }
 
   Future<void> _submit() async {
@@ -73,7 +89,7 @@ class _CreateGymPageState extends State<CreateGymPage> {
 
     try {
       final api = GymApi(context.read<AuthController>().client);
-      await api.createGym({
+      final created = await api.createGym({
         'name': _name.text.trim(),
         if (_description.text.trim().isNotEmpty)
           'description': _description.text.trim(),
@@ -86,8 +102,17 @@ class _CreateGymPageState extends State<CreateGymPage> {
         'maxLeaveDaysPerMonth': _leavePerMonth,
         'maxLeaveDaysPerMembership': _leavePerMembership,
         if (perks.isNotEmpty) 'perks': perks,
+        if (_location != null) ...{
+          'latitude': _location!.latitude,
+          'longitude': _location!.longitude,
+        },
       });
-      if (mounted) Navigator.of(context).pop(true);
+      if (!mounted) return;
+      setState(() {
+        _created = created;
+        _photos = GymPhotosController(gymId: created.id)..addListener(_redraw);
+        _busy = false;
+      });
     } on ApiException catch (e) {
       if (mounted) {
         setState(() {
@@ -98,9 +123,97 @@ class _CreateGymPageState extends State<CreateGymPage> {
     }
   }
 
+  /// Leaves the photo step. Saves the photos if any were added; the gym
+  /// exists either way, so a failed save still lets the owner out.
+  Future<void> _finish() async {
+    final photos = _photos!;
+    if (photos.busy || _savingPhotos) return;
+    if (photos.changed && photos.images.isNotEmpty) {
+      setState(() => _savingPhotos = true);
+      try {
+        await GymApi(context.read<AuthController>().client)
+            .updateGym(_created!.id, {'imageUrls': photos.images});
+      } on ApiException catch (e) {
+        if (mounted) {
+          setState(() => _savingPhotos = false);
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(e.message)));
+        }
+        return;
+      }
+    }
+    if (mounted) Navigator.of(context).pop(true);
+  }
+
+  Widget _photoStep(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final scheme = Theme.of(context).colorScheme;
+    final photos = _photos!;
+    final hasPhotos = photos.images.isNotEmpty;
+
+    // Back finishes rather than returning to the form: the gym already
+    // exists, and the form would only offer to create it a second time.
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _finish();
+      },
+      child: Scaffold(
+        appBar: AppBar(title: Text(t.addPhoto.toUpperCase())),
+        body: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
+          children: [
+            HeroPanel(
+              child: Row(
+                children: [
+                  Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: volt,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: const Icon(Icons.check_rounded, color: ink, size: 30),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Text(
+                      t.gymCreatedAddPhotos(_created!.name),
+                      style: const TextStyle(height: 1.4),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 22),
+            SectionLabel(t.gymPhotos),
+            GymPhotosEditor(controller: photos),
+            const SizedBox(height: 6),
+            Text(
+              t.gymPhotosHint,
+              style: TextStyle(fontSize: 13, color: scheme.onSurfaceVariant),
+            ),
+            const SizedBox(height: 24),
+            FilledButton(
+              onPressed: photos.busy || _savingPhotos ? null : _finish,
+              child: _savingPhotos
+                  ? const SizedBox(
+                      height: 22,
+                      width: 22,
+                      child: CircularProgressIndicator(strokeWidth: 2.5),
+                    )
+                  : Text((hasPhotos ? t.finish : t.skipForNow).toUpperCase()),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    if (_created != null) return _photoStep(context);
 
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context).createYourGym)),
@@ -208,6 +321,12 @@ class _CreateGymPageState extends State<CreateGymPage> {
                   ),
                 ),
               ],
+            ),
+
+            _Label(AppLocalizations.of(context).gymLocation),
+            GymLocationField(
+              value: _location,
+              onChanged: (v) => setState(() => _location = v),
             ),
 
             _Label(AppLocalizations.of(context).contact),

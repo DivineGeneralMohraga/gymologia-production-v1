@@ -4001,6 +4001,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Get verified'**
   String get getVerified;
+
+  /// No description provided for @gymLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Gym location'**
+  String get gymLocation;
+
+  /// No description provided for @gymLocationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Stand inside your gym and tap, so members nearby can find you.'**
+  String get gymLocationHint;
+
+  /// No description provided for @setGymLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Locate'**
+  String get setGymLocation;
+
+  /// No description provided for @updateGymLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get updateGymLocation;
+
+  /// No description provided for @gymLocationSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Location set'**
+  String get gymLocationSet;
+
+  /// No description provided for @gymLocationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t get your location. Turn on location and try again.'**
+  String get gymLocationFailed;
+
+  /// No description provided for @gymCreatedAddPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is created. Gyms with photos get more members, so add a few now. You can change them later in Gym profile.'**
+  String gymCreatedAddPhotos(String name);
+
+  /// No description provided for @finish.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get finish;
+
+  /// No description provided for @skipForNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip for now'**
+  String get skipForNow;
+
+  /// No description provided for @gymLocationNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set yet'**
+  String get gymLocationNotSet;
 }
 
 class _AppLocalizationsDelegate

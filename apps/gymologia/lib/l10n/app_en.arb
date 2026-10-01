@@ -1258,5 +1258,22 @@
   "statusPending": "Pending",
   "statusRejected": "Rejected",
   "statusNotSubmitted": "Not sent",
-  "getVerified": "Get verified"
+  "getVerified": "Get verified",
+  "gymLocation": "Gym location",
+  "gymLocationHint": "Stand inside your gym and tap, so members nearby can find you.",
+  "setGymLocation": "Locate",
+  "updateGymLocation": "Update",
+  "gymLocationSet": "Location set",
+  "gymLocationFailed": "Couldn't get your location. Turn on location and try again.",
+  "gymCreatedAddPhotos": "{name} is created. Gyms with photos get more members, so add a few now. You can change them later in Gym profile.",
+  "@gymCreatedAddPhotos": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "finish": "Done",
+  "skipForNow": "Skip for now",
+  "gymLocationNotSet": "Not set yet"
 }

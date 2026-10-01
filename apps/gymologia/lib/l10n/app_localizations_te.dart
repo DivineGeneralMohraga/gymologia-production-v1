@@ -2318,4 +2318,38 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get getVerified => 'ధృవీకరణ పొందండి';
+
+  @override
+  String get gymLocation => 'జిమ్ స్థానం';
+
+  @override
+  String get gymLocationHint =>
+      'మీ జిమ్ లోపల నిలబడి నొక్కండి, సమీపంలోని సభ్యులు మిమ్మల్ని కనుగొనేలా.';
+
+  @override
+  String get setGymLocation => 'స్థానం తీసుకోండి';
+
+  @override
+  String get updateGymLocation => 'నవీకరించు';
+
+  @override
+  String get gymLocationSet => 'స్థానం సెట్ అయింది';
+
+  @override
+  String get gymLocationFailed =>
+      'మీ స్థానం దొరకలేదు. లొకేషన్ ఆన్ చేసి మళ్లీ ప్రయత్నించండి.';
+
+  @override
+  String gymCreatedAddPhotos(String name) {
+    return '$name సృష్టించబడింది. ఫోటోలున్న జిమ్‌లకు ఎక్కువ సభ్యులు వస్తారు, ఇప్పుడే కొన్ని జోడించండి. తర్వాత జిమ్ ప్రొఫైల్‌లో మార్చవచ్చు.';
+  }
+
+  @override
+  String get finish => 'పూర్తయింది';
+
+  @override
+  String get skipForNow => 'ఇప్పటికి దాటవేయి';
+
+  @override
+  String get gymLocationNotSet => 'ఇంకా సెట్ చేయలేదు';
 }

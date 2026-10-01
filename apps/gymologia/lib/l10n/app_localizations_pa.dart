@@ -2312,4 +2312,38 @@ class AppLocalizationsPa extends AppLocalizations {
 
   @override
   String get getVerified => 'ਤਸਦੀਕ ਕਰਵਾਓ';
+
+  @override
+  String get gymLocation => 'ਜਿਮ ਦੀ ਥਾਂ';
+
+  @override
+  String get gymLocationHint =>
+      'ਆਪਣੇ ਜਿਮ ਦੇ ਅੰਦਰ ਖੜ੍ਹੇ ਹੋ ਕੇ ਟੈਪ ਕਰੋ, ਤਾਂ ਜੋ ਨੇੜਲੇ ਮੈਂਬਰ ਤੁਹਾਨੂੰ ਲੱਭ ਸਕਣ।';
+
+  @override
+  String get setGymLocation => 'ਥਾਂ ਲਓ';
+
+  @override
+  String get updateGymLocation => 'ਅੱਪਡੇਟ';
+
+  @override
+  String get gymLocationSet => 'ਥਾਂ ਸੈੱਟ ਹੈ';
+
+  @override
+  String get gymLocationFailed =>
+      'ਤੁਹਾਡੀ ਥਾਂ ਨਹੀਂ ਮਿਲੀ। ਲੋਕੇਸ਼ਨ ਚਾਲੂ ਕਰਕੇ ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰੋ।';
+
+  @override
+  String gymCreatedAddPhotos(String name) {
+    return '$name ਬਣ ਗਿਆ। ਫ਼ੋਟੋਆਂ ਵਾਲੇ ਜਿਮ ਨੂੰ ਵੱਧ ਮੈਂਬਰ ਮਿਲਦੇ ਹਨ, ਇਸ ਲਈ ਹੁਣੇ ਕੁਝ ਜੋੜੋ। ਬਾਅਦ ਵਿੱਚ ਜਿਮ ਪ੍ਰੋਫ਼ਾਈਲ ਵਿੱਚ ਬਦਲ ਸਕਦੇ ਹੋ।';
+  }
+
+  @override
+  String get finish => 'ਹੋ ਗਿਆ';
+
+  @override
+  String get skipForNow => 'ਹੁਣ ਛੱਡੋ';
+
+  @override
+  String get gymLocationNotSet => 'ਅਜੇ ਸੈੱਟ ਨਹੀਂ';
 }
