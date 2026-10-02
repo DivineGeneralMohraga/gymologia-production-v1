@@ -49,14 +49,6 @@ class _CreateGymPageState extends State<CreateGymPage> {
   bool _savingPhotos = false;
 
   @override
-  void initState() {
-    super.initState();
-    // The owner's own number is the obvious default for the gym's contact.
-    final phone = context.read<AuthController>().user?.phone;
-    if (phone != null) _phone.text = phone.replaceFirst('+91', '');
-  }
-
-  @override
   void dispose() {
     for (final c in [
       _name, _description, _address, _city,
@@ -339,6 +331,8 @@ class _CreateGymPageState extends State<CreateGymPage> {
               ],
               decoration: InputDecoration(
                 labelText: AppLocalizations.of(context).contactNumber,
+                helperText: AppLocalizations.of(context).gymContactHelp,
+                helperMaxLines: 3,
                 prefixText: '+91  ',
               ),
               validator: (v) =>

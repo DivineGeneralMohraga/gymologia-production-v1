@@ -2362,4 +2362,8 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get myLocation => 'నా స్థానం';
+
+  @override
+  String get gymContactHelp =>
+      'సభ్యులు కాల్ చేసే నంబర్ — జిమ్ రిసెప్షన్ లేదా వ్యాపార నంబర్. ఇది మీ జిమ్ పేజీలో అందరికీ కనిపిస్తుంది.';
 }

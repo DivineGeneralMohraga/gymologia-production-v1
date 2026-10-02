@@ -2389,4 +2389,8 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get myLocation => 'என் இருப்பிடம்';
+
+  @override
+  String get gymContactHelp =>
+      'உறுப்பினர்கள் அழைக்கும் எண் — ஜிம்மின் வரவேற்பு அல்லது வணிக எண். இது உங்கள் ஜிம் பக்கத்தில் அனைவருக்கும் தெரியும்.';
 }

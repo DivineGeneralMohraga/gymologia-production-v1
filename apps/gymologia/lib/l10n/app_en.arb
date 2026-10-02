@@ -1278,5 +1278,6 @@
   "gymLocationNotSet": "Not set yet",
   "moveMapHint": "Move the map so the pin sits on your gym's entrance.",
   "confirmLocation": "Confirm location",
-  "myLocation": "My location"
+  "myLocation": "My location",
+  "gymContactHelp": "The number members will call — your gym's front desk or business number. It is shown on your public gym page."
 }

@@ -203,6 +203,8 @@ class _GymProfileEditPageState extends State<GymProfileEditPage> {
               ],
               decoration: InputDecoration(
                 labelText: AppLocalizations.of(context).contactNumber,
+                helperText: AppLocalizations.of(context).gymContactHelp,
+                helperMaxLines: 3,
                 prefixText: '+91  ',
               ),
               validator: (v) => RegExp(r'^[6-9]\d{9}$').hasMatch(v?.trim() ?? '')

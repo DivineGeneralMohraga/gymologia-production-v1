@@ -2362,4 +2362,8 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get myLocation => 'ನನ್ನ ಸ್ಥಳ';
+
+  @override
+  String get gymContactHelp =>
+      'ಸದಸ್ಯರು ಕರೆ ಮಾಡುವ ಸಂಖ್ಯೆ — ಜಿಮ್‌ನ ರಿಸೆಪ್ಷನ್ ಅಥವಾ ವ್ಯಾಪಾರ ಸಂಖ್ಯೆ. ಇದು ನಿಮ್ಮ ಜಿಮ್ ಪುಟದಲ್ಲಿ ಎಲ್ಲರಿಗೂ ಕಾಣುತ್ತದೆ.';
 }

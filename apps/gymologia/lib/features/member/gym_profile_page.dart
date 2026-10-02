@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 import '../auth/auth_controller.dart';
@@ -45,7 +46,13 @@ class _GymProfilePageState extends State<GymProfilePage> {
     }
   }
 
+  /// Opens the dialer with the gym's number filled in -- the member still
+  /// presses call themselves. Copying is only the fallback for a device
+  /// with nothing that can dial (a tablet without telephony).
   Future<void> _contact(String phone) async {
+    final dialled = await launchUrl(Uri(scheme: 'tel', path: phone))
+        .catchError((_) => false);
+    if (dialled) return;
     await Clipboard.setData(ClipboardData(text: phone));
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(

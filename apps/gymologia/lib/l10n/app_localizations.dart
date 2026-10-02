@@ -4079,6 +4079,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My location'**
   String get myLocation;
+
+  /// No description provided for @gymContactHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'The number members will call — your gym\'s front desk or business number. It is shown on your public gym page.'**
+  String get gymContactHelp;
 }
 
 class _AppLocalizationsDelegate

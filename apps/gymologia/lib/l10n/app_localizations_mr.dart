@@ -2354,4 +2354,8 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get myLocation => 'माझे ठिकाण';
+
+  @override
+  String get gymContactHelp =>
+      'सदस्य ज्या नंबरवर कॉल करतील तो — जिमचा रिसेप्शन किंवा व्यवसाय नंबर. तो तुमच्या जिम पेजवर सर्वांना दिसतो.';
 }

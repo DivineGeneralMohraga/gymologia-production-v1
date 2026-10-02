@@ -2376,4 +2376,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get myLocation => 'My location';
+
+  @override
+  String get gymContactHelp =>
+      'The number members will call — your gym\'s front desk or business number. It is shown on your public gym page.';
 }

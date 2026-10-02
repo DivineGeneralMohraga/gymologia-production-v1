@@ -2345,4 +2345,8 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get myLocation => 'મારું સ્થાન';
+
+  @override
+  String get gymContactHelp =>
+      'જે નંબર પર સભ્યો કૉલ કરશે — જિમનો રિસેપ્શન અથવા બિઝનેસ નંબર. તે તમારા જિમ પેજ પર બધાને દેખાય છે.';
 }
