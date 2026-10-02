@@ -9,7 +9,8 @@ import { Actor, CurrentUser, RequirePermissions, AuthUser } from '../rbac/rbac.d
 import type { ActorContext } from '../rbac/permission.service';
 import { LookupPersonDto } from '../staff/dto/staff.dto';
 import {
-  AddMemberDto, ExtendMembershipDto, ListMembersDto, UpdateMemberDto,
+  AddMemberDto, ExtendMembershipDto, ListMembersDto, MonitoringConsentDto,
+  UpdateMemberDto,
 } from './dto/member.dto';
 
 const meta = (req: Request) => ({
@@ -138,10 +139,12 @@ export class MyMembershipController {
       'One entry per gym the member belongs to. Needs no permission: every other attendance route is gym-scoped and gated, which left the person it is about unable to see it.',
   })
   myAttendance(@CurrentUser() user: AuthUser, @Query('days') days?: string) {
+    // Capped at a year: the screen shows recent history, and an unbounded
+    // window is an expensive query anyone signed in could ask for.
     const parsed = Number(days);
     return this.members.myAttendance(
       user.userId,
-      Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed) : 90,
+      Number.isFinite(parsed) && parsed > 0 ? Math.min(Math.floor(parsed), 366) : 90,
     );
   }
 
@@ -150,7 +153,7 @@ export class MyMembershipController {
   consent(
     @CurrentUser() user: AuthUser,
     @Param('membershipId', ParseUUIDPipe) membershipId: string,
-    @Body() body: { allow: boolean },
+    @Body() body: MonitoringConsentDto,
     @Req() req: Request,
   ) {
     return this.members.setMonitoringConsent(

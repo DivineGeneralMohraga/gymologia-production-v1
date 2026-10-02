@@ -203,6 +203,15 @@ C=$(curl -s -o /dev/null -w "%{http_code}" "$API/gyms/$GID/members/$MID/progress
 [ "$C" = "403" ] && ok "member revoking consent blocks even the owner" \
   || bad "consent revocation" "expected 403, got $C"
 
+C=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH "$API/me/memberships/$MID/monitoring" \
+    -H "Authorization: Bearer $MEMBER" -H 'Content-Type: application/json' -d '{"allow":"yes"}')
+[ "$C" = "400" ] && ok "a consent that is not true/false is refused" || bad "consent validation" "got $C"
+
+C=$(curl -s -o /dev/null -w "%{http_code}" "$API/gyms/$GID/staff/trainers?categoryId=not-a-uuid" \
+    -H "Authorization: Bearer $OWNER")
+[ "$C" = "400" ] && ok "a malformed trainer category is refused, not a server error" \
+  || bad "trainer filter" "got $C"
+
 printf "\n"
 if [ -z "$FAILED" ]; then
   printf "\033[32mALL CHECKS PASSED\033[0m\n"

@@ -41,7 +41,10 @@ export class StaffController {
     Permission.ADD_TRAINER,
   )
   @ApiOperation({ summary: 'Trainers, for the add-member picker' })
-  listTrainers(@Actor() actor: ActorContext, @Query('categoryId') categoryId?: string) {
+  listTrainers(
+    @Actor() actor: ActorContext,
+    @Query('categoryId', new ParseUUIDPipe({ optional: true })) categoryId?: string,
+  ) {
     return this.staff.listTrainers(actor, categoryId);
   }
 

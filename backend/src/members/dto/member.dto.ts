@@ -160,6 +160,13 @@ export class ExtendMembershipDto {
   note?: string;
 }
 
+/** A member allowing, or refusing, staff access to their progress. */
+export class MonitoringConsentDto {
+  @ApiProperty()
+  @IsBoolean()
+  allow!: boolean;
+}
+
 export class ListMembersDto {
   @ApiPropertyOptional({ enum: MembershipStatus })
   @IsOptional()
