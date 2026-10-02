@@ -20,6 +20,7 @@ import { RankingService } from './ranking.service';
 import {
   Actor,
   CurrentUser,
+  OptionalAuth,
   Public,
   RequirePermissions,
   AuthUser,
@@ -47,22 +48,26 @@ export class GymsController {
    * The gym browser. Public because a prospective member browses before
    * they have any reason to be signed in.
    */
-  @Public()
+  // Signed-in callers are identified so demo gyms reach test accounts only.
+  @OptionalAuth()
   @Get('search')
   @ApiOperation({
     summary: 'Search listed gyms',
     description:
       'Only PRO gyms with public listing enabled appear. Ranked by distance when coordinates are supplied, otherwise by rating.',
   })
-  search(@Query() dto: SearchGymsDto) {
-    return this.gyms.search(dto);
+  search(@Query() dto: SearchGymsDto, @CurrentUser() user?: AuthUser) {
+    return this.gyms.search(dto, user?.phone);
   }
 
-  @Public()
+  @OptionalAuth()
   @Get(':gymId/public')
   @ApiOperation({ summary: 'Public gym profile' })
-  findOnePublic(@Param('gymId', ParseUUIDPipe) gymId: string) {
-    return this.gyms.findOnePublic(gymId);
+  findOnePublic(
+    @Param('gymId', ParseUUIDPipe) gymId: string,
+    @CurrentUser() user?: AuthUser,
+  ) {
+    return this.gyms.findOnePublic(gymId, user?.phone);
   }
 
   @Post(':gymId/rating')

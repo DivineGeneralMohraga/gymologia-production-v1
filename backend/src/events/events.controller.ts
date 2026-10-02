@@ -112,7 +112,7 @@ export class EventsFeedController {
       'Events from gyms you belong to come first, including Basic gyms whose events are not listed nationally but should still reach their own members. Everything listed publicly follows.',
   })
   feed(@CurrentUser() user: AuthUser, @Query() dto: ListEventsDto) {
-    return this.events.feed(user.userId, dto);
+    return this.events.feed(user.userId, dto, user.phone);
   }
 
   @Get(':eventId')

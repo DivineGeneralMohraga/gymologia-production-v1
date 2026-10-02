@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/commo
 import { GymStatus, Permission, Plan, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { PermissionService, ActorContext } from '../rbac/permission.service';
-import { kycRequiredForListing } from './listing-rules';
+import { hideDemoGymsSql, isTestAccount, kycRequiredForListing } from './listing-rules';
 
 /**
  * Where a gym sits in Gymologia's search results.
@@ -43,9 +43,13 @@ export class RankingService {
           take: 1,
         },
         kyc: { select: { verifiedAt: true } },
+        owner: { select: { phone: true } },
       },
     });
     if (!gym) throw new NotFoundException('Gym not found');
+    // A demo gym is ranked against everything; a real one never against
+    // demo gyms, which real members cannot see.
+    const isDemo = isTestAccount(gym.owner.phone);
 
     const plan = gym.subscriptions[0]?.plan ?? null;
     // Counts as verified while the KYC gate is off (listing-rules.ts).
@@ -79,10 +83,10 @@ export class RankingService {
     const rating = new Prisma.Decimal(gym.ratingAverage);
 
     const scopes = await Promise.all([
-      this.scope(gym, rating, 'city'),
-      this.scope(gym, rating, 'district'),
-      this.scope(gym, rating, 'state'),
-      this.scope(gym, rating, 'india'),
+      this.scope(gym, rating, 'city', isDemo),
+      this.scope(gym, rating, 'district', isDemo),
+      this.scope(gym, rating, 'state', isDemo),
+      this.scope(gym, rating, 'india', isDemo),
     ]);
 
     return {
@@ -116,6 +120,7 @@ export class RankingService {
     },
     rating: Prisma.Decimal,
     kind: 'city' | 'district' | 'state' | 'india',
+    includeDemo: boolean,
   ) {
     const area =
       kind === 'city'
@@ -141,6 +146,7 @@ export class RankingService {
         AND g.status::text = 'ACTIVE'
         AND g."publicListing" = true
         ${kycClause}
+        ${hideDemoGymsSql(includeDemo)}
         AND EXISTS (
           SELECT 1 FROM gym_subscriptions s
           WHERE s."gymId" = g.id

@@ -14,6 +14,16 @@ import { TooManyRequestsException } from '../common/exceptions/too-many-requests
  */
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
+/**
+ * Whether codes are really sent. Always in production. Anywhere else only
+ * with OTP_SEND_IN_DEV=true: the suites and scripts sign up random
+ * real-format numbers by the thousand, and a dev server that texted them
+ * reached real strangers whenever MSG91 let one through. Off, the code is
+ * returned as devCode and never leaves the server.
+ */
+const SEND_FOR_REAL =
+  IS_PRODUCTION || (process.env.OTP_SEND_IN_DEV ?? '').trim().toLowerCase() === 'true';
+
 export interface IssuedChallenge {
   challengeId: string;
   expiresAt: Date;
@@ -98,7 +108,7 @@ export class OtpService {
     // Forced onto the DIRECT path even where the widget is configured,
     // because in WIDGET mode MSG91 owns the code and would have to be the
     // one to accept it -- which it will not, for a code it never issued.
-    const widget = this.msg91.usesWidgetDelivery && !isTestAccount;
+    const widget = this.msg91.usesWidgetDelivery && !isTestAccount && SEND_FOR_REAL;
     const expiresAt = new Date(Date.now() + this.cfg.otpTtlSeconds * 1000);
 
     // In WIDGET mode MSG91 owns the code: it generates, sends and later
@@ -146,6 +156,11 @@ export class OtpService {
         // message to a handset that does not exist.
         this.logger.log(
           `Test-account code issued for ${this.crypto.maskPhone(phone)}; no SMS sent`,
+        );
+      } else if (!SEND_FOR_REAL) {
+        delivered = false;
+        this.logger.log(
+          `Dev server: code for ${this.crypto.maskPhone(phone)} not sent (OTP_SEND_IN_DEV is off)`,
         );
       } else if (widget) {
         providerRef = await this.msg91.widgetSendOtp(phone);

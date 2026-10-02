@@ -19,6 +19,7 @@ import { AuditService } from '../common/audit/audit.service';
 import { PermissionService, ActorContext } from '../rbac/permission.service';
 import type { RequestMeta } from '../gyms/gyms.service';
 import { CreateEventDto, ListEventsDto, UpdateEventDto } from './dto/event.dto';
+import { hideDemoGymsFrom } from '../gyms/listing-rules';
 
 @Injectable()
 export class EventsService {
@@ -258,7 +259,7 @@ export class EventsService {
    * publicly listed but whose own members should still see their events —
    * then a divider, then everything listed nationally.
    */
-  async feed(userId: string, dto: ListEventsDto) {
+  async feed(userId: string, dto: ListEventsDto, viewerPhone?: string) {
     const now = new Date();
 
     // "My gyms" is every gym this person has a real stake in — as a member
@@ -329,6 +330,8 @@ export class EventsService {
           // Only Pro gyms reach the national feed.
           gym: {
             ...(locality.gym as object),
+            // Events at demo gyms are for test accounts only.
+            ...hideDemoGymsFrom(viewerPhone),
             subscriptions: {
               some: {
                 status: SubscriptionStatus.ACTIVE,

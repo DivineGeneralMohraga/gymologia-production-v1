@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 import { GymStatus, Permission, Plan, Prisma } from "@prisma/client";
 import { PrismaService } from "../prisma/prisma.service";
-import { kycRequiredForListing } from "./listing-rules";
+import { hideDemoGymsFrom, kycRequiredForListing } from "./listing-rules";
 import { AuditService } from "../common/audit/audit.service";
 import { NotificationsService } from "../notifications/notifications.service";
 import { PermissionService, ActorContext } from "../rbac/permission.service";
@@ -232,9 +232,15 @@ export class GymsService {
    * Public gym profile, as a prospective member sees it. Only what the
    * spec lists: images, name, description, perks, contact.
    */
-  async findOnePublic(gymId: string) {
+  async findOnePublic(gymId: string, viewerPhone?: string) {
     const gym = await this.prisma.gym.findFirst({
-      where: { id: gymId, deletedAt: null, status: GymStatus.ACTIVE },
+      where: {
+        id: gymId,
+        deletedAt: null,
+        status: GymStatus.ACTIVE,
+        // A demo gym's page is as hidden as its search listing.
+        ...hideDemoGymsFrom(viewerPhone),
+      },
       include: {
         images: { orderBy: { sortOrder: "asc" } },
         perks: true,
@@ -276,7 +282,7 @@ export class GymsService {
    * scale that is the right trade; past a few thousand listed gyms this
    * wants PostGIS and an index.
    */
-  async search(dto: SearchGymsDto) {
+  async search(dto: SearchGymsDto, viewerPhone?: string) {
     const limit = dto.limit ?? 20;
     const offset = dto.offset ?? 0;
 
@@ -288,6 +294,8 @@ export class GymsService {
       // pro plan". KYC is paused for now (see listing-rules.ts), so the
       // gate applies only when switched on.
       ...(kycRequiredForListing() ? { kyc: { verifiedAt: { not: null } } } : {}),
+      // Demo gyms (owned by Play test accounts) are for test accounts only.
+      ...hideDemoGymsFrom(viewerPhone),
       subscriptions: {
         some: {
           status: "ACTIVE",

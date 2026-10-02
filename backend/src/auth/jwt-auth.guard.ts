@@ -7,7 +7,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { TokenService } from './token.service';
 import { SecurityEventService } from '../common/security/security-event.service';
-import { IS_PUBLIC_KEY, AuthUser } from '../rbac/rbac.decorators';
+import { IS_PUBLIC_KEY, OPTIONAL_AUTH_KEY, AuthUser } from '../rbac/rbac.decorators';
 
 interface AuthRequest {
   user?: AuthUser;
@@ -38,7 +38,14 @@ export class JwtAuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
-    if (isPublic) return true;
+    if (isPublic) {
+      const optional = this.reflector.getAllAndOverride<boolean>(OPTIONAL_AUTH_KEY, [
+        context.getHandler(),
+        context.getClass(),
+      ]);
+      if (optional) await this.tryIdentify(context.switchToHttp().getRequest<AuthRequest>());
+      return true;
+    }
 
     const request = context.switchToHttp().getRequest<AuthRequest>();
     const token = this.extractBearer(request);
@@ -71,6 +78,28 @@ export class JwtAuthGuard implements CanActivate {
     };
 
     return true;
+  }
+
+  /**
+   * For OptionalAuth routes: set request.user when a valid, live session is
+   * presented, and otherwise leave the caller anonymous. Never throws -- a
+   * stale token on a public page must not turn it into an error.
+   */
+  private async tryIdentify(request: AuthRequest): Promise<void> {
+    const token = this.extractBearer(request);
+    if (!token) return;
+    try {
+      const payload = await this.tokens.verifyAccess(token);
+      await this.tokens.assertSessionActive(payload.sid);
+      request.user = {
+        userId: payload.sub,
+        phone: payload.phone,
+        appClient: payload.client,
+        sessionId: payload.sid,
+      };
+    } catch {
+      // Anonymous, as if no token had been sent.
+    }
   }
 
   private extractBearer(request: AuthRequest): string | null {

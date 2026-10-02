@@ -1,4 +1,4 @@
-import { SetMetadata, createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { SetMetadata, applyDecorators, createParamDecorator, ExecutionContext } from '@nestjs/common';
 import { Permission } from '@prisma/client';
 import type { ActorContext } from './permission.service';
 
@@ -30,6 +30,16 @@ export const RequireAllPermissions = (...permissions: Permission[]) => {
 /** Marks a route as reachable without a JWT (login, webhooks, health). */
 export const IS_PUBLIC_KEY = 'auth:public';
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
+
+/**
+ * Public, but read the caller's session when one is sent. The route works
+ * signed out; signed in, CurrentUser is set, so the answer can depend on
+ * who is asking (demo gyms are shown only to test accounts). A bad or
+ * expired token is treated as no token rather than refused.
+ */
+export const OPTIONAL_AUTH_KEY = 'auth:optional';
+export const OptionalAuth = () =>
+  applyDecorators(SetMetadata(IS_PUBLIC_KEY, true), SetMetadata(OPTIONAL_AUTH_KEY, true));
 
 /** The authenticated user, injected by JwtAuthGuard. */
 export interface AuthUser {

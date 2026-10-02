@@ -25,9 +25,10 @@ class GymApi {
     double? latitude,
     double? longitude,
   }) async {
+    // Sent signed in: the server shows demo gyms to test accounts only, so
+    // it has to know who is asking. Still a public route.
     final raw = await _client.get(
       '/gyms/search',
-      auth: false,
       query: {
         if (query != null && query.isNotEmpty) 'query': query,
         if (state != null && state.isNotEmpty) 'state': state,
@@ -40,7 +41,7 @@ class GymApi {
   }
 
   Future<Map<String, dynamic>> publicGym(String gymId) =>
-      _client.get('/gyms/$gymId/public', auth: false);
+      _client.get('/gyms/$gymId/public');
 
   Future<List<MyMembership>> myMemberships() async {
     final raw = await _client.get('/me/memberships');
