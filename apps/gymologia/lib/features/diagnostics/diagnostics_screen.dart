@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/config/app_config.dart';
 import '../auth/auth_controller.dart';
 import '../../theme.dart';
 
-/// Connectivity check, reachable from the login screen.
+/// Connectivity check, reachable from Settings.
 ///
 /// This exists because "the app does not work" and "the server is not
-/// running" look identical from the outside. One tap here separates them,
-/// and prints the exact command to rebuild against a different backend.
+/// running" look identical from the outside. One tap here separates them.
+/// It deliberately does not print the server's address.
 class DiagnosticsScreen extends StatefulWidget {
   const DiagnosticsScreen({super.key});
 
@@ -56,8 +55,6 @@ class _DiagnosticsScreenState extends State<DiagnosticsScreen> {
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            _Row(label: 'API base URL', value: AppConfig.apiBaseUrl),
-            _Row(label: 'Host', value: AppConfig.displayHost),
             _Row(
               label: 'Transport',
               value: AppConfig.isCleartext
@@ -103,32 +100,6 @@ class _DiagnosticsScreenState extends State<DiagnosticsScreen> {
                 ),
               ),
             ],
-            const SizedBox(height: 32),
-            Text('Point this build somewhere else',
-                style: theme.textTheme.titleSmall
-                    ?.copyWith(fontWeight: FontWeight.w600)),
-            const SizedBox(height: 8),
-            Text(
-              'The base URL is fixed at build time. Rebuild with one of these:',
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-            ),
-            const SizedBox(height: 12),
-            const _Command(
-              label: 'AWS server',
-              command:
-                  'flutter run --dart-define=API_BASE_URL=https://api.gymologia.com/api/v1',
-            ),
-            const _Command(
-              label: 'Android emulator → your laptop',
-              command:
-                  'flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000/api/v1',
-            ),
-            const _Command(
-              label: 'Physical phone → your laptop on the same wifi',
-              command:
-                  'flutter run --dart-define=API_BASE_URL=http://<LAPTOP-LAN-IP>:3000/api/v1',
-            ),
           ],
         ),
       ),
@@ -159,51 +130,6 @@ class _Row extends StatelessWidget {
             child: SelectableText(value,
                 style: theme.textTheme.bodyMedium
                     ?.copyWith(fontWeight: FontWeight.w500)),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Command extends StatelessWidget {
-  const _Command({required this.label, required this.command});
-  final String label;
-  final String command;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label,
-              style: theme.textTheme.labelMedium
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-          const SizedBox(height: 4),
-          InkWell(
-            onTap: () {
-              Clipboard.setData(ClipboardData(text: command));
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Command copied')),
-              );
-            },
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceContainerHighest
-                    .withValues(alpha: 0.5),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                command,
-                style: const TextStyle(
-                    fontFamily: 'monospace', fontSize: 12, height: 1.5),
-              ),
-            ),
           ),
         ],
       ),

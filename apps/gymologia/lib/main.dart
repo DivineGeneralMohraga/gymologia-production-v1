@@ -3,7 +3,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'core/api/api_client.dart';
-import 'core/config/app_config.dart';
 import 'l10n/app_localizations.dart';
 import 'features/settings/locale_controller.dart';
 import 'features/settings/theme_controller.dart';
@@ -66,7 +65,7 @@ class GymologiaApp extends StatelessWidget {
               sessionExpired: t.sessionExpiredSignIn,
               somethingWentWrong: t.somethingWentWrongTryAgain,
               tookTooLong: t.serverTookTooLong,
-              unreachable: t.couldNotReachServer(AppConfig.displayHost),
+              unreachable: t.couldNotReachServer,
               badCertificate: t.certificateNotVerified,
               networkError: t.networkErrorTryAgain,
             );

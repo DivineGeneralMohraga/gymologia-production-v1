@@ -495,14 +495,7 @@
   "sessionExpiredSignIn": "Your session expired. Please sign in again.",
   "somethingWentWrongTryAgain": "Something went wrong. Please try again.",
   "serverTookTooLong": "The server took too long to respond. Check your connection and try again.",
-  "couldNotReachServer": "Could not reach the server at {host}. Check your internet connection.",
-  "@couldNotReachServer": {
-    "placeholders": {
-      "host": {
-        "type": "String"
-      }
-    }
-  },
+  "couldNotReachServer": "Could not reach the server. Check your internet connection.",
   "certificateNotVerified": "The server certificate could not be verified.",
   "networkErrorTryAgain": "Network error. Please try again.",
   "enterValidMobile": "Enter a valid 10-digit Indian mobile number",

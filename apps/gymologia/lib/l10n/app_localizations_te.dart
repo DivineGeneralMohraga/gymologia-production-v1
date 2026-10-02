@@ -886,9 +886,8 @@ class AppLocalizationsTe extends AppLocalizations {
       'సర్వర్ స్పందించడానికి చాలా సమయం తీసుకుంది. కనెక్షన్ చూసి మళ్లీ ప్రయత్నించండి.';
 
   @override
-  String couldNotReachServer(String host) {
-    return '$host వద్ద సర్వర్‌ను చేరుకోలేకపోయాం. మీ ఇంటర్నెట్ కనెక్షన్ చూడండి.';
-  }
+  String get couldNotReachServer =>
+      'సర్వర్‌ను చేరుకోలేకపోయాం. మీ ఇంటర్నెట్ కనెక్షన్ చూడండి.';
 
   @override
   String get certificateNotVerified =>

@@ -886,9 +886,8 @@ class AppLocalizationsPa extends AppLocalizations {
       'ਸਰਵਰ ਨੇ ਜਵਾਬ ਦੇਣ ਵਿੱਚ ਬਹੁਤ ਸਮਾਂ ਲਿਆ। ਆਪਣਾ ਕੁਨੈਕਸ਼ਨ ਵੇਖੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।';
 
   @override
-  String couldNotReachServer(String host) {
-    return '$host ਉੱਤੇ ਸਰਵਰ ਨਾਲ ਸੰਪਰਕ ਨਹੀਂ ਹੋ ਸਕਿਆ। ਆਪਣਾ ਇੰਟਰਨੈੱਟ ਕੁਨੈਕਸ਼ਨ ਵੇਖੋ।';
-  }
+  String get couldNotReachServer =>
+      'ਸਰਵਰ ਨਾਲ ਸੰਪਰਕ ਨਹੀਂ ਹੋ ਸਕਿਆ। ਆਪਣਾ ਇੰਟਰਨੈੱਟ ਕੁਨੈਕਸ਼ਨ ਵੇਖੋ।';
 
   @override
   String get certificateNotVerified => 'ਸਰਵਰ ਦਾ ਸਰਟੀਫਿਕੇਟ ਤਸਦੀਕ ਨਹੀਂ ਹੋ ਸਕਿਆ।';

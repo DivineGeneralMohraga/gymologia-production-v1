@@ -1509,8 +1509,8 @@ abstract class AppLocalizations {
   /// No description provided for @couldNotReachServer.
   ///
   /// In en, this message translates to:
-  /// **'Could not reach the server at {host}. Check your internet connection.'**
-  String couldNotReachServer(String host);
+  /// **'Could not reach the server. Check your internet connection.'**
+  String get couldNotReachServer;
 
   /// No description provided for @certificateNotVerified.
   ///

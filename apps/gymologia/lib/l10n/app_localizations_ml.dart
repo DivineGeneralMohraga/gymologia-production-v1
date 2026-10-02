@@ -889,9 +889,8 @@ class AppLocalizationsMl extends AppLocalizations {
       'സെർവർ മറുപടി നൽകാൻ വളരെ സമയമെടുത്തു. കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.';
 
   @override
-  String couldNotReachServer(String host) {
-    return '$host എന്ന സെർവറിലേക്ക് എത്താനായില്ല. നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.';
-  }
+  String get couldNotReachServer =>
+      'സെർവറിലേക്ക് എത്താനായില്ല. നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.';
 
   @override
   String get certificateNotVerified =>

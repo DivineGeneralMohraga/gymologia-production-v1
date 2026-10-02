@@ -884,9 +884,8 @@ class AppLocalizationsBn extends AppLocalizations {
       'সার্ভার উত্তর দিতে অনেক সময় নিয়েছে। সংযোগ দেখে আবার চেষ্টা করুন।';
 
   @override
-  String couldNotReachServer(String host) {
-    return '$host এ সার্ভারে পৌঁছানো যায়নি। আপনার ইন্টারনেট সংযোগ দেখুন।';
-  }
+  String get couldNotReachServer =>
+      'সার্ভারে পৌঁছানো যায়নি। আপনার ইন্টারনেট সংযোগ দেখুন।';
 
   @override
   String get certificateNotVerified =>

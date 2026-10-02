@@ -896,9 +896,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'The server took too long to respond. Check your connection and try again.';
 
   @override
-  String couldNotReachServer(String host) {
-    return 'Could not reach the server at $host. Check your internet connection.';
-  }
+  String get couldNotReachServer =>
+      'Could not reach the server. Check your internet connection.';
 
   @override
   String get certificateNotVerified =>

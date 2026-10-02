@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../../core/config/app_config.dart';
 import '../../core/utils/validators.dart';
-import '../diagnostics/diagnostics_screen.dart';
 import 'auth_controller.dart';
 import 'otp_screen.dart';
 import '../../theme.dart';
@@ -213,11 +211,6 @@ class _PhoneScreenState extends State<PhoneScreen> {
                                 )
                               : Text(t.sendOtp.toUpperCase()),
                         ),
-                        const SizedBox(height: 24),
-                        // Visible on every build, not just debug: when a
-                        // tester says "it does not work", the first useful
-                        // question is which server they are hitting.
-                        _ServerChip(host: AppConfig.apiBaseUrl),
                       ],
                     ),
                   ),
@@ -225,30 +218,6 @@ class _PhoneScreenState extends State<PhoneScreen> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ServerChip extends StatelessWidget {
-  const _ServerChip({required this.host});
-  final String host;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Center(
-      child: TextButton.icon(
-        onPressed: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const DiagnosticsScreen()),
-        ),
-        icon: const Icon(Icons.dns_outlined, size: 16),
-        label: Text(
-          host,
-          style: theme.textTheme.bodySmall?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
         ),
       ),
     );

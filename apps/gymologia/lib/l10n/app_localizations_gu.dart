@@ -879,9 +879,8 @@ class AppLocalizationsGu extends AppLocalizations {
       'સર્વરે જવાબ આપવામાં બહુ સમય લીધો. તમારું કનેક્શન તપાસીને ફરી પ્રયાસ કરો.';
 
   @override
-  String couldNotReachServer(String host) {
-    return '$host પરના સર્વર સુધી પહોંચી શકાયું નથી. તમારું ઇન્ટરનેટ કનેક્શન તપાસો.';
-  }
+  String get couldNotReachServer =>
+      'સર્વર સુધી પહોંચી શકાયું નથી. તમારું ઇન્ટરનેટ કનેક્શન તપાસો.';
 
   @override
   String get certificateNotVerified => 'સર્વરનું પ્રમાણપત્ર ચકાસી શકાયું નથી.';

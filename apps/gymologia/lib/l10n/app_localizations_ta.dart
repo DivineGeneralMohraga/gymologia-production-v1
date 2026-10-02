@@ -894,9 +894,8 @@ class AppLocalizationsTa extends AppLocalizations {
       'சேவையகம் பதிலளிக்க மிக நேரம் எடுத்தது. இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும்.';
 
   @override
-  String couldNotReachServer(String host) {
-    return '$host இல் உள்ள சேவையகத்தை அடைய முடியவில்லை. உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும்.';
-  }
+  String get couldNotReachServer =>
+      'சேவையகத்தை அடைய முடியவில்லை. உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும்.';
 
   @override
   String get certificateNotVerified =>

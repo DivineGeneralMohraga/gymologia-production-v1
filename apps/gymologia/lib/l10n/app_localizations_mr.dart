@@ -883,9 +883,8 @@ class AppLocalizationsMr extends AppLocalizations {
       'सर्व्हरने उत्तर द्यायला खूप वेळ घेतला. तुमचे कनेक्शन तपासून पुन्हा प्रयत्न करा.';
 
   @override
-  String couldNotReachServer(String host) {
-    return '$host वरील सर्व्हरशी संपर्क होऊ शकला नाही. तुमचे इंटरनेट कनेक्शन तपासा.';
-  }
+  String get couldNotReachServer =>
+      'सर्व्हरशी संपर्क होऊ शकला नाही. तुमचे इंटरनेट कनेक्शन तपासा.';
 
   @override
   String get certificateNotVerified => 'सर्व्हरचे प्रमाणपत्र पडताळता आले नाही.';

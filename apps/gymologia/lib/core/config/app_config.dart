@@ -4,7 +4,7 @@
 /// one codebase builds against the EC2 box, a laptop on the LAN, or an
 /// emulator loopback without editing a single line:
 ///
-///   flutter run --dart-define=API_BASE_URL=https://api.gymologia.com/api/v1
+///   flutter run --dart-define=API_BASE_URL=https://SERVER/api/v1
 ///   flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000/api/v1
 ///
 /// 10.0.2.2 is how the Android emulator reaches the host machine's
@@ -16,10 +16,6 @@ class AppConfig {
     'API_BASE_URL',
     defaultValue: 'https://api.gymologia.com/api/v1',
   );
-
-  /// Shown on the diagnostics screen so a tester can confirm at a glance
-  /// which backend the build in their hand is actually talking to.
-  static String get displayHost => Uri.parse(apiBaseUrl).host;
 
   static bool get isCleartext => Uri.parse(apiBaseUrl).scheme == 'http';
 
