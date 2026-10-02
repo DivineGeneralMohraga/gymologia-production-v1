@@ -51,6 +51,20 @@ void main() {
     });
   });
 
+  group('accounts', () {
+    test('support can look an account up but only managers up can ban', () {
+      expect(canReach('accounts', 'CUSTOMER_SUPPORT', support), isTrue);
+      expect(canReach('banAccounts', 'CUSTOMER_SUPPORT', support), isFalse);
+      expect(canReach('banAccounts', 'MANAGER', support), isTrue);
+      expect(canReach('banAccounts', 'OWNER', owner), isTrue);
+    });
+
+    test('a KYC agent sees neither', () {
+      expect(canReach('accounts', 'KYC_AGENT', kycAgent), isFalse);
+      expect(canReach('banAccounts', 'KYC_AGENT', kycAgent), isFalse);
+    });
+  });
+
   group('the report queue', () {
     test('is open to whoever works support', () {
       // Same desk, same flag, and the server admits the same three roles.

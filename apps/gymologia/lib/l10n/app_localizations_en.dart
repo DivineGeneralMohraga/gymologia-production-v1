@@ -744,10 +744,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get staffBadge => 'STAFF';
 
   @override
-  String get draftCrmNote =>
-      'Your gym is a draft. The CRM works, but members cannot find you in search until a plan is active.';
-
-  @override
   String roleHiddenNote(String role) {
     return 'You are $role here. Anything your role cannot do is hidden rather than shown and refused.';
   }
@@ -2380,4 +2376,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get gymContactHelp =>
       'The number members will call — your gym\'s front desk or business number. It is shown on your public gym page.';
+
+  @override
+  String get crmLockedDraft =>
+      'Choose a plan to unlock the CRM: members, staff, attendance, events and chat. New owners get a free 7-day trial.';
+
+  @override
+  String get crmLockedExpired =>
+      'Your plan has ended. You can still see your members and data, but renew to add or change anything.';
+
+  @override
+  String get crmLockedAskOwner =>
+      'This gym has no active plan, so the CRM is locked. Ask the gym owner to choose one.';
 }

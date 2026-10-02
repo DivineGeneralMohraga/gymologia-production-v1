@@ -76,6 +76,19 @@ GYM=$(curl -s -X POST "$API/gyms" -H "Authorization: Bearer $OWNER" -H 'Content-
 GID=$(echo "$GYM" | field id)
 [ -n "$GID" ] && ok "gym created with seeded roles" || { bad "gym create" "$GYM"; exit 1; }
 
+hdr "No plan, no CRM"
+LOCKED=$(curl -s -w "\n%{http_code}" "$API/gyms/$GID/roles" -H "Authorization: Bearer $OWNER")
+[ "$(echo "$LOCKED" | tail -1)" = "403" ] && echo "$LOCKED" | grep -q "no active plan" \
+  && ok "a new gym's CRM is locked until it has a plan" || bad "plan lock" "$LOCKED"
+C=$(curl -s -o /dev/null -w "%{http_code}" "$API/gyms/$GID/subscription/quote" -H "Authorization: Bearer $OWNER")
+[ "$C" = "200" ] && ok "but the plan screen opens" || bad "plan screen" "got $C"
+C=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH "$API/gyms/$GID" -H "Authorization: Bearer $OWNER" \
+    -H 'Content-Type: application/json' -d '{"description":"Set up before paying."}')
+[ "$C" = "200" ] && ok "and the gym profile can be edited" || bad "profile edit" "got $C"
+C=$(curl -s -o /dev/null -w "%{http_code}" "$API/gyms/$GID" -H "Authorization: Bearer $OWNER")
+[ "$C" = "200" ] && ok "and the dashboard still loads" || bad "dashboard" "got $C"
+node test/tools/activate-gym.js "$GID" > /dev/null || { bad "setup" "could not activate the gym"; exit 1; }
+
 echo "$GYM" | grep -qE '"isGymOwner": ?true' \
   && ok "creator resolved as owner" || bad "owner context" "missing isGymOwner"
 

@@ -50,6 +50,7 @@ GYM=$(curl -s -X POST "$API/gyms" -H "Authorization: Bearer $OWNER" -H 'Content-
   "perks":["Sauna"]}')
 GID=$(echo "$GYM" | field id)
 [ -n "$GID" ] && ok "gym created" || { bad "setup" "$GYM"; exit 1; }
+node test/tools/activate-gym.js "$GID" > /dev/null || { bad "setup" "could not activate the gym"; exit 1; }
 
 hdr "Roles endpoint (drives both pickers)"
 ROLES=$(curl -s "$API/gyms/$GID/roles" -H "Authorization: Bearer $OWNER")

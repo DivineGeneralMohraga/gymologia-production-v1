@@ -27,6 +27,17 @@ export const RequireAllPermissions = (...permissions: Permission[]) => {
   };
 };
 
+/**
+ * A gym-scoped route that works while the gym has no active plan (a new
+ * draft, or a plan that ran out). Everything else in the CRM is locked
+ * until the free trial or a paid plan is running, except that a lapsed
+ * gym can still read -- see PermissionsGuard.
+ * Kept to what an owner needs to get paid up: the plan screens, the gym
+ * profile and photos, verification, and deleting the gym.
+ */
+export const WORKS_WITHOUT_PLAN_KEY = 'rbac:works-without-plan';
+export const WorksWithoutPlan = () => SetMetadata(WORKS_WITHOUT_PLAN_KEY, true);
+
 /** Marks a route as reachable without a JWT (login, webhooks, health). */
 export const IS_PUBLIC_KEY = 'auth:public';
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);

@@ -736,10 +736,6 @@ class AppLocalizationsKn extends AppLocalizations {
   String get staffBadge => 'ಸಿಬ್ಬಂದಿ';
 
   @override
-  String get draftCrmNote =>
-      'ನಿಮ್ಮ ಜಿಮ್ ಕರಡು. CRM ಕೆಲಸ ಮಾಡುತ್ತದೆ, ಆದರೆ ಯೋಜನೆ ಸಕ್ರಿಯವಾಗುವವರೆಗೆ ಸದಸ್ಯರು ಹುಡುಕಾಟದಲ್ಲಿ ನಿಮ್ಮನ್ನು ಕಾಣಲಾರರು.';
-
-  @override
   String roleHiddenNote(String role) {
     return 'ಇಲ್ಲಿ ನೀವು $role. ನಿಮ್ಮ ಪಾತ್ರಕ್ಕೆ ಸಾಧ್ಯವಿಲ್ಲದವನ್ನು ತೋರಿಸಿ ನಿರಾಕರಿಸುವ ಬದಲು ಮರೆಮಾಡಲಾಗುತ್ತದೆ.';
   }
@@ -2366,4 +2362,16 @@ class AppLocalizationsKn extends AppLocalizations {
   @override
   String get gymContactHelp =>
       'ಸದಸ್ಯರು ಕರೆ ಮಾಡುವ ಸಂಖ್ಯೆ — ಜಿಮ್‌ನ ರಿಸೆಪ್ಷನ್ ಅಥವಾ ವ್ಯಾಪಾರ ಸಂಖ್ಯೆ. ಇದು ನಿಮ್ಮ ಜಿಮ್ ಪುಟದಲ್ಲಿ ಎಲ್ಲರಿಗೂ ಕಾಣುತ್ತದೆ.';
+
+  @override
+  String get crmLockedDraft =>
+      'CRM ತೆರೆಯಲು ಪ್ಲಾನ್ ಆಯ್ಕೆಮಾಡಿ: ಸದಸ್ಯರು, ಸಿಬ್ಬಂದಿ, ಹಾಜರಾತಿ, ಈವೆಂಟ್‌ಗಳು ಮತ್ತು ಚಾಟ್. ಹೊಸ ಮಾಲೀಕರಿಗೆ 7 ದಿನಗಳ ಉಚಿತ ಟ್ರಯಲ್ ಸಿಗುತ್ತದೆ.';
+
+  @override
+  String get crmLockedExpired =>
+      'ನಿಮ್ಮ ಪ್ಲಾನ್ ಮುಗಿದಿದೆ. ನಿಮ್ಮ ಸದಸ್ಯರು ಮತ್ತು ಡೇಟಾವನ್ನು ಇನ್ನೂ ನೋಡಬಹುದು, ಆದರೆ ಏನನ್ನಾದರೂ ಸೇರಿಸಲು ಅಥವಾ ಬದಲಾಯಿಸಲು ನವೀಕರಿಸಿ.';
+
+  @override
+  String get crmLockedAskOwner =>
+      'ಈ ಜಿಮ್‌ಗೆ ಸಕ್ರಿಯ ಪ್ಲಾನ್ ಇಲ್ಲ, ಆದ್ದರಿಂದ CRM ಲಾಕ್ ಆಗಿದೆ. ಪ್ಲಾನ್ ಆಯ್ಕೆಮಾಡಲು ಜಿಮ್ ಮಾಲೀಕರನ್ನು ಕೇಳಿ.';
 }

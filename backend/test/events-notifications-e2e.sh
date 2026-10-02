@@ -68,7 +68,8 @@ BASIC_GID=$(curl -s -X POST "$API/gyms" -H "Authorization: Bearer $BASIC_OWNER" 
       -d "{\"name\":\"Unpaid Gym\",\"addressLine1\":\"2 B Road\",\"state\":\"Goa\",
            \"district\":\"Margao\",\"city\":\"Margao\",\"pincode\":\"403601\",
            \"contactPhone\":\"$P_BASIC\"}" | field id)
-ok "unpaid gym created (no plan)"
+node test/tools/activate-gym.js "$BASIC_GID" > /dev/null || { bad "setup" "could not activate the gym"; exit 1; }
+ok "non-Pro gym created (active, no Pro plan)"
 
 MID=$(add_member "$BASIC_OWNER" "$BASIC_GID" "$P_MEMBER" "Feed Member")
 [ -n "$MID" ] && ok "member joined the unpaid gym" || bad "member" "no id"

@@ -67,6 +67,15 @@ export class AddAdminStaffDto {
   dateOfBirth?: string;
 }
 
+/** Ban or unban an app account. The reason goes to the audit log. */
+export class AccountStatusDto {
+  @ApiProperty({ example: 'Abusive messages to gym staff' })
+  @trim()
+  @IsString()
+  @Length(5, 300)
+  reason!: string;
+}
+
 export class UpdateAdminStaffDto {
   @ApiPropertyOptional({ enum: AdminRole })
   @IsOptional()

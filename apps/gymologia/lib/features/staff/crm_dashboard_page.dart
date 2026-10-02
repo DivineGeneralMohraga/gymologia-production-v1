@@ -60,7 +60,7 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
       if (!mounted) return;
       setState(() => _gym = gym);
 
-      if (gym.can(P.viewAnalytics)) {
+      if (gym.canViewCrm && gym.can(P.viewAnalytics)) {
         final analytics = await _api.analytics(widget.gymId);
         if (mounted) setState(() => _analytics = analytics);
       }
@@ -70,9 +70,9 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
   }
 
   void _open(Widget page) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (_) => page))
-        .then((_) => _load());
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => page)).then((_) => _load());
   }
 
   @override
@@ -93,7 +93,9 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                 Text(_error!, textAlign: TextAlign.center),
                 const SizedBox(height: 18),
                 FilledButton.tonal(
-                    onPressed: _load, child: Text(AppLocalizations.of(context).tryAgain)),
+                  onPressed: _load,
+                  child: Text(AppLocalizations.of(context).tryAgain),
+                ),
               ],
             ),
           ),
@@ -127,10 +129,12 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
           children: [
-            if (gym.status == 'DRAFT')
+            if (!gym.hasPlan)
               Card(
                 elevation: 0,
-                color: theme.colorScheme.tertiaryContainer.withValues(alpha: 0.5),
+                color: theme.colorScheme.tertiaryContainer.withValues(
+                  alpha: 0.5,
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(16),
                   child: Column(
@@ -138,11 +142,15 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                     children: [
                       Row(
                         children: [
-                          const Icon(Icons.info_outline, size: 20),
+                          const Icon(Icons.lock_rounded, size: 20),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Text(
-                              AppLocalizations.of(context).draftCrmNote,
+                              !gym.can(P.manageSubscription)
+                                  ? t.crmLockedAskOwner
+                                  : gym.status == 'DRAFT'
+                                  ? t.crmLockedDraft
+                                  : t.crmLockedExpired,
                             ),
                           ),
                         ],
@@ -151,9 +159,11 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                         const SizedBox(height: 12),
                         FilledButton(
                           onPressed: () => _open(PlanPage(gym: gym)),
-                          child: Text(AppLocalizations.of(context)
-                              .choosePlan
-                              .toUpperCase()),
+                          child: Text(
+                            AppLocalizations.of(
+                              context,
+                            ).choosePlan.toUpperCase(),
+                          ),
                         ),
                       ],
                     ],
@@ -180,25 +190,28 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
               crossAxisSpacing: 12,
               childAspectRatio: 1.45,
               children: [
-                if (gym.sees('addMember') ||
-                    gym.sees('manageMembers') ||
-                    gym.sees('attendanceMember'))
+                if (gym.canViewCrm &&
+                    (gym.sees('addMember') ||
+                        gym.sees('manageMembers') ||
+                        gym.sees('attendanceMember')))
                   _Tile(
                     icon: Icons.groups_rounded,
                     label: t.members,
                     detail: '${gym.memberCount}',
                     onTap: () => _open(MembersPage(gym: gym)),
                   ),
-                if (gym.sees('addStaff') ||
-                    gym.sees('manageStaff') ||
-                    gym.sees('attendanceStaff'))
+                if (gym.canViewCrm &&
+                    (gym.sees('addStaff') ||
+                        gym.sees('manageStaff') ||
+                        gym.sees('attendanceStaff')))
                   _Tile(
                     icon: Icons.badge_rounded,
                     label: t.staff,
                     detail: '${gym.staffCount}',
                     onTap: () => _open(StaffPage(gym: gym)),
                   ),
-                if (gym.sees('leaveMember') || gym.sees('leaveStaff'))
+                if (gym.canViewCrm &&
+                    (gym.sees('leaveMember') || gym.sees('leaveStaff')))
                   _Tile(
                     icon: Icons.beach_access_rounded,
                     label: t.leave,
@@ -214,7 +227,8 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                 // 2026-10-01 -- the server lists Pro gyms without it (see
                 // backend listing-rules.ts). The page is kept; flip this
                 // and REQUIRE_KYC_FOR_LISTING together to bring it back.
-                if (_kycEnabled && (gym.isGymOwner || gym.can(P.manageSubscription)))
+                if (_kycEnabled &&
+                    (gym.isGymOwner || gym.can(P.manageSubscription)))
                   _Tile(
                     icon: Icons.verified_user_rounded,
                     label: t.verification,
@@ -227,45 +241,48 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
                     detail: gym.plan,
                     onTap: () => _open(PlanPage(gym: gym)),
                   ),
-                if (gym.sees('manageTrainers'))
+                if (gym.canViewCrm && gym.sees('manageTrainers'))
                   _Tile(
                     icon: Icons.fitness_center_rounded,
                     label: t.trainers,
                     onTap: () => _open(TrainerCategoriesPage(gym: gym)),
                   ),
-                if (gym.can(P.viewAnalytics))
+                if (gym.canViewCrm && gym.can(P.viewAnalytics))
                   _Tile(
                     icon: Icons.show_chart_rounded,
                     label: t.growth,
                     onTap: () => _open(GrowthPage(gym: gym)),
                   ),
-                if (gym.can(P.viewRanking))
+                if (gym.canViewCrm && gym.can(P.viewRanking))
                   _Tile(
                     icon: Icons.leaderboard_rounded,
                     label: t.ranking,
                     onTap: () => _open(RankingPage(gym: gym)),
                   ),
-                if (gym.sees('manageRoles'))
+                if (gym.canViewCrm && gym.sees('manageRoles'))
                   _Tile(
                     icon: Icons.admin_panel_settings_rounded,
                     label: t.roles,
                     onTap: () => _open(RolesPage(gym: gym)),
                   ),
-                if (gym.sees('events'))
+                if (gym.canViewCrm && gym.sees('events'))
                   _Tile(
                     icon: Icons.local_fire_department_rounded,
                     label: t.events,
                     onTap: () => _open(EventsManagePage(gym: gym)),
                   ),
-                _Tile(
-                  icon: Icons.forum_rounded,
-                  label: t.chat,
-                  onTap: () => _open(ConversationsPage(
-                    gymId: gym.id,
-                    gymName: gym.displayName,
-                  )),
-                ),
-                if (gym.can(P.sendNotifications))
+                if (gym.canViewCrm)
+                  _Tile(
+                    icon: Icons.forum_rounded,
+                    label: t.chat,
+                    onTap: () => _open(
+                      ConversationsPage(
+                        gymId: gym.id,
+                        gymName: gym.displayName,
+                      ),
+                    ),
+                  ),
+                if (gym.canViewCrm && gym.can(P.sendNotifications))
                   _Tile(
                     icon: Icons.campaign_rounded,
                     label: t.announce,
@@ -277,8 +294,9 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
             const SizedBox(height: 20),
             Text(
               AppLocalizations.of(context).roleHiddenNote(gym.roleName),
-              style: theme.textTheme.bodySmall
-                  ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),
@@ -332,8 +350,7 @@ class _Tile extends StatelessWidget {
                     child: Icon(icon, size: 22, color: isDark ? ink : volt),
                   ),
                   const Spacer(),
-                  if (detail != null)
-                    BigNumber(value: detail!, size: 28),
+                  if (detail != null) BigNumber(value: detail!, size: 28),
                 ],
               ),
               Text(
@@ -447,8 +464,7 @@ class _Figure extends StatelessWidget {
         children: [
           BigNumber(value: value, size: 40, color: color),
           const SizedBox(height: 2),
-          Eyebrow(label,
-              color: const Color(0xFFF5F5F2).withValues(alpha: 0.7)),
+          Eyebrow(label, color: const Color(0xFFF5F5F2).withValues(alpha: 0.7)),
         ],
       ),
     );

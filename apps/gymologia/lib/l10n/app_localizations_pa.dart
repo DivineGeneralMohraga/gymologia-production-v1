@@ -737,10 +737,6 @@ class AppLocalizationsPa extends AppLocalizations {
   String get staffBadge => 'ਸਟਾਫ';
 
   @override
-  String get draftCrmNote =>
-      'ਤੁਹਾਡਾ ਜਿਮ ਖਰੜਾ ਹੈ। CRM ਚੱਲਦਾ ਹੈ, ਪਰ ਪਲਾਨ ਚਾਲੂ ਹੋਣ ਤੱਕ ਮੈਂਬਰ ਤੁਹਾਨੂੰ ਖੋਜ ਵਿੱਚ ਨਹੀਂ ਲੱਭਣਗੇ।';
-
-  @override
   String roleHiddenNote(String role) {
     return 'ਇੱਥੇ ਤੁਸੀਂ $role ਹੋ। ਜੋ ਤੁਹਾਡੀ ਭੂਮਿਕਾ ਨਹੀਂ ਕਰ ਸਕਦੀ, ਉਹ ਦਿਖਾ ਕੇ ਨਾਂਹ ਕਰਨ ਦੀ ਥਾਂ ਲੁਕਾ ਦਿੱਤਾ ਜਾਂਦਾ ਹੈ।';
   }
@@ -2360,4 +2356,16 @@ class AppLocalizationsPa extends AppLocalizations {
   @override
   String get gymContactHelp =>
       'ਉਹ ਨੰਬਰ ਜਿਸ \'ਤੇ ਮੈਂਬਰ ਕਾਲ ਕਰਨਗੇ — ਜਿਮ ਦਾ ਰਿਸੈਪਸ਼ਨ ਜਾਂ ਬਿਜ਼ਨਸ ਨੰਬਰ। ਇਹ ਤੁਹਾਡੇ ਜਿਮ ਪੇਜ \'ਤੇ ਸਭ ਨੂੰ ਦਿਖਦਾ ਹੈ।';
+
+  @override
+  String get crmLockedDraft =>
+      'CRM ਖੋਲ੍ਹਣ ਲਈ ਪਲਾਨ ਚੁਣੋ: ਮੈਂਬਰ, ਸਟਾਫ, ਹਾਜ਼ਰੀ, ਇਵੈਂਟ ਅਤੇ ਚੈਟ। ਨਵੇਂ ਮਾਲਕਾਂ ਨੂੰ 7 ਦਿਨ ਦਾ ਮੁਫ਼ਤ ਟ੍ਰਾਇਲ ਮਿਲਦਾ ਹੈ।';
+
+  @override
+  String get crmLockedExpired =>
+      'ਤੁਹਾਡਾ ਪਲਾਨ ਖ਼ਤਮ ਹੋ ਗਿਆ ਹੈ। ਤੁਸੀਂ ਅਜੇ ਵੀ ਮੈਂਬਰ ਅਤੇ ਡਾਟਾ ਵੇਖ ਸਕਦੇ ਹੋ, ਪਰ ਕੁਝ ਜੋੜਨ ਜਾਂ ਬਦਲਣ ਲਈ ਰੀਨਿਊ ਕਰੋ।';
+
+  @override
+  String get crmLockedAskOwner =>
+      'ਇਸ ਜਿਮ ਦਾ ਕੋਈ ਪਲਾਨ ਚਾਲੂ ਨਹੀਂ, ਇਸ ਲਈ CRM ਬੰਦ ਹੈ। ਜਿਮ ਮਾਲਕ ਨੂੰ ਪਲਾਨ ਚੁਣਨ ਲਈ ਕਹੋ।';
 }

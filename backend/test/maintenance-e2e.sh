@@ -139,11 +139,15 @@ GONE=$(curl -s "$API/gyms/search?query=Expiry%20Test%20Gym" | python -c "
 import sys,json;print(len(json.load(sys.stdin)))" 2>/dev/null)
 [ "$GONE" = "0" ] && ok "lapsed gym no longer listed in search" || bad "delisting" "found $GONE"
 
-# The CRM must keep working: locking an owner out of their own member list
-# over a billing lapse would hold their data hostage.
+# The owner can still see their data: locking them out of their own member
+# list over a billing lapse would hold it hostage. Changes need a renewal.
 CRM=$(curl -s -o /dev/null -w "%{http_code}" "$API/gyms/$GID/members" -H "Authorization: Bearer $OWNER")
-[ "$CRM" = "200" ] && ok "owner can still reach the CRM while suspended" \
+[ "$CRM" = "200" ] && ok "owner can still see the CRM while suspended" \
   || bad "crm access" "got $CRM"
+CRM_W=$(curl -s -w "\n%{http_code}" -X POST "$API/gyms/$GID/roles" -H "Authorization: Bearer $OWNER" \
+        -H 'Content-Type: application/json' -d '{"name":"After Lapse","permissions":[]}')
+[ "$(echo "$CRM_W" | tail -1)" = "403" ] && echo "$CRM_W" | grep -q "plan has ended" \
+  && ok "but cannot change anything until the plan is renewed" || bad "lapsed write" "$CRM_W"
 
 hdr "Idempotency"
 SECOND=$(npx ts-node scripts/run-maintenance.ts 2>/dev/null | grep -E '^\{.*subscriptions' | tail -1)

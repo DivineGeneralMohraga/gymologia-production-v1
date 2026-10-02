@@ -52,6 +52,7 @@ STAMP=$(printf '%04d' $(( ($$ + RANDOM + $(date +%s)) % 10000 )))
 P_ADMIN="+9195400${STAMP}1"
 P_SUPPORT="+9195400${STAMP}2"
 P_CIVILIAN="+9195400${STAMP}3"
+P_BANNED="+9195400${STAMP}4"
 
 # These suites run against the live database, and below some of these
 # accounts are made admin staff -- real-format phone numbers holding admin
@@ -176,6 +177,52 @@ S_TICKETS=$(curl -s -o /dev/null -w "%{http_code}" "$API/admin/tickets" -H "Auth
 S_BLOCKS=$(curl -s -o /dev/null -w "%{http_code}" "$API/admin/security/blocks" -H "Authorization: Bearer $SUPPORT")
 [ "$S_BLOCKS" = "403" ] && ok "and cannot see or lift address blocks" \
   || bad "support blocks" "got $S_BLOCKS, expected 403"
+
+hdr "Banning an account"
+BANNED=$(login "$P_BANNED" "Rule Breaker")
+[ -n "$BANNED" ] && ok "an ordinary account signed in" || bad "ban setup" "no token"
+
+FOUND=$(curl -s "$API/admin/accounts?phone=$P_BANNED" -H "Authorization: Bearer $SUPPORT")
+BANNED_ID=$(echo "$FOUND" | field id)
+[ "$(echo "$FOUND" | field status)" = "ACTIVE" ] && [ -n "$BANNED_ID" ] \
+  && ok "support can look an account up by number" || bad "lookup" "$FOUND"
+echo "$FOUND" | field phone | grep -q '\*' && ok "with the number masked" || bad "lookup mask" "$FOUND"
+
+C=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/admin/accounts/$BANNED_ID/suspend" \
+    -H "Authorization: Bearer $SUPPORT" -H 'Content-Type: application/json' -d '{"reason":"Testing support"}')
+[ "$C" = "403" ] && ok "but support cannot ban" || bad "support ban" "got $C"
+
+C=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/admin/accounts/$BANNED_ID/suspend" \
+    -H "Authorization: Bearer $ADMIN" -H 'Content-Type: application/json' -d '{"reason":"x"}')
+[ "$C" = "400" ] && ok "a ban needs a real reason" || bad "ban reason" "got $C"
+
+ADMIN_ID=$(curl -s "$API/admin/accounts?phone=$P_ADMIN" -H "Authorization: Bearer $ADMIN" | field id)
+C=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/admin/accounts/$ADMIN_ID/suspend" \
+    -H "Authorization: Bearer $ADMIN" -H 'Content-Type: application/json' -d '{"reason":"Banning myself"}')
+[ "$C" = "403" ] && ok "nobody can ban themselves" || bad "self ban" "got $C"
+
+BAN=$(curl -s -X POST "$API/admin/accounts/$BANNED_ID/suspend" -H "Authorization: Bearer $ADMIN" \
+      -H 'Content-Type: application/json' -d '{"reason":"Abusive messages to gym staff"}')
+[ "$(echo "$BAN" | field status)" = "SUSPENDED" ] && ok "an admin bans the account" || bad "ban" "$BAN"
+echo "$BAN" | grep -q "Abusive messages to gym staff" \
+  && ok "and the reason is shown with who did it" || bad "ban reason shown" "$BAN"
+
+C=$(curl -s -o /dev/null -w "%{http_code}" "$API/auth/me" -H "Authorization: Bearer $BANNED")
+[ "$C" = "401" ] && ok "the banned person is signed out at once" || bad "ban signout" "got $C"
+
+C=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/admin/accounts/$BANNED_ID/suspend" \
+    -H "Authorization: Bearer $ADMIN" -H 'Content-Type: application/json' -d '{"reason":"Again for luck"}')
+[ "$C" = "409" ] && ok "banning twice is refused" || bad "double ban" "got $C"
+
+UNBAN=$(curl -s -X POST "$API/admin/accounts/$BANNED_ID/reactivate" -H "Authorization: Bearer $ADMIN" \
+        -H 'Content-Type: application/json' -d '{"reason":"Appeal accepted"}')
+[ "$(echo "$UNBAN" | field status)" = "ACTIVE" ] && ok "and the ban can be lifted" || bad "unban" "$UNBAN"
+
+TRAIL=$(db "
+  const n = await p.auditLog.count({ where: { entityId: process.argv[1],
+    action: { in: ['admin.account.suspend', 'admin.account.reactivate'] } } });
+  console.log(n);" "$BANNED_ID" | tail -1)
+[ "${TRAIL:-0}" = "2" ] && ok "both are in the audit log" || bad "ban audit" "got $TRAIL"
 
 hdr "Seeing and undoing an automatic block"
 # An automatic decision nobody can inspect or reverse is the wrong kind, so

@@ -164,32 +164,47 @@ class AdminApi {
   Future<Map<String, dynamic>> staffLookup(String phone) =>
       _client.post('/admin/staff/lookup', body: {'phone': phone});
 
+  /// The person must already have an app account; their name comes from it.
+  /// The server refuses unknown fields, so this sends exactly its DTO.
   Future<Map<String, dynamic>> addStaff({
     required String challengeId,
     required String phone,
     required String code,
-    required String name,
     required String role,
-    String? email,
+    String? workEmail,
   }) =>
       _client.post('/admin/staff', body: {
         'challengeId': challengeId,
         'phone': phone,
         'code': code,
-        'name': name,
         'role': role,
-        if (email != null && email.isNotEmpty) 'email': email,
+        if (workEmail != null && workEmail.isNotEmpty) 'workEmail': workEmail,
       });
 
+  /// [status] is the server's StaffStatus: ACTIVE, or REMOVED to switch
+  /// someone off.
   Future<Map<String, dynamic>> updateStaff(
     String staffId, {
     String? role,
-    bool? isActive,
+    String? status,
   }) =>
       _client.patch('/admin/staff/$staffId', body: {
         'role': ?role,
-        'isActive': ?isActive,
+        'status': ?status,
       });
+
+  // ── Accounts (ban / unban) ─────────────────────────────────────────
+
+  /// An app account by its number: who, what they own, and any ban.
+  Future<Map<String, dynamic>> findAccount(String phone) =>
+      _client.get('/admin/accounts', query: {'phone': phone});
+
+  Future<Map<String, dynamic>> banAccount(String userId, String reason) =>
+      _client.post('/admin/accounts/$userId/suspend', body: {'reason': reason});
+
+  Future<Map<String, dynamic>> unbanAccount(String userId, String reason) =>
+      _client.post('/admin/accounts/$userId/reactivate',
+          body: {'reason': reason});
 
   // ── Logs ───────────────────────────────────────────────────────────
 

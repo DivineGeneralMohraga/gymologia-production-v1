@@ -23,6 +23,7 @@ import {
   OptionalAuth,
   Public,
   RequirePermissions,
+  WorksWithoutPlan,
   AuthUser,
 } from '../rbac/rbac.decorators';
 import type { ActorContext } from '../rbac/permission.service';
@@ -149,6 +150,7 @@ export class GymsController {
   }
 
   @Patch(':gymId')
+  @WorksWithoutPlan()
   @RequirePermissions(Permission.EDIT_GYM_PROFILE)
   @ApiOperation({ summary: 'Edit the gym profile' })
   update(
@@ -160,6 +162,7 @@ export class GymsController {
   }
 
   @Delete(':gymId')
+  @WorksWithoutPlan()
   @RequirePermissions(Permission.DELETE_GYM)
   @ApiOperation({
     summary: 'Delete a gym',

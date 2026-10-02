@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/config/app_config.dart';
+import '../accounts/accounts_page.dart';
 import '../auth/auth_controller.dart';
 import '../broadcast/broadcast_page.dart';
 import '../dashboard/dashboard_page.dart';
@@ -45,6 +46,9 @@ class _AppShellState extends State<AppShell> {
       if (auth.can('tickets'))
         const _Section('tickets', 'Support', Icons.support_agent_outlined,
             Icons.support_agent, TicketsPage()),
+      if (auth.can('accounts'))
+        const _Section('accounts', 'Accounts', Icons.manage_accounts_outlined,
+            Icons.manage_accounts, AccountsPage()),
       if (auth.can('reports'))
         const _Section('reports', 'Reports', Icons.flag_outlined, Icons.flag,
             ReportsPage()),

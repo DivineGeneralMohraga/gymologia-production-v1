@@ -77,7 +77,7 @@ class _StaffPageState extends State<StaffPage> {
         separatorBuilder: (_, _) => const SizedBox(height: 8),
         itemBuilder: (_, i) {
           final s = _staff![i] as Map<String, dynamic>;
-          final active = s['isActive'] != false;
+          final active = s['status'] == 'ACTIVE';
           final isMe = s['id'] == me.staff?['adminId'];
 
           return Card(
@@ -122,7 +122,10 @@ class _StaffPageState extends State<StaffPage> {
       if (action.startsWith('role:')) {
         await api.updateStaff(s['id'] as String, role: action.substring(5));
       } else {
-        await api.updateStaff(s['id'] as String, isActive: action == 'on');
+        await api.updateStaff(
+          s['id'] as String,
+          status: action == 'on' ? 'ACTIVE' : 'REMOVED',
+        );
       }
       _load();
     } on ApiException catch (e) {
@@ -153,7 +156,6 @@ class _AddStaffDialog extends StatefulWidget {
 
 class _AddStaffDialogState extends State<_AddStaffDialog> {
   final _phone = TextEditingController();
-  final _name = TextEditingController();
   final _email = TextEditingController();
   final _code = TextEditingController();
 
@@ -165,7 +167,6 @@ class _AddStaffDialogState extends State<_AddStaffDialog> {
   @override
   void dispose() {
     _phone.dispose();
-    _name.dispose();
     _email.dispose();
     _code.dispose();
     super.dispose();
@@ -186,11 +187,6 @@ class _AddStaffDialogState extends State<_AddStaffDialog> {
       final res = await context.read<AuthController>().api.staffLookup(_e164);
       setState(() {
         _challengeId = res['challengeId'] as String?;
-        // The lookup says only whether an account exists, never a name, so
-        // this screen cannot be used to look somebody up by number.
-        if (res['exists'] == true && _name.text.isEmpty) {
-          _name.text = '';
-        }
       });
     } on ApiException catch (e) {
       setState(() => _error = e.message);
@@ -200,10 +196,6 @@ class _AddStaffDialogState extends State<_AddStaffDialog> {
   }
 
   Future<void> _create() async {
-    if (_name.text.trim().isEmpty) {
-      setState(() => _error = 'A name, please.');
-      return;
-    }
     setState(() {
       _busy = true;
       _error = null;
@@ -213,9 +205,8 @@ class _AddStaffDialogState extends State<_AddStaffDialog> {
             challengeId: _challengeId!,
             phone: _e164,
             code: _code.text.trim(),
-            name: _name.text.trim(),
             role: _role,
-            email: _email.text.trim(),
+            workEmail: _email.text.trim(),
           );
       if (mounted) Navigator.of(context).pop(true);
     } on ApiException catch (e) {
@@ -264,17 +255,12 @@ class _AddStaffDialogState extends State<_AddStaffDialog> {
                 ),
                 const SizedBox(height: 10),
                 TextField(
-                  controller: _name,
-                  enabled: !_busy,
-                  decoration: const InputDecoration(
-                      labelText: 'Name', border: OutlineInputBorder()),
-                ),
-                const SizedBox(height: 10),
-                TextField(
                   controller: _email,
                   enabled: !_busy,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
-                      labelText: 'Email (optional)',
+                      labelText: 'Work email (optional)',
+                      helperText: 'Their name is taken from their app account.',
                       border: OutlineInputBorder()),
                 ),
                 const SizedBox(height: 10),

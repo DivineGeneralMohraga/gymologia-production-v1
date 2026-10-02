@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
-import { Permission } from '@prisma/client';
+import { GymStatus, Permission } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   NON_GRANTABLE,
@@ -22,6 +22,10 @@ export interface ActorContext {
   level: number;
   isSuper: boolean;
   isGymOwner: boolean;
+  /** The gym has a running plan (trial or paid). See WorksWithoutPlan. */
+  gymActive: boolean;
+  /** Had a plan that ran out: read-only until renewed. */
+  gymLapsed: boolean;
   permissions: ReadonlySet<Permission>;
 }
 
@@ -86,6 +90,11 @@ export class PermissionService {
       level: staff.role.level,
       isSuper,
       isGymOwner,
+      // PENDING_KYC is paid for, only awaiting document review.
+      gymActive:
+        staff.gym.status === GymStatus.ACTIVE ||
+        staff.gym.status === GymStatus.PENDING_KYC,
+      gymLapsed: staff.gym.status === GymStatus.SUSPENDED,
       permissions,
     };
   }

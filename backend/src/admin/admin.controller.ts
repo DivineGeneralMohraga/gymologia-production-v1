@@ -14,6 +14,7 @@ import type { AdminContext } from './admin.guard';
 import { CurrentAdmin } from './admin.decorators';
 import { IpBlockService } from '../common/security/ip-block.service';
 import {
+  AccountStatusDto,
   AddAdminStaffDto,
   AdminLookupDto,
   ListLogsDto,
@@ -105,6 +106,46 @@ export class AdminController {
     @Req() req: Request,
   ) {
     return this.admin.updateStaff(admin, staffId, dto, meta(req));
+  }
+
+  // ── Accounts (ban / unban) ─────────────────────────────────────────
+
+  @Get('accounts')
+  @RequireAdminRole(AdminRole.ADMIN, AdminRole.MANAGER, AdminRole.CUSTOMER_SUPPORT)
+  @ApiOperation({
+    summary: 'Find an app account by phone number',
+    description: 'Support can look; only admins and managers can ban.',
+  })
+  findAccount(@Query() dto: AdminLookupDto) {
+    return this.admin.findAccount(dto.phone);
+  }
+
+  @Post('accounts/:userId/suspend')
+  @RequireAdminRole(AdminRole.ADMIN, AdminRole.MANAGER)
+  @ApiOperation({
+    summary: 'Ban an account',
+    description:
+      'Signs them out everywhere and refuses every future login. Their gyms and data stay.',
+  })
+  suspendAccount(
+    @CurrentAdmin() admin: AdminContext,
+    @Param('userId', ParseUUIDPipe) userId: string,
+    @Body() dto: AccountStatusDto,
+    @Req() req: Request,
+  ) {
+    return this.admin.suspendAccount(admin, userId, dto, meta(req));
+  }
+
+  @Post('accounts/:userId/reactivate')
+  @RequireAdminRole(AdminRole.ADMIN, AdminRole.MANAGER)
+  @ApiOperation({ summary: 'Lift a ban' })
+  reactivateAccount(
+    @CurrentAdmin() admin: AdminContext,
+    @Param('userId', ParseUUIDPipe) userId: string,
+    @Body() dto: AccountStatusDto,
+    @Req() req: Request,
+  ) {
+    return this.admin.reactivateAccount(admin, userId, dto, meta(req));
   }
 
   // ── Support ────────────────────────────────────────────────────────

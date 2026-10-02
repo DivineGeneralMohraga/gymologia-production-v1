@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Permission } from '@prisma/client';
 import { StorageService } from './storage.service';
 import { SignUploadDto } from './dto/upload.dto';
-import { Actor, RequirePermissions } from '../rbac/rbac.decorators';
+import { Actor, RequirePermissions, WorksWithoutPlan } from '../rbac/rbac.decorators';
 import type { ActorContext } from '../rbac/permission.service';
 
 /**
@@ -19,6 +19,7 @@ import type { ActorContext } from '../rbac/permission.service';
  */
 @ApiTags('uploads')
 @ApiBearerAuth()
+@WorksWithoutPlan()
 @Controller('gyms/:gymId/uploads')
 export class UploadsController {
   constructor(private readonly storage: StorageService) {}

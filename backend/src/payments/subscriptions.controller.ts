@@ -3,7 +3,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Permission } from '@prisma/client';
 import type { Request } from 'express';
 import { SubscriptionsService } from './subscriptions.service';
-import { Actor, RequirePermissions } from '../rbac/rbac.decorators';
+import { Actor, RequirePermissions, WorksWithoutPlan } from '../rbac/rbac.decorators';
 import type { ActorContext } from '../rbac/permission.service';
 import { CheckoutDto, QuoteDto } from './dto/subscription.dto';
 
@@ -14,6 +14,7 @@ const meta = (req: Request) => ({
 
 @ApiTags('subscription')
 @ApiBearerAuth()
+@WorksWithoutPlan()
 @Controller('gyms/:gymId/subscription')
 export class SubscriptionsController {
   constructor(private readonly subscriptions: SubscriptionsService) {}

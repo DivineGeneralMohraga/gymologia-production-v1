@@ -744,10 +744,6 @@ class AppLocalizationsTa extends AppLocalizations {
   String get staffBadge => 'பணியாளர்';
 
   @override
-  String get draftCrmNote =>
-      'உங்கள் கூடம் வரைவு நிலையில் உள்ளது. CRM செயல்படும், ஆனால் திட்டம் இயங்கும் வரை உறுப்பினர்கள் தேடலில் உங்களைக் காண மாட்டார்கள்.';
-
-  @override
   String roleHiddenNote(String role) {
     return 'இங்கே நீங்கள் $role. உங்கள் பங்கு செய்ய முடியாதவை காட்டி மறுக்கப்படாமல் மறைக்கப்படும்.';
   }
@@ -2393,4 +2389,16 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get gymContactHelp =>
       'உறுப்பினர்கள் அழைக்கும் எண் — ஜிம்மின் வரவேற்பு அல்லது வணிக எண். இது உங்கள் ஜிம் பக்கத்தில் அனைவருக்கும் தெரியும்.';
+
+  @override
+  String get crmLockedDraft =>
+      'CRM-ஐத் திறக்க ஒரு திட்டத்தைத் தேர்ந்தெடுக்கவும்: உறுப்பினர்கள், பணியாளர்கள், வருகை, நிகழ்வுகள், அரட்டை. புதிய உரிமையாளர்களுக்கு 7 நாள் இலவச சோதனை உண்டு.';
+
+  @override
+  String get crmLockedExpired =>
+      'உங்கள் திட்டம் முடிந்துவிட்டது. உறுப்பினர்களையும் தரவையும் இன்னும் பார்க்கலாம், ஆனால் எதையும் சேர்க்க அல்லது மாற்ற புதுப்பிக்கவும்.';
+
+  @override
+  String get crmLockedAskOwner =>
+      'இந்த ஜிம்மிற்கு செயலில் உள்ள திட்டம் இல்லை, எனவே CRM பூட்டப்பட்டுள்ளது. ஒரு திட்டத்தைத் தேர்ந்தெடுக்க ஜிம் உரிமையாளரிடம் கேளுங்கள்.';
 }

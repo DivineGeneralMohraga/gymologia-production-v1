@@ -4,7 +4,7 @@ import { Permission } from '@prisma/client';
 import type { Request } from 'express';
 import { KycService } from './kyc.service';
 import { SubmitKycDto } from './dto/kyc.dto';
-import { Actor, RequirePermissions } from '../rbac/rbac.decorators';
+import { Actor, RequirePermissions, WorksWithoutPlan } from '../rbac/rbac.decorators';
 import type { ActorContext } from '../rbac/permission.service';
 
 const meta = (req: Request) => ({
@@ -21,6 +21,7 @@ const meta = (req: Request) => ({
  */
 @ApiTags('kyc')
 @ApiBearerAuth()
+@WorksWithoutPlan()
 @Controller('gyms/:gymId/kyc')
 export class KycController {
   constructor(private readonly kyc: KycService) {}

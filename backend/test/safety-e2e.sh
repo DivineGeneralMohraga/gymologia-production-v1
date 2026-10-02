@@ -95,6 +95,7 @@ GID=$(curl -s -X POST "$API/gyms" -H "Authorization: Bearer $OWNER" -H 'Content-
            \"district\":\"New Delhi\",\"city\":\"New Delhi\",\"pincode\":\"110001\",
            \"contactPhone\":\"$P_OWNER\"}" | field id)
 [ -n "$GID" ] && ok "gym created" || { bad "setup" "no gym"; exit 1; }
+node test/tools/activate-gym.js "$GID" > /dev/null || { bad "setup" "could not activate the gym"; exit 1; }
 
 add_member "$OWNER" "$GID" "$P_ALICE" "Alice"
 add_member "$OWNER" "$GID" "$P_BOB" "Bob"

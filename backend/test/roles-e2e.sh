@@ -293,6 +293,7 @@ OTHER_GID=$(curl -s -X POST "$API/gyms" -H "Authorization: Bearer $OTHER" -H 'Co
       -d "{\"name\":\"Other Gym\",\"addressLine1\":\"1 Elsewhere\",\"state\":\"Kerala\",
            \"district\":\"Kannur\",\"city\":\"Kannur\",\"pincode\":\"670001\",
            \"contactPhone\":\"$P_OTHER\"}" | field id)
+node test/tools/activate-gym.js "$OTHER_GID" > /dev/null || { bad "setup" "could not activate the gym"; exit 1; }
 
 CROSS=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH "$API/gyms/$OTHER_GID/roles/$FD" \
         -H "Authorization: Bearer $OTHER" -H 'Content-Type: application/json' \

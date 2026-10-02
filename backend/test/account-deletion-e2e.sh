@@ -236,8 +236,15 @@ done
 
 # The number must be free. A returning person gets a new account with no
 # history, which is what having deleted the old one ought to mean.
-REUSE=$(curl -s -m 60 -X POST "$API/auth/otp/request" -H 'Content-Type: application/json' \
-        -d "{\"phone\":\"$P_LEAVER\",\"appClient\":\"MEMBER\"}")
+# The number signed in at the start, and on a fast run that can be inside
+# the per-number resend cooldown -- wait it out as a person would.
+for _ in 1 2 3; do
+  REUSE=$(curl -s -m 60 -X POST "$API/auth/otp/request" -H 'Content-Type: application/json' \
+          -d "{\"phone\":\"$P_LEAVER\",\"appClient\":\"MEMBER\"}")
+  WAIT=$(echo "$REUSE" | grep -oE 'wait [0-9]+s' | grep -oE '[0-9]+')
+  [ -z "$WAIT" ] && break
+  sleep $((WAIT + 1))
+done
 RCID=$(echo "$REUSE" | field challengeId); RCODE=$(echo "$REUSE" | field devCode)
 RV=$(curl -s -m 60 -X POST "$API/auth/otp/verify" -H 'Content-Type: application/json' \
      -d "{\"challengeId\":\"$RCID\",\"phone\":\"$P_LEAVER\",\"code\":\"$RCODE\",\"appClient\":\"MEMBER\"}")

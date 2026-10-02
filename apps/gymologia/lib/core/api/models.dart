@@ -125,6 +125,15 @@ class GymDetail {
   final String displayName;
   final String district;
   final String status;
+
+  /// A trial or paid plan is running. Without one the server locks the CRM
+  /// to the plan, profile and verification screens.
+  bool get hasPlan => status == 'ACTIVE' || status == 'PENDING_KYC';
+
+  /// Had a plan that ran out: the server still lets staff read the CRM,
+  /// but refuses changes until it is renewed.
+  bool get canViewCrm => hasPlan || status == 'SUSPENDED';
+
   final String? description;
   final int memberCount;
   final int staffCount;

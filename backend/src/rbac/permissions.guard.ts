@@ -12,10 +12,12 @@ import { SecurityEventService } from '../common/security/security-event.service'
 import {
   PERMISSIONS_KEY,
   PERMISSIONS_MODE_KEY,
+  WORKS_WITHOUT_PLAN_KEY,
   AuthUser,
 } from './rbac.decorators';
 
 interface GuardedRequest {
+  method?: string;
   user?: AuthUser;
   actor?: ActorContext;
   params: Record<string, string>;
@@ -65,6 +67,26 @@ export class PermissionsGuard implements CanActivate {
 
     const actor = await this.permissions.getActorContext(user.userId, gymId);
     request.actor = actor;
+
+    // No plan, no CRM. A new gym is a draft until the free trial or a paid
+    // plan starts: only the routes needed to pay and set up stay open. A gym
+    // whose plan ran out is read-only until renewed -- the owner can still
+    // see their members and history (holding that hostage over a late
+    // payment would be wrong), but cannot add or change anything.
+    // Checked before permissions so the owner gets this reason rather than
+    // a misleading "no access".
+    const worksWithoutPlan = this.reflector.getAllAndOverride<boolean>(
+      WORKS_WITHOUT_PLAN_KEY,
+      [context.getHandler(), context.getClass()],
+    );
+    const readOnly = request.method === 'GET' || request.method === 'HEAD';
+    if (!actor.gymActive && !worksWithoutPlan && !(actor.gymLapsed && readOnly)) {
+      throw new ForbiddenException(
+        actor.gymLapsed
+          ? "This gym's plan has ended. Renew it to make changes."
+          : 'This gym has no active plan. Start the free trial or choose a plan to use this.',
+      );
+    }
 
     const mode = this.reflector.getAllAndOverride<'all' | 'any'>(
       PERMISSIONS_MODE_KEY,

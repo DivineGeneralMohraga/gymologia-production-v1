@@ -15,14 +15,17 @@ import {
   OtpPurpose,
   StaffStatus,
   TicketStatus,
+  UserStatus,
 } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../common/audit/audit.service';
 import { PersonLookupService } from '../people/person-lookup.service';
+import { normalizePhone } from '../common/utils/phone.util';
 import { istDay } from '../common/utils/day';
 import type { RequestMeta } from '../gyms/gyms.service';
 import type { AdminContext } from './admin.guard';
 import {
+  AccountStatusDto,
   AddAdminStaffDto,
   ListLogsDto,
   ListTicketsDto,
@@ -361,6 +364,178 @@ export class AdminService implements OnModuleInit {
     });
 
     return this.listStaff();
+  }
+
+  // ── Accounts (ban / unban) ─────────────────────────────────────────
+
+  /**
+   * Find an app account by its number, with what an admin needs to decide
+   * on a ban: who it is, what it owns, and the reason for any current ban.
+   */
+  async findAccount(phone: string) {
+    const normalized = normalizePhone(phone);
+
+    const user = await this.prisma.user.findUnique({
+      where: { phone: normalized },
+      select: {
+        id: true,
+        name: true,
+        phone: true,
+        status: true,
+        createdAt: true,
+        lastLoginAt: true,
+        anonymisedAt: true,
+        _count: {
+          select: {
+            ownedGyms: { where: { deletedAt: null } },
+            memberships: true,
+            staffRoles: true,
+          },
+        },
+        adminStaff: { select: { status: true } },
+      },
+    });
+    if (!user || user.anonymisedAt) {
+      throw new NotFoundException('No account uses that number');
+    }
+
+    const lastBan =
+      user.status === UserStatus.SUSPENDED
+        ? await this.prisma.auditLog.findFirst({
+            where: { action: 'admin.account.suspend', entityId: user.id },
+            orderBy: { createdAt: 'desc' },
+            select: {
+              createdAt: true,
+              after: true,
+              actor: { select: { name: true } },
+            },
+          })
+        : null;
+
+    return {
+      id: user.id,
+      name: user.name,
+      phone: maskPhone(user.phone),
+      status: user.status,
+      createdAt: user.createdAt,
+      lastLoginAt: user.lastLoginAt,
+      gymsOwned: user._count.ownedGyms,
+      memberships: user._count.memberships,
+      staffRoles: user._count.staffRoles,
+      isAdminStaff: user.adminStaff?.status === StaffStatus.ACTIVE,
+      ban: lastBan
+        ? {
+            at: lastBan.createdAt,
+            by: lastBan.actor?.name ?? null,
+            reason:
+              (lastBan.after as { reason?: string } | null)?.reason ?? null,
+          }
+        : null,
+    };
+  }
+
+  /**
+   * Ban an account. Login and token refresh already refuse a SUSPENDED
+   * user; revoking the sessions as well signs them out of every device now
+   * rather than when their access token runs out.
+   */
+  async suspendAccount(
+    admin: AdminContext,
+    userId: string,
+    dto: AccountStatusDto,
+    meta: RequestMeta,
+  ) {
+    const user = await this.accountForStatusChange(admin, userId);
+    if (user.status === UserStatus.SUSPENDED) {
+      throw new ConflictException('This account is already banned');
+    }
+
+    await this.prisma.$transaction([
+      this.prisma.user.update({
+        where: { id: userId },
+        data: { status: UserStatus.SUSPENDED },
+      }),
+      this.prisma.session.updateMany({
+        where: { userId, revokedAt: null },
+        data: { revokedAt: new Date() },
+      }),
+    ]);
+
+    await this.audit.record({
+      actorId: admin.userId,
+      action: 'admin.account.suspend',
+      entityType: 'User',
+      entityId: userId,
+      before: { status: user.status },
+      after: { status: UserStatus.SUSPENDED, reason: dto.reason },
+      ip: meta.ip,
+      userAgent: meta.userAgent,
+    });
+
+    return this.findAccount(user.phone);
+  }
+
+  async reactivateAccount(
+    admin: AdminContext,
+    userId: string,
+    dto: AccountStatusDto,
+    meta: RequestMeta,
+  ) {
+    const user = await this.accountForStatusChange(admin, userId);
+    if (user.status !== UserStatus.SUSPENDED) {
+      throw new ConflictException('This account is not banned');
+    }
+
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { status: UserStatus.ACTIVE },
+    });
+
+    await this.audit.record({
+      actorId: admin.userId,
+      action: 'admin.account.reactivate',
+      entityType: 'User',
+      entityId: userId,
+      before: { status: user.status },
+      after: { status: UserStatus.ACTIVE, reason: dto.reason },
+      ip: meta.ip,
+      userAgent: meta.userAgent,
+    });
+
+    return this.findAccount(user.phone);
+  }
+
+  /**
+   * The rules shared by ban and unban: never yourself, never a deleted
+   * account, and an internal team member only by an owner -- otherwise an
+   * admin could lock a colleague (or their own boss) out of the console.
+   */
+  private async accountForStatusChange(admin: AdminContext, userId: string) {
+    if (userId === admin.userId) {
+      throw new ForbiddenException('You cannot change your own account');
+    }
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        phone: true,
+        status: true,
+        anonymisedAt: true,
+        adminStaff: { select: { status: true } },
+      },
+    });
+    if (!user || user.anonymisedAt || user.status === UserStatus.DELETED) {
+      throw new NotFoundException('Account not found');
+    }
+    if (
+      user.adminStaff?.status === StaffStatus.ACTIVE &&
+      admin.role !== AdminRole.OWNER
+    ) {
+      throw new ForbiddenException(
+        'Only an owner can ban someone on the internal team',
+      );
+    }
+    return user;
   }
 
   // ── Support ────────────────────────────────────────────────────────

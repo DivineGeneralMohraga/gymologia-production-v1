@@ -1308,12 +1308,6 @@ abstract class AppLocalizations {
   /// **'STAFF'**
   String get staffBadge;
 
-  /// No description provided for @draftCrmNote.
-  ///
-  /// In en, this message translates to:
-  /// **'Your gym is a draft. The CRM works, but members cannot find you in search until a plan is active.'**
-  String get draftCrmNote;
-
   /// No description provided for @roleHiddenNote.
   ///
   /// In en, this message translates to:
@@ -4085,6 +4079,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The number members will call — your gym\'s front desk or business number. It is shown on your public gym page.'**
   String get gymContactHelp;
+
+  /// No description provided for @crmLockedDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a plan to unlock the CRM: members, staff, attendance, events and chat. New owners get a free 7-day trial.'**
+  String get crmLockedDraft;
+
+  /// No description provided for @crmLockedExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Your plan has ended. You can still see your members and data, but renew to add or change anything.'**
+  String get crmLockedExpired;
+
+  /// No description provided for @crmLockedAskOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'This gym has no active plan, so the CRM is locked. Ask the gym owner to choose one.'**
+  String get crmLockedAskOwner;
 }
 
 class _AppLocalizationsDelegate

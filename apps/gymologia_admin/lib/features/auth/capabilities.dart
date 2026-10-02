@@ -58,6 +58,13 @@ bool canReach(String section, String role, Map<String, dynamic>? flags) {
       // and the server admits the same three roles. Restricting this to
       // senior staff is how a harassment report sits unread for a week.
       return flag('canHandleSupport');
+    case 'accounts':
+      // Looking an account up is part of the support desk.
+      return flag('canHandleSupport');
+    case 'banAccounts':
+      // Banning is MANAGER upwards; support can look but not act. No server
+      // flag for it, so the rule is written out like kyc and payouts.
+      return _isAtLeast(role, 'MANAGER');
     case 'broadcast':
       return flag('canBroadcast');
     case 'staff':
