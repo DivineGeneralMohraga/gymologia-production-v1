@@ -2336,13 +2336,13 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get gymLocationHint =>
-      'ജിമ്മിനുള്ളിൽ നിന്ന് ടാപ്പ് ചെയ്യുക, അടുത്തുള്ള അംഗങ്ങൾക്ക് നിങ്ങളെ കണ്ടെത്താൻ.';
+      'അടുത്തുള്ള അംഗങ്ങൾക്ക് കണ്ടെത്താൻ നിങ്ങളുടെ ജിം മാപ്പിൽ പിൻ ചെയ്യുക.';
 
   @override
-  String get setGymLocation => 'സ്ഥാനം എടുക്കുക';
+  String get setGymLocation => 'മാപ്പിൽ സജ്ജമാക്കുക';
 
   @override
-  String get updateGymLocation => 'പുതുക്കുക';
+  String get updateGymLocation => 'മാറ്റുക';
 
   @override
   String get gymLocationSet => 'സ്ഥാനം സജ്ജമാക്കി';
@@ -2364,4 +2364,14 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get gymLocationNotSet => 'ഇതുവരെ സജ്ജമാക്കിയിട്ടില്ല';
+
+  @override
+  String get moveMapHint =>
+      'പിൻ നിങ്ങളുടെ ജിമ്മിന്റെ പ്രവേശന കവാടത്തിൽ വരുന്ന വിധം മാപ്പ് നീക്കുക.';
+
+  @override
+  String get confirmLocation => 'സ്ഥാനം സ്ഥിരീകരിക്കുക';
+
+  @override
+  String get myLocation => 'എന്റെ സ്ഥാനം';
 }

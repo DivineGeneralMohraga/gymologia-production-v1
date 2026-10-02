@@ -2324,13 +2324,13 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get gymLocationHint =>
-      'మీ జిమ్ లోపల నిలబడి నొక్కండి, సమీపంలోని సభ్యులు మిమ్మల్ని కనుగొనేలా.';
+      'సమీపంలోని సభ్యులు కనుగొనేలా మీ జిమ్‌ను మ్యాప్‌లో పిన్ చేయండి.';
 
   @override
-  String get setGymLocation => 'స్థానం తీసుకోండి';
+  String get setGymLocation => 'మ్యాప్‌లో సెట్ చేయండి';
 
   @override
-  String get updateGymLocation => 'నవీకరించు';
+  String get updateGymLocation => 'మార్చు';
 
   @override
   String get gymLocationSet => 'స్థానం సెట్ అయింది';
@@ -2352,4 +2352,14 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String get gymLocationNotSet => 'ఇంకా సెట్ చేయలేదు';
+
+  @override
+  String get moveMapHint =>
+      'పిన్ మీ జిమ్ ప్రవేశ ద్వారం మీద ఉండేలా మ్యాప్‌ను జరపండి.';
+
+  @override
+  String get confirmLocation => 'స్థానాన్ని నిర్ధారించండి';
+
+  @override
+  String get myLocation => 'నా స్థానం';
 }

@@ -2351,13 +2351,13 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get gymLocationHint =>
-      'உங்கள் ஜிம்மிற்குள் நின்று தட்டவும், அருகிலுள்ள உறுப்பினர்கள் உங்களைக் கண்டறிய.';
+      'அருகிலுள்ள உறுப்பினர்கள் கண்டறிய உங்கள் ஜிம்மை வரைபடத்தில் பின் செய்யவும்.';
 
   @override
-  String get setGymLocation => 'இருப்பிடம் பெறு';
+  String get setGymLocation => 'வரைபடத்தில் அமை';
 
   @override
-  String get updateGymLocation => 'புதுப்பி';
+  String get updateGymLocation => 'மாற்று';
 
   @override
   String get gymLocationSet => 'இருப்பிடம் அமைக்கப்பட்டது';
@@ -2379,4 +2379,14 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get gymLocationNotSet => 'இன்னும் அமைக்கவில்லை';
+
+  @override
+  String get moveMapHint =>
+      'பின் உங்கள் ஜிம் நுழைவாயிலில் இருக்கும்படி வரைபடத்தை நகர்த்தவும்.';
+
+  @override
+  String get confirmLocation => 'இருப்பிடத்தை உறுதிசெய்';
+
+  @override
+  String get myLocation => 'என் இருப்பிடம்';
 }

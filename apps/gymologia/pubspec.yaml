@@ -1,7 +1,7 @@
 name: gymologia
 description: Gymologia — gym members, owners and staff in one app.
 publish_to: 'none'
-version: 0.3.3+21
+version: 0.3.4+22
 
 environment:
   sdk: ^3.12.0
@@ -38,6 +38,12 @@ dependencies:
   # build on this project's Kotlin setup, and 8.x pins an old compileSdk.
   image_picker: ^1.2.3
   file_selector: ^1.1.0
+
+  # Setting a gym's location on a map. OpenStreetMap tiles: no API key or
+  # billing account. Switching to Google Maps later is a tile-layer change.
+  flutter_map: ^8.3.2
+  latlong2: ^0.10.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

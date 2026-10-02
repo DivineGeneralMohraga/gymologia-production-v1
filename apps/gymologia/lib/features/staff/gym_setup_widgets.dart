@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/api/api_client.dart';
 import '../../core/api/uploads.dart';
-import '../../core/location/location_service.dart';
 import '../../core/media/media_picker.dart';
 import '../../l10n/app_localizations.dart';
 import '../../theme.dart';
 import '../../ui/kit.dart';
 import '../auth/auth_controller.dart';
+import 'gym_location_picker.dart';
 
 // ── Photos ───────────────────────────────────────────────────────────────
 
@@ -195,70 +196,102 @@ class GymPhotosEditor extends StatelessWidget {
 /// A point on the map, in decimal degrees.
 typedef GymLocation = ({double latitude, double longitude});
 
-/// Where the gym is, taken from the owner's phone while they stand in it.
-/// It is what lets the gym browser rank this gym for members nearby; a gym
-/// without one sorts below every gym that has one.
-class GymLocationField extends StatefulWidget {
+/// Where the gym is. Set on a map (the picker can also jump to the phone's
+/// own position), and it is what lets the gym browser rank this gym for
+/// members nearby -- a gym without one sorts below every gym that has one.
+/// Whoever can open this field can save it: the gym profile editor is
+/// behind EDIT_GYM_PROFILE, and the server re-checks that on save.
+class GymLocationField extends StatelessWidget {
   const GymLocationField({super.key, required this.value, required this.onChanged});
 
   final GymLocation? value;
   final ValueChanged<GymLocation> onChanged;
 
-  @override
-  State<GymLocationField> createState() => _GymLocationFieldState();
-}
-
-class _GymLocationFieldState extends State<GymLocationField> {
-  bool _busy = false;
-
-  Future<void> _locate() async {
-    final t = AppLocalizations.of(context);
-    final messenger = ScaffoldMessenger.of(context);
-    setState(() => _busy = true);
-    // High accuracy and a longer wait than the member-side search: this
-    // pin is fixed for every member who will ever look for the gym.
-    final position = await LocationService().requestAndFetch(
-      accuracy: LocationAccuracy.high,
-      timeLimit: const Duration(seconds: 20),
+  Future<void> _pick(BuildContext context) async {
+    final picked = await Navigator.of(context).push<GymLocation>(
+      MaterialPageRoute(builder: (_) => GymLocationPickerPage(initial: value)),
     );
-    if (!mounted) return;
-    setState(() => _busy = false);
-    if (position == null) {
-      messenger.showSnackBar(SnackBar(content: Text(t.gymLocationFailed)));
-      return;
-    }
-    widget.onChanged((latitude: position.latitude, longitude: position.longitude));
+    if (picked != null) onChanged(picked);
   }
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
-    final value = widget.value;
+    final value = this.value;
     final set = value != null;
 
-    return ActionTile(
-      icon: set ? Icons.location_on_rounded : Icons.add_location_alt_rounded,
-      accent: set,
-      title: set ? t.gymLocationSet : t.gymLocationNotSet,
-      subtitle: set
-          ? '${value.latitude.toStringAsFixed(5)}, ${value.longitude.toStringAsFixed(5)}'
-          : t.gymLocationHint,
-      trailing: _busy
-          ? const SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(strokeWidth: 2.4),
-            )
-          : Text(
-              (set ? t.updateGymLocation : t.setGymLocation).toUpperCase(),
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                fontFamily: displayFont,
-                fontWeight: FontWeight.w800,
-                color: context.gym.accentText,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (set) ...[
+          // A small, still map of the pin. Tapping it opens the picker.
+          ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: SizedBox(
+              height: 150,
+              child: Stack(
+                children: [
+                  FlutterMap(
+                    key: ValueKey(value),
+                    options: MapOptions(
+                      initialCenter: LatLng(value.latitude, value.longitude),
+                      initialZoom: 16,
+                      interactionOptions:
+                          const InteractionOptions(flags: InteractiveFlag.none),
+                    ),
+                    children: [
+                      ...osmLayers(attribution: false),
+                      MarkerLayer(markers: [
+                        Marker(
+                          point: LatLng(value.latitude, value.longitude),
+                          width: 44,
+                          height: 44,
+                          alignment: Alignment.topCenter,
+                          child: Icon(
+                            Icons.location_on_rounded,
+                            size: 44,
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? volt
+                                : ink,
+                            shadows: const [
+                              Shadow(blurRadius: 6, color: Colors.black54),
+                            ],
+                          ),
+                        ),
+                      ]),
+                    ],
+                  ),
+                  Positioned.fill(
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: InkWell(onTap: () => _pick(context)),
+                    ),
+                  ),
+                ],
               ),
             ),
-      onTap: _busy ? null : _locate,
+          ),
+          const SizedBox(height: 8),
+        ],
+        ActionTile(
+          icon: set ? Icons.location_on_rounded : Icons.add_location_alt_rounded,
+          accent: set,
+          title: set ? t.gymLocationSet : t.gymLocationNotSet,
+          subtitle: set
+              ? '${value.latitude.toStringAsFixed(5)}, ${value.longitude.toStringAsFixed(5)}'
+              : t.gymLocationHint,
+          trailing: Text(
+            (set ? t.updateGymLocation : t.setGymLocation).toUpperCase(),
+            textAlign: TextAlign.end,
+            style: TextStyle(
+              fontFamily: displayFont,
+              fontWeight: FontWeight.w800,
+              color: context.gym.accentText,
+            ),
+          ),
+          onTap: () => _pick(context),
+        ),
+      ],
     );
   }
 }

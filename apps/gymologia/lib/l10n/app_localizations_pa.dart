@@ -2318,13 +2318,13 @@ class AppLocalizationsPa extends AppLocalizations {
 
   @override
   String get gymLocationHint =>
-      'ਆਪਣੇ ਜਿਮ ਦੇ ਅੰਦਰ ਖੜ੍ਹੇ ਹੋ ਕੇ ਟੈਪ ਕਰੋ, ਤਾਂ ਜੋ ਨੇੜਲੇ ਮੈਂਬਰ ਤੁਹਾਨੂੰ ਲੱਭ ਸਕਣ।';
+      'ਨੇੜਲੇ ਮੈਂਬਰ ਲੱਭ ਸਕਣ, ਇਸ ਲਈ ਆਪਣਾ ਜਿਮ ਨਕਸ਼ੇ ’ਤੇ ਪਿੰਨ ਕਰੋ।';
 
   @override
-  String get setGymLocation => 'ਥਾਂ ਲਓ';
+  String get setGymLocation => 'ਨਕਸ਼ੇ ’ਤੇ ਚੁਣੋ';
 
   @override
-  String get updateGymLocation => 'ਅੱਪਡੇਟ';
+  String get updateGymLocation => 'ਬਦਲੋ';
 
   @override
   String get gymLocationSet => 'ਥਾਂ ਸੈੱਟ ਹੈ';
@@ -2346,4 +2346,14 @@ class AppLocalizationsPa extends AppLocalizations {
 
   @override
   String get gymLocationNotSet => 'ਅਜੇ ਸੈੱਟ ਨਹੀਂ';
+
+  @override
+  String get moveMapHint =>
+      'ਨਕਸ਼ੇ ਨੂੰ ਹਿਲਾਓ ਤਾਂ ਜੋ ਪਿੰਨ ਤੁਹਾਡੇ ਜਿਮ ਦੇ ਦਰਵਾਜ਼ੇ ’ਤੇ ਆਵੇ।';
+
+  @override
+  String get confirmLocation => 'ਥਾਂ ਪੱਕੀ ਕਰੋ';
+
+  @override
+  String get myLocation => 'ਮੇਰੀ ਥਾਂ';
 }

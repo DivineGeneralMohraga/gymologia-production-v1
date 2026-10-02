@@ -649,13 +649,16 @@
   "statusNotSubmitted": "ਨਹੀਂ ਭੇਜਿਆ",
   "getVerified": "ਤਸਦੀਕ ਕਰਵਾਓ",
   "gymLocation": "ਜਿਮ ਦੀ ਥਾਂ",
-  "gymLocationHint": "ਆਪਣੇ ਜਿਮ ਦੇ ਅੰਦਰ ਖੜ੍ਹੇ ਹੋ ਕੇ ਟੈਪ ਕਰੋ, ਤਾਂ ਜੋ ਨੇੜਲੇ ਮੈਂਬਰ ਤੁਹਾਨੂੰ ਲੱਭ ਸਕਣ।",
-  "setGymLocation": "ਥਾਂ ਲਓ",
-  "updateGymLocation": "ਅੱਪਡੇਟ",
+  "gymLocationHint": "ਨੇੜਲੇ ਮੈਂਬਰ ਲੱਭ ਸਕਣ, ਇਸ ਲਈ ਆਪਣਾ ਜਿਮ ਨਕਸ਼ੇ ’ਤੇ ਪਿੰਨ ਕਰੋ।",
+  "setGymLocation": "ਨਕਸ਼ੇ ’ਤੇ ਚੁਣੋ",
+  "updateGymLocation": "ਬਦਲੋ",
   "gymLocationSet": "ਥਾਂ ਸੈੱਟ ਹੈ",
   "gymLocationFailed": "ਤੁਹਾਡੀ ਥਾਂ ਨਹੀਂ ਮਿਲੀ। ਲੋਕੇਸ਼ਨ ਚਾਲੂ ਕਰਕੇ ਮੁੜ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
   "gymCreatedAddPhotos": "{name} ਬਣ ਗਿਆ। ਫ਼ੋਟੋਆਂ ਵਾਲੇ ਜਿਮ ਨੂੰ ਵੱਧ ਮੈਂਬਰ ਮਿਲਦੇ ਹਨ, ਇਸ ਲਈ ਹੁਣੇ ਕੁਝ ਜੋੜੋ। ਬਾਅਦ ਵਿੱਚ ਜਿਮ ਪ੍ਰੋਫ਼ਾਈਲ ਵਿੱਚ ਬਦਲ ਸਕਦੇ ਹੋ।",
   "finish": "ਹੋ ਗਿਆ",
   "skipForNow": "ਹੁਣ ਛੱਡੋ",
-  "gymLocationNotSet": "ਅਜੇ ਸੈੱਟ ਨਹੀਂ"
+  "gymLocationNotSet": "ਅਜੇ ਸੈੱਟ ਨਹੀਂ",
+  "moveMapHint": "ਨਕਸ਼ੇ ਨੂੰ ਹਿਲਾਓ ਤਾਂ ਜੋ ਪਿੰਨ ਤੁਹਾਡੇ ਜਿਮ ਦੇ ਦਰਵਾਜ਼ੇ ’ਤੇ ਆਵੇ।",
+  "confirmLocation": "ਥਾਂ ਪੱਕੀ ਕਰੋ",
+  "myLocation": "ਮੇਰੀ ਥਾਂ"
 }

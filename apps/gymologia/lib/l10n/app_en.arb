@@ -1260,9 +1260,9 @@
   "statusNotSubmitted": "Not sent",
   "getVerified": "Get verified",
   "gymLocation": "Gym location",
-  "gymLocationHint": "Stand inside your gym and tap, so members nearby can find you.",
-  "setGymLocation": "Locate",
-  "updateGymLocation": "Update",
+  "gymLocationHint": "Pin your gym on the map so members nearby can find it.",
+  "setGymLocation": "Set on map",
+  "updateGymLocation": "Change",
   "gymLocationSet": "Location set",
   "gymLocationFailed": "Couldn't get your location. Turn on location and try again.",
   "gymCreatedAddPhotos": "{name} is created. Gyms with photos get more members, so add a few now. You can change them later in Gym profile.",
@@ -1275,5 +1275,8 @@
   },
   "finish": "Done",
   "skipForNow": "Skip for now",
-  "gymLocationNotSet": "Not set yet"
+  "gymLocationNotSet": "Not set yet",
+  "moveMapHint": "Move the map so the pin sits on your gym's entrance.",
+  "confirmLocation": "Confirm location",
+  "myLocation": "My location"
 }

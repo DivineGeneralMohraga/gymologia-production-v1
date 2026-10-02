@@ -4011,19 +4011,19 @@ abstract class AppLocalizations {
   /// No description provided for @gymLocationHint.
   ///
   /// In en, this message translates to:
-  /// **'Stand inside your gym and tap, so members nearby can find you.'**
+  /// **'Pin your gym on the map so members nearby can find it.'**
   String get gymLocationHint;
 
   /// No description provided for @setGymLocation.
   ///
   /// In en, this message translates to:
-  /// **'Locate'**
+  /// **'Set on map'**
   String get setGymLocation;
 
   /// No description provided for @updateGymLocation.
   ///
   /// In en, this message translates to:
-  /// **'Update'**
+  /// **'Change'**
   String get updateGymLocation;
 
   /// No description provided for @gymLocationSet.
@@ -4061,6 +4061,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not set yet'**
   String get gymLocationNotSet;
+
+  /// No description provided for @moveMapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Move the map so the pin sits on your gym\'s entrance.'**
+  String get moveMapHint;
+
+  /// No description provided for @confirmLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm location'**
+  String get confirmLocation;
+
+  /// No description provided for @myLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'My location'**
+  String get myLocation;
 }
 
 class _AppLocalizationsDelegate

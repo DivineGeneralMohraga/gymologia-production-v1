@@ -2307,13 +2307,13 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get gymLocationHint =>
-      'તમારા જીમની અંદર ઊભા રહીને ટેપ કરો, જેથી નજીકના સભ્યો તમને શોધી શકે.';
+      'તમારા જીમને મેપ પર પિન કરો જેથી નજીકના સભ્યો તેને શોધી શકે.';
 
   @override
-  String get setGymLocation => 'સ્થાન લો';
+  String get setGymLocation => 'મેપ પર પસંદ કરો';
 
   @override
-  String get updateGymLocation => 'અપડેટ';
+  String get updateGymLocation => 'બદલો';
 
   @override
   String get gymLocationSet => 'સ્થાન સેટ છે';
@@ -2335,4 +2335,14 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String get gymLocationNotSet => 'હજી સેટ નથી';
+
+  @override
+  String get moveMapHint =>
+      'મેપ ખસેડો જેથી પિન તમારા જીમના પ્રવેશદ્વાર પર આવે.';
+
+  @override
+  String get confirmLocation => 'સ્થાન પાકું કરો';
+
+  @override
+  String get myLocation => 'મારું સ્થાન';
 }

@@ -2338,13 +2338,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gymLocationHint =>
-      'Stand inside your gym and tap, so members nearby can find you.';
+      'Pin your gym on the map so members nearby can find it.';
 
   @override
-  String get setGymLocation => 'Locate';
+  String get setGymLocation => 'Set on map';
 
   @override
-  String get updateGymLocation => 'Update';
+  String get updateGymLocation => 'Change';
 
   @override
   String get gymLocationSet => 'Location set';
@@ -2366,4 +2366,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gymLocationNotSet => 'Not set yet';
+
+  @override
+  String get moveMapHint =>
+      'Move the map so the pin sits on your gym\'s entrance.';
+
+  @override
+  String get confirmLocation => 'Confirm location';
+
+  @override
+  String get myLocation => 'My location';
 }

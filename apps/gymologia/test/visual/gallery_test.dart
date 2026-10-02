@@ -33,6 +33,7 @@ import 'package:gymologia/features/staff/crm_dashboard_page.dart';
 import 'package:gymologia/features/staff/gym_profile_edit_page.dart';
 import 'package:gymologia/features/staff/kyc_page.dart';
 import 'package:gymologia/features/staff/create_gym_page.dart';
+import 'package:gymologia/features/staff/gym_location_picker.dart';
 import 'package:gymologia/l10n/app_localizations.dart';
 import 'package:gymologia/theme.dart';
 
@@ -184,6 +185,8 @@ GymDetail _gym(String id, {List<String> images = const []}) {
   j['perks'] = ['Free diet plan', 'Steam room', 'Parking'];
   j['description'] = 'Two floors of free weights.';
   j['contactPhone'] = '+919820012345';
+  j['latitude'] = 18.5204;
+  j['longitude'] = 73.8567;
   return GymDetail.fromJson(j);
 }
 
@@ -267,6 +270,11 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {
+    // flutter_map caches tiles under the app's cache directory; there is no
+    // path_provider plugin in a test, so hand it a temp folder.
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(const MethodChannel('plugins.flutter.io/path_provider'),
+            (call) async => Directory.systemTemp.createTempSync('gallery').path);
     final sdk = Platform.environment['FLUTTER_ROOT'] ??
         File(Platform.resolvedExecutable).parent.parent.parent.parent.parent.path;
     final fonts = '$sdk/bin/cache/artifacts/material_fonts';
@@ -371,6 +379,9 @@ void main() {
           await tester.ensureVisible(create);
           await tester.tap(create);
         }));
+    testWidgets('location picker', (t) => shoot(t, '15_location_picker',
+        (_) => const GymLocationPickerPage(initial: (latitude: 18.5204, longitude: 73.8567)),
+        height: 852));
     testWidgets('crm dashboard',
         (t) => shoot(t, '08_crm', (_) => const CrmDashboardPage(gymId: 'g1'), height: 1250));
   });

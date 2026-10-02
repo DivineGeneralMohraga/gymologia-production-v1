@@ -2324,13 +2324,13 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get gymLocationHint =>
-      'ನಿಮ್ಮ ಜಿಮ್ ಒಳಗೆ ನಿಂತು ಟ್ಯಾಪ್ ಮಾಡಿ, ಹತ್ತಿರದ ಸದಸ್ಯರು ನಿಮ್ಮನ್ನು ಹುಡುಕಲು.';
+      'ಹತ್ತಿರದ ಸದಸ್ಯರು ಹುಡುಕಲು ನಿಮ್ಮ ಜಿಮ್ ಅನ್ನು ನಕ್ಷೆಯಲ್ಲಿ ಪಿನ್ ಮಾಡಿ.';
 
   @override
-  String get setGymLocation => 'ಸ್ಥಳ ಪಡೆಯಿರಿ';
+  String get setGymLocation => 'ನಕ್ಷೆಯಲ್ಲಿ ಹೊಂದಿಸಿ';
 
   @override
-  String get updateGymLocation => 'ನವೀಕರಿಸಿ';
+  String get updateGymLocation => 'ಬದಲಿಸಿ';
 
   @override
   String get gymLocationSet => 'ಸ್ಥಳ ಹೊಂದಿಸಲಾಗಿದೆ';
@@ -2352,4 +2352,14 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get gymLocationNotSet => 'ಇನ್ನೂ ಹೊಂದಿಸಿಲ್ಲ';
+
+  @override
+  String get moveMapHint =>
+      'ಪಿನ್ ನಿಮ್ಮ ಜಿಮ್ ಪ್ರವೇಶದ್ವಾರದ ಮೇಲೆ ಬರುವಂತೆ ನಕ್ಷೆಯನ್ನು ಸರಿಸಿ.';
+
+  @override
+  String get confirmLocation => 'ಸ್ಥಳ ದೃಢೀಕರಿಸಿ';
+
+  @override
+  String get myLocation => 'ನನ್ನ ಸ್ಥಳ';
 }

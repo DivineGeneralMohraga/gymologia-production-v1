@@ -649,13 +649,16 @@
   "statusNotSubmitted": "पाठवले नाही",
   "getVerified": "पडताळणी करून घ्या",
   "gymLocation": "जिमचे ठिकाण",
-  "gymLocationHint": "तुमच्या जिममध्ये उभे राहून टॅप करा, म्हणजे जवळचे सदस्य तुम्हाला शोधू शकतील.",
-  "setGymLocation": "ठिकाण घ्या",
-  "updateGymLocation": "अपडेट",
+  "gymLocationHint": "जवळच्या सदस्यांना सापडावे म्हणून तुमचे जिम नकाशावर पिन करा.",
+  "setGymLocation": "नकाशावर निवडा",
+  "updateGymLocation": "बदला",
   "gymLocationSet": "ठिकाण सेट झाले",
   "gymLocationFailed": "तुमचे ठिकाण मिळाले नाही. लोकेशन सुरू करून पुन्हा प्रयत्न करा.",
   "gymCreatedAddPhotos": "{name} तयार झाले. फोटो असलेल्या जिमना जास्त सदस्य मिळतात, म्हणून आताच काही जोडा. नंतर जिम प्रोफाइलमध्ये बदलू शकता.",
   "finish": "झाले",
   "skipForNow": "आता वगळा",
-  "gymLocationNotSet": "अजून सेट नाही"
+  "gymLocationNotSet": "अजून सेट नाही",
+  "moveMapHint": "पिन तुमच्या जिमच्या प्रवेशद्वारावर येईल असा नकाशा हलवा.",
+  "confirmLocation": "ठिकाण निश्चित करा",
+  "myLocation": "माझे ठिकाण"
 }

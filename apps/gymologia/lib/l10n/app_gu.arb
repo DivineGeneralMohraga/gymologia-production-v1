@@ -649,13 +649,16 @@
   "statusNotSubmitted": "મોકલ્યું નથી",
   "getVerified": "ચકાસણી કરાવો",
   "gymLocation": "જીમનું સ્થાન",
-  "gymLocationHint": "તમારા જીમની અંદર ઊભા રહીને ટેપ કરો, જેથી નજીકના સભ્યો તમને શોધી શકે.",
-  "setGymLocation": "સ્થાન લો",
-  "updateGymLocation": "અપડેટ",
+  "gymLocationHint": "તમારા જીમને મેપ પર પિન કરો જેથી નજીકના સભ્યો તેને શોધી શકે.",
+  "setGymLocation": "મેપ પર પસંદ કરો",
+  "updateGymLocation": "બદલો",
   "gymLocationSet": "સ્થાન સેટ છે",
   "gymLocationFailed": "તમારું સ્થાન મળ્યું નહીં. લોકેશન ચાલુ કરીને ફરી પ્રયાસ કરો.",
   "gymCreatedAddPhotos": "{name} બની ગયું. ફોટાવાળા જીમને વધુ સભ્યો મળે છે, તેથી હમણાં થોડા ઉમેરો. પછી જીમ પ્રોફાઇલમાં બદલી શકો છો.",
   "finish": "થઈ ગયું",
   "skipForNow": "હમણાં છોડો",
-  "gymLocationNotSet": "હજી સેટ નથી"
+  "gymLocationNotSet": "હજી સેટ નથી",
+  "moveMapHint": "મેપ ખસેડો જેથી પિન તમારા જીમના પ્રવેશદ્વાર પર આવે.",
+  "confirmLocation": "સ્થાન પાકું કરો",
+  "myLocation": "મારું સ્થાન"
 }
