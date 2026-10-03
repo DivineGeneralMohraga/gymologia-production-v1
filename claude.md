@@ -157,6 +157,7 @@ when the gym is on rent.)
 Subscription models(7 days free for new users of gymologia staff gym owners only for paymrent) need to be choosed for the gym : 
 599 : basic no listing in gymologia search engine 
 1199 : pro plan all in basic + gymologia search bar listing 
+(UPDATED 2026-10-03: Pro is now 899 INR. Set by PLAN_PRO_PAISE=89900.)
 
 After choosing and payment of  subscription model 
 The gym profile get actives and gym owner can use or operate the crm system of that gym profile 

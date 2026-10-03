@@ -78,7 +78,7 @@ Chat specifically stands out as thoroughly built: member-to-member, member-to-st
 | Area | Status |
 |---|---|
 | Gym creation + KYC | ✅ Done |
-| Subscription plans (₹599/₹1199, 7-day trial, referral discount) | ✅ Done |
+| Subscription plans (₹599/₹899, 7-day trial, referral discount) | ✅ Done |
 | Roles & permissions engine (HOLD/OUTRANK/NO-ESCALATION) | ⚠️ Partial — `ADMINISTRATIVE` and `MANAGE_CHAT_GROUPS` gaps (#2, #5) |
 | Attendance (role-scoped marking/editing) | ✅ Done |
 | Leave requests (ceilings, auto-approval, early return) | ✅ Done |

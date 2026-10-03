@@ -112,7 +112,7 @@ const jsonLd = {
   publisher: { '@type': 'Organization', name: 'Ganda Group Technologies' },
   offers: [
     { '@type': 'Offer', name: 'Basic', price: '599', priceCurrency: 'INR' },
-    { '@type': 'Offer', name: 'Pro', price: '1199', priceCurrency: 'INR' },
+    { '@type': 'Offer', name: 'Pro', price: '899', priceCurrency: 'INR' },
   ],
 };
 writeFileSync(join(out, 'index.html'),

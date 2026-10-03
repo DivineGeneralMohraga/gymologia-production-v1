@@ -414,7 +414,7 @@ model GymSubscription {
 
 enum Plan {
   BASIC // 599 — CRM, no search listing
-  PRO   // 1199 — CRM + Gymologia search listing + ranking + public events
+  PRO   // 899 — CRM + Gymologia search listing + ranking + public events
 }
 
 enum SubscriptionStatus {

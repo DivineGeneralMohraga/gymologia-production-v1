@@ -370,7 +370,7 @@ export class SubscriptionsService {
 
       // Guard against an order whose amount does not match what we asked
       // for. Cashfree should never do this, but believing it blindly is
-      // how a ₹1 payment activates a ₹1199 plan.
+      // how a ₹1 payment activates a ₹899 plan.
       if (result.amountPaise !== payment.amountPaise) {
         this.logger.error(
           `Amount mismatch on ${cashfreeOrderId}: expected ${payment.amountPaise}, got ${result.amountPaise}`,

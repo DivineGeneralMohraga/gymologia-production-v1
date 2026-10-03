@@ -178,7 +178,7 @@ export default () => {
 
     business: {
       planBasicPaise: int(process.env.PLAN_BASIC_PAISE, 59900),
-      planProPaise: int(process.env.PLAN_PRO_PAISE, 119900),
+      planProPaise: int(process.env.PLAN_PRO_PAISE, 89900),
       trialDays: int(process.env.TRIAL_DAYS, 7),
       referralRewardPaise: int(process.env.REFERRAL_REWARD_PAISE, 5000),
       referralDiscountPercent: int(process.env.REFERRAL_DISCOUNT_PERCENT, 10),

@@ -316,7 +316,7 @@ def draw(i):
         if t > 20.4:
             place(canvas, text_sprite('FOR GYM OWNERS', 90, 'ExtraBold', CHALK, tracking=4), W / 2, 1290, 1, prog(t, 20.4, .25) * a)
         if t > 20.8:
-            place(canvas, text_sprite('Basic ₹599  ·  Pro ₹1,199 / month', 64, 'Bold', DUST), W / 2, 1410, 1, prog(t, 20.8, .25) * a)
+            place(canvas, text_sprite('Basic ₹599  ·  Pro ₹899 / month', 64, 'Bold', DUST), W / 2, 1410, 1, prog(t, 20.8, .25) * a)
 
     # 6 ─ end card
     if t >= T_END:
