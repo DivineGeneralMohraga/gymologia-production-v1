@@ -78,10 +78,9 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     right: -40,
                     top: topInset + 10,
                     child: Transform.rotate(
-                      angle: -0.55,
-                      child: Icon(
-                        Icons.fitness_center_rounded,
-                        size: 230,
+                      angle: -0.3,
+                      child: BrandGlyph(
+                        width: 300,
                         color: volt.withValues(alpha: 0.10),
                       ),
                     ),

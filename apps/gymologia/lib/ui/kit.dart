@@ -5,7 +5,8 @@ import '../theme.dart';
 /// Colours come from the theme only -- nothing here hard-codes a shade
 /// except the brand volt/ink pair, which is the same in both modes.
 
-/// The mark: a volt tile with the dumbbell, tilted like a plate mid-lift.
+/// The mark: the G-dumbbell in ink on a volt tile, the same as the app
+/// icon on the home screen.
 class BrandMark extends StatelessWidget {
   const BrandMark({super.key, this.size = 28});
   final double size;
@@ -17,13 +18,30 @@ class BrandMark extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         color: volt,
-        borderRadius: BorderRadius.circular(size * 0.28),
+        borderRadius: BorderRadius.circular(size * 0.24),
       ),
       alignment: Alignment.center,
-      child: Transform.rotate(
-        angle: -0.6,
-        child: Icon(Icons.fitness_center, size: size * 0.62, color: ink),
-      ),
+      child: BrandGlyph(width: size * 0.8, color: ink),
+    );
+  }
+}
+
+/// The G-dumbbell alone, in any colour. The asset is black on
+/// transparent and tinted here, so one file serves every surface.
+class BrandGlyph extends StatelessWidget {
+  const BrandGlyph({super.key, required this.width, required this.color});
+  final double width;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      'assets/brand/mark.png',
+      width: width,
+      color: color,
+      colorBlendMode: BlendMode.srcIn,
+      filterQuality: FilterQuality.medium,
+      excludeFromSemantics: true,
     );
   }
 }
