@@ -7,7 +7,8 @@
 <meta name="description" content="Find a gym near you and track your training. Run your gym's members, staff, attendance, leave, events and chat from one app. Made by Ganda Group Technologies.">
 <meta name="theme-color" content="#0B0B0C">
 <link rel="canonical" href="https://gymologia.com/">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
+<link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Gymologia">
@@ -128,7 +129,12 @@ img { max-width: 100%; display: block; }
 .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
 .tile { width: 42px; height: 42px; border-radius: 12px; background: var(--volt); display: grid; place-items: center; flex: none; }
-.tile svg { width: 26px; height: 26px; color: var(--ink); }
+.tile .glyph { width: 82%; color: var(--ink); }
+/* The G-dumbbell mark, coloured by currentColor through a mask, so one
+   image serves every size and colour. */
+.glyph { display: block; aspect-ratio: 600 / 301; background: currentColor;
+  -webkit-mask: url(brand-mark.png) center / contain no-repeat; mask: url(brand-mark.png) center / contain no-repeat; }
+
 .brand b { font-family: var(--display); font-weight: 900; font-style: italic; font-size: 26px; letter-spacing: .02em; }
 .nav-links { display: flex; gap: 28px; align-items: center; }
 .nav-links a { text-decoration: none; font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 15px; color: var(--dust); }
@@ -161,7 +167,7 @@ img { max-width: 100%; display: block; }
   background: radial-gradient(circle, #C6FF0033 0%, #C6FF000d 35%, transparent 65%);
   pointer-events: none; z-index: 0;
 }
-.bar-bg { position: absolute; right: -8vw; top: 4%; width: min(72vw, 900px); z-index: 1; opacity: .08; pointer-events: none; transform: rotate(-18deg); color: var(--volt); }
+.bar-bg { position: absolute; right: -8vw; top: 12%; width: min(78vw, 980px); z-index: 1; opacity: .08; pointer-events: none; transform: rotate(-14deg); color: var(--volt); }
 
 /* Heartbeat: a resting pulse that spikes once per beat. */
 .ecg { position: absolute; left: 0; right: 0; bottom: 18px; width: 100%; height: 90px; z-index: 1; pointer-events: none; }
@@ -341,7 +347,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 18px 32px; justify-content: 
 footer .foot-brand { display: grid; gap: 10px; }
 footer .foot-brand .brand b { font-size: 22px; color: var(--chalk); }
 footer .foot-brand .tile { width: 34px; height: 34px; border-radius: 10px; }
-footer .foot-brand .tile svg { width: 21px; height: 21px; }
+
 footer .foot-links { display: flex; flex-wrap: wrap; gap: 10px 22px; }
 footer .foot-links a { color: var(--chalk); text-decoration: none; border-bottom: 1px solid var(--line); }
 footer .foot-links a:hover { color: var(--volt); border-color: var(--volt); }
@@ -381,15 +387,6 @@ footer button:hover { border-color: var(--volt); }
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <symbol id="dumbbell" viewBox="0 0 64 64">
-      <g fill="currentColor" transform="rotate(-12 32 32)">
-        <rect x="6" y="20" width="7" height="24" rx="3"/>
-        <rect x="14" y="14" width="8" height="36" rx="3.5"/>
-        <rect x="42" y="14" width="8" height="36" rx="3.5"/>
-        <rect x="51" y="20" width="7" height="24" rx="3"/>
-        <rect x="21" y="29" width="22" height="6" rx="2"/>
-      </g>
-    </symbol>
     <symbol id="tick" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></symbol>
     <symbol id="playtri" viewBox="0 0 24 24"><path fill="currentColor" d="M4 2.8v18.4c0 .6.6.9 1.1.6l15.4-9.2c.5-.3.5-1 0-1.3L5.1 2.2C4.6 1.9 4 2.2 4 2.8z"/></symbol>
   </defs>
@@ -398,7 +395,7 @@ footer button:hover { border-color: var(--volt); }
 <nav class="nav" id="nav" aria-label="Main">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Gymologia home">
-      <span class="tile"><svg><use href="#dumbbell"/></svg></span>
+      <span class="tile"><i class="glyph" aria-hidden="true"></i></span>
       <b>GYMOLOGIA</b>
     </a>
     <div class="nav-links">
@@ -413,7 +410,7 @@ footer button:hover { border-color: var(--volt); }
 
 <header class="hero" id="top">
   <div class="glow" aria-hidden="true"></div>
-  <svg class="bar-bg" viewBox="0 0 64 64" aria-hidden="true"><use href="#dumbbell"/></svg>
+  <i class="bar-bg glyph" aria-hidden="true"></i>
   <svg class="ecg" viewBox="0 0 1600 90" preserveAspectRatio="none" aria-hidden="true">
     <path class="base" d="M0 60 H300 L320 60 L335 20 L352 86 L368 8 L386 60 H700 L720 60 L735 20 L752 86 L768 8 L786 60 H1100 L1120 60 L1135 20 L1152 86 L1168 8 L1186 60 H1600"/>
     <path class="trace" d="M0 60 H300 L320 60 L335 20 L352 86 L368 8 L386 60 H700 L720 60 L735 20 L752 86 L768 8 L786 60 H1100 L1120 60 L1135 20 L1152 86 L1168 8 L1186 60 H1600"/>
@@ -443,7 +440,7 @@ footer button:hover { border-color: var(--volt); }
     <div class="fan" id="fan">
       <div class="layer" data-depth="0.5"><div class="phone p-left"><div class="screen"><img src="screens/home.webp" alt="" width="590" height="1800"></div></div></div>
       <div class="layer" data-depth="0.5"><div class="phone p-right"><div class="screen"><img src="screens/events.webp" alt="" width="590" height="2250"></div></div></div>
-      <div class="layer" data-depth="1"><div class="phone p-mid"><div class="screen"><img src="screens/login.webp" alt="Gymologia sign-in screen with the volt dumbbell logo and Send OTP button" width="590" height="1278"></div></div></div>
+      <div class="layer" data-depth="1"><div class="phone p-mid"><div class="screen"><img src="screens/login.webp" alt="Gymologia sign-in screen with the Gymologia logo and Send OTP button" width="590" height="1278"></div></div></div>
     </div>
   </div>
 </header>
@@ -609,7 +606,7 @@ footer button:hover { border-color: var(--volt); }
 <footer>
   <div class="wrap">
     <div class="foot-brand">
-      <a class="brand" href="#top" aria-label="Gymologia home"><span class="tile"><svg><use href="#dumbbell"/></svg></span><b>GYMOLOGIA</b></a>
+      <a class="brand" href="#top" aria-label="Gymologia home"><span class="tile"><i class="glyph" aria-hidden="true"></i></span><b>GYMOLOGIA</b></a>
       <span>Made by Ganda Group Technologies, India</span>
     </div>
     <nav class="foot-links" aria-label="Legal">

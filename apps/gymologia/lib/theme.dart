@@ -375,11 +375,13 @@ ThemeData _build(ColorScheme s, GymTokens tokens) {
       checkmarkColor: isDark ? ink : volt,
       side: BorderSide(color: tokens.cardBorder),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      labelStyle: TextStyle(
+      // From the text theme rather than a bare TextStyle: a chip takes this
+      // as is, and a bare style has no font family to fall back on.
+      labelStyle: text.labelLarge?.copyWith(
         fontWeight: FontWeight.w600,
         color: s.onSurface,
       ),
-      secondaryLabelStyle: TextStyle(
+      secondaryLabelStyle: text.labelLarge?.copyWith(
         fontWeight: FontWeight.w700,
         color: isDark ? ink : volt,
       ),
