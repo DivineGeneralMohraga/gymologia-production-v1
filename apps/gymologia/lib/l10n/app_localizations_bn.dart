@@ -2414,4 +2414,31 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get attendanceCantView =>
       'আপনি এখানে হাজিরা দিতে পারেন, কিন্তু কে আগে চিহ্নিত তা আপনার রোল দেখতে পারে না।';
+
+  @override
+  String get reportGym => 'এই জিমটি রিপোর্ট করুন';
+
+  @override
+  String get reportEvent => 'এই ইভেন্টটি রিপোর্ট করুন';
+
+  @override
+  String get reportCategoryFakeListing => 'ভুয়া, বা যেমন বলা হয়েছে তেমন নয়';
+
+  @override
+  String get reportCategoryMisleading => 'ভুল দাম, পুরস্কার বা তথ্য';
+
+  @override
+  String get reportDetailsOptional => 'বিস্তারিত (ঐচ্ছিক)';
+
+  @override
+  String get reportListingDetailsHint =>
+      'ঐচ্ছিক। যা সাহায্য করবে তা জানান, যেমন কী আপত্তিকর বা ভুল।';
+
+  @override
+  String get reportListingSent => 'ধন্যবাদ। আমাদের টিম এটি দেখবে।';
+
+  @override
+  String hiddenByGymologia(String reason) {
+    return 'Gymologia লুকিয়ে রেখেছে: $reason';
+  }
 }

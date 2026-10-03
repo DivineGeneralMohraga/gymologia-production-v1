@@ -676,5 +676,13 @@
   "attendanceNeedsEditPermission": "ಈಗಾಗಲೇ {status} ಎಂದು ಗುರುತಿಸಲಾಗಿದೆ. ಬದಲಿಸಲು ಹಾಜರಾತಿ ತಿದ್ದುವ ಅನುಮತಿ ಬೇಕು.",
   "attendanceNobody": "ಇಲ್ಲಿ ಗುರುತಿಸಲು ಯಾರೂ ಇಲ್ಲ",
   "attendanceNobodyHint": "ಪ್ಲಾನ್ ಮುಗಿದ ಸದಸ್ಯರು ಮತ್ತು ಹಾಜರಾತಿ ಇಲ್ಲದ ಪಾತ್ರಗಳು ಇಲ್ಲಿ ಕಾಣುವುದಿಲ್ಲ.",
-  "attendanceCantView": "ನೀವು ಇಲ್ಲಿ ಹಾಜರಾತಿ ಗುರುತಿಸಬಹುದು, ಆದರೆ ಈಗಾಗಲೇ ಯಾರು ಗುರುತಿಸಲಾಗಿದೆ ಎಂಬುದನ್ನು ನಿಮ್ಮ ಪಾತ್ರ ನೋಡಲಾಗದು."
+  "attendanceCantView": "ನೀವು ಇಲ್ಲಿ ಹಾಜರಾತಿ ಗುರುತಿಸಬಹುದು, ಆದರೆ ಈಗಾಗಲೇ ಯಾರು ಗುರುತಿಸಲಾಗಿದೆ ಎಂಬುದನ್ನು ನಿಮ್ಮ ಪಾತ್ರ ನೋಡಲಾಗದು.",
+  "reportGym": "ಈ ಜಿಮ್ ಅನ್ನು ವರದಿ ಮಾಡಿ",
+  "reportEvent": "ಈ ಈವೆಂಟ್ ಅನ್ನು ವರದಿ ಮಾಡಿ",
+  "reportCategoryFakeListing": "ನಕಲಿ, ಅಥವಾ ಹೇಳಿದಂತೆ ಇಲ್ಲ",
+  "reportCategoryMisleading": "ತಪ್ಪು ಬೆಲೆ, ಬಹುಮಾನ ಅಥವಾ ವಿವರಗಳು",
+  "reportDetailsOptional": "ವಿವರಗಳು (ಐಚ್ಛಿಕ)",
+  "reportListingDetailsHint": "ಐಚ್ಛಿಕ. ಸಹಾಯವಾಗುವ ಏನನ್ನಾದರೂ ತಿಳಿಸಿ, ಏನು ಆಕ್ಷೇಪಾರ್ಹ ಅಥವಾ ತಪ್ಪು ಎಂಬಂತೆ.",
+  "reportListingSent": "ಧನ್ಯವಾದಗಳು. ನಮ್ಮ ತಂಡ ಇದನ್ನು ನೋಡುತ್ತದೆ.",
+  "hiddenByGymologia": "Gymologia ಮರೆಮಾಡಿದೆ: {reason}"
 }

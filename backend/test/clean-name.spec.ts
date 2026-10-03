@@ -11,7 +11,7 @@
  * long on purpose and built from the names most likely to trip a naive
  * filter, and any term added to the blocklist has to get past all of it.
  */
-import { isBlockedName } from '../src/common/validation/clean-name';
+import { isBlockedName, isBlockedText } from '../src/common/validation/clean-name';
 
 let failures = 0;
 let checks = 0;
@@ -81,11 +81,27 @@ for (const name of [
   accepts(name, 'already in use');
 }
 
+console.log('\nLoud but honest gym and event names (kept lenient on purpose)');
+for (const name of [
+  'Unisex Gym', 'Unisex Fitness Studio', 'Middlesex Fitness', 'Essex Barbell',
+  'Sexton Gym', 'Bad Ass Fitness', 'Badass Gym', 'Kick Ass Bootcamp',
+  'Sexy Abs Challenge', 'Tit Bits Gym', 'Moby Dick Fitness', 'Dick Gym',
+  'Pussycat Dance Studio', 'Hot Yoga Studio', 'Hardcore Gym', 'Beast Mode Gym',
+  'Kill Zone Fitness', 'Booty Camp', 'Six Pack Factory', 'Hot Body Gym',
+  'Titan Gym', 'Cockpit Gym', 'Peacock Fitness', 'Hornbill Fitness',
+  'Rapeseed Gym', 'Therapist Gym', 'Phuket Fitness', 'Fitness 365',
+  'Power House 24x7', 'F45 Training', "Gold's Gym", 'Shiv Shakti Gym',
+  'Jai Hanuman Vyayamshala', 'Summer Deadlift Meet', 'Mass Monster Gym',
+]) {
+  accepts(name, 'a real-world style gym or event name');
+}
+
 console.log('\nWhat it is for');
 refuses('Sex Bot', 'the account that prompted this');
 refuses('SexBot', 'run together');
 refuses('S3x Bot', 'digit for a letter');
-refuses('$exy Queen', 'symbol for a letter');
+refuses('$ex Queen', 'symbol for a letter');
+refuses('Sexgym', 'prefix, not one of the safe words');
 refuses('Seeexxx', 'stretched letters');
 refuses('S E X', 'spaced out');
 refuses('s.e.x', 'dotted');
@@ -114,6 +130,49 @@ refuses('Gym0logia', 'look-alike digit');
 refuses('Admin', 'staff impersonation');
 refuses('Customer Care', 'phrase');
 refuses('Gymologia Help Desk', 'phrase');
+
+// ── Free text: event descriptions, prizes, gym descriptions ────────────
+
+function textAccepts(text: string, why: string) {
+  checks += 1;
+  if (isBlockedText(text)) {
+    failures += 1;
+    process.stdout.write(`  \x1b[31mFAIL\x1b[0m  refused text "${text}" -- ${why}\n`);
+  } else {
+    process.stdout.write(`  \x1b[32mPASS\x1b[0m  accepts text "${text}"\n`);
+  }
+}
+
+function textRefuses(text: string, why: string) {
+  checks += 1;
+  if (!isBlockedText(text)) {
+    failures += 1;
+    process.stdout.write(`  \x1b[31mFAIL\x1b[0m  let through text "${text}" -- ${why}\n`);
+  } else {
+    process.stdout.write(`  \x1b[32mPASS\x1b[0m  refuses text "${text}"\n`);
+  }
+}
+
+console.log('\nEvent and gym text that must go through');
+textAccepts('Mixed-sex teams of four. Unisex changing rooms.', '"sex" in ordinary use');
+textAccepts('Anti-rape self defence workshop for women, free entry.', 'a real workshop');
+textAccepts('Upload max videos of your lifts before 5 pm.', '"max videos" is not "xvideos"');
+textAccepts('Batch @5:55 am, fee Rs 499, prize Rs 5,000 + 1 year free.', 'prices and times, not look-alikes');
+textAccepts('Kick ass bootcamp. Bring water and a towel.', 'loud, not abusive');
+textAccepts('Nude-colour kit is fine. Sexy abs in 30 days!', 'marketing');
+textAccepts('Gandhinagar district open meet. Contact the admin desk.', 'place name; "admin" is fine in text');
+textAccepts('Shital, Dikshit and Randip are the judges.', 'real names');
+textAccepts('पुरुष और महिला दोनों भाग ले सकते हैं। सेक्स अनुपात बराबर रहेगा।', 'Hindi; सेक्स alone is allowed in text');
+textAccepts('', 'empty');
+
+console.log('\nEvent and gym text that must not');
+textRefuses('Winner gets free porn subscription', 'explicit');
+textRefuses('Losers are bitches', 'abuse');
+textRefuses('Fucking hard workout', 'profanity');
+textRefuses('Bhenchod jo nahi aaya', 'Hindi compound');
+textRefuses('Sab chutiya hai', 'Hindi');
+textRefuses('मादरचोद', 'Devanagari');
+textRefuses('Go to xvideos for the rules', 'explicit site');
 
 console.log(`\n${checks} checks, ${failures} failed`);
 if (failures) {

@@ -2447,4 +2447,32 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get attendanceCantView =>
       'இங்கே வருகையைக் குறிக்கலாம், ஆனால் ஏற்கனவே யார் குறிக்கப்பட்டுள்ளனர் என்பதை உங்கள் பணி பார்க்க முடியாது.';
+
+  @override
+  String get reportGym => 'இந்த ஜிம்மைப் புகாரளி';
+
+  @override
+  String get reportEvent => 'இந்த நிகழ்வைப் புகாரளி';
+
+  @override
+  String get reportCategoryFakeListing =>
+      'போலியானது, அல்லது சொல்வது போல் இல்லை';
+
+  @override
+  String get reportCategoryMisleading => 'தவறான விலை, பரிசு அல்லது விவரங்கள்';
+
+  @override
+  String get reportDetailsOptional => 'விவரங்கள் (விருப்பத்தேர்வு)';
+
+  @override
+  String get reportListingDetailsHint =>
+      'விருப்பத்தேர்வு. எது உதவுமோ அதைச் சொல்லுங்கள், எது புண்படுத்துகிறது அல்லது தவறு என்பது போல.';
+
+  @override
+  String get reportListingSent => 'நன்றி. எங்கள் குழு இதைப் பார்க்கும்.';
+
+  @override
+  String hiddenByGymologia(String reason) {
+    return 'Gymologia மறைத்துள்ளது: $reason';
+  }
 }

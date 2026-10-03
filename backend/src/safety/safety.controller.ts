@@ -13,7 +13,7 @@ import type { Request } from 'express';
 
 import { SafetyService } from './safety.service';
 import { CurrentUser, AuthUser } from '../rbac/rbac.decorators';
-import { BlockUserDto, CreateReportDto } from './dto/safety.dto';
+import { BlockUserDto, CreateReportDto, ReportListingDto } from './dto/safety.dto';
 
 const meta = (req: Request) => ({
   ip: req.ip ?? null,
@@ -83,6 +83,36 @@ export class SafetyController {
     @Req() req: Request,
   ) {
     return this.safety.report(user.userId, dto, meta(req));
+  }
+
+  @Post('reports/gyms/:gymId')
+  @ApiOperation({
+    summary: 'Report a gym',
+    description:
+      'For a gym name, photos, description or perks. Filed against the owner; details are optional because the reviewer can see the same listing.',
+  })
+  reportGym(
+    @CurrentUser() user: AuthUser,
+    @Param('gymId', ParseUUIDPipe) gymId: string,
+    @Body() dto: ReportListingDto,
+    @Req() req: Request,
+  ) {
+    return this.safety.reportGym(user.userId, gymId, dto, meta(req));
+  }
+
+  @Post('reports/events/:eventId')
+  @ApiOperation({
+    summary: 'Report an event',
+    description:
+      'For an event title, banner, description or prize. Filed against whoever created it.',
+  })
+  reportEvent(
+    @CurrentUser() user: AuthUser,
+    @Param('eventId', ParseUUIDPipe) eventId: string,
+    @Body() dto: ReportListingDto,
+    @Req() req: Request,
+  ) {
+    return this.safety.reportEvent(user.userId, eventId, dto, meta(req));
   }
 
   @Get('reports')

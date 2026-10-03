@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 import '../auth/auth_controller.dart';
+import '../safety/safety_actions.dart';
 import '../../theme.dart';
 import '../../ui/kit.dart';
 
@@ -124,6 +125,30 @@ class _GymProfilePageState extends State<GymProfilePage> {
               titleTextStyle: theme.appBarTheme.titleTextStyle?.copyWith(
                 color: const Color(0xFFF5F5F2),
               ),
+              actions: [
+                // Reporting lives behind the menu, not on the page: it is
+                // for the rare listing that needs it, and a flag beside
+                // every gym's name would read as an accusation.
+                PopupMenuButton<String>(
+                  icon: const Icon(Icons.more_vert),
+                  onSelected: (_) => showListingReportSheet(
+                    context,
+                    api: GymApi(context.read<AuthController>().client),
+                    kind: ReportedListing.gym,
+                    id: widget.gymId,
+                  ),
+                  itemBuilder: (_) => [
+                    PopupMenuItem(
+                      value: 'report',
+                      child: ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        leading: const Icon(Icons.flag_outlined),
+                        title: Text(AppLocalizations.of(context).reportGym),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.parallax,
                 background: _PhotoHeader(

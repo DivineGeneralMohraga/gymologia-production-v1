@@ -292,6 +292,8 @@ export class EventsService {
     const upcoming: Prisma.EventWhereInput = {
       status: EventStatus.PUBLISHED,
       endsAt: { gte: now },
+      // Taken down by Gymologia after a report -- gone for members too.
+      hiddenAt: null,
     };
 
     const locality: Prisma.EventWhereInput = {
@@ -332,6 +334,8 @@ export class EventsService {
             ...(locality.gym as object),
             // Events at demo gyms are for test accounts only.
             ...hideDemoGymsFrom(viewerPhone),
+            // Nor from a gym Gymologia has taken out of the listings.
+            listingHiddenAt: null,
             subscriptions: {
               some: {
                 status: SubscriptionStatus.ACTIVE,
@@ -355,7 +359,7 @@ export class EventsService {
 
   async findOneForMember(userId: string, eventId: string) {
     const event = await this.prisma.event.findFirst({
-      where: { id: eventId, status: EventStatus.PUBLISHED },
+      where: { id: eventId, status: EventStatus.PUBLISHED, hiddenAt: null },
       include: this.feedInclude(userId),
     });
     if (!event) throw new NotFoundException('Event not found');
@@ -373,7 +377,7 @@ export class EventsService {
    */
   async participate(userId: string, eventId: string) {
     const event = await this.prisma.event.findFirst({
-      where: { id: eventId, status: EventStatus.PUBLISHED },
+      where: { id: eventId, status: EventStatus.PUBLISHED, hiddenAt: null },
       include: { gym: { select: { id: true, name: true } } },
     });
     if (!event) throw new NotFoundException('Event not found');
@@ -454,6 +458,8 @@ export class EventsService {
     publicListing: boolean;
     allowNonMembers: boolean;
     status: EventStatus;
+    hiddenAt?: Date | null;
+    hiddenReason?: string | null;
   }) {
     return {
       id: e.id,
@@ -471,6 +477,10 @@ export class EventsService {
       allowNonMembers: e.allowNonMembers,
       status: e.status,
       registrationOpen: e.registrationLastDate >= new Date(),
+      // The host's CRM still lists a hidden event, with the reason, so
+      // they know why nobody can see it and what to fix.
+      hiddenByGymologia: e.hiddenAt != null,
+      hiddenReason: e.hiddenReason ?? null,
     };
   }
 

@@ -2420,4 +2420,31 @@ class AppLocalizationsTe extends AppLocalizations {
   @override
   String get attendanceCantView =>
       'మీరు ఇక్కడ హాజరు గుర్తించవచ్చు, కానీ ఇప్పటికే ఎవరు గుర్తించబడ్డారో మీ పాత్ర చూడలేదు.';
+
+  @override
+  String get reportGym => 'ఈ జిమ్‌ను రిపోర్ట్ చేయండి';
+
+  @override
+  String get reportEvent => 'ఈ ఈవెంట్‌ను రిపోర్ట్ చేయండి';
+
+  @override
+  String get reportCategoryFakeListing => 'నకిలీ, లేదా చెప్పినట్లు లేదు';
+
+  @override
+  String get reportCategoryMisleading => 'తప్పు ధరలు, బహుమతులు లేదా వివరాలు';
+
+  @override
+  String get reportDetailsOptional => 'వివరాలు (ఐచ్ఛికం)';
+
+  @override
+  String get reportListingDetailsHint =>
+      'ఐచ్ఛికం. ఏది సహాయపడుతుందో చెప్పండి, ఏది అభ్యంతరకరం లేదా తప్పు అనేది వంటివి.';
+
+  @override
+  String get reportListingSent => 'ధన్యవాదాలు. మా బృందం దీన్ని చూస్తుంది.';
+
+  @override
+  String hiddenByGymologia(String reason) {
+    return 'Gymologia దాచింది: $reason';
+  }
 }

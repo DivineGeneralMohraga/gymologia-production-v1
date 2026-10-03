@@ -238,6 +238,8 @@ export class GymsService {
         id: gymId,
         deletedAt: null,
         status: GymStatus.ACTIVE,
+        // Taken down by Gymologia after a report.
+        listingHiddenAt: null,
         // A demo gym's page is as hidden as its search listing.
         ...hideDemoGymsFrom(viewerPhone),
       },
@@ -290,6 +292,8 @@ export class GymsService {
       deletedAt: null,
       status: GymStatus.ACTIVE,
       publicListing: true,
+      // Taken down by Gymologia after a report.
+      listingHiddenAt: null,
       // The spec lists a gym only once it "has already done kyc and using
       // pro plan". KYC is paused for now (see listing-rules.ts), so the
       // gate applies only when switched on.

@@ -32,11 +32,21 @@ import { registerDecorator, ValidationOptions } from 'class-validator';
 
 // ── Lists ────────────────────────────────────────────────────────────────
 
-/** The whole word only. */
+/**
+ * The whole word only.
+ *
+ * Kept lenient on purpose (2026-10-03). Gym and event names are marketing,
+ * and marketing is loud: "Bad Ass Fitness", "Kick Ass Bootcamp", "Sexy Abs
+ * Challenge", "Tit Bits", "Moby Dick" are all real-world names. A filter
+ * that refuses them sends an owner to support over a name nobody would
+ * report. So "ass", "arse", "sexy", "tit" and "dick" are not here; what is
+ * left is what no honest name contains. Anything that slips through is
+ * what the Report button on gyms and events is for.
+ */
 const WORD = [
   // English
-  'sex', 'sexy', 'ass', 'asshole', 'arse', 'fuck', 'fck', 'fuk', 'shit',
-  'dick', 'cock', 'cum', 'porn', 'nude', 'nudes', 'boob', 'boobs', 'tit',
+  'sex', 'asshole', 'fuck', 'fck', 'fuk', 'shit',
+  'cock', 'cum', 'porn', 'nude', 'nudes', 'boob', 'boobs',
   'tits', 'pussy', 'penis', 'vagina', 'slut', 'whore', 'bitch', 'bastard',
   'rape', 'rapist', 'nigger', 'nigga', 'fag', 'faggot', 'xxx', 'milf',
   'horny', 'wank', 'twat', 'cunt', 'bollocks', 'dildo', 'hentai',
@@ -49,8 +59,14 @@ const WORD = [
   'chodu', 'chudai', 'jhant', 'jhaatu', 'tatte', 'suar',
 ];
 
-/** Any word starting with it. None of these begins a real name. */
+/** Any word starting with it, except the real words in PREFIX_SAFE. */
 const PREFIX = ['sex', 'porn', 'fuck', 'nude', 'xxx', 'boob', 'pussy', 'horny'];
+
+/**
+ * Real words and names that start with a PREFIX term. "Sexton" is a
+ * surname, "Pussycat" a dance studio; "sexy" is allowed (see WORD).
+ */
+const PREFIX_SAFE = /^(sexton|sextet|sextant|sexy|sexagenarian|pussycat)/;
 
 /** Anywhere, even run together with other words or split by symbols. */
 const ANYWHERE = [
@@ -137,13 +153,73 @@ export function isBlockedName(value: unknown): boolean {
   const spaced = tokens.join(' ');
 
   if (tokens.some((w) => WORD_RE.some((re) => re.test(w)))) return true;
-  if (tokens.some((w) => PREFIX_RE.some((re) => re.test(w)))) return true;
+  if (
+    tokens.some((w) => !PREFIX_SAFE.test(w) && PREFIX_RE.some((re) => re.test(w)))
+  ) {
+    return true;
+  }
   if (ANYWHERE_RE.some((re) => re.test(squashed))) return true;
   if (DEVANAGARI.some((t) => value.normalize('NFC').includes(t))) return true;
   if (tokens.some((w) => RESERVED_RE.some((re) => re.test(w)))) return true;
   if (RESERVED_PHRASE.some((p) => spaced.includes(p))) return true;
   return false;
 }
+
+// ── Free text ────────────────────────────────────────────────────────────
+
+/**
+ * Words refused in public free text: event descriptions, how to take part,
+ * prizes, a gym's description. Only abuse and explicit content.
+ *
+ * Much gentler than the name list, because sentences use words names do
+ * not: "mixed-sex teams", "anti-rape self-defence workshop", "nude-colour
+ * kit", "bring your ass to class". None of those is refused. Nor are
+ * look-alike digits read as letters -- descriptions are full of prices and
+ * dates, and "@55" in "Batch @5:55" is not a word.
+ */
+const TEXT_WORD = [
+  'fuck', 'fucks', 'fucked', 'fucking', 'fucker', 'fuckers', 'fck', 'shit',
+  'bullshit', 'asshole', 'assholes', 'cunt', 'cunts', 'pussy', 'slut',
+  'sluts', 'whore', 'whores', 'bitch', 'bitches', 'porn', 'xxx', 'hentai',
+  'nudes', 'nigger', 'niggers', 'nigga', 'niggas', 'faggot', 'faggots',
+  'motherfucker', 'motherfuckers',
+  'bsdk', 'chut', 'choot', 'lund', 'lauda', 'lawda', 'lavda', 'lodu',
+  'gaand', 'gandu', 'randi', 'randwa', 'harami', 'haramzada', 'haramzadi',
+  'bhadwa', 'bhadwe', 'chinal', 'chodu', 'chudai', 'jhaatu',
+];
+const TEXT_WORD_SET = new Set(TEXT_WORD);
+
+/** Devanagari for free text: the name list without सेक्स (sex). */
+const DEVANAGARI_TEXT = DEVANAGARI.filter((t) => t !== 'सेक्स');
+
+/** True when public free text contains abuse or explicit content. */
+export function isBlockedText(value: unknown): boolean {
+  if (typeof value !== 'string') return false;
+  const lower = value.normalize('NFKC').toLowerCase();
+  // Word by word. Never squashed across spaces: "max videos" must not
+  // read as "xvideos".
+  const tokens = lower.split(/[^\p{L}\p{M}]+/u).filter(Boolean);
+  if (tokens.some((w) => TEXT_WORD_SET.has(w))) return true;
+  if (tokens.some((w) => ANYWHERE_RE.some((re) => re.test(w)))) return true;
+  if (DEVANAGARI_TEXT.some((t) => value.normalize('NFC').includes(t))) return true;
+  return false;
+}
+
+export const IsCleanText =
+  (options?: ValidationOptions) =>
+  function (object: object, propertyName: string): void {
+    registerDecorator({
+      name: 'isCleanText',
+      target: object.constructor,
+      propertyName,
+      options,
+      validator: {
+        validate: (value: unknown) => !isBlockedText(value),
+        defaultMessage: () =>
+          'This text contains language that is not allowed. Please reword it.',
+      },
+    });
+  };
 
 export const IsCleanName =
   (options?: ValidationOptions) =>

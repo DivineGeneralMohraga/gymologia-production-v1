@@ -111,21 +111,22 @@ class _ReportsPageState extends State<ReportsPage> {
         separatorBuilder: (_, _) => const SizedBox(height: 8),
         itemBuilder: (_, i) {
           final r = _reports![i] as Map<String, dynamic>;
-          final reported = r['reportedUser'] as Map<String, dynamic>?;
           final reporter = r['reporter'] as Map<String, dynamic>?;
           final open = r['status'] == 'OPEN';
+          final details = r['details'] as String? ?? '';
 
           return Card(
             child: ListTile(
               leading: Icon(
-                Icons.flag,
+                _targetIcon(r['target'] as String?),
                 color: open ? Theme.of(context).colorScheme.error : null,
               ),
-              title: Text('${reported?['name'] ?? ''} · '
+              title: Text('${_subject(r)} · '
                   '${_prettyCategory(r['category'] as String?)}'),
               subtitle: Text(
-                '${r['details'] ?? ''}\n'
-                'reported by ${reporter?['name'] ?? ''} · ${r['status'] ?? ''}',
+                '${details.isEmpty ? '(no details)' : details}\n'
+                'reported by ${reporter?['name'] ?? ''} · ${r['status'] ?? ''}'
+                '${_listingHidden(r) ? ' · HIDDEN' : ''}',
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -155,7 +156,34 @@ String _prettyCategory(String? raw) => switch (raw) {
       'VIOLENCE_OR_THREAT' => 'Violence or threat',
       'SCAM_OR_FRAUD' => 'Scam or fraud',
       'IMPERSONATION' => 'Impersonation',
+      'FAKE_LISTING' => 'Fake listing',
+      'MISLEADING' => 'Misleading',
       _ => 'Other',
+    };
+
+IconData _targetIcon(String? target) => switch (target) {
+      'GYM' => Icons.fitness_center,
+      'EVENT' => Icons.event,
+      _ => Icons.flag,
+    };
+
+/// What the report is about: the gym or event for a listing report, the
+/// person for a chat report. Older reports have no `target` and are people.
+String _subject(Map<String, dynamic> r) {
+  final gym = r['gym'] as Map<String, dynamic>?;
+  final event = r['event'] as Map<String, dynamic>?;
+  final person = r['reportedUser'] as Map<String, dynamic>?;
+  return switch (r['target']) {
+    'GYM' => 'Gym: ${gym?['name'] ?? '(deleted)'}',
+    'EVENT' => 'Event: ${event?['title'] ?? '(deleted)'}',
+    _ => '${person?['name'] ?? ''}',
+  };
+}
+
+bool _listingHidden(Map<String, dynamic> r) => switch (r['target']) {
+      'GYM' => (r['gym'] as Map<String, dynamic>?)?['hidden'] == true,
+      'EVENT' => (r['event'] as Map<String, dynamic>?)?['hidden'] == true,
+      _ => false,
     };
 
 class _ReportDialog extends StatefulWidget {
@@ -171,6 +199,10 @@ class _ReportDialogState extends State<_ReportDialog> {
   Map<String, dynamic>? _report;
   bool _busy = false;
   String? _error;
+
+  /// True once a listing was hidden or restored, so the list behind the
+  /// dialog reloads even if the report itself is left undecided.
+  bool _changed = false;
 
   @override
   void initState() {
@@ -191,6 +223,46 @@ class _ReportDialogState extends State<_ReportDialog> {
       if (mounted) setState(() => _report = r);
     } on ApiException catch (e) {
       if (mounted) setState(() => _error = e.message);
+    }
+  }
+
+  /// Hiding asks for the reason the gym's staff will see; restoring does not.
+  Future<void> _setHidden(bool hide) async {
+    String? reason;
+    if (hide) {
+      reason = await showDialog<String>(
+        context: context,
+        builder: (_) => _HideReasonDialog(
+          isEvent: _report?['target'] == 'EVENT',
+        ),
+      );
+      if (reason == null || !mounted) return;
+    }
+
+    setState(() {
+      _busy = true;
+      _error = null;
+    });
+    final api = context.read<AuthController>().api;
+    try {
+      await api.setListingHidden(widget.reportId, hidden: hide, reason: reason);
+      _changed = true;
+      // Reload rather than patch locally: the detail carries the reason the
+      // server recorded, which is what gets shown.
+      final r = await api.reportDetail(widget.reportId);
+      if (mounted) {
+        setState(() {
+          _report = r;
+          _busy = false;
+        });
+      }
+    } on ApiException catch (e) {
+      if (mounted) {
+        setState(() {
+          _error = e.message;
+          _busy = false;
+        });
+      }
     }
   }
 
@@ -243,7 +315,7 @@ class _ReportDialogState extends State<_ReportDialog> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
+            onPressed: () => Navigator.of(context).pop(_changed),
             child: const Text('Close'),
           ),
         ],
@@ -255,9 +327,17 @@ class _ReportDialogState extends State<_ReportDialog> {
     final context_ = r['context'] as Map<String, dynamic>?;
     final message = r['message'] as Map<String, dynamic>?;
     final decided = r['status'] == 'ACTIONED' || r['status'] == 'DISMISSED';
+    final target = r['target'] as String? ?? 'USER';
+    final listing = switch (target) {
+      'GYM' => r['gym'] as Map<String, dynamic>?,
+      'EVENT' => r['event'] as Map<String, dynamic>?,
+      _ => null,
+    };
+    final hidden = listing?['hidden'] == true;
+    final details = r['details'] as String? ?? '';
 
     return AlertDialog(
-      title: Text('${reported?['name'] ?? ''} · '
+      title: Text('${_subject(r)} · '
           '${_prettyCategory(r['category'] as String?)}'),
       content: SizedBox(
         width: 520,
@@ -268,12 +348,54 @@ class _ReportDialogState extends State<_ReportDialog> {
             children: [
               Text('Reported by ${reporter?['name'] ?? ''}',
                   style: theme.textTheme.bodySmall),
+              if (target != 'USER')
+                // The account a ban would fall on: the gym's owner, or
+                // whoever created the event.
+                Text(
+                  'Answerable: ${reported?['name'] ?? ''} '
+                  '(${target == 'GYM' ? 'owner' : 'created the event'})',
+                  style: theme.textTheme.bodySmall,
+                ),
               const SizedBox(height: 12),
 
               Text('What the reporter says', style: theme.textTheme.labelLarge),
               const SizedBox(height: 4),
-              Text('${r['details'] ?? ''}'),
+              Text(details.isEmpty
+                  ? '(nothing written: the category is the report)'
+                  : details),
               const SizedBox(height: 16),
+
+              if (listing != null) ...[
+                _ListingPreview(target: target, listing: listing),
+                const SizedBox(height: 8),
+                if (hidden)
+                  Text(
+                    'Hidden from the public: ${listing['hiddenReason'] ?? ''}',
+                    style: TextStyle(
+                      color: theme.colorScheme.error,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                const SizedBox(height: 8),
+                if (hidden)
+                  OutlinedButton.icon(
+                    onPressed: _busy ? null : () => _setHidden(false),
+                    icon: const Icon(Icons.visibility),
+                    label: Text(
+                        target == 'GYM' ? 'Show gym again' : 'Show event again'),
+                  )
+                else
+                  FilledButton.icon(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: theme.colorScheme.error,
+                    ),
+                    onPressed: _busy ? null : () => _setHidden(true),
+                    icon: const Icon(Icons.visibility_off),
+                    label: Text(
+                        target == 'GYM' ? 'Hide gym from public' : 'Hide event'),
+                  ),
+                const SizedBox(height: 16),
+              ],
 
               if (message != null) ...[
                 Text('The message', style: theme.textTheme.labelLarge),
@@ -303,6 +425,9 @@ class _ReportDialogState extends State<_ReportDialog> {
                 // carries the most weight: blocking is silent and costs the
                 // blocker nothing to make, so nobody does it to be
                 // vexatious.
+                if (target != 'USER')
+                  Text('${context_['otherReportsOfThisListing'] ?? 0} other '
+                      'people reported this ${target == 'GYM' ? 'gym' : 'event'}'),
                 Text('${context_['priorReportsAgainstThisAccount'] ?? 0} other '
                     'report(s) about this account'),
                 Text('${context_['peopleWhoHaveBlockedThisAccount'] ?? 0} '
@@ -343,7 +468,7 @@ class _ReportDialogState extends State<_ReportDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: _busy ? null : () => Navigator.of(context).pop(false),
+          onPressed: _busy ? null : () => Navigator.of(context).pop(_changed),
           child: const Text('Close'),
         ),
         if (!decided) ...[
@@ -361,6 +486,149 @@ class _ReportDialogState extends State<_ReportDialog> {
           ),
         ],
       ],
+    );
+  }
+}
+
+/// Asks for the reason a gym or event is being hidden. The gym's staff see
+/// it, on their ranking screen or events list, so it is written for them.
+class _HideReasonDialog extends StatefulWidget {
+  const _HideReasonDialog({required this.isEvent});
+  final bool isEvent;
+
+  @override
+  State<_HideReasonDialog> createState() => _HideReasonDialogState();
+}
+
+class _HideReasonDialogState extends State<_HideReasonDialog> {
+  final _reason = TextEditingController();
+
+  @override
+  void dispose() {
+    _reason.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ok = _reason.text.trim().length >= 3;
+    return AlertDialog(
+      title: Text(widget.isEvent ? 'Hide this event' : 'Hide this gym from public'),
+      content: SizedBox(
+        width: 420,
+        child: TextField(
+          controller: _reason,
+          autofocus: true,
+          maxLength: 300,
+          onChanged: (_) => setState(() {}),
+          decoration: const InputDecoration(
+            labelText: 'Reason',
+            helperText: 'The gym sees this. Keep it factual, e.g. '
+                '"Name reported as offensive".',
+            helperMaxLines: 2,
+            border: OutlineInputBorder(),
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
+        ),
+        FilledButton(
+          onPressed: ok
+              ? () => Navigator.of(context).pop(_reason.text.trim())
+              : null,
+          child: const Text('Hide'),
+        ),
+      ],
+    );
+  }
+}
+
+/// The gym or event as the public saw it, so the reviewer judges the same
+/// thing the reporter did.
+class _ListingPreview extends StatelessWidget {
+  const _ListingPreview({required this.target, required this.listing});
+
+  final String target;
+  final Map<String, dynamic> listing;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final muted = theme.textTheme.bodySmall?.copyWith(
+      color: theme.colorScheme.onSurfaceVariant,
+    );
+    final images = target == 'GYM'
+        ? ((listing['images'] as List?) ?? const []).cast<String>()
+        : [if (listing['bannerUrl'] is String) listing['bannerUrl'] as String];
+
+    Widget field(String label, Object? value) {
+      final text = value?.toString().trim() ?? '';
+      if (text.isEmpty) return const SizedBox.shrink();
+      return Padding(
+        padding: const EdgeInsets.only(top: 6),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [Text(label, style: muted), Text(text)],
+        ),
+      );
+    }
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: theme.dividerColor),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(target == 'GYM' ? 'The gym listing' : 'The event',
+              style: theme.textTheme.labelLarge),
+          if (images.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            SizedBox(
+              height: 72,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: images.length,
+                separatorBuilder: (_, _) => const SizedBox(width: 6),
+                itemBuilder: (_, i) => ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: Image.network(
+                    images[i],
+                    width: 96,
+                    height: 72,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, _, _) => Container(
+                      width: 96,
+                      height: 72,
+                      color: theme.colorScheme.surfaceContainerHighest,
+                      child: const Icon(Icons.broken_image_outlined),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+          if (target == 'GYM') ...[
+            field('Name', listing['name']),
+            field('Where', '${listing['district'] ?? ''}, ${listing['state'] ?? ''}'),
+            field('Description', listing['description']),
+            field('Perks', ((listing['perks'] as List?) ?? const []).join(', ')),
+            field('Contact', listing['contactPhone']),
+          ] else ...[
+            field('Title', listing['title']),
+            field('Description', listing['description']),
+            field('How to take part', listing['howToParticipate']),
+            field('Prize', listing['prize']),
+            field('Prize details', listing['prizeDescription']),
+          ],
+        ],
+      ),
     );
   }
 }

@@ -676,5 +676,13 @@
   "attendanceNeedsEditPermission": "আগেই {status} চিহ্নিত। বদলাতে হাজিরা সম্পাদনার অনুমতি লাগবে।",
   "attendanceNobody": "এখানে চিহ্নিত করার কেউ নেই",
   "attendanceNobodyHint": "যাদের প্ল্যান শেষ এবং যে রোলের হাজিরা হয় না, তারা এখানে নেই।",
-  "attendanceCantView": "আপনি এখানে হাজিরা দিতে পারেন, কিন্তু কে আগে চিহ্নিত তা আপনার রোল দেখতে পারে না।"
+  "attendanceCantView": "আপনি এখানে হাজিরা দিতে পারেন, কিন্তু কে আগে চিহ্নিত তা আপনার রোল দেখতে পারে না।",
+  "reportGym": "এই জিমটি রিপোর্ট করুন",
+  "reportEvent": "এই ইভেন্টটি রিপোর্ট করুন",
+  "reportCategoryFakeListing": "ভুয়া, বা যেমন বলা হয়েছে তেমন নয়",
+  "reportCategoryMisleading": "ভুল দাম, পুরস্কার বা তথ্য",
+  "reportDetailsOptional": "বিস্তারিত (ঐচ্ছিক)",
+  "reportListingDetailsHint": "ঐচ্ছিক। যা সাহায্য করবে তা জানান, যেমন কী আপত্তিকর বা ভুল।",
+  "reportListingSent": "ধন্যবাদ। আমাদের টিম এটি দেখবে।",
+  "hiddenByGymologia": "Gymologia লুকিয়ে রেখেছে: {reason}"
 }

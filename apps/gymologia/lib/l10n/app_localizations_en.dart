@@ -2434,4 +2434,31 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get attendanceCantView =>
       'You can mark attendance here, but your role cannot see who is already marked.';
+
+  @override
+  String get reportGym => 'Report this gym';
+
+  @override
+  String get reportEvent => 'Report this event';
+
+  @override
+  String get reportCategoryFakeListing => 'Fake, or not what it claims to be';
+
+  @override
+  String get reportCategoryMisleading => 'Wrong prices, prizes or details';
+
+  @override
+  String get reportDetailsOptional => 'Details (optional)';
+
+  @override
+  String get reportListingDetailsHint =>
+      'Optional. Tell us anything that helps, like what is offensive or wrong.';
+
+  @override
+  String get reportListingSent => 'Thank you. Our team will look at it.';
+
+  @override
+  String hiddenByGymologia(String reason) {
+    return 'Hidden by Gymologia: $reason';
+  }
 }

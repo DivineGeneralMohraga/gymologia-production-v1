@@ -5,7 +5,7 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { Prisma, ReportCategory, ReportStatus } from '@prisma/client';
+import { Prisma, ReportCategory, ReportStatus, ReportTarget } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../common/audit/audit.service';
@@ -221,18 +221,7 @@ export class SafetyService {
     });
     if (!target) throw new NotFoundException('No such person');
 
-    // A cap, because a report queue is read by a person. Someone filing
-    // hundreds is either automating abuse of the queue or is in a
-    // situation that blocking solves better.
-    const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
-    const todaysCount = await this.prisma.contentReport.count({
-      where: { reporterId, createdAt: { gte: since } },
-    });
-    if (todaysCount >= SafetyService.REPORTS_PER_DAY) {
-      throw new ForbiddenException(
-        'You have filed a lot of reports today. If somebody is bothering you, block them — that takes effect immediately.',
-      );
-    }
+    await this.assertUnderDailyCap(reporterId);
 
     // If a message is named, it has to exist and it has to be theirs.
     // Otherwise a report could pin somebody else's words on an innocent
@@ -311,6 +300,164 @@ export class SafetyService {
     }
   }
 
+  /**
+   * A cap, because a report queue is read by a person. Someone filing
+   * hundreds is either automating abuse of the queue or is in a situation
+   * that blocking solves better. Chat, gym and event reports share it.
+   */
+  private async assertUnderDailyCap(reporterId: string) {
+    const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const todaysCount = await this.prisma.contentReport.count({
+      where: { reporterId, createdAt: { gte: since } },
+    });
+    if (todaysCount >= SafetyService.REPORTS_PER_DAY) {
+      throw new ForbiddenException(
+        'You have filed a lot of reports today. If somebody is bothering you, block them — that takes effect immediately.',
+      );
+    }
+  }
+
+  // ── Gyms and events ─────────────────────────────────────────────────
+
+  /**
+   * Reporting a gym: its name, photos, description or perks.
+   *
+   * Filed against the owner, because the owner is who answers for the
+   * listing and whose account the desk may need to act on. A demo gym is
+   * reportable only by those who can see it, which is test accounts.
+   */
+  async reportGym(
+    reporterId: string,
+    gymId: string,
+    input: { category: ReportCategory; details?: string },
+    meta: RequestMeta,
+  ) {
+    const gym = await this.prisma.gym.findFirst({
+      where: { id: gymId, deletedAt: null },
+      select: { id: true, ownerId: true },
+    });
+    if (!gym) throw new NotFoundException('Gym not found');
+    if (gym.ownerId === reporterId) {
+      throw new BadRequestException('This is your own gym. You can edit it from the gym profile.');
+    }
+
+    await this.assertUnderDailyCap(reporterId);
+
+    return this.fileListingReport(
+      reporterId,
+      {
+        target: ReportTarget.GYM,
+        reportedUserId: gym.ownerId,
+        gymId: gym.id,
+        eventId: null,
+        category: input.category,
+        details: input.details ?? '',
+      },
+      meta,
+    );
+  }
+
+  /**
+   * Reporting an event: its title, banner, description or prize.
+   *
+   * Filed against whoever created it. If that account no longer exists the
+   * gym's owner answers for it instead -- the event is still on their gym.
+   */
+  async reportEvent(
+    reporterId: string,
+    eventId: string,
+    input: { category: ReportCategory; details?: string },
+    meta: RequestMeta,
+  ) {
+    const event = await this.prisma.event.findUnique({
+      where: { id: eventId },
+      select: { id: true, gymId: true, createdById: true, gym: { select: { ownerId: true } } },
+    });
+    if (!event) throw new NotFoundException('Event not found');
+
+    const creator = await this.prisma.user.findUnique({
+      where: { id: event.createdById },
+      select: { id: true },
+    });
+    const answerable = creator?.id ?? event.gym.ownerId;
+    if (answerable === reporterId) {
+      throw new BadRequestException('This is your own event. You can edit it from the gym’s events.');
+    }
+
+    await this.assertUnderDailyCap(reporterId);
+
+    return this.fileListingReport(
+      reporterId,
+      {
+        target: ReportTarget.EVENT,
+        reportedUserId: answerable,
+        gymId: event.gymId,
+        eventId: event.id,
+        category: input.category,
+        details: input.details ?? '',
+      },
+      meta,
+    );
+  }
+
+  private async fileListingReport(
+    reporterId: string,
+    data: {
+      target: ReportTarget;
+      reportedUserId: string;
+      gymId: string;
+      eventId: string | null;
+      category: ReportCategory;
+      details: string;
+    },
+    meta: RequestMeta,
+  ) {
+    try {
+      const created = await this.prisma.contentReport.create({
+        data: { reporterId, ...data, status: ReportStatus.OPEN },
+      });
+
+      await this.audit.record({
+        actorId: reporterId,
+        action: 'safety.report',
+        entityType: 'ContentReport',
+        entityId: created.id,
+        before: null,
+        after: {
+          target: created.target,
+          category: created.category,
+          reportedUserId: created.reportedUserId,
+          gymId: created.gymId,
+          eventId: created.eventId,
+        },
+        ip: meta.ip,
+        userAgent: meta.userAgent,
+      });
+
+      this.logger.warn(
+        `Report filed: ${created.category} against ${created.target.toLowerCase()} ${created.eventId ?? created.gymId}`,
+      );
+
+      return {
+        id: created.id,
+        status: created.status,
+        message: 'Thank you. Our team will review this.',
+      };
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
+        return {
+          id: null,
+          status: ReportStatus.OPEN,
+          message: 'You have already reported this. It is in the queue.',
+        };
+      }
+      throw error;
+    }
+  }
+
   /** What this person has reported, so they can see it was recorded. */
   async myReports(reporterId: string) {
     const rows = await this.prisma.contentReport.findMany({
@@ -322,18 +469,29 @@ export class SafetyService {
         category: true,
         status: true,
         createdAt: true,
+        target: true,
         reportedUser: { select: { name: true } },
+        gym: { select: { name: true } },
+        event: { select: { title: true } },
       },
     });
 
     return {
       items: rows.map((r) => ({
         id: r.id,
+        target: r.target,
         category: r.category,
         // The outcome, not the reviewer's notes: what was decided about
         // another person's account is not the reporter's to read.
         status: r.status,
-        about: r.reportedUser.name,
+        // A gym or event report is about the listing, so name the listing,
+        // not the owner the desk files it against.
+        about:
+          r.target === ReportTarget.EVENT
+            ? (r.event?.title ?? r.reportedUser.name)
+            : r.target === ReportTarget.GYM
+              ? (r.gym?.name ?? r.reportedUser.name)
+              : r.reportedUser.name,
         filedAt: r.createdAt,
       })),
     };

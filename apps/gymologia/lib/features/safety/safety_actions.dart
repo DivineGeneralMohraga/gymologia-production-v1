@@ -38,6 +38,30 @@ const reportCategoryValues = <String>[
   'VIOLENCE_OR_THREAT',
   'SCAM_OR_FRAUD',
   'IMPERSONATION',
+  'FAKE_LISTING',
+  'MISLEADING',
+  'OTHER',
+];
+
+/// Categories that only make sense for a gym or an event, not a person.
+const listingOnlyCategories = <String>{'FAKE_LISTING', 'MISLEADING'};
+
+/// What the report sheet for a person offers.
+final personReportCategories = [
+  for (final v in reportCategoryValues)
+    if (!listingOnlyCategories.contains(v)) v,
+];
+
+/// What the report sheet for a gym or event offers, most likely first:
+/// an offensive name or photo, then a listing that is not real.
+const listingReportCategories = <String>[
+  'SEXUAL_CONTENT',
+  'HATE_SPEECH',
+  'FAKE_LISTING',
+  'MISLEADING',
+  'SCAM_OR_FRAUD',
+  'IMPERSONATION',
+  'SPAM',
   'OTHER',
 ];
 
@@ -50,8 +74,160 @@ String reportCategoryLabel(AppLocalizations t, String value) => switch (value) {
       'VIOLENCE_OR_THREAT' => t.reportCategoryViolence,
       'SCAM_OR_FRAUD' => t.reportCategoryScam,
       'IMPERSONATION' => t.reportCategoryImpersonation,
+      'FAKE_LISTING' => t.reportCategoryFakeListing,
+      'MISLEADING' => t.reportCategoryMisleading,
       _ => t.reportCategoryOther,
     };
+
+/// What a listing report is about.
+enum ReportedListing { gym, event }
+
+/// The report form for a gym or an event. Category required, words
+/// optional: the listing is public, so the reviewer sees what the reporter
+/// saw. True when a report was filed.
+Future<bool> showListingReportSheet(
+  BuildContext context, {
+  required GymApi api,
+  required ReportedListing kind,
+  required String id,
+}) async {
+  final result = await showModalBottomSheet<bool>(
+    context: context,
+    isScrollControlled: true,
+    showDragHandle: true,
+    builder: (sheetContext) => Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(sheetContext).viewInsets.bottom,
+      ),
+      child: _ListingReportSheet(api: api, kind: kind, id: id),
+    ),
+  );
+  return result ?? false;
+}
+
+class _ListingReportSheet extends StatefulWidget {
+  const _ListingReportSheet({
+    required this.api,
+    required this.kind,
+    required this.id,
+  });
+
+  final GymApi api;
+  final ReportedListing kind;
+  final String id;
+
+  @override
+  State<_ListingReportSheet> createState() => _ListingReportSheetState();
+}
+
+class _ListingReportSheetState extends State<_ListingReportSheet> {
+  final _details = TextEditingController();
+  String? _category;
+  bool _sending = false;
+
+  @override
+  void dispose() {
+    _details.dispose();
+    super.dispose();
+  }
+
+  Future<void> _send() async {
+    final t = AppLocalizations.of(context);
+    final category = _category;
+    if (category == null || _sending) return;
+
+    setState(() => _sending = true);
+    try {
+      final details = _details.text.trim();
+      final res = widget.kind == ReportedListing.gym
+          ? await widget.api.reportGym(widget.id,
+              category: category, details: details)
+          : await widget.api.reportEvent(widget.id,
+              category: category, details: details);
+      if (!mounted) return;
+      Navigator.of(context).pop(true);
+      // A repeat report gets the server's "already reported" wording.
+      final repeat = res['id'] == null && res['message'] is String;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(repeat ? res['message'] as String : t.reportListingSent),
+      ));
+    } on ApiException catch (e) {
+      if (!mounted) return;
+      setState(() => _sending = false);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              widget.kind == ReportedListing.gym ? t.reportGym : t.reportEvent,
+              style: theme.textTheme.titleMedium,
+            ),
+            const SizedBox(height: 18),
+            Text(t.whyReporting, style: theme.textTheme.labelLarge),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final value in listingReportCategories)
+                  ChoiceChip(
+                    label: Text(reportCategoryLabel(t, value)),
+                    selected: _category == value,
+                    onSelected: (_) => setState(() => _category = value),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Text(t.reportDetailsOptional, style: theme.textTheme.labelLarge),
+            const SizedBox(height: 6),
+            Text(
+              t.reportListingDetailsHint,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: _details,
+              minLines: 2,
+              maxLines: 5,
+              maxLength: 2000,
+              textCapitalization: TextCapitalization.sentences,
+              decoration: const InputDecoration(border: OutlineInputBorder()),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: _category != null && !_sending ? _send : null,
+                child: _sending
+                    ? const SizedBox(
+                        height: 18,
+                        width: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2.2),
+                      )
+                    : Text(t.sendReport),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 /// The menu shown when a person is held down on, or picked from a chat
 /// header. Returns true when the caller should refresh — a block changes
@@ -304,7 +480,7 @@ class _ReportSheetState extends State<_ReportSheet> {
               spacing: 8,
               runSpacing: 8,
               children: [
-                for (final value in reportCategoryValues)
+                for (final value in personReportCategories)
                   ChoiceChip(
                     label: Text(reportCategoryLabel(t, value)),
                     selected: _category == value,

@@ -2414,4 +2414,31 @@ class AppLocalizationsPa extends AppLocalizations {
   @override
   String get attendanceCantView =>
       'ਤੁਸੀਂ ਇੱਥੇ ਹਾਜ਼ਰੀ ਮਾਰਕ ਕਰ ਸਕਦੇ ਹੋ, ਪਰ ਕੌਣ ਪਹਿਲਾਂ ਮਾਰਕ ਹੈ ਇਹ ਤੁਹਾਡਾ ਰੋਲ ਨਹੀਂ ਵੇਖ ਸਕਦਾ।';
+
+  @override
+  String get reportGym => 'ਇਸ ਜਿਮ ਦੀ ਰਿਪੋਰਟ ਕਰੋ';
+
+  @override
+  String get reportEvent => 'ਇਸ ਈਵੈਂਟ ਦੀ ਰਿਪੋਰਟ ਕਰੋ';
+
+  @override
+  String get reportCategoryFakeListing => 'ਨਕਲੀ, ਜਾਂ ਜਿਵੇਂ ਦੱਸਿਆ ਉਵੇਂ ਨਹੀਂ';
+
+  @override
+  String get reportCategoryMisleading => 'ਗਲਤ ਕੀਮਤ, ਇਨਾਮ ਜਾਂ ਜਾਣਕਾਰੀ';
+
+  @override
+  String get reportDetailsOptional => 'ਵੇਰਵੇ (ਵਿਕਲਪਿਕ)';
+
+  @override
+  String get reportListingDetailsHint =>
+      'ਵਿਕਲਪਿਕ। ਜੋ ਵੀ ਮਦਦ ਕਰੇ ਉਹ ਦੱਸੋ, ਜਿਵੇਂ ਕੀ ਇਤਰਾਜ਼ਯੋਗ ਜਾਂ ਗਲਤ ਹੈ।';
+
+  @override
+  String get reportListingSent => 'ਧੰਨਵਾਦ। ਸਾਡੀ ਟੀਮ ਇਸਨੂੰ ਵੇਖੇਗੀ।';
+
+  @override
+  String hiddenByGymologia(String reason) {
+    return 'Gymologia ਨੇ ਲੁਕਾਇਆ: $reason';
+  }
 }

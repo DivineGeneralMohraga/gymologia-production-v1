@@ -1,7 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { ReportCategory, ReportStatus } from '@prisma/client';
+import { ReportCategory, ReportStatus, ReportTarget } from '@prisma/client';
 import { Transform } from 'class-transformer';
 import {
+  IsBoolean,
   IsEnum,
   IsInt,
   IsOptional,
@@ -9,6 +10,7 @@ import {
   IsUUID,
   Length,
   Max,
+  MaxLength,
   Min,
 } from 'class-validator';
 
@@ -70,6 +72,30 @@ export class CreateReportDto {
   gymId?: string;
 }
 
+/**
+ * Reporting a gym listing or an event.
+ *
+ * Unlike a chat report, the words are optional. What is being reported is
+ * public -- the reviewer opens the same gym page or event the reporter
+ * saw -- so a category alone is a usable report, and asking for a
+ * paragraph is how a report button goes unused.
+ */
+export class ReportListingDto {
+  @ApiProperty({ enum: ReportCategory })
+  @IsEnum(ReportCategory)
+  category!: ReportCategory;
+
+  @ApiPropertyOptional({
+    description: 'Anything that helps the reviewer. Optional.',
+    maxLength: 2000,
+  })
+  @IsOptional()
+  @IsString()
+  @trim()
+  @MaxLength(2000)
+  details?: string;
+}
+
 // ── Admin side ────────────────────────────────────────────────────────
 
 export class ListReportsDto {
@@ -77,6 +103,11 @@ export class ListReportsDto {
   @IsOptional()
   @IsEnum(ReportStatus)
   status?: ReportStatus;
+
+  @ApiPropertyOptional({ enum: ReportTarget })
+  @IsOptional()
+  @IsEnum(ReportTarget)
+  target?: ReportTarget;
 
   @ApiPropertyOptional({ enum: ReportCategory })
   @IsOptional()
@@ -117,4 +148,26 @@ export class ResolveReportDto {
   @trim()
   @Length(3, 500)
   actionTaken!: string;
+}
+
+/**
+ * Hiding or restoring the gym or event a report is about.
+ *
+ * The reason is shown to the gym's staff in their CRM, so it is written for
+ * them: "Name reported as offensive", "Prize could not be verified".
+ */
+export class SetListingHiddenDto {
+  @ApiProperty({ description: 'true hides it, false brings it back.' })
+  @IsBoolean()
+  hidden!: boolean;
+
+  @ApiPropertyOptional({
+    description: 'Required when hiding. Shown to the gym, so keep it factual.',
+    maxLength: 300,
+  })
+  @IsOptional()
+  @IsString()
+  @trim()
+  @Length(3, 300)
+  reason?: string;
 }

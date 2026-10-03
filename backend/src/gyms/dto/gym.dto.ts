@@ -16,7 +16,7 @@ import {
   Min,
 } from 'class-validator';
 import { IsStorageUrl } from '../../common/validation/storage-url';
-import { IsCleanName } from '../../common/validation/clean-name';
+import { IsCleanName, IsCleanText } from '../../common/validation/clean-name';
 
 const trim = () =>
   Transform(({ value }) => (typeof value === 'string' ? value.trim() : value));
@@ -33,6 +33,7 @@ export class CreateGymDto {
   @IsOptional()
   @IsString()
   @MaxLength(4000)
+  @IsCleanText()
   description?: string;
 
   @ApiProperty({ example: 'Plot 14, Sector 22' })
@@ -109,6 +110,7 @@ export class CreateGymDto {
   @ArrayMaxSize(40)
   @IsString({ each: true })
   @MaxLength(120, { each: true })
+  @IsCleanText({ each: true })
   perks?: string[];
 
   @ApiPropertyOptional({ type: [String] })
@@ -133,6 +135,7 @@ export class UpdateGymDto {
   @IsOptional()
   @IsString()
   @MaxLength(4000)
+  @IsCleanText()
   description?: string;
 
   @ApiPropertyOptional()
@@ -207,6 +210,7 @@ export class UpdateGymDto {
   @ArrayMaxSize(40)
   @IsString({ each: true })
   @MaxLength(120, { each: true })
+  @IsCleanText({ each: true })
   perks?: string[];
 
   @ApiPropertyOptional({ type: [String] })

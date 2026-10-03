@@ -676,5 +676,13 @@
   "attendanceNeedsEditPermission": "ఇప్పటికే {status} గా గుర్తించారు. మార్చడానికి హాజరు సవరించే అనుమతి కావాలి.",
   "attendanceNobody": "ఇక్కడ గుర్తించడానికి ఎవరూ లేరు",
   "attendanceNobodyHint": "ప్లాన్ ముగిసిన సభ్యులు, హాజరు లేని పాత్రలు ఇక్కడ కనిపించవు.",
-  "attendanceCantView": "మీరు ఇక్కడ హాజరు గుర్తించవచ్చు, కానీ ఇప్పటికే ఎవరు గుర్తించబడ్డారో మీ పాత్ర చూడలేదు."
+  "attendanceCantView": "మీరు ఇక్కడ హాజరు గుర్తించవచ్చు, కానీ ఇప్పటికే ఎవరు గుర్తించబడ్డారో మీ పాత్ర చూడలేదు.",
+  "reportGym": "ఈ జిమ్‌ను రిపోర్ట్ చేయండి",
+  "reportEvent": "ఈ ఈవెంట్‌ను రిపోర్ట్ చేయండి",
+  "reportCategoryFakeListing": "నకిలీ, లేదా చెప్పినట్లు లేదు",
+  "reportCategoryMisleading": "తప్పు ధరలు, బహుమతులు లేదా వివరాలు",
+  "reportDetailsOptional": "వివరాలు (ఐచ్ఛికం)",
+  "reportListingDetailsHint": "ఐచ్ఛికం. ఏది సహాయపడుతుందో చెప్పండి, ఏది అభ్యంతరకరం లేదా తప్పు అనేది వంటివి.",
+  "reportListingSent": "ధన్యవాదాలు. మా బృందం దీన్ని చూస్తుంది.",
+  "hiddenByGymologia": "Gymologia దాచింది: {reason}"
 }

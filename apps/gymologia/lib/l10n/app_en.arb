@@ -1311,5 +1311,24 @@
   },
   "attendanceNobody": "Nobody to mark here",
   "attendanceNobodyHint": "Members whose plan has ended, and roles that do not take attendance, are not listed.",
-  "attendanceCantView": "You can mark attendance here, but your role cannot see who is already marked."
+  "attendanceCantView": "You can mark attendance here, but your role cannot see who is already marked.",
+  "reportGym": "Report this gym",
+  "reportEvent": "Report this event",
+  "reportCategoryFakeListing": "Fake, or not what it claims to be",
+  "reportCategoryMisleading": "Wrong prices, prizes or details",
+  "reportDetailsOptional": "Details (optional)",
+  "reportListingDetailsHint": "Optional. Tell us anything that helps, like what is offensive or wrong.",
+  "reportListingSent": "Thank you. Our team will look at it.",
+  "@reportListingDetailsHint": {
+    "description": "On the sheet for reporting a gym or an event. Details are optional there because the reviewer can see the same public listing."
+  },
+  "hiddenByGymologia": "Hidden by Gymologia: {reason}",
+  "@hiddenByGymologia": {
+    "description": "On the staff events list, for an event Gymologia took down after a report. {reason} is what the reviewer wrote.",
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -35,6 +35,8 @@ export class RankingService {
         state: true,
         status: true,
         publicListing: true,
+        listingHiddenAt: true,
+        listingHiddenReason: true,
         ratingAverage: true,
         ratingCount: true,
         subscriptions: {
@@ -58,10 +60,11 @@ export class RankingService {
       plan === Plan.PRO &&
       gym.status === GymStatus.ACTIVE &&
       gym.publicListing &&
+      gym.listingHiddenAt === null &&
       kycVerified;
 
     if (!listed) {
-      // Say which of the four reasons it is. "You are not ranked" without
+      // Say which of the five reasons it is. "You are not ranked" without
       // a reason leaves an owner unable to act on it.
       return {
         listed: false,
@@ -69,6 +72,8 @@ export class RankingService {
         reason:
           plan !== Plan.PRO
             ? 'Only Pro gyms appear in Gymologia search. Upgrade to be ranked.'
+            : gym.listingHiddenAt !== null
+              ? `Gymologia has hidden your gym from search after a report: ${gym.listingHiddenReason ?? 'no reason given'}. Contact support@gymologia.com to have it reviewed.`
             : gym.status !== GymStatus.ACTIVE
               ? 'Your gym is not active, so it is not being shown in search.'
               : !kycVerified
@@ -145,6 +150,7 @@ export class RankingService {
       WHERE g."deletedAt" IS NULL
         AND g.status::text = 'ACTIVE'
         AND g."publicListing" = true
+        AND g."listingHiddenAt" IS NULL
         ${kycClause}
         ${hideDemoGymsSql(includeDemo)}
         AND EXISTS (

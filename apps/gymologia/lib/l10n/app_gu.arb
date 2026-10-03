@@ -676,5 +676,13 @@
   "attendanceNeedsEditPermission": "પહેલેથી {status} માર્ક છે. બદલવા માટે હાજરી એડિટ કરવાની પરવાનગી જોઈએ.",
   "attendanceNobody": "અહીં માર્ક કરવા કોઈ નથી",
   "attendanceNobodyHint": "જેમનો પ્લાન પૂરો થયો છે અને જે રોલની હાજરી નથી લેવાતી, તે અહીં દેખાતા નથી.",
-  "attendanceCantView": "તમે અહીં હાજરી માર્ક કરી શકો છો, પણ તમારો રોલ કોણ પહેલેથી માર્ક છે તે જોઈ શકતો નથી."
+  "attendanceCantView": "તમે અહીં હાજરી માર્ક કરી શકો છો, પણ તમારો રોલ કોણ પહેલેથી માર્ક છે તે જોઈ શકતો નથી.",
+  "reportGym": "આ જિમની જાણ કરો",
+  "reportEvent": "આ ઇવેન્ટની જાણ કરો",
+  "reportCategoryFakeListing": "નકલી, અથવા કહ્યા મુજબ નથી",
+  "reportCategoryMisleading": "ખોટી કિંમત, ઇનામ અથવા માહિતી",
+  "reportDetailsOptional": "વિગતો (વૈકલ્પિક)",
+  "reportListingDetailsHint": "વૈકલ્પિક. જે મદદ કરે તે જણાવો, જેમ કે શું વાંધાજનક અથવા ખોટું છે.",
+  "reportListingSent": "આભાર. અમારી ટીમ આ જોશે.",
+  "hiddenByGymologia": "Gymologia એ છુપાવ્યું: {reason}"
 }

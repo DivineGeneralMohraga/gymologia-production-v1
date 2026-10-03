@@ -2403,4 +2403,31 @@ class AppLocalizationsGu extends AppLocalizations {
   @override
   String get attendanceCantView =>
       'તમે અહીં હાજરી માર્ક કરી શકો છો, પણ તમારો રોલ કોણ પહેલેથી માર્ક છે તે જોઈ શકતો નથી.';
+
+  @override
+  String get reportGym => 'આ જિમની જાણ કરો';
+
+  @override
+  String get reportEvent => 'આ ઇવેન્ટની જાણ કરો';
+
+  @override
+  String get reportCategoryFakeListing => 'નકલી, અથવા કહ્યા મુજબ નથી';
+
+  @override
+  String get reportCategoryMisleading => 'ખોટી કિંમત, ઇનામ અથવા માહિતી';
+
+  @override
+  String get reportDetailsOptional => 'વિગતો (વૈકલ્પિક)';
+
+  @override
+  String get reportListingDetailsHint =>
+      'વૈકલ્પિક. જે મદદ કરે તે જણાવો, જેમ કે શું વાંધાજનક અથવા ખોટું છે.';
+
+  @override
+  String get reportListingSent => 'આભાર. અમારી ટીમ આ જોશે.';
+
+  @override
+  String hiddenByGymologia(String reason) {
+    return 'Gymologia એ છુપાવ્યું: $reason';
+  }
 }

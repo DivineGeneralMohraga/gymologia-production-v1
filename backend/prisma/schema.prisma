@@ -229,6 +229,14 @@ model Gym {
   /// Opt-in to appearing in the public gym search. Only honoured on PRO.
   publicListing Boolean   @default(true)
 
+  /// Set by Gymologia staff after a report, never by the gym: hides the gym
+  /// from search, its public page and the national events feed while it
+  /// is set. Separate from `publicListing` because an owner can switch that
+  /// back on, and a takedown must not be undone by the gym it was taken
+  /// against. The gym's own CRM keeps working.
+  listingHiddenAt     DateTime?
+  listingHiddenReason String?   @db.VarChar(300)
+
   ratingAverage Decimal @default(0) @db.Decimal(3, 2)
   ratingCount   Int     @default(0)
 
@@ -840,10 +848,17 @@ model Event {
 
   status      EventStatus @default(PUBLISHED)
   createdById String      @db.Uuid
+
+  /// Set by Gymologia staff after a report: the event disappears from every
+  /// feed and cannot be joined. Not an EventStatus, because the host can
+  /// change the status and a takedown must not be undone by its host.
+  hiddenAt     DateTime?
+  hiddenReason String?   @db.VarChar(300)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
   participations EventParticipation[]
+  reports        ContentReport[]
 
   @@index([gymId, status])
   @@index([status, publicListing, startsAt])
@@ -1519,6 +1534,13 @@ model ContentReport {
   gymId          String?       @db.Uuid
   gym            Gym?          @relation(fields: [gymId], references: [id], onDelete: SetNull)
 
+  /// What is being reported. For GYM and EVENT, `reportedUserId` is the
+  /// person answerable for it -- the gym's owner, the event's creator -- so
+  /// the desk can act on the account as well as hide the listing.
+  target  ReportTarget @default(USER)
+  eventId String?      @db.Uuid
+  event   Event?       @relation(fields: [eventId], references: [id], onDelete: SetNull)
+
   category ReportCategory
   details  String         @db.VarChar(2000)
 
@@ -1543,7 +1565,17 @@ enum ReportCategory {
   VIOLENCE_OR_THREAT
   SCAM_OR_FRAUD
   IMPERSONATION
+  /// A gym or event that does not exist, or is not what it claims to be.
+  FAKE_LISTING
+  /// Wrong prices, prizes, timings or perks.
+  MISLEADING
   OTHER
+}
+
+enum ReportTarget {
+  USER
+  GYM
+  EVENT
 }
 
 enum ReportStatus {

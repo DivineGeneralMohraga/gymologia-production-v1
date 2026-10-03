@@ -17,7 +17,11 @@ import { SafetyReviewService } from './safety-review.service';
 import { AdminGuard, RequireAdminRole } from '../admin/admin.guard';
 import type { AdminContext } from '../admin/admin.guard';
 import { CurrentAdmin } from '../admin/admin.decorators';
-import { ListReportsDto, ResolveReportDto } from './dto/safety.dto';
+import {
+  ListReportsDto,
+  ResolveReportDto,
+  SetListingHiddenDto,
+} from './dto/safety.dto';
 
 const meta = (req: Request) => ({
   ip: req.ip ?? null,
@@ -85,5 +89,25 @@ export class SafetyReviewController {
     @Req() req: Request,
   ) {
     return this.review.resolve(admin, reportId, dto, meta(req));
+  }
+
+  @Post(':reportId/listing')
+  @RequireAdminRole(
+    AdminRole.ADMIN,
+    AdminRole.MANAGER,
+    AdminRole.CUSTOMER_SUPPORT,
+  )
+  @ApiOperation({
+    summary: 'Hide or restore the reported gym or event',
+    description:
+      'Open to support as well: an offensive listing should come down within minutes, and this is reversible and audited. Banning the account stays with admins and managers.',
+  })
+  setListingHidden(
+    @CurrentAdmin() admin: AdminContext,
+    @Param('reportId', ParseUUIDPipe) reportId: string,
+    @Body() dto: SetListingHiddenDto,
+    @Req() req: Request,
+  ) {
+    return this.review.setListingHidden(admin, reportId, dto, meta(req));
   }
 }

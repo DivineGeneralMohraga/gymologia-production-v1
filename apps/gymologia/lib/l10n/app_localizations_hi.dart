@@ -2414,4 +2414,31 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get attendanceCantView =>
       'आप यहाँ अटेंडेंस मार्क कर सकते हैं, लेकिन आपका रोल यह नहीं देख सकता कि कौन पहले से मार्क है।';
+
+  @override
+  String get reportGym => 'इस जिम की रिपोर्ट करें';
+
+  @override
+  String get reportEvent => 'इस इवेंट की रिपोर्ट करें';
+
+  @override
+  String get reportCategoryFakeListing => 'नकली, या जैसा बताया वैसा नहीं';
+
+  @override
+  String get reportCategoryMisleading => 'गलत कीमत, इनाम या जानकारी';
+
+  @override
+  String get reportDetailsOptional => 'विवरण (वैकल्पिक)';
+
+  @override
+  String get reportListingDetailsHint =>
+      'वैकल्पिक। जो भी मदद करे वह बताएं, जैसे क्या आपत्तिजनक या गलत है।';
+
+  @override
+  String get reportListingSent => 'धन्यवाद। हमारी टीम इसे देखेगी।';
+
+  @override
+  String hiddenByGymologia(String reason) {
+    return 'Gymologia ने छिपाया: $reason';
+  }
 }

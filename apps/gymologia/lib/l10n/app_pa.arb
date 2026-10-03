@@ -676,5 +676,13 @@
   "attendanceNeedsEditPermission": "ਪਹਿਲਾਂ ਹੀ {status} ਮਾਰਕ ਹੈ। ਬਦਲਣ ਲਈ ਹਾਜ਼ਰੀ ਐਡਿਟ ਕਰਨ ਦੀ ਇਜਾਜ਼ਤ ਚਾਹੀਦੀ ਹੈ।",
   "attendanceNobody": "ਇੱਥੇ ਮਾਰਕ ਕਰਨ ਲਈ ਕੋਈ ਨਹੀਂ",
   "attendanceNobodyHint": "ਜਿਨ੍ਹਾਂ ਦਾ ਪਲਾਨ ਖ਼ਤਮ ਹੋ ਗਿਆ ਅਤੇ ਜਿਨ੍ਹਾਂ ਰੋਲਾਂ ਦੀ ਹਾਜ਼ਰੀ ਨਹੀਂ ਲੱਗਦੀ, ਉਹ ਇੱਥੇ ਨਹੀਂ ਹਨ।",
-  "attendanceCantView": "ਤੁਸੀਂ ਇੱਥੇ ਹਾਜ਼ਰੀ ਮਾਰਕ ਕਰ ਸਕਦੇ ਹੋ, ਪਰ ਕੌਣ ਪਹਿਲਾਂ ਮਾਰਕ ਹੈ ਇਹ ਤੁਹਾਡਾ ਰੋਲ ਨਹੀਂ ਵੇਖ ਸਕਦਾ।"
+  "attendanceCantView": "ਤੁਸੀਂ ਇੱਥੇ ਹਾਜ਼ਰੀ ਮਾਰਕ ਕਰ ਸਕਦੇ ਹੋ, ਪਰ ਕੌਣ ਪਹਿਲਾਂ ਮਾਰਕ ਹੈ ਇਹ ਤੁਹਾਡਾ ਰੋਲ ਨਹੀਂ ਵੇਖ ਸਕਦਾ।",
+  "reportGym": "ਇਸ ਜਿਮ ਦੀ ਰਿਪੋਰਟ ਕਰੋ",
+  "reportEvent": "ਇਸ ਈਵੈਂਟ ਦੀ ਰਿਪੋਰਟ ਕਰੋ",
+  "reportCategoryFakeListing": "ਨਕਲੀ, ਜਾਂ ਜਿਵੇਂ ਦੱਸਿਆ ਉਵੇਂ ਨਹੀਂ",
+  "reportCategoryMisleading": "ਗਲਤ ਕੀਮਤ, ਇਨਾਮ ਜਾਂ ਜਾਣਕਾਰੀ",
+  "reportDetailsOptional": "ਵੇਰਵੇ (ਵਿਕਲਪਿਕ)",
+  "reportListingDetailsHint": "ਵਿਕਲਪਿਕ। ਜੋ ਵੀ ਮਦਦ ਕਰੇ ਉਹ ਦੱਸੋ, ਜਿਵੇਂ ਕੀ ਇਤਰਾਜ਼ਯੋਗ ਜਾਂ ਗਲਤ ਹੈ।",
+  "reportListingSent": "ਧੰਨਵਾਦ। ਸਾਡੀ ਟੀਮ ਇਸਨੂੰ ਵੇਖੇਗੀ।",
+  "hiddenByGymologia": "Gymologia ਨੇ ਲੁਕਾਇਆ: {reason}"
 }

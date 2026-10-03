@@ -14,6 +14,7 @@ import {
   Min,
 } from 'class-validator';
 import { IsStorageUrl } from '../../common/validation/storage-url';
+import { IsCleanName, IsCleanText } from '../../common/validation/clean-name';
 
 const trim = () =>
   Transform(({ value }) => (typeof value === 'string' ? value.trim() : value));
@@ -23,6 +24,7 @@ export class CreateEventDto {
   @IsString()
   @trim()
   @Length(3, 150)
+  @IsCleanName()
   title!: string;
 
   @ApiPropertyOptional()
@@ -35,12 +37,14 @@ export class CreateEventDto {
   @IsString()
   @trim()
   @Length(10, 4000)
+  @IsCleanText()
   description!: string;
 
   @ApiProperty({ description: 'What someone has to do to take part.' })
   @IsString()
   @trim()
   @Length(5, 2000)
+  @IsCleanText()
   howToParticipate!: string;
 
   @ApiPropertyOptional({ example: 'Rs 10,000 and a year of free membership' })
@@ -48,6 +52,7 @@ export class CreateEventDto {
   @IsString()
   @trim()
   @MaxLength(200)
+  @IsCleanText()
   prize?: string;
 
   @ApiPropertyOptional()
@@ -55,6 +60,7 @@ export class CreateEventDto {
   @IsString()
   @trim()
   @MaxLength(2000)
+  @IsCleanText()
   prizeDescription?: string;
 
   @ApiProperty({ example: '2026-09-20' })
@@ -105,6 +111,7 @@ export class UpdateEventDto {
   @IsString()
   @trim()
   @Length(3, 150)
+  @IsCleanName()
   title?: string;
 
   @ApiPropertyOptional()
@@ -118,6 +125,7 @@ export class UpdateEventDto {
   @IsString()
   @trim()
   @Length(10, 4000)
+  @IsCleanText()
   description?: string;
 
   @ApiPropertyOptional()
@@ -125,6 +133,7 @@ export class UpdateEventDto {
   @IsString()
   @trim()
   @Length(5, 2000)
+  @IsCleanText()
   howToParticipate?: string;
 
   @ApiPropertyOptional()
@@ -132,6 +141,7 @@ export class UpdateEventDto {
   @IsString()
   @trim()
   @MaxLength(200)
+  @IsCleanText()
   prize?: string;
 
   @ApiPropertyOptional()
@@ -139,6 +149,7 @@ export class UpdateEventDto {
   @IsString()
   @trim()
   @MaxLength(2000)
+  @IsCleanText()
   prizeDescription?: string;
 
   @ApiPropertyOptional()

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 import '../auth/auth_controller.dart';
+import '../safety/safety_actions.dart';
 import '../../theme.dart';
 import '../../ui/kit.dart';
 
@@ -143,6 +144,12 @@ class _EventsPageState extends State<EventsPage> {
               event: event,
               busy: _working.contains(event['id']),
               onToggle: () => _toggle(event),
+              onReport: () => showListingReportSheet(
+                context,
+                api: _api,
+                kind: ReportedListing.event,
+                id: event['id'] as String,
+              ),
             ),
           const SizedBox(height: 14),
         ],
@@ -153,6 +160,12 @@ class _EventsPageState extends State<EventsPage> {
               event: event,
               busy: _working.contains(event['id']),
               onToggle: () => _toggle(event),
+              onReport: () => showListingReportSheet(
+                context,
+                api: _api,
+                kind: ReportedListing.event,
+                id: event['id'] as String,
+              ),
             ),
         ],
       ],
@@ -167,11 +180,13 @@ class _EventCard extends StatelessWidget {
     required this.event,
     required this.busy,
     required this.onToggle,
+    required this.onReport,
   });
 
   final Map<String, dynamic> event;
   final bool busy;
   final VoidCallback onToggle;
+  final VoidCallback onReport;
 
   @override
   Widget build(BuildContext context) {
@@ -233,10 +248,28 @@ class _EventCard extends StatelessWidget {
                   if (registered)
                     Positioned(
                       top: 12,
-                      right: 12,
+                      right: 52,
                       child: Pill.volt(t.participated,
                           icon: Icons.check_rounded),
                     ),
+                  Positioned(
+                    top: 4,
+                    right: 4,
+                    child: PopupMenuButton<String>(
+                      icon: const Icon(Icons.more_vert, color: onPhoto),
+                      onSelected: (_) => onReport(),
+                      itemBuilder: (_) => [
+                        PopupMenuItem(
+                          value: 'report',
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: const Icon(Icons.flag_outlined),
+                            title: Text(t.reportEvent),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Positioned(
                     left: 16,
                     right: 16,

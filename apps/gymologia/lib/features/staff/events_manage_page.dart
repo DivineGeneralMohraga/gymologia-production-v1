@@ -221,6 +221,31 @@ class _EventsManagePageState extends State<EventsManagePage> {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          if (e['hiddenByGymologia'] == true) ...[
+                            const SizedBox(height: 6),
+                            // Said on the card itself: an event that has
+                            // quietly vanished from the feed, with nothing
+                            // here, sends the host to support confused.
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(Icons.visibility_off_outlined,
+                                    size: 14,
+                                    color: theme.colorScheme.error),
+                                const SizedBox(width: 5),
+                                Expanded(
+                                  child: Text(
+                                    t.hiddenByGymologia(
+                                        e['hiddenReason'] as String? ?? '-'),
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.error,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                           const SizedBox(height: 6),
                           Text(
                             '${t.signedUpCount((e['participantCount'] as int?) ?? 0)}'

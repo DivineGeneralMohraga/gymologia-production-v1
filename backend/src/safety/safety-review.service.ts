@@ -1,10 +1,14 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { Prisma, ReportStatus } from '@prisma/client';
+import { Prisma, ReportStatus, ReportTarget } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../common/audit/audit.service';
 import type { AdminContext } from '../admin/admin.guard';
-import { ListReportsDto, ResolveReportDto } from './dto/safety.dto';
+import {
+  ListReportsDto,
+  ResolveReportDto,
+  SetListingHiddenDto,
+} from './dto/safety.dto';
 
 interface RequestMeta {
   ip?: string | null;
@@ -40,6 +44,7 @@ export class SafetyReviewService {
 
     const where: Prisma.ContentReportWhereInput = {
       ...(dto.status ? { status: dto.status } : {}),
+      ...(dto.target ? { target: dto.target } : {}),
       ...(dto.category ? { category: dto.category } : {}),
     };
 
@@ -62,8 +67,10 @@ export class SafetyReviewService {
           reviewedAt: true,
           actionTaken: true,
           reporter: { select: { id: true, name: true } },
+          target: true,
           reportedUser: { select: { id: true, name: true, phone: true } },
-          gym: { select: { id: true, name: true } },
+          gym: { select: { id: true, name: true, listingHiddenAt: true } },
+          event: { select: { id: true, title: true, hiddenAt: true } },
           reviewedBy: { select: { user: { select: { name: true } } } },
         },
       }),
@@ -80,7 +87,13 @@ export class SafetyReviewService {
           id: r.reportedUser.id,
           name: r.reportedUser.name,
         },
-        gym: r.gym,
+        target: r.target,
+        gym: r.gym
+          ? { id: r.gym.id, name: r.gym.name, hidden: r.gym.listingHiddenAt !== null }
+          : null,
+        event: r.event
+          ? { id: r.event.id, title: r.event.title, hidden: r.event.hiddenAt !== null }
+          : null,
         filedAt: r.createdAt,
         reviewedAt: r.reviewedAt,
         reviewedBy: r.reviewedBy?.user.name ?? null,
@@ -116,8 +129,38 @@ export class SafetyReviewService {
         reportedUser: {
           select: { id: true, name: true, phone: true, createdAt: true },
         },
+        target: true,
         conversation: { select: { id: true, type: true } },
-        gym: { select: { id: true, name: true } },
+        // For a gym or event report the listing itself is the evidence: it
+        // is public, so the desk shows what the reporter saw.
+        gym: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            district: true,
+            state: true,
+            contactPhone: true,
+            listingHiddenAt: true,
+            listingHiddenReason: true,
+            images: { select: { url: true }, orderBy: { sortOrder: 'asc' }, take: 5 },
+            perks: { select: { label: true } },
+          },
+        },
+        event: {
+          select: {
+            id: true,
+            title: true,
+            bannerUrl: true,
+            description: true,
+            howToParticipate: true,
+            prize: true,
+            prizeDescription: true,
+            startsAt: true,
+            hiddenAt: true,
+            hiddenReason: true,
+          },
+        },
         reviewedBy: { select: { user: { select: { name: true } } } },
         message: {
           select: { id: true, senderId: true, createdAt: true, deletedAt: true },
@@ -126,7 +169,7 @@ export class SafetyReviewService {
     });
     if (!report) throw new NotFoundException('No such report');
 
-    const [priorAgainst, priorBy, blocksAgainst] = await Promise.all([
+    const [priorAgainst, priorBy, blocksAgainst, sameListing] = await Promise.all([
       this.prisma.contentReport.count({
         where: { reportedUserId: report.reportedUser.id, id: { not: reportId } },
       }),
@@ -139,10 +182,42 @@ export class SafetyReviewService {
       this.prisma.userBlock.count({
         where: { blockedId: report.reportedUser.id },
       }),
+      // How many other people reported this same gym or event. Several
+      // unrelated reporters is what makes a takedown easy to stand behind.
+      report.target === ReportTarget.EVENT && report.event
+        ? this.prisma.contentReport.count({
+            where: { eventId: report.event.id, target: ReportTarget.EVENT, id: { not: reportId } },
+          })
+        : report.target === ReportTarget.GYM && report.gym
+          ? this.prisma.contentReport.count({
+              where: { gymId: report.gym.id, target: ReportTarget.GYM, id: { not: reportId } },
+            })
+          : Promise.resolve(0),
     ]);
 
     return {
       ...report,
+      gym: report.gym
+        ? {
+            id: report.gym.id,
+            name: report.gym.name,
+            description: report.gym.description,
+            district: report.gym.district,
+            state: report.gym.state,
+            contactPhone: report.gym.contactPhone,
+            images: report.gym.images.map((i) => i.url),
+            perks: report.gym.perks.map((p) => p.label),
+            hidden: report.gym.listingHiddenAt !== null,
+            hiddenAt: report.gym.listingHiddenAt,
+            hiddenReason: report.gym.listingHiddenReason,
+          }
+        : null,
+      event: report.event
+        ? {
+            ...report.event,
+            hidden: report.event.hiddenAt !== null,
+          }
+        : null,
       reviewedBy: report.reviewedBy?.user.name ?? null,
       message: report.message
         ? {
@@ -162,6 +237,7 @@ export class SafetyReviewService {
         priorReportsAgainstThisAccount: priorAgainst,
         reportsFiledByThisReporter: priorBy,
         peopleWhoHaveBlockedThisAccount: blocksAgainst,
+        otherReportsOfThisListing: sameListing,
       },
     };
   }
@@ -210,5 +286,89 @@ export class SafetyReviewService {
     });
 
     return updated;
+  }
+
+  /**
+   * Hiding the gym or event a report is about, or bringing it back.
+   *
+   * A gym is hidden from search, its public page, the ranking and the
+   * national events feed; its own staff and members keep their CRM and
+   * their gym. An event is hidden from every feed and cannot be joined.
+   * Either way nothing is deleted, so a mistaken takedown is one tap to undo.
+   *
+   * Works on the report rather than on a gym or event id, so every takedown
+   * traces back to the complaint that prompted it.
+   */
+  async setListingHidden(
+    admin: AdminContext,
+    reportId: string,
+    dto: SetListingHiddenDto,
+    meta: RequestMeta,
+  ) {
+    if (dto.hidden && !dto.reason) {
+      throw new BadRequestException(
+        'Say why it is being hidden. The gym sees this reason.',
+      );
+    }
+
+    const report = await this.prisma.contentReport.findUnique({
+      where: { id: reportId },
+      select: { id: true, target: true, gymId: true, eventId: true },
+    });
+    if (!report) throw new NotFoundException('No such report');
+
+    const now = new Date();
+    let entityType: 'Gym' | 'Event';
+    let entityId: string;
+    let before: { hidden: boolean; reason: string | null };
+
+    if (report.target === ReportTarget.EVENT && report.eventId) {
+      const event = await this.prisma.event.findUnique({
+        where: { id: report.eventId },
+        select: { id: true, hiddenAt: true, hiddenReason: true },
+      });
+      if (!event) throw new NotFoundException('That event no longer exists');
+      before = { hidden: event.hiddenAt !== null, reason: event.hiddenReason };
+      await this.prisma.event.update({
+        where: { id: event.id },
+        data: dto.hidden
+          ? { hiddenAt: event.hiddenAt ?? now, hiddenReason: dto.reason }
+          : { hiddenAt: null, hiddenReason: null },
+      });
+      entityType = 'Event';
+      entityId = event.id;
+    } else if (report.target === ReportTarget.GYM && report.gymId) {
+      const gym = await this.prisma.gym.findUnique({
+        where: { id: report.gymId },
+        select: { id: true, listingHiddenAt: true, listingHiddenReason: true },
+      });
+      if (!gym) throw new NotFoundException('That gym no longer exists');
+      before = { hidden: gym.listingHiddenAt !== null, reason: gym.listingHiddenReason };
+      await this.prisma.gym.update({
+        where: { id: gym.id },
+        data: dto.hidden
+          ? { listingHiddenAt: gym.listingHiddenAt ?? now, listingHiddenReason: dto.reason }
+          : { listingHiddenAt: null, listingHiddenReason: null },
+      });
+      entityType = 'Gym';
+      entityId = gym.id;
+    } else {
+      throw new BadRequestException(
+        'This report is about a person, not a gym or event. Use the account ban instead.',
+      );
+    }
+
+    await this.audit.record({
+      actorId: admin.userId,
+      action: dto.hidden ? 'safety.listing.hide' : 'safety.listing.unhide',
+      entityType,
+      entityId,
+      before,
+      after: { hidden: dto.hidden, reason: dto.hidden ? dto.reason : null, reportId },
+      ip: meta.ip,
+      userAgent: meta.userAgent,
+    });
+
+    return { target: report.target, id: entityId, hidden: dto.hidden };
   }
 }

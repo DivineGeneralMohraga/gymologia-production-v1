@@ -129,6 +129,18 @@ class AdminApi {
       _client.post('/admin/reports/$id/resolve',
           body: {'status': status, 'actionTaken': actionTaken});
 
+  /// Hides the gym or event a report is about from the public, or brings it
+  /// back. [reason] is required when hiding; the gym's staff see it.
+  Future<Map<String, dynamic>> setListingHidden(
+    String reportId, {
+    required bool hidden,
+    String? reason,
+  }) =>
+      _client.post('/admin/reports/$reportId/listing', body: {
+        'hidden': hidden,
+        'reason': ?reason,
+      });
+
   // ── Announcements ──────────────────────────────────────────────────
 
   /// How many people an audience reaches, asked BEFORE the send. The server

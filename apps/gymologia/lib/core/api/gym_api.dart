@@ -703,6 +703,34 @@ class GymApi {
     },
   );
 
+  /// Reporting a gym listing: name, photos, description, perks. Filed
+  /// against the owner. [details] is optional — the reviewer can open the
+  /// same public listing.
+  Future<Map<String, dynamic>> reportGym(
+    String gymId, {
+    required String category,
+    String? details,
+  }) => _client.post(
+    '/me/reports/gyms/$gymId',
+    body: {
+      'category': category,
+      if (details != null && details.isNotEmpty) 'details': details,
+    },
+  );
+
+  /// Reporting an event: title, banner, description, prize.
+  Future<Map<String, dynamic>> reportEvent(
+    String eventId, {
+    required String category,
+    String? details,
+  }) => _client.post(
+    '/me/reports/events/$eventId',
+    body: {
+      'category': category,
+      if (details != null && details.isNotEmpty) 'details': details,
+    },
+  );
+
   // ── Profile and support ────────────────────────────────────────────
 
   Future<Map<String, dynamic>> updateProfile({

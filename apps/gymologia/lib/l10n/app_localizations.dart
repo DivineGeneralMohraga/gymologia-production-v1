@@ -4175,6 +4175,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can mark attendance here, but your role cannot see who is already marked.'**
   String get attendanceCantView;
+
+  /// No description provided for @reportGym.
+  ///
+  /// In en, this message translates to:
+  /// **'Report this gym'**
+  String get reportGym;
+
+  /// No description provided for @reportEvent.
+  ///
+  /// In en, this message translates to:
+  /// **'Report this event'**
+  String get reportEvent;
+
+  /// No description provided for @reportCategoryFakeListing.
+  ///
+  /// In en, this message translates to:
+  /// **'Fake, or not what it claims to be'**
+  String get reportCategoryFakeListing;
+
+  /// No description provided for @reportCategoryMisleading.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong prices, prizes or details'**
+  String get reportCategoryMisleading;
+
+  /// No description provided for @reportDetailsOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Details (optional)'**
+  String get reportDetailsOptional;
+
+  /// On the sheet for reporting a gym or an event. Details are optional there because the reviewer can see the same public listing.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional. Tell us anything that helps, like what is offensive or wrong.'**
+  String get reportListingDetailsHint;
+
+  /// No description provided for @reportListingSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you. Our team will look at it.'**
+  String get reportListingSent;
+
+  /// On the staff events list, for an event Gymologia took down after a report. {reason} is what the reviewer wrote.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden by Gymologia: {reason}'**
+  String hiddenByGymologia(String reason);
 }
 
 class _AppLocalizationsDelegate

@@ -676,5 +676,13 @@
   "attendanceNeedsEditPermission": "पहले से {status} मार्क है। बदलने के लिए अटेंडेंस एडिट करने की अनुमति चाहिए।",
   "attendanceNobody": "यहाँ मार्क करने के लिए कोई नहीं",
   "attendanceNobodyHint": "जिन सदस्यों का प्लान खत्म हो गया है और जिन रोल्स की अटेंडेंस नहीं होती, वे यहाँ नहीं दिखते।",
-  "attendanceCantView": "आप यहाँ अटेंडेंस मार्क कर सकते हैं, लेकिन आपका रोल यह नहीं देख सकता कि कौन पहले से मार्क है।"
+  "attendanceCantView": "आप यहाँ अटेंडेंस मार्क कर सकते हैं, लेकिन आपका रोल यह नहीं देख सकता कि कौन पहले से मार्क है।",
+  "reportGym": "इस जिम की रिपोर्ट करें",
+  "reportEvent": "इस इवेंट की रिपोर्ट करें",
+  "reportCategoryFakeListing": "नकली, या जैसा बताया वैसा नहीं",
+  "reportCategoryMisleading": "गलत कीमत, इनाम या जानकारी",
+  "reportDetailsOptional": "विवरण (वैकल्पिक)",
+  "reportListingDetailsHint": "वैकल्पिक। जो भी मदद करे वह बताएं, जैसे क्या आपत्तिजनक या गलत है।",
+  "reportListingSent": "धन्यवाद। हमारी टीम इसे देखेगी।",
+  "hiddenByGymologia": "Gymologia ने छिपाया: {reason}"
 }

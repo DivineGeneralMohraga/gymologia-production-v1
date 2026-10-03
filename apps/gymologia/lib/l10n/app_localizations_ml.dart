@@ -2432,4 +2432,33 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get attendanceCantView =>
       'നിങ്ങൾക്ക് ഇവിടെ ഹാജർ രേഖപ്പെടുത്താം, പക്ഷേ ആരെയാണ് ഇതിനകം രേഖപ്പെടുത്തിയതെന്ന് നിങ്ങളുടെ റോളിന് കാണാനാവില്ല.';
+
+  @override
+  String get reportGym => 'ഈ ജിം റിപ്പോർട്ട് ചെയ്യുക';
+
+  @override
+  String get reportEvent => 'ഈ ഇവന്റ് റിപ്പോർട്ട് ചെയ്യുക';
+
+  @override
+  String get reportCategoryFakeListing =>
+      'വ്യാജം, അല്ലെങ്കിൽ പറയുന്നതുപോലെയല്ല';
+
+  @override
+  String get reportCategoryMisleading =>
+      'തെറ്റായ വില, സമ്മാനം അല്ലെങ്കിൽ വിവരങ്ങൾ';
+
+  @override
+  String get reportDetailsOptional => 'വിശദാംശങ്ങൾ (ഓപ്ഷണൽ)';
+
+  @override
+  String get reportListingDetailsHint =>
+      'ഓപ്ഷണൽ. സഹായിക്കുന്ന എന്തും പറയുക, എന്താണ് അപമാനകരം അല്ലെങ്കിൽ തെറ്റ് എന്നതുപോലെ.';
+
+  @override
+  String get reportListingSent => 'നന്ദി. ഞങ്ങളുടെ ടീം ഇത് പരിശോധിക്കും.';
+
+  @override
+  String hiddenByGymologia(String reason) {
+    return 'Gymologia മറച്ചു: $reason';
+  }
 }

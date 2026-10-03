@@ -2420,4 +2420,31 @@ class AppLocalizationsKn extends AppLocalizations {
   @override
   String get attendanceCantView =>
       'ನೀವು ಇಲ್ಲಿ ಹಾಜರಾತಿ ಗುರುತಿಸಬಹುದು, ಆದರೆ ಈಗಾಗಲೇ ಯಾರು ಗುರುತಿಸಲಾಗಿದೆ ಎಂಬುದನ್ನು ನಿಮ್ಮ ಪಾತ್ರ ನೋಡಲಾಗದು.';
+
+  @override
+  String get reportGym => 'ಈ ಜಿಮ್ ಅನ್ನು ವರದಿ ಮಾಡಿ';
+
+  @override
+  String get reportEvent => 'ಈ ಈವೆಂಟ್ ಅನ್ನು ವರದಿ ಮಾಡಿ';
+
+  @override
+  String get reportCategoryFakeListing => 'ನಕಲಿ, ಅಥವಾ ಹೇಳಿದಂತೆ ಇಲ್ಲ';
+
+  @override
+  String get reportCategoryMisleading => 'ತಪ್ಪು ಬೆಲೆ, ಬಹುಮಾನ ಅಥವಾ ವಿವರಗಳು';
+
+  @override
+  String get reportDetailsOptional => 'ವಿವರಗಳು (ಐಚ್ಛಿಕ)';
+
+  @override
+  String get reportListingDetailsHint =>
+      'ಐಚ್ಛಿಕ. ಸಹಾಯವಾಗುವ ಏನನ್ನಾದರೂ ತಿಳಿಸಿ, ಏನು ಆಕ್ಷೇಪಾರ್ಹ ಅಥವಾ ತಪ್ಪು ಎಂಬಂತೆ.';
+
+  @override
+  String get reportListingSent => 'ಧನ್ಯವಾದಗಳು. ನಮ್ಮ ತಂಡ ಇದನ್ನು ನೋಡುತ್ತದೆ.';
+
+  @override
+  String hiddenByGymologia(String reason) {
+    return 'Gymologia ಮರೆಮಾಡಿದೆ: $reason';
+  }
 }
