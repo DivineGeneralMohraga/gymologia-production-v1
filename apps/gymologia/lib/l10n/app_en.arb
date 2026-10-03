@@ -1330,5 +1330,9 @@
         "type": "String"
       }
     }
+  },
+  "mobileNumberHint": "10-digit mobile number",
+  "@mobileNumberHint": {
+    "description": "Hint in the login phone field. Deliberately NOT an example number: test robots typed the old hint 98765 43210 and got the server blocked by the SMS provider."
   }
 }

@@ -684,5 +684,6 @@
   "reportDetailsOptional": "ವಿವರಗಳು (ಐಚ್ಛಿಕ)",
   "reportListingDetailsHint": "ಐಚ್ಛಿಕ. ಸಹಾಯವಾಗುವ ಏನನ್ನಾದರೂ ತಿಳಿಸಿ, ಏನು ಆಕ್ಷೇಪಾರ್ಹ ಅಥವಾ ತಪ್ಪು ಎಂಬಂತೆ.",
   "reportListingSent": "ಧನ್ಯವಾದಗಳು. ನಮ್ಮ ತಂಡ ಇದನ್ನು ನೋಡುತ್ತದೆ.",
-  "hiddenByGymologia": "Gymologia ಮರೆಮಾಡಿದೆ: {reason}"
+  "hiddenByGymologia": "Gymologia ಮರೆಮಾಡಿದೆ: {reason}",
+  "mobileNumberHint": "10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ"
 }

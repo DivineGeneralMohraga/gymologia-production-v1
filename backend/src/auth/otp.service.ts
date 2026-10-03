@@ -7,6 +7,7 @@ import { SecurityEventService } from '../common/security/security-event.service'
 import { Msg91Service } from './msg91.service';
 import { Msg91Config } from '../config/configuration';
 import { TooManyRequestsException } from '../common/exceptions/too-many-requests.exception';
+import { isDummyPhone } from '../common/utils/phone.util';
 
 /**
  * Evaluated once at module load. A per-request check could be influenced by
@@ -118,6 +119,23 @@ export class OtpService {
       this.cfg.testAccountPhones.length > 0 &&
       this.cfg.testAccountOtp !== '' &&
       this.cfg.testAccountPhones.includes(phone);
+
+    // Placeholder numbers never reach MSG91 (see isDummyPhone): a few
+    // requests for 9876543210 got the server's IP blocked on 2026-10-03.
+    // A configured test account is exempt -- it is never texted anyway.
+    if (!isTestAccount && isDummyPhone(phone)) {
+      void this.securityEvents.record({
+        type: 'OTP_ABUSE',
+        severity: 'LOW',
+        ip: meta.ip,
+        details: {
+          reason: 'dummy-number',
+          phone: this.crypto.maskPhone(phone),
+          purpose,
+        },
+      });
+      throw new BadRequestException('Please enter your own mobile number.');
+    }
 
     // Forced onto the DIRECT path even where the widget is configured,
     // because in WIDGET mode MSG91 owns the code and would have to be the

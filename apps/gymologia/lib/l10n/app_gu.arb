@@ -684,5 +684,6 @@
   "reportDetailsOptional": "વિગતો (વૈકલ્પિક)",
   "reportListingDetailsHint": "વૈકલ્પિક. જે મદદ કરે તે જણાવો, જેમ કે શું વાંધાજનક અથવા ખોટું છે.",
   "reportListingSent": "આભાર. અમારી ટીમ આ જોશે.",
-  "hiddenByGymologia": "Gymologia એ છુપાવ્યું: {reason}"
+  "hiddenByGymologia": "Gymologia એ છુપાવ્યું: {reason}",
+  "mobileNumberHint": "10 અંકનો મોબાઇલ નંબર"
 }

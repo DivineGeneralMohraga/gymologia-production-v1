@@ -684,5 +684,6 @@
   "reportDetailsOptional": "விவரங்கள் (விருப்பத்தேர்வு)",
   "reportListingDetailsHint": "விருப்பத்தேர்வு. எது உதவுமோ அதைச் சொல்லுங்கள், எது புண்படுத்துகிறது அல்லது தவறு என்பது போல.",
   "reportListingSent": "நன்றி. எங்கள் குழு இதைப் பார்க்கும்.",
-  "hiddenByGymologia": "Gymologia மறைத்துள்ளது: {reason}"
+  "hiddenByGymologia": "Gymologia மறைத்துள்ளது: {reason}",
+  "mobileNumberHint": "10 இலக்க மொபைல் எண்"
 }

@@ -684,5 +684,6 @@
   "reportDetailsOptional": "विवरण (वैकल्पिक)",
   "reportListingDetailsHint": "वैकल्पिक। जो भी मदद करे वह बताएं, जैसे क्या आपत्तिजनक या गलत है।",
   "reportListingSent": "धन्यवाद। हमारी टीम इसे देखेगी।",
-  "hiddenByGymologia": "Gymologia ने छिपाया: {reason}"
+  "hiddenByGymologia": "Gymologia ने छिपाया: {reason}",
+  "mobileNumberHint": "10 अंकों का मोबाइल नंबर"
 }

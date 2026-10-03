@@ -684,5 +684,6 @@
   "reportDetailsOptional": "বিস্তারিত (ঐচ্ছিক)",
   "reportListingDetailsHint": "ঐচ্ছিক। যা সাহায্য করবে তা জানান, যেমন কী আপত্তিকর বা ভুল।",
   "reportListingSent": "ধন্যবাদ। আমাদের টিম এটি দেখবে।",
-  "hiddenByGymologia": "Gymologia লুকিয়ে রেখেছে: {reason}"
+  "hiddenByGymologia": "Gymologia লুকিয়ে রেখেছে: {reason}",
+  "mobileNumberHint": "১০ সংখ্যার মোবাইল নম্বর"
 }

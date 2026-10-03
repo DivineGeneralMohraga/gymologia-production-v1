@@ -68,6 +68,48 @@ export function isValidPhone(raw: string): boolean {
   }
 }
 
+/**
+ * Placeholder numbers people (and test robots) type instead of their own.
+ *
+ * Not a validity check -- several of these are dialable and belong to
+ * somebody. The reason to refuse them is that thousands of apps send them
+ * OTPs every day, so MSG91 treats a request for one as abuse. On
+ * 2026-10-03 Play's pre-launch robots typed the login hint "98765 43210"
+ * a few times and MSG91 blocked the server's IP: nobody could sign in
+ * until it was unblocked by hand. Refusing them here costs a real owner
+ * of 9999999999 the app; not refusing them can cost every user login.
+ *
+ * Indian numbers only, on the 10-digit subscriber part:
+ *   - one digit repeated (9999999999)
+ *   - a straight run up or down (9876543210, 1234567890 shapes, wrapping)
+ *   - a few well-known others
+ */
+const KNOWN_DUMMY_IN = new Set([
+  '9123456789',
+  '9012345678',
+  '9988776655',
+  '9898989898',
+  '9090909090',
+  '9000000000',
+  '9999999990',
+  '9999900000',
+]);
+
+export function isDummyPhone(e164: string): boolean {
+  if (!e164.startsWith(`+${DEFAULT_COUNTRY_CODE}`)) return false;
+  const sub = e164.slice(1 + DEFAULT_COUNTRY_CODE.length);
+  if (!/^\d{10}$/.test(sub)) return false;
+
+  if (/^(\d)\1{9}$/.test(sub)) return true;
+  if (KNOWN_DUMMY_IN.has(sub)) return true;
+
+  const d = [...sub].map(Number);
+  const steps = d.slice(1).map((v, i) => (v - d[i] + 10) % 10);
+  if (steps.every((s) => s === 1) || steps.every((s) => s === 9)) return true;
+
+  return false;
+}
+
 /** MSG91 wants the number without the leading plus. */
 export function toMsg91Format(e164: string): string {
   return e164.replace(/^\+/, '');

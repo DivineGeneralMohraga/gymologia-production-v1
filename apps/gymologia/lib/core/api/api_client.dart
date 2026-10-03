@@ -261,6 +261,16 @@ class ApiClient {
   }
 
   ApiException _fromDio(DioException e) {
+    // A 5xx is the server answering, not the network failing. validateStatus
+    // throws for it, and it used to fall through to "Network error" -- which
+    // is what everyone saw on 2026-10-03 while the server was saying "Could
+    // not send the verification code" (MSG91 had blocked it). Read it the
+    // way a 4xx is read, so the person sees what actually went wrong.
+    final response = e.response;
+    if (e.type == DioExceptionType.badResponse && response != null) {
+      return _fromResponse(response);
+    }
+
     final message = switch (e.type) {
       DioExceptionType.connectionTimeout ||
       DioExceptionType.sendTimeout ||

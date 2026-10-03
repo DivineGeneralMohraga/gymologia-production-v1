@@ -2461,4 +2461,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String hiddenByGymologia(String reason) {
     return 'Hidden by Gymologia: $reason';
   }
+
+  @override
+  String get mobileNumberHint => '10-digit mobile number';
 }

@@ -684,5 +684,6 @@
   "reportDetailsOptional": "तपशील (पर्यायी)",
   "reportListingDetailsHint": "पर्यायी. जे मदत करेल ते सांगा, जसे काय आक्षेपार्ह किंवा चुकीचे आहे.",
   "reportListingSent": "धन्यवाद. आमची टीम हे पाहील.",
-  "hiddenByGymologia": "Gymologia ने लपवले: {reason}"
+  "hiddenByGymologia": "Gymologia ने लपवले: {reason}",
+  "mobileNumberHint": "10 अंकी मोबाइल नंबर"
 }

@@ -2475,4 +2475,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String hiddenByGymologia(String reason) {
     return 'Gymologia மறைத்துள்ளது: $reason';
   }
+
+  @override
+  String get mobileNumberHint => '10 இலக்க மொபைல் எண்';
 }

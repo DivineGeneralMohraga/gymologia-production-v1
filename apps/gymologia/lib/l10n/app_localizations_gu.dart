@@ -2430,4 +2430,7 @@ class AppLocalizationsGu extends AppLocalizations {
   String hiddenByGymologia(String reason) {
     return 'Gymologia એ છુપાવ્યું: $reason';
   }
+
+  @override
+  String get mobileNumberHint => '10 અંકનો મોબાઇલ નંબર';
 }

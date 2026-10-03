@@ -4223,6 +4223,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hidden by Gymologia: {reason}'**
   String hiddenByGymologia(String reason);
+
+  /// Hint in the login phone field. Deliberately NOT an example number: test robots typed the old hint 98765 43210 and got the server blocked by the SMS provider.
+  ///
+  /// In en, this message translates to:
+  /// **'10-digit mobile number'**
+  String get mobileNumberHint;
 }
 
 class _AppLocalizationsDelegate

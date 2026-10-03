@@ -684,5 +684,6 @@
   "reportDetailsOptional": "వివరాలు (ఐచ్ఛికం)",
   "reportListingDetailsHint": "ఐచ్ఛికం. ఏది సహాయపడుతుందో చెప్పండి, ఏది అభ్యంతరకరం లేదా తప్పు అనేది వంటివి.",
   "reportListingSent": "ధన్యవాదాలు. మా బృందం దీన్ని చూస్తుంది.",
-  "hiddenByGymologia": "Gymologia దాచింది: {reason}"
+  "hiddenByGymologia": "Gymologia దాచింది: {reason}",
+  "mobileNumberHint": "10 అంకెల మొబైల్ నంబర్"
 }

@@ -189,7 +189,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                             prefixIconConstraints:
                                 const BoxConstraints(minWidth: 0, minHeight: 0),
                             labelText: t.mobileNumber,
-                            hintText: '98765 43210',
+                            hintText: t.mobileNumberHint,
                           ),
                           validator: (v) => validateIndianMobile(t, v),
                           onFieldSubmitted: (_) => _submit(),

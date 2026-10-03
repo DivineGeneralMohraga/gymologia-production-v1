@@ -684,5 +684,6 @@
   "reportDetailsOptional": "വിശദാംശങ്ങൾ (ഓപ്ഷണൽ)",
   "reportListingDetailsHint": "ഓപ്ഷണൽ. സഹായിക്കുന്ന എന്തും പറയുക, എന്താണ് അപമാനകരം അല്ലെങ്കിൽ തെറ്റ് എന്നതുപോലെ.",
   "reportListingSent": "നന്ദി. ഞങ്ങളുടെ ടീം ഇത് പരിശോധിക്കും.",
-  "hiddenByGymologia": "Gymologia മറച്ചു: {reason}"
+  "hiddenByGymologia": "Gymologia മറച്ചു: {reason}",
+  "mobileNumberHint": "10 അക്ക മൊബൈൽ നമ്പർ"
 }

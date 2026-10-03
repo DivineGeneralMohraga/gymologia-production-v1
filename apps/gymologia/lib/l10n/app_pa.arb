@@ -684,5 +684,6 @@
   "reportDetailsOptional": "ਵੇਰਵੇ (ਵਿਕਲਪਿਕ)",
   "reportListingDetailsHint": "ਵਿਕਲਪਿਕ। ਜੋ ਵੀ ਮਦਦ ਕਰੇ ਉਹ ਦੱਸੋ, ਜਿਵੇਂ ਕੀ ਇਤਰਾਜ਼ਯੋਗ ਜਾਂ ਗਲਤ ਹੈ।",
   "reportListingSent": "ਧੰਨਵਾਦ। ਸਾਡੀ ਟੀਮ ਇਸਨੂੰ ਵੇਖੇਗੀ।",
-  "hiddenByGymologia": "Gymologia ਨੇ ਲੁਕਾਇਆ: {reason}"
+  "hiddenByGymologia": "Gymologia ਨੇ ਲੁਕਾਇਆ: {reason}",
+  "mobileNumberHint": "10 ਅੰਕਾਂ ਦਾ ਮੋਬਾਈਲ ਨੰਬਰ"
 }
