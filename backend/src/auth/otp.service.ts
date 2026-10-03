@@ -11,8 +11,16 @@ import { TooManyRequestsException } from '../common/exceptions/too-many-requests
 /**
  * Evaluated once at module load. A per-request check could be influenced by
  * something mutating process.env at runtime; a module constant cannot.
+ *
+ * Fails closed: only an explicit NODE_ENV of development or test gets the
+ * dev behaviour (codes returned as devCode, nothing texted). Anything else,
+ * including a missing or misspelt value, is treated as production. On
+ * 2026-10-03 the live server's env file carried NODE_ENV=development, which
+ * overrode the systemd unit's production and put every login code in the
+ * HTTP response; a typo must never do that again.
  */
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+const IS_DEV_SERVER = ['development', 'test'].includes((process.env.NODE_ENV ?? '').trim());
+const IS_PRODUCTION = !IS_DEV_SERVER;
 
 /**
  * Whether codes are really sent. Always in production. Anywhere else only
@@ -66,6 +74,12 @@ export class OtpService {
     config: ConfigService,
   ) {
     this.cfg = config.getOrThrow<Msg91Config>('msg91');
+    if (IS_DEV_SERVER) {
+      this.logger.warn(
+        `NODE_ENV=${process.env.NODE_ENV}: login codes are returned in responses and ` +
+          'not texted. Never run a public server like this.',
+      );
+    }
   }
 
   /**
