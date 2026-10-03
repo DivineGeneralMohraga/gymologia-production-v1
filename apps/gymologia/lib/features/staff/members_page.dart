@@ -47,9 +47,17 @@ class _MembersPageState extends State<MembersPage> {
   Future<void> _load() async {
     setState(() => _error = null);
     try {
-      final result = await _api.members(widget.gym.id, query: _search.text.trim());
+      // The endpoint returns at most 200 at a time (50 by default, which
+      // silently cut a bigger gym's list short), so page through.
+      final query = _search.text.trim();
+      final all = <MemberRow>[];
+      while (true) {
+        final page = await _api.members(widget.gym.id, query: query, limit: 200, offset: all.length);
+        all.addAll(page.items);
+        if (page.items.isEmpty || all.length >= page.total) break;
+      }
       if (!mounted) return;
-      setState(() => _members = result.items);
+      setState(() => _members = all);
     } on ApiException catch (e) {
       if (mounted) setState(() => _error = e.message);
     }

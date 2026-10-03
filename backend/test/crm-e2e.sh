@@ -156,6 +156,14 @@ MK=$(curl -s -X POST "$API/gyms/$GID/attendance" -H "Authorization: Bearer $TRAI
      -H 'Content-Type: application/json' -d "{\"subjectType\":\"MEMBER\",\"subjectId\":\"$MID\"}")
 echo "$MK" | grep -q 'PRESENT' && ok "trainer marked a member present" || bad "mark" "$MK"
 
+C=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/gyms/$GID/attendance" -H "Authorization: Bearer $TRAINER" \
+    -H 'Content-Type: application/json' -d "{\"subjectType\":\"MEMBER\",\"subjectId\":\"$MID\"}")
+[ "$C" = "201" ] || [ "$C" = "200" ] && ok "marking the same member present again is harmless" || bad "re-mark same" "got $C"
+
+C=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/gyms/$GID/attendance" -H "Authorization: Bearer $TRAINER" \
+    -H 'Content-Type: application/json' -d "{\"subjectType\":\"MEMBER\",\"subjectId\":\"$MID\",\"status\":\"ABSENT\"}")
+[ "$C" = "403" ] && ok "but flipping a marked day needs the edit permission" || bad "re-mark flip" "expected 403, got $C"
+
 C=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$API/gyms/$GID/attendance" \
     -H "Authorization: Bearer $TRAINER" -H 'Content-Type: application/json' \
     -d "{\"subjectType\":\"STAFF\",\"subjectId\":\"$SID\"}")

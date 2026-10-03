@@ -2373,4 +2373,51 @@ class AppLocalizationsTe extends AppLocalizations {
   @override
   String get crmLockedAskOwner =>
       'ఈ జిమ్‌కు యాక్టివ్ ప్లాన్ లేదు, కాబట్టి CRM లాక్ అయింది. ప్లాన్ ఎంచుకోమని జిమ్ యజమానిని అడగండి.';
+
+  @override
+  String get attendanceToday => 'ఈరోజు';
+
+  @override
+  String get notMarked => 'గుర్తించలేదు';
+
+  @override
+  String get markAbsent => 'గైర్హాజరు గుర్తించండి';
+
+  @override
+  String markedAbsent(String name) {
+    return '$name గైర్హాజరుగా గుర్తించబడ్డారు';
+  }
+
+  @override
+  String get attendanceFilterAll => 'అన్నీ';
+
+  @override
+  String attendanceChangeTitle(String name, String status) {
+    return '$name ను $status గా మార్చాలా?';
+  }
+
+  @override
+  String get attendanceChangeReason => 'మార్పుకు కారణం';
+
+  @override
+  String get attendanceChangeReasonHint => 'ఉదా: పొరపాటున గుర్తించారు';
+
+  @override
+  String get attendanceChanged => 'హాజరు నవీకరించబడింది';
+
+  @override
+  String attendanceNeedsEditPermission(String status) {
+    return 'ఇప్పటికే $status గా గుర్తించారు. మార్చడానికి హాజరు సవరించే అనుమతి కావాలి.';
+  }
+
+  @override
+  String get attendanceNobody => 'ఇక్కడ గుర్తించడానికి ఎవరూ లేరు';
+
+  @override
+  String get attendanceNobodyHint =>
+      'ప్లాన్ ముగిసిన సభ్యులు, హాజరు లేని పాత్రలు ఇక్కడ కనిపించవు.';
+
+  @override
+  String get attendanceCantView =>
+      'మీరు ఇక్కడ హాజరు గుర్తించవచ్చు, కానీ ఇప్పటికే ఎవరు గుర్తించబడ్డారో మీ పాత్ర చూడలేదు.';
 }

@@ -5,6 +5,7 @@ import '../../core/api/api_client.dart';
 import '../../core/api/gym_api.dart';
 import '../../core/api/models.dart';
 import '../auth/auth_controller.dart';
+import 'attendance_page.dart';
 import 'members_page.dart';
 import 'leave_page.dart';
 import 'staff_page.dart';
@@ -190,6 +191,17 @@ class _CrmDashboardPageState extends State<CrmDashboardPage> {
               crossAxisSpacing: 12,
               childAspectRatio: 1.45,
               children: [
+                // First, because it is what the desk does all day.
+                if (gym.canViewCrm &&
+                    (gym.can(P.markAttendanceMember) ||
+                        gym.can(P.markAttendanceStaff) ||
+                        gym.can(P.viewAttendanceMember) ||
+                        gym.can(P.viewAttendanceStaff)))
+                  _Tile(
+                    icon: Icons.how_to_reg_rounded,
+                    label: t.attendance,
+                    onTap: () => _open(AttendancePage(gym: gym)),
+                  ),
                 if (gym.canViewCrm &&
                     (gym.sees('addMember') ||
                         gym.sees('manageMembers') ||

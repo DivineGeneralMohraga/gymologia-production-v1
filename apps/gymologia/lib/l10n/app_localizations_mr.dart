@@ -2365,4 +2365,51 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get crmLockedAskOwner =>
       'या जिमचा कोणताही प्लॅन चालू नाही, म्हणून CRM बंद आहे. जिम मालकाला प्लॅन निवडायला सांगा.';
+
+  @override
+  String get attendanceToday => 'आज';
+
+  @override
+  String get notMarked => 'मार्क नाही';
+
+  @override
+  String get markAbsent => 'गैरहजर मार्क करा';
+
+  @override
+  String markedAbsent(String name) {
+    return '$name गैरहजर मार्क केले';
+  }
+
+  @override
+  String get attendanceFilterAll => 'सर्व';
+
+  @override
+  String attendanceChangeTitle(String name, String status) {
+    return '$name ला $status मध्ये बदलायचे?';
+  }
+
+  @override
+  String get attendanceChangeReason => 'बदलाचे कारण';
+
+  @override
+  String get attendanceChangeReasonHint => 'उदा: चुकून मार्क झाले';
+
+  @override
+  String get attendanceChanged => 'हजेरी अपडेट झाली';
+
+  @override
+  String attendanceNeedsEditPermission(String status) {
+    return 'आधीच $status मार्क आहे. बदलण्यासाठी हजेरी एडिट करण्याची परवानगी हवी.';
+  }
+
+  @override
+  String get attendanceNobody => 'येथे मार्क करण्यासाठी कोणी नाही';
+
+  @override
+  String get attendanceNobodyHint =>
+      'ज्यांचा प्लॅन संपला आहे आणि ज्या रोल्सची हजेरी होत नाही, ते येथे दिसत नाहीत.';
+
+  @override
+  String get attendanceCantView =>
+      'तुम्ही येथे हजेरी मार्क करू शकता, पण कोण आधीच मार्क आहे ते तुमचा रोल पाहू शकत नाही.';
 }

@@ -120,12 +120,16 @@ class GymApi {
     String gymId, {
     String? query,
     String? status,
+    int? limit,
+    int? offset,
   }) async {
     final raw = await _client.get(
       '/gyms/$gymId/members',
       query: {
         if (query != null && query.isNotEmpty) 'query': query,
         if (status != null) 'status': status,
+        'limit': ?limit,
+        'offset': ?offset,
       },
     );
     final items = ((raw['items'] as List?) ?? const [])
@@ -211,17 +215,20 @@ class GymApi {
   }
 
   // Attendance
+  /// [date] defaults to today (India time) on the server; past days only.
   Future<Map<String, dynamic>> markAttendance({
     required String gymId,
     required String subjectType,
     required String subjectId,
     String? status,
+    DateTime? date,
   }) => _client.post(
     '/gyms/$gymId/attendance',
     body: {
       'subjectType': subjectType,
       'subjectId': subjectId,
-      if (status != null) 'status': status,
+      'status': ?status,
+      if (date != null) 'date': _ymd(date),
     },
   );
 

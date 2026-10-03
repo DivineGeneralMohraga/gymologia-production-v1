@@ -2400,4 +2400,51 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get crmLockedAskOwner =>
       'இந்த ஜிம்மிற்கு செயலில் உள்ள திட்டம் இல்லை, எனவே CRM பூட்டப்பட்டுள்ளது. ஒரு திட்டத்தைத் தேர்ந்தெடுக்க ஜிம் உரிமையாளரிடம் கேளுங்கள்.';
+
+  @override
+  String get attendanceToday => 'இன்று';
+
+  @override
+  String get notMarked => 'குறிக்கப்படவில்லை';
+
+  @override
+  String get markAbsent => 'வரவில்லை எனக் குறி';
+
+  @override
+  String markedAbsent(String name) {
+    return '$name வரவில்லை எனக் குறிக்கப்பட்டது';
+  }
+
+  @override
+  String get attendanceFilterAll => 'அனைத்தும்';
+
+  @override
+  String attendanceChangeTitle(String name, String status) {
+    return '$name ஐ $status என மாற்றவா?';
+  }
+
+  @override
+  String get attendanceChangeReason => 'மாற்றத்திற்கான காரணம்';
+
+  @override
+  String get attendanceChangeReasonHint => 'எ.கா: தவறாகக் குறிக்கப்பட்டது';
+
+  @override
+  String get attendanceChanged => 'வருகை புதுப்பிக்கப்பட்டது';
+
+  @override
+  String attendanceNeedsEditPermission(String status) {
+    return 'ஏற்கனவே $status எனக் குறிக்கப்பட்டது. மாற்ற வருகையைத் திருத்தும் அனுமதி தேவை.';
+  }
+
+  @override
+  String get attendanceNobody => 'இங்கே குறிக்க யாரும் இல்லை';
+
+  @override
+  String get attendanceNobodyHint =>
+      'திட்டம் முடிந்த உறுப்பினர்களும் வருகை இல்லாத பணிகளும் இங்கே இல்லை.';
+
+  @override
+  String get attendanceCantView =>
+      'இங்கே வருகையைக் குறிக்கலாம், ஆனால் ஏற்கனவே யார் குறிக்கப்பட்டுள்ளனர் என்பதை உங்கள் பணி பார்க்க முடியாது.';
 }

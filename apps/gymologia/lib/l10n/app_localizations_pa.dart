@@ -2367,4 +2367,51 @@ class AppLocalizationsPa extends AppLocalizations {
   @override
   String get crmLockedAskOwner =>
       'ਇਸ ਜਿਮ ਦਾ ਕੋਈ ਪਲਾਨ ਚਾਲੂ ਨਹੀਂ, ਇਸ ਲਈ CRM ਬੰਦ ਹੈ। ਜਿਮ ਮਾਲਕ ਨੂੰ ਪਲਾਨ ਚੁਣਨ ਲਈ ਕਹੋ।';
+
+  @override
+  String get attendanceToday => 'ਅੱਜ';
+
+  @override
+  String get notMarked => 'ਮਾਰਕ ਨਹੀਂ';
+
+  @override
+  String get markAbsent => 'ਗੈਰਹਾਜ਼ਰ ਮਾਰਕ ਕਰੋ';
+
+  @override
+  String markedAbsent(String name) {
+    return '$name ਗੈਰਹਾਜ਼ਰ ਮਾਰਕ ਹੋਏ';
+  }
+
+  @override
+  String get attendanceFilterAll => 'ਸਾਰੇ';
+
+  @override
+  String attendanceChangeTitle(String name, String status) {
+    return '$name ਨੂੰ $status ਵਿੱਚ ਬਦਲਣਾ ਹੈ?';
+  }
+
+  @override
+  String get attendanceChangeReason => 'ਬਦਲਾਅ ਦਾ ਕਾਰਨ';
+
+  @override
+  String get attendanceChangeReasonHint => 'ਜਿਵੇਂ: ਗਲਤੀ ਨਾਲ ਮਾਰਕ ਹੋਇਆ';
+
+  @override
+  String get attendanceChanged => 'ਹਾਜ਼ਰੀ ਅੱਪਡੇਟ ਹੋਈ';
+
+  @override
+  String attendanceNeedsEditPermission(String status) {
+    return 'ਪਹਿਲਾਂ ਹੀ $status ਮਾਰਕ ਹੈ। ਬਦਲਣ ਲਈ ਹਾਜ਼ਰੀ ਐਡਿਟ ਕਰਨ ਦੀ ਇਜਾਜ਼ਤ ਚਾਹੀਦੀ ਹੈ।';
+  }
+
+  @override
+  String get attendanceNobody => 'ਇੱਥੇ ਮਾਰਕ ਕਰਨ ਲਈ ਕੋਈ ਨਹੀਂ';
+
+  @override
+  String get attendanceNobodyHint =>
+      'ਜਿਨ੍ਹਾਂ ਦਾ ਪਲਾਨ ਖ਼ਤਮ ਹੋ ਗਿਆ ਅਤੇ ਜਿਨ੍ਹਾਂ ਰੋਲਾਂ ਦੀ ਹਾਜ਼ਰੀ ਨਹੀਂ ਲੱਗਦੀ, ਉਹ ਇੱਥੇ ਨਹੀਂ ਹਨ।';
+
+  @override
+  String get attendanceCantView =>
+      'ਤੁਸੀਂ ਇੱਥੇ ਹਾਜ਼ਰੀ ਮਾਰਕ ਕਰ ਸਕਦੇ ਹੋ, ਪਰ ਕੌਣ ਪਹਿਲਾਂ ਮਾਰਕ ਹੈ ਇਹ ਤੁਹਾਡਾ ਰੋਲ ਨਹੀਂ ਵੇਖ ਸਕਦਾ।';
 }

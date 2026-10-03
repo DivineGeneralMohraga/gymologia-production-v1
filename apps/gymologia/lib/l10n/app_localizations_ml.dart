@@ -2385,4 +2385,51 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get crmLockedAskOwner =>
       'ഈ ജിമ്മിന് സജീവ പ്ലാൻ ഇല്ല, അതിനാൽ CRM ലോക്ക് ആണ്. ഒരു പ്ലാൻ തിരഞ്ഞെടുക്കാൻ ജിം ഉടമയോട് പറയുക.';
+
+  @override
+  String get attendanceToday => 'ഇന്ന്';
+
+  @override
+  String get notMarked => 'രേഖപ്പെടുത്തിയിട്ടില്ല';
+
+  @override
+  String get markAbsent => 'ഹാജരില്ലെന്ന് രേഖപ്പെടുത്തുക';
+
+  @override
+  String markedAbsent(String name) {
+    return '$name ഹാജരില്ലെന്ന് രേഖപ്പെടുത്തി';
+  }
+
+  @override
+  String get attendanceFilterAll => 'എല്ലാം';
+
+  @override
+  String attendanceChangeTitle(String name, String status) {
+    return '$name എന്നതിനെ $status ആക്കണോ?';
+  }
+
+  @override
+  String get attendanceChangeReason => 'മാറ്റത്തിന്റെ കാരണം';
+
+  @override
+  String get attendanceChangeReasonHint => 'ഉദാ: അബദ്ധത്തിൽ രേഖപ്പെടുത്തി';
+
+  @override
+  String get attendanceChanged => 'ഹാജർ പുതുക്കി';
+
+  @override
+  String attendanceNeedsEditPermission(String status) {
+    return 'ഇതിനകം $status ആയി രേഖപ്പെടുത്തി. മാറ്റാൻ ഹാജർ തിരുത്താനുള്ള അനുമതി വേണം.';
+  }
+
+  @override
+  String get attendanceNobody => 'ഇവിടെ രേഖപ്പെടുത്താൻ ആരുമില്ല';
+
+  @override
+  String get attendanceNobodyHint =>
+      'പ്ലാൻ അവസാനിച്ച അംഗങ്ങളും ഹാജർ ഇല്ലാത്ത റോളുകളും ഇവിടെ കാണില്ല.';
+
+  @override
+  String get attendanceCantView =>
+      'നിങ്ങൾക്ക് ഇവിടെ ഹാജർ രേഖപ്പെടുത്താം, പക്ഷേ ആരെയാണ് ഇതിനകം രേഖപ്പെടുത്തിയതെന്ന് നിങ്ങളുടെ റോളിന് കാണാനാവില്ല.';
 }

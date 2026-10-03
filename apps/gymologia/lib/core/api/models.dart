@@ -341,6 +341,7 @@ class StaffRow {
     required this.isSelf,
     this.trainerCategoryName,
     this.assignedMemberCount = 0,
+    this.exemptFromAttendance = false,
   });
 
   factory StaffRow.fromJson(Map<String, dynamic> j) {
@@ -359,6 +360,7 @@ class StaffRow {
       isSelf: j['isSelf'] == true,
       trainerCategoryName: cat?['name'] as String?,
       assignedMemberCount: _int(j['assignedMemberCount']),
+      exemptFromAttendance: role['exemptFromAttendance'] == true,
     );
   }
 
@@ -373,6 +375,9 @@ class StaffRow {
   final bool isSelf;
   final String? trainerCategoryName;
   final int assignedMemberCount;
+
+  /// Owner and Manager by default: nobody marks their attendance.
+  final bool exemptFromAttendance;
 }
 
 /// A leave request, staff-side.

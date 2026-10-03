@@ -59,6 +59,26 @@ export class AttendanceService {
       "mark",
     );
 
+    // Marking the same thing twice is harmless and returns the record as it
+    // is. Marking something different over an existing record is an edit,
+    // and edits need the edit permission -- otherwise anyone who can mark
+    // could quietly rewrite a day without the reason an edit requires.
+    const status = dto.status ?? AttendanceStatus.PRESENT;
+    const existing = await this.prisma.attendanceRecord.findUnique({
+      where: {
+        gymId_subjectId_date: { gymId: actor.gymId, subjectId: subject.userId, date },
+      },
+    });
+    if (existing && existing.status === status) return existing;
+    if (existing) {
+      this.permissions.assert(
+        actor,
+        dto.subjectType === SubjectType.MEMBER
+          ? Permission.EDIT_ATTENDANCE_MEMBER
+          : Permission.EDIT_ATTENDANCE_STAFF,
+      );
+    }
+
     const record = await this.prisma.attendanceRecord.upsert({
       where: {
         gymId_subjectId_date: {

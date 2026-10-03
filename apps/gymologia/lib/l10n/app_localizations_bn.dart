@@ -2367,4 +2367,51 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String get crmLockedAskOwner =>
       'এই জিমের কোনো চালু প্ল্যান নেই, তাই CRM বন্ধ। জিম মালিককে একটি প্ল্যান বেছে নিতে বলুন।';
+
+  @override
+  String get attendanceToday => 'আজ';
+
+  @override
+  String get notMarked => 'চিহ্নিত নয়';
+
+  @override
+  String get markAbsent => 'অনুপস্থিত চিহ্নিত করুন';
+
+  @override
+  String markedAbsent(String name) {
+    return '$name অনুপস্থিত চিহ্নিত';
+  }
+
+  @override
+  String get attendanceFilterAll => 'সব';
+
+  @override
+  String attendanceChangeTitle(String name, String status) {
+    return '$name-কে $status করবেন?';
+  }
+
+  @override
+  String get attendanceChangeReason => 'পরিবর্তনের কারণ';
+
+  @override
+  String get attendanceChangeReasonHint => 'যেমন: ভুল করে চিহ্নিত';
+
+  @override
+  String get attendanceChanged => 'হাজিরা আপডেট হয়েছে';
+
+  @override
+  String attendanceNeedsEditPermission(String status) {
+    return 'আগেই $status চিহ্নিত। বদলাতে হাজিরা সম্পাদনার অনুমতি লাগবে।';
+  }
+
+  @override
+  String get attendanceNobody => 'এখানে চিহ্নিত করার কেউ নেই';
+
+  @override
+  String get attendanceNobodyHint =>
+      'যাদের প্ল্যান শেষ এবং যে রোলের হাজিরা হয় না, তারা এখানে নেই।';
+
+  @override
+  String get attendanceCantView =>
+      'আপনি এখানে হাজিরা দিতে পারেন, কিন্তু কে আগে চিহ্নিত তা আপনার রোল দেখতে পারে না।';
 }

@@ -2373,4 +2373,51 @@ class AppLocalizationsKn extends AppLocalizations {
   @override
   String get crmLockedAskOwner =>
       'ಈ ಜಿಮ್‌ಗೆ ಸಕ್ರಿಯ ಪ್ಲಾನ್ ಇಲ್ಲ, ಆದ್ದರಿಂದ CRM ಲಾಕ್ ಆಗಿದೆ. ಪ್ಲಾನ್ ಆಯ್ಕೆಮಾಡಲು ಜಿಮ್ ಮಾಲೀಕರನ್ನು ಕೇಳಿ.';
+
+  @override
+  String get attendanceToday => 'ಇಂದು';
+
+  @override
+  String get notMarked => 'ಗುರುತಿಸಿಲ್ಲ';
+
+  @override
+  String get markAbsent => 'ಗೈರು ಎಂದು ಗುರುತಿಸಿ';
+
+  @override
+  String markedAbsent(String name) {
+    return '$name ಗೈರು ಎಂದು ಗುರುತಿಸಲಾಗಿದೆ';
+  }
+
+  @override
+  String get attendanceFilterAll => 'ಎಲ್ಲಾ';
+
+  @override
+  String attendanceChangeTitle(String name, String status) {
+    return '$name ಅವರನ್ನು $status ಗೆ ಬದಲಿಸುವುದೇ?';
+  }
+
+  @override
+  String get attendanceChangeReason => 'ಬದಲಾವಣೆಯ ಕಾರಣ';
+
+  @override
+  String get attendanceChangeReasonHint => 'ಉದಾ: ತಪ್ಪಾಗಿ ಗುರುತಿಸಲಾಗಿದೆ';
+
+  @override
+  String get attendanceChanged => 'ಹಾಜರಾತಿ ನವೀಕರಿಸಲಾಗಿದೆ';
+
+  @override
+  String attendanceNeedsEditPermission(String status) {
+    return 'ಈಗಾಗಲೇ $status ಎಂದು ಗುರುತಿಸಲಾಗಿದೆ. ಬದಲಿಸಲು ಹಾಜರಾತಿ ತಿದ್ದುವ ಅನುಮತಿ ಬೇಕು.';
+  }
+
+  @override
+  String get attendanceNobody => 'ಇಲ್ಲಿ ಗುರುತಿಸಲು ಯಾರೂ ಇಲ್ಲ';
+
+  @override
+  String get attendanceNobodyHint =>
+      'ಪ್ಲಾನ್ ಮುಗಿದ ಸದಸ್ಯರು ಮತ್ತು ಹಾಜರಾತಿ ಇಲ್ಲದ ಪಾತ್ರಗಳು ಇಲ್ಲಿ ಕಾಣುವುದಿಲ್ಲ.';
+
+  @override
+  String get attendanceCantView =>
+      'ನೀವು ಇಲ್ಲಿ ಹಾಜರಾತಿ ಗುರುತಿಸಬಹುದು, ಆದರೆ ಈಗಾಗಲೇ ಯಾರು ಗುರುತಿಸಲಾಗಿದೆ ಎಂಬುದನ್ನು ನಿಮ್ಮ ಪಾತ್ರ ನೋಡಲಾಗದು.';
 }

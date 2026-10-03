@@ -31,7 +31,7 @@ export class StaffService {
       },
       include: {
         user: { select: { id: true, name: true, phone: true, email: true } },
-        role: { select: { id: true, name: true, level: true, isSuper: true } },
+        role: { select: { id: true, name: true, level: true, isSuper: true, exemptFromAttendance: true } },
         trainerCategory: { select: { id: true, name: true } },
         _count: { select: { assignedMemberships: true } },
       },

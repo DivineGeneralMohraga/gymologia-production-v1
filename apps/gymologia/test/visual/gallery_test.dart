@@ -34,6 +34,7 @@ import 'package:gymologia/features/staff/gym_profile_edit_page.dart';
 import 'package:gymologia/features/staff/kyc_page.dart';
 import 'package:gymologia/features/staff/create_gym_page.dart';
 import 'package:gymologia/features/staff/gym_location_picker.dart';
+import 'package:gymologia/features/staff/attendance_page.dart';
 import 'package:gymologia/l10n/app_localizations.dart';
 import 'package:gymologia/theme.dart';
 
@@ -49,6 +50,8 @@ String _days(int d) => _iso.add(Duration(days: d)).toIso8601String();
 const _perms = [
   'VIEW_ANALYTICS', 'EDIT_GYM_PROFILE', 'MANAGE_SUBSCRIPTION',
   'VIEW_RANKING', 'SEND_NOTIFICATIONS', 'MANAGE_EVENTS', 'HOST_EVENTS',
+  'MARK_ATTENDANCE_MEMBER', 'MARK_ATTENDANCE_STAFF', 'VIEW_ATTENDANCE_MEMBER',
+  'VIEW_ATTENDANCE_STAFF', 'EDIT_ATTENDANCE_MEMBER', 'EDIT_ATTENDANCE_STAFF',
 ];
 const _screens = [
   'addMember', 'manageMembers', 'addStaff', 'manageStaff', 'leaveMember',
@@ -149,6 +152,25 @@ Map<String, dynamic> _routes(String path, {required bool member}) {
           'permissions': _perms, 'visibleScreens': _screens, 'isGymOwner': true,
           'role': {'name': 'Owner'},
         },
+      },
+    '/gyms/g1/members' => {
+        'items': [
+          for (final (i, n, d) in [
+            (1, 'Aarav Mehta', 41), (2, 'Diya Kapoor', 12), (3, 'Ishaan Verma', 64),
+            (4, 'Kabir Singh', 5), (5, 'Meera Iyer', 88), (6, 'Neha Joshi', 30),
+            (7, 'Rohan Das', 19), (8, 'Sana Khan', 52), (9, 'Vikram Rao', 27),
+          ])
+            {'membershipId': 'ms$i', 'status': 'ACTIVE', 'daysRemaining': d,
+              'user': {'id': 'mu$i', 'name': n, 'phone': '+91******00$i'},
+              'trainer': i.isEven ? {'name': 'Vikram'} : null},
+        ],
+        'total': 9,
+      },
+    '/gyms/g1/attendance' => {
+        'data': [
+          for (final (u, st) in [('mu2', 'PRESENT'), ('mu5', 'PRESENT'), ('mu7', 'ABSENT'), ('mu8', 'PRESENT')])
+            {'id': 'r$u', 'subjectId': u, 'status': st},
+        ],
       },
     '/gyms/g1/attendance/analytics' => {
         'activeMembers': 214, 'joinedInWindow': 27, 'engagedMembers': 139,
@@ -382,6 +404,8 @@ void main() {
     testWidgets('location picker', (t) => shoot(t, '15_location_picker',
         (_) => const GymLocationPickerPage(initial: (latitude: 18.5204, longitude: 73.8567)),
         height: 852));
+    testWidgets('attendance',
+        (t) => shoot(t, '16_attendance', (_) => AttendancePage(gym: _gym('g1')), height: 1100));
     testWidgets('crm dashboard',
         (t) => shoot(t, '08_crm', (_) => const CrmDashboardPage(gymId: 'g1'), height: 1250));
   });

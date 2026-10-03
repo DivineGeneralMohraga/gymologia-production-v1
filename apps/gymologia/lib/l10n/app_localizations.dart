@@ -4097,6 +4097,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This gym has no active plan, so the CRM is locked. Ask the gym owner to choose one.'**
   String get crmLockedAskOwner;
+
+  /// No description provided for @attendanceToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get attendanceToday;
+
+  /// No description provided for @notMarked.
+  ///
+  /// In en, this message translates to:
+  /// **'Not marked'**
+  String get notMarked;
+
+  /// No description provided for @markAbsent.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark absent'**
+  String get markAbsent;
+
+  /// No description provided for @markedAbsent.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} marked absent'**
+  String markedAbsent(String name);
+
+  /// No description provided for @attendanceFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get attendanceFilterAll;
+
+  /// No description provided for @attendanceChangeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change {name} to {status}?'**
+  String attendanceChangeTitle(String name, String status);
+
+  /// No description provided for @attendanceChangeReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason for the change'**
+  String get attendanceChangeReason;
+
+  /// No description provided for @attendanceChangeReasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example: marked by mistake'**
+  String get attendanceChangeReasonHint;
+
+  /// No description provided for @attendanceChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Attendance updated'**
+  String get attendanceChanged;
+
+  /// No description provided for @attendanceNeedsEditPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Already marked {status}. Changing it needs permission to edit attendance.'**
+  String attendanceNeedsEditPermission(String status);
+
+  /// No description provided for @attendanceNobody.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody to mark here'**
+  String get attendanceNobody;
+
+  /// No description provided for @attendanceNobodyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Members whose plan has ended, and roles that do not take attendance, are not listed.'**
+  String get attendanceNobodyHint;
+
+  /// No description provided for @attendanceCantView.
+  ///
+  /// In en, this message translates to:
+  /// **'You can mark attendance here, but your role cannot see who is already marked.'**
+  String get attendanceCantView;
 }
 
 class _AppLocalizationsDelegate

@@ -2356,4 +2356,51 @@ class AppLocalizationsGu extends AppLocalizations {
   @override
   String get crmLockedAskOwner =>
       'આ જિમનો કોઈ પ્લાન ચાલુ નથી, તેથી CRM બંધ છે. જિમ માલિકને પ્લાન પસંદ કરવા કહો.';
+
+  @override
+  String get attendanceToday => 'આજે';
+
+  @override
+  String get notMarked => 'માર્ક નથી';
+
+  @override
+  String get markAbsent => 'ગેરહાજર માર્ક કરો';
+
+  @override
+  String markedAbsent(String name) {
+    return '$name ગેરહાજર માર્ક થયા';
+  }
+
+  @override
+  String get attendanceFilterAll => 'બધા';
+
+  @override
+  String attendanceChangeTitle(String name, String status) {
+    return '$name ને $status માં બદલવું?';
+  }
+
+  @override
+  String get attendanceChangeReason => 'ફેરફારનું કારણ';
+
+  @override
+  String get attendanceChangeReasonHint => 'જેમ કે: ભૂલથી માર્ક થયું';
+
+  @override
+  String get attendanceChanged => 'હાજરી અપડેટ થઈ';
+
+  @override
+  String attendanceNeedsEditPermission(String status) {
+    return 'પહેલેથી $status માર્ક છે. બદલવા માટે હાજરી એડિટ કરવાની પરવાનગી જોઈએ.';
+  }
+
+  @override
+  String get attendanceNobody => 'અહીં માર્ક કરવા કોઈ નથી';
+
+  @override
+  String get attendanceNobodyHint =>
+      'જેમનો પ્લાન પૂરો થયો છે અને જે રોલની હાજરી નથી લેવાતી, તે અહીં દેખાતા નથી.';
+
+  @override
+  String get attendanceCantView =>
+      'તમે અહીં હાજરી માર્ક કરી શકો છો, પણ તમારો રોલ કોણ પહેલેથી માર્ક છે તે જોઈ શકતો નથી.';
 }

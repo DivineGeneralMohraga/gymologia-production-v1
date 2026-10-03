@@ -1274,5 +1274,42 @@
   "gymContactHelp": "The number members will call — your gym's front desk or business number. It is shown on your public gym page.",
   "crmLockedDraft": "Choose a plan to unlock the CRM: members, staff, attendance, events and chat. New owners get a free 7-day trial.",
   "crmLockedExpired": "Your plan has ended. You can still see your members and data, but renew to add or change anything.",
-  "crmLockedAskOwner": "This gym has no active plan, so the CRM is locked. Ask the gym owner to choose one."
+  "crmLockedAskOwner": "This gym has no active plan, so the CRM is locked. Ask the gym owner to choose one.",
+  "attendanceToday": "Today",
+  "notMarked": "Not marked",
+  "markAbsent": "Mark absent",
+  "markedAbsent": "{name} marked absent",
+  "@markedAbsent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceFilterAll": "All",
+  "attendanceChangeTitle": "Change {name} to {status}?",
+  "@attendanceChangeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceChangeReason": "Reason for the change",
+  "attendanceChangeReasonHint": "For example: marked by mistake",
+  "attendanceChanged": "Attendance updated",
+  "attendanceNeedsEditPermission": "Already marked {status}. Changing it needs permission to edit attendance.",
+  "@attendanceNeedsEditPermission": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "attendanceNobody": "Nobody to mark here",
+  "attendanceNobodyHint": "Members whose plan has ended, and roles that do not take attendance, are not listed.",
+  "attendanceCantView": "You can mark attendance here, but your role cannot see who is already marked."
 }

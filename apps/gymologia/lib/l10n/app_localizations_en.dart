@@ -2387,4 +2387,51 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get crmLockedAskOwner =>
       'This gym has no active plan, so the CRM is locked. Ask the gym owner to choose one.';
+
+  @override
+  String get attendanceToday => 'Today';
+
+  @override
+  String get notMarked => 'Not marked';
+
+  @override
+  String get markAbsent => 'Mark absent';
+
+  @override
+  String markedAbsent(String name) {
+    return '$name marked absent';
+  }
+
+  @override
+  String get attendanceFilterAll => 'All';
+
+  @override
+  String attendanceChangeTitle(String name, String status) {
+    return 'Change $name to $status?';
+  }
+
+  @override
+  String get attendanceChangeReason => 'Reason for the change';
+
+  @override
+  String get attendanceChangeReasonHint => 'For example: marked by mistake';
+
+  @override
+  String get attendanceChanged => 'Attendance updated';
+
+  @override
+  String attendanceNeedsEditPermission(String status) {
+    return 'Already marked $status. Changing it needs permission to edit attendance.';
+  }
+
+  @override
+  String get attendanceNobody => 'Nobody to mark here';
+
+  @override
+  String get attendanceNobodyHint =>
+      'Members whose plan has ended, and roles that do not take attendance, are not listed.';
+
+  @override
+  String get attendanceCantView =>
+      'You can mark attendance here, but your role cannot see who is already marked.';
 }
