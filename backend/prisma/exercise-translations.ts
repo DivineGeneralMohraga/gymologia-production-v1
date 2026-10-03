@@ -1,3 +1,13 @@
+import { MORE_HI } from './exercises-more/hi';
+import { MORE_TA } from './exercises-more/ta';
+import { MORE_BN } from './exercises-more/bn';
+import { MORE_TE } from './exercises-more/te';
+import { MORE_MR } from './exercises-more/mr';
+import { MORE_ML } from './exercises-more/ml';
+import { MORE_KN } from './exercises-more/kn';
+import { MORE_GU } from './exercises-more/gu';
+import { MORE_PA } from './exercises-more/pa';
+
 /**
  * Translated exercise content.
  *
@@ -3498,3 +3508,11 @@ export const EXERCISE_TRANSLATIONS: Record<string, Record<string, ExerciseText>>
     },
   },
 };
+
+// The second batch (exercises-more/), merged into each language.
+for (const [locale, more] of Object.entries({
+  hi: MORE_HI, ta: MORE_TA, bn: MORE_BN, te: MORE_TE, mr: MORE_MR,
+  ml: MORE_ML, kn: MORE_KN, gu: MORE_GU, pa: MORE_PA,
+})) {
+  Object.assign(EXERCISE_TRANSLATIONS[locale], more);
+}

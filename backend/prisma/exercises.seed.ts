@@ -1,4 +1,5 @@
 import { Difficulty, Discipline, MuscleGroup, TrainingGoal } from '@prisma/client';
+import { MORE_EXERCISES } from './exercises-more/en';
 
 /**
  * The exercise directory's content.
@@ -524,3 +525,7 @@ export const EXERCISES: ExerciseSeed[] = [
     cautions: ['Let your knees roll and the rotation comes from your lower back instead, which is not the point.'],
   },
 ];
+
+// The second batch, kept in its own file so each language's translation of it
+// can sit beside it. See exercises-more/en.ts.
+EXERCISES.push(...MORE_EXERCISES);

@@ -204,7 +204,7 @@ log "Health check never passed — rolling back to ${PREVIOUS:0:7}"
 cd "$REPO_DIR"
 git reset --hard "$PREVIOUS"
 cd "$REPO_DIR/backend"
-npm ci --no-audit --no-fund && npx prisma generate && npm run build
+npm ci --no-audit --no-fund --include=dev && npx prisma generate && npm run build
 sudo systemctl restart "$SERVICE"
 
 warn "Rolled back. Note that migrations are NOT undone — if this deploy ran one,"
