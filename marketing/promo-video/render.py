@@ -98,16 +98,16 @@ def slam(canvas, sprite, cx, cy, t, at, rot=0.0):
     place(canvas, sprite, cx, cy, scale, clamp(p * 3), rot)
 
 # ── brand pieces ──
+MARK = Image.open(os.path.join(ROOT, 'marketing/brand/mark-tight.png')).convert('RGBA')
+
 def dumbbell_tile(size):
+    """The app icon: the G-dumbbell mark in ink on a volt tile."""
     tile = Image.new('RGBA', (size, size), (0, 0, 0, 0))
-    d = ImageDraw.Draw(tile)
-    d.rounded_rectangle((0, 0, size - 1, size - 1), radius=int(size * .25), fill=VOLT)
-    lay = Image.new('RGBA', (size, size), (0, 0, 0, 0)); dl = ImageDraw.Draw(lay)
-    k = size / 64
-    for x, y, w, h in [(9, 22, 7, 20), (16, 16, 8, 32), (40, 16, 8, 32), (48, 22, 7, 20), (23, 29, 18, 6)]:
-        dl.rounded_rectangle((x * k, y * k, (x + w) * k, (y + h) * k), radius=3 * k, fill=INK)
-    lay = lay.rotate(12, resample=Image.BICUBIC)
-    tile.alpha_composite(lay)
+    ImageDraw.Draw(tile).rounded_rectangle((0, 0, size - 1, size - 1), radius=int(size * .24), fill=VOLT)
+    w = int(size * .82)
+    m = MARK.resize((w, int(MARK.height * w / MARK.width)), Image.LANCZOS)
+    ink = Image.new('RGBA', m.size, INK + (255,)); ink.putalpha(m.getchannel('A'))
+    tile.alpha_composite(ink, ((size - w) // 2, (size - m.height) // 2))
     return tile
 
 TILE_BIG = dumbbell_tile(260)
