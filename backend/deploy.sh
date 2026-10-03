@@ -15,10 +15,26 @@ ENV_FILE="${ENV_FILE:-/etc/gymologia/api.env}"
 SERVICE="${SERVICE:-gymologia}"
 BRANCH="${BRANCH:-main}"
 HEALTH_URL="${HEALTH_URL:-http://127.0.0.1:3000/api/v1/health}"
+# nginx serves gymologia.com from here, not from the checkout.
+WEB_ROOT="${WEB_ROOT:-/var/www/gymologia}"
 
 log()  { printf '\n\033[1;36m==> %s\033[0m\n' "$*"; }
 warn() { printf '\033[1;33m    %s\033[0m\n' "$*"; }
 fail() { printf '\n\033[1;31mFAILED: %s\033[0m\n' "$*" >&2; exit 1; }
+
+# Copy website/ to the folder nginx serves. Only after the API came up
+# healthy, so the site never advertises something the server cannot do. A
+# failure here is reported but does not undo a good API deploy.
+publish_site() {
+  [ -d "$REPO_DIR/website" ] || return 0
+  if [ ! -d "$WEB_ROOT" ]; then
+    warn "$WEB_ROOT does not exist; the website was not published."
+    return 0
+  fi
+  log "Publishing the website to $WEB_ROOT"
+  sudo rsync -a --delete "$REPO_DIR/website/" "$WEB_ROOT/" \
+    || warn "Website publish failed. The API deploy itself succeeded."
+}
 
 # Deploy whatever is already on disk instead of fetching it.
 #
@@ -163,6 +179,7 @@ for i in $(seq 1 20); do
   if curl -fsS -m 5 "$HEALTH_URL" >/dev/null 2>&1; then
     printf '\n'
     curl -fsS "$HEALTH_URL"; printf '\n'
+    publish_site
     if [ -n "$PREVIOUS" ]; then
       log "Deployed $(git -C "$REPO_DIR" rev-parse --short HEAD)"
     else
