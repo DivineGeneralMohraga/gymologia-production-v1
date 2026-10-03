@@ -27,7 +27,7 @@
 /* Layout: a training session. Warm-up hero with a heartbeat line and a fan
    of phones; a member "set" with a pinned phone; the signature scene, a
    barbell that loads one plate per owner feature as you scroll; then the
-   scoreboard, plans, referral and a closing chant. */
+   scoreboard, plans and a closing chant. */
 :root {
   --ink: #0B0B0C;
   --iron: #141416;
@@ -327,18 +327,6 @@ section { padding-block: clamp(80px, 11vw, 150px); overflow-x: clip; }
 .trial b { color: var(--chalk); }
 @media (max-width: 700px) { .plans { grid-template-columns: minmax(0, 1fr); } }
 
-/* Referral */
-.refer .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: center; }
-.rupee { font-family: var(--display); font-weight: 900; font-style: italic; font-size: clamp(150px, 26vw, 360px); line-height: .8; color: var(--volt); letter-spacing: -.03em; font-variant-numeric: tabular-nums; text-shadow: 0 0 80px #C6FF0040; }
-.rupee small { display: block; font-size: clamp(22px, 2.6vw, 34px); color: var(--chalk); letter-spacing: .04em; font-style: normal; font-weight: 800; margin-top: 14px; text-shadow: none; }
-.refer-copy { display: grid; gap: 22px; min-width: 0; }
-.refer-copy h2 { font-size: clamp(44px, 6.5vw, 92px); margin: 0; }
-.how { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 14px; }
-.how li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; color: var(--dust); }
-.how li::before { content: counter(s); width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--volt); color: var(--volt); display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 18px; }
-.how li b { color: var(--chalk); display: block; }
-@media (max-width: 860px) { .refer .wrap { grid-template-columns: 1fr; } }
-
 /* Closing */
 .final { padding-block: clamp(70px, 10vw, 140px) clamp(80px, 11vw, 150px); position: relative; overflow: hidden; border-top: 1px solid var(--line); }
 .chant { overflow: hidden; margin-bottom: clamp(30px, 5vw, 60px); }
@@ -417,7 +405,6 @@ footer button:hover { border-color: var(--volt); }
       <a href="#members">Members</a>
       <a href="#owners">Gym owners</a>
       <a href="#plans">Plans</a>
-      <a href="#refer">Refer &amp; earn</a>
       <button type="button" class="motion-toggle" id="motionToggle" aria-pressed="false" aria-label="Motion"><i></i><span>Motion</span></button>
       <a class="btn btn-volt mag" href="https://play.google.com/store/apps/details?id=com.gandagrouptechnologies.gymologia.member" target="_blank" rel="noopener">Get the app</a>
     </div>
@@ -601,22 +588,7 @@ footer button:hover { border-color: var(--volt); }
         <p class="muted">Members rate your gym, and good ratings push you up.</p>
       </article>
     </div>
-    <p class="trial"><b>7 days free on Pro</b> for every new gym owner. A referral code takes 10% off.</p>
-  </div>
-</section>
-
-<section class="refer" id="refer">
-  <div class="wrap">
-    <div class="rupee" aria-hidden="true"><span data-count="50" data-prefix="₹">₹50</span><small>per gym you bring in</small></div>
-    <div class="refer-copy">
-      <span class="eyebrow">Gymologia Referral</span>
-      <h2 class="display"><span class="split">Know a gym owner?</span> <span class="split volt">Get paid.</span></h2>
-      <ol class="how">
-        <li><span><b>Get your code</b>Sign up on the Gymologia Referral app. Anyone can join, including gym staff.</span></li>
-        <li><span><b>Share it with gym owners</b>They get 10% off any Gymologia plan.</span></li>
-        <li><span><b>Earn ₹50 per plan</b>Paid to your UPI ID every time a gym subscribes with your code.</span></li>
-      </ol>
-    </div>
+    <p class="trial"><b>7 days free on Pro</b> for every new gym owner.</p>
   </div>
 </section>
 
@@ -857,10 +829,6 @@ footer button:hover { border-color: var(--volt); }
 
   gsap.fromTo('.plan.pro', { y: 70 }, { y: -12, ease: 'none',
     scrollTrigger: { trigger: '.plans', start: 'top 95%', end: 'bottom 40%', scrub: .6 } });
-  gsap.fromTo('.rupee', { scale: .8, rotate: -6 }, { scale: 1, rotate: 0, ease: 'none',
-    scrollTrigger: { trigger: '.refer', start: 'top 92%', end: 'top 30%', scrub: .6 } });
-  gsap.fromTo('.how li', { x: 40 }, { x: 0, stagger: .1, ease: 'none',
-    scrollTrigger: { trigger: '.how', start: 'top 95%', end: 'top 55%', scrub: .6 } });
 
   // Fonts change the page height; re-measure once they are in.
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());

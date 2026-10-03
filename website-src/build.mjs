@@ -224,14 +224,14 @@ const p = (t) => `<p>${t}</p>`;
 page({
   file: 'delete-account.html',
   title: 'Delete your Gymologia account',
-  description: 'How to delete your Gymologia or Gymologia Referral account, what is deleted, and what is kept and for how long.',
+  description: 'How to delete your Gymologia account, what is deleted, and what is kept and for how long.',
   eyebrow: 'Gymologia · Ganda Group Technologies',
   heading: 'Delete your account',
-  meta: `Applies to the Gymologia app and the Gymologia Referral app, both by Ganda Group Technologies.`,
+  meta: `Applies to the Gymologia app by Ganda Group Technologies.`,
   intro: `<div class="callout">${p('You can delete your account yourself in the app. It takes under a minute, and you can change your mind for 30 days.')}</div>`,
   sections: [
     { heading: 'IN THE APP', html: [`<ol>
-<li>Open Gymologia (or Gymologia Referral) and sign in with your phone number.</li>
+<li>Open Gymologia and sign in with your phone number.</li>
 <li>Go to <b>Settings</b> and tap <b>Delete account</b>.</li>
 <li>Read what will be removed, then tap <b>Delete my account</b>.</li>
 </ol>`, p('Your account stays usable for 30 days. During that time you can cancel the deletion from the same screen. After 30 days it is deleted and cannot be brought back.'),
@@ -240,8 +240,7 @@ page({
     { heading: 'IF YOU CANNOT USE THE APP', html: [
       p(`Email <a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a> with the subject "Delete my account", from the email address on your account, or tell us the phone number on the account. We will confirm it is you through that number before deleting anything, and reply within 30 days.`)] },
     { heading: 'WHAT IS DELETED', html: [
-      p('Your name, email, age and phone number are removed from the account, which is anonymised. Your weight and height history is deleted. You are signed out of every device, and your gym memberships and staff roles end.'),
-      p('Referral earnings that have not been paid out yet are lost, so withdraw them first.')] },
+      p('Your name, email, age and phone number are removed from the account, which is anonymised. Your weight and height history is deleted. You are signed out of every device, and your gym memberships and staff roles end.')] },
     { heading: 'WHAT IS KEPT, AND FOR HOW LONG', html: [
       p('Some records must be kept by law or to protect other people, without your name attached where possible:'),
       `<ol>
