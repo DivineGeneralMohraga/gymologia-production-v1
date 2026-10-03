@@ -83,6 +83,10 @@ GID=$(curl -s -X POST "$API/gyms" -H "Authorization: Bearer $OWNER" -H 'Content-
            \"contactPhone\":\"$P_OWNER\"}" | field id)
 [ -n "$GID" ] && ok "gym created" || { bad "setup" "no gym"; exit 1; }
 curl -s -X POST "$API/gyms/$GID/subscription/trial" -H "Authorization: Bearer $OWNER" > /dev/null
+# Live database: a trial lists the test gym in real search results.
+# Take it out again however the suite ends.
+trap 'node test/tools/unlist-gyms.js "$GID" > /dev/null 2>&1' EXIT
+
 
 hdr "Trainer categories"
 CATS=$(curl -s "$API/gyms/$GID/trainer-categories" -H "Authorization: Bearer $OWNER")

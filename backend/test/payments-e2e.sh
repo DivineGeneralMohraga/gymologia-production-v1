@@ -53,6 +53,10 @@ P_REF="+9198300${STAMP}3"
 hdr "Setup"
 OWNER_A=$(login "$P_A" "Owner A")
 GID_A=$(make_gym "$OWNER_A" "Trial Gym" "$P_A")
+# Live database: a trial lists the test gym in real search results.
+# Take it out again however the suite ends.
+trap 'node test/tools/unlist-gyms.js "$GID_A" "$GID_A2" "$GID_B" > /dev/null 2>&1' EXIT
+
 [ -n "$GID_A" ] && ok "gym created (DRAFT)" || { bad "setup" "no gym"; exit 1; }
 
 hdr "Pricing"

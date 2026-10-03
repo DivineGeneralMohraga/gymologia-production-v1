@@ -61,6 +61,10 @@ PRO_GID=$(curl -s -X POST "$API/gyms" -H "Authorization: Bearer $PRO_OWNER" -H '
            \"district\":\"Margao\",\"city\":\"Margao\",\"pincode\":\"403601\",
            \"contactPhone\":\"$P_PRO\"}" | field id)
 curl -s -X POST "$API/gyms/$PRO_GID/subscription/trial" -H "Authorization: Bearer $PRO_OWNER" > /dev/null
+# Live database: a trial lists the test gym in real search results.
+# Take it out again however the suite ends.
+trap 'node test/tools/unlist-gyms.js "$PRO_GID" > /dev/null 2>&1' EXIT
+
 [ -n "$PRO_GID" ] && ok "Pro gym created and on a trial" || { bad "setup" "no gym"; exit 1; }
 
 BASIC_OWNER=$(login "$P_BASIC" "Basic Owner")
