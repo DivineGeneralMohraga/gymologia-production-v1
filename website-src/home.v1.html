@@ -1,0 +1,588 @@
+<title>Gymologia</title>
+<meta name="description" content="Gymologia: find a gym near you, track your training, and run your gym's members, staff and attendance from one app.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,800;1,900&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: a training log. A heavy hero, a pinned phone that changes screen
+   as you scroll through member features, an owner section read like a
+   scoreboard, then plans, referral and one loud closing call. */
+:root {
+  --ink: #0B0B0C;        /* page */
+  --iron: #141416;       /* raised surfaces */
+  --plate: #1D1E20;      /* phone bezel, borders that need weight */
+  --line: #2A2B2E;       /* hairlines */
+  --chalk: #F4F4EE;      /* text */
+  --dust: #A3A59A;       /* secondary text, a grey pulled toward the volt */
+  --volt: #C6FF00;       /* the one accent */
+  --volt-dim: #C6FF0026;
+  --ember: #FF6A2B;      /* badges only */
+
+  --display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --body: "Barlow", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --gutter: clamp(16px, 4vw, 48px);
+  --max: 1180px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--chalk);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+:focus-visible { outline: 3px solid var(--volt); outline-offset: 3px; border-radius: 6px; }
+
+.wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+
+.display {
+  font-family: var(--display);
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  line-height: .88;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.eyebrow {
+  font-family: var(--display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: 15px;
+  color: var(--volt);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.eyebrow::before { content: ""; width: 4px; height: 18px; background: var(--volt); border-radius: 2px; }
+.lede { color: var(--dust); font-size: clamp(17px, 1.6vw, 20px); max-width: 52ch; }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--display); font-weight: 800; text-transform: uppercase;
+  letter-spacing: .06em; font-size: 18px; text-decoration: none;
+  padding: 15px 26px; border-radius: 16px; border: 2px solid transparent;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.btn-volt { background: var(--volt); color: var(--ink); box-shadow: 0 0 0 0 var(--volt-dim); }
+.btn-volt:hover { transform: translateY(-2px); box-shadow: 0 10px 40px -6px #C6FF0080; }
+.btn-ghost { border-color: var(--line); color: var(--chalk); }
+.btn-ghost:hover { border-color: var(--volt); color: var(--volt); }
+.btn svg { width: 22px; height: 22px; flex: none; }
+.play small { display: block; font-size: 11px; letter-spacing: .12em; font-weight: 700; line-height: 1; opacity: .75; }
+.play span { line-height: 1.05; text-align: left; }
+
+/* ── Nav ── */
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+  background: color-mix(in srgb, var(--ink) 82%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent; transition: border-color .3s;
+}
+.nav.scrolled { border-bottom-color: var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.tile {
+  width: 42px; height: 42px; border-radius: 12px; background: var(--volt);
+  display: grid; place-items: center; flex: none;
+}
+.tile svg { width: 26px; height: 26px; }
+.brand b { font-family: var(--display); font-weight: 900; font-style: italic; font-size: 26px; letter-spacing: .02em; }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a { text-decoration: none; font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 15px; color: var(--dust); }
+.nav-links a:hover { color: var(--chalk); }
+.nav .btn { padding: 10px 18px; font-size: 15px; border-radius: 12px; }
+@media (max-width: 860px) { .nav-links a:not(.btn) { display: none; } }
+
+/* ── Hero ── */
+.hero { position: relative; padding-block: clamp(40px, 7vw, 96px) clamp(56px, 8vw, 110px); overflow: hidden; }
+.hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(24px, 4vw, 64px); align-items: center; position: relative; z-index: 2; }
+.hero-copy { min-width: 0; display: grid; gap: 26px; justify-items: start; }
+.hero h1 { font-size: clamp(64px, 11.5vw, 168px); margin: 0; }
+.hero h1 .line { display: block; overflow: hidden; padding-right: .08em; margin-bottom: -.04em; }
+.hero h1 .line > span { display: inline-block; }
+.hero h1 .line:nth-child(2) > span { color: transparent; -webkit-text-stroke: 2px var(--chalk); }
+.hero h1 .line:nth-child(3) > span { color: var(--volt); }
+.cta-row { display: flex; flex-wrap: wrap; gap: 14px; }
+.facts { display: flex; flex-wrap: wrap; gap: 10px 22px; color: var(--dust); font-size: 15px; padding: 0; margin: 0; list-style: none; }
+.facts li { display: flex; align-items: center; gap: 8px; }
+.facts li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--volt); }
+
+.glow {
+  position: absolute; width: 70vmax; height: 70vmax; right: -25vmax; top: -30vmax;
+  background: radial-gradient(circle, #C6FF0033 0%, #C6FF000d 35%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+.bar-bg {
+  position: absolute; right: -6vw; top: 8%; width: min(70vw, 900px); z-index: 1;
+  opacity: .1; pointer-events: none; transform: rotate(-18deg);
+}
+
+/* ── Phone ── */
+.phone {
+  position: relative; width: min(100%, 320px); aspect-ratio: 590 / 1278;
+  border-radius: 46px; padding: 11px; background: var(--plate);
+  box-shadow: 0 0 0 1px #34363a inset, 0 40px 90px -20px #000, 0 0 80px -30px #C6FF0055;
+  margin-inline: auto;
+}
+.phone::before {
+  content: ""; position: absolute; top: 20px; left: 50%; width: 84px; height: 22px;
+  transform: translateX(-50%); background: #000; border-radius: 20px; z-index: 3;
+}
+.screen { position: relative; width: 100%; height: 100%; border-radius: 36px; overflow: hidden; background: var(--ink); }
+.screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.hero-phone { justify-self: center; transform-style: preserve-3d; will-change: transform; }
+
+/* ── Marquee ── */
+.marquee { border-block: 1px solid var(--line); background: var(--volt); color: var(--ink); overflow: hidden; padding-block: 14px; }
+.marquee-track { display: flex; width: max-content; animation: slide 28s linear infinite; }
+.marquee-track span {
+  font-family: var(--display); font-weight: 900; font-style: italic; text-transform: uppercase;
+  font-size: clamp(26px, 4vw, 44px); padding-inline: 22px; white-space: nowrap; display: flex; align-items: center; gap: 44px;
+}
+.marquee-track span::after { content: ""; width: 14px; height: 14px; background: var(--ink); transform: rotate(45deg); }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* ── Sections ── */
+section { padding-block: clamp(72px, 10vw, 140px); }
+.sec-head { display: grid; gap: 18px; margin-bottom: clamp(36px, 6vw, 72px); }
+.sec-head h2 { font-size: clamp(48px, 8vw, 112px); margin: 0; }
+.sec-head h2 em { font-style: italic; color: var(--volt); }
+
+/* Members: pinned phone + steps */
+.members-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 80px); }
+.pin-col { position: relative; }
+.pin-phone { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 90px); }
+.pin-phone .screen img { opacity: 0; transform: scale(1.04); transition: opacity .5s ease, transform .6s ease; }
+.pin-phone .screen img.on { opacity: 1; transform: none; }
+.steps { display: grid; gap: 0; min-width: 0; }
+.step {
+  min-height: 74vh; display: grid; align-content: center; gap: 16px;
+  border-left: 2px solid var(--line); padding-left: clamp(18px, 3vw, 36px);
+  transition: border-color .4s;
+}
+.step.on { border-left-color: var(--volt); }
+.step .num { font-family: var(--display); font-weight: 800; color: var(--volt); letter-spacing: .1em; font-size: 15px; text-transform: uppercase; }
+.step h3 { font-family: var(--display); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(38px, 4.6vw, 64px); line-height: .92; margin: 0; }
+.step p { color: var(--dust); margin: 0; max-width: 44ch; }
+.step .inline-phone { display: none; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 14px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--chalk); }
+
+@media (max-width: 860px) {
+  .hero .wrap { grid-template-columns: 1fr; }
+  .hero-phone { width: min(78%, 300px); }
+  .members-grid { grid-template-columns: 1fr; }
+  .pin-col { display: none; }
+  .step { min-height: 0; padding-block: 28px; }
+  .step .inline-phone { display: block; width: min(80%, 290px); margin: 10px 0 0; }
+}
+
+/* Owners: scoreboard */
+.owners { background: linear-gradient(180deg, var(--ink) 0%, var(--iron) 20%, var(--iron) 80%, var(--ink) 100%); }
+.board { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(28px, 5vw, 80px); align-items: start; }
+.board-phone { position: relative; }
+.score { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid var(--line); margin-bottom: 12px; }
+.score div { padding: 22px 0 18px; display: grid; gap: 4px; }
+.score div + div { border-left: 1px solid var(--line); padding-left: clamp(12px, 2.5vw, 28px); }
+.score strong { font-family: var(--display); font-weight: 900; font-size: clamp(44px, 6vw, 84px); line-height: .9; font-variant-numeric: tabular-nums; }
+.score div:last-child strong { color: var(--volt); }
+.score span { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; font-size: 13px; color: var(--dust); }
+.note { color: var(--dust); font-size: 13px; margin: 0 0 40px; }
+.feats { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(20px, 3vw, 40px); }
+.feats li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding-block: 20px; border-top: 1px solid var(--line); min-width: 0; }
+.feats .ic { width: 44px; height: 44px; border-radius: 12px; background: var(--volt); display: grid; place-items: center; }
+.feats .ic svg { width: 22px; height: 22px; stroke: var(--ink); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.feats h4 { margin: 0 0 4px; font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 21px; letter-spacing: .02em; }
+.feats p { margin: 0; color: var(--dust); font-size: 15px; }
+@media (max-width: 860px) {
+  .board { grid-template-columns: 1fr; }
+  .board-phone .phone { width: min(78%, 290px); }
+  .feats { grid-template-columns: 1fr; }
+}
+
+/* Plans */
+.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; max-width: 920px; }
+.plan { border: 1px solid var(--line); border-radius: 26px; padding: clamp(24px, 3vw, 36px); display: grid; gap: 18px; align-content: start; background: var(--iron); position: relative; }
+.plan.pro { border: 2px solid var(--volt); box-shadow: 0 30px 80px -40px #C6FF0066; }
+.plan .tag { position: absolute; top: -14px; right: 24px; background: var(--volt); color: var(--ink); font-family: var(--display); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: 13px; padding: 5px 12px; border-radius: 999px; }
+.plan h3 { margin: 0; font-family: var(--display); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: 34px; }
+.price { display: flex; align-items: baseline; gap: 6px; }
+.price strong { font-family: var(--display); font-weight: 900; font-size: clamp(56px, 7vw, 80px); line-height: .9; font-variant-numeric: tabular-nums; }
+.price span { color: var(--dust); font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.plan ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.plan li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; color: var(--chalk); font-size: 16px; }
+.plan li svg { width: 20px; height: 20px; margin-top: 3px; stroke: var(--volt); fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.plan .muted { color: var(--dust); font-size: 14px; margin: 0; }
+.trial { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; color: var(--dust); }
+.trial b { color: var(--chalk); }
+@media (max-width: 700px) { .plans { grid-template-columns: 1fr; } }
+
+/* Referral */
+.refer .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: center; }
+.rupee { font-family: var(--display); font-weight: 900; font-style: italic; font-size: clamp(150px, 26vw, 360px); line-height: .8; color: var(--volt); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.rupee small { display: block; font-size: clamp(22px, 2.6vw, 34px); color: var(--chalk); letter-spacing: .04em; font-style: normal; font-weight: 800; margin-top: 14px; }
+.refer-copy { display: grid; gap: 22px; min-width: 0; }
+.refer-copy h2 { font-size: clamp(44px, 6.5vw, 92px); margin: 0; }
+.how { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 14px; }
+.how li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; color: var(--dust); }
+.how li::before { content: counter(s); width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--volt); color: var(--volt); display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 18px; }
+.how li b { color: var(--chalk); display: block; }
+@media (max-width: 860px) { .refer .wrap { grid-template-columns: 1fr; } }
+
+/* Closing */
+.final { text-align: left; padding-block: clamp(80px, 12vw, 170px); position: relative; overflow: hidden; border-top: 1px solid var(--line); }
+.final h2 { font-size: clamp(64px, 14vw, 210px); margin: 0 0 30px; }
+.final h2 span { color: var(--volt); }
+.final .lede { margin-bottom: 30px; }
+
+footer { border-top: 1px solid var(--line); padding-block: 34px; color: var(--dust); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; align-items: center; }
+footer .mail { display: inline-flex; align-items: center; gap: 10px; }
+footer button { font: inherit; color: var(--volt); background: none; border: 1px solid var(--line); border-radius: 10px; padding: 6px 12px; cursor: pointer; }
+footer button:hover { border-color: var(--volt); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee-track { animation-duration: 60s; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="dumbbell" viewBox="0 0 64 64">
+      <g fill="currentColor" transform="rotate(-12 32 32)">
+        <rect x="6" y="20" width="7" height="24" rx="3"/>
+        <rect x="14" y="14" width="8" height="36" rx="3.5"/>
+        <rect x="42" y="14" width="8" height="36" rx="3.5"/>
+        <rect x="51" y="20" width="7" height="24" rx="3"/>
+        <rect x="21" y="29" width="22" height="6" rx="2"/>
+      </g>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></symbol>
+  </defs>
+</svg>
+
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Gymologia home">
+      <span class="tile"><svg style="color:var(--ink)"><use href="#dumbbell"/></svg></span>
+      <b>GYMOLOGIA</b>
+    </a>
+    <div class="nav-links">
+      <a href="#members">Members</a>
+      <a href="#owners">Gym owners</a>
+      <a href="#plans">Plans</a>
+      <a href="#refer">Refer &amp; earn</a>
+      <a class="btn btn-volt" href="https://play.google.com/store/apps/details?id=com.gandagrouptechnologies.gymologia.member" target="_blank" rel="noopener">Get the app</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="glow" aria-hidden="true"></div>
+  <svg class="bar-bg" viewBox="0 0 64 64" aria-hidden="true" style="color:var(--volt)"><use href="#dumbbell"/></svg>
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">Built for India's gyms</span>
+      <h1 class="display" aria-label="Train. Track. Transform.">
+        <span class="line"><span>Train.</span></span>
+        <span class="line"><span>Track.</span></span>
+        <span class="line"><span>Transform.</span></span>
+      </h1>
+      <p class="lede">One app for the whole gym. Members find a gym and track their progress. Owners and staff run attendance, leave, events and chat without a register or a WhatsApp group.</p>
+      <div class="cta-row">
+        <a class="btn btn-volt play" href="https://play.google.com/store/apps/details?id=com.gandagrouptechnologies.gymologia.member" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 2.8v18.4c0 .6.6.9 1.1.6l15.4-9.2c.5-.3.5-1 0-1.3L5.1 2.2C4.6 1.9 4 2.2 4 2.8z"/></svg>
+          <span><small>Get it on</small>Google Play</span>
+        </a>
+        <a class="btn btn-ghost" href="#owners">I run a gym</a>
+      </div>
+      <ul class="facts">
+        <li>Sign in with your number, no password</li>
+        <li>10 Indian languages</li>
+        <li>Dark and light mode</li>
+      </ul>
+    </div>
+    <div class="phone hero-phone" id="heroPhone">
+      <div class="screen"><img src="screens/login.webp" alt="Gymologia sign-in screen with the volt dumbbell logo and Send OTP button" width="590" height="1278"></div>
+    </div>
+  </div>
+</header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marquee">
+    <span>Attendance</span><span>Leave</span><span>Events</span><span>Chat</span><span>Rankings</span><span>Progress</span><span>Roles</span><span>Announcements</span>
+    <span>Attendance</span><span>Leave</span><span>Events</span><span>Chat</span><span>Rankings</span><span>Progress</span><span>Roles</span><span>Announcements</span>
+  </div>
+</div>
+
+<section id="members">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">For members</span>
+      <h2 class="display slide-in">Your gym, <em>in your pocket</em></h2>
+    </div>
+    <div class="members-grid">
+      <div class="pin-col" aria-hidden="true">
+        <div class="phone pin-phone">
+          <div class="screen" id="pinScreen">
+            <img class="on" src="screens/browser.webp" alt="" data-step="0">
+            <img src="screens/home.webp" alt="" data-step="1">
+            <img src="screens/events.webp" alt="" data-step="2">
+          </div>
+        </div>
+      </div>
+      <div class="steps">
+        <article class="step on" data-step="0">
+          <span class="num">Find</span>
+          <h3>A gym near you, ranked</h3>
+          <p>Gyms are ranked by how close they are and how their members rate them. See photos, perks and ratings before you walk in, and call the gym in one tap.</p>
+          <div class="chips"><span class="chip">Nearby first</span><span class="chip">Member ratings</span><span class="chip">Perks</span></div>
+          <div class="phone inline-phone"><div class="screen"><img src="screens/browser.webp" alt="Find a gym screen listing Iron Temple, Beast Factory and Muscle Lab with ratings and distance" loading="lazy"></div></div>
+        </article>
+        <article class="step" data-step="1">
+          <span class="num">Track</span>
+          <h3>Days left, leave left, your goal</h3>
+          <p>Your membership, your trainer and your goal on one screen. Log weight and height every month and watch the trend. Request leave and your membership pauses with you.</p>
+          <div class="chips"><span class="chip">Progress</span><span class="chip">Leave requests</span><span class="chip">Exercise directory</span></div>
+          <div class="phone inline-phone"><div class="screen"><img src="screens/home.webp" alt="Member home showing 23 days left, leave left 4 of 6, goal and measurements" loading="lazy"></div></div>
+        </article>
+        <article class="step" data-step="2">
+          <span class="num">Compete</span>
+          <h3>Events worth showing up for</h3>
+          <p>Deadlift showdowns, shred challenges and open meets at your gym and gyms nearby. Register in one tap and see who else is in.</p>
+          <div class="chips"><span class="chip">Your gym</span><span class="chip">Open events</span><span class="chip">Chat</span></div>
+          <div class="phone inline-phone"><div class="screen"><img src="screens/events.webp" alt="Events screen with a Deadlift Showdown and a Summer Shred Challenge" loading="lazy"></div></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="owners" id="owners">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">For gym owners and staff</span>
+      <h2 class="display slide-in">Run the floor, <em>not the paperwork</em></h2>
+    </div>
+    <div class="board">
+      <div class="board-phone">
+        <div class="phone" id="crmPhone"><div class="screen"><img src="screens/crm.webp" alt="Owner dashboard for Iron Temple: 214 active members, 27 joined, 65 percent turning up, and tiles for members, staff, leave, plan and more" loading="lazy"></div></div>
+      </div>
+      <div>
+        <div class="score" id="score">
+          <div><strong data-count="214">214</strong><span>Active members</span></div>
+          <div><strong data-count="27" data-prefix="+">+27</strong><span>Joined</span></div>
+          <div><strong data-count="65" data-suffix="%">65%</strong><span>Turning up</span></div>
+        </div>
+        <p class="note">An example dashboard for the last 30 days.</p>
+        <ul class="feats">
+          <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg></span>
+            <div><h4>Attendance by role</h4><p>Trainers mark members, managers mark staff. Corrections go up the chain, never sideways.</p></div></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+            <div><h4>Leave that pauses billing</h4><p>Members pause their membership. Long leave needs a manager's yes.</p></div></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></svg></span>
+            <div><h4>Roles and permissions</h4><p>Owner, manager, sales, trainer, or your own. Nobody can hand out a power they do not hold.</p></div></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8z"/></svg></span>
+            <div><h4>Events and announcements</h4><p>Host a challenge, list it publicly, and message every member at once.</p></div></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+            <div><h4>See where you rank</h4><p>Pro gyms see their position in their area, district and state.</p></div></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
+            <div><h4>On the map</h4><p>Drop a pin on your gym so nearby members find you first.</p></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="plans">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Plans for gyms</span>
+      <h2 class="display slide-in">Pick your <em>weight class</em></h2>
+    </div>
+    <div class="plans">
+      <article class="plan">
+        <h3>Basic</h3>
+        <div class="price"><strong>₹599</strong><span>/ month</span></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Full CRM: members, staff, attendance, leave</li>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Roles and permissions</li>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Events and chat for your members</li>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Announcements</li>
+        </ul>
+        <p class="muted">Not listed in Gymologia search.</p>
+      </article>
+      <article class="plan pro">
+        <span class="tag">Get found</span>
+        <h3>Pro</h3>
+        <div class="price"><strong>₹1,199</strong><span>/ month</span></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Everything in Basic</li>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Listed in Gymologia search for members nearby</li>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Public events anyone can join</li>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Your ranking in area, district and state</li>
+        </ul>
+        <p class="muted">Members rate your gym, and good ratings push you up.</p>
+      </article>
+    </div>
+    <p class="trial"><b>7 days free on Pro</b> for every new gym owner. A referral code takes 10% off.</p>
+  </div>
+</section>
+
+<section class="refer" id="refer">
+  <div class="wrap">
+    <div class="rupee" aria-hidden="true"><span id="rupee" data-count="50">₹50</span><small>per gym you bring in</small></div>
+    <div class="refer-copy">
+      <span class="eyebrow">Gymologia Referral</span>
+      <h2 class="display slide-in">Know a gym owner? <em style="color:var(--volt)">Get paid.</em></h2>
+      <ol class="how">
+        <li><span><b>Get your code</b>Sign up on the Gymologia Referral app. Anyone can join, including gym staff.</span></li>
+        <li><span><b>Share it with gym owners</b>They get 10% off any Gymologia plan.</span></li>
+        <li><span><b>Earn ₹50 per plan</b>Paid to your UPI ID every time a gym subscribes with your code.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2 class="display">Your gym.<br><span>Levelled up.</span></h2>
+    <p class="lede">Free for members. Seven days free for gym owners. Sign in with your phone number and you are in.</p>
+    <a class="btn btn-volt play" href="https://play.google.com/store/apps/details?id=com.gandagrouptechnologies.gymologia.member" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 2.8v18.4c0 .6.6.9 1.1.6l15.4-9.2c.5-.3.5-1 0-1.3L5.1 2.2C4.6 1.9 4 2.2 4 2.8z"/></svg>
+      <span><small>Get it on</small>Google Play</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Ganda Group Technologies · Made in India</span>
+    <span class="mail">Support: <span id="mail">support@gymologia.com</span> <button type="button" id="copyMail">Copy</button></span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(() => {
+  // Copy the support address; selecting it is the fallback where the
+  // clipboard is refused.
+  const copy = document.getElementById('copyMail');
+  copy.addEventListener('click', async () => {
+    const text = document.getElementById('mail').textContent;
+    try { await navigator.clipboard.writeText(text); copy.textContent = 'Copied'; }
+    catch { const r = document.createRange(); r.selectNodeContents(document.getElementById('mail'));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r); copy.textContent = 'Selected'; }
+    setTimeout(() => (copy.textContent = 'Copy'), 1800);
+  });
+
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 10), { passive: true });
+
+  // Member steps swap the pinned phone's screen. Works without GSAP too.
+  const steps = [...document.querySelectorAll('.step')];
+  const shots = [...document.querySelectorAll('#pinScreen img')];
+  const show = (i) => {
+    steps.forEach((s, k) => s.classList.toggle('on', k === i));
+    shots.forEach((s, k) => s.classList.toggle('on', k === i));
+  };
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) show(+e.target.dataset.step); });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    steps.forEach((s) => io.observe(s));
+  }
+
+  // A device set to reduce motion still gets the entrances, count-ups and
+  // scroll reveals; it skips the spinning, tilting and skewing.
+  const full = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!window.gsap) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero: the words slam up out of their masks, the phone swings in.
+  const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+  tl.from('.hero h1 .line > span', { yPercent: 110, skewY: 6, duration: 1, stagger: .12 })
+    .from('.hero .eyebrow', { x: -30, opacity: 0, duration: .6 }, 0.1)
+    .from('#heroPhone', { y: 120, rotate: 10, rotateY: -25, opacity: 0, duration: 1.3 }, 0.15)
+    .from('.hero .lede, .hero .cta-row, .hero .facts', { y: 24, opacity: 0, duration: .7, stagger: .1 }, 0.55)
+    .from('.brand .tile', { rotate: -180, scale: .4, duration: 1, ease: 'back.out(2)' }, 0);
+
+  // The big background dumbbell turns slowly and sinks as you scroll.
+  if (full) {
+    gsap.to('.bar-bg', { rotate: 342, duration: 60, repeat: -1, ease: 'none' });
+    gsap.to('.bar-bg', { yPercent: 40, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  }
+
+  // Hero phone: tilts toward the pointer on desktop, drifts up on scroll.
+  const phone = document.getElementById('heroPhone');
+  if (full && matchMedia('(pointer: fine)').matches) {
+    const rx = gsap.quickTo(phone, 'rotateX', { duration: .6, ease: 'power3' });
+    const ry = gsap.quickTo(phone, 'rotateY', { duration: .6, ease: 'power3' });
+    document.querySelector('.hero').addEventListener('pointermove', (e) => {
+      const r = phone.getBoundingClientRect();
+      ry(((e.clientX - (r.left + r.width / 2)) / innerWidth) * 24);
+      rx(-((e.clientY - (r.top + r.height / 2)) / innerHeight) * 18);
+    });
+  }
+  gsap.set(phone, { transformPerspective: 900 });
+  if (full) gsap.to(phone, { y: -60, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+  // Marquee leans into the scroll: faster and skewed while you move.
+  const track = document.getElementById('marquee');
+  let skew = gsap.quickTo(track, 'skewX', { duration: .4, ease: 'power3' });
+  if (full) ScrollTrigger.create({ onUpdate: (self) => {
+    const v = gsap.utils.clamp(-12, 12, self.getVelocity() / -180);
+    skew(v);
+    track.style.animationDuration = (28 / (1 + Math.abs(v) / 4)) + 's';
+  }});
+
+  // Section headings slide in from the left, tied to the scroll. They are
+  // readable at every point of the move.
+  gsap.utils.toArray('.slide-in').forEach((h) => {
+    gsap.fromTo(h, { x: -80 }, { x: 0, ease: 'none',
+      scrollTrigger: { trigger: h, start: 'top 95%', end: 'top 55%', scrub: .6 } });
+  });
+
+  // Owner features rise in a stagger as the list comes up.
+  gsap.fromTo('.feats li', { y: 50 }, { y: 0, stagger: .08, ease: 'none',
+    scrollTrigger: { trigger: '.feats', start: 'top 95%', end: 'top 45%', scrub: .6 } });
+  gsap.fromTo('#crmPhone', { rotate: -6, y: 60 }, { rotate: 0, y: 0, ease: 'none',
+    scrollTrigger: { trigger: '.board', start: 'top 90%', end: 'top 30%', scrub: .6 } });
+
+  // Plans: Pro lifts a little higher than Basic.
+  gsap.fromTo('.plan.pro', { y: 60 }, { y: -10, ease: 'none',
+    scrollTrigger: { trigger: '.plans', start: 'top 95%', end: 'bottom 40%', scrub: .6 } });
+
+  // Numbers count up when they arrive. The final figures sit in the HTML,
+  // so the page reads correctly before any of this runs.
+  const countUp = (el) => {
+    const end = +el.dataset.count, pre = el.dataset.prefix || '', suf = el.dataset.suffix || '';
+    const fmt = (n) => (el.id === 'rupee' ? '₹' : pre) + Math.round(n) + suf;
+    const obj = { n: 0 };
+    ScrollTrigger.create({ trigger: el, start: 'top 85%', once: true, onEnter: () => {
+      el.textContent = fmt(0);
+      gsap.to(obj, { n: end, duration: 1.6, ease: 'power2.out', onUpdate: () => (el.textContent = fmt(obj.n)) });
+    }});
+  };
+  document.querySelectorAll('[data-count]').forEach(countUp);
+
+  gsap.fromTo('.rupee', { scale: .85, rotate: -4 }, { scale: 1, rotate: 0, ease: 'none',
+    scrollTrigger: { trigger: '.refer', start: 'top 90%', end: 'top 30%', scrub: .6 } });
+
+  // Closing line: the second word drives in from the right.
+  gsap.fromTo('.final h2 span', { xPercent: 40 }, { xPercent: 0, ease: 'none',
+    scrollTrigger: { trigger: '.final', start: 'top 95%', end: 'top 40%', scrub: .6 } });
+})();
+</script>

@@ -14,7 +14,7 @@
  * Bump `LEGAL_VERSION` whenever the wording changes materially. Users are
  * re-prompted when the version they accepted is older than this one.
  */
-export const LEGAL_VERSION = '2026-09-21.2';
+export const LEGAL_VERSION = '2026-10-03.1';
 
 export const SUPPORT_EMAIL = 'support@gymologia.com';
 
@@ -31,10 +31,11 @@ const TERMS: LegalDocument = {
   slug: 'terms',
   title: 'Terms of Use',
   version: LEGAL_VERSION,
-  updatedAt: '2026-09-21',
+  updatedAt: '2026-10-03',
   body: `
-Gymologia is operated in India. By creating an account you agree to these
-terms. If you do not agree, do not use the app.
+Gymologia is operated in India by Ganda Group Technologies ("we", "us").
+By creating an account you agree to these terms. If you do not agree, do
+not use the app.
 
 WHO CAN USE GYMOLOGIA
 You must be at least 18 years old to hold an account independently. If you
@@ -67,15 +68,21 @@ their members what they record. If you are a gym, you also confirm that the
 KYC documents you upload are genuine and yours to submit.
 
 SUBSCRIPTIONS AND PAYMENT
-Gyms subscribe to Gymologia on a plan. Prices shown include GST. New gym
-accounts get one free trial, once per person — not once per gym. Payment is
-taken by Cashfree; we do not store your card details.
+Gyms subscribe to Gymologia on a monthly plan, Basic or Pro. The price is
+shown in the app before you pay. New gym owners get one free trial, once
+per person — not once per gym. Payment is taken by Cashfree; we do not store
+your card details.
+
+The gym tools in the app — members, staff, attendance, leave, events and
+chat — need an active trial or paid plan. Until a gym has one, its owner
+can only edit the gym's profile, choose a plan, or delete the gym.
 
 A subscription runs to the end of the period you paid for. If it lapses,
-your gym stops appearing in member search and your gym's public listing is
-withdrawn. Your data is not deleted and you keep access to your own member
-and staff records, so that a billing lapse never locks you out of your own
-business records.
+your gym stops appearing in member search, its public listing is withdrawn,
+and the gym tools become read-only: you can still see your member and staff
+records, but you cannot add or change anything until you renew. Your data
+is not deleted, so a billing lapse never locks you out of your own business
+records.
 
 REFUNDS
 If a payment is taken and the plan is not activated, tell us within 7 days
@@ -135,10 +142,11 @@ const PRIVACY: LegalDocument = {
   slug: 'privacy',
   title: 'Privacy Policy',
   version: LEGAL_VERSION,
-  updatedAt: '2026-09-21',
+  updatedAt: '2026-10-03',
   body: `
-This policy explains what Gymologia collects, why, and what you can do about
-it. It is written to match what the software actually does.
+This policy explains what Gymologia, operated by Ganda Group Technologies,
+collects, why, and what you can do about it. It is written to match what
+the software actually does.
 
 WHY WE ASK FOR YOUR AGE AND NOT YOUR DATE OF BIRTH
 We store your age, never your date of birth. A date of birth is a key to the
@@ -166,6 +174,9 @@ of Gymologia staff who carry out verification.
 
 Chat: messages you send through the app.
 
+Gym photos and location: gym owners can upload photos of their gym and pin
+its location on a map. Both are shown publicly on the gym's page.
+
 Technical: IP address, device and app version, and security-relevant events
 such as repeated failed sign-in attempts.
 
@@ -192,9 +203,11 @@ encryption in a way that implies more privacy than it gives.
 
 WHO WE SHARE WITH
 MSG91, to send your login code by SMS. Cashfree, to take subscription
-payments and to make referral payouts. Our hosting and database providers,
-which run on servers we control. We do not sell your data and we do not
-share it for advertising.
+payments and to make referral payouts. Amazon Web Services runs our server
+in Mumbai, India, and Supabase hosts our database and stored files in
+Singapore; both process data only on our instructions. Maps in the app load
+their tiles from OpenStreetMap, which sees the request but not your
+account. We do not sell your data and we do not share it for advertising.
 
 We disclose data to a public authority only where a valid legal demand
 requires it.

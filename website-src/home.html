@@ -1,0 +1,846 @@
+<title>Gymologia</title>
+<meta name="description" content="Gymologia: find a gym near you, track your training, and run your gym's members, staff and attendance from one app.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;0,900;1,800;1,900&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: a training session. Warm-up hero with a heartbeat line and a fan
+   of phones; a member "set" with a pinned phone; the signature scene, a
+   barbell that loads one plate per owner feature as you scroll; then the
+   scoreboard, plans, referral and a closing chant. */
+:root {
+  --ink: #0B0B0C;
+  --iron: #141416;
+  --plate: #1D1E20;
+  --line: #2A2B2E;
+  --chalk: #F4F4EE;
+  --dust: #A3A59A;
+  --volt: #C6FF00;
+  --steel-1: #8E9196;
+  --steel-2: #E6E8EA;
+
+  --display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --body: "Barlow", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --gutter: clamp(16px, 4vw, 48px);
+  --max: 1180px;
+  color-scheme: dark;
+}
+@property --spin { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+* { box-sizing: border-box; }
+body {
+  background: var(--ink);
+  color: var(--chalk);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.55;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+:focus-visible { outline: 3px solid var(--volt); outline-offset: 3px; border-radius: 6px; }
+::selection { background: var(--volt); color: var(--ink); }
+
+.wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+
+/* Film grain over everything: the page should feel like a gym floor. */
+.grain {
+  position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.motion .grain { animation: jitter .9s steps(6) infinite; }
+@keyframes jitter {
+  0% { background-position: 0 0; } 20% { background-position: -40px 30px; } 40% { background-position: 30px -50px; }
+  60% { background-position: -60px -20px; } 80% { background-position: 50px 40px; } 100% { background-position: 0 0; }
+}
+
+/* Cursor: a volt dot that swells over anything you can press. */
+.cursor {
+  position: fixed; left: 0; top: 0; width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  border-radius: 50%; background: var(--volt); z-index: 100; pointer-events: none;
+  mix-blend-mode: difference; transition: width .25s, height .25s, margin .25s; display: none;
+}
+.cursor.big { width: 64px; height: 64px; margin: -32px 0 0 -32px; }
+.has-cursor .cursor { display: block; }
+
+.progress { position: fixed; left: 0; top: 0; height: 3px; width: 100%; background: var(--volt); transform-origin: 0 50%; transform: scaleX(0); z-index: 60; }
+
+.display {
+  font-family: var(--display); font-weight: 900; font-style: italic; text-transform: uppercase;
+  line-height: .88; letter-spacing: -.01em; text-wrap: balance;
+}
+.ch { display: inline-block; will-change: transform; }
+.word { display: inline-block; white-space: nowrap; }
+.eyebrow {
+  font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .14em;
+  font-size: 15px; color: var(--volt); display: inline-flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content: ""; width: 4px; height: 18px; background: var(--volt); border-radius: 2px; }
+.lede { color: var(--dust); font-size: clamp(17px, 1.6vw, 20px); max-width: 52ch; margin: 0; }
+.volt { color: var(--volt); }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--display); font-weight: 800; text-transform: uppercase;
+  letter-spacing: .06em; font-size: 18px; text-decoration: none;
+  padding: 15px 26px; border-radius: 16px; border: 2px solid transparent;
+  transition: box-shadow .2s ease, background .2s ease, color .2s ease, border-color .2s;
+  will-change: transform;
+}
+.btn-volt { background: var(--volt); color: var(--ink); }
+.btn-volt:hover { box-shadow: 0 10px 44px -6px #C6FF0090; }
+.btn-ghost { border-color: var(--line); color: var(--chalk); }
+.btn-ghost:hover { border-color: var(--volt); color: var(--volt); }
+.btn svg { width: 22px; height: 22px; flex: none; }
+.play small { display: block; font-size: 11px; letter-spacing: .12em; font-weight: 700; line-height: 1; opacity: .75; }
+.play span { line-height: 1.05; text-align: left; }
+
+/* ── Nav ── */
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+  background: color-mix(in srgb, var(--ink) 80%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent; transition: border-color .3s;
+}
+.nav.scrolled { border-bottom-color: var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.tile { width: 42px; height: 42px; border-radius: 12px; background: var(--volt); display: grid; place-items: center; flex: none; }
+.tile svg { width: 26px; height: 26px; color: var(--ink); }
+.brand b { font-family: var(--display); font-weight: 900; font-style: italic; font-size: 26px; letter-spacing: .02em; }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a { text-decoration: none; font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 15px; color: var(--dust); }
+.nav-links a:hover { color: var(--chalk); }
+.nav .btn { padding: 10px 18px; font-size: 15px; border-radius: 12px; color: var(--ink); }
+@media (max-width: 860px) { .nav-links a:not(.btn) { display: none; } .nav-links { gap: 10px; } }
+@media (max-width: 520px) {
+  .brand b { font-size: 21px; }
+  .motion-toggle span { display: none; }
+  .motion-toggle { padding: 9px; }
+  .nav .btn { padding: 9px 12px; font-size: 14px; }
+}
+@media (max-width: 360px) { .brand b { display: none; } }
+
+/* ── Hero ── */
+.hero { position: relative; padding-block: clamp(36px, 6vw, 80px) clamp(70px, 9vw, 120px); overflow: hidden; }
+.hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(24px, 4vw, 56px); align-items: center; position: relative; z-index: 2; }
+.hero-copy { min-width: 0; display: grid; gap: 26px; justify-items: start; }
+.hero h1 { font-size: clamp(62px, 11vw, 164px); margin: 0; perspective: 600px; }
+.hero h1 .line { display: block; }
+.hero h1 .line:nth-child(2) { color: transparent; -webkit-text-stroke: 2px var(--chalk); }
+.hero h1 .line:nth-child(3) { color: var(--volt); }
+.cta-row { display: flex; flex-wrap: wrap; gap: 14px; }
+.facts { display: flex; flex-wrap: wrap; gap: 10px 22px; color: var(--dust); font-size: 15px; padding: 0; margin: 0; list-style: none; }
+.facts li { display: flex; align-items: center; gap: 8px; }
+.facts li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--volt); }
+
+.glow {
+  position: absolute; width: 70vmax; height: 70vmax; right: -25vmax; top: -30vmax;
+  background: radial-gradient(circle, #C6FF0033 0%, #C6FF000d 35%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+.bar-bg { position: absolute; right: -8vw; top: 4%; width: min(72vw, 900px); z-index: 1; opacity: .08; pointer-events: none; transform: rotate(-18deg); color: var(--volt); }
+
+/* Heartbeat: a resting pulse that spikes once per beat. */
+.ecg { position: absolute; left: 0; right: 0; bottom: 18px; width: 100%; height: 90px; z-index: 1; pointer-events: none; }
+.ecg path { fill: none; stroke: var(--volt); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.ecg .base { opacity: .14; }
+.ecg .trace { stroke-dasharray: 260 2400; stroke-dashoffset: 2660; filter: drop-shadow(0 0 6px #C6FF00); }
+.motion .ecg .trace { animation: beat 2.8s linear infinite; }
+@keyframes beat { to { stroke-dashoffset: 0; } }
+
+/* Phones */
+.phone {
+  position: relative; width: min(100%, 300px); aspect-ratio: 590 / 1278;
+  border-radius: 44px; padding: 10px; background: var(--plate);
+  box-shadow: 0 0 0 1px #34363a inset, 0 40px 90px -20px #000, 0 0 80px -30px #C6FF0055;
+}
+.phone::before {
+  content: ""; position: absolute; top: 19px; left: 50%; width: 80px; height: 21px;
+  transform: translateX(-50%); background: #000; border-radius: 20px; z-index: 3;
+}
+.screen { position: relative; width: 100%; height: 100%; border-radius: 35px; overflow: hidden; background: var(--ink); }
+.screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+.fan { position: relative; height: clamp(440px, 46vw, 600px); }
+.fan .layer { position: absolute; inset: 0; will-change: transform; }
+.fan .phone { position: absolute; left: 50%; top: 50%; width: clamp(200px, 21vw, 280px); }
+.fan .p-left { transform: translate(-112%, -46%) rotate(-11deg); filter: brightness(.6); }
+.fan .p-right { transform: translate(12%, -46%) rotate(11deg); filter: brightness(.6); }
+.fan .p-mid { transform: translate(-50%, -52%); }
+.fan .layer:last-child { z-index: 2; }
+
+/* ── Marquees ── */
+.ribbons { overflow: hidden; padding-block: 12px; }
+.marquee { overflow: hidden; padding-block: 14px; border-block: 1px solid var(--line); }
+.marquee.solid { background: var(--volt); color: var(--ink); transform: rotate(-1.4deg) scale(1.03); position: relative; z-index: 3; }
+.marquee.outline { background: var(--ink); transform: rotate(1.2deg) scale(1.03); margin-top: -6px; }
+.marquee-track { display: flex; width: max-content; animation: slide 30s linear infinite; }
+.marquee.outline .marquee-track { animation-direction: reverse; animation-duration: 36s; }
+.marquee-track span {
+  font-family: var(--display); font-weight: 900; font-style: italic; text-transform: uppercase;
+  font-size: clamp(26px, 4vw, 46px); padding-inline: 22px; white-space: nowrap; display: flex; align-items: center; gap: 44px;
+}
+.marquee-track span::after { content: ""; width: 14px; height: 14px; background: currentColor; transform: rotate(45deg); }
+.marquee.outline span { color: transparent; -webkit-text-stroke: 1.5px var(--dust); }
+.marquee.outline span::after { background: var(--volt); }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* ── Sections ── */
+section { padding-block: clamp(80px, 11vw, 150px); overflow-x: clip; }
+.sec-head { display: grid; gap: 18px; margin-bottom: clamp(36px, 6vw, 72px); }
+.sec-head h2 { font-size: clamp(48px, 8vw, 116px); margin: 0; }
+
+/* Members: pinned phone with a set counter */
+.members-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 80px); }
+.pin-col { position: relative; }
+.pin-wrap { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 90px); display: grid; gap: 18px; justify-items: center; }
+.pin-wrap .phone { width: min(100%, 300px); }
+.pin-wrap .screen img { opacity: 0; transform: scale(1.05); transition: opacity .5s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+.pin-wrap .screen img.on { opacity: 1; transform: none; }
+.setbar { display: flex; align-items: center; gap: 14px; font-family: var(--display); font-weight: 800; text-transform: uppercase; letter-spacing: .1em; font-size: 15px; color: var(--dust); width: min(100%, 300px); }
+.setbar b { color: var(--chalk); font-variant-numeric: tabular-nums; }
+.setbar .track { flex: 1; height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.setbar .fill { height: 100%; width: 33.3%; background: var(--volt); transition: width .5s ease; }
+.steps { display: grid; min-width: 0; }
+.step { min-height: 76vh; display: grid; align-content: center; gap: 16px; border-left: 2px solid var(--line); padding-left: clamp(18px, 3vw, 36px); transition: border-color .4s; }
+.step.on { border-left-color: var(--volt); }
+.step .num { font-family: var(--display); font-weight: 800; color: var(--volt); letter-spacing: .1em; font-size: 15px; text-transform: uppercase; }
+.step h3 { font-family: var(--display); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(38px, 4.6vw, 66px); line-height: .92; margin: 0; transition: color .4s; color: var(--dust); }
+.step.on h3 { color: var(--chalk); }
+.step p { color: var(--dust); margin: 0; max-width: 44ch; }
+.step .inline-phone { display: none; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: 14px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--chalk); }
+
+/* ── Load the bar ── */
+.load { padding-block: 0; position: relative; background: radial-gradient(120% 70% at 70% 55%, #1a1d12 0%, var(--ink) 60%); }
+.load-pin { min-height: 100vh; display: grid; align-content: center; gap: clamp(18px, 3vw, 34px); padding-block: clamp(70px, 9vw, 110px); overflow: hidden; }
+.load-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px; }
+.load-head h2 { font-size: clamp(52px, 9vw, 130px); margin: 6px 0 0; }
+.total { text-align: right; font-family: var(--display); text-transform: uppercase; }
+.total span { display: block; font-weight: 700; letter-spacing: .14em; font-size: 14px; color: var(--dust); }
+.total strong { font-weight: 900; font-style: italic; font-size: clamp(56px, 8vw, 110px); line-height: .85; color: var(--volt); font-variant-numeric: tabular-nums; }
+.total small { font-size: clamp(22px, 3vw, 40px); font-weight: 800; color: var(--chalk); margin-left: 6px; }
+
+.stage { position: relative; height: clamp(230px, 30vw, 360px); }
+.stage .shaft {
+  position: absolute; left: -2vw; right: -2vw; top: 50%; height: 16px; transform: translateY(-50%);
+  background: linear-gradient(180deg, var(--steel-2) 0%, var(--steel-1) 55%, #4b4e52 100%); border-radius: 4px;
+  box-shadow: 0 6px 16px #000a;
+}
+.stage .knurl { position: absolute; left: 8%; width: 30%; top: 50%; height: 16px; transform: translateY(-50%);
+  background: repeating-linear-gradient(90deg, #0004 0 2px, transparent 2px 5px); border-radius: 2px; }
+.stage .collar { position: absolute; left: 44%; top: 50%; width: 26px; height: 64px; transform: translateY(-50%);
+  background: linear-gradient(90deg, #6d7075, var(--steel-2) 45%, #6d7075); border-radius: 5px; box-shadow: 0 8px 20px #000a; }
+.plates { position: absolute; left: calc(44% + 32px); top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 5px; --k: 1; }
+.wplate {
+  position: relative; width: calc(var(--w) * var(--k) * 1px); height: calc(var(--h) * var(--k) * 1px);
+  border-radius: 10px; display: grid; place-items: center;
+  background: linear-gradient(90deg, #26282b 0%, #3a3d41 40%, #1e2023 100%);
+  box-shadow: inset 0 0 0 2px #ffffff10, 0 14px 30px #000b;
+  will-change: transform;
+}
+.wplate.v { background: linear-gradient(90deg, #9ccc00 0%, var(--volt) 45%, #8fb800 100%); color: var(--ink); }
+.wplate::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 12px; transform: translate(-50%, -50%); border-radius: 50%; background: #0007; }
+.wplate b { writing-mode: vertical-rl; transform: rotate(180deg); font-family: var(--display); font-weight: 900; font-style: italic; font-size: 17px; letter-spacing: .06em; position: relative; top: -22%; }
+.wplate:not(.v) b { color: var(--chalk); }
+
+.plate-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(18px, 3vw, 40px); }
+.plate-list li { border-top: 2px solid var(--line); padding-block: 14px 18px; transition: border-color .35s, opacity .35s; min-width: 0; }
+.plate-list li.on { border-top-color: var(--volt); }
+.plate-list .kg { font-family: var(--display); font-weight: 800; letter-spacing: .1em; color: var(--volt); font-size: 14px; }
+.plate-list h4 { margin: 2px 0 4px; font-family: var(--display); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(22px, 2.4vw, 30px); line-height: 1; }
+.plate-list p { margin: 0; color: var(--dust); font-size: 15px; }
+.js-pinned .plate-list li:not(.on) { opacity: .35; }
+@media (max-width: 860px) {
+  .plate-list { grid-template-columns: 1fr 1fr; }
+  .stage .collar { left: 20%; }
+  .plates { left: calc(20% + 32px); --k: .78; }
+  .stage .knurl { display: none; }
+}
+@media (max-width: 520px) {
+  .stage { height: 220px; }
+  .plates { --k: .66; }
+  .plate-list { grid-template-columns: 1fr; }
+  .js-pinned .plate-list li:not(.on) { display: none; }
+  .total { text-align: left; }
+}
+
+/* Scoreboard */
+.board { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(28px, 5vw, 80px); align-items: center; }
+.board-phone .phone { margin-inline: auto; }
+.score { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid var(--line); }
+.score div { padding: 22px 0 18px; display: grid; gap: 4px; }
+.score div + div { border-left: 1px solid var(--line); padding-left: clamp(12px, 2.5vw, 28px); }
+.score strong { font-family: var(--display); font-weight: 900; font-size: clamp(48px, 6.5vw, 96px); line-height: .9; font-variant-numeric: tabular-nums; }
+.score div:last-child strong { color: var(--volt); }
+.score span { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; font-size: 13px; color: var(--dust); }
+.board-copy { display: grid; gap: 22px; min-width: 0; }
+.board-copy h3 { margin: 0; font-size: clamp(40px, 5vw, 72px); }
+.note { color: var(--dust); font-size: 13px; margin: 0; }
+@media (max-width: 860px) { .board { grid-template-columns: 1fr; } .board-phone .phone { width: min(78%, 290px); } }
+
+/* Plans */
+.plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; max-width: 940px; perspective: 1000px; }
+.plan { border: 1px solid var(--line); border-radius: 26px; padding: clamp(24px, 3vw, 38px); display: grid; gap: 18px; align-content: start; background: var(--iron); position: relative; will-change: transform; }
+.plan.pro {
+  border: 2px solid transparent;
+  background: linear-gradient(var(--iron), var(--iron)) padding-box,
+              conic-gradient(from var(--spin), var(--volt), #C6FF0014 30%, #C6FF0014 70%, var(--volt)) border-box;
+  box-shadow: 0 30px 90px -40px #C6FF0077;
+}
+.motion .plan.pro { animation: spin 4s linear infinite; }
+@keyframes spin { to { --spin: 360deg; } }
+.plan .tag { position: absolute; top: -14px; right: 24px; background: var(--volt); color: var(--ink); font-family: var(--display); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: 13px; padding: 5px 12px; border-radius: 999px; }
+.plan h3 { margin: 0; font-family: var(--display); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: 34px; }
+.price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
+.price strong { font-family: var(--display); font-weight: 900; font-size: clamp(48px, 7vw, 84px); line-height: .9; font-variant-numeric: tabular-nums; }
+.price span { color: var(--dust); font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.plan ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.plan li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; font-size: 16px; }
+.plan li svg { width: 20px; height: 20px; margin-top: 3px; stroke: var(--volt); fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.plan .muted { color: var(--dust); font-size: 14px; margin: 0; }
+.trial { margin: 30px 0 0; color: var(--dust); }
+.trial b { color: var(--chalk); }
+@media (max-width: 700px) { .plans { grid-template-columns: minmax(0, 1fr); } }
+
+/* Referral */
+.refer .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: center; }
+.rupee { font-family: var(--display); font-weight: 900; font-style: italic; font-size: clamp(150px, 26vw, 360px); line-height: .8; color: var(--volt); letter-spacing: -.03em; font-variant-numeric: tabular-nums; text-shadow: 0 0 80px #C6FF0040; }
+.rupee small { display: block; font-size: clamp(22px, 2.6vw, 34px); color: var(--chalk); letter-spacing: .04em; font-style: normal; font-weight: 800; margin-top: 14px; text-shadow: none; }
+.refer-copy { display: grid; gap: 22px; min-width: 0; }
+.refer-copy h2 { font-size: clamp(44px, 6.5vw, 92px); margin: 0; }
+.how { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 14px; }
+.how li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: start; color: var(--dust); }
+.how li::before { content: counter(s); width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--volt); color: var(--volt); display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 18px; }
+.how li b { color: var(--chalk); display: block; }
+@media (max-width: 860px) { .refer .wrap { grid-template-columns: 1fr; } }
+
+/* Closing */
+.final { padding-block: clamp(70px, 10vw, 140px) clamp(80px, 11vw, 150px); position: relative; overflow: hidden; border-top: 1px solid var(--line); }
+.chant { overflow: hidden; margin-bottom: clamp(30px, 5vw, 60px); }
+.chant .marquee-track { animation-duration: 18s; }
+.chant span { font-family: var(--display); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(70px, 14vw, 210px); line-height: 1; white-space: nowrap; color: transparent; -webkit-text-stroke: 2px var(--chalk); padding-inline: 30px; display: flex; align-items: center; gap: 60px; }
+.chant span:nth-child(odd) { color: var(--volt); -webkit-text-stroke: 0; }
+.chant span::after { content: ""; background: var(--volt); width: 26px; height: 26px; transform: rotate(45deg); }
+.final .wrap { display: grid; gap: 28px; justify-items: start; }
+
+footer { border-top: 1px solid var(--line); padding-block: 34px; color: var(--dust); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 18px 32px; justify-content: space-between; align-items: center; }
+footer .foot-brand { display: grid; gap: 10px; }
+footer .foot-brand .brand b { font-size: 22px; color: var(--chalk); }
+footer .foot-brand .tile { width: 34px; height: 34px; border-radius: 10px; }
+footer .foot-brand .tile svg { width: 21px; height: 21px; }
+footer .foot-links { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+footer .foot-links a { color: var(--chalk); text-decoration: none; border-bottom: 1px solid var(--line); }
+footer .foot-links a:hover { color: var(--volt); border-color: var(--volt); }
+footer .copy { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 13px; }
+footer .mail { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+footer button { font: inherit; color: var(--volt); background: none; border: 1px solid var(--line); border-radius: 10px; padding: 6px 12px; cursor: pointer; }
+footer button:hover { border-color: var(--volt); }
+
+@media (max-width: 860px) {
+  .hero .wrap { grid-template-columns: 1fr; }
+  .fan { height: 430px; }
+  .fan .phone { width: 190px; }
+  .members-grid { grid-template-columns: 1fr; }
+  .pin-col { display: none; }
+  .step { min-height: 0; padding-block: 28px; }
+  .step h3 { color: var(--chalk); }
+  .step .inline-phone { display: block; width: min(80%, 280px); margin-top: 10px; }
+}
+.calm .marquee-track { animation-duration: 70s; }
+@media (prefers-reduced-motion: reduce) { html:not(.motion) .marquee-track { animation-duration: 70s; } }
+
+.motion-toggle {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 14px;
+  color: var(--dust); background: none; border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px;
+}
+.motion-toggle:hover { color: var(--chalk); border-color: var(--dust); }
+.motion-toggle i { width: 8px; height: 8px; border-radius: 50%; background: var(--dust); }
+.motion .motion-toggle i { background: var(--volt); box-shadow: 0 0 10px var(--volt); }
+</style>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="dumbbell" viewBox="0 0 64 64">
+      <g fill="currentColor" transform="rotate(-12 32 32)">
+        <rect x="6" y="20" width="7" height="24" rx="3"/>
+        <rect x="14" y="14" width="8" height="36" rx="3.5"/>
+        <rect x="42" y="14" width="8" height="36" rx="3.5"/>
+        <rect x="51" y="20" width="7" height="24" rx="3"/>
+        <rect x="21" y="29" width="22" height="6" rx="2"/>
+      </g>
+    </symbol>
+    <symbol id="tick" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></symbol>
+    <symbol id="playtri" viewBox="0 0 24 24"><path fill="currentColor" d="M4 2.8v18.4c0 .6.6.9 1.1.6l15.4-9.2c.5-.3.5-1 0-1.3L5.1 2.2C4.6 1.9 4 2.2 4 2.8z"/></symbol>
+  </defs>
+</svg>
+
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Gymologia home">
+      <span class="tile"><svg><use href="#dumbbell"/></svg></span>
+      <b>GYMOLOGIA</b>
+    </a>
+    <div class="nav-links">
+      <a href="#members">Members</a>
+      <a href="#owners">Gym owners</a>
+      <a href="#plans">Plans</a>
+      <a href="#refer">Refer &amp; earn</a>
+      <button type="button" class="motion-toggle" id="motionToggle" aria-pressed="false" aria-label="Motion"><i></i><span>Motion</span></button>
+      <a class="btn btn-volt mag" href="https://play.google.com/store/apps/details?id=com.gandagrouptechnologies.gymologia.member" target="_blank" rel="noopener">Get the app</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="glow" aria-hidden="true"></div>
+  <svg class="bar-bg" viewBox="0 0 64 64" aria-hidden="true"><use href="#dumbbell"/></svg>
+  <svg class="ecg" viewBox="0 0 1600 90" preserveAspectRatio="none" aria-hidden="true">
+    <path class="base" d="M0 60 H300 L320 60 L335 20 L352 86 L368 8 L386 60 H700 L720 60 L735 20 L752 86 L768 8 L786 60 H1100 L1120 60 L1135 20 L1152 86 L1168 8 L1186 60 H1600"/>
+    <path class="trace" d="M0 60 H300 L320 60 L335 20 L352 86 L368 8 L386 60 H700 L720 60 L735 20 L752 86 L768 8 L786 60 H1100 L1120 60 L1135 20 L1152 86 L1168 8 L1186 60 H1600"/>
+  </svg>
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">Built for India's gyms</span>
+      <h1 class="display" aria-label="Train. Track. Transform.">
+        <span class="line split" aria-hidden="true">Train.</span>
+        <span class="line split" aria-hidden="true">Track.</span>
+        <span class="line split" aria-hidden="true">Transform.</span>
+      </h1>
+      <p class="lede">One app for the whole gym. Members find a gym and track their progress. Owners and staff run attendance, leave, events and chat without a register or a WhatsApp group.</p>
+      <div class="cta-row">
+        <a class="btn btn-volt play mag" href="https://play.google.com/store/apps/details?id=com.gandagrouptechnologies.gymologia.member" target="_blank" rel="noopener">
+          <svg aria-hidden="true"><use href="#playtri"/></svg>
+          <span><small>Get it on</small>Google Play</span>
+        </a>
+        <a class="btn btn-ghost mag" href="#owners">I run a gym</a>
+      </div>
+      <ul class="facts">
+        <li>Sign in with your number, no password</li>
+        <li>10 Indian languages</li>
+        <li>Dark and light mode</li>
+      </ul>
+    </div>
+    <div class="fan" id="fan">
+      <div class="layer" data-depth="0.5"><div class="phone p-left"><div class="screen"><img src="screens/home.webp" alt="" width="590" height="1800"></div></div></div>
+      <div class="layer" data-depth="0.5"><div class="phone p-right"><div class="screen"><img src="screens/events.webp" alt="" width="590" height="2250"></div></div></div>
+      <div class="layer" data-depth="1"><div class="phone p-mid"><div class="screen"><img src="screens/login.webp" alt="Gymologia sign-in screen with the volt dumbbell logo and Send OTP button" width="590" height="1278"></div></div></div>
+    </div>
+  </div>
+</header>
+
+<div class="ribbons" aria-hidden="true">
+  <div class="marquee solid"><div class="marquee-track">
+    <span>Attendance</span><span>Leave</span><span>Events</span><span>Chat</span><span>Rankings</span><span>Progress</span><span>Roles</span><span>Announcements</span>
+    <span>Attendance</span><span>Leave</span><span>Events</span><span>Chat</span><span>Rankings</span><span>Progress</span><span>Roles</span><span>Announcements</span>
+  </div></div>
+  <div class="marquee outline"><div class="marquee-track">
+    <span>No registers</span><span>No passwords</span><span>No WhatsApp groups</span><span>No excuses</span>
+    <span>No registers</span><span>No passwords</span><span>No WhatsApp groups</span><span>No excuses</span>
+  </div></div>
+</div>
+
+<section id="members">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">For members</span>
+      <h2 class="display"><span class="split">Your gym,</span> <span class="split volt">in your pocket</span></h2>
+    </div>
+    <div class="members-grid">
+      <div class="pin-col" aria-hidden="true">
+        <div class="pin-wrap">
+          <div class="phone">
+            <div class="screen" id="pinScreen">
+              <img class="on" src="screens/browser.webp" alt="">
+              <img src="screens/home.webp" alt="">
+              <img src="screens/events.webp" alt="">
+            </div>
+          </div>
+          <div class="setbar">Set <b id="setNo">1</b>/3 <div class="track"><div class="fill" id="setFill"></div></div></div>
+        </div>
+      </div>
+      <div class="steps">
+        <article class="step on" data-step="0">
+          <span class="num">Find</span>
+          <h3>A gym near you, ranked</h3>
+          <p>Gyms are ranked by how close they are and how their members rate them. See photos, perks and ratings before you walk in, and call the gym in one tap.</p>
+          <div class="chips"><span class="chip">Nearby first</span><span class="chip">Member ratings</span><span class="chip">Perks</span></div>
+          <div class="phone inline-phone"><div class="screen"><img src="screens/browser.webp" alt="Find a gym screen listing Iron Temple, Beast Factory and Muscle Lab with ratings and distance" loading="lazy"></div></div>
+        </article>
+        <article class="step" data-step="1">
+          <span class="num">Track</span>
+          <h3>Days left, leave left, your goal</h3>
+          <p>Your membership, your trainer and your goal on one screen. Log weight and height every month and watch the trend. Request leave and your membership pauses with you.</p>
+          <div class="chips"><span class="chip">Progress</span><span class="chip">Leave requests</span><span class="chip">Exercise directory</span></div>
+          <div class="phone inline-phone"><div class="screen"><img src="screens/home.webp" alt="Member home showing 23 days left, leave left 4 of 6, goal and measurements" loading="lazy"></div></div>
+        </article>
+        <article class="step" data-step="2">
+          <span class="num">Compete</span>
+          <h3>Events worth showing up for</h3>
+          <p>Deadlift showdowns, shred challenges and open meets at your gym and gyms nearby. Register in one tap and see who else is in.</p>
+          <div class="chips"><span class="chip">Your gym</span><span class="chip">Open events</span><span class="chip">Chat</span></div>
+          <div class="phone inline-phone"><div class="screen"><img src="screens/events.webp" alt="Events screen with a Deadlift Showdown and a Summer Shred Challenge" loading="lazy"></div></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="load" id="owners">
+  <div class="load-pin" id="loadPin">
+    <div class="wrap load-head">
+      <div>
+        <span class="eyebrow">For gym owners and staff</span>
+        <h2 class="display"><span class="split">Load</span> <span class="split volt">the bar</span></h2>
+      </div>
+      <div class="total"><span>Total load</span><strong id="kg">77.5</strong><small>kg</small></div>
+    </div>
+    <div class="stage" aria-hidden="true">
+      <div class="shaft"></div><div class="knurl"></div><div class="collar"></div>
+      <div class="plates" id="plates">
+        <div class="wplate v" style="--w:46;--h:300" data-kg="25"><b>25 KG</b></div>
+        <div class="wplate" style="--w:40;--h:270" data-kg="20"><b>20 KG</b></div>
+        <div class="wplate v" style="--w:36;--h:236" data-kg="15"><b>15 KG</b></div>
+        <div class="wplate" style="--w:32;--h:196" data-kg="10"><b>10</b></div>
+        <div class="wplate v" style="--w:28;--h:150" data-kg="5"><b>5</b></div>
+        <div class="wplate" style="--w:24;--h:112" data-kg="2.5"><b>2.5</b></div>
+      </div>
+    </div>
+    <div class="wrap">
+      <ol class="plate-list" id="plateList">
+        <li class="on"><span class="kg">25 kg</span><h4>Attendance</h4><p>Trainers mark members, managers mark staff. Corrections go up the chain, never sideways.</p></li>
+        <li class="on"><span class="kg">20 kg</span><h4>Members</h4><p>Add members with an OTP check, assign a trainer, record their goal, extend or remove.</p></li>
+        <li class="on"><span class="kg">15 kg</span><h4>Roles</h4><p>Owner, manager, sales, trainer, or your own. Nobody can hand out a power they do not hold.</p></li>
+        <li class="on"><span class="kg">10 kg</span><h4>Leave</h4><p>Members pause their membership. Long leave needs a manager's yes.</p></li>
+        <li class="on"><span class="kg">5 kg</span><h4>Events</h4><p>Host a challenge, list it publicly, and message every member at once.</p></li>
+        <li class="on"><span class="kg">2.5 kg</span><h4>Ranking</h4><p>Pro gyms see where they stand in their area, district and state.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap board">
+    <div class="board-phone">
+      <div class="phone" id="crmPhone"><div class="screen"><img src="screens/crm.webp" alt="Owner dashboard for Iron Temple: 214 active members, 27 joined, 65 percent turning up, and tiles for members, staff, leave, plan and more" loading="lazy"></div></div>
+    </div>
+    <div class="board-copy">
+      <span class="eyebrow">The scoreboard</span>
+      <h3 class="display"><span class="split">Every number</span> <span class="split volt">from your floor</span></h3>
+      <div class="score">
+        <div><strong data-count="214">214</strong><span>Active members</span></div>
+        <div><strong data-count="27" data-prefix="+">+27</strong><span>Joined</span></div>
+        <div><strong data-count="65" data-suffix="%">65%</strong><span>Turning up</span></div>
+      </div>
+      <p class="note">An example dashboard for the last 30 days.</p>
+      <p class="lede">See who joined, who keeps turning up, and who has gone quiet. Growth by day, month and year, and each staff member's own attendance.</p>
+    </div>
+  </div>
+</section>
+
+<section id="plans">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Plans for gyms</span>
+      <h2 class="display"><span class="split">Pick your</span> <span class="split volt">weight class</span></h2>
+    </div>
+    <div class="plans">
+      <article class="plan tilt">
+        <h3>Basic</h3>
+        <div class="price"><strong>₹599</strong><span>/ month</span></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Full CRM: members, staff, attendance, leave</li>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Roles and permissions</li>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Events and chat for your members</li>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Announcements</li>
+        </ul>
+        <p class="muted">Not listed in Gymologia search.</p>
+      </article>
+      <article class="plan pro tilt">
+        <span class="tag">Get found</span>
+        <h3>Pro</h3>
+        <div class="price"><strong>₹1,199</strong><span>/ month</span></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Everything in Basic</li>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Listed in Gymologia search for members nearby</li>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Public events anyone can join</li>
+          <li><svg viewBox="0 0 24 24"><use href="#tick"/></svg>Your ranking in area, district and state</li>
+        </ul>
+        <p class="muted">Members rate your gym, and good ratings push you up.</p>
+      </article>
+    </div>
+    <p class="trial"><b>7 days free on Pro</b> for every new gym owner. A referral code takes 10% off.</p>
+  </div>
+</section>
+
+<section class="refer" id="refer">
+  <div class="wrap">
+    <div class="rupee" aria-hidden="true"><span data-count="50" data-prefix="₹">₹50</span><small>per gym you bring in</small></div>
+    <div class="refer-copy">
+      <span class="eyebrow">Gymologia Referral</span>
+      <h2 class="display"><span class="split">Know a gym owner?</span> <span class="split volt">Get paid.</span></h2>
+      <ol class="how">
+        <li><span><b>Get your code</b>Sign up on the Gymologia Referral app. Anyone can join, including gym staff.</span></li>
+        <li><span><b>Share it with gym owners</b>They get 10% off any Gymologia plan.</span></li>
+        <li><span><b>Earn ₹50 per plan</b>Paid to your UPI ID every time a gym subscribes with your code.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="chant" aria-hidden="true"><div class="marquee-track">
+    <span>Get the app</span><span>Get the app</span><span>Get the app</span><span>Get the app</span>
+    <span>Get the app</span><span>Get the app</span><span>Get the app</span><span>Get the app</span>
+  </div></div>
+  <div class="wrap">
+    <p class="lede">Free for members. Seven days free for gym owners. Sign in with your phone number and you are in.</p>
+    <a class="btn btn-volt play mag" href="https://play.google.com/store/apps/details?id=com.gandagrouptechnologies.gymologia.member" target="_blank" rel="noopener">
+      <svg aria-hidden="true"><use href="#playtri"/></svg>
+      <span><small>Get it on</small>Google Play</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-brand">
+      <a class="brand" href="#top" aria-label="Gymologia home"><span class="tile"><svg><use href="#dumbbell"/></svg></span><b>GYMOLOGIA</b></a>
+      <span>Made by Ganda Group Technologies, India</span>
+    </div>
+    <nav class="foot-links" aria-label="Legal">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Use</a>
+      <a href="delete-account.html">Delete your account</a>
+    </nav>
+    <span class="mail">Support: <span id="mail">support@gymologia.com</span> <button type="button" id="copyMail">Copy</button></span>
+  </div>
+  <div class="wrap copy">© 2026 Ganda Group Technologies. All rights reserved.</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+  // ── Things that work with or without animation ──
+  $('#copyMail').addEventListener('click', async (e) => {
+    const btn = e.currentTarget, text = $('#mail').textContent;
+    try { await navigator.clipboard.writeText(text); btn.textContent = 'Copied'; }
+    catch { const r = document.createRange(); r.selectNodeContents($('#mail'));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected'; }
+    setTimeout(() => (btn.textContent = 'Copy'), 1800);
+  });
+  const nav = $('#nav');
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 10), { passive: true });
+
+  // Member steps swap the pinned phone's screen and fill the set bar.
+  const steps = $$('.step'), shots = $$('#pinScreen img');
+  const show = (i) => {
+    steps.forEach((s, k) => s.classList.toggle('on', k === i));
+    shots.forEach((s, k) => s.classList.toggle('on', k === i));
+    $('#setNo').textContent = i + 1;
+    $('#setFill').style.width = ((i + 1) / 3 * 100) + '%';
+  };
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && show(+e.target.dataset.step)),
+      { rootMargin: '-45% 0px -45% 0px' });
+    steps.forEach((s) => io.observe(s));
+  }
+
+  if (!window.gsap || !window.ScrollTrigger) return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Devices set to reduce motion keep the entrances, count-ups and scroll
+  // reveals, and skip the spinning, tilting, smoothing, pinning and cursor.
+  // The device setting decides, unless the viewer flips the Motion switch,
+  // which is remembered in this browser only.
+  let pref = null;
+  try { pref = localStorage.getItem('gymologia-motion'); } catch {}
+  const full = pref ? pref === 'full' : !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(pointer: fine)').matches;
+  document.documentElement.classList.add(full ? 'motion' : 'calm');
+  const toggle = $('#motionToggle');
+  toggle.setAttribute('aria-pressed', String(full));
+  toggle.querySelector('span').textContent = full ? 'Motion on' : 'Motion off';
+  toggle.addEventListener('click', () => {
+    try { localStorage.setItem('gymologia-motion', full ? 'calm' : 'full'); } catch {}
+    location.reload();
+  });
+
+  // Split headings into letters, keeping words together so lines still
+  // wrap between words.
+  $$('.split').forEach((el) => {
+    const words = el.textContent.split(' ');
+    el.textContent = '';
+    words.forEach((w, i) => {
+      const word = document.createElement('span');
+      word.className = 'word';
+      [...w].forEach((c) => { const ch = document.createElement('span'); ch.className = 'ch'; ch.textContent = c; word.appendChild(ch); });
+      el.appendChild(word);
+      if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+    });
+  });
+
+  // ── Smooth scrolling ──
+  let lenis = null;
+  if (full && window.Lenis) {
+    lenis = new Lenis({ lerp: 0.09 });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((t) => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+  $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
+    const target = $(a.getAttribute('href'));
+    if (!target) return;
+    e.preventDefault();
+    if (lenis) lenis.scrollTo(target, { offset: -70, duration: 1.4 });
+    else target.scrollIntoView({ behavior: 'smooth' });
+  }));
+
+  // Scroll progress along the top edge.
+  gsap.to('.progress', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: true } });
+
+  // ── Hero entrance ──
+  const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+  tl.from('.hero h1 .ch', { yPercent: 120, rotateX: -90, opacity: 0, duration: .9, stagger: .035, transformOrigin: '50% 100%' })
+    .from('.brand .tile', { rotate: -180, scale: .3, duration: 1, ease: 'back.out(2)' }, 0)
+    .from('.hero .eyebrow', { x: -30, opacity: 0, duration: .6 }, .1)
+    .from('#fan .layer:nth-child(3)', { y: 160, opacity: 0, duration: 1.2 }, .2)
+    .from('#fan .layer:nth-child(1)', { x: 120, opacity: 0, duration: 1.1 }, .55)
+    .from('#fan .layer:nth-child(2)', { x: -120, opacity: 0, duration: 1.1 }, .55)
+    .from('.hero .lede, .hero .cta-row, .hero .facts', { y: 24, opacity: 0, duration: .7, stagger: .1 }, .6);
+
+  if (full) {
+    gsap.to('.bar-bg', { rotate: 342, duration: 70, repeat: -1, ease: 'none' });
+    const leaveHero = { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true };
+    gsap.to('.bar-bg', { yPercent: 45, ease: 'none', scrollTrigger: leaveHero });
+    gsap.to('#fan .p-left', { xPercent: -16, ease: 'none', scrollTrigger: { ...leaveHero } });
+    gsap.to('#fan .p-right', { xPercent: 16, ease: 'none', scrollTrigger: { ...leaveHero } });
+    gsap.to('#fan', { y: -80, ease: 'none', scrollTrigger: { ...leaveHero } });
+
+    if (fine) {
+      // Each phone layer follows the pointer by its own depth.
+      const layers = $$('#fan .layer').map((l) => ({
+        x: gsap.quickTo(l, 'x', { duration: .8, ease: 'power3' }),
+        y: gsap.quickTo(l, 'y', { duration: .8, ease: 'power3' }),
+        d: +l.dataset.depth,
+      }));
+      $('.hero').addEventListener('pointermove', (e) => {
+        const nx = e.clientX / innerWidth - .5, ny = e.clientY / innerHeight - .5;
+        layers.forEach((l) => { l.x(nx * 50 * l.d); l.y(ny * 34 * l.d); });
+      });
+
+      document.documentElement.classList.add('has-cursor');
+      const cur = $('.cursor');
+      const cx = gsap.quickTo(cur, 'x', { duration: .25, ease: 'power3' });
+      const cy = gsap.quickTo(cur, 'y', { duration: .25, ease: 'power3' });
+      addEventListener('pointermove', (e) => { cx(e.clientX); cy(e.clientY); });
+      $$('a, button').forEach((el) => {
+        el.addEventListener('pointerenter', () => cur.classList.add('big'));
+        el.addEventListener('pointerleave', () => cur.classList.remove('big'));
+      });
+
+      // Buttons lean toward the pointer.
+      $$('.mag').forEach((b) => {
+        const mx = gsap.quickTo(b, 'x', { duration: .4, ease: 'power3' });
+        const my = gsap.quickTo(b, 'y', { duration: .4, ease: 'power3' });
+        b.addEventListener('pointermove', (e) => {
+          const r = b.getBoundingClientRect();
+          mx((e.clientX - r.left - r.width / 2) * .3); my((e.clientY - r.top - r.height / 2) * .4);
+        });
+        b.addEventListener('pointerleave', () => { mx(0); my(0); });
+      });
+
+      // Plan cards tilt under the pointer.
+      $$('.tilt').forEach((c) => {
+        const rx = gsap.quickTo(c, 'rotateX', { duration: .5, ease: 'power3' });
+        const ry = gsap.quickTo(c, 'rotateY', { duration: .5, ease: 'power3' });
+        c.addEventListener('pointermove', (e) => {
+          const r = c.getBoundingClientRect();
+          ry(((e.clientX - r.left) / r.width - .5) * 14); rx(-((e.clientY - r.top) / r.height - .5) * 12);
+        });
+        c.addEventListener('pointerleave', () => { rx(0); ry(0); });
+      });
+    }
+
+    // Marquees lean while you scroll.
+    const skews = $$('.marquee .marquee-track').map((t) => gsap.quickTo(t, 'skewX', { duration: .4, ease: 'power3' }));
+    ScrollTrigger.create({ onUpdate: (self) => {
+      const v = gsap.utils.clamp(-14, 14, self.getVelocity() / -160);
+      skews.forEach((s) => s(v));
+    }});
+  }
+
+  // ── Section headings: letters rise as the heading scrolls in, readable at
+  // every point of the move. ──
+  $$('section .split').forEach((h) => {
+    gsap.fromTo(h.querySelectorAll('.ch'), { yPercent: 60, rotate: 8 }, { yPercent: 0, rotate: 0, stagger: .02, ease: 'none',
+      scrollTrigger: { trigger: h, start: 'top 96%', end: 'top 62%', scrub: .5 } });
+  });
+
+  // ── Load the bar ──
+  // Plates start off to the right and slide onto the sleeve one by one while
+  // the section is pinned; the weight counter and the feature list follow.
+  // Without full motion the bar is simply shown loaded.
+  if (full) {
+    const plates = $$('#plates .wplate');
+    const items = $$('#plateList li');
+    const kg = $('#kg');
+    $('#owners').classList.add('js-pinned');
+    items.forEach((li, i) => li.classList.toggle('on', i === 0));
+    kg.textContent = '0';
+    const total = { v: 0 };
+    const setActive = (i) => items.forEach((li, k) => li.classList.toggle('on', k === i));
+    const load = gsap.timeline({
+      defaults: { ease: 'power2.out' },
+      scrollTrigger: {
+        trigger: '#loadPin', start: 'top top', end: '+=' + plates.length * 70 + '%', pin: true, scrub: .6, anticipatePin: 1,
+        onUpdate: (self) => setActive(Math.min(plates.length - 1, Math.floor(self.progress * plates.length * 1.02))),
+      },
+    });
+    let sum = 0;
+    plates.forEach((p, i) => {
+      const before = sum; sum += +p.dataset.kg;
+      load.fromTo(p, { x: () => innerWidth, rotate: 25 }, { x: 0, rotate: 0, duration: 1 }, i)
+          .fromTo(total, { v: before }, { v: sum, duration: 1, onUpdate: () => (kg.textContent = String(+total.v.toFixed(1))) }, i);
+    });
+    load.to('.stage', { y: -6, duration: .3, yoyo: true, repeat: 1, ease: 'power1.inOut' }, plates.length);
+  }
+
+  // ── Scoreboard and counters ──
+  gsap.fromTo('#crmPhone', { rotate: -8, y: 80 }, { rotate: 0, y: 0, ease: 'none',
+    scrollTrigger: { trigger: '.board', start: 'top 92%', end: 'top 35%', scrub: .6 } });
+  $$('[data-count]').forEach((el) => {
+    const end = +el.dataset.count, pre = el.dataset.prefix || '', suf = el.dataset.suffix || '';
+    const o = { n: 0 };
+    ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true, onEnter: () => {
+      el.textContent = pre + 0 + suf;
+      gsap.to(o, { n: end, duration: 1.8, ease: 'power3.out', onUpdate: () => (el.textContent = pre + Math.round(o.n) + suf) });
+    }});
+  });
+
+  gsap.fromTo('.plan.pro', { y: 70 }, { y: -12, ease: 'none',
+    scrollTrigger: { trigger: '.plans', start: 'top 95%', end: 'bottom 40%', scrub: .6 } });
+  gsap.fromTo('.rupee', { scale: .8, rotate: -6 }, { scale: 1, rotate: 0, ease: 'none',
+    scrollTrigger: { trigger: '.refer', start: 'top 92%', end: 'top 30%', scrub: .6 } });
+  gsap.fromTo('.how li', { x: 40 }, { x: 0, stagger: .1, ease: 'none',
+    scrollTrigger: { trigger: '.how', start: 'top 95%', end: 'top 55%', scrub: .6 } });
+
+  // Fonts change the page height; re-measure once they are in.
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
+})();
+</script>

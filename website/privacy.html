@@ -1,381 +1,131 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Privacy Policy — Gymologia</title>
-  <meta name="description" content="Privacy Policy for the Gymologia platform — how we collect, use, and protect your data.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --red: #E8452C;
-      --ink: #0F0D0C;
-      --ink-soft: #5C514B;
-      --ink-faint: #9A8D85;
-      --ground: #F7F4F1;
-      --white: #FFFFFF;
-      --border: #E2D9D3;
-    }
-    body {
-      font-family: 'DM Sans', system-ui, sans-serif;
-      background: var(--ground);
-      color: var(--ink);
-      font-size: 16px;
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: var(--red); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    .nav {
-      position: sticky;
-      top: env(safe-area-inset-top, 0px);
-      z-index: 100;
-      background: var(--ink);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    .nav-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 60px;
-    }
-    .nav-logo {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.55rem;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: 0.02em;
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--red); }
-    .nav-back {
-      color: rgba(255,255,255,0.6);
-      font-size: 0.875rem;
-      font-weight: 500;
-      text-decoration: none;
-    }
-    .nav-back:hover { color: #fff; text-decoration: none; }
-
-    .page-header {
-      background: var(--ink);
-      padding: 48px 24px 40px;
-      text-align: center;
-    }
-    .page-header h1 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: clamp(2.2rem, 6vw, 3.5rem);
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -0.01em;
-    }
-    .page-header .meta {
-      color: rgba(255,255,255,0.45);
-      font-size: 0.875rem;
-      margin-top: 10px;
-    }
-
-    .doc-wrap {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 56px 24px 80px;
-    }
-
-    .doc-wrap h2 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin-top: 44px;
-      margin-bottom: 12px;
-      color: var(--ink);
-      letter-spacing: -0.01em;
-    }
-    .doc-wrap h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-top: 24px;
-      margin-bottom: 8px;
-      color: var(--ink);
-    }
-    .doc-wrap p {
-      margin-bottom: 14px;
-      color: var(--ink-soft);
-    }
-    .doc-wrap ul {
-      padding-left: 20px;
-      margin-bottom: 14px;
-      color: var(--ink-soft);
-    }
-    .doc-wrap li { margin-bottom: 6px; }
-    .doc-wrap strong { color: var(--ink); font-weight: 600; }
-    .doc-wrap .highlight {
-      background: rgba(232,69,44,0.07);
-      border-left: 3px solid var(--red);
-      padding: 14px 18px;
-      border-radius: 0 8px 8px 0;
-      margin: 20px 0;
-    }
-    .doc-wrap .highlight p { margin: 0; color: var(--ink-soft); }
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      font-size: 0.9rem;
-      overflow-x: auto;
-      display: block;
-    }
-    .data-table th {
-      background: var(--ink);
-      color: #fff;
-      text-align: left;
-      padding: 10px 14px;
-      font-weight: 600;
-      font-size: 0.82rem;
-      letter-spacing: 0.04em;
-    }
-    .data-table td {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border);
-      color: var(--ink-soft);
-      vertical-align: top;
-    }
-    .data-table tr:last-child td { border-bottom: none; }
-    .data-table tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
-    hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
-
-    footer {
-      background: #0A0807;
-      padding: 32px 24px;
-      color: rgba(255,255,255,0.4);
-      font-size: 0.85rem;
-      text-align: center;
-    }
-    footer a { color: rgba(255,255,255,0.5); }
-    footer a:hover { color: #fff; text-decoration: none; }
-    .footer-links { display: flex; flex-wrap: wrap; gap: 6px 20px; justify-content: center; margin-bottom: 14px; }
-    .footer-powered { font-size: 0.78rem; color: rgba(255,255,255,0.25); margin-top: 10px; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Privacy Policy | Gymologia</title>
+<meta name="description" content="What Gymologia collects, why, who can see it, how long it is kept, and your rights under the DPDP Act 2023.">
+<meta name="theme-color" content="#0B0B0C">
+<link rel="canonical" href="https://gymologia.com/privacy.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Gymologia">
+<meta property="og:title" content="Privacy Policy | Gymologia">
+<meta property="og:description" content="What Gymologia collects, why, who can see it, how long it is kept, and your rights under the DPDP Act 2023.">
+<meta property="og:url" content="https://gymologia.com/privacy.html">
+<meta property="og:image" content="https://gymologia.com/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gymologia.com/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,900&family=Barlow:wght@400;500;600&display=swap">
+<style>
+:root {
+  --ink: #0B0B0C; --iron: #141416; --line: #2A2B2E; --chalk: #F4F4EE; --dust: #A3A59A; --volt: #C6FF00;
+  --display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --body: "Barlow", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --gutter: clamp(16px, 4vw, 48px);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ink); color: var(--chalk); font-family: var(--body); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+a { color: var(--volt); }
+:focus-visible { outline: 3px solid var(--volt); outline-offset: 3px; border-radius: 6px; }
+::selection { background: var(--volt); color: var(--ink); }
+.wrap { width: 100%; max-width: 1180px; margin-inline: auto; padding-inline: var(--gutter); }
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: color-mix(in srgb, var(--ink) 85%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--chalk); }
+.tile { width: 40px; height: 40px; border-radius: 12px; background: var(--volt); display: grid; place-items: center; flex: none; }
+.tile svg { width: 25px; height: 25px; color: var(--ink); }
+.brand b { font-family: var(--display); font-weight: 900; font-style: italic; font-size: 24px; letter-spacing: .02em; }
+.back { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 15px; color: var(--dust); text-decoration: none; }
+.back:hover { color: var(--chalk); }
+.doc { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); padding-block: clamp(40px, 7vw, 90px); }
+.doc-head { grid-column: 1 / -1; display: grid; gap: 14px; border-bottom: 1px solid var(--line); padding-bottom: 28px; }
+.eyebrow { font-family: var(--display); font-weight: 700; text-transform: uppercase; letter-spacing: .14em; font-size: 15px; color: var(--volt); }
+h1 { font-family: var(--display); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: clamp(48px, 8vw, 104px); line-height: .9; margin: 0; text-wrap: balance; }
+.meta { color: var(--dust); font-size: 15px; margin: 0; }
+.toc { position: sticky; top: 96px; align-self: start; display: grid; gap: 2px; font-size: 15px; }
+.toc b { font-family: var(--display); font-weight: 800; text-transform: uppercase; letter-spacing: .12em; font-size: 13px; color: var(--dust); margin-bottom: 8px; }
+.toc a { color: var(--dust); text-decoration: none; padding: 5px 0 5px 12px; border-left: 2px solid var(--line); }
+.toc a:hover { color: var(--chalk); border-left-color: var(--volt); }
+.body { max-width: 68ch; min-width: 0; }
+.body section { scroll-margin-top: 90px; padding-block: 6px 18px; }
+.body h2 { font-family: var(--display); font-weight: 800; text-transform: uppercase; letter-spacing: .02em; font-size: clamp(24px, 3vw, 32px); line-height: 1.05; margin: 22px 0 10px; text-wrap: balance; }
+.body p { margin: 0 0 14px; color: #D9DBD2; }
+.body ol { padding-left: 22px; color: #D9DBD2; }
+.body li { margin-bottom: 10px; }
+.callout { border: 1px solid var(--line); border-left: 3px solid var(--volt); background: var(--iron); border-radius: 12px; padding: 16px 18px; margin: 0 0 18px; }
+.callout p:last-child { margin-bottom: 0; }
+footer { border-top: 1px solid var(--line); padding-block: 30px; color: var(--dust); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; }
+footer nav { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+footer nav a { color: var(--chalk); text-decoration: none; border-bottom: 1px solid var(--line); }
+footer nav a:hover { color: var(--volt); border-color: var(--volt); }
+@media (max-width: 860px) { .doc { grid-template-columns: minmax(0, 1fr); } .toc { position: static; } }
+</style>
 </head>
 <body>
-
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="/" class="nav-logo">GYMOLOGIA<span>.</span></a>
-      <a href="/" class="nav-back">← Back to Home</a>
-    </div>
-  </nav>
-
-  <div class="page-header">
+<nav class="nav" aria-label="Main"><div class="wrap">
+  <a class="brand" href="./" aria-label="Gymologia home"><span class="tile"><svg viewBox="0 0 64 64" aria-hidden="true"><g fill="currentColor" transform="rotate(-12 32 32)"><rect x="6" y="20" width="7" height="24" rx="3"/><rect x="14" y="14" width="8" height="36" rx="3.5"/><rect x="42" y="14" width="8" height="36" rx="3.5"/><rect x="51" y="20" width="7" height="24" rx="3"/><rect x="21" y="29" width="22" height="6" rx="2"/></g></svg></span><b>GYMOLOGIA</b></a>
+  <a class="back" href="./">Back to home</a>
+</div></nav>
+<main class="wrap doc">
+  <header class="doc-head">
+    <span class="eyebrow">Gymologia · Ganda Group Technologies</span>
     <h1>Privacy Policy</h1>
-    <p class="meta">Effective Date: September 21, 2026 &nbsp;·&nbsp; Last Updated: September 21, 2026</p>
-  </div>
-
-  <div class="doc-wrap">
-
-    <div class="highlight">
-      <p>Your privacy matters to us. This policy explains what data we collect, why we collect it, and how we protect it. We do not sell your personal data to any third party.</p>
-    </div>
-
-    <h2>1. Introduction</h2>
-    <p><strong>Ganda Group Technologies (GGT)</strong>, operated by <strong>Sarthak Ganda</strong> ("we," "us," "our"), is committed to protecting your personal information. This Privacy Policy explains how we collect, use, share, and protect your data when you use the Gymologia platform, including the Gymologia mobile application, Gymologia Referral application, and the website at gymologia.com.</p>
-
-    <h2>2. Data Controller</h2>
-    <p>
-      <strong>Ganda Group Technologies (GGT)</strong><br>
-      Operated by: Sarthak Ganda<br>
-      Email: <a href="mailto:support@gymologia.com">support@gymologia.com</a><br>
-      Website: <a href="https://gymologia.com">gymologia.com</a>
-    </p>
-
-    <h2>3. Information We Collect</h2>
-    <h3>3.1 Information You Provide Directly</h3>
-    <table class="data-table">
-      <tr>
-        <th>Category</th>
-        <th>Data</th>
-        <th>Who Provides It</th>
-      </tr>
-      <tr>
-        <td><strong>Identity</strong></td>
-        <td>Full name, age</td>
-        <td>All users</td>
-      </tr>
-      <tr>
-        <td><strong>Contact</strong></td>
-        <td>Mobile phone number (required), email address (optional)</td>
-        <td>All users</td>
-      </tr>
-      <tr>
-        <td><strong>Health &amp; Fitness</strong></td>
-        <td>Weight, height, fitness goals</td>
-        <td>Members (voluntary)</td>
-      </tr>
-      <tr>
-        <td><strong>Financial (KYC)</strong></td>
-        <td>Aadhaar number, PAN number, GST number, business documents</td>
-        <td>Gym owners only</td>
-      </tr>
-      <tr>
-        <td><strong>Payout Details</strong></td>
-        <td>UPI ID, PAN card (for TDS compliance)</td>
-        <td>Referral programme participants</td>
-      </tr>
-    </table>
-
-    <h3>3.2 Information Collected Automatically</h3>
-    <ul>
-      <li><strong>Device tokens:</strong> Push notification tokens (Firebase FCM) to deliver gym and platform notifications to your device.</li>
-      <li><strong>Location:</strong> Approximate location is collected only if you grant permission, used solely for gym search and ranking by proximity. We do not track your location continuously.</li>
-      <li><strong>Attendance records:</strong> Marked by gym staff, stored against your membership.</li>
-      <li><strong>Chat messages:</strong> Messages are encrypted at rest. We do not read your personal chat conversations.</li>
-      <li><strong>Security logs:</strong> IP addresses, request timestamps, and security event markers for fraud prevention and platform security.</li>
-    </ul>
-
-    <h2>4. How We Use Your Information</h2>
-    <ul>
-      <li>To create and manage your account and verify your identity via OTP.</li>
-      <li>To provide the CRM, attendance, and membership management services to gym owners and staff.</li>
-      <li>To display your fitness progress and exercise history within the app.</li>
-      <li>To process gym subscription payments through Cashfree Payments.</li>
-      <li>To send you notifications from your gym or from Gymologia (you can manage notification preferences in the app).</li>
-      <li>To verify gym owner KYC documents and activate gym profiles.</li>
-      <li>To process referral rewards and payouts via UPI.</li>
-      <li>To improve the Platform, fix bugs, and develop new features.</li>
-      <li>To prevent fraud, abuse, and unauthorized access.</li>
-      <li>To comply with applicable Indian laws and regulations.</li>
-    </ul>
-
-    <h2>5. Data Sharing and Third Parties</h2>
-    <p>We share your data only with the following third-party service providers, and only to the extent necessary to deliver our services:</p>
-    <table class="data-table">
-      <tr>
-        <th>Provider</th>
-        <th>Purpose</th>
-        <th>Data Shared</th>
-      </tr>
-      <tr>
-        <td><strong>MSG91</strong></td>
-        <td>OTP delivery via SMS</td>
-        <td>Mobile phone number</td>
-      </tr>
-      <tr>
-        <td><strong>Cashfree Payments</strong></td>
-        <td>Subscription billing and referral payouts</td>
-        <td>Payment details, UPI ID, PAN (for TDS)</td>
-      </tr>
-      <tr>
-        <td><strong>Supabase</strong></td>
-        <td>Database and file storage</td>
-        <td>All platform data (stored encrypted)</td>
-      </tr>
-      <tr>
-        <td><strong>Amazon Web Services (AWS)</strong></td>
-        <td>Backend server infrastructure</td>
-        <td>All API request data</td>
-      </tr>
-      <tr>
-        <td><strong>Firebase (Google)</strong></td>
-        <td>Push notification delivery</td>
-        <td>Device notification tokens</td>
-      </tr>
-    </table>
-    <p>We do not sell, rent, or trade your personal data to any third party for marketing purposes.</p>
-    <p>We may disclose your data to <strong>legal authorities</strong> when required by law, court order, or valid government request.</p>
-
-    <h2>6. Data Security</h2>
-    <p>We implement industry-standard and beyond-standard security measures to protect your data:</p>
-    <ul>
-      <li><strong>HTTPS / TLS encryption</strong> for all data transmitted between your device and our servers.</li>
-      <li><strong>AES-256-GCM encryption at rest</strong> for all sensitive documents including Aadhaar numbers, PAN numbers, and UPI IDs. Only masked representations (last 4 digits) are accessible to staff.</li>
-      <li><strong>OTP codes</strong> are hashed using a one-way algorithm and never stored in plaintext. Codes expire quickly and cannot be reused.</li>
-      <li><strong>Session tokens</strong> are stored as hashes. Sessions can be remotely invalidated from your account settings.</li>
-      <li><strong>IP-based attack detection</strong> and automatic blocking for repeated unauthorized access attempts, OTP abuse, and SQL injection probes.</li>
-      <li><strong>Role-based access control (RBAC)</strong> ensures staff can only access data their role permits.</li>
-    </ul>
-    <p>While we take every reasonable precaution, no system is completely invulnerable. Please report any security concerns to <a href="mailto:support@gymologia.com">support@gymologia.com</a>.</p>
-
-    <h2>7. Data Retention</h2>
-    <ul>
-      <li>Account and profile data is retained as long as your account is active.</li>
-      <li>After an account deletion request, your data is <strong>anonymized within 30 days</strong> of the deletion being processed.</li>
-      <li>Transaction records and financial data may be retained for a longer period as required by Indian tax laws (GST compliance, income tax records).</li>
-      <li>Security event logs are retained for a limited period (typically 90 days) for fraud investigation purposes.</li>
-      <li>KYC documents submitted by gym owners are retained as required by applicable laws and for compliance purposes.</li>
-    </ul>
-
-    <h2>8. Your Rights</h2>
-    <p>Under applicable Indian data protection laws, you have the following rights regarding your personal data:</p>
-    <ul>
-      <li><strong>Access:</strong> Request a summary of the personal data we hold about you.</li>
-      <li><strong>Correction:</strong> Correct inaccurate or outdated information via your profile settings in the app.</li>
-      <li><strong>Deletion:</strong> Request deletion of your account and associated data via app settings (Settings → Delete Account) or by emailing <a href="mailto:support@gymologia.com">support@gymologia.com</a>.</li>
-      <li><strong>Withdrawal of Consent:</strong> You may revoke location access permission at any time via your device settings. You may opt out of push notifications in your device notification settings.</li>
-      <li><strong>Data Portability:</strong> Request a copy of your data by contacting support.</li>
-    </ul>
-    <p>To exercise any of these rights, contact us at <a href="mailto:support@gymologia.com">support@gymologia.com</a>.</p>
-
-    <h2>9. Health and Fitness Data</h2>
-    <p>Weight, height, and fitness goals are provided voluntarily by members. This data is used solely to display your personal progress within the app. It is visible to your assigned trainer and gym staff unless you opt out during membership onboarding (you can uncheck the monitoring consent option at any time via your profile).</p>
-    <p>We do not share your health data with any third-party organizations or advertisers.</p>
-
-    <h2>10. Children's Privacy</h2>
-    <p>The Platform is not intended for children under 13 years of age. We do not knowingly collect personal information from children under 13. If you believe that a child under 13 has provided us with their data, please contact us at <a href="mailto:support@gymologia.com">support@gymologia.com</a> and we will promptly delete the information.</p>
-
-    <h2>11. International Data Transfers</h2>
-    <p>Your data may be processed in the following locations:</p>
-    <ul>
-      <li><strong>India</strong> — Primary API server (AWS, ap-south-1, Mumbai region)</li>
-      <li><strong>Singapore</strong> — Database storage (Supabase)</li>
-      <li><strong>United States</strong> — Push notification delivery (Firebase / Google)</li>
-    </ul>
-    <p>All international transfers are made with appropriate safeguards, and service providers are contractually required to maintain the confidentiality and security of your data.</p>
-
-    <h2>12. Cookies and Local Storage</h2>
-    <p>The Gymologia mobile applications use secure local storage (on your device) only to maintain your session (login tokens) and your language preference. We do not use advertising cookies or track your activity across other websites or apps.</p>
-    <p>Our website (gymologia.com) may use minimal functional cookies. We do not use third-party advertising cookies.</p>
-
-    <h2>13. Notifications</h2>
-    <p>We send push notifications for:</p>
-    <ul>
-      <li>Announcements from your gym (sent by gym staff).</li>
-      <li>Platform notifications from Gymologia (e.g., new features, important policy updates).</li>
-      <li>Referral reward updates (for Gymologia Referral app users).</li>
-    </ul>
-    <p>You may disable push notifications at any time via your device settings. Note that disabling notifications will prevent you from receiving gym announcements and membership updates.</p>
-
-    <h2>14. Changes to This Privacy Policy</h2>
-    <p>We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. Material changes will be communicated via in-app notifications. The updated policy will be posted at <a href="https://gymologia.com/privacy">gymologia.com/privacy</a> with the new effective date. Continued use of the Platform after notification constitutes acceptance of the updated policy.</p>
-
-    <hr>
-
-    <h2>15. Contact Us</h2>
-    <p>For any questions, concerns, or requests regarding this Privacy Policy or your personal data, please contact:</p>
-    <p>
-      <strong>Ganda Group Technologies (GGT)</strong><br>
-      Operated by: <strong>Sarthak Ganda</strong><br>
-      Email: <a href="mailto:support@gymologia.com">support@gymologia.com</a><br>
-      Website: <a href="https://gymologia.com">gymologia.com</a>
-    </p>
-    <p>We aim to respond to all privacy-related queries within <strong>7 business days</strong>.</p>
-
-  </div>
-
-  <footer>
-    <ul class="footer-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="terms.html">Terms &amp; Conditions</a></li>
-      <li><a href="privacy.html">Privacy Policy</a></li>
-      <li><a href="mailto:support@gymologia.com">support@gymologia.com</a></li>
-    </ul>
-    <div>&copy; 2026 Gymologia. All rights reserved.</div>
-    <div class="footer-powered">Powered by GGT (Ganda Group Technologies)</div>
-  </footer>
-
+    <p class="meta">Last updated 3 October 2026 · Version 2026-10-03.1 · This is the same text shown in the Gymologia apps.</p>
+  </header>
+  <nav class="toc" aria-label="On this page"><b>On this page</b><a href="#why-we-ask-for-your-age-and-not-your-date-of-birth">Why we ask for your age and not your date of birth</a>
+<a href="#what-we-collect">What we collect</a>
+<a href="#who-can-see-what">Who can see what</a>
+<a href="#chat-is-not-end-to-end-encrypted">Chat is not end-to-end encrypted</a>
+<a href="#who-we-share-with">Who we share with</a>
+<a href="#how-long-we-keep-it">How long we keep it</a>
+<a href="#your-rights">Your rights</a>
+<a href="#security">Security</a>
+<a href="#children">Children</a>
+<a href="#grievance-officer">Grievance officer</a>
+<a href="#breach-notification">Breach notification</a>
+<a href="#changes">Changes</a>
+<a href="#contact">Contact</a></nav>
+  <article class="body"><section><p>This policy explains what Gymologia, operated by Ganda Group Technologies, collects, why, and what you can do about it. It is written to match what the software actually does.</p></section>
+<section id="why-we-ask-for-your-age-and-not-your-date-of-birth"><h2>Why we ask for your age and not your date of birth</h2><p>We store your age, never your date of birth. A date of birth is a key to the rest of your life — banks, government records, and identity checks all use it, and a leak of it is far more damaging than a leak of a number like &quot;27&quot;. Age is all a gym needs to train you safely, so age is all we keep.</p></section>
+<section id="what-we-collect"><h2>What we collect</h2><p>Account: your phone number, name, age, and email if you give one. Email is optional.</p>
+<p>Body measurements: weight and height, when you enter them. You choose to add these; they are yours and they follow you if you change gyms.</p>
+<p>Membership and attendance: which gym you belong to, your plan dates, your stated training goal, your assigned trainer, leave requests, and the days staff marked you present or absent.</p>
+<p>Payments: for gym owners, the subscription record and a reference from our payment provider. We never see or store your full card number.</p>
+<p>Identity documents: for gym owners only, the KYC details required to verify a business. These are stored encrypted and are visible to the small number of Gymologia staff who carry out verification.</p>
+<p>Chat: messages you send through the app.</p>
+<p>Gym photos and location: gym owners can upload photos of their gym and pin its location on a map. Both are shown publicly on the gym's page.</p>
+<p>Technical: IP address, device and app version, and security-relevant events such as repeated failed sign-in attempts.</p>
+<p>Location: only if you grant it, and only to sort nearby gyms. Decline it and you can search by locality name instead — the app works either way.</p></section>
+<section id="who-can-see-what"><h2>Who can see what</h2><p>Your gym's staff can see your membership, attendance and leave. Your weight and height history is visible to gym staff and your trainer only if you choose to switch on progress monitoring. It is off by default; you must turn it on yourself in the app, and you can turn it off again at any time.</p>
+<p>Other members see only what you send in a chat you are part of.</p>
+<p>Gymologia staff can see your records where it is necessary to answer a support request, verify a gym, or investigate abuse. Every such action is written to an audit log.</p></section>
+<section id="chat-is-not-end-to-end-encrypted"><h2>Chat is not end-to-end encrypted</h2><p>Message content is encrypted at rest with a key we hold. That means we can read messages when we have to — for abuse investigations, support, or a lawful order. We are telling you this plainly rather than describing the encryption in a way that implies more privacy than it gives.</p></section>
+<section id="who-we-share-with"><h2>Who we share with</h2><p>MSG91, to send your login code by SMS. Cashfree, to take subscription payments and to make referral payouts. Amazon Web Services runs our server in Mumbai, India, and Supabase hosts our database and stored files in Singapore; both process data only on our instructions. Maps in the app load their tiles from OpenStreetMap, which sees the request but not your account. We do not sell your data and we do not share it for advertising.</p>
+<p>We disclose data to a public authority only where a valid legal demand requires it.</p></section>
+<section id="how-long-we-keep-it"><h2>How long we keep it</h2><p>Account and profile data: kept while your account is open, anonymised 30 days after you request deletion. Health metrics (weight/height): deleted immediately when your account is anonymised. Attendance and membership records: kept for 7 years after the gym relationship ends. Identity documents (Aadhaar, PAN, GSTIN, address proof) for a gym: kept while the gym is active, and for up to one year after it is suspended with no subscription covering it; after that the documents are cleared and a resubscribing gym is verified again from scratch. Payment and tax records: kept for the period Indian tax law requires (currently 8 years from the year of assessment). Security and audit logs: kept for 3 years, then deleted. OTP codes: deleted within 24 hours of expiry.</p></section>
+<section id="your-rights"><h2>Your rights</h2><p>You can ask us to show you the personal data we hold about you. An in-app download is available in Settings under &quot;Download my data&quot;. You can also correct anything wrong, or delete your account — both available in Settings. Write to <a href="mailto:support@gymologia.com">support@gymologia.com</a> from the number or email on the account if you need help and we will verify it is you before acting. Where deletion conflicts with a record we are legally required to keep, we will tell you which record and why.</p>
+<p>You can withdraw consent for progress monitoring yourself, in the app, at any time. Withdrawing it does not delete historical measurements already recorded; to delete those, use the account deletion flow.</p></section>
+<section id="security"><h2>Security</h2><p>Sensitive fields, including identity documents and message bodies, are encrypted before they are stored. Sign-in codes are hashed, never stored in readable form. Access to data is checked on every request against the role you hold at that gym. We keep an audit trail of administrative actions and monitor for attacks against the service.</p>
+<p>No system is perfectly secure. If a breach affects you, we will tell you and the relevant authority as the law requires.</p></section>
+<section id="children"><h2>Children</h2><p>The app is intended for users aged 18 and above. Users aged 13 to 17 may use the app only with verifiable parental or guardian consent, collected through an OTP verification of the guardian's phone number at the time of registration or enrolment. We do not knowingly collect data from anyone under 13. If you believe a child under 13 has an account, or that guardian consent was not properly obtained, write to <a href="mailto:support@gymologia.com">support@gymologia.com</a> and we will investigate and remove the account promptly.</p></section>
+<section id="grievance-officer"><h2>Grievance officer</h2><p>Under the Digital Personal Data Protection Act 2023, we have designated a Grievance Officer for data-related complaints:</p>
+<p>Name: Sarthak Ganda, Ganda Group Technologies<br>Email: <a href="mailto:support@gymologia.com">support@gymologia.com</a></p>
+<p>We will acknowledge complaints within 48 hours and resolve them within 30 days. If you are not satisfied with our response, you may approach the Data Protection Board of India.</p></section>
+<section id="breach-notification"><h2>Breach notification</h2><p>If we become aware of a personal data breach that is likely to cause harm, we will notify the Data Protection Board of India and inform affected users as required under DPDP Act 2023 Section 8(6).</p></section>
+<section id="changes"><h2>Changes</h2><p>If we change this policy materially we will tell you in the app.</p></section>
+<section id="contact"><h2>Contact</h2><p><a href="mailto:support@gymologia.com">support@gymologia.com</a></p></section></article>
+</main>
+<footer><div class="wrap">
+  <span>© 2026 Ganda Group Technologies. Gymologia is made by Ganda Group Technologies, India.</span>
+  <nav aria-label="Legal"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Use</a><a href="delete-account.html">Delete your account</a><a href="mailto:support@gymologia.com">support@gymologia.com</a></nav>
+</div></footer>
 </body>
 </html>
